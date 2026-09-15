@@ -1,0 +1,592 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #191919;
+
+  --coca-cola-red: #f40009;
+  --coca-cola-red-hover: #de0008;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  min-height: 100%;
+}
+
+html {
+  background: #ffffff;
+}
+
+body {
+  margin: 0;
+
+  background: var(--background);
+  color: var(--foreground);
+
+  font-family:
+    var(--font-geist-sans),
+    Arial,
+    Helvetica,
+    sans-serif;
+
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+input,
+button {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* =========================================================
+   ENTRADA DO LOGIN
+========================================================= */
+
+.login-brand-panel {
+  animation:
+    login-brand-enter
+    0.9s
+    cubic-bezier(0.22, 1, 0.36, 1)
+    both;
+}
+
+.login-brand-content {
+  animation:
+    login-brand-content-enter
+    0.85s
+    cubic-bezier(0.22, 1, 0.36, 1)
+    0.22s
+    both;
+}
+
+.login-form-container {
+  animation:
+    login-form-enter
+    0.85s
+    cubic-bezier(0.22, 1, 0.36, 1)
+    0.14s
+    both;
+}
+
+.login-logo {
+  animation:
+    login-element-enter
+    0.75s
+    cubic-bezier(0.22, 1, 0.36, 1)
+    0.24s
+    both;
+}
+
+.login-header {
+  animation:
+    login-element-enter
+    0.75s
+    cubic-bezier(0.22, 1, 0.36, 1)
+    0.31s
+    both;
+}
+
+.login-form {
+  animation:
+    login-element-enter
+    0.75s
+    cubic-bezier(0.22, 1, 0.36, 1)
+    0.38s
+    both;
+}
+
+.login-footer {
+  animation:
+    login-element-enter
+    0.75s
+    cubic-bezier(0.22, 1, 0.36, 1)
+    0.45s
+    both;
+}
+
+@keyframes login-brand-enter {
+  from {
+    opacity: 0;
+    transform: translateX(-42px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes login-brand-content-enter {
+  from {
+    opacity: 0;
+    transform: translateY(22px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes login-form-enter {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes login-element-enter {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* =========================================================
+   DIGITAÇÃO
+========================================================= */
+
+.typing-title {
+  position: relative;
+
+  display: inline-block;
+
+  width: 0;
+  max-width: max-content;
+
+  overflow: hidden;
+  white-space: nowrap;
+
+  border-right:
+    3px solid
+    rgba(255, 255, 255, 0.95);
+
+  animation:
+    typing-title-reveal
+      1.55s
+      steps(16, end)
+      0.75s
+      forwards,
+    typing-title-caret
+      0.8s
+      step-end
+      0.75s
+      infinite;
+}
+
+@keyframes typing-title-reveal {
+  from {
+    width: 0;
+  }
+
+  to {
+    width: 16ch;
+  }
+}
+
+@keyframes typing-title-caret {
+  0%,
+  45% {
+    border-right-color:
+      rgba(255, 255, 255, 0.95);
+  }
+
+  46%,
+  100% {
+    border-right-color:
+      transparent;
+  }
+}
+
+/* =========================================================
+   SAÍDA SUAVE DO LOGIN
+========================================================= */
+
+.login-page {
+  position: relative;
+  z-index: 1;
+
+  opacity: 1;
+
+  transform:
+    scale(1)
+    translateY(0);
+
+  filter: blur(0);
+
+  transition:
+    opacity
+      0.9s
+      cubic-bezier(0.22, 1, 0.36, 1),
+    transform
+      1.15s
+      cubic-bezier(0.22, 1, 0.36, 1),
+    filter
+      0.9s
+      ease;
+}
+
+.login-page-leaving {
+  opacity: 0;
+
+  transform:
+    scale(0.985)
+    translateY(-6px);
+
+  filter: blur(3px);
+}
+
+/* =========================================================
+   CORTINA VERMELHA
+========================================================= */
+
+.login-transition {
+  position: fixed;
+  inset: 0;
+
+  z-index: 9999;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  overflow: hidden;
+
+  background: #f40009;
+
+  opacity: 0;
+
+  transform:
+    translateX(-100%)
+    scaleX(1.03);
+
+  transform-origin: left center;
+
+  pointer-events: none;
+
+  transition:
+    transform
+      1.05s
+      cubic-bezier(0.65, 0, 0.35, 1),
+    opacity
+      0.35s
+      ease;
+}
+
+.login-transition-active {
+  opacity: 1;
+
+  transform:
+    translateX(0)
+    scaleX(1);
+}
+
+/* brilho suave */
+
+.login-transition-glow {
+  position: absolute;
+
+  top: 50%;
+  left: 50%;
+
+  width: 55vw;
+  height: 55vw;
+
+  max-width: 850px;
+  max-height: 850px;
+
+  transform:
+    translate(-50%, -50%)
+    scale(0.75);
+
+  border-radius: 999px;
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(255, 255, 255, 0.12) 0%,
+      rgba(255, 255, 255, 0.05) 35%,
+      rgba(255, 255, 255, 0) 70%
+    );
+
+  opacity: 0;
+
+  transition:
+    opacity 0.8s ease 0.35s,
+    transform
+      1.2s
+      cubic-bezier(0.22, 1, 0.36, 1)
+      0.3s;
+}
+
+.login-transition-active
+.login-transition-glow {
+  opacity: 1;
+
+  transform:
+    translate(-50%, -50%)
+    scale(1);
+}
+
+/* =========================================================
+   LOGO DA TRANSIÇÃO
+========================================================= */
+
+.login-transition-content {
+  position: relative;
+
+  z-index: 2;
+
+  opacity: 0;
+
+  transform:
+    translateY(18px)
+    scale(0.94);
+
+  transition:
+    opacity
+      0.6s
+      ease
+      0.5s,
+    transform
+      0.85s
+      cubic-bezier(0.22, 1, 0.36, 1)
+      0.5s;
+}
+
+.login-transition-active
+.login-transition-content {
+  opacity: 1;
+
+  transform:
+    translateY(0)
+    scale(1);
+
+  animation:
+    transition-logo-breathe
+    1.4s
+    ease-in-out
+    1s
+    infinite
+    alternate;
+}
+
+@keyframes transition-logo-breathe {
+  from {
+    transform: scale(1);
+  }
+
+  to {
+    transform: scale(1.018);
+  }
+}
+
+/* =========================================================
+   ENTRADA DO DASHBOARD
+========================================================= */
+
+.dashboard-transition {
+  position: fixed;
+
+  inset: 0;
+
+  z-index: 9999;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  background: #f40009;
+
+  opacity: 1;
+
+  transform: translateX(0);
+
+  pointer-events: none;
+
+  transition:
+    transform
+      1.15s
+      cubic-bezier(0.65, 0, 0.35, 1)
+      0.25s,
+    opacity
+      0.45s
+      ease
+      0.8s;
+}
+
+.dashboard-transition-hide {
+  opacity: 0;
+
+  transform: translateX(100%);
+}
+
+.dashboard-transition-logo {
+  transition:
+    opacity
+      0.45s
+      ease,
+    transform
+      0.7s
+      cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.dashboard-transition-hide
+.dashboard-transition-logo {
+  opacity: 0;
+
+  transform:
+    scale(0.96)
+    translateY(-8px);
+}
+
+/* Conteúdo */
+
+.dashboard-content {
+  opacity: 0;
+
+  transform: translateY(16px);
+
+  animation:
+    dashboard-content-enter
+    0.9s
+    cubic-bezier(0.22, 1, 0.36, 1)
+    0.75s
+    forwards;
+}
+
+@keyframes dashboard-content-enter {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* =========================================================
+   AUTOFILL
+========================================================= */
+
+.login-input:-webkit-autofill,
+.login-input:-webkit-autofill:hover,
+.login-input:-webkit-autofill:focus,
+.login-input:-webkit-autofill:active {
+  -webkit-text-fill-color:
+    #232529 !important;
+
+  caret-color: #232529;
+
+  -webkit-box-shadow:
+    0 0 0 1000px
+    #f7f8fa
+    inset !important;
+
+  box-shadow:
+    0 0 0 1000px
+    #f7f8fa
+    inset !important;
+
+  transition:
+    background-color
+      9999s
+      ease-in-out
+      0s,
+    color
+      9999s
+      ease-in-out
+      0s;
+}
+
+.login-input:-webkit-autofill:focus {
+  -webkit-box-shadow:
+    0 0 0 1000px
+    #ffffff
+    inset,
+    0 0 0 3px
+    rgba(244, 0, 9, 0.08)
+    !important;
+
+  box-shadow:
+    0 0 0 1000px
+    #ffffff
+    inset,
+    0 0 0 3px
+    rgba(244, 0, 9, 0.08)
+    !important;
+}
+
+/* =========================================================
+   SELEÇÃO
+========================================================= */
+
+::selection {
+  background:
+    rgba(244, 0, 9, 0.14);
+
+  color: #191919;
+}
+
+/* =========================================================
+   ACESSIBILIDADE
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior:
+      auto !important;
+
+    transition-duration:
+      0.01ms !important;
+
+    animation-duration:
+      0.01ms !important;
+
+    animation-iteration-count:
+      1 !important;
+  }
+
+  .typing-title {
+    width: 16ch;
+    border-right: none;
+  }
+
+  .login-transition-active {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  .dashboard-transition-hide {
+    opacity: 0;
+  }
+}
