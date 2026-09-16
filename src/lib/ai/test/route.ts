@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 import {
   AI_MODEL,
   groq,
-} from "@/app/api/ai/client";
+} from "@/lib/ai/client";
 
 import { getSession } from "@/lib/session";
 
