@@ -7,6 +7,7 @@ import {
   ArrowLeft,
   ChevronLeft,
   ChevronRight,
+  Download,
   LoaderCircle,
   Pencil,
   Search,
@@ -290,7 +291,7 @@ function formatCategory(
   return (
     option?.label ??
     value ??
-    "Modo de falha"
+    "Não classificado"
   );
 }
 
@@ -348,6 +349,18 @@ export function HistoryPage({
   const [
     error,
     setError,
+  ] =
+    useState("");
+
+  const [
+    exporting,
+    setExporting,
+  ] =
+    useState(false);
+
+  const [
+    exportError,
+    setExportError,
   ] =
     useState("");
 
@@ -545,6 +558,119 @@ export function HistoryPage({
       1,
       value,
     );
+  }
+
+  async function handleExport() {
+    if (
+      exporting ||
+      pagination.total === 0
+    ) {
+      return;
+    }
+
+    setExporting(true);
+    setExportError("");
+
+    try {
+      const params =
+        new URLSearchParams();
+
+      if (search) {
+        params.set(
+          "search",
+          search,
+        );
+      }
+
+      const url =
+        params.size > 0
+          ? `/api/history/export?${params.toString()}`
+          : "/api/history/export";
+
+      const response =
+        await fetch(
+          url,
+          {
+            method:
+              "GET",
+
+            cache:
+              "no-store",
+          },
+        );
+
+      if (!response.ok) {
+        let message =
+          "Não foi possível exportar o histórico.";
+
+        try {
+          const data =
+            await response.json();
+
+          message =
+            data.message ??
+            message;
+        } catch {
+          // A resposta pode não ser JSON.
+        }
+
+        throw new Error(
+          message,
+        );
+      }
+
+      const blob =
+        await response.blob();
+
+      const disposition =
+        response.headers.get(
+          "content-disposition",
+        );
+
+      const filenameMatch =
+        disposition?.match(
+          /filename="?([^";]+)"?/i,
+        );
+
+      const filename =
+        filenameMatch?.[1] ??
+        "historico-manutencao.xlsx";
+
+      const objectUrl =
+        URL.createObjectURL(
+          blob,
+        );
+
+      const anchor =
+        document.createElement(
+          "a",
+        );
+
+      anchor.href =
+        objectUrl;
+
+      anchor.download =
+        filename;
+
+      document.body.appendChild(
+        anchor,
+      );
+
+      anchor.click();
+      anchor.remove();
+
+      URL.revokeObjectURL(
+        objectUrl,
+      );
+    } catch (error) {
+      setExportError(
+        error instanceof Error
+          ? error.message
+          : "Não foi possível exportar o histórico.",
+      );
+    } finally {
+      setExporting(false);
+    }
   }
 
   /* =======================================================
@@ -810,40 +936,82 @@ export function HistoryPage({
             </h1>
 
             <p className="mt-3 text-[14px] text-[#7D8288]">
-              Consulte os apontamentos processados e revise as classificações quando necessário.
+              Consulte os apontamentos registrados e suas classificações.
             </p>
 
           </div>
 
-          <form
-            onSubmit={
-              handleSearch
-            }
-            className="flex w-full max-w-[360px] items-center border-b border-[#D9DCE0] pb-2"
-          >
+          <div className="flex w-full flex-col gap-3 lg:max-w-[560px] lg:items-end">
 
-            <Search
-              size={17}
-              className="mr-3 shrink-0 text-[#94999F]"
-            />
+            <div className="flex w-full flex-col gap-3 sm:flex-row sm:items-center sm:justify-end">
 
-            <input
-              value={
-                searchInput
-              }
-              onChange={(
-                event,
-              ) =>
-                setSearchInput(
-                  event.target
-                    .value,
-                )
-              }
-              placeholder="Buscar equipamento, linha ou ocorrência"
-              className="w-full bg-transparent text-[13px] text-[#292C30] outline-none placeholder:text-[#A2A6AB]"
-            />
+              <form
+                onSubmit={
+                  handleSearch
+                }
+                className="flex w-full items-center border-b border-[#D9DCE0] pb-2 sm:max-w-[360px]"
+              >
 
-          </form>
+                <Search
+                  size={17}
+                  className="mr-3 shrink-0 text-[#94999F]"
+                />
+
+                <input
+                  value={
+                    searchInput
+                  }
+                  onChange={(
+                    event,
+                  ) =>
+                    setSearchInput(
+                      event.target
+                        .value,
+                    )
+                  }
+                  placeholder="Buscar equipamento, linha ou ocorrência"
+                  className="w-full bg-transparent text-[13px] text-[#292C30] outline-none placeholder:text-[#A2A6AB]"
+                />
+
+              </form>
+
+              <button
+                type="button"
+                onClick={() =>
+                  void handleExport()
+                }
+                disabled={
+                  exporting ||
+                  loading ||
+                  pagination.total === 0
+                }
+                className="inline-flex h-10 shrink-0 items-center justify-center gap-2 rounded-full border border-[#DFE2E5] bg-white px-4 text-[12px] font-medium text-[#4F545A] transition-colors hover:border-[#CFD3D7] hover:bg-[#FAFAFA] disabled:cursor-not-allowed disabled:opacity-40"
+              >
+                {exporting ? (
+                  <LoaderCircle
+                    size={15}
+                    className="animate-spin"
+                  />
+                ) : (
+                  <Download
+                    size={15}
+                  />
+                )}
+
+                {exporting
+                  ? "Exportando..."
+                  : "Exportar Excel"}
+              </button>
+
+            </div>
+
+            {exportError && (
+              <p className="text-[11px] text-[#C92A32]">
+                {exportError}
+              </p>
+            )}
+
+          </div>
 
         </div>
 
