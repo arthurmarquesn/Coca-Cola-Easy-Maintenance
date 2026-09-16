@@ -105,6 +105,27 @@ interface HistoryRow
   classified_by_name:
     | string
     | null;
+
+  suggestion_id:
+    | number
+    | null;
+
+  suggestion_failure_mode:
+    | string
+    | null;
+
+  suggestion_failed_component_code:
+    | string
+    | null;
+
+  suggestion_confidence:
+    | number
+    | string
+    | null;
+
+  suggestion_model_version:
+    | string
+    | null;
 }
 
 /* =========================================================
@@ -116,13 +137,34 @@ interface ClassificationNotes {
 
   model?: string;
 
+  modelType?: string;
+
+  modelVersion?: string;
+
   category?: string;
 
   system?: string;
 
   failureMode?: string;
 
+  failure_mode?: string;
+
+  failedComponentCode?: string;
+
+  failedComponent?: string;
+
   explanation?: string;
+
+  modelSuggestion?: {
+    failedComponentCode?: string;
+
+    failureMode?: string;
+
+    confidence?:
+      | number
+      | string
+      | null;
+  };
 }
 
 /* =========================================================
@@ -130,29 +172,78 @@ interface ClassificationNotes {
 ========================================================= */
 
 function parseClassificationNotes(
-  value:
-    | string
-    | null,
+  value: unknown,
 ): ClassificationNotes | null {
-  if (!value) {
+  if (
+    value === null ||
+    value === undefined
+  ) {
+    return null;
+  }
+
+  if (
+    typeof value ===
+    "object"
+  ) {
+    return value as
+      ClassificationNotes;
+  }
+
+  const text =
+    String(
+      value,
+    ).trim();
+
+  if (!text) {
     return null;
   }
 
   try {
-    return JSON.parse(
-      value,
-    ) as ClassificationNotes;
+    const parsed =
+      JSON.parse(
+        text,
+      );
+
+    if (
+      parsed &&
+      typeof parsed ===
+        "object"
+    ) {
+      return parsed as
+        ClassificationNotes;
+    }
+
+    return null;
   } catch {
     /*
-       Compatibilidade com algum registro que possa ter sido
-       salvo como texto simples em vez de JSON.
+       Compatibilidade com registros antigos salvos
+       como texto simples em classification_notes.
     */
 
     return {
       explanation:
-        value,
+        text,
     };
   }
+}
+
+function firstText(
+  ...values: Array<
+    string | null | undefined
+  >
+): string | null {
+  for (
+    const value of values
+  ) {
+    const normalized =
+      value?.trim();
+
+    if (normalized) {
+      return normalized;
+    }
+  }
+
+  return null;
 }
 
 /* =========================================================
@@ -469,7 +560,22 @@ export async function GET(
             ec.classification_notes,
 
             classified_user.name
-              AS classified_by_name
+              AS classified_by_name,
+
+            cs.id
+              AS suggestion_id,
+
+            cs.failure_mode
+              AS suggestion_failure_mode,
+
+            cs.failed_component_code
+              AS suggestion_failed_component_code,
+
+            cs.confidence
+              AS suggestion_confidence,
+
+            cs.model_version
+              AS suggestion_model_version
 
           FROM maintenance_events e
 
@@ -480,6 +586,28 @@ export async function GET(
           LEFT JOIN users classified_user
             ON classified_user.id =
               ec.classified_by_user_id
+
+          /*
+             Pegamos apenas a sugestão ML mais recente de cada
+             evento. Ela funciona como fallback quando a
+             classificação oficial ainda não possui
+             failureMode no JSON.
+          */
+          LEFT JOIN classification_suggestions cs
+            ON cs.id = (
+              SELECT
+                cs_latest.id
+              FROM classification_suggestions cs_latest
+              WHERE
+                cs_latest.event_id =
+                  e.id
+                AND cs_latest.model_type =
+                  'ML'
+              ORDER BY
+                cs_latest.created_at DESC,
+                cs_latest.id DESC
+              LIMIT 1
+            )
 
           WHERE
             ${whereClause}
@@ -501,10 +629,75 @@ export async function GET(
     const items =
       rows.map(
         (row) => {
-          const classification =
+          const notes =
             parseClassificationNotes(
               row.classification_notes,
             );
+
+          /*
+             PRIORIDADE DA FALHA:
+
+             1. classificação oficial salva em
+                event_classifications.classification_notes;
+             2. modelSuggestion legado dentro do mesmo JSON;
+             3. sugestão mais recente do Modelo ML.
+
+             Assim o histórico mostra "Falha de rolamento",
+             "Falha de sensor", etc., mesmo quando
+             category_id / system_id / mode_id não existem
+             ou estão NULL.
+          */
+          const failureMode =
+            firstText(
+              notes
+                ?.failureMode,
+
+              notes
+                ?.failure_mode,
+
+              notes
+                ?.modelSuggestion
+                ?.failureMode,
+
+              row
+                .suggestion_failure_mode,
+            );
+
+          const model =
+            firstText(
+              notes
+                ?.modelVersion,
+
+              notes
+                ?.model,
+
+              row
+                .suggestion_model_version,
+            );
+
+          const hasOfficialClassification =
+            row.classification_id !==
+              null;
+
+          const hasModelSuggestion =
+            row.suggestion_id !==
+              null;
+
+          const suggestionConfidence =
+            row.suggestion_confidence ===
+            null
+              ? null
+              : Number(
+                  row.suggestion_confidence,
+                );
+
+          const officialConfidence =
+            row.classification_confidence ===
+            null
+              ? null
+              : Number(
+                  row.classification_confidence,
+                );
 
           return {
             id:
@@ -553,54 +746,64 @@ export async function GET(
                   ),
 
             classification:
-              row.classification_id
+              (
+                hasOfficialClassification ||
+                hasModelSuggestion
+              )
                 ? {
+                    /*
+                       Se já existe classificação oficial,
+                       usamos seu id. Caso contrário, usamos
+                       o id da sugestão apenas como
+                       identificador de leitura do item.
+                    */
                     id:
                       Number(
-                        row.classification_id,
+                        row.classification_id ??
+                          row.suggestion_id,
                       ),
 
                     source:
-                      row.classification_source,
+                      hasOfficialClassification
+                        ? row.classification_source
+                        : "ML",
 
                     confidence:
-                      row.classification_confidence ===
-                      null
-                        ? null
-                        : Number(
-                            row.classification_confidence,
-                          ),
+                      officialConfidence ??
+                      suggestionConfidence,
 
                     status:
-                      row.classification_status,
+                      hasOfficialClassification
+                        ? row.classification_status
+                        : "SUGESTAO",
 
                     classifiedBy:
-                      row.classified_by_name,
+                      hasOfficialClassification
+                        ? row.classified_by_name
+                        : null,
 
                     category:
-                      classification
+                      notes
                         ?.category ??
                       null,
 
                     system:
-                      classification
+                      notes
                         ?.system ??
                       null,
 
-                    failureMode:
-                      classification
-                        ?.failureMode ??
-                      null,
+                    /*
+                       Este é o campo principal consumido pelo
+                       history-page.tsx.
+                    */
+                    failureMode,
 
                     explanation:
-                      classification
+                      notes
                         ?.explanation ??
                       null,
 
-                    model:
-                      classification
-                        ?.model ??
-                      null,
+                    model,
                   }
                 : null,
           };
