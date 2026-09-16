@@ -2,14 +2,14 @@ import bcrypt from "bcryptjs";
 import mysql from "mysql2/promise";
 
 /* =========================================================
-   ARGUMENTOS
+   USO
 
-   Uso:
+   Exemplo:
 
    node --env-file=.env.local scripts/create-user.mjs \
-   "Nome" \
-   "email@empresa.com" \
-   "Senha" \
+   "Arthur Marques" \
+   "arthur@empresa.com" \
+   "SenhaForte@123" \
    "GESTOR" \
    "BAAK"
 ========================================================= */
@@ -25,7 +25,7 @@ const [
 ] = process.argv;
 
 /* =========================================================
-   VALIDAÇÃO
+   VALIDAÇÃO DOS ARGUMENTOS
 ========================================================= */
 
 if (
@@ -46,21 +46,26 @@ if (
   process.exit(1);
 }
 
+/* =========================================================
+   SENHA
+========================================================= */
+
 if (password.length < 12) {
+  console.error("");
   console.error(
     "A senha deve possuir pelo menos 12 caracteres.",
   );
+  console.error("");
 
   process.exit(1);
 }
 
+/* =========================================================
+   PERFIL
+========================================================= */
+
 const role =
   (roleArgument ?? "ANALISTA")
-    .trim()
-    .toUpperCase();
-
-const unitCode =
-  (unitCodeArgument ?? "BAAK")
     .trim()
     .toUpperCase();
 
@@ -70,15 +75,26 @@ const allowedRoles = [
 ];
 
 if (!allowedRoles.includes(role)) {
+  console.error("");
   console.error(
     "Perfil inválido. Utilize ANALISTA ou GESTOR.",
   );
+  console.error("");
 
   process.exit(1);
 }
 
 /* =========================================================
-   ENV
+   UNIDADE
+========================================================= */
+
+const unitCode =
+  (unitCodeArgument ?? "BAAK")
+    .trim()
+    .toUpperCase();
+
+/* =========================================================
+   VARIÁVEIS DE AMBIENTE
 ========================================================= */
 
 const {
@@ -89,13 +105,25 @@ const {
   DB_NAME,
 } = process.env;
 
-if (
-  !DB_HOST ||
-  !DB_USER ||
-  !DB_NAME
-) {
+if (!DB_HOST) {
   console.error(
-    "As variáveis de ambiente do banco não estão configuradas.",
+    "A variável DB_HOST não foi definida.",
+  );
+
+  process.exit(1);
+}
+
+if (!DB_USER) {
+  console.error(
+    "A variável DB_USER não foi definida.",
+  );
+
+  process.exit(1);
+}
+
+if (!DB_NAME) {
+  console.error(
+    "A variável DB_NAME não foi definida.",
   );
 
   process.exit(1);
@@ -121,23 +149,32 @@ const connection =
     database: DB_NAME,
 
     charset: "utf8mb4",
+
+    timezone: "Z",
   });
 
-/* =========================================================
-   CRIAÇÃO
-========================================================= */
-
 try {
+  /* =======================================================
+     TRANSAÇÃO
+  ======================================================= */
+
   await connection.beginTransaction();
+
+  /* =======================================================
+     NORMALIZAÇÃO
+  ======================================================= */
+
+  const normalizedName =
+    name.trim();
 
   const normalizedEmail =
     email
       .trim()
       .toLowerCase();
 
-  /* -------------------------------------------------------
-     Verifica unidade
-  -------------------------------------------------------- */
+  /* =======================================================
+     VERIFICA UNIDADE
+  ======================================================= */
 
   const [units] =
     await connection.execute(
@@ -145,10 +182,10 @@ try {
         SELECT
           id,
           code,
-          name
+          name,
+          active
         FROM units
         WHERE code = ?
-        AND active = TRUE
         LIMIT 1
       `,
       [
@@ -167,14 +204,22 @@ try {
 
   const unit = units[0];
 
-  /* -------------------------------------------------------
-     Verifica usuário existente
-  -------------------------------------------------------- */
+  if (!unit.active) {
+    throw new Error(
+      `A unidade ${unitCode} está inativa.`,
+    );
+  }
+
+  /* =======================================================
+     VERIFICA E-MAIL
+  ======================================================= */
 
   const [existingUsers] =
     await connection.execute(
       `
-        SELECT id
+        SELECT
+          id,
+          email
         FROM users
         WHERE email = ?
         LIMIT 1
@@ -189,13 +234,13 @@ try {
     existingUsers.length > 0
   ) {
     throw new Error(
-      "Já existe um usuário com esse e-mail.",
+      "Já existe um usuário cadastrado com esse e-mail.",
     );
   }
 
-  /* -------------------------------------------------------
-     Hash
-  -------------------------------------------------------- */
+  /* =======================================================
+     HASH DA SENHA
+  ======================================================= */
 
   const passwordHash =
     await bcrypt.hash(
@@ -203,9 +248,9 @@ try {
       12,
     );
 
-  /* -------------------------------------------------------
-     Usuário
-  -------------------------------------------------------- */
+  /* =======================================================
+     CRIA USUÁRIO
+  ======================================================= */
 
   const [userResult] =
     await connection.execute(
@@ -226,7 +271,7 @@ try {
         )
       `,
       [
-        name.trim(),
+        normalizedName,
         normalizedEmail,
         passwordHash,
         role,
@@ -236,9 +281,9 @@ try {
   const userId =
     userResult.insertId;
 
-  /* -------------------------------------------------------
-     Unidade padrão
-  -------------------------------------------------------- */
+  /* =======================================================
+     VINCULA USUÁRIO À UNIDADE
+  ======================================================= */
 
   await connection.execute(
     `
@@ -259,7 +304,15 @@ try {
     ],
   );
 
+  /* =======================================================
+     COMMIT
+  ======================================================= */
+
   await connection.commit();
+
+  /* =======================================================
+     SUCESSO
+  ======================================================= */
 
   console.log("");
   console.log(
@@ -275,7 +328,11 @@ try {
   );
 
   console.log(
-    `Nome: ${name.trim()}`,
+    `ID: ${userId}`,
+  );
+
+  console.log(
+    `Nome: ${normalizedName}`,
   );
 
   console.log(
@@ -296,14 +353,31 @@ try {
 
   console.log("");
 } catch (error) {
+  /* =======================================================
+     ROLLBACK
+  ======================================================= */
+
   await connection.rollback();
 
   console.error("");
   console.error(
-    "Erro ao criar usuário:",
+    "==========================================",
+  );
+
+  console.error(
+    "ERRO AO CRIAR USUÁRIO",
+  );
+
+  console.error(
+    "==========================================",
   );
 
   console.error(error);
+
+  console.error(
+    "==========================================",
+  );
+
   console.error("");
 
   process.exitCode = 1;
