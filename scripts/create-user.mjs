@@ -2,16 +2,7 @@ import bcrypt from "bcryptjs";
 import mysql from "mysql2/promise";
 
 /* =========================================================
-   USO
-
-   Exemplo:
-
-   node --env-file=.env.local scripts/create-user.mjs \
-   "Arthur Marques" \
-   "arthur@empresa.com" \
-   "SenhaForte@123" \
-   "GESTOR" \
-   "BAAK"
+   CONFIGURAÇÃO
 ========================================================= */
 
 const [
@@ -20,81 +11,54 @@ const [
   name,
   email,
   password,
-  roleArgument,
-  unitCodeArgument,
+  role,
+  unitCode,
 ] = process.argv;
-
-/* =========================================================
-   VALIDAÇÃO DOS ARGUMENTOS
-========================================================= */
 
 if (
   !name ||
   !email ||
-  !password
+  !password ||
+  !role ||
+  !unitCode
 ) {
-  console.error("");
-  console.error("Parâmetros obrigatórios ausentes.");
-  console.error("");
+  console.error(`
+Uso:
 
-  console.error(
-    'Uso: node --env-file=.env.local scripts/create-user.mjs "Nome" "email@empresa.com" "Senha" "GESTOR" "BAAK"',
-  );
+node --env-file=.env.local scripts/create-user.mjs "NOME" "EMAIL" "SENHA" "ROLE" "UNIDADE"
 
-  console.error("");
+Exemplo:
 
-  process.exit(1);
-}
-
-/* =========================================================
-   SENHA
-========================================================= */
-
-if (password.length < 12) {
-  console.error("");
-  console.error(
-    "A senha deve possuir pelo menos 12 caracteres.",
-  );
-  console.error("");
+node --env-file=.env.local scripts/create-user.mjs "João da Silva" "joao@coca.com" "Joao@2026" "GESTOR" "BAAK"
+`);
 
   process.exit(1);
 }
-
-/* =========================================================
-   PERFIL
-========================================================= */
-
-const role =
-  (roleArgument ?? "ANALISTA")
-    .trim()
-    .toUpperCase();
 
 const allowedRoles = [
-  "ANALISTA",
   "GESTOR",
+  "ANALISTA",
 ];
 
-if (!allowedRoles.includes(role)) {
-  console.error("");
+const normalizedRole =
+  role
+    .trim()
+    .toUpperCase();
+
+if (
+  !allowedRoles.includes(
+    normalizedRole,
+  )
+) {
   console.error(
-    "Perfil inválido. Utilize ANALISTA ou GESTOR.",
+    `Role inválida. Utilize: ${allowedRoles.join(", ")}`,
   );
-  console.error("");
 
   process.exit(1);
 }
 
 /* =========================================================
-   UNIDADE
-========================================================= */
-
-const unitCode =
-  (unitCodeArgument ?? "BAAK")
-    .trim()
-    .toUpperCase();
-
-/* =========================================================
-   VARIÁVEIS DE AMBIENTE
+   ENV
 ========================================================= */
 
 const {
@@ -105,121 +69,98 @@ const {
   DB_NAME,
 } = process.env;
 
-if (!DB_HOST) {
+if (
+  !DB_HOST ||
+  !DB_USER ||
+  !DB_NAME
+) {
   console.error(
-    "A variável DB_HOST não foi definida.",
-  );
-
-  process.exit(1);
-}
-
-if (!DB_USER) {
-  console.error(
-    "A variável DB_USER não foi definida.",
-  );
-
-  process.exit(1);
-}
-
-if (!DB_NAME) {
-  console.error(
-    "A variável DB_NAME não foi definida.",
+    "Variáveis de banco não configuradas no .env.local.",
   );
 
   process.exit(1);
 }
 
 /* =========================================================
-   CONEXÃO
+   MAIN
 ========================================================= */
 
-const connection =
-  await mysql.createConnection({
-    host: DB_HOST,
-
-    port: Number(
-      DB_PORT ?? 3306,
-    ),
-
-    user: DB_USER,
-
-    password:
-      DB_PASSWORD ?? "",
-
-    database: DB_NAME,
-
-    charset: "utf8mb4",
-
-    timezone: "Z",
-  });
+let connection;
 
 try {
-  /* =======================================================
-     TRANSAÇÃO
-  ======================================================= */
+  connection =
+    await mysql.createConnection({
+      host:
+        DB_HOST,
+
+      port:
+        Number(
+          DB_PORT ??
+            3306,
+        ),
+
+      user:
+        DB_USER,
+
+      password:
+        DB_PASSWORD,
+
+      database:
+        DB_NAME,
+    });
 
   await connection.beginTransaction();
 
   /* =======================================================
-     NORMALIZAÇÃO
+     LOCALIZAR UNIDADE
   ======================================================= */
 
-  const normalizedName =
-    name.trim();
+  const [
+    unitRows,
+  ] =
+    await connection.execute(
+      `
+        SELECT
+          id,
+          code,
+          name
+        FROM units
+        WHERE code = ?
+          AND active = TRUE
+        LIMIT 1
+      `,
+      [
+        unitCode
+          .trim()
+          .toUpperCase(),
+      ],
+    );
+
+  const unit =
+    unitRows[0];
+
+  if (!unit) {
+    throw new Error(
+      `Unidade "${unitCode}" não encontrada.`,
+    );
+  }
+
+  /* =======================================================
+     VERIFICAR E-MAIL
+  ======================================================= */
 
   const normalizedEmail =
     email
       .trim()
       .toLowerCase();
 
-  /* =======================================================
-     VERIFICA UNIDADE
-  ======================================================= */
-
-  const [units] =
+  const [
+    existingUsers,
+  ] =
     await connection.execute(
       `
         SELECT
-          id,
-          code,
-          name,
-          active
-        FROM units
-        WHERE code = ?
-        LIMIT 1
-      `,
-      [
-        unitCode,
-      ],
-    );
-
-  if (
-    !Array.isArray(units) ||
-    units.length === 0
-  ) {
-    throw new Error(
-      `A unidade ${unitCode} não foi encontrada.`,
-    );
-  }
-
-  const unit = units[0];
-
-  if (!unit.active) {
-    throw new Error(
-      `A unidade ${unitCode} está inativa.`,
-    );
-  }
-
-  /* =======================================================
-     VERIFICA E-MAIL
-  ======================================================= */
-
-  const [existingUsers] =
-    await connection.execute(
-      `
-        SELECT
-          id,
-          email
+          id
         FROM users
         WHERE email = ?
         LIMIT 1
@@ -230,16 +171,18 @@ try {
     );
 
   if (
-    Array.isArray(existingUsers) &&
-    existingUsers.length > 0
+    existingUsers.length >
+    0
   ) {
     throw new Error(
-      "Já existe um usuário cadastrado com esse e-mail.",
+      `Já existe um usuário com o e-mail "${normalizedEmail}".`,
     );
   }
 
   /* =======================================================
-     HASH DA SENHA
+     GERAR HASH DA SENHA
+
+     A senha em texto puro nunca será enviada ao banco.
   ======================================================= */
 
   const passwordHash =
@@ -249,20 +192,24 @@ try {
     );
 
   /* =======================================================
-     CRIA USUÁRIO
+     CRIAR USUÁRIO
   ======================================================= */
 
-  const [userResult] =
+  const [
+    userResult,
+  ] =
     await connection.execute(
       `
-        INSERT INTO users (
+        INSERT INTO users
+        (
           name,
           email,
           password_hash,
           role,
           active
         )
-        VALUES (
+        VALUES
+        (
           ?,
           ?,
           ?,
@@ -271,10 +218,10 @@ try {
         )
       `,
       [
-        normalizedName,
+        name.trim(),
         normalizedEmail,
         passwordHash,
-        role,
+        normalizedRole,
       ],
     );
 
@@ -282,17 +229,19 @@ try {
     userResult.insertId;
 
   /* =======================================================
-     VINCULA USUÁRIO À UNIDADE
+     VINCULAR À UNIDADE
   ======================================================= */
 
   await connection.execute(
     `
-      INSERT INTO user_units (
+      INSERT INTO user_units
+      (
         user_id,
         unit_id,
         is_default
       )
-      VALUES (
+      VALUES
+      (
         ?,
         ?,
         TRUE
@@ -304,83 +253,57 @@ try {
     ],
   );
 
-  /* =======================================================
-     COMMIT
-  ======================================================= */
-
   await connection.commit();
-
-  /* =======================================================
-     SUCESSO
-  ======================================================= */
 
   console.log("");
   console.log(
-    "==========================================",
+    "Usuário criado com sucesso.",
   );
-
-  console.log(
-    "USUÁRIO CRIADO COM SUCESSO",
-  );
-
-  console.log(
-    "==========================================",
-  );
-
   console.log(
     `ID: ${userId}`,
   );
-
   console.log(
-    `Nome: ${normalizedName}`,
+    `Nome: ${name.trim()}`,
   );
-
   console.log(
     `E-mail: ${normalizedEmail}`,
   );
-
   console.log(
-    `Perfil: ${role}`,
+    `Role: ${normalizedRole}`,
   );
-
   console.log(
-    `Unidade: ${unit.code} - ${unit.name}`,
+    `Unidade: ${unit.code}`,
   );
-
   console.log(
-    "==========================================",
+    "Senha armazenada como hash bcrypt.",
   );
-
   console.log("");
 } catch (error) {
-  /* =======================================================
-     ROLLBACK
-  ======================================================= */
-
-  await connection.rollback();
+  if (connection) {
+    try {
+      await connection.rollback();
+    } catch {
+      // Não sobrescreve o erro original.
+    }
+  }
 
   console.error("");
   console.error(
-    "==========================================",
+    "Erro ao criar usuário:",
   );
 
   console.error(
-    "ERRO AO CRIAR USUÁRIO",
-  );
-
-  console.error(
-    "==========================================",
-  );
-
-  console.error(error);
-
-  console.error(
-    "==========================================",
+    error instanceof Error
+      ? error.message
+      : error,
   );
 
   console.error("");
 
-  process.exitCode = 1;
+  process.exitCode =
+    1;
 } finally {
-  await connection.end();
+  if (connection) {
+    await connection.end();
+  }
 }
