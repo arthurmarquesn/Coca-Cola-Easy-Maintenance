@@ -22,130 +22,120 @@ import type {
 
 /* =========================================================
    CONFIGURAÇÃO
+
+   Uma rodada = uma chamada para a Groq.
+
+   Evitamos:
+   - várias chamadas pequenas;
+   - delays fixos de 20/25 segundos;
+   - respostas JSON muito verbosas.
 ========================================================= */
 
-const AI_BATCH_SIZE = 4;
+const DEFAULT_MAX_GROUPS = 24;
 
-const AI_REQUEST_DELAY_MS =
-  1500;
+const MAX_GROUPS_LIMIT = 32;
 
-const AI_MAX_RETRIES = 5;
+const MAX_OBSERVATION_LENGTH = 260;
 
-const MAX_TEXT_LENGTH =
-  700;
+const MAX_EQUIPMENT_LENGTH = 100;
+
+const MAX_FIELD_LENGTH = 80;
+
+const MAX_RETRIES = 5;
+
+const MIN_RATE_LIMIT_WAIT_MS = 3000;
 
 /* =========================================================
    BANCO
 ========================================================= */
 
-interface EventGroupRow
-  extends RowDataPacket {
-  source_stop_type:
-    | string
-    | null;
+interface EventGroupRow extends RowDataPacket {
+  source_stop_type: string | null;
 
-  source_equipment_name:
-    | string
-    | null;
+  source_equipment_name: string | null;
 
-  source_stop_subkey:
-    | string
-    | null;
+  source_stop_subkey: string | null;
 
-  source_stop_key_1:
-    | string
-    | null;
+  source_stop_key_1: string | null;
 
-  observation:
-    | string
-    | null;
+  observation: string | null;
 
   event_count: number;
 }
 
-interface CountRow
-  extends RowDataPacket {
+interface CountRow extends RowDataPacket {
   total_events: number;
 
   classified_events: number;
 }
 
 /* =========================================================
-   INPUT IA
+   INPUT PARA IA
 ========================================================= */
 
 interface AIGroupInput {
-  groupId: number;
+  id: number;
 
-  equipment:
-    | string
-    | null;
+  ob: string | null;
 
-  stopType:
-    | string
-    | null;
+  eq: string | null;
 
-  stopSubkey:
-    | string
-    | null;
+  k1: string | null;
 
-  stopKey1:
-    | string
-    | null;
+  sk: string | null;
 
-  observation:
-    | string
-    | null;
-
-  occurrences: number;
+  st: string | null;
 }
 
 /* =========================================================
-   OUTPUT BRUTO
+   RESPOSTA DA IA
+
+   Formato compacto:
+
+   [
+     groupId,
+     failureModeCode,
+     failureDetail,
+     system,
+     technicalCategory,
+     confidence
+   ]
 ========================================================= */
 
-interface RawAIClassification {
-  groupId?: unknown;
-
-  failureModeCode?: unknown;
-
-  failureDetail?: unknown;
-
-  system?: unknown;
-
-  technicalCategory?: unknown;
-
-  confidence?: unknown;
-
-  explanation?: unknown;
-}
+type RawClassificationTuple = [
+  unknown,
+  unknown,
+  unknown,
+  unknown,
+  unknown,
+  unknown,
+];
 
 interface RawAIResponse {
-  classifications?: unknown;
+  c?: unknown;
 }
 
 /* =========================================================
-   OUTPUT VALIDADO
+   CLASSIFICAÇÃO VALIDADA
 ========================================================= */
 
 interface AIClassification {
   groupId: number;
 
-  failureModeCode:
-    FailureModeCode;
+  failureModeCode: FailureModeCode;
 
-  failureDetail:
-    string | null;
+  failureDetail: string | null;
 
   system: string;
 
-  technicalCategory:
-    TechnicalCategory;
+  technicalCategory: TechnicalCategory;
 
   confidence: number;
-
-  explanation: string;
 }
+
+/* =========================================================
+   GROQ ERROR
+========================================================= */
 
 interface GroqLikeError {
   status?: number;
@@ -153,11 +143,13 @@ interface GroqLikeError {
   headers?: {
     get?: (
       name: string,
-    ) =>
-      | string
-      | null;
+    ) => string | null;
   };
 }
+
+/* =========================================================
+   RESULTADO DA FUNÇÃO
+========================================================= */
 
 export interface ImportAIResult {
   model: string;
@@ -192,10 +184,8 @@ function sleep(
   );
 }
 
-function limitText(
-  value:
-    | string
-    | null,
+function cleanText(
+  value: string | null,
   maxLength: number,
 ): string | null {
   if (!value) {
@@ -203,29 +193,27 @@ function limitText(
   }
 
   const text =
-    value.trim();
+    value
+      .trim()
+      .replace(/\s+/g, " ");
 
   if (!text) {
     return null;
   }
 
-  return text.length >
-    maxLength
-    ? `${text.slice(
-        0,
-        maxLength,
-      )}...`
-    : text;
+  return text.slice(
+    0,
+    maxLength,
+  );
 }
 
-function normalizeText(
+function normalizeString(
   value: unknown,
   fallback: string,
   maxLength: number,
-) {
+): string {
   if (
-    typeof value !==
-    "string"
+    typeof value !== "string"
   ) {
     return fallback;
   }
@@ -249,13 +237,12 @@ function normalizeDetail(
   value: unknown,
 ): string | null {
   if (
-    typeof value !==
-    "string"
+    typeof value !== "string"
   ) {
     return null;
   }
 
-  let text =
+  const text =
     value
       .trim()
       .replace(/\s+/g, " ");
@@ -264,61 +251,25 @@ function normalizeDetail(
     return null;
   }
 
-  const words =
-    text.split(" ");
-
-  /*
-     Máximo de 5 palavras.
-
-     É isso que impede a IA de simplesmente copiar
-     a observação original.
-  */
-
-  text =
-    words
-      .slice(0, 5)
-      .join(" ");
-
-  return text.slice(
-    0,
-    60,
-  );
+  return text
+    .split(" ")
+    .slice(0, 5)
+    .join(" ")
+    .slice(0, 60);
 }
 
-function getMaxGroups() {
-  const value =
-    Number(
-      process.env
-        .AI_MAX_GROUPS_PER_IMPORT ??
-        20,
-    );
-
-  return Number.isFinite(
-    value,
-  )
-    ? Math.min(
-        Math.max(
-          Math.floor(
-            value,
-          ),
-          1,
-        ),
-        500,
-      )
-    : 20;
-}
+/* =========================================================
+   ENUM VALIDATION
+========================================================= */
 
 function isFailureModeCode(
   value: unknown,
 ): value is FailureModeCode {
   return (
-    typeof value ===
-      "string" &&
+    typeof value === "string" &&
     (
       FAILURE_MODE_CODES as readonly string[]
-    ).includes(
-      value,
-    )
+    ).includes(value)
   );
 }
 
@@ -326,55 +277,380 @@ function isTechnicalCategory(
   value: unknown,
 ): value is TechnicalCategory {
   return (
-    typeof value ===
-      "string" &&
+    typeof value === "string" &&
     (
       TECHNICAL_CATEGORIES as readonly string[]
-    ).includes(
-      value,
-    )
+    ).includes(value)
   );
 }
 
-function cleanJson(
-  content: string,
-) {
-  let value =
-    content.trim();
+/* =========================================================
+   MAX GROUPS
+========================================================= */
+
+function getMaxGroups() {
+  const configured =
+    Number(
+      process.env
+        .AI_MAX_GROUPS_PER_IMPORT ??
+        DEFAULT_MAX_GROUPS,
+    );
 
   if (
-    value.startsWith(
-      "```json",
+    !Number.isFinite(
+      configured,
     )
   ) {
-    value =
-      value.slice(7);
-  } else if (
-    value.startsWith(
-      "```",
-    )
-  ) {
-    value =
-      value.slice(3);
+    return DEFAULT_MAX_GROUPS;
   }
 
-  if (
-    value.endsWith(
-      "```",
-    )
-  ) {
-    value =
-      value.slice(
-        0,
-        -3,
-      );
-  }
-
-  return value.trim();
+  return Math.min(
+    Math.max(
+      Math.floor(
+        configured,
+      ),
+      1,
+    ),
+    MAX_GROUPS_LIMIT,
+  );
 }
 
 /* =========================================================
-   CONTAGEM
+   RATE LIMIT PARSER
+
+   Exemplos Groq:
+
+   13.057s
+   1.5s
+   800ms
+   1m
+   8m38.4s
+========================================================= */
+
+function parseDurationToMilliseconds(
+  value: string,
+): number | null {
+  const text =
+    value
+      .trim()
+      .toLowerCase();
+
+  let total = 0;
+
+  const minutes =
+    text.match(
+      /([\d.]+)m/,
+    );
+
+  const seconds =
+    text.match(
+      /([\d.]+)s/,
+    );
+
+  const milliseconds =
+    text.match(
+      /([\d.]+)ms/,
+    );
+
+  if (minutes) {
+    total +=
+      Number(minutes[1]) *
+      60 *
+      1000;
+  }
+
+  if (seconds) {
+    total +=
+      Number(seconds[1]) *
+      1000;
+  }
+
+  /*
+     Só considera ms isoladamente.
+  */
+
+  if (
+    milliseconds &&
+    !seconds
+  ) {
+    total +=
+      Number(milliseconds[1]);
+  }
+
+  if (
+    !Number.isFinite(total) ||
+    total <= 0
+  ) {
+    return null;
+  }
+
+  return Math.ceil(total);
+}
+
+/* =========================================================
+   RETRY DELAY
+
+   Não existem mais delays fixos entre chamadas.
+
+   Só esperamos quando realmente ocorre 429.
+========================================================= */
+
+function getRateLimitWait(
+  error: unknown,
+  attempt: number,
+) {
+  const groqError =
+    error as GroqLikeError;
+
+  let wait =
+    MIN_RATE_LIMIT_WAIT_MS;
+
+  const resetTokens =
+    groqError
+      .headers
+      ?.get?.(
+        "x-ratelimit-reset-tokens",
+      );
+
+  if (resetTokens) {
+    const parsed =
+      parseDurationToMilliseconds(
+        resetTokens,
+      );
+
+    if (parsed) {
+      wait =
+        Math.max(
+          wait,
+          parsed,
+        );
+    }
+  }
+
+  const retryAfter =
+    groqError
+      .headers
+      ?.get?.(
+        "retry-after",
+      );
+
+  if (retryAfter) {
+    const seconds =
+      Number(retryAfter);
+
+    if (
+      Number.isFinite(seconds) &&
+      seconds > 0
+    ) {
+      wait =
+        Math.max(
+          wait,
+          seconds * 1000,
+        );
+    }
+  }
+
+  /*
+     Se não recebemos informação útil,
+     usamos backoff progressivo.
+  */
+
+  if (
+    !resetTokens &&
+    !retryAfter
+  ) {
+    wait =
+      Math.max(
+        wait,
+        3000 *
+          2 ** attempt,
+      );
+  }
+
+  /*
+     Margem pequena depois do reset.
+  */
+
+  return wait + 1200;
+}
+
+/* =========================================================
+   JSON
+========================================================= */
+
+function extractJson(
+  content: string,
+): RawAIResponse {
+  let text =
+    content.trim();
+
+  text =
+    text.replace(
+      /^```(?:json)?\s*/i,
+      "",
+    );
+
+  text =
+    text.replace(
+      /\s*```$/i,
+      "",
+    );
+
+  const start =
+    text.indexOf("{");
+
+  const end =
+    text.lastIndexOf("}");
+
+  if (
+    start === -1 ||
+    end === -1 ||
+    end <= start
+  ) {
+    throw new Error(
+      "A IA não retornou JSON válido.",
+    );
+  }
+
+  const jsonText =
+    text.slice(
+      start,
+      end + 1,
+    );
+
+  return JSON.parse(
+    jsonText,
+  ) as RawAIResponse;
+}
+
+/* =========================================================
+   VALIDAÇÃO
+========================================================= */
+
+function validateResponse(
+  parsed: RawAIResponse,
+  groups: AIGroupInput[],
+): AIClassification[] {
+  if (
+    !Array.isArray(parsed.c)
+  ) {
+    throw new Error(
+      "A IA não retornou a lista de classificações.",
+    );
+  }
+
+  const expectedIds =
+    new Set(
+      groups.map(
+        (group) =>
+          group.id,
+      ),
+    );
+
+  const usedIds =
+    new Set<number>();
+
+  const result:
+    AIClassification[] = [];
+
+  for (
+    const rawItem of parsed.c
+  ) {
+    if (
+      !Array.isArray(rawItem) ||
+      rawItem.length < 6
+    ) {
+      continue;
+    }
+
+    const tuple =
+      rawItem as RawClassificationTuple;
+
+    const groupId =
+      Number(tuple[0]);
+
+    if (
+      !Number.isInteger(
+        groupId,
+      ) ||
+      !expectedIds.has(
+        groupId,
+      ) ||
+      usedIds.has(
+        groupId,
+      )
+    ) {
+      continue;
+    }
+
+    usedIds.add(
+      groupId,
+    );
+
+    const failureModeCode:
+      FailureModeCode =
+        isFailureModeCode(
+          tuple[1],
+        )
+          ? tuple[1]
+          : "NAO_IDENTIFICADO";
+
+    const failureDetail =
+      normalizeDetail(
+        tuple[2],
+      );
+
+    const system =
+      normalizeString(
+        tuple[3],
+        "Não identificado",
+        80,
+      );
+
+    const technicalCategory:
+      TechnicalCategory =
+        isTechnicalCategory(
+          tuple[4],
+        )
+          ? tuple[4]
+          : "INDETERMINADA";
+
+    const rawConfidence =
+      Number(tuple[5]);
+
+    const confidence =
+      Number.isFinite(
+        rawConfidence,
+      )
+        ? Math.max(
+            0,
+            Math.min(
+              rawConfidence,
+              1,
+            ),
+          )
+        : 0.5;
+
+    result.push({
+      groupId,
+
+      failureModeCode,
+
+      failureDetail,
+
+      system,
+
+      technicalCategory,
+
+      confidence,
+    });
+  }
+
+  return result;
+}
+
+/* =========================================================
+   COUNTS
 ========================================================= */
 
 async function getImportCounts(
@@ -411,8 +687,7 @@ async function getImportCounts(
 
   const totalEvents =
     Number(
-      rows[0]
-        ?.total_events ??
+      rows[0]?.total_events ??
         0,
     );
 
@@ -438,324 +713,109 @@ async function getImportCounts(
 }
 
 /* =========================================================
-   PROMPT
+   PROMPT COMPACTO
+
+   Saída:
+
+   {
+     "c": [
+       [
+         1,
+         "DESARME",
+         "bomba de carbonato",
+         "Bombeamento",
+         "INDETERMINADA",
+         0.96
+       ]
+     ]
+   }
+
+   Isso reduz muito os tokens de saída.
 ========================================================= */
 
-function getSystemPrompt() {
+function buildPrompt(
+  groups: AIGroupInput[],
+) {
   return `
-Você é especialista em manutenção industrial.
+Classifique modos de falha de manutenção industrial.
 
-Sua tarefa é transformar apontamentos livres em MODOS DE FALHA curtos, técnicos e reutilizáveis.
+Não identifique causa raiz.
 
-A classificação principal NÃO é:
+Prioridade das evidências:
+ob > k1 > sk > eq > st.
 
-Mecânica
-Elétrica
-Automação
-Pneumática
-Hidráulica
+Campos:
+ob=observação
+eq=equipamento
+k1=chave
+sk=subchave
+st=tipo de parada
 
-Esses valores são apenas áreas técnicas secundárias.
+Modo deve ser exatamente um:
+${FAILURE_MODE_CODES.join(",")}
 
-============================================================
-OBJETIVO
-============================================================
+Categoria deve ser exatamente uma:
+${TECHNICAL_CATEGORIES.join(",")}
 
-Para cada ocorrência determine:
-
-failureModeCode
-failureDetail
-system
-technicalCategory
-confidence
-explanation
-
-============================================================
-FAILURE MODE
-============================================================
-
-failureModeCode deve ser EXATAMENTE um destes:
-
-${FAILURE_MODE_CODES.join(", ")}
-
-============================================================
-FAILURE DETAIL
-============================================================
-
-failureDetail é o detalhe que torna a classificação específica.
-
-Deve ter entre 1 e 5 palavras.
-
-Não copie a observação inteira.
-
-Não coloque linha, número do equipamento ou localização.
-
-O detalhe deve representar:
-
-- componente afetado
-OU
-- função afetada
-OU
-- fenômeno observado
+Regras:
+- failureDetail: 1 a 5 palavras.
+- detalhe deve identificar componente/fenômeno.
+- não use Mecânica, Elétrica ou Automação como modo de falha.
+- system deve ser curto.
+- se área técnica não estiver clara use INDETERMINADA.
+- não invente causa.
+- todos os IDs devem ser retornados.
 
 Exemplos:
 
-Observação:
-"DESARMOU A BOMBA DO ENVIO DO CARBONATO"
+"DESARMOU BOMBA ENVIO CARBONATO"
+=> DESARME | bomba de carbonato | Bombeamento
 
-failureModeCode:
-DESARME
-
-failureDetail:
-bomba de carbonato
-
-Resultado final:
-Desarme — bomba de carbonato
-
-
-Observação:
 "SENSOR NÃO DETECTA GARRAFA"
+=> FALHA_DETECCAO | presença de garrafa | Sensoriamento
 
-failureModeCode:
-FALHA_DETECCAO
-
-failureDetail:
-presença de garrafa
-
-Resultado:
-Falha de detecção — presença de garrafa
-
-
-Observação:
 "FALHA SENSOR GARRAFA FALSA"
+=> FALHA_SENSOR | garrafa falsa | Sensoriamento
 
-failureModeCode:
-FALHA_SENSOR
+"CORREIA ROMPEU"
+=> ROMPIMENTO | correia | Transmissão
 
-failureDetail:
-garrafa falsa
-
-Resultado:
-Falha de sensor — garrafa falsa
-
-
-Observação:
 "REJEITOR LINEAR NÃO RETORNA"
+=> FALHA_POSICIONAMENTO | rejeitor linear | Rejeição
 
-failureModeCode:
-FALHA_POSICIONAMENTO
-
-failureDetail:
-rejeitor linear
-
-Resultado:
-Falha de posicionamento — rejeitor linear
-
-
-Observação:
-"CORREIA ESTEIRA ROMPEU"
-
-failureModeCode:
-ROMPIMENTO
-
-failureDetail:
-correia
-
-Resultado:
-Rompimento — correia
-
-
-Observação:
-"VAZAMENTO DE AR NA VÁLVULA"
-
-failureModeCode:
-VAZAMENTO
-
-failureDetail:
-válvula pneumática
-
-Resultado:
-Vazamento — válvula pneumática
-
-
-Observação:
-"PRESSÃO DE AR BAIXA"
-
-failureModeCode:
-PERDA_PRESSAO
-
-failureDetail:
-circuito pneumático
-
-Resultado:
-Perda de pressão — circuito pneumático
-
-
-Observação:
-"MOTOR NÃO PARTE"
-
-failureModeCode:
-FALHA_ACIONAMENTO
-
-failureDetail:
-motor
-
-Resultado:
-Falha de acionamento — motor
-
-
-Observação:
-"SEM COMUNICAÇÃO COM INVERSOR"
-
-failureModeCode:
-FALHA_COMUNICACAO
-
-failureDetail:
-inversor
-
-Resultado:
-Falha de comunicação — inversor
-
-
-Observação:
-"BOCAL TRAVADO"
-
-failureModeCode:
-TRAVAMENTO
-
-failureDetail:
-bocal
-
-Resultado:
-Travamento — bocal
-
-============================================================
-NÍVEL DE ESPECIFICIDADE
-============================================================
-
-RUIM, muito genérico:
-
-Falha mecânica
-Falha elétrica
-Problema de automação
-Falha no equipamento
-Falha de sensor
-
-MELHOR:
-
-Falha de sensor — garrafa falsa
-Falha de detecção — presença de garrafa
-Desarme — bomba de carbonato
-Travamento — bocal
-Rompimento — correia
-Falha de comunicação — inversor
-Falha de posicionamento — rejeitor linear
-
-RUIM, específico demais:
-
-"Falha do sensor fotoelétrico 302 da entrada da garrafa falsa da linha 5"
-
-============================================================
-CAUSA RAIZ
-============================================================
-
-NÃO invente causa raiz.
-
-"bomba desarmou"
-
-permite:
-
-DESARME
-
-Não permite assumir:
-
-curto-circuito
-sobrecorrente
-travamento mecânico
-
-se isso não estiver escrito.
-
-============================================================
-EVIDÊNCIAS
-============================================================
-
-Prioridade:
-
-1. observation
-2. stopKey1
-3. stopSubkey
-4. equipment
-5. stopType
-
-============================================================
-SYSTEM
-============================================================
-
-system deve ser curto.
-
-Exemplos:
-
-Bombeamento
-Sensoriamento
-Rejeição
-Transmissão
-Movimentação
-Tampamento
-Transportador
-Comunicação industrial
-Acionamento
-Dosagem
-
-============================================================
-ÁREA TÉCNICA
-============================================================
-
-technicalCategory deve ser um destes:
-
-${TECHNICAL_CATEGORIES.join(", ")}
-
-Se não houver evidência suficiente:
-
-INDETERMINADA
-
-============================================================
-JSON
-============================================================
-
-Retorne SOMENTE:
+Retorne SOMENTE JSON compacto neste formato:
 
 {
-  "classifications": [
-    {
-      "groupId": 1,
-      "failureModeCode": "DESARME",
-      "failureDetail": "bomba de carbonato",
-      "system": "Bombeamento",
-      "technicalCategory": "INDETERMINADA",
-      "confidence": 0.95,
-      "explanation": "A observação informa explicitamente o desarme da bomba."
-    }
+  "c":[
+    [
+      id,
+      "failureModeCode",
+      "failureDetail",
+      "system",
+      "technicalCategory",
+      confidence
+    ]
   ]
 }
 
-Classifique todos os groupId.
+Eventos:
+${JSON.stringify(groups)}
 `.trim();
 }
 
 /* =========================================================
-   GROQ
+   UMA ÚNICA CHAMADA POR RODADA
 ========================================================= */
 
 async function requestClassification(
   groups: AIGroupInput[],
-) {
+): Promise<AIClassification[]> {
   let lastError:
     unknown = null;
 
   for (
     let attempt = 0;
-    attempt <
-    AI_MAX_RETRIES;
+    attempt < MAX_RETRIES;
     attempt++
   ) {
     try {
@@ -767,31 +827,20 @@ async function requestClassification(
           temperature:
             0,
 
+          max_completion_tokens:
+            1400,
+
           messages: [
-            {
-              role:
-                "system",
-
-              content:
-                getSystemPrompt(),
-            },
-
             {
               role:
                 "user",
 
               content:
-                JSON.stringify({
-                  events:
-                    groups,
-                }),
+                buildPrompt(
+                  groups,
+                ),
             },
           ],
-
-          response_format: {
-            type:
-              "json_object",
-          },
         });
 
       const content =
@@ -802,11 +851,35 @@ async function requestClassification(
 
       if (!content) {
         throw new Error(
-          "A IA não retornou conteúdo.",
+          "A IA retornou resposta vazia.",
         );
       }
 
-      return content;
+      const parsed =
+        extractJson(
+          content,
+        );
+
+      const classifications =
+        validateResponse(
+          parsed,
+          groups,
+        );
+
+      if (
+        classifications.length ===
+        0
+      ) {
+        throw new Error(
+          "Nenhuma classificação válida foi retornada.",
+        );
+      }
+
+      console.log(
+        `IA: ${classifications.length}/${groups.length} grupos classificados.`,
+      );
+
+      return classifications;
     } catch (error) {
       lastError =
         error;
@@ -814,186 +887,83 @@ async function requestClassification(
       const groqError =
         error as GroqLikeError;
 
+      /* ===================================================
+         RATE LIMIT
+      =================================================== */
+
       if (
-        groqError.status !==
+        groqError.status ===
         429
       ) {
-        throw error;
-      }
-
-      const retryAfter =
-        groqError
-          .headers
-          ?.get?.(
-            "retry-after",
+        const wait =
+          getRateLimitWait(
+            error,
+            attempt,
           );
 
-      const seconds =
-        retryAfter
-          ? Number(
-              retryAfter,
-            )
-          : NaN;
+        console.warn(
+          `Rate limit Groq. Aguardando ${(
+            wait / 1000
+          ).toFixed(
+            1,
+          )}s.`,
+        );
 
-      const delay =
-        Number.isFinite(
-          seconds,
+        await sleep(wait);
+
+        continue;
+      }
+
+      /* ===================================================
+         JSON MALFORMADO
+
+         Espera apenas 1 segundo e tenta novamente.
+      =================================================== */
+
+      if (
+        error instanceof
+        SyntaxError
+      ) {
+        console.warn(
+          "JSON inválido retornado pela IA. Tentando novamente.",
+        );
+
+        await sleep(1000);
+
+        continue;
+      }
+
+      if (
+        error instanceof
+        Error &&
+        (
+          error.message.includes(
+            "JSON",
+          ) ||
+          error.message.includes(
+            "classificação",
+          )
         )
-          ? seconds *
-              1000 +
-            1000
-          : Math.min(
-              3000 *
-                2 **
-                  attempt,
-              30000,
-            );
+      ) {
+        console.warn(
+          `${error.message} Tentando novamente.`,
+        );
 
-      await sleep(
-        delay,
-      );
+        await sleep(1000);
+
+        continue;
+      }
+
+      throw error;
     }
   }
 
-  throw lastError;
-}
-
-/* =========================================================
-   VALIDA RESPOSTA
-========================================================= */
-
-async function classifyBatch(
-  groups: AIGroupInput[],
-): Promise<
-  AIClassification[]
-> {
-  const content =
-    await requestClassification(
-      groups,
-    );
-
-  const parsed =
-    JSON.parse(
-      cleanJson(
-        content,
-      ),
-    ) as RawAIResponse;
-
-  if (
-    !Array.isArray(
-      parsed.classifications,
+  throw (
+    lastError ??
+    new Error(
+      "Não foi possível classificar os eventos.",
     )
-  ) {
-    throw new Error(
-      "Resposta inválida da IA.",
-    );
-  }
-
-  const expectedIds =
-    new Set(
-      groups.map(
-        (group) =>
-          group.groupId,
-      ),
-    );
-
-  const output:
-    AIClassification[] = [];
-
-  for (
-    const value of
-    parsed.classifications
-  ) {
-    if (
-      !value ||
-      typeof value !==
-        "object"
-    ) {
-      continue;
-    }
-
-    const raw =
-      value as RawAIClassification;
-
-    const groupId =
-      Number(
-        raw.groupId,
-      );
-
-    if (
-      !Number.isInteger(
-        groupId,
-      ) ||
-      !expectedIds.has(
-        groupId,
-      )
-    ) {
-      continue;
-    }
-
-    const failureModeCode:
-      FailureModeCode =
-        isFailureModeCode(
-          raw.failureModeCode,
-        )
-          ? raw.failureModeCode
-          : "FALHA_NAO_IDENTIFICADA";
-
-    const technicalCategory:
-      TechnicalCategory =
-        isTechnicalCategory(
-          raw.technicalCategory,
-        )
-          ? raw.technicalCategory
-          : "INDETERMINADA";
-
-    const confidenceValue =
-      Number(
-        raw.confidence,
-      );
-
-    output.push({
-      groupId,
-
-      failureModeCode,
-
-      failureDetail:
-        normalizeDetail(
-          raw.failureDetail,
-        ),
-
-      system:
-        normalizeText(
-          raw.system,
-          "Não identificado",
-          80,
-        ),
-
-      technicalCategory,
-
-      confidence:
-        Number.isFinite(
-          confidenceValue,
-        )
-          ? Math.min(
-              Math.max(
-                confidenceValue,
-                0,
-              ),
-              1,
-            )
-          : 0.5,
-
-      explanation:
-        normalizeText(
-          raw.explanation,
-          "Classificação baseada no apontamento.",
-          350,
-        ),
-    });
-  }
-
-  return output;
+  );
 }
 
 /* =========================================================
@@ -1008,6 +978,10 @@ export async function classifyImportWithAI(
   const maxGroups =
     getMaxGroups();
 
+  /* =======================================================
+     BUSCA OS MAIORES GRUPOS PENDENTES
+  ======================================================= */
+
   const [groups] =
     await connection.query<
       EventGroupRow[]
@@ -1015,8 +989,11 @@ export async function classifyImportWithAI(
       `
         SELECT
           e.source_stop_type,
+
           e.source_equipment_name,
+
           e.source_stop_subkey,
+
           e.source_stop_key_1,
 
           NULLIF(
@@ -1031,8 +1008,7 @@ export async function classifyImportWithAI(
         FROM maintenance_events e
 
         LEFT JOIN event_classifications ec
-          ON ec.event_id =
-            e.id
+          ON ec.event_id = e.id
 
         WHERE
           e.import_id = ?
@@ -1043,8 +1019,11 @@ export async function classifyImportWithAI(
 
         GROUP BY
           e.source_stop_type,
+
           e.source_equipment_name,
+
           e.source_stop_subkey,
+
           e.source_stop_key_1,
 
           NULLIF(
@@ -1064,6 +1043,10 @@ export async function classifyImportWithAI(
         unitId,
       ],
     );
+
+  /* =======================================================
+     SEM PENDENTES
+  ======================================================= */
 
   if (
     groups.length ===
@@ -1093,274 +1076,255 @@ export async function classifyImportWithAI(
     };
   }
 
-  let groupsAnalyzed =
-    0;
+  /* =======================================================
+     MONTA INPUT
+
+     Um único pacote.
+  ======================================================= */
+
+  const aiInput =
+    groups.map(
+      (
+        group,
+        index,
+      ): AIGroupInput => ({
+        id:
+          index + 1,
+
+        ob:
+          cleanText(
+            group.observation,
+            MAX_OBSERVATION_LENGTH,
+          ),
+
+        eq:
+          cleanText(
+            group
+              .source_equipment_name,
+            MAX_EQUIPMENT_LENGTH,
+          ),
+
+        k1:
+          cleanText(
+            group
+              .source_stop_key_1,
+            MAX_FIELD_LENGTH,
+          ),
+
+        sk:
+          cleanText(
+            group
+              .source_stop_subkey,
+            MAX_FIELD_LENGTH,
+          ),
+
+        st:
+          cleanText(
+            group
+              .source_stop_type,
+            MAX_FIELD_LENGTH,
+          ),
+      }),
+    );
+
+  /* =======================================================
+     UMA CHAMADA GROQ
+  ======================================================= */
+
+  const classifications =
+    await requestClassification(
+      aiInput,
+    );
+
+  const classificationMap =
+    new Map<
+      number,
+      AIClassification
+    >();
+
+  for (
+    const classification of
+    classifications
+  ) {
+    classificationMap.set(
+      classification.groupId,
+      classification,
+    );
+  }
+
+  let groupsAnalyzed = 0;
 
   let eventsClassifiedThisRun =
     0;
 
+  /* =======================================================
+     SALVA RESULTADOS
+  ======================================================= */
+
   for (
-    let offset = 0;
-    offset <
-    groups.length;
-    offset +=
-      AI_BATCH_SIZE
+    let index = 0;
+    index < groups.length;
+    index++
   ) {
-    const currentGroups =
-      groups.slice(
-        offset,
-        offset +
-          AI_BATCH_SIZE,
+    const group =
+      groups[index];
+
+    const groupId =
+      index + 1;
+
+    const classification =
+      classificationMap.get(
+        groupId,
       );
 
-    const aiInput =
-      currentGroups.map(
-        (
-          group,
-          index,
-        ): AIGroupInput => ({
-          groupId:
-            offset +
-            index +
-            1,
+    /*
+       Caso a IA não tenha retornado determinado grupo,
+       ele permanece pendente para outra rodada.
+    */
 
-          equipment:
-            limitText(
-              group
-                .source_equipment_name,
-              180,
-            ),
-
-          stopType:
-            limitText(
-              group
-                .source_stop_type,
-              120,
-            ),
-
-          stopSubkey:
-            limitText(
-              group
-                .source_stop_subkey,
-              160,
-            ),
-
-          stopKey1:
-            limitText(
-              group
-                .source_stop_key_1,
-              160,
-            ),
-
-          observation:
-            limitText(
-              group
-                .observation,
-              MAX_TEXT_LENGTH,
-            ),
-
-          occurrences:
-            Number(
-              group
-                .event_count,
-            ),
-        }),
-      );
-
-    const classifications =
-      await classifyBatch(
-        aiInput,
-      );
-
-    const classificationMap =
-      new Map<
-        number,
-        AIClassification
-      >();
-
-    for (
-      const classification of
-      classifications
-    ) {
-      classificationMap.set(
-        classification.groupId,
-        classification,
-      );
+    if (!classification) {
+      continue;
     }
 
-    for (
-      let index = 0;
-      index <
-      currentGroups.length;
-      index++
-    ) {
-      const group =
-        currentGroups[
-          index
-        ];
+    const failureMode =
+      buildFailureModeLabel(
+        classification
+          .failureModeCode,
 
-      const groupId =
-        offset +
-        index +
-        1;
+        classification
+          .failureDetail,
+      );
 
-      const classification =
-        classificationMap.get(
-          groupId,
-        );
+    const notes =
+      JSON.stringify({
+        version:
+          9,
 
-      if (
-        !classification
-      ) {
-        continue;
-      }
+        model:
+          AI_MODEL,
 
-      const failureMode =
-        buildFailureModeLabel(
+        failureModeCode:
           classification
             .failureModeCode,
 
+        failureDetail:
           classification
             .failureDetail,
-        );
 
-      const notes =
-        JSON.stringify({
-          version:
-            6,
+        failureMode,
 
-          model:
-            AI_MODEL,
+        system:
+          classification
+            .system,
 
-          failureModeCode:
-            classification
-              .failureModeCode,
+        category:
+          classification
+            .technicalCategory,
+      });
 
-          failureDetail:
-            classification
-              .failureDetail,
+    const [result] =
+      await connection.execute<
+        ResultSetHeader
+      >(
+        `
+          INSERT IGNORE INTO event_classifications (
+            event_id,
+            category_id,
+            failure_system_id,
+            failure_mode_id,
+            classified_by_user_id,
+            source,
+            confidence,
+            status,
+            classification_notes
+          )
 
-          failureMode,
+          SELECT
+            e.id,
 
-          system:
-            classification
-              .system,
+            NULL,
 
-          category:
-            classification
-              .technicalCategory,
+            NULL,
 
-          explanation:
-            classification
-              .explanation,
-        });
+            NULL,
 
-      const [
-        result,
-      ] =
-        await connection.execute<
-          ResultSetHeader
-        >(
-          `
-            INSERT IGNORE INTO event_classifications (
-              event_id,
-              category_id,
-              failure_system_id,
-              failure_mode_id,
-              classified_by_user_id,
-              source,
-              confidence,
-              status,
-              classification_notes
+            NULL,
+
+            'IA',
+
+            ?,
+
+            'PENDENTE_REVISAO',
+
+            ?
+
+          FROM maintenance_events e
+
+          LEFT JOIN event_classifications ec
+            ON ec.event_id = e.id
+
+          WHERE
+            e.import_id = ?
+
+            AND e.unit_id = ?
+
+            AND ec.id IS NULL
+
+            AND e.source_stop_type
+              <=> ?
+
+            AND e.source_equipment_name
+              <=> ?
+
+            AND e.source_stop_subkey
+              <=> ?
+
+            AND e.source_stop_key_1
+              <=> ?
+
+            AND NULLIF(
+              TRIM(
+                e.observation
+              ),
+              ''
             )
+              <=> ?
+        `,
+        [
+          classification
+            .confidence,
 
-            SELECT
-              e.id,
-              NULL,
-              NULL,
-              NULL,
-              NULL,
-              'IA',
-              ?,
-              'PENDENTE_REVISAO',
-              ?
+          notes,
 
-            FROM maintenance_events e
+          importId,
 
-            LEFT JOIN event_classifications ec
-              ON ec.event_id =
-                e.id
+          unitId,
 
-            WHERE
-              e.import_id = ?
+          group
+            .source_stop_type,
 
-              AND e.unit_id = ?
+          group
+            .source_equipment_name,
 
-              AND ec.id IS NULL
+          group
+            .source_stop_subkey,
 
-              AND e.source_stop_type
-                <=> ?
+          group
+            .source_stop_key_1,
 
-              AND e.source_equipment_name
-                <=> ?
-
-              AND e.source_stop_subkey
-                <=> ?
-
-              AND e.source_stop_key_1
-                <=> ?
-
-              AND NULLIF(
-                TRIM(
-                  e.observation
-                ),
-                ''
-              )
-                <=> ?
-          `,
-          [
-            classification
-              .confidence,
-
-            notes,
-
-            importId,
-
-            unitId,
-
-            group
-              .source_stop_type,
-
-            group
-              .source_equipment_name,
-
-            group
-              .source_stop_subkey,
-
-            group
-              .source_stop_key_1,
-
-            group
-              .observation,
-          ],
-        );
-
-      eventsClassifiedThisRun +=
-        result.affectedRows;
-
-      groupsAnalyzed++;
-    }
-
-    if (
-      offset +
-        AI_BATCH_SIZE <
-      groups.length
-    ) {
-      await sleep(
-        AI_REQUEST_DELAY_MS,
+          group.observation,
+        ],
       );
-    }
+
+    eventsClassifiedThisRun +=
+      result.affectedRows;
+
+    groupsAnalyzed++;
   }
+
+  /* =======================================================
+     CONTAGEM FINAL
+  ======================================================= */
 
   const counts =
     await getImportCounts(
@@ -1368,6 +1332,10 @@ export async function classifyImportWithAI(
       importId,
       unitId,
     );
+
+  console.log(
+    `Rodada concluída: ${eventsClassifiedThisRun} eventos classificados. ${counts.pendingEvents} pendentes.`,
+  );
 
   return {
     model:

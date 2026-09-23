@@ -7,6 +7,7 @@ import {
   ArrowLeft,
   ChevronLeft,
   ChevronRight,
+  Download,
   LoaderCircle,
   Pencil,
   Search,
@@ -294,6 +295,24 @@ function formatCategory(
   );
 }
 
+function getClassificationTitle(
+  classification:
+    | Classification
+    | null,
+) {
+  if (!classification) {
+    return "Não classificado";
+  }
+
+  return (
+    classification.failureMode ??
+    classification.system ??
+    formatCategory(
+      classification.category,
+    )
+  );
+}
+
 /* =========================================================
    COMPONENTE
 ========================================================= */
@@ -330,6 +349,18 @@ export function HistoryPage({
   const [
     error,
     setError,
+  ] =
+    useState("");
+
+  const [
+    exporting,
+    setExporting,
+  ] =
+    useState(false);
+
+  const [
+    exportError,
+    setExportError,
   ] =
     useState("");
 
@@ -527,6 +558,119 @@ export function HistoryPage({
       1,
       value,
     );
+  }
+
+  async function handleExport() {
+    if (
+      exporting ||
+      pagination.total === 0
+    ) {
+      return;
+    }
+
+    setExporting(true);
+    setExportError("");
+
+    try {
+      const params =
+        new URLSearchParams();
+
+      if (search) {
+        params.set(
+          "search",
+          search,
+        );
+      }
+
+      const url =
+        params.size > 0
+          ? `/api/history/export?${params.toString()}`
+          : "/api/history/export";
+
+      const response =
+        await fetch(
+          url,
+          {
+            method:
+              "GET",
+
+            cache:
+              "no-store",
+          },
+        );
+
+      if (!response.ok) {
+        let message =
+          "Não foi possível exportar o histórico.";
+
+        try {
+          const data =
+            await response.json();
+
+          message =
+            data.message ??
+            message;
+        } catch {
+          // A resposta pode não ser JSON.
+        }
+
+        throw new Error(
+          message,
+        );
+      }
+
+      const blob =
+        await response.blob();
+
+      const disposition =
+        response.headers.get(
+          "content-disposition",
+        );
+
+      const filenameMatch =
+        disposition?.match(
+          /filename="?([^";]+)"?/i,
+        );
+
+      const filename =
+        filenameMatch?.[1] ??
+        "historico-manutencao.xlsx";
+
+      const objectUrl =
+        URL.createObjectURL(
+          blob,
+        );
+
+      const anchor =
+        document.createElement(
+          "a",
+        );
+
+      anchor.href =
+        objectUrl;
+
+      anchor.download =
+        filename;
+
+      document.body.appendChild(
+        anchor,
+      );
+
+      anchor.click();
+      anchor.remove();
+
+      URL.revokeObjectURL(
+        objectUrl,
+      );
+    } catch (error) {
+      setExportError(
+        error instanceof Error
+          ? error.message
+          : "Não foi possível exportar o histórico.",
+      );
+    } finally {
+      setExporting(false);
+    }
   }
 
   /* =======================================================
@@ -792,40 +936,82 @@ export function HistoryPage({
             </h1>
 
             <p className="mt-3 text-[14px] text-[#7D8288]">
-              Consulte os apontamentos processados e revise as classificações quando necessário.
+              Consulte os apontamentos registrados e suas classificações.
             </p>
 
           </div>
 
-          <form
-            onSubmit={
-              handleSearch
-            }
-            className="flex w-full max-w-[360px] items-center border-b border-[#D9DCE0] pb-2"
-          >
+          <div className="flex w-full flex-col gap-3 lg:max-w-[560px] lg:items-end">
 
-            <Search
-              size={17}
-              className="mr-3 shrink-0 text-[#94999F]"
-            />
+            <div className="flex w-full flex-col gap-3 sm:flex-row sm:items-center sm:justify-end">
 
-            <input
-              value={
-                searchInput
-              }
-              onChange={(
-                event,
-              ) =>
-                setSearchInput(
-                  event.target
-                    .value,
-                )
-              }
-              placeholder="Buscar equipamento, linha ou ocorrência"
-              className="w-full bg-transparent text-[13px] text-[#292C30] outline-none placeholder:text-[#A2A6AB]"
-            />
+              <form
+                onSubmit={
+                  handleSearch
+                }
+                className="flex w-full items-center border-b border-[#D9DCE0] pb-2 sm:max-w-[360px]"
+              >
 
-          </form>
+                <Search
+                  size={17}
+                  className="mr-3 shrink-0 text-[#94999F]"
+                />
+
+                <input
+                  value={
+                    searchInput
+                  }
+                  onChange={(
+                    event,
+                  ) =>
+                    setSearchInput(
+                      event.target
+                        .value,
+                    )
+                  }
+                  placeholder="Buscar equipamento, linha ou ocorrência"
+                  className="w-full bg-transparent text-[13px] text-[#292C30] outline-none placeholder:text-[#A2A6AB]"
+                />
+
+              </form>
+
+              <button
+                type="button"
+                onClick={() =>
+                  void handleExport()
+                }
+                disabled={
+                  exporting ||
+                  loading ||
+                  pagination.total === 0
+                }
+                className="inline-flex h-10 shrink-0 items-center justify-center gap-2 rounded-full border border-[#DFE2E5] bg-white px-4 text-[12px] font-medium text-[#4F545A] transition-colors hover:border-[#CFD3D7] hover:bg-[#FAFAFA] disabled:cursor-not-allowed disabled:opacity-40"
+              >
+                {exporting ? (
+                  <LoaderCircle
+                    size={15}
+                    className="animate-spin"
+                  />
+                ) : (
+                  <Download
+                    size={15}
+                  />
+                )}
+
+                {exporting
+                  ? "Exportando..."
+                  : "Exportar Excel"}
+              </button>
+
+            </div>
+
+            {exportError && (
+              <p className="text-[11px] text-[#C92A32]">
+                {exportError}
+              </p>
+            )}
+
+          </div>
 
         </div>
 
@@ -972,21 +1158,20 @@ export function HistoryPage({
                           <div>
 
                             <p className="text-[12px] font-medium text-[#34383D]">
-                              {formatCategory(
-                                item
-                                  .classification
-                                  .category,
+                              {getClassificationTitle(
+                                item.classification,
                               )}
                             </p>
 
                             <p className="mt-1 text-[11px] text-[#91969C]">
                               {item
                                 .classification
-                                .failureMode ??
-                                item
-                                  .classification
-                                  .system ??
-                                "—"}
+                                .system ??
+                                formatCategory(
+                                  item
+                                    .classification
+                                    .category,
+                                )}
                             </p>
 
                           </div>
@@ -1106,129 +1291,185 @@ export function HistoryPage({
             onClick={
               closeEvent
             }
-            className="absolute inset-0 bg-black/20"
+            className="absolute inset-0 bg-black/20 backdrop-blur-[1px]"
           />
 
-          <aside className="absolute right-0 top-0 h-full w-full max-w-[520px] overflow-y-auto bg-white shadow-[-10px_0_40px_rgba(0,0,0,0.08)]">
+          <aside className="absolute right-0 top-0 h-full w-full max-w-[560px] overflow-y-auto bg-white shadow-[-16px_0_48px_rgba(0,0,0,0.08)]">
 
-            <div className="sticky top-0 z-10 flex h-[72px] items-center justify-between border-b border-[#E8E9EB] bg-white px-7">
+            <div className="sticky top-0 z-10 border-b border-[#E8E9EB] bg-white/96 backdrop-blur-sm">
 
-              <p className="text-[14px] font-semibold text-[#292C30]">
-                Detalhes do apontamento
-              </p>
+              <div className="flex h-[78px] items-center justify-between px-7">
 
-              <button
-                type="button"
-                onClick={
-                  closeEvent
-                }
-                className="text-[#8E9399] transition-colors hover:text-[#33373B]"
-              >
-                <X
-                  size={19}
-                />
-              </button>
+                <div>
+
+                  <p className="text-[15px] font-semibold tracking-[-0.02em] text-[#1F2226]">
+                    Detalhes do apontamento
+                  </p>
+
+                  <p className="mt-1 text-[11px] text-[#9AA0A6]">
+                    Visualize e ajuste a classificação quando necessário.
+                  </p>
+
+                </div>
+
+                <button
+                  type="button"
+                  onClick={
+                    closeEvent
+                  }
+                  className="flex h-9 w-9 items-center justify-center rounded-full text-[#8E9399] transition-colors hover:bg-[#F5F6F7] hover:text-[#33373B]"
+                >
+                  <X
+                    size={18}
+                  />
+                </button>
+
+              </div>
 
             </div>
 
-            <div className="px-7 py-8">
+            <div className="px-7 py-7 pb-10">
 
-              {/* ===========================================
-                  DADOS
-              ============================================ */}
+              <div className="rounded-[22px] border border-[#ECEDEF] bg-[#FAFAFA] p-5">
 
-              <div className="grid grid-cols-2 gap-x-8 gap-y-6">
+                <p className="text-[10px] uppercase tracking-[0.12em] text-[#A1A6AC]">
+                  Falha registrada
+                </p>
 
-                <div>
+                <p className="mt-3 text-[24px] font-semibold leading-8 tracking-[-0.035em] text-[#202327]">
+                  {getClassificationTitle(
+                    selected.classification,
+                  )}
+                </p>
 
-                  <p className="text-[10px] text-[#969BA1]">
-                    Data
-                  </p>
+                <div className="mt-5 grid grid-cols-2 gap-4 border-t border-[#E8EAEC] pt-4">
 
-                  <p className="mt-1 text-[13px] text-[#34383D]">
-                    {formatDate(
-                      selected.eventDate,
-                    )}
-                  </p>
+                  <div>
+                    <p className="text-[10px] text-[#A1A6AC]">
+                      Linha
+                    </p>
 
+                    <p className="mt-1 text-[12px] font-medium text-[#3A3F45]">
+                      {selected.line ??
+                        "—"}
+                    </p>
+                  </div>
+
+                  <div>
+                    <p className="text-[10px] text-[#A1A6AC]">
+                      Tempo de parada
+                    </p>
+
+                    <p className="mt-1 text-[12px] font-medium text-[#3A3F45]">
+                      {formatMinutes(
+                        selected.downtimeMinutes,
+                      )}{" "}
+                      min
+                    </p>
+                  </div>
                 </div>
 
-                <div>
+              </div>
+
+              <div className="mt-7 rounded-[22px] border border-[#ECEDEF] bg-white p-5">
+
+                <h2 className="text-[15px] font-semibold text-[#262A2F]">
+                  Informações do apontamento
+                </h2>
+
+                <div className="mt-5 grid grid-cols-2 gap-x-5 gap-y-5">
+
+                  <div>
+                    <p className="text-[10px] text-[#969BA1]">
+                      Data
+                    </p>
+
+                    <p className="mt-1.5 text-[13px] text-[#34383D]">
+                      {formatDate(
+                        selected.eventDate,
+                      )}
+                    </p>
+                  </div>
+
+                  <div>
+                    <p className="text-[10px] text-[#969BA1]">
+                      Turno
+                    </p>
+
+                    <p className="mt-1.5 text-[13px] text-[#34383D]">
+                      {selected.shift ??
+                        "—"}
+                    </p>
+                  </div>
+
+                  <div>
+                    <p className="text-[10px] text-[#969BA1]">
+                      Linha
+                    </p>
+
+                    <p className="mt-1.5 text-[13px] text-[#34383D]">
+                      {selected.line ??
+                        "—"}
+                    </p>
+                  </div>
+
+                  <div>
+                    <p className="text-[10px] text-[#969BA1]">
+                      Tempo de parada
+                    </p>
+
+                    <p className="mt-1.5 text-[13px] text-[#34383D]">
+                      {formatMinutes(
+                        selected.downtimeMinutes,
+                      )}{" "}
+                      min
+                    </p>
+                  </div>
+                </div>
+
+                <div className="mt-6 border-t border-[#ECEDEF] pt-5">
 
                   <p className="text-[10px] text-[#969BA1]">
-                    Turno
+                    Equipamento
                   </p>
 
-                  <p className="mt-1 text-[13px] text-[#34383D]">
-                    {selected.shift ??
+                  <p className="mt-1.5 text-[13px] leading-6 text-[#34383D]">
+                    {selected.equipment ??
                       "—"}
                   </p>
 
                 </div>
 
-                <div>
+                <div className="mt-6 border-t border-[#ECEDEF] pt-5">
 
                   <p className="text-[10px] text-[#969BA1]">
-                    Linha
+                    Observação
                   </p>
 
-                  <p className="mt-1 text-[13px] text-[#34383D]">
-                    {selected.line ??
+                  <p className="mt-1.5 text-[13px] leading-6 text-[#4F545A]">
+                    {selected.observation ??
+                      selected.stopKey1 ??
+                      selected.stopSubkey ??
                       "—"}
                   </p>
 
                 </div>
 
-                <div>
-
-                  <p className="text-[10px] text-[#969BA1]">
-                    Tempo de parada
-                  </p>
-
-                  <p className="mt-1 text-[13px] text-[#34383D]">
-                    {formatMinutes(
-                      selected.downtimeMinutes,
-                    )}{" "}
-                    min
-                  </p>
-
-                </div>
-
               </div>
 
-              <div className="mt-7">
+              <div className="mt-7 rounded-[22px] border border-[#ECEDEF] bg-white p-5">
 
-                <p className="text-[10px] text-[#969BA1]">
-                  Equipamento
-                </p>
+                <div className="flex items-start justify-between gap-4">
 
-                <p className="mt-1.5 text-[13px] leading-6 text-[#34383D]">
-                  {selected.equipment ??
-                    "—"}
-                </p>
+                  <div>
+                    <h2 className="text-[15px] font-semibold text-[#262A2F]">
+                      Classificação
+                    </h2>
 
-              </div>
-
-              <div className="mt-6">
-
-                <p className="text-[10px] text-[#969BA1]">
-                  Observação
-                </p>
-
-                <p className="mt-1.5 text-[13px] leading-6 text-[#4F545A]">
-                  {selected.observation ??
-                    "—"}
-                </p>
-
-              </div>
-
-              <div className="mt-8 border-t border-[#E9EBED] pt-8">
-
-                <div className="flex items-center justify-between">
-
-                  <h2 className="text-[15px] font-semibold text-[#292C30]">
-                    Classificação
-                  </h2>
+                    <p className="mt-1 text-[11px] text-[#9AA0A6]">
+                      Ajuste os dados com clareza e padronização.
+                    </p>
+                  </div>
 
                   {!editing && (
                     <button
@@ -1236,7 +1477,7 @@ export function HistoryPage({
                       onClick={
                         startEditing
                       }
-                      className="inline-flex items-center gap-2 text-[12px] font-medium text-[#73787E] transition-colors hover:text-[#F40009]"
+                      className="inline-flex items-center gap-2 rounded-full border border-[#E3E5E8] px-4 py-2 text-[12px] font-medium text-[#4C5157] transition-colors hover:border-[#D5D8DC] hover:bg-[#F8F8F8]"
                     >
                       <Pencil
                         size={14}
@@ -1248,67 +1489,63 @@ export function HistoryPage({
 
                 </div>
 
-                {/* =========================================
-                    VISUALIZAÇÃO
-                ========================================== */}
-
                 {!editing && (
                   <div className="mt-6 space-y-5">
 
-                    <div>
+                    <div className="rounded-[18px] bg-[#FAFAFA] p-4">
 
-                      <p className="text-[10px] text-[#969BA1]">
-                        Categoria
+                      <p className="text-[10px] uppercase tracking-[0.12em] text-[#A0A4A9]">
+                        Falha
                       </p>
 
-                      <p className="mt-1 text-[13px] font-medium text-[#34383D]">
-                        {formatCategory(
-                          selected
-                            .classification
-                            ?.category ??
-                            null,
-                        )}
-                      </p>
-
-                    </div>
-
-                    <div>
-
-                      <p className="text-[10px] text-[#969BA1]">
-                        Sistema
-                      </p>
-
-                      <p className="mt-1 text-[13px] text-[#34383D]">
-                        {selected
-                          .classification
-                          ?.system ??
-                          "—"}
-                      </p>
-
-                    </div>
-
-                    <div>
-
-                      <p className="text-[10px] text-[#969BA1]">
-                        Modo de falha
-                      </p>
-
-                      <p className="mt-1 text-[13px] text-[#34383D]">
+                      <p className="mt-2 text-[20px] font-semibold leading-7 tracking-[-0.03em] text-[#222529]">
                         {selected
                           .classification
                           ?.failureMode ??
-                          "—"}
+                          "Não classificado"}
                       </p>
+
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-4">
+
+                      <div>
+                        <p className="text-[10px] text-[#969BA1]">
+                          Categoria
+                        </p>
+
+                        <p className="mt-1.5 text-[13px] text-[#34383D]">
+                          {formatCategory(
+                            selected
+                              .classification
+                              ?.category ??
+                              null,
+                          )}
+                        </p>
+                      </div>
+
+                      <div>
+                        <p className="text-[10px] text-[#969BA1]">
+                          Sistema
+                        </p>
+
+                        <p className="mt-1.5 text-[13px] text-[#34383D]">
+                          {selected
+                            .classification
+                            ?.system ??
+                            "—"}
+                        </p>
+                      </div>
 
                     </div>
 
                     {selected
                       .classification
                       ?.explanation && (
-                      <div>
+                      <div className="border-t border-[#ECEDEF] pt-5">
 
                         <p className="text-[10px] text-[#969BA1]">
-                          Análise
+                          Observação da classificação
                         </p>
 
                         <p className="mt-1.5 text-[12px] leading-6 text-[#64696F]">
@@ -1322,125 +1559,109 @@ export function HistoryPage({
                       </div>
                     )}
 
-                    {selected.classification && (
-                      <div className="border-t border-[#ECEDEF] pt-5">
-
-                        <p className="text-[11px] text-[#93989E]">
-
-                          {selected
-                            .classification
-                            .source ===
-                          "IA"
-                            ? "Classificação automática"
-                            : "Revisada manualmente"}
-
-                          {selected
-                              .classification
-                              .source ===
-                            "IA" &&
-                            selected
-                              .classification
-                              .confidence !==
-                              null &&
-                            ` • ${Math.round(
-                              selected
-                                .classification
-                                .confidence *
-                                100,
-                            )}% de confiança`}
-
-                        </p>
-
-                      </div>
-                    )}
-
                   </div>
                 )}
 
-                {/* =========================================
-                    EDIÇÃO
-                ========================================== */}
-
                 {editing && (
-                  <div className="mt-6 space-y-5">
+                  <div className="mt-6">
 
-                    <div>
+                    <div className="rounded-[18px] bg-[#FAFAFA] p-4">
 
-                      <label className="text-[11px] text-[#777C82]">
-                        Categoria
-                      </label>
+                      <p className="text-[10px] uppercase tracking-[0.12em] text-[#A0A4A9]">
+                        Ocorrência
+                      </p>
 
-                      <select
-                        value={
-                          editCategory
-                        }
-                        onChange={(
-                          event,
-                        ) =>
-                          setEditCategory(
-                            event
-                              .target
-                              .value,
-                          )
-                        }
-                        className="mt-2 h-11 w-full rounded-[9px] border border-[#DDE0E3] bg-white px-3 text-[13px] text-[#303438] outline-none transition-colors focus:border-[#B9BDC2]"
-                      >
-
-                        <option value="">
-                          Selecione
-                        </option>
-
-                        {CATEGORY_OPTIONS.map(
-                          (
-                            category,
-                          ) => (
-                            <option
-                              key={
-                                category.value
-                              }
-                              value={
-                                category.value
-                              }
-                            >
-                              {
-                                category.label
-                              }
-                            </option>
-                          ),
-                        )}
-
-                      </select>
+                      <p className="mt-2 text-[13px] leading-6 text-[#4A5056]">
+                        {selected.observation ??
+                          selected.stopKey1 ??
+                          selected.stopSubkey ??
+                          "—"}
+                      </p>
 
                     </div>
 
-                    <div>
+                    <div className="mt-5 grid gap-5 sm:grid-cols-2">
 
-                      <label className="text-[11px] text-[#777C82]">
-                        Sistema
-                      </label>
+                      <div>
 
-                      <input
-                        value={
-                          editSystem
-                        }
-                        onChange={(
-                          event,
-                        ) =>
-                          setEditSystem(
-                            event
-                              .target
-                              .value,
-                          )
-                        }
-                        className="mt-2 h-11 w-full rounded-[9px] border border-[#DDE0E3] px-3 text-[13px] text-[#303438] outline-none transition-colors focus:border-[#B9BDC2]"
-                      />
+                        <label className="text-[11px] font-medium text-[#777C82]">
+                          Categoria
+                        </label>
+
+                        <select
+                          value={
+                            editCategory
+                          }
+                          onChange={(
+                            event,
+                          ) =>
+                            setEditCategory(
+                              event
+                                .target
+                                .value,
+                            )
+                          }
+                          className="mt-2 h-12 w-full rounded-[12px] border border-[#DDE0E3] bg-white px-3 text-[13px] text-[#303438] outline-none transition-colors focus:border-[#C6CAD0]"
+                        >
+
+                          <option value="">
+                            Selecione
+                          </option>
+
+                          {CATEGORY_OPTIONS.map(
+                            (
+                              category,
+                            ) => (
+                              <option
+                                key={
+                                  category.value
+                                }
+                                value={
+                                  category.value
+                                }
+                              >
+                                {
+                                  category.label
+                                }
+                              </option>
+                            ),
+                          )}
+
+                        </select>
+
+                      </div>
+
+                      <div>
+
+                        <label className="text-[11px] font-medium text-[#777C82]">
+                          Sistema
+                        </label>
+
+                        <input
+                          value={
+                            editSystem
+                          }
+                          onChange={(
+                            event,
+                          ) =>
+                            setEditSystem(
+                              event
+                                .target
+                                .value,
+                            )
+                          }
+                          placeholder="Ex.: Transporte, Rotulagem, Dosagem"
+                          className="mt-2 h-12 w-full rounded-[12px] border border-[#DDE0E3] bg-white px-3 text-[13px] text-[#303438] outline-none transition-colors placeholder:text-[#B0B4B8] focus:border-[#C6CAD0]"
+                        />
+
+                      </div>
 
                     </div>
 
-                    <div>
+                    <div className="mt-5">
 
-                      <label className="text-[11px] text-[#777C82]">
-                        Modo de falha
+                      <label className="text-[11px] font-medium text-[#777C82]">
+                        Falha identificada
                       </label>
 
                       <input
@@ -1456,14 +1677,34 @@ export function HistoryPage({
                               .value,
                           )
                         }
-                        className="mt-2 h-11 w-full rounded-[9px] border border-[#DDE0E3] px-3 text-[13px] text-[#303438] outline-none transition-colors focus:border-[#B9BDC2]"
+                        placeholder="Ex.: Falha de dosador"
+                        className="mt-2 h-12 w-full rounded-[12px] border border-[#DDE0E3] bg-white px-3 text-[13px] text-[#303438] outline-none transition-colors placeholder:text-[#B0B4B8] focus:border-[#C6CAD0]"
                       />
 
                     </div>
 
-                    <div>
+                    <div className="mt-5 rounded-[18px] border border-[#ECEDEF] bg-[#FCFCFC] p-4">
 
-                      <label className="text-[11px] text-[#777C82]">
+                      <p className="text-[10px] uppercase tracking-[0.12em] text-[#A0A4A9]">
+                        Pré-visualização
+                      </p>
+
+                      <p className="mt-2 text-[18px] font-semibold tracking-[-0.03em] text-[#212429]">
+                        {editFailureMode.trim() ||
+                          "Informe a falha"}
+                      </p>
+
+                      <p className="mt-3 text-[11px] leading-5 text-[#8A9096]">
+                        Use uma nomenclatura curta e padronizada, como
+                        “Falha de rolamento”, “Falha de sensor” ou
+                        “Falha de válvula”.
+                      </p>
+
+                    </div>
+
+                    <div className="mt-5">
+
+                      <label className="text-[11px] font-medium text-[#777C82]">
                         Observação da classificação
                       </label>
 
@@ -1481,30 +1722,37 @@ export function HistoryPage({
                           )
                         }
                         rows={4}
-                        className="mt-2 w-full resize-none rounded-[9px] border border-[#DDE0E3] px-3 py-3 text-[13px] leading-6 text-[#303438] outline-none transition-colors focus:border-[#B9BDC2]"
+                        placeholder="Adicione um contexto complementar, se necessário."
+                        className="mt-2 w-full resize-none rounded-[12px] border border-[#DDE0E3] bg-white px-3 py-3 text-[13px] leading-6 text-[#303438] outline-none transition-colors placeholder:text-[#B0B4B8] focus:border-[#C6CAD0]"
                       />
 
                     </div>
 
                     {editError && (
-                      <p className="text-[12px] text-[#D1242F]">
-                        {editError}
-                      </p>
+                      <div className="mt-5 rounded-[14px] border border-[#F1D6D9] bg-[#FFF8F8] px-4 py-3">
+                        <p className="text-[12px] text-[#C92A32]">
+                          {editError}
+                        </p>
+                      </div>
                     )}
 
-                    <div className="flex justify-end gap-3 pt-2">
+                    <div className="mt-7 flex justify-end gap-3 border-t border-[#ECEDEF] pt-5">
 
                       <button
                         type="button"
                         disabled={
                           saving
                         }
-                        onClick={() =>
+                        onClick={() => {
                           setEditing(
                             false,
-                          )
-                        }
-                        className="px-4 py-2.5 text-[12px] font-medium text-[#73787E]"
+                          );
+
+                          setEditError(
+                            "",
+                          );
+                        }}
+                        className="rounded-full border border-[#E1E4E7] px-5 py-2.5 text-[12px] font-medium text-[#70757B] transition-colors hover:bg-[#F8F8F8]"
                       >
                         Cancelar
                       </button>
@@ -1517,7 +1765,7 @@ export function HistoryPage({
                         onClick={() =>
                           void saveClassification()
                         }
-                        className="min-w-[130px] rounded-[9px] bg-[#F40009] px-5 py-2.5 text-[12px] font-semibold text-white transition-colors hover:bg-[#D90008] disabled:opacity-50"
+                        className="inline-flex min-w-[150px] items-center justify-center rounded-full bg-[#F40009] px-5 py-2.5 text-[12px] font-semibold text-white transition-colors hover:bg-[#D90008] disabled:opacity-50"
                       >
                         {saving
                           ? "Salvando..."

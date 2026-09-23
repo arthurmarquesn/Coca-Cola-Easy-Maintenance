@@ -1,0 +1,1 @@
+"""API de inferência do Modelo ML do Easy Maintenance."""

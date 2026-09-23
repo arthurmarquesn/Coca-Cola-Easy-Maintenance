@@ -2,335 +2,266 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 
 import {
+  Activity,
   ArrowRight,
-  BarChart3,
   FileSpreadsheet,
+  History,
   LogOut,
 } from "lucide-react";
 
 import {
-  useEffect,
-  useMemo,
   useState,
 } from "react";
-
-/* =========================================================
-   TIPOS
-========================================================= */
 
 interface DashboardHomeProps {
   user: {
     name: string;
-    email: string;
-    role: string;
   };
 
   unit: {
-    id: number;
-    city: string | null;
+    city: string;
   };
 }
 
-/* =========================================================
-   COMPONENTE
-========================================================= */
+function getFirstName(
+  name: string,
+): string {
+  return (
+    name
+      .trim()
+      .split(/\s+/)[0] ||
+    name
+  );
+}
 
 export function DashboardHome({
   user,
   unit,
 }: DashboardHomeProps) {
-  const router = useRouter();
-
-  const [entering, setEntering] =
-    useState(true);
-
-  const [loggingOut, setLoggingOut] =
-    useState(false);
-
-  /* =======================================================
-     PRIMEIRO NOME
-  ======================================================= */
-
-  const firstName = useMemo(() => {
-    return (
-      user.name
-        .trim()
-        .split(/\s+/)[0] ||
-      user.name
+  const firstName =
+    getFirstName(
+      user.name,
     );
-  }, [user.name]);
 
-  /* =======================================================
-     TRANSIÇÃO DE ENTRADA
-  ======================================================= */
-
-  useEffect(() => {
-    const timer =
-      window.setTimeout(() => {
-        setEntering(false);
-      }, 180);
-
-    return () => {
-      window.clearTimeout(timer);
-    };
-  }, []);
-
-  /* =======================================================
-     LOGOUT
-  ======================================================= */
+  const [
+    loggingOut,
+    setLoggingOut,
+  ] =
+    useState(false);
 
   async function handleLogout() {
     if (loggingOut) {
       return;
     }
 
-    setLoggingOut(true);
+    setLoggingOut(
+      true,
+    );
 
     try {
-      await fetch(
-        "/api/auth/logout",
-        {
-          method: "POST",
-        },
+      const response =
+        await fetch(
+          "/api/auth/logout",
+          {
+            method:
+              "POST",
+          },
+        );
+
+      if (
+        !response.ok
+      ) {
+        throw new Error(
+          "Não foi possível encerrar a sessão.",
+        );
+      }
+
+      window.location.href =
+        "/login";
+    } catch (
+      error
+    ) {
+      console.error(
+        "Erro ao sair:",
+        error,
       );
 
-      router.replace("/login");
-      router.refresh();
-    } catch {
-      setLoggingOut(false);
+      setLoggingOut(
+        false,
+      );
     }
   }
 
   return (
-    <main className="relative min-h-screen overflow-hidden bg-white">
-
-      {/* ===================================================
-          TRANSIÇÃO VINDO DO LOGIN
-      ==================================================== */}
-
-      <div
-        className={`pointer-events-none fixed inset-0 z-[9999] flex items-center justify-center bg-[#F40009] transition-transform duration-[1100ms] ease-[cubic-bezier(0.65,0,0.35,1)] ${
-          entering
-            ? "translate-x-0"
-            : "translate-x-full"
-        }`}
-        aria-hidden="true"
-      >
-        <Image
-          src="/logo.webp"
-          alt=""
-          width={240}
-          height={110}
-          className={`h-auto w-[185px] object-contain brightness-0 invert transition-opacity duration-500 ${
-            entering
-              ? "opacity-100"
-              : "opacity-0"
-          }`}
-        />
-      </div>
-
-      {/* ===================================================
-          HEADER
-      ==================================================== */}
-
-      <header className="border-b border-[#E8E9EB] bg-white">
-
-        <div className="mx-auto flex h-[78px] w-full max-w-[1380px] items-center justify-between px-6 sm:px-8 lg:px-12">
-
-          {/* Logo */}
-
-          <Link
-            href="/dashboard"
-            className="flex items-center"
-          >
-            <Image
-              src="/logo.webp"
-              alt="Coca-Cola FEMSA"
-              width={180}
-              height={70}
-              priority
-              className="h-auto max-h-[52px] w-auto max-w-[140px] object-contain"
-            />
-          </Link>
-
-          {/* Usuário */}
+    <main className="min-h-screen bg-[#F7F7F6]">
+      <header className="border-b border-black/[0.05] bg-white">
+        <div className="mx-auto flex h-[76px] w-full max-w-[1280px] items-center justify-between px-6 sm:px-8 lg:px-10">
+          <Image
+            src="/logo.webp"
+            alt="Coca-Cola FEMSA"
+            width={180}
+            height={64}
+            priority
+            className="h-auto max-h-[42px] w-auto object-contain"
+          />
 
           <div className="flex items-center gap-5">
-
             <div className="hidden text-right sm:block">
-
-              <p className="text-[13px] font-medium text-[#2D3034]">
+              <p className="text-[13px] font-medium text-[#25272A]">
                 {user.name}
               </p>
 
-              {unit.city && (
-                <p className="mt-0.5 text-[11px] text-[#979BA1]">
-                  {unit.city}
-                </p>
-              )}
-
+              <p className="mt-0.5 text-[11px] text-[#999DA2]">
+                {unit.city}
+              </p>
             </div>
 
-            <div className="h-7 w-px bg-[#E6E7E9]" />
+            <div className="h-8 w-px bg-black/[0.07]" />
 
             <button
               type="button"
-              onClick={handleLogout}
-              disabled={loggingOut}
-              className="flex h-9 w-9 items-center justify-center rounded-lg text-[#7E8389] transition-colors duration-200 hover:bg-[#F6F7F8] hover:text-[#F40009] disabled:cursor-not-allowed disabled:opacity-50"
-              aria-label="Sair"
+              onClick={() =>
+                void handleLogout()
+              }
+              disabled={
+                loggingOut
+              }
+              className="group flex items-center gap-2 text-[12px] font-medium text-[#777B80] transition-colors hover:text-[#E41E2B] disabled:cursor-not-allowed disabled:opacity-40"
             >
               <LogOut
-                size={18}
+                size={16}
                 strokeWidth={1.8}
               />
+
+              <span className="hidden sm:inline">
+                {loggingOut
+                  ? "Saindo..."
+                  : "Sair"}
+              </span>
             </button>
-
           </div>
-
         </div>
-
       </header>
 
-      {/* ===================================================
-          CONTEÚDO
-      ==================================================== */}
-
-      <section className="mx-auto w-full max-w-[1080px] px-6 pb-16 pt-20 sm:px-8 lg:px-12 lg:pt-24">
-
-        {/* Cabeçalho */}
-
-        <div className="max-w-[620px]">
-
-          <p className="text-[14px] text-[#8B9096]">
-            Olá, {firstName}.
-          </p>
-
-          <h1 className="mt-2 text-[36px] font-semibold leading-[1.1] tracking-[-0.045em] text-[#191B1E] sm:text-[42px]">
-            O que você deseja fazer?
+      <div className="mx-auto w-full max-w-[1280px] px-6 pb-20 pt-14 sm:px-8 lg:px-10 lg:pt-20">
+        <section>
+          <h1 className="max-w-[760px] text-[38px] font-semibold leading-[1.04] tracking-[-0.045em] text-[#181A1D] sm:text-[48px] lg:text-[54px]">
+            Manutenção orientada
+            por dados.
           </h1>
 
-          <p className="mt-4 max-w-[520px] text-[14px] leading-7 text-[#7D8288]">
-            Selecione uma opção para continuar.
+          <p className="mt-5 max-w-[520px] text-[14px] leading-6 text-[#777B80]">
+            Olá, {firstName}. Importe novos apontamentos,
+            consulte o histórico ou analise a confiabilidade
+            da unidade.
           </p>
+        </section>
 
-        </div>
-
-        {/* =================================================
-            OPÇÕES
-        ================================================== */}
-
-        <div className="mt-12 grid gap-5 md:grid-cols-2">
-
-          {/* ===============================================
-              IMPORTAR
-          ================================================ */}
-
+        <section className="mt-14 grid gap-5 lg:grid-cols-3">
           <Link
             href="/dashboard/importar"
-            className="group flex min-h-[270px] flex-col justify-between rounded-[18px] border border-[#E1E3E6] bg-white p-8 transition-all duration-300 hover:-translate-y-0.5 hover:border-[#CACDD1] hover:shadow-[0_14px_35px_rgba(20,20,20,0.06)]"
+            className="group flex min-h-[330px] flex-col justify-between rounded-[30px] bg-[#E41E2B] p-8 text-white transition-colors duration-200 hover:bg-[#CF1925]"
           >
-
             <div>
-
-              <div className="flex h-12 w-12 items-center justify-center rounded-[12px] bg-[#F40009] text-white">
-                <FileSpreadsheet
-                  size={22}
-                  strokeWidth={1.8}
-                />
-              </div>
-
-              <h2 className="mt-7 text-[23px] font-semibold tracking-[-0.035em] text-[#202225]">
-                Importar planilha
-              </h2>
-
-              <p className="mt-3 max-w-[360px] text-[13px] leading-6 text-[#7F848A]">
-                Envie uma nova planilha Excel com os apontamentos operacionais
-                para processamento.
-              </p>
-
-            </div>
-
-            <div className="mt-8 flex items-center justify-between border-t border-[#ECEDEF] pt-5">
-
-              <span className="text-[13px] font-medium text-[#4B4F54] transition-colors duration-200 group-hover:text-[#F40009]">
-                Importar dados
-              </span>
-
-              <ArrowRight
-                size={18}
-                strokeWidth={1.8}
-                className="text-[#94999F] transition-all duration-200 group-hover:translate-x-1 group-hover:text-[#F40009]"
+              <FileSpreadsheet
+                size={25}
+                strokeWidth={1.7}
+                className="text-white/80"
               />
 
+              <h2 className="mt-12 text-[30px] font-semibold leading-[1.08] tracking-[-0.04em]">
+                Importar
+                apontamentos
+              </h2>
+
+              <p className="mt-4 text-[14px] leading-6 text-white/70">
+                Adicione uma nova planilha de manutenção
+                ao histórico da unidade.
+              </p>
             </div>
 
-          </Link>
+            <div className="mt-10 flex items-center justify-between">
+              <span className="text-[13px] font-semibold">
+                Importar planilha
+              </span>
 
-          {/* ===============================================
-              HISTÓRICO
-          ================================================ */}
+              <div className="flex h-11 w-11 items-center justify-center rounded-full bg-white text-[#E41E2B] transition-transform duration-200 group-hover:translate-x-1">
+                <ArrowRight
+                  size={18}
+                />
+              </div>
+            </div>
+          </Link>
 
           <Link
             href="/dashboard/historico"
-            className="group flex min-h-[270px] flex-col justify-between rounded-[18px] border border-[#E1E3E6] bg-white p-8 transition-all duration-300 hover:-translate-y-0.5 hover:border-[#CACDD1] hover:shadow-[0_14px_35px_rgba(20,20,20,0.06)]"
+            className="group flex min-h-[330px] flex-col justify-between rounded-[30px] border border-black/[0.07] bg-white p-8 transition-all duration-200 hover:-translate-y-0.5 hover:border-black/[0.12] hover:shadow-[0_16px_40px_rgba(0,0,0,0.045)]"
           >
-
             <div>
+              <History
+                size={25}
+                strokeWidth={1.7}
+                className="text-[#44484D]"
+              />
 
-              <div className="flex h-12 w-12 items-center justify-center rounded-[12px] bg-[#F4F5F6] text-[#363A3F]">
-                <BarChart3
-                  size={22}
-                  strokeWidth={1.8}
-                />
-              </div>
-
-              <h2 className="mt-7 text-[23px] font-semibold tracking-[-0.035em] text-[#202225]">
-                Analisar histórico
+              <h2 className="mt-12 text-[30px] font-semibold leading-[1.08] tracking-[-0.04em] text-[#202225]">
+                Histórico
               </h2>
 
-              <p className="mt-3 max-w-[360px] text-[13px] leading-6 text-[#7F848A]">
-                Consulte os dados históricos de manutenção e analise o
-                desempenho dos equipamentos.
+              <p className="mt-4 text-[14px] leading-6 text-[#777B80]">
+                Consulte falhas, ocorrências e paradas
+                registradas na manutenção.
               </p>
-
             </div>
 
-            <div className="mt-8 flex items-center justify-between border-t border-[#ECEDEF] pt-5">
-
-              <span className="text-[13px] font-medium text-[#4B4F54] transition-colors duration-200 group-hover:text-[#F40009]">
-                Acessar histórico
+            <div className="mt-10 flex items-center justify-between border-t border-[#EEEEEC] pt-6">
+              <span className="text-[13px] font-semibold text-[#303338]">
+                Consultar
               </span>
 
               <ArrowRight
                 size={18}
-                strokeWidth={1.8}
-                className="text-[#94999F] transition-all duration-200 group-hover:translate-x-1 group-hover:text-[#F40009]"
+                className="text-[#777C82] transition-transform duration-200 group-hover:translate-x-1"
               />
-
             </div>
-
           </Link>
 
-        </div>
+          <Link
+            href="/dashboard/confiabilidade"
+            className="group flex min-h-[330px] flex-col justify-between rounded-[30px] border border-black/[0.07] bg-white p-8 transition-all duration-200 hover:-translate-y-0.5 hover:border-black/[0.12] hover:shadow-[0_16px_40px_rgba(0,0,0,0.045)]"
+          >
+            <div>
+              <Activity
+                size={25}
+                strokeWidth={1.7}
+                className="text-[#44484D]"
+              />
 
-        {/* =================================================
-            RODAPÉ
-        ================================================== */}
+              <h2 className="mt-12 text-[30px] font-semibold leading-[1.08] tracking-[-0.04em] text-[#202225]">
+                Confiabilidade
+              </h2>
 
-        {unit.city && (
-          <div className="mt-10 border-t border-[#ECEDEF] pt-5">
-            <p className="text-[11px] text-[#A0A4A9]">
-              {unit.city}
-            </p>
-          </div>
-        )}
+              <p className="mt-4 text-[14px] leading-6 text-[#777B80]">
+                Identifique concentração de perdas,
+                recorrência e impacto das falhas.
+              </p>
+            </div>
 
-      </section>
+            <div className="mt-10 flex items-center justify-between border-t border-[#EEEEEC] pt-6">
+              <span className="text-[13px] font-semibold text-[#303338]">
+                Analisar
+              </span>
 
+              <ArrowRight
+                size={18}
+                className="text-[#777C82] transition-transform duration-200 group-hover:translate-x-1"
+              />
+            </div>
+          </Link>
+        </section>
+      </div>
     </main>
   );
 }

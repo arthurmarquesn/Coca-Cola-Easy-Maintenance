@@ -23,6 +23,7 @@ import {
   useState,
 } from "react";
 
+
 /* =========================================================
    PROPS
 ========================================================= */
@@ -36,6 +37,7 @@ interface ImportDataPageProps {
     city: string | null;
   };
 }
+
 
 /* =========================================================
    PREVIEW
@@ -61,6 +63,7 @@ interface ImportPreview {
   missingColumns: string[];
 }
 
+
 /* =========================================================
    IMPORTAÇÃO
 ========================================================= */
@@ -72,39 +75,86 @@ interface ImportResult {
 
   sheetName: string;
 
-  sourceRows?: number;
+  fileHash?: string;
 
-  totalRows: number;
+  sourceRows: number;
 
-  processedRows: number;
+  importedRows: number;
 
-  ignoredRows?: number;
+  ignoredRows: number;
 
-  failedRows: number;
+  ignoredByUnit: number;
+
+  ignoredInvalidDate: number;
+
+  unit: {
+    id: number;
+
+    code: string | null;
+
+    city: string | null;
+
+    name: string | null;
+  };
 }
 
+
 /* =========================================================
-   IA
+   MODELO ML
 ========================================================= */
 
-interface AIResult {
-  model: string;
+type MlStatus =
+  | "COMPLETED"
+  | "PARTIAL"
+  | "MODEL_OFFLINE";
 
-  groupsAnalyzed: number;
 
-  eventsClassifiedThisRun: number;
+interface MlResult {
+  available: boolean;
 
-  totalEvents: number;
+  modelVersion: string | null;
 
-  classifiedEvents: number;
+  eligible: number;
 
-  pendingEvents: number;
+  processed: number;
 
-  limitReached: boolean;
+  inserted: number;
+
+  failed: number;
+
+  status: MlStatus;
 }
 
+
 /* =========================================================
-   STATUS
+   RESPOSTA DO PROCESSAMENTO
+========================================================= */
+
+interface ProcessResponse {
+  success: boolean;
+
+  import?: ImportResult;
+
+  ml?: MlResult | null;
+
+  review?: {
+    required: boolean;
+
+    href: string;
+  };
+
+  error?: string;
+
+  message?: string;
+
+  duplicate?: boolean;
+
+  importId?: number;
+}
+
+
+/* =========================================================
+   STATUS DA TELA
 ========================================================= */
 
 type ImportStatus =
@@ -112,10 +162,10 @@ type ImportStatus =
   | "validating"
   | "ready"
   | "processing"
-  | "analyzing"
   | "completed"
   | "invalid"
   | "error";
+
 
 /* =========================================================
    COMPONENTE
@@ -130,10 +180,15 @@ export function ImportDataPage({
       null,
     );
 
-  const [file, setFile] =
+
+  const [
+    file,
+    setFile,
+  ] =
     useState<File | null>(
       null,
     );
+
 
   const [
     preview,
@@ -143,6 +198,7 @@ export function ImportDataPage({
       null,
     );
 
+
   const [
     result,
     setResult,
@@ -151,21 +207,15 @@ export function ImportDataPage({
       null,
     );
 
+
   const [
-    aiResult,
-    setAIResult,
+    mlResult,
+    setMlResult,
   ] =
-    useState<AIResult | null>(
+    useState<MlResult | null>(
       null,
     );
 
-  const [
-    activeImportId,
-    setActiveImportId,
-  ] =
-    useState<number | null>(
-      null,
-    );
 
   const [
     status,
@@ -175,17 +225,20 @@ export function ImportDataPage({
       "idle",
     );
 
+
   const [
     error,
     setError,
   ] =
     useState("");
 
+
   const [
-    aiWarning,
-    setAIWarning,
+    warning,
+    setWarning,
   ] =
     useState("");
+
 
   const [
     dragging,
@@ -193,16 +246,20 @@ export function ImportDataPage({
   ] =
     useState(false);
 
+
   /* =======================================================
-     FORMATAÇÃO
+     HELPERS
   ======================================================= */
 
   function formatFileSize(
     bytes: number,
   ) {
-    if (bytes < 1024) {
+    if (
+      bytes < 1024
+    ) {
       return `${bytes} B`;
     }
+
 
     if (
       bytes <
@@ -210,51 +267,76 @@ export function ImportDataPage({
     ) {
       return `${(
         bytes / 1024
-      ).toFixed(1)} KB`;
+      ).toFixed(
+        1,
+      )} KB`;
     }
+
 
     return `${(
       bytes /
-      (1024 * 1024)
-    ).toFixed(1)} MB`;
+      (
+        1024 * 1024
+      )
+    ).toFixed(
+      1,
+    )} MB`;
   }
+
 
   function formatNumber(
     value: number,
   ) {
     return new Intl.NumberFormat(
       "pt-BR",
-    ).format(value);
+    ).format(
+      value,
+    );
   }
+
 
   /* =======================================================
      LIMPAR
   ======================================================= */
 
   function clearFile() {
-    setFile(null);
-
-    setPreview(null);
-
-    setResult(null);
-
-    setAIResult(null);
-
-    setActiveImportId(
+    setFile(
       null,
     );
 
-    setStatus("idle");
+    setPreview(
+      null,
+    );
 
-    setError("");
+    setResult(
+      null,
+    );
 
-    setAIWarning("");
+    setMlResult(
+      null,
+    );
 
-    if (inputRef.current) {
+    setStatus(
+      "idle",
+    );
+
+    setError(
+      "",
+    );
+
+    setWarning(
+      "",
+    );
+
+
+    if (
+      inputRef.current
+    ) {
       inputRef.current.value =
         "";
     }
   }
+
 
   /* =======================================================
      PREVIEW
@@ -267,32 +349,41 @@ export function ImportDataPage({
       selectedFile,
     );
 
-    setPreview(null);
-
-    setResult(null);
-
-    setAIResult(null);
-
-    setActiveImportId(
+    setPreview(
       null,
     );
 
-    setError("");
+    setResult(
+      null,
+    );
 
-    setAIWarning("");
+    setMlResult(
+      null,
+    );
+
+    setError(
+      "",
+    );
+
+    setWarning(
+      "",
+    );
 
     setStatus(
       "validating",
     );
 
+
     try {
       const formData =
         new FormData();
+
 
       formData.append(
         "file",
         selectedFile,
       );
+
 
       const response =
         await fetch(
@@ -306,41 +397,59 @@ export function ImportDataPage({
           },
         );
 
+
       const data =
         await response.json();
+
 
       if (
         !response.ok ||
         !data.success
       ) {
         setError(
-          data.message ??
+          data.error ??
+            data.message ??
             "Não foi possível analisar o arquivo.",
         );
+
 
         setStatus(
           "error",
         );
 
+
         return;
       }
 
+
       const previewData =
-        data.preview as ImportPreview;
+        data.preview as
+          ImportPreview;
+
 
       setPreview(
         previewData,
       );
+
 
       setStatus(
         previewData.valid
           ? "ready"
           : "invalid",
       );
-    } catch {
+    } catch (
+      requestError
+    ) {
+      console.error(
+        "Erro ao validar planilha:",
+        requestError,
+      );
+
+
       setError(
         "Não foi possível enviar a planilha para análise.",
       );
+
 
       setStatus(
         "error",
@@ -348,101 +457,6 @@ export function ImportDataPage({
     }
   }
 
-  /* =======================================================
-     IA
-  ======================================================= */
-
-  async function runAI(
-    importId: number,
-  ) {
-    setActiveImportId(
-      importId,
-    );
-
-    setStatus(
-      "analyzing",
-    );
-
-    setAIWarning("");
-
-    try {
-      const response =
-        await fetch(
-          "/api/imports/classify",
-          {
-            method:
-              "POST",
-
-            headers: {
-              "Content-Type":
-                "application/json",
-            },
-
-            body:
-              JSON.stringify({
-                importId,
-              }),
-          },
-        );
-
-      const data =
-        await response.json();
-
-      if (
-        !response.ok ||
-        !data.success
-      ) {
-        setAIWarning(
-          data.message ??
-            "Os dados foram importados, mas a análise automática não pôde ser concluída.",
-        );
-
-        setStatus(
-          "completed",
-        );
-
-        return;
-      }
-
-      setAIResult(
-        data.ai as AIResult,
-      );
-
-      setStatus(
-        "completed",
-      );
-    } catch {
-      setAIWarning(
-        "Os dados foram importados, mas não foi possível concluir a análise automática.",
-      );
-
-      setStatus(
-        "completed",
-      );
-    }
-  }
-
-  /* =======================================================
-     CONTINUAR ANÁLISE
-
-     Não reimporta a planilha.
-
-     Apenas chama novamente o classificador para pegar
-     os próximos padrões ainda pendentes.
-  ======================================================= */
-
-  async function continueAnalysis() {
-    if (
-      !activeImportId ||
-      status !== "completed"
-    ) {
-      return;
-    }
-
-    await runAI(
-      activeImportId,
-    );
-  }
 
   /* =======================================================
      PROCESSAMENTO
@@ -452,31 +466,44 @@ export function ImportDataPage({
     if (
       !file ||
       !preview?.valid ||
-      status !== "ready"
+      status !==
+        "ready"
     ) {
       return;
     }
 
-    setError("");
 
-    setAIWarning("");
+    setError(
+      "",
+    );
 
-    setResult(null);
+    setWarning(
+      "",
+    );
 
-    setAIResult(null);
+    setResult(
+      null,
+    );
+
+    setMlResult(
+      null,
+    );
 
     setStatus(
       "processing",
     );
 
+
     try {
       const formData =
         new FormData();
+
 
       formData.append(
         "file",
         file,
       );
+
 
       const response =
         await fetch(
@@ -490,37 +517,34 @@ export function ImportDataPage({
           },
         );
 
+
       const data =
-        await response.json();
+        (await response.json()) as
+          ProcessResponse;
+
 
       /* ===================================================
-         JÁ IMPORTADA
-
-         Não duplicamos dados.
-
-         Recuperamos o ID existente e continuamos a análise.
+         PLANILHA DUPLICADA
       =================================================== */
 
       if (
         response.status ===
-          409 &&
-        data.importId
+        409
       ) {
-        const importId =
-          Number(
-            data.importId,
-          );
-
-        setActiveImportId(
-          importId,
+        setError(
+          data.error ??
+            "Essa planilha já foi importada anteriormente.",
         );
 
-        await runAI(
-          importId,
+
+        setStatus(
+          "error",
         );
+
 
         return;
       }
+
 
       /* ===================================================
          ERRO
@@ -528,42 +552,89 @@ export function ImportDataPage({
 
       if (
         !response.ok ||
-        !data.success
+        !data.success ||
+        !data.import
       ) {
         setError(
-          data.message ??
+          data.error ??
+            data.message ??
             "Não foi possível processar a planilha.",
         );
+
 
         setStatus(
           "error",
         );
 
+
         return;
       }
 
-      const importData =
-        data.import as ImportResult;
-
-      setResult(
-        importData,
-      );
-
-      setActiveImportId(
-        importData.id,
-      );
 
       /* ===================================================
-         IA AUTOMÁTICA
+         IMPORTAÇÃO CONCLUÍDA
       =================================================== */
 
-      await runAI(
-        importData.id,
+      setResult(
+        data.import,
       );
-    } catch {
+
+
+      const ml =
+        data.ml ??
+        null;
+
+
+      setMlResult(
+        ml,
+      );
+
+
+      /* ===================================================
+         STATUS DO MODELO ML
+      =================================================== */
+
+      if (!ml) {
+        setWarning(
+          "A importação foi concluída, mas não foi possível obter o resultado do Modelo ML. Os dados permanecem salvos e podem ser analisados posteriormente.",
+        );
+      } else if (
+        !ml.available ||
+        ml.status ===
+          "MODEL_OFFLINE"
+      ) {
+        setWarning(
+          "A importação foi concluída, mas o Modelo ML estava indisponível. Nenhum dado importado foi perdido.",
+        );
+      } else if (
+        ml.status ===
+          "PARTIAL" ||
+        ml.failed > 0
+      ) {
+        setWarning(
+          `${formatNumber(
+            ml.failed,
+          )} apontamento(s) não puderam ser analisados pelo Modelo ML. A importação foi preservada.`,
+        );
+      }
+
+
+      setStatus(
+        "completed",
+      );
+    } catch (
+      requestError
+    ) {
+      console.error(
+        "Erro durante processamento da importação:",
+        requestError,
+      );
+
+
       setError(
         "A conexão foi interrompida durante o processamento.",
       );
+
 
       setStatus(
         "error",
@@ -571,91 +642,137 @@ export function ImportDataPage({
     }
   }
 
+
   /* =======================================================
      INPUT
   ======================================================= */
 
   function handleFileChange(
-    event: ChangeEvent<HTMLInputElement>,
+    event:
+      ChangeEvent<HTMLInputElement>,
   ) {
     const selectedFile =
-      event.target.files?.[0];
+      event.target
+        .files?.[0];
+
 
     if (!selectedFile) {
       return;
     }
 
+
     void validateFile(
       selectedFile,
     );
   }
+
 
   /* =======================================================
      DRAG AND DROP
   ======================================================= */
 
   function handleDragOver(
-    event: DragEvent<HTMLDivElement>,
+    event:
+      DragEvent<HTMLDivElement>,
   ) {
     event.preventDefault();
 
-    setDragging(true);
+    setDragging(
+      true,
+    );
   }
+
 
   function handleDragLeave(
-    event: DragEvent<HTMLDivElement>,
+    event:
+      DragEvent<HTMLDivElement>,
   ) {
     event.preventDefault();
 
-    setDragging(false);
+    setDragging(
+      false,
+    );
   }
 
+
   function handleDrop(
-    event: DragEvent<HTMLDivElement>,
+    event:
+      DragEvent<HTMLDivElement>,
   ) {
     event.preventDefault();
 
-    setDragging(false);
+    setDragging(
+      false,
+    );
+
 
     const selectedFile =
       event
         .dataTransfer
         .files?.[0];
 
+
     if (!selectedFile) {
       return;
     }
+
 
     void validateFile(
       selectedFile,
     );
   }
 
+
   /* =======================================================
      CONTADORES
   ======================================================= */
 
   const importedCount =
-    result?.processedRows ??
-    aiResult?.totalEvents ??
+    result?.importedRows ??
     0;
 
-  const classifiedCount =
-    aiResult
-      ?.classifiedEvents ??
+
+  const ignoredCount =
+    result?.ignoredRows ??
     0;
 
-  const pendingCount =
-    aiResult
-      ?.pendingEvents ??
+
+  const mlEligibleCount =
+    mlResult?.eligible ??
     0;
 
-  const hasPending =
+
+  const mlProcessedCount =
+    mlResult?.processed ??
+    0;
+
+
+  const suggestionsCount =
+    mlResult?.inserted ??
+    0;
+
+
+  const mlFailedCount =
+    mlResult?.failed ??
+    0;
+
+
+  const mlAvailable =
     Boolean(
-      aiResult &&
-        aiResult.pendingEvents >
-          0,
+      mlResult?.available &&
+      mlResult.status !==
+        "MODEL_OFFLINE",
     );
+
+
+  const mlCompleted =
+    Boolean(
+      mlResult &&
+      mlResult.available &&
+      mlResult.status ===
+        "COMPLETED",
+    );
+
 
   /* =======================================================
      INTERFACE
@@ -685,11 +802,13 @@ export function ImportDataPage({
             />
           </Link>
 
+
           <div className="hidden text-right sm:block">
 
             <p className="text-[13px] font-medium text-[#2D3034]">
               {user.name}
             </p>
+
 
             {unit.city && (
               <p className="mt-0.5 text-[11px] text-[#979BA1]">
@@ -702,6 +821,7 @@ export function ImportDataPage({
         </div>
 
       </header>
+
 
       {/* ===================================================
           CONTEÚDO
@@ -721,17 +841,23 @@ export function ImportDataPage({
           Voltar
         </Link>
 
+
         <div className="mt-10">
 
           <h1 className="text-[34px] font-semibold leading-tight tracking-[-0.045em] text-[#191B1E] sm:text-[40px]">
             Importar dados
           </h1>
 
-          <p className="mt-3 max-w-[590px] text-[14px] leading-7 text-[#7D8288]">
-            Selecione a planilha com os apontamentos de manutenção que serão processados pela plataforma.
+
+          <p className="mt-3 max-w-[650px] text-[14px] leading-7 text-[#7D8288]">
+            Importe os apontamentos de manutenção.
+            Após o armazenamento, o Modelo ML analisa
+            automaticamente as ocorrências e prepara as
+            sugestões para revisão humana.
           </p>
 
         </div>
+
 
         {/* =================================================
             UPLOAD
@@ -751,7 +877,9 @@ export function ImportDataPage({
               handleDrop
             }
             onClick={() =>
-              inputRef.current?.click()
+              inputRef
+                .current
+                ?.click()
             }
             onKeyDown={(
               event,
@@ -762,7 +890,9 @@ export function ImportDataPage({
                 event.key ===
                   " "
               ) {
-                inputRef.current?.click();
+                inputRef
+                  .current
+                  ?.click();
               }
             }}
             className={`mt-10 flex min-h-[300px] cursor-pointer flex-col items-center justify-center rounded-[18px] border border-dashed px-8 text-center outline-none transition-all duration-200 ${
@@ -781,13 +911,16 @@ export function ImportDataPage({
 
             </div>
 
+
             <h2 className="mt-6 text-[16px] font-semibold text-[#292C30]">
               Arraste a planilha aqui
             </h2>
 
+
             <p className="mt-2 text-[13px] text-[#8B9096]">
               ou clique para selecionar
             </p>
+
 
             <p className="mt-5 text-[11px] text-[#A1A5AA]">
               .xlsx ou .xlsm
@@ -795,6 +928,7 @@ export function ImportDataPage({
 
           </div>
         )}
+
 
         <input
           ref={inputRef}
@@ -805,6 +939,7 @@ export function ImportDataPage({
           }
           className="hidden"
         />
+
 
         {/* =================================================
             ARQUIVO
@@ -826,11 +961,13 @@ export function ImportDataPage({
 
                 </div>
 
+
                 <div className="min-w-0">
 
                   <p className="truncate text-[13px] font-medium text-[#292C30]">
                     {file.name}
                   </p>
+
 
                   <p className="mt-1 text-[11px] text-[#999DA2]">
                     {formatFileSize(
@@ -842,10 +979,10 @@ export function ImportDataPage({
 
               </div>
 
+
               {![
                 "validating",
                 "processing",
-                "analyzing",
               ].includes(
                 status,
               ) && (
@@ -866,6 +1003,7 @@ export function ImportDataPage({
 
             </div>
 
+
             {/* =============================================
                 VALIDANDO
             ============================================== */}
@@ -879,12 +1017,14 @@ export function ImportDataPage({
                   className="animate-spin text-[#F40009]"
                 />
 
+
                 <p className="text-[13px] text-[#74797F]">
                   Verificando estrutura da planilha...
                 </p>
 
               </div>
             )}
+
 
             {/* =============================================
                 PRONTA
@@ -903,11 +1043,13 @@ export function ImportDataPage({
                       className="mt-0.5 text-[#238636]"
                     />
 
+
                     <div>
 
                       <p className="text-[14px] font-medium text-[#292C30]">
                         Planilha pronta para processamento
                       </p>
+
 
                       <p className="mt-1 text-[12px] text-[#868B91]">
                         A estrutura necessária foi identificada corretamente.
@@ -917,6 +1059,7 @@ export function ImportDataPage({
 
                   </div>
 
+
                   <div className="mt-7 grid border-y border-[#EBEDEF] py-6 sm:grid-cols-3">
 
                     <div>
@@ -924,6 +1067,7 @@ export function ImportDataPage({
                       <p className="text-[11px] text-[#969BA1]">
                         Registros
                       </p>
+
 
                       <p className="mt-1.5 text-[17px] font-medium text-[#2D3034]">
                         {formatNumber(
@@ -933,11 +1077,13 @@ export function ImportDataPage({
 
                     </div>
 
+
                     <div className="border-t border-[#EBEDEF] py-4 sm:border-l sm:border-t-0 sm:px-6 sm:py-0">
 
                       <p className="text-[11px] text-[#969BA1]">
                         Aba identificada
                       </p>
+
 
                       <p className="mt-1.5 truncate text-[14px] font-medium text-[#2D3034]">
                         {preview.sheetName}
@@ -945,11 +1091,13 @@ export function ImportDataPage({
 
                     </div>
 
+
                     <div className="border-t border-[#EBEDEF] pt-4 sm:border-l sm:border-t-0 sm:pl-6 sm:pt-0">
 
                       <p className="text-[11px] text-[#969BA1]">
                         Colunas
                       </p>
+
 
                       <p className="mt-1.5 text-[17px] font-medium text-[#2D3034]">
                         {
@@ -962,6 +1110,7 @@ export function ImportDataPage({
                     </div>
 
                   </div>
+
 
                   <div className="mt-8 flex justify-end">
 
@@ -980,233 +1129,334 @@ export function ImportDataPage({
                 </div>
               )}
 
+
             {/* =============================================
-                ESTRUTURANDO
+                PROCESSANDO + MODELO ML
             ============================================== */}
 
             {status ===
               "processing" && (
-              <div className="flex items-center gap-3 py-10">
+              <div className="py-10">
 
-                <LoaderCircle
-                  size={19}
-                  className="animate-spin text-[#F40009]"
-                />
+                <div className="flex items-start gap-3">
 
-                <div>
+                  <LoaderCircle
+                    size={19}
+                    className="mt-0.5 animate-spin text-[#F40009]"
+                  />
 
-                  <p className="text-[14px] font-medium text-[#292C30]">
-                    Estruturando dados
-                  </p>
 
-                  <p className="mt-1 text-[12px] text-[#868B91]">
-                    Os apontamentos estão sendo preparados e armazenados.
-                  </p>
+                  <div>
+
+                    <p className="text-[14px] font-medium text-[#292C30]">
+                      Importando e analisando dados
+                    </p>
+
+
+                    <p className="mt-1 max-w-[590px] text-[12px] leading-6 text-[#868B91]">
+                      Os apontamentos estão sendo armazenados.
+                      Em seguida, as ocorrências elegíveis são
+                      analisadas automaticamente pelo Modelo ML.
+                    </p>
+
+                  </div>
 
                 </div>
+
+
+                <div className="mt-7 overflow-hidden rounded-full bg-[#ECEEEF]">
+
+                  <div className="h-[5px] w-1/2 animate-pulse rounded-full bg-[#F40009]" />
+
+                </div>
+
+
+                <p className="mt-4 text-[11px] leading-5 text-[#A0A4A9]">
+                  A classificação gerada pelo modelo não é
+                  considerada oficial até a revisão humana.
+                </p>
 
               </div>
             )}
 
-            {/* =============================================
-                IA
-            ============================================== */}
-
-            {status ===
-              "analyzing" && (
-              <div className="flex items-center gap-3 py-10">
-
-                <LoaderCircle
-                  size={19}
-                  className="animate-spin text-[#F40009]"
-                />
-
-                <div>
-
-                  <p className="text-[14px] font-medium text-[#292C30]">
-                    Analisando apontamentos
-                  </p>
-
-                  <p className="mt-1 text-[12px] text-[#868B91]">
-                    Identificando e classificando os próximos padrões pendentes.
-                  </p>
-
-                </div>
-
-              </div>
-            )}
 
             {/* =============================================
                 CONCLUÍDO
             ============================================== */}
 
             {status ===
-              "completed" && (
-              <div className="mt-8">
+              "completed" &&
+              result && (
+                <div className="mt-8">
 
-                <div className="flex items-start gap-3">
+                  <div className="flex items-start gap-3">
 
-                  <Check
-                    size={19}
-                    strokeWidth={2}
-                    className="mt-0.5 text-[#238636]"
-                  />
-
-                  <div>
-
-                    <p className="text-[14px] font-medium text-[#292C30]">
-                      Processamento concluído
-                    </p>
-
-                    <p className="mt-1 text-[12px] leading-6 text-[#868B91]">
-                      Os dados processados estão disponíveis para análise.
-                    </p>
-
-                  </div>
-
-                </div>
-
-                {/* =========================================
-                    CONTADORES
-                ========================================== */}
-
-                <div className="mt-7 grid border-y border-[#EBEDEF] py-6 sm:grid-cols-3">
-
-                  <div>
-
-                    <p className="text-[11px] text-[#969BA1]">
-                      Registros
-                    </p>
-
-                    <p className="mt-1.5 text-[17px] font-medium text-[#2D3034]">
-                      {formatNumber(
-                        importedCount,
-                      )}
-                    </p>
-
-                  </div>
-
-                  <div className="border-t border-[#EBEDEF] py-4 sm:border-l sm:border-t-0 sm:px-6 sm:py-0">
-
-                    <p className="text-[11px] text-[#969BA1]">
-                      Classificados
-                    </p>
-
-                    <p className="mt-1.5 text-[17px] font-medium text-[#2D3034]">
-                      {formatNumber(
-                        classifiedCount,
-                      )}
-                    </p>
-
-                  </div>
-
-                  <div className="border-t border-[#EBEDEF] pt-4 sm:border-l sm:border-t-0 sm:pl-6 sm:pt-0">
-
-                    <p className="text-[11px] text-[#969BA1]">
-                      Pendentes
-                    </p>
-
-                    <p className="mt-1.5 text-[17px] font-medium text-[#2D3034]">
-                      {formatNumber(
-                        pendingCount,
-                      )}
-                    </p>
-
-                  </div>
-
-                </div>
-
-                {/* =========================================
-                    AVISO
-                ========================================== */}
-
-                {aiWarning && (
-                  <div className="mt-5 flex items-start gap-3">
-
-                    <AlertCircle
-                      size={17}
-                      className="mt-0.5 shrink-0 text-[#D1242F]"
+                    <Check
+                      size={19}
+                      strokeWidth={2}
+                      className="mt-0.5 shrink-0 text-[#238636]"
                     />
 
-                    <p className="text-[12px] leading-6 text-[#7D8288]">
-                      {aiWarning}
-                    </p>
+
+                    <div>
+
+                      <p className="text-[14px] font-medium text-[#292C30]">
+                        Importação concluída
+                      </p>
+
+
+                      <p className="mt-1 text-[12px] leading-6 text-[#868B91]">
+                        {mlCompleted
+                          ? "Os registros foram armazenados e as sugestões do Modelo ML estão prontas para revisão."
+                          : "Os registros foram armazenados com sucesso."}
+                      </p>
+
+                    </div>
 
                   </div>
-                )}
 
-                {/* =========================================
-                    PENDÊNCIAS
-                ========================================== */}
 
-                {hasPending && (
-                  <div className="mt-6">
+                  {/* =========================================
+                      RESUMO PRINCIPAL
+                  ========================================== */}
 
-                    <p className="text-[12px] leading-6 text-[#7D8288]">
-                      Ainda existem apontamentos pendentes de classificação.
-                    </p>
+                  <div className="mt-7 grid border-y border-[#EBEDEF] py-6 sm:grid-cols-3">
+
+                    <div>
+
+                      <p className="text-[11px] text-[#969BA1]">
+                        Importados
+                      </p>
+
+
+                      <p className="mt-1.5 text-[20px] font-medium text-[#2D3034]">
+                        {formatNumber(
+                          importedCount,
+                        )}
+                      </p>
+
+
+                      {ignoredCount >
+                        0 && (
+                        <p className="mt-1 text-[10px] text-[#A0A4A9]">
+                          {formatNumber(
+                            ignoredCount,
+                          )}{" "}
+                          ignorado(s)
+                        </p>
+                      )}
+
+                    </div>
+
+
+                    <div className="border-t border-[#EBEDEF] py-4 sm:border-l sm:border-t-0 sm:px-6 sm:py-0">
+
+                      <p className="text-[11px] text-[#969BA1]">
+                        Analisados pelo ML
+                      </p>
+
+
+                      <p className="mt-1.5 text-[20px] font-medium text-[#2D3034]">
+                        {formatNumber(
+                          mlProcessedCount,
+                        )}
+                      </p>
+
+
+                      {mlAvailable && (
+                        <p className="mt-1 text-[10px] text-[#A0A4A9]">
+                          de{" "}
+                          {formatNumber(
+                            mlEligibleCount,
+                          )}{" "}
+                          elegíveis
+                        </p>
+                      )}
+
+                    </div>
+
+
+                    <div className="border-t border-[#EBEDEF] pt-4 sm:border-l sm:border-t-0 sm:pl-6 sm:pt-0">
+
+                      <p className="text-[11px] text-[#969BA1]">
+                        Aguardando revisão
+                      </p>
+
+
+                      <p className="mt-1.5 text-[20px] font-medium text-[#2D3034]">
+                        {formatNumber(
+                          suggestionsCount,
+                        )}
+                      </p>
+
+
+                      <p className="mt-1 text-[10px] text-[#A0A4A9]">
+                        sugestões geradas
+                      </p>
+
+                    </div>
 
                   </div>
-                )}
 
-                {/* =========================================
-                    AÇÕES
-                ========================================== */}
 
-                <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                  {/* =========================================
+                      MODELO ML
+                  ========================================== */}
 
-                  <button
-                    type="button"
-                    onClick={
-                      clearFile
-                    }
-                    className="text-left text-[12px] font-medium text-[#777C82] transition-colors hover:text-[#292C30]"
-                  >
-                    Importar outro arquivo
-                  </button>
+                  {mlResult && (
+                    <div className="mt-6 rounded-[14px] bg-[#F7F8F9] px-5 py-4">
 
-                  <div className="flex flex-col gap-3 sm:flex-row">
+                      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
 
-                    {hasPending &&
-                      activeImportId && (
-                        <button
-                          type="button"
-                          onClick={() =>
-                            void continueAnalysis()
-                          }
-                          className="rounded-[10px] border border-[#D9DCE0] bg-white px-6 py-3 text-[13px] font-semibold text-[#3D4146] transition-colors hover:border-[#BFC3C8] hover:bg-[#FAFAFA]"
-                        >
-                          Continuar análise
-                        </button>
+                        <div>
+
+                          <p className="text-[11px] font-medium text-[#777C82]">
+                            Modelo ML
+                          </p>
+
+
+                          <p className="mt-1 text-[12px] font-medium text-[#2D3034]">
+                            {mlResult.modelVersion ??
+                              "Indisponível"}
+                          </p>
+
+                        </div>
+
+
+                        <div className="sm:text-right">
+
+                          <p className="text-[11px] text-[#969BA1]">
+                            Status
+                          </p>
+
+
+                          <div className="mt-1 flex items-center gap-2 sm:justify-end">
+
+                            <span
+                              className={`h-2 w-2 rounded-full ${
+                                mlCompleted
+                                  ? "bg-[#238636]"
+                                  : mlAvailable
+                                    ? "bg-[#D29922]"
+                                    : "bg-[#D1242F]"
+                              }`}
+                            />
+
+
+                            <p className="text-[12px] font-medium text-[#44484D]">
+                              {mlCompleted
+                                ? "Concluído"
+                                : mlResult.status ===
+                                    "PARTIAL"
+                                  ? "Concluído parcialmente"
+                                  : "Indisponível"}
+                            </p>
+
+                          </div>
+
+                        </div>
+
+                      </div>
+
+
+                      {mlFailedCount >
+                        0 && (
+                        <p className="mt-4 border-t border-[#E8E9EB] pt-4 text-[11px] text-[#868B91]">
+                          {formatNumber(
+                            mlFailedCount,
+                          )}{" "}
+                          apontamento(s) apresentaram erro durante a análise.
+                        </p>
                       )}
 
-                    {aiWarning &&
-                      !aiResult &&
-                      activeImportId && (
-                        <button
-                          type="button"
-                          onClick={() =>
-                            void continueAnalysis()
-                          }
-                          className="rounded-[10px] border border-[#D9DCE0] bg-white px-6 py-3 text-[13px] font-semibold text-[#3D4146] transition-colors hover:border-[#BFC3C8] hover:bg-[#FAFAFA]"
-                        >
-                          Tentar novamente
-                        </button>
-                      )}
+                    </div>
+                  )}
 
-                    <Link
-                      href="/dashboard/historico"
-                      className="rounded-[10px] bg-[#F40009] px-6 py-3 text-center text-[13px] font-semibold text-white transition-colors hover:bg-[#D90008]"
+
+                  {/* =========================================
+                      AVISO
+                  ========================================== */}
+
+                  {warning && (
+                    <div className="mt-5 flex items-start gap-3 rounded-[12px] border border-[#F0D7D9] bg-[#FFF8F8] px-4 py-3">
+
+                      <AlertCircle
+                        size={17}
+                        className="mt-0.5 shrink-0 text-[#D1242F]"
+                      />
+
+
+                      <p className="text-[12px] leading-6 text-[#6F747A]">
+                        {warning}
+                      </p>
+
+                    </div>
+                  )}
+
+
+                  {/* =========================================
+                      REGRA DA REVISÃO
+                  ========================================== */}
+
+                  {suggestionsCount >
+                    0 && (
+                    <div className="mt-6">
+
+                      <p className="text-[12px] leading-6 text-[#7D8288]">
+                        As sugestões do Modelo ML ainda não são
+                        classificações oficiais. Cada ocorrência
+                        precisa ser confirmada ou corrigida por um
+                        responsável.
+                      </p>
+
+                    </div>
+                  )}
+
+
+                  {/* =========================================
+                      AÇÕES
+                  ========================================== */}
+
+                  <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+
+                    <button
+                      type="button"
+                      onClick={
+                        clearFile
+                      }
+                      className="text-left text-[12px] font-medium text-[#777C82] transition-colors hover:text-[#292C30]"
                     >
-                      Ver histórico
-                    </Link>
+                      Importar outro arquivo
+                    </button>
+
+
+                    <div className="flex flex-col gap-3 sm:flex-row">
+
+                      <Link
+                        href="/dashboard/historico"
+                        className="rounded-[10px] border border-[#D9DCE0] bg-white px-6 py-3 text-center text-[13px] font-semibold text-[#3D4146] transition-colors hover:border-[#BFC3C8] hover:bg-[#FAFAFA]"
+                      >
+                        Ver histórico
+                      </Link>
+
+
+                      {suggestionsCount >
+                        0 && (
+                        <Link
+                          href="/dashboard/revisao"
+                          className="rounded-[10px] bg-[#F40009] px-6 py-3 text-center text-[13px] font-semibold text-white transition-colors hover:bg-[#D90008]"
+                        >
+                          Revisar classificações
+                        </Link>
+                      )}
+
+                    </div>
 
                   </div>
 
                 </div>
+              )}
 
-              </div>
-            )}
 
             {/* =============================================
                 INVÁLIDO
@@ -1222,20 +1472,46 @@ export function ImportDataPage({
                     className="mt-0.5 text-[#D1242F]"
                   />
 
+
                   <div>
 
                     <p className="text-[14px] font-medium text-[#292C30]">
                       Estrutura incompatível
                     </p>
 
+
                     <p className="mt-1 text-[12px] text-[#868B91]">
                       A planilha não contém todas as colunas necessárias.
                     </p>
+
+
+                    {preview
+                      .missingColumns
+                      .length >
+                      0 && (
+                      <div className="mt-4">
+
+                        <p className="text-[11px] font-medium text-[#777C82]">
+                          Colunas ausentes
+                        </p>
+
+
+                        <p className="mt-2 text-[11px] leading-6 text-[#969BA1]">
+                          {preview
+                            .missingColumns
+                            .join(
+                              ", ",
+                            )}
+                        </p>
+
+                      </div>
+                    )}
 
                   </div>
 
                 </div>
               )}
+
 
             {/* =============================================
                 ERRO
@@ -1243,27 +1519,48 @@ export function ImportDataPage({
 
             {status ===
               "error" && (
-              <div className="mt-8 flex items-start gap-3 border-t border-[#ECEDEF] pt-7">
+                <div className="mt-8 border-t border-[#ECEDEF] pt-7">
 
-                <AlertCircle
-                  size={18}
-                  className="mt-0.5 shrink-0 text-[#D1242F]"
-                />
+                  <div className="flex items-start gap-3">
 
-                <div>
+                    <AlertCircle
+                      size={18}
+                      className="mt-0.5 shrink-0 text-[#D1242F]"
+                    />
 
-                  <p className="text-[14px] font-medium text-[#292C30]">
-                    Não foi possível concluir o processamento
-                  </p>
 
-                  <p className="mt-1 text-[12px] leading-6 text-[#868B91]">
-                    {error}
-                  </p>
+                    <div>
+
+                      <p className="text-[14px] font-medium text-[#292C30]">
+                        Não foi possível concluir o processamento
+                      </p>
+
+
+                      <p className="mt-1 text-[12px] leading-6 text-[#868B91]">
+                        {error}
+                      </p>
+
+                    </div>
+
+                  </div>
+
+
+                  <div className="mt-6">
+
+                    <button
+                      type="button"
+                      onClick={
+                        clearFile
+                      }
+                      className="text-[12px] font-medium text-[#777C82] transition-colors hover:text-[#292C30]"
+                    >
+                      Selecionar outro arquivo
+                    </button>
+
+                  </div>
 
                 </div>
-
-              </div>
-            )}
+              )}
 
           </div>
         )}

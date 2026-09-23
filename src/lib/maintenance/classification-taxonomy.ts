@@ -1,62 +1,272 @@
 /* =========================================================
-   MODOS DE FALHA PADRONIZADOS
+   EASY MAINTENANCE
+   TAXONOMIA DE FALHAS
+
+   REGRA PRINCIPAL:
+
+   failure_mode responde:
+   "O QUE FALHOU?"
+
+   failure_mechanism responde:
+   "COMO FALHOU?"
 ========================================================= */
 
-export const FAILURE_MODE_CODES = [
-  "FALHA_SENSOR",
-  "FALHA_DETECCAO",
-  "FALHA_LEITURA",
-  "FALHA_SINAL",
-  "FALHA_COMUNICACAO",
+/* =========================================================
+   COMPONENTES / ENTIDADES QUE PODEM FALHAR
+========================================================= */
 
-  "DESARME",
-
-  "FALHA_ACIONAMENTO",
-  "FALHA_CONTROLE",
-
-  "TRAVAMENTO",
-  "DESALINHAMENTO",
-  "FALHA_POSICIONAMENTO",
-
-  "QUEBRA",
-  "ROMPIMENTO",
-  "DESGASTE",
-  "FOLGA",
-
-  "VAZAMENTO",
-  "OBSTRUCAO",
-
-  "FALHA_TRANSFERENCIA",
-  "FALHA_REJEICAO",
-
-  "FALHA_ABERTURA",
-  "FALHA_FECHAMENTO",
-
-  "PERDA_PRESSAO",
-  "FALHA_FLUXO",
-
-  "SOBREAQUECIMENTO",
-
-  "FALHA_ALIMENTACAO",
-
-  "FALHA_TRANSMISSAO",
-
-  "FALHA_VEDACAO",
-
-  "FALHA_FIXACAO",
-
-  "AJUSTE_REGULAGEM",
-
-  "FALHA_NAO_IDENTIFICADA",
+export const FAILED_COMPONENT_CODES = [
+  "SENSOR",
+  "ROLAMENTO",
+  "BOMBA",
+  "CORREIA",
+  "CORRENTE",
+  "VALVULA",
+  "MOTOR",
+  "INVERSOR",
+  "REDUTOR",
+  "ENGRENAGEM",
+  "ACOPLAMENTO",
+  "CILINDRO",
+  "ATUADOR",
+  "REJEITOR",
+  "SERVO",
+  "CLP",
+  "IHM",
+  "FONTE",
+  "CABO",
+  "MANGUEIRA",
+  "BOCAL",
+  "GARRA",
+  "ESTRELA",
+  "TRANSPORTADOR",
+  "ESTEIRA",
+  "DOSADOR",
+  "ALIMENTADOR",
+  "VEDACAO",
+  "SISTEMA_COMUNICACAO",
+  "SISTEMA_CONTROLE",
+  "SISTEMA_TRANSFERENCIA",
+  "SISTEMA_ALIMENTACAO",
+  "SISTEMA_REJEICAO",
+  "OUTRO",
+  "NAO_IDENTIFICADO",
 ] as const;
 
-export type FailureModeCode =
-  (typeof FAILURE_MODE_CODES)[number];
+export type FailedComponentCode =
+  (typeof FAILED_COMPONENT_CODES)[number];
+
+/* =========================================================
+   LABELS
+========================================================= */
+
+export const FAILED_COMPONENT_LABELS: Record<
+  FailedComponentCode,
+  string
+> = {
+  SENSOR:
+    "sensor",
+
+  ROLAMENTO:
+    "rolamento",
+
+  BOMBA:
+    "bomba",
+
+  CORREIA:
+    "correia",
+
+  CORRENTE:
+    "corrente",
+
+  VALVULA:
+    "válvula",
+
+  MOTOR:
+    "motor",
+
+  INVERSOR:
+    "inversor",
+
+  REDUTOR:
+    "redutor",
+
+  ENGRENAGEM:
+    "engrenagem",
+
+  ACOPLAMENTO:
+    "acoplamento",
+
+  CILINDRO:
+    "cilindro",
+
+  ATUADOR:
+    "atuador",
+
+  REJEITOR:
+    "rejeitor",
+
+  SERVO:
+    "servo",
+
+  CLP:
+    "CLP",
+
+  IHM:
+    "IHM",
+
+  FONTE:
+    "fonte",
+
+  CABO:
+    "cabo",
+
+  MANGUEIRA:
+    "mangueira",
+
+  BOCAL:
+    "bocal",
+
+  GARRA:
+    "garra",
+
+  ESTRELA:
+    "estrela",
+
+  TRANSPORTADOR:
+    "transportador",
+
+  ESTEIRA:
+    "esteira",
+
+  DOSADOR:
+    "dosador",
+
+  ALIMENTADOR:
+    "alimentador",
+
+  VEDACAO:
+    "vedação",
+
+  SISTEMA_COMUNICACAO:
+    "sistema de comunicação",
+
+  SISTEMA_CONTROLE:
+    "sistema de controle",
+
+  SISTEMA_TRANSFERENCIA:
+    "sistema de transferência",
+
+  SISTEMA_ALIMENTACAO:
+    "sistema de alimentação",
+
+  SISTEMA_REJEICAO:
+    "sistema de rejeição",
+
+  OUTRO:
+    "outro componente",
+
+  NAO_IDENTIFICADO:
+    "não identificada",
+};
+
+/* =========================================================
+   MECANISMO DA FALHA
+
+   Informação SECUNDÁRIA.
+
+   Não aparece como informação principal do front-end.
+========================================================= */
+
+export const FAILURE_MECHANISM_CODES = [
+  "QUEBRA",
+  "PARADA",
+  "DESARME",
+  "VAZAMENTO",
+  "TRAVAMENTO",
+  "DESGASTE",
+  "FOLGA",
+  "ROMPIMENTO",
+  "SEM_DETECCAO",
+  "SEM_LEITURA",
+  "PERDA_SINAL",
+  "PERDA_COMUNICACAO",
+  "DESALINHAMENTO",
+  "POSICIONAMENTO_INCORRETO",
+  "SOBREAQUECIMENTO",
+  "OBSTRUCAO",
+  "BAIXO_FLUXO",
+  "PERDA_PRESSAO",
+  "NAO_IDENTIFICADO",
+] as const;
+
+export type FailureMechanismCode =
+  (typeof FAILURE_MECHANISM_CODES)[number];
+
+export const FAILURE_MECHANISM_LABELS: Record<
+  FailureMechanismCode,
+  string
+> = {
+  QUEBRA:
+    "Quebra",
+
+  PARADA:
+    "Parada",
+
+  DESARME:
+    "Desarme",
+
+  VAZAMENTO:
+    "Vazamento",
+
+  TRAVAMENTO:
+    "Travamento",
+
+  DESGASTE:
+    "Desgaste",
+
+  FOLGA:
+    "Folga",
+
+  ROMPIMENTO:
+    "Rompimento",
+
+  SEM_DETECCAO:
+    "Sem detecção",
+
+  SEM_LEITURA:
+    "Sem leitura",
+
+  PERDA_SINAL:
+    "Perda de sinal",
+
+  PERDA_COMUNICACAO:
+    "Perda de comunicação",
+
+  DESALINHAMENTO:
+    "Desalinhamento",
+
+  POSICIONAMENTO_INCORRETO:
+    "Posicionamento incorreto",
+
+  SOBREAQUECIMENTO:
+    "Sobreaquecimento",
+
+  OBSTRUCAO:
+    "Obstrução",
+
+  BAIXO_FLUXO:
+    "Baixo fluxo",
+
+  PERDA_PRESSAO:
+    "Perda de pressão",
+
+  NAO_IDENTIFICADO:
+    "Não identificado",
+};
 
 /* =========================================================
    ÁREA TÉCNICA
-
-   NÃO é a classificação principal.
 ========================================================= */
 
 export const TECHNICAL_CATEGORIES = [
@@ -75,187 +285,79 @@ export type TechnicalCategory =
   (typeof TECHNICAL_CATEGORIES)[number];
 
 /* =========================================================
-   LABEL BASE
-========================================================= */
+   FAILURE MODE
 
-const FAILURE_MODE_LABELS: Record<
-  FailureModeCode,
-  string
-> = {
-  FALHA_SENSOR:
-    "Falha de sensor",
+   Este é o dado principal do produto.
 
-  FALHA_DETECCAO:
-    "Falha de detecção",
+   Exemplos:
 
-  FALHA_LEITURA:
-    "Falha de leitura",
+   SENSOR
+   → Falha de sensor
 
-  FALHA_SINAL:
-    "Falha de sinal",
+   ROLAMENTO
+   → Falha de rolamento
 
-  FALHA_COMUNICACAO:
-    "Falha de comunicação",
-
-  DESARME:
-    "Desarme",
-
-  FALHA_ACIONAMENTO:
-    "Falha de acionamento",
-
-  FALHA_CONTROLE:
-    "Falha de controle",
-
-  TRAVAMENTO:
-    "Travamento",
-
-  DESALINHAMENTO:
-    "Desalinhamento",
-
-  FALHA_POSICIONAMENTO:
-    "Falha de posicionamento",
-
-  QUEBRA:
-    "Quebra",
-
-  ROMPIMENTO:
-    "Rompimento",
-
-  DESGASTE:
-    "Desgaste",
-
-  FOLGA:
-    "Folga",
-
-  VAZAMENTO:
-    "Vazamento",
-
-  OBSTRUCAO:
-    "Obstrução",
-
-  FALHA_TRANSFERENCIA:
-    "Falha de transferência",
-
-  FALHA_REJEICAO:
-    "Falha de rejeição",
-
-  FALHA_ABERTURA:
-    "Falha de abertura",
-
-  FALHA_FECHAMENTO:
-    "Falha de fechamento",
-
-  PERDA_PRESSAO:
-    "Perda de pressão",
-
-  FALHA_FLUXO:
-    "Falha de fluxo",
-
-  SOBREAQUECIMENTO:
-    "Sobreaquecimento",
-
-  FALHA_ALIMENTACAO:
-    "Falha de alimentação",
-
-  FALHA_TRANSMISSAO:
-    "Falha de transmissão",
-
-  FALHA_VEDACAO:
-    "Falha de vedação",
-
-  FALHA_FIXACAO:
-    "Falha de fixação",
-
-  AJUSTE_REGULAGEM:
-    "Ajuste / regulagem",
-
-  FALHA_NAO_IDENTIFICADA:
-    "Falha não identificada",
-};
-
-/* =========================================================
-   NORMALIZA DETALHE
-========================================================= */
-
-export function normalizeFailureDetail(
-  value: string | null,
-): string | null {
-  if (!value) {
-    return null;
-  }
-
-  let text =
-    value
-      .trim()
-      .replace(/\s+/g, " ");
-
-  if (!text) {
-    return null;
-  }
-
-  /*
-     O detalhe deve continuar curto.
-
-     Não queremos reproduzir a observação inteira.
-  */
-
-  const words =
-    text.split(" ");
-
-  if (words.length > 5) {
-    text =
-      words
-        .slice(0, 5)
-        .join(" ");
-  }
-
-  if (text.length > 60) {
-    text =
-      text.slice(0, 60);
-  }
-
-  return text;
-}
-
-/* =========================================================
-   CLASSIFICAÇÃO VISÍVEL
+   BOMBA
+   → Falha de bomba
 ========================================================= */
 
 export function buildFailureModeLabel(
-  failureModeCode: FailureModeCode,
-  failureDetail: string | null,
-): string {
-  const base =
-    FAILURE_MODE_LABELS[
-      failureModeCode
-    ];
-
-  const detail =
-    normalizeFailureDetail(
-      failureDetail,
-    );
-
-  if (
-    !detail ||
-    failureModeCode ===
-      "FALHA_NAO_IDENTIFICADA"
-  ) {
-    return base;
-  }
+  code: FailedComponentCode,
 
   /*
-     Usamos "—" de propósito.
+     Mantido apenas temporariamente para compatibilidade
+     com telas antigas que ainda passam failureDetail.
 
-     Isso evita frases linguisticamente estranhas como:
-
-     "Falha de detecção de presença de garrafa"
-
-     e preserva uma estrutura consistente:
-
-     Falha de detecção — presença de garrafa
-     Desarme — bomba de carbonato
-     Travamento — bocal
+     O detalhe NÃO influencia mais failure_mode.
   */
+  _legacyDetail?: string | null,
+): string {
+  if (
+    code ===
+    "NAO_IDENTIFICADO"
+  ) {
+    return "Falha não identificada";
+  }
 
-  return `${base} — ${detail}`;
-}   
+  return `Falha de ${FAILED_COMPONENT_LABELS[code]}`;
+}
+
+/* =========================================================
+   HELPERS
+========================================================= */
+
+export function buildFailureMechanismLabel(
+  code: FailureMechanismCode,
+): string {
+  return FAILURE_MECHANISM_LABELS[
+    code
+  ];
+}
+
+export function getFailedComponentLabel(
+  code: FailedComponentCode,
+): string {
+  return FAILED_COMPONENT_LABELS[
+    code
+  ];
+}
+
+/* =========================================================
+   COMPATIBILIDADE TEMPORÁRIA
+
+   Algumas telas atuais ainda importam:
+
+   FAILURE_MODE_CODES
+   FailureModeCode
+
+   Para não quebrarmos o projeto inteiro agora, esses nomes
+   passam a representar "o que falhou".
+
+   Depois podemos remover esses aliases.
+========================================================= */
+
+export const FAILURE_MODE_CODES =
+  FAILED_COMPONENT_CODES;
+
+export type FailureModeCode =
+  FailedComponentCode;

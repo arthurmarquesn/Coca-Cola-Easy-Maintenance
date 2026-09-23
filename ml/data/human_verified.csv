@@ -1,0 +1,1 @@
+﻿event_id,unit_id,import_id,event_date,line,observation,equipment,stop_key_1,stop_subkey,stop_type,text,failure_mode_code,failure_detail,failure_mode,system,technical_category,confidence,classification_source,classification_status,classified_by_user_id,human_verified,model,classification_version
