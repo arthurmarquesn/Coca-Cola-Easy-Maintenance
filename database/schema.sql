@@ -420,6 +420,8 @@ CREATE TABLE IF NOT EXISTS raw_import_rows (
 
     source_row_number INT UNSIGNED NOT NULL,
 
+    row_hash CHAR(64) NOT NULL,
+
     raw_data JSON NOT NULL,
 
     processed BOOLEAN NOT NULL DEFAULT FALSE,
@@ -443,6 +445,8 @@ CREATE TABLE IF NOT EXISTS raw_import_rows (
     KEY idx_raw_import_rows_import (import_id),
 
     KEY idx_raw_import_rows_processed (processed),
+
+    KEY idx_raw_import_rows_hash (row_hash),
 
     CONSTRAINT fk_raw_import_rows_import
         FOREIGN KEY (import_id)
