@@ -13,3 +13,11 @@ INFO:     127.0.0.1:61742 - "POST /predict-batch HTTP/1.1" 200 OK
 INFO:     127.0.0.1:61742 - "POST /predict-batch HTTP/1.1" 200 OK
 INFO:     127.0.0.1:61742 - "POST /predict-batch HTTP/1.1" 200 OK
 INFO:     127.0.0.1:58721 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58706 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58706 - "POST /predict-batch HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58706 - "POST /predict-batch HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58706 - "POST /predict-batch HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58706 - "POST /predict-batch HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58706 - "POST /predict-batch HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58706 - "POST /predict-batch HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58706 - "POST /predict-batch HTTP/1.1" 200 OK

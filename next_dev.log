@@ -636,3 +636,108 @@ Erro ao carregar revisão: Error: Unknown column 'cs.id' in 'order clause'
  GET /dashboard/revisao/motores 200 in 1412ms (next.js: 1310ms, application-code: 102ms)
  GET /dashboard/revisao/nao-existe 404 in 58ms (next.js: 8ms, application-code: 50ms)
  GET /dashboard 200 in 149ms (next.js: 95ms, application-code: 54ms)
+[browser] ./src/app/api/review/route.ts:509:10
+Error: the name `buildProblemCategoryCaseSql` is defined multiple times
+  507 |    uma única vez aqui.
+  508 | */
+> 509 | import { buildProblemCategoryCaseSql } from "@/lib/maintenance/problem-categories";
+      |          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  510 |
+  511 | const CATEGORY_CASE_SQL = buildProblemCategoryCaseSql();
+  512 |
+
+Ecmascript file had an error 
+[browser] ./src/app/api/review/route.ts:518:7
+Error: the name `CATEGORY_CASE_SQL` is defined multiple times
+  516 | import { buildProblemCategoryCaseSql } from "@/lib/maintenance/problem-categories";
+  517 |
+> 518 | const CATEGORY_CASE_SQL = buildProblemCategoryCaseSql();
+      |       ^^^^^^^^^^^^^^^^^
+  519 |
+  520 | function require_case_placeholder(): string {
+  521 |   return CATEGORY_CASE_SQL;
+
+Ecmascript file had an error 
+[browser] ./src/app/api/review/route.ts:516:10
+Error: the name `buildProblemCategoryCaseSql` is defined multiple times
+  514 |    uma única vez aqui.
+  515 | */
+> 516 | import { buildProblemCategoryCaseSql } from "@/lib/maintenance/problem-categories";
+      |          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  517 |
+  518 | const CATEGORY_CASE_SQL = buildProblemCategoryCaseSql();
+  519 |
+
+Ecmascript file had an error 
+[browser] ./src/app/api/review/route.ts:518:7
+Error: the name `CATEGORY_CASE_SQL` is defined multiple times
+  516 | import { buildProblemCategoryCaseSql } from "@/lib/maintenance/problem-categories";
+  517 |
+> 518 | const CATEGORY_CASE_SQL = buildProblemCategoryCaseSql();
+      |       ^^^^^^^^^^^^^^^^^
+  519 |
+  520 | function require_case_placeholder(): string {
+  521 |   return CATEGORY_CASE_SQL;
+
+Ecmascript file had an error 
+[browser] ./src/app/api/review/route.ts:516:10
+Error: the name `buildProblemCategoryCaseSql` is defined multiple times
+  514 |    uma única vez aqui.
+  515 | */
+> 516 | import { buildProblemCategoryCaseSql } from "@/lib/maintenance/problem-categories";
+      |          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  517 |
+  518 | const CATEGORY_CASE_SQL = buildProblemCategoryCaseSql();
+  519 |
+
+Ecmascript file had an error 
+[browser] ./src/app/api/review/route.ts:518:7
+Error: the name `CATEGORY_CASE_SQL` is defined multiple times
+  516 | import { buildProblemCategoryCaseSql } from "@/lib/maintenance/problem-categories";
+  517 |
+> 518 | const CATEGORY_CASE_SQL = buildProblemCategoryCaseSql();
+      |       ^^^^^^^^^^^^^^^^^
+  519 |
+  520 | function require_case_placeholder(): string {
+  521 |   return CATEGORY_CASE_SQL;
+
+Ecmascript file had an error 
+[browser] ./src/app/api/review/route.ts:516:10
+Error: the name `buildProblemCategoryCaseSql` is defined multiple times
+  514 |    uma única vez aqui.
+  515 | */
+> 516 | import { buildProblemCategoryCaseSql } from "@/lib/maintenance/problem-categories";
+      |          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  517 |
+  518 | const CATEGORY_CASE_SQL = buildProblemCategoryCaseSql();
+  519 |
+
+Ecmascript file had an error 
+ GET / 307 in 177ms (next.js: 129ms, application-code: 48ms)
+ GET /login 200 in 125ms (next.js: 26ms, application-code: 100ms)
+ POST /api/auth/login 401 in 101ms (next.js: 12ms, application-code: 89ms)
+ POST /api/auth/login 200 in 91ms (next.js: 4ms, application-code: 86ms)
+ GET /dashboard 200 in 25ms (next.js: 8ms, application-code: 18ms)
+ GET /dashboard/historico 200 in 207ms (next.js: 163ms, application-code: 44ms)
+ GET /api/history?page=1&pageSize=20 200 in 219ms (next.js: 168ms, application-code: 51ms)
+ GET /api/history?page=1&pageSize=20 200 in 222ms (next.js: 184ms, application-code: 39ms)
+ GET /dashboard 200 in 39ms (next.js: 10ms, application-code: 30ms)
+ GET /dashboard/importar 200 in 169ms (next.js: 134ms, application-code: 35ms)
+ POST /api/imports/preview 200 in 360ms (next.js: 298ms, application-code: 62ms)
+ POST /api/imports/preview 200 in 108ms (next.js: 4ms, application-code: 105ms)
+ POST /api/imports/preview 200 in 6.7s (next.js: 4ms, application-code: 6.7s)
+ POST /api/imports/process 200 in 9.5s (next.js: 218ms, application-code: 9.2s)
+ GET /dashboard/revisao 200 in 64ms (next.js: 38ms, application-code: 27ms)
+ GET /api/review/filters 200 in 45ms (next.js: 17ms, application-code: 28ms)
+ GET /api/review/filters 200 in 58ms (next.js: 28ms, application-code: 31ms)
+ GET /api/review/categories? 200 in 50ms (next.js: 13ms, application-code: 37ms)
+ GET /api/review/categories?search=valv 200 in 42ms (next.js: 4ms, application-code: 38ms)
+ GET /api/review/categories?search=valvula 200 in 35ms (next.js: 4ms, application-code: 31ms)
+ GET /dashboard/revisao/transporte?search=valvula 200 in 93ms (next.js: 62ms, application-code: 32ms)
+ GET /api/review/filters 200 in 16ms (next.js: 3ms, application-code: 13ms)
+ GET /api/review/filters 200 in 28ms (next.js: 4ms, application-code: 24ms)
+ GET /api/review?status=PENDENTE_REVISAO&search=valvula&category=transporte&page=1&pageSize=25&sort=confidence_asc 200 in 48ms (next.js: 6ms, application-code: 42ms)
+ GET /api/review/filters 200 in 31ms (next.js: 4ms, application-code: 27ms)
+ GET /api/review/filters 200 in 43ms (next.js: 15ms, application-code: 28ms)
+ GET /api/review/categories? 200 in 41ms (next.js: 6ms, application-code: 36ms)
+ GET /dashboard 200 in 50ms (next.js: 12ms, application-code: 38ms)
