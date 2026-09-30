@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { ThemeSwitcher } from "@/components/theme/theme-switcher";
 
 import {
   AlertCircle,
@@ -779,13 +780,13 @@ export function ImportDataPage({
   ======================================================= */
 
   return (
-    <main className="min-h-screen bg-white">
+    <main className="min-h-screen bg-background-primary transition-colors">
 
       {/* ===================================================
           HEADER
       ==================================================== */}
 
-      <header className="border-b border-[#E8E9EB] bg-white">
+      <header className="border-b border-border-theme transition-colors bg-background-primary transition-colors">
 
         <div className="mx-auto flex h-[78px] w-full max-w-[1380px] items-center justify-between px-6 sm:px-8 lg:px-12">
 
@@ -803,23 +804,24 @@ export function ImportDataPage({
           </Link>
 
 
-          <div className="hidden text-right sm:block">
+          <div className="flex items-center gap-5">
+            <ThemeSwitcher />
+            <div className="hidden text-right sm:block">
 
-            <p className="text-[13px] font-medium text-[#2D3034]">
+            <p className="text-[13px] font-medium text-text-primary">
               {user.name}
             </p>
 
 
             {unit.city && (
-              <p className="mt-0.5 text-[11px] text-[#979BA1]">
+              <p className="mt-0.5 text-[11px] text-text-secondary">
                 {unit.city}
               </p>
             )}
 
           </div>
-
+          </div>
         </div>
-
       </header>
 
 
@@ -844,12 +846,12 @@ export function ImportDataPage({
 
         <div className="mt-10">
 
-          <h1 className="text-[34px] font-semibold leading-tight tracking-[-0.045em] text-[#191B1E] sm:text-[40px]">
+          <h1 className="text-[34px] font-semibold leading-tight tracking-[-0.045em] text-text-primary sm:text-[40px]">
             Importar dados
           </h1>
 
 
-          <p className="mt-3 max-w-[650px] text-[14px] leading-7 text-[#7D8288]">
+          <p className="mt-3 max-w-[650px] text-[14px] leading-7 text-text-secondary">
             Importe os apontamentos de manutenção.
             Após o armazenamento, o Modelo ML analisa
             automaticamente as ocorrências e prepara as
@@ -902,7 +904,7 @@ export function ImportDataPage({
             }`}
           >
 
-            <div className="flex h-12 w-12 items-center justify-center rounded-[12px] bg-white text-[#42464C] shadow-[0_2px_10px_rgba(0,0,0,0.05)]">
+            <div className="flex h-12 w-12 items-center justify-center rounded-[12px] bg-background-primary transition-colors text-[#42464C] shadow-[0_2px_10px_rgba(0,0,0,0.05)]">
 
               <Upload
                 size={21}
@@ -917,7 +919,7 @@ export function ImportDataPage({
             </h2>
 
 
-            <p className="mt-2 text-[13px] text-[#8B9096]">
+            <p className="mt-2 text-[13px] text-text-secondary">
               ou clique para selecionar
             </p>
 
@@ -1069,7 +1071,7 @@ export function ImportDataPage({
                       </p>
 
 
-                      <p className="mt-1.5 text-[17px] font-medium text-[#2D3034]">
+                      <p className="mt-1.5 text-[17px] font-medium text-text-primary">
                         {formatNumber(
                           preview.totalRows,
                         )}
@@ -1085,7 +1087,7 @@ export function ImportDataPage({
                       </p>
 
 
-                      <p className="mt-1.5 truncate text-[14px] font-medium text-[#2D3034]">
+                      <p className="mt-1.5 truncate text-[14px] font-medium text-text-primary">
                         {preview.sheetName}
                       </p>
 
@@ -1099,7 +1101,7 @@ export function ImportDataPage({
                       </p>
 
 
-                      <p className="mt-1.5 text-[17px] font-medium text-[#2D3034]">
+                      <p className="mt-1.5 text-[17px] font-medium text-text-primary">
                         {
                           preview
                             .expectedColumns
@@ -1229,7 +1231,7 @@ export function ImportDataPage({
                       </p>
 
 
-                      <p className="mt-1.5 text-[20px] font-medium text-[#2D3034]">
+                      <p className="mt-1.5 text-[20px] font-medium text-text-primary">
                         {formatNumber(
                           importedCount,
                         )}
@@ -1256,7 +1258,7 @@ export function ImportDataPage({
                       </p>
 
 
-                      <p className="mt-1.5 text-[20px] font-medium text-[#2D3034]">
+                      <p className="mt-1.5 text-[20px] font-medium text-text-primary">
                         {formatNumber(
                           mlProcessedCount,
                         )}
@@ -1283,7 +1285,7 @@ export function ImportDataPage({
                       </p>
 
 
-                      <p className="mt-1.5 text-[20px] font-medium text-[#2D3034]">
+                      <p className="mt-1.5 text-[20px] font-medium text-text-primary">
                         {formatNumber(
                           suggestionsCount,
                         )}
@@ -1315,7 +1317,7 @@ export function ImportDataPage({
                           </p>
 
 
-                          <p className="mt-1 text-[12px] font-medium text-[#2D3034]">
+                          <p className="mt-1 text-[12px] font-medium text-text-primary">
                             {mlResult.modelVersion ??
                               "Indisponível"}
                           </p>
@@ -1361,7 +1363,7 @@ export function ImportDataPage({
 
                       {mlFailedCount >
                         0 && (
-                        <p className="mt-4 border-t border-[#E8E9EB] pt-4 text-[11px] text-[#868B91]">
+                        <p className="mt-4 border-t border-border-theme transition-colors pt-4 text-[11px] text-[#868B91]">
                           {formatNumber(
                             mlFailedCount,
                           )}{" "}
@@ -1402,7 +1404,7 @@ export function ImportDataPage({
                     0 && (
                     <div className="mt-6">
 
-                      <p className="text-[12px] leading-6 text-[#7D8288]">
+                      <p className="text-[12px] leading-6 text-text-secondary">
                         As sugestões do Modelo ML ainda não são
                         classificações oficiais. Cada ocorrência
                         precisa ser confirmada ou corrigida por um
@@ -1434,7 +1436,7 @@ export function ImportDataPage({
 
                       <Link
                         href="/dashboard/historico"
-                        className="rounded-[10px] border border-[#D9DCE0] bg-white px-6 py-3 text-center text-[13px] font-semibold text-[#3D4146] transition-colors hover:border-[#BFC3C8] hover:bg-[#FAFAFA]"
+                        className="rounded-[10px] border border-[#D9DCE0] bg-background-primary transition-colors px-6 py-3 text-center text-[13px] font-semibold text-[#3D4146] transition-colors hover:border-[#BFC3C8] hover:bg-surface-elevated transition-colors"
                       >
                         Ver histórico
                       </Link>

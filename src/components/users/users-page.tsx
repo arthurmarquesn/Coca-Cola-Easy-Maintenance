@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { ThemeSwitcher } from "@/components/theme/theme-switcher";
 
 import {
   ArrowLeft,
@@ -51,7 +52,7 @@ interface ApiResult {
 }
 
 const inputClass =
-  "h-11 w-full rounded-xl border border-black/[0.1] bg-white px-3 text-[14px] text-[#25272A] outline-none transition-colors focus:border-[#E41E2B]";
+  "h-11 w-full rounded-xl border border-black/[0.1] bg-background-primary transition-colors px-3 text-[14px] text-[#25272A] outline-none transition-colors focus:border-[#E41E2B]";
 
 const labelClass =
   "mb-1.5 block text-[12px] font-medium text-[#555A60]";
@@ -325,8 +326,8 @@ export function UsersPage({
   }
 
   return (
-    <main className="min-h-screen bg-[#F7F7F6]">
-      <header className="border-b border-black/[0.05] bg-white">
+    <main className="min-h-screen bg-background-secondary transition-colors">
+      <header className="border-b border-black/[0.05] bg-background-primary transition-colors">
         <div className="mx-auto flex h-[76px] w-full max-w-[1280px] items-center justify-between px-6 sm:px-8 lg:px-10">
           <Image
             src="/logo.webp"
@@ -338,6 +339,8 @@ export function UsersPage({
           />
 
           <div className="flex items-center gap-5">
+            <div className="flex items-center gap-5">
+            <ThemeSwitcher />
             <div className="hidden text-right sm:block">
               <p className="text-[13px] font-medium text-[#25272A]">
                 {user.name}
@@ -361,6 +364,7 @@ export function UsersPage({
 
               <span>Voltar</span>
             </Link>
+          </div>
           </div>
         </div>
       </header>
@@ -396,7 +400,7 @@ export function UsersPage({
                 event,
               )
             }
-            className="h-fit rounded-[30px] border border-black/[0.07] bg-white p-7"
+            className="h-fit rounded-[30px] border border-black/[0.07] bg-background-primary transition-colors p-7"
           >
             <UserPlus
               size={24}
@@ -558,7 +562,7 @@ export function UsersPage({
             </button>
           </form>
 
-          <section className="overflow-hidden rounded-[30px] border border-black/[0.07] bg-white">
+          <section className="overflow-hidden rounded-[30px] border border-black/[0.07] bg-background-primary transition-colors">
             <div className="overflow-x-auto">
               <table className="w-full min-w-[720px] text-left text-[13px]">
                 <thead>
@@ -632,7 +636,7 @@ export function UsersPage({
                                   },
                                 )
                               }
-                              className="h-9 rounded-lg border border-black/[0.1] bg-white px-2 text-[13px] disabled:opacity-60"
+                              className="h-9 rounded-lg border border-black/[0.1] bg-background-primary transition-colors px-2 text-[13px] disabled:opacity-60"
                             >
                               {!(
                                 ASSIGNABLE_ROLES as readonly string[]

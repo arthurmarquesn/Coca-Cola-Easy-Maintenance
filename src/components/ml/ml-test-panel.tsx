@@ -7,6 +7,7 @@ import {
 } from "react";
 
 import Link from "next/link";
+import { ThemeSwitcher } from "@/components/theme/theme-switcher";
 
 import {
   Activity,
@@ -326,7 +327,7 @@ export function MlTestPanel() {
 
   return (
     <main className="min-h-screen bg-[#f7f7f7]">
-      <header className="border-b border-black/5 bg-white">
+      <header className="border-b border-black/5 bg-background-primary transition-colors">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-5 lg:px-8">
           <div className="flex items-center gap-5">
             <Link
@@ -390,7 +391,7 @@ export function MlTestPanel() {
         <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_360px]">
           <div className="space-y-6">
 
-            <section className="rounded-[28px] border border-black/5 bg-white p-7 shadow-sm">
+            <section className="rounded-[28px] border border-black/5 bg-background-primary transition-colors p-7 shadow-sm">
               <div className="mb-7 flex items-start gap-4">
                 <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-neutral-100 text-neutral-800">
                   <Database
@@ -434,7 +435,7 @@ export function MlTestPanel() {
                         ),
                       )
                     }
-                    className="h-12 min-w-40 rounded-2xl border border-neutral-200 bg-white px-4 text-sm outline-none"
+                    className="h-12 min-w-40 rounded-2xl border border-neutral-200 bg-background-primary transition-colors px-4 text-sm outline-none"
                   >
                     <option value={10}>
                       10 ocorrências
@@ -538,7 +539,7 @@ export function MlTestPanel() {
             </section>
 
 
-            <section className="rounded-[28px] border border-black/5 bg-white p-7 shadow-sm">
+            <section className="rounded-[28px] border border-black/5 bg-background-primary transition-colors p-7 shadow-sm">
               <div className="mb-7">
                 <h2 className="text-lg font-semibold text-neutral-950">
                   Testar ocorrência manualmente
@@ -577,7 +578,7 @@ export function MlTestPanel() {
                     }
                     placeholder="Ex.: QUEBROU ROLAMENTOS DA ESTEIRA DE SAIDA DO FORNO"
                     rows={5}
-                    className="w-full resize-none rounded-2xl border border-neutral-200 bg-white px-4 py-3.5 text-sm text-neutral-950 outline-none transition focus:border-neutral-400"
+                    className="w-full resize-none rounded-2xl border border-neutral-200 bg-background-primary transition-colors px-4 py-3.5 text-sm text-neutral-950 outline-none transition focus:border-neutral-400"
                   />
                 </div>
 
@@ -602,7 +603,7 @@ export function MlTestPanel() {
                       )
                     }
                     placeholder="Opcional"
-                    className="h-12 w-full rounded-2xl border border-neutral-200 bg-white px-4 text-sm outline-none transition focus:border-neutral-400"
+                    className="h-12 w-full rounded-2xl border border-neutral-200 bg-background-primary transition-colors px-4 text-sm outline-none transition focus:border-neutral-400"
                   />
                 </div>
 
@@ -723,7 +724,7 @@ export function MlTestPanel() {
 
 
           <aside className="space-y-5">
-            <div className="rounded-[28px] border border-black/5 bg-white p-6 shadow-sm">
+            <div className="rounded-[28px] border border-black/5 bg-background-primary transition-colors p-6 shadow-sm">
               <p className="text-sm font-medium text-neutral-950">
                 Status do modelo
               </p>
