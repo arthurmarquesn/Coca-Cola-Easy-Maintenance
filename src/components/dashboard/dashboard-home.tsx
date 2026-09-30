@@ -122,7 +122,7 @@ export function DashboardHome({
                 {user.name}
               </p>
 
-              <p className="mt-0.5 text-[11px] text-text-secondary">
+              -text-body">
                 {unit.city}
               </p>
             </div>
@@ -160,12 +160,12 @@ export function DashboardHome({
 
       <div className="mx-auto w-full max-w-[1280px] px-6 pb-20 pt-14 sm:px-8 lg:px-10 lg:pt-20">
         <section>
-          <h1 className="max-w-[760px] text-[38px] font-semibold leading-[1.04] tracking-[-0.045em] text-text-primary sm:text-[48px] lg:text-[54px]">
+          -text-title sm:text-[48px] lg:text-[54px]">
             Manutenção orientada
             por dados.
           </h1>
 
-          <p className="mt-5 max-w-[520px] text-[14px] leading-6 text-text-secondary">
+          -text-body">
             Olá, {firstName}. Importe novos apontamentos,
             consulte o histórico ou analise a confiabilidade
             da unidade.
@@ -219,11 +219,11 @@ export function DashboardHome({
                 className="text-text-secondary"
               />
 
-              <h2 className="mt-12 text-[30px] font-semibold leading-[1.08] tracking-[-0.04em] text-text-primary">
+              -text-title">
                 Histórico
               </h2>
 
-              <p className="mt-4 text-[14px] leading-6 text-text-secondary">
+              -text-body">
                 Consulte falhas, ocorrências e paradas
                 registradas na manutenção.
               </p>
@@ -252,11 +252,11 @@ export function DashboardHome({
                 className="text-text-secondary"
               />
 
-              <h2 className="mt-12 text-[30px] font-semibold leading-[1.08] tracking-[-0.04em] text-text-primary">
+              -text-title">
                 Confiabilidade
               </h2>
 
-              <p className="mt-4 text-[14px] leading-6 text-text-secondary">
+              -text-body">
                 Identifique concentração de perdas,
                 recorrência e impacto das falhas.
               </p>
@@ -285,11 +285,11 @@ export function DashboardHome({
                 className="text-text-secondary"
               />
 
-              <h2 className="mt-12 text-[30px] font-semibold leading-[1.08] tracking-[-0.04em] text-text-primary">
+              -text-title">
                 Validação
               </h2>
 
-              <p className="mt-4 text-[14px] leading-6 text-text-secondary">
+              -text-body">
                 Revise por categoria as classificações sugeridas
                 pela IA e registre o feedback humano.
               </p>
@@ -319,11 +319,11 @@ export function DashboardHome({
                   className="text-text-secondary"
                 />
 
-                <h2 className="mt-12 text-[30px] font-semibold leading-[1.08] tracking-[-0.04em] text-text-primary">
+                -text-title">
                   Usuários
                 </h2>
 
-                <p className="mt-4 text-[14px] leading-6 text-text-secondary">
+                -text-body">
                   Cadastre novos usuários e defina a
                   função de cada um no sistema.
                 </p>
