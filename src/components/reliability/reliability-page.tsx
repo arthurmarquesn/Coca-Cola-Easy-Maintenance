@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { ThemeSwitcher } from "@/components/theme/theme-switcher";
 
 import {
   ArrowLeft,
@@ -1533,8 +1534,8 @@ export function ReliabilityPage({
     [];
 
   return (
-    <main className="min-h-screen bg-[#F7F7F6]">
-      <header className="border-b border-black/[0.05] bg-white">
+    <main className="min-h-screen bg-background-secondary transition-colors">
+      <header className="border-b border-black/[0.05] bg-background-primary transition-colors">
         <div className="mx-auto flex h-[76px] w-full max-w-[1380px] items-center justify-between px-6 sm:px-8 lg:px-12">
           <Link
             href="/dashboard"
@@ -1549,7 +1550,9 @@ export function ReliabilityPage({
             />
           </Link>
 
-          <div className="hidden text-right sm:block">
+          <div className="flex items-center gap-5">
+            <ThemeSwitcher />
+            <div className="hidden text-right sm:block">
             <p className="text-[13px] font-medium text-[#25272A]">
               {user.name}
             </p>
@@ -1559,6 +1562,7 @@ export function ReliabilityPage({
                 {unit.city}
               </p>
             )}
+          </div>
           </div>
         </div>
       </header>
@@ -1576,7 +1580,7 @@ export function ReliabilityPage({
         </Link>
 
         <div className="mt-9">
-          <h1 className="text-[34px] font-semibold tracking-[-0.045em] text-[#191B1E] sm:text-[40px]">
+          <h1 className="text-[34px] font-semibold tracking-[-0.045em] text-text-primary sm:text-[40px]">
             Confiabilidade
           </h1>
         </div>
@@ -1608,7 +1612,7 @@ export function ReliabilityPage({
                     .value,
                 )
               }
-              className="mt-2 h-11 w-full rounded-[10px] border border-[#DDE0E3] bg-white px-3 text-[12px] text-[#303438] outline-none focus:border-[#B9BDC2]"
+              className="mt-2 h-11 w-full rounded-[10px] border border-[#DDE0E3] bg-background-primary transition-colors px-3 text-[12px] text-[#303438] outline-none focus:border-[#B9BDC2]"
             />
           </label>
 
@@ -1634,7 +1638,7 @@ export function ReliabilityPage({
                     .value,
                 )
               }
-              className="mt-2 h-11 w-full rounded-[10px] border border-[#DDE0E3] bg-white px-3 text-[12px] text-[#303438] outline-none focus:border-[#B9BDC2]"
+              className="mt-2 h-11 w-full rounded-[10px] border border-[#DDE0E3] bg-background-primary transition-colors px-3 text-[12px] text-[#303438] outline-none focus:border-[#B9BDC2]"
             />
           </label>
 
@@ -1659,7 +1663,7 @@ export function ReliabilityPage({
                   "",
                 );
               }}
-              className="mt-2 h-11 w-full rounded-[10px] border border-[#DDE0E3] bg-white px-3 text-[12px] text-[#303438] outline-none focus:border-[#B9BDC2]"
+              className="mt-2 h-11 w-full rounded-[10px] border border-[#DDE0E3] bg-background-primary transition-colors px-3 text-[12px] text-[#303438] outline-none focus:border-[#B9BDC2]"
             >
               <option value="">
                 Todas as linhas
@@ -1701,7 +1705,7 @@ export function ReliabilityPage({
                     .value,
                 )
               }
-              className="mt-2 h-11 w-full rounded-[10px] border border-[#DDE0E3] bg-white px-3 text-[12px] text-[#303438] outline-none focus:border-[#B9BDC2]"
+              className="mt-2 h-11 w-full rounded-[10px] border border-[#DDE0E3] bg-background-primary transition-colors px-3 text-[12px] text-[#303438] outline-none focus:border-[#B9BDC2]"
             >
               <option value="">
                 Todos os equipamentos
@@ -1793,7 +1797,7 @@ export function ReliabilityPage({
                 PARETO
             ============================================== */}
 
-            <section className="mt-5 overflow-hidden rounded-[24px] border border-[#E5E7E9] bg-white">
+            <section className="mt-5 overflow-hidden rounded-[24px] border border-[#E5E7E9] bg-background-primary transition-colors">
               <div className="flex items-center justify-between border-b border-[#ECEDEF] px-6 py-5">
                 <div>
                   <h2 className="text-[17px] font-semibold tracking-[-0.025em] text-[#24272B]">
@@ -1822,7 +1826,7 @@ export function ReliabilityPage({
                 JACK-KNIFE
             ============================================== */}
 
-            <section className="mt-6 overflow-hidden rounded-[24px] border border-[#E5E7E9] bg-white">
+            <section className="mt-6 overflow-hidden rounded-[24px] border border-[#E5E7E9] bg-background-primary transition-colors">
               <div className="flex items-center justify-between border-b border-[#ECEDEF] px-6 py-5">
                 <div>
                   <h2 className="text-[17px] font-semibold tracking-[-0.025em] text-[#24272B]">

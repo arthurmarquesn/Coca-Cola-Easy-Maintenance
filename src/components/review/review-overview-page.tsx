@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { ThemeSwitcher } from "@/components/theme/theme-switcher";
 
 import {
   AlertCircle,
@@ -181,8 +182,8 @@ export function ReviewOverviewPage({ user, unit }: ReviewOverviewPageProps) {
   }, [categories, sort]);
 
   return (
-    <main className="min-h-screen bg-white">
-      <header className="border-b border-[#E8E9EB] bg-white">
+    <main className="min-h-screen bg-background-primary transition-colors">
+      <header className="border-b border-border-theme transition-colors bg-background-primary transition-colors">
         <div className="mx-auto flex h-[78px] w-full max-w-[1380px] items-center justify-between px-6 sm:px-8 lg:px-12">
           <Link href="/dashboard">
             <Image
@@ -195,16 +196,19 @@ export function ReviewOverviewPage({ user, unit }: ReviewOverviewPageProps) {
             />
           </Link>
 
-          <div className="hidden text-right sm:block">
-            <p className="text-[13px] font-medium text-[#2D3034]">
+          <div className="flex items-center gap-5">
+            <ThemeSwitcher />
+            <div className="hidden text-right sm:block">
+            <p className="text-[13px] font-medium text-text-primary">
               {user.name}
             </p>
 
             {unit.city && (
-              <p className="mt-0.5 text-[11px] text-[#979BA1]">
+              <p className="mt-0.5 text-[11px] text-text-secondary">
                 {unit.city}
               </p>
             )}
+          </div>
           </div>
         </div>
       </header>
@@ -219,11 +223,11 @@ export function ReviewOverviewPage({ user, unit }: ReviewOverviewPageProps) {
         </Link>
 
         <div className="mt-10">
-          <h1 className="text-[34px] font-semibold leading-tight tracking-[-0.045em] text-[#191B1E] sm:text-[40px]">
+          <h1 className="text-[34px] font-semibold leading-tight tracking-[-0.045em] text-text-primary sm:text-[40px]">
             Validação humana
           </h1>
 
-          <p className="mt-3 max-w-[680px] text-[14px] leading-7 text-[#7D8288]">
+          <p className="mt-3 max-w-[680px] text-[14px] leading-7 text-text-secondary">
             Revise as classificações sugeridas pela IA agrupadas por tipo de
             problema. Apenas classificações revisadas por uma pessoa são
             registradas como oficiais.
@@ -231,14 +235,14 @@ export function ReviewOverviewPage({ user, unit }: ReviewOverviewPageProps) {
         </div>
 
         <div className="mt-9 grid grid-cols-2 gap-3 sm:grid-cols-4">
-          <div className="rounded-[14px] border border-[#E9EBEE] bg-white px-4 py-3.5">
+          <div className="rounded-[14px] border border-[#E9EBEE] bg-background-primary transition-colors px-4 py-3.5">
             <p className="text-[11px] font-medium text-[#7C8087]">Total</p>
             <p className="mt-1 text-[22px] font-semibold text-[#191919]">
               {totals.total}
             </p>
           </div>
 
-          <div className="rounded-[14px] border border-[#F8C6C8] bg-white px-4 py-3.5">
+          <div className="rounded-[14px] border border-[#F8C6C8] bg-background-primary transition-colors px-4 py-3.5">
             <p className="text-[11px] font-medium text-[#7C8087]">
               Pendentes
             </p>
@@ -247,7 +251,7 @@ export function ReviewOverviewPage({ user, unit }: ReviewOverviewPageProps) {
             </p>
           </div>
 
-          <div className="rounded-[14px] border border-[#E9EBEE] bg-white px-4 py-3.5">
+          <div className="rounded-[14px] border border-[#E9EBEE] bg-background-primary transition-colors px-4 py-3.5">
             <p className="text-[11px] font-medium text-[#7C8087]">
               Validadas
             </p>
@@ -256,7 +260,7 @@ export function ReviewOverviewPage({ user, unit }: ReviewOverviewPageProps) {
             </p>
           </div>
 
-          <div className="rounded-[14px] border border-[#E9EBEE] bg-white px-4 py-3.5">
+          <div className="rounded-[14px] border border-[#E9EBEE] bg-background-primary transition-colors px-4 py-3.5">
             <p className="text-[11px] font-medium text-[#7C8087]">
               Baixa confiança
             </p>
@@ -285,7 +289,7 @@ export function ReviewOverviewPage({ user, unit }: ReviewOverviewPageProps) {
             <select
               value={sort}
               onChange={(event) => setSort(event.target.value as CategorySort)}
-              className="h-8 rounded-[8px] border border-[#DEE1E5] bg-white px-2 text-[11.5px] text-[#4A4F55] outline-none focus:border-[#F40009]"
+              className="h-8 rounded-[8px] border border-[#DEE1E5] bg-background-primary transition-colors px-2 text-[11.5px] text-[#4A4F55] outline-none focus:border-[#F40009]"
             >
               {SORT_OPTIONS.map((option) => (
                 <option key={option.value} value={option.value}>

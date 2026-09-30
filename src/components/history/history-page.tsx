@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { ThemeSwitcher } from "@/components/theme/theme-switcher";
 
 import {
   ArrowLeft,
@@ -869,13 +870,13 @@ export function HistoryPage({
   ======================================================= */
 
   return (
-    <main className="min-h-screen bg-white">
+    <main className="min-h-screen bg-background-primary transition-colors">
 
       {/* ===================================================
           HEADER
       ==================================================== */}
 
-      <header className="border-b border-[#E8E9EB]">
+      <header className="border-b border-border-theme transition-colors">
 
         <div className="mx-auto flex h-[78px] w-full max-w-[1380px] items-center justify-between px-6 sm:px-8 lg:px-12">
 
@@ -892,22 +893,23 @@ export function HistoryPage({
             />
           </Link>
 
-          <div className="hidden text-right sm:block">
+          <div className="flex items-center gap-5">
+            <ThemeSwitcher />
+            <div className="hidden text-right sm:block">
 
-            <p className="text-[13px] font-medium text-[#2D3034]">
+            <p className="text-[13px] font-medium text-text-primary">
               {user.name}
             </p>
 
             {unit.city && (
-              <p className="mt-0.5 text-[11px] text-[#979BA1]">
+              <p className="mt-0.5 text-[11px] text-text-secondary">
                 {unit.city}
               </p>
             )}
 
           </div>
-
+          </div>
         </div>
-
       </header>
 
       {/* ===================================================
@@ -931,11 +933,11 @@ export function HistoryPage({
 
           <div>
 
-            <h1 className="text-[34px] font-semibold tracking-[-0.045em] text-[#191B1E] sm:text-[40px]">
+            <h1 className="text-[34px] font-semibold tracking-[-0.045em] text-text-primary sm:text-[40px]">
               Histórico de manutenção
             </h1>
 
-            <p className="mt-3 text-[14px] text-[#7D8288]">
+            <p className="mt-3 text-[14px] text-text-secondary">
               Consulte os apontamentos registrados e suas classificações.
             </p>
 
@@ -985,7 +987,7 @@ export function HistoryPage({
                   loading ||
                   pagination.total === 0
                 }
-                className="inline-flex h-10 shrink-0 items-center justify-center gap-2 rounded-full border border-[#DFE2E5] bg-white px-4 text-[12px] font-medium text-[#4F545A] transition-colors hover:border-[#CFD3D7] hover:bg-[#FAFAFA] disabled:cursor-not-allowed disabled:opacity-40"
+                className="inline-flex h-10 shrink-0 items-center justify-center gap-2 rounded-full border border-[#DFE2E5] bg-background-primary transition-colors px-4 text-[12px] font-medium text-[#4F545A] transition-colors hover:border-[#CFD3D7] hover:bg-surface-elevated transition-colors disabled:cursor-not-allowed disabled:opacity-40"
               >
                 {exporting ? (
                   <LoaderCircle
@@ -1027,27 +1029,27 @@ export function HistoryPage({
 
               <tr className="border-b border-[#E7E9EB] text-left">
 
-                <th className="py-4 pr-5 text-[11px] font-medium text-[#8B9096]">
+                <th className="py-4 pr-5 text-[11px] font-medium text-text-secondary">
                   Data
                 </th>
 
-                <th className="px-5 py-4 text-[11px] font-medium text-[#8B9096]">
+                <th className="px-5 py-4 text-[11px] font-medium text-text-secondary">
                   Linha
                 </th>
 
-                <th className="px-5 py-4 text-[11px] font-medium text-[#8B9096]">
+                <th className="px-5 py-4 text-[11px] font-medium text-text-secondary">
                   Equipamento
                 </th>
 
-                <th className="px-5 py-4 text-[11px] font-medium text-[#8B9096]">
+                <th className="px-5 py-4 text-[11px] font-medium text-text-secondary">
                   Ocorrência
                 </th>
 
-                <th className="px-5 py-4 text-[11px] font-medium text-[#8B9096]">
+                <th className="px-5 py-4 text-[11px] font-medium text-text-secondary">
                   Classificação
                 </th>
 
-                <th className="py-4 pl-5 text-right text-[11px] font-medium text-[#8B9096]">
+                <th className="py-4 pl-5 text-right text-[11px] font-medium text-text-secondary">
                   Min.
                 </th>
 
@@ -1294,9 +1296,9 @@ export function HistoryPage({
             className="absolute inset-0 bg-black/20 backdrop-blur-[1px]"
           />
 
-          <aside className="absolute right-0 top-0 h-full w-full max-w-[560px] overflow-y-auto bg-white shadow-[-16px_0_48px_rgba(0,0,0,0.08)]">
+          <aside className="absolute right-0 top-0 h-full w-full max-w-[560px] overflow-y-auto bg-background-primary transition-colors shadow-[-16px_0_48px_rgba(0,0,0,0.08)]">
 
-            <div className="sticky top-0 z-10 border-b border-[#E8E9EB] bg-white/96 backdrop-blur-sm">
+            <div className="sticky top-0 z-10 border-b border-border-theme transition-colors bg-background-primary transition-colors/96 backdrop-blur-sm">
 
               <div className="flex h-[78px] items-center justify-between px-7">
 
@@ -1330,7 +1332,7 @@ export function HistoryPage({
 
             <div className="px-7 py-7 pb-10">
 
-              <div className="rounded-[22px] border border-[#ECEDEF] bg-[#FAFAFA] p-5">
+              <div className="rounded-[22px] border border-[#ECEDEF] bg-surface-elevated transition-colors p-5">
 
                 <p className="text-[10px] uppercase tracking-[0.12em] text-[#A1A6AC]">
                   Falha registrada
@@ -1371,7 +1373,7 @@ export function HistoryPage({
 
               </div>
 
-              <div className="mt-7 rounded-[22px] border border-[#ECEDEF] bg-white p-5">
+              <div className="mt-7 rounded-[22px] border border-[#ECEDEF] bg-background-primary transition-colors p-5">
 
                 <h2 className="text-[15px] font-semibold text-[#262A2F]">
                   Informações do apontamento
@@ -1457,7 +1459,7 @@ export function HistoryPage({
 
               </div>
 
-              <div className="mt-7 rounded-[22px] border border-[#ECEDEF] bg-white p-5">
+              <div className="mt-7 rounded-[22px] border border-[#ECEDEF] bg-background-primary transition-colors p-5">
 
                 <div className="flex items-start justify-between gap-4">
 
@@ -1492,7 +1494,7 @@ export function HistoryPage({
                 {!editing && (
                   <div className="mt-6 space-y-5">
 
-                    <div className="rounded-[18px] bg-[#FAFAFA] p-4">
+                    <div className="rounded-[18px] bg-surface-elevated transition-colors p-4">
 
                       <p className="text-[10px] uppercase tracking-[0.12em] text-[#A0A4A9]">
                         Falha
@@ -1565,7 +1567,7 @@ export function HistoryPage({
                 {editing && (
                   <div className="mt-6">
 
-                    <div className="rounded-[18px] bg-[#FAFAFA] p-4">
+                    <div className="rounded-[18px] bg-surface-elevated transition-colors p-4">
 
                       <p className="text-[10px] uppercase tracking-[0.12em] text-[#A0A4A9]">
                         Ocorrência
@@ -1601,7 +1603,7 @@ export function HistoryPage({
                                 .value,
                             )
                           }
-                          className="mt-2 h-12 w-full rounded-[12px] border border-[#DDE0E3] bg-white px-3 text-[13px] text-[#303438] outline-none transition-colors focus:border-[#C6CAD0]"
+                          className="mt-2 h-12 w-full rounded-[12px] border border-[#DDE0E3] bg-background-primary transition-colors px-3 text-[13px] text-[#303438] outline-none transition-colors focus:border-[#C6CAD0]"
                         >
 
                           <option value="">
@@ -1651,7 +1653,7 @@ export function HistoryPage({
                             )
                           }
                           placeholder="Ex.: Transporte, Rotulagem, Dosagem"
-                          className="mt-2 h-12 w-full rounded-[12px] border border-[#DDE0E3] bg-white px-3 text-[13px] text-[#303438] outline-none transition-colors placeholder:text-[#B0B4B8] focus:border-[#C6CAD0]"
+                          className="mt-2 h-12 w-full rounded-[12px] border border-[#DDE0E3] bg-background-primary transition-colors px-3 text-[13px] text-[#303438] outline-none transition-colors placeholder:text-[#B0B4B8] focus:border-[#C6CAD0]"
                         />
 
                       </div>
@@ -1678,7 +1680,7 @@ export function HistoryPage({
                           )
                         }
                         placeholder="Ex.: Falha de dosador"
-                        className="mt-2 h-12 w-full rounded-[12px] border border-[#DDE0E3] bg-white px-3 text-[13px] text-[#303438] outline-none transition-colors placeholder:text-[#B0B4B8] focus:border-[#C6CAD0]"
+                        className="mt-2 h-12 w-full rounded-[12px] border border-[#DDE0E3] bg-background-primary transition-colors px-3 text-[13px] text-[#303438] outline-none transition-colors placeholder:text-[#B0B4B8] focus:border-[#C6CAD0]"
                       />
 
                     </div>
@@ -1723,7 +1725,7 @@ export function HistoryPage({
                         }
                         rows={4}
                         placeholder="Adicione um contexto complementar, se necessário."
-                        className="mt-2 w-full resize-none rounded-[12px] border border-[#DDE0E3] bg-white px-3 py-3 text-[13px] leading-6 text-[#303438] outline-none transition-colors placeholder:text-[#B0B4B8] focus:border-[#C6CAD0]"
+                        className="mt-2 w-full resize-none rounded-[12px] border border-[#DDE0E3] bg-background-primary transition-colors px-3 py-3 text-[13px] leading-6 text-[#303438] outline-none transition-colors placeholder:text-[#B0B4B8] focus:border-[#C6CAD0]"
                       />
 
                     </div>

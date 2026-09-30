@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { ThemeSwitcher } from "@/components/theme/theme-switcher";
 import { FormEvent, useEffect, useState } from "react";
 
 import {
@@ -103,7 +104,7 @@ export default function LoginPage() {
   }
 
   return (
-    <main className="relative min-h-screen w-full overflow-hidden bg-white">
+    <main className="relative min-h-screen w-full overflow-hidden bg-background-primary transition-colors">
       {/* =========================================================
           TRANSIÇÃO DE SAÍDA
       ========================================================== */}
@@ -202,7 +203,10 @@ export default function LoginPage() {
               LOGIN
           ====================================================== */}
 
-          <section className="relative flex min-h-screen items-center justify-center bg-white px-6 py-10 sm:px-10 lg:px-16 xl:px-24">
+          <section className="relative flex min-h-screen items-center justify-center bg-background-secondary px-6 py-10 sm:px-10 lg:px-16 xl:px-24 transition-colors">
+            <div className="absolute top-4 right-4 sm:top-8 sm:right-8 z-50">
+              <ThemeSwitcher />
+            </div>
             <div className="absolute left-0 top-0 h-1 w-full bg-[#F40009] lg:hidden" />
 
             <div className="login-form-container w-full max-w-[410px]">
@@ -222,11 +226,11 @@ export default function LoginPage() {
               {/* Cabeçalho */}
 
               <header className="login-header mb-9 text-center">
-                <h2 className="text-[30px] font-semibold tracking-[-0.04em] text-[#191919] sm:text-[32px]">
+                <h2 className="text-[30px] font-semibold tracking-[-0.04em] text-text-primary sm:text-[32px]">
                   Acesse sua conta
                 </h2>
 
-                <p className="mx-auto mt-3 max-w-[340px] text-[13px] leading-6 text-[#7C8087] sm:text-sm">
+                <p className="mx-auto mt-3 max-w-[340px] text-[13px] leading-6 text-text-secondary sm:text-sm">
                   Informe suas credenciais corporativas para continuar.
                 </p>
               </header>
