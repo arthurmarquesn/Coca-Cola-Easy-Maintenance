@@ -1,11 +1,73 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #191919;
+@theme {
+  --color-background-primary: var(--background-primary);
+  --color-background-secondary: var(--background-secondary);
+  --color-surface: var(--surface);
+  --color-surface-elevated: var(--surface-elevated);
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-border-theme: var(--border-theme); /* using border-theme to avoid conflict with tailwind border */
+  --color-accent-primary: var(--accent-primary);
+  --color-accent-secondary: var(--accent-secondary);
+  --color-button-primary: var(--button-primary);
+  --color-button-primary-hover: var(--button-primary-hover);
+  --color-button-secondary: var(--button-secondary);
+  --color-button-secondary-hover: var(--button-secondary-hover);
+  --color-focus-ring: var(--focus-ring);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-error: var(--error);
+}
 
-  --coca-cola-red: #f40009;
-  --coca-cola-red-hover: #de0008;
+:root {
+  /* LIGHT THEME (Basic fallback) */
+  --background-primary: #F8F9FA;
+  --background-secondary: #FFFFFF;
+  --surface: #FFFFFF;
+  --surface-elevated: #F1F3F5;
+  --text-primary: #111111;
+  --text-secondary: #687076;
+  --border-theme: #E6E8EB;
+  
+  --accent-primary: #F40009;
+  --accent-secondary: #B90007;
+  
+  --button-primary: var(--accent-primary);
+  --button-primary-hover: var(--accent-secondary);
+  --button-secondary: #E6E8EB;
+  --button-secondary-hover: #D7DBDF;
+  
+  --focus-ring: rgba(244, 0, 9, 0.2);
+  
+  --success: #29A366;
+  --warning: #F59E0B;
+  --error: #DC2626;
+}
+
+.dark {
+  /* DARK THEME (Premium Industrial - Default) */
+  --background-primary: #050505; /* Preto profundo */
+  --background-secondary: #0D0D0F; /* Carvão */
+  --surface: #141416; /* Grafite */
+  --surface-elevated: #1F1F22; /* Cinza escuro */
+  --text-primary: #F4F4F5;
+  --text-secondary: #A1A1AA;
+  --border-theme: #27272A;
+  
+  --accent-primary: #F40009;
+  --accent-secondary: #990005;
+  
+  --button-primary: var(--accent-primary);
+  --button-primary-hover: var(--accent-secondary);
+  --button-secondary: #27272A;
+  --button-secondary-hover: #3F3F46;
+  
+  --focus-ring: rgba(244, 0, 9, 0.4);
+  
+  --success: #10B981;
+  --warning: #F59E0B;
+  --error: #EF4444;
 }
 
 * {
@@ -18,23 +80,17 @@ body {
 }
 
 html {
-  background: #ffffff;
+  background: var(--background-primary);
 }
 
 body {
   margin: 0;
-
-  background: var(--background);
-  color: var(--foreground);
-
-  font-family:
-    var(--font-geist-sans),
-    Arial,
-    Helvetica,
-    sans-serif;
-
+  background: var(--background-primary);
+  color: var(--text-primary);
+  font-family: var(--font-inter), Arial, Helvetica, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 button,
