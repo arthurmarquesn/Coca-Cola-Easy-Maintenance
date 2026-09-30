@@ -1,0 +1,35 @@
+interface KpiCardProps {
+  label: string;
+  value: string;
+  accent?: boolean;
+}
+
+export function KpiCard({
+  label,
+  value,
+  accent = false,
+}: KpiCardProps) {
+  return (
+    <div
+      className={`rounded-[11px] border bg-white px-5 py-4 ${
+        accent
+          ? "border-[#F8C6C8]"
+          : "border-[#E9EBEE]"
+      }`}
+    >
+      <p className="text-[12px] font-medium text-[#7C8087]">
+        {label}
+      </p>
+
+      <p
+        className={`mt-1.5 text-[26px] font-semibold tracking-[-0.02em] sm:text-[28px] ${
+          accent
+            ? "text-[#F40009]"
+            : "text-[#191919]"
+        }`}
+      >
+        {value}
+      </p>
+    </div>
+  );
+}

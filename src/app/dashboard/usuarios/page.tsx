@@ -7,16 +7,24 @@ import type {
 } from "mysql2/promise";
 
 import {
-  ReviewOverviewPage,
-} from "@/components/review/review-overview-page";
+  UsersPage,
+} from "@/components/users/users-page";
 
 import {
   executeRows,
 } from "@/lib/db";
 
 import {
+  isAdminRole,
+} from "@/lib/roles";
+
+import {
   getSession,
 } from "@/lib/session";
+
+import {
+  listUsersAndUnits,
+} from "@/lib/users";
 
 interface UnitRow
   extends RowDataPacket {
@@ -25,20 +33,20 @@ interface UnitRow
     | null;
 }
 
-export default async function ReviewPageRoute() {
+export default async function UsersPageRoute() {
   const session =
     await getSession();
 
   if (!session) {
-    redirect(
-      "/login",
-    );
+    redirect("/login");
+  }
+
+  if (!isAdminRole(session.role)) {
+    redirect("/dashboard");
   }
 
   const units =
-    await executeRows<
-      UnitRow[]
-    >(
+    await executeRows<UnitRow[]>(
       `
         SELECT
           city
@@ -57,17 +65,22 @@ export default async function ReviewPageRoute() {
       ],
     );
 
-  const unit =
-    units[0];
+  const unit = units[0];
 
   if (!unit) {
-    redirect(
-      "/login",
-    );
+    redirect("/login");
   }
 
+  const { users, units: unitOptions } =
+    await listUsersAndUnits();
+
   return (
-    <ReviewOverviewPage
+    <UsersPage
+      initialUsers={users}
+      initialUnits={unitOptions}
+      currentUserId={
+        session.userId
+      }
       user={{
         name:
           session.name,

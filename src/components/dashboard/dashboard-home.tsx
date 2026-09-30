@@ -6,9 +6,11 @@ import Link from "next/link";
 import {
   Activity,
   ArrowRight,
+  ClipboardCheck,
   FileSpreadsheet,
   History,
   LogOut,
+  UserPlus,
 } from "lucide-react";
 
 import {
@@ -18,10 +20,13 @@ import {
 interface DashboardHomeProps {
   user: {
     name: string;
+    email?: string;
+    role?: string;
   };
 
   unit: {
-    city: string;
+    id?: number;
+    city: string | null;
   };
 }
 
@@ -44,6 +49,9 @@ export function DashboardHome({
     getFirstName(
       user.name,
     );
+
+  const isAdmin =
+    user.role === "ADMIN";
 
   const [
     loggingOut,
@@ -159,7 +167,7 @@ export function DashboardHome({
           </p>
         </section>
 
-        <section className="mt-14 grid gap-5 lg:grid-cols-3">
+        <section className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
           <Link
             href="/dashboard/importar"
             className="group flex min-h-[330px] flex-col justify-between rounded-[30px] bg-[#E41E2B] p-8 text-white transition-colors duration-200 hover:bg-[#CF1925]"
@@ -260,6 +268,74 @@ export function DashboardHome({
               />
             </div>
           </Link>
+
+          <Link
+            href="/dashboard/revisao"
+            className="group flex min-h-[330px] flex-col justify-between rounded-[30px] border border-black/[0.07] bg-white p-8 transition-all duration-200 hover:-translate-y-0.5 hover:border-black/[0.12] hover:shadow-[0_16px_40px_rgba(0,0,0,0.045)]"
+          >
+            <div>
+              <ClipboardCheck
+                size={25}
+                strokeWidth={1.7}
+                className="text-[#44484D]"
+              />
+
+              <h2 className="mt-12 text-[30px] font-semibold leading-[1.08] tracking-[-0.04em] text-[#202225]">
+                Validação
+              </h2>
+
+              <p className="mt-4 text-[14px] leading-6 text-[#777B80]">
+                Revise por categoria as classificações sugeridas
+                pela IA e registre o feedback humano.
+              </p>
+            </div>
+
+            <div className="mt-10 flex items-center justify-between border-t border-[#EEEEEC] pt-6">
+              <span className="text-[13px] font-semibold text-[#303338]">
+                Revisar
+              </span>
+
+              <ArrowRight
+                size={18}
+                className="text-[#777C82] transition-transform duration-200 group-hover:translate-x-1"
+              />
+            </div>
+          </Link>
+
+          {isAdmin && (
+            <Link
+              href="/dashboard/usuarios"
+              className="group flex min-h-[330px] flex-col justify-between rounded-[30px] border border-black/[0.07] bg-white p-8 transition-all duration-200 hover:-translate-y-0.5 hover:border-black/[0.12] hover:shadow-[0_16px_40px_rgba(0,0,0,0.045)]"
+            >
+              <div>
+                <UserPlus
+                  size={25}
+                  strokeWidth={1.7}
+                  className="text-[#44484D]"
+                />
+
+                <h2 className="mt-12 text-[30px] font-semibold leading-[1.08] tracking-[-0.04em] text-[#202225]">
+                  Usuários
+                </h2>
+
+                <p className="mt-4 text-[14px] leading-6 text-[#777B80]">
+                  Cadastre novos usuários e defina a
+                  função de cada um no sistema.
+                </p>
+              </div>
+
+              <div className="mt-10 flex items-center justify-between border-t border-[#EEEEEC] pt-6">
+                <span className="text-[13px] font-semibold text-[#303338]">
+                  Gerenciar
+                </span>
+
+                <ArrowRight
+                  size={18}
+                  className="text-[#777C82] transition-transform duration-200 group-hover:translate-x-1"
+                />
+              </div>
+            </Link>
+          )}
         </section>
       </div>
     </main>
