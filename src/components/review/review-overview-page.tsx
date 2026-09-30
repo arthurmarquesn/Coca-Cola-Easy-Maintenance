@@ -237,7 +237,7 @@ export function ReviewOverviewPage({ user, unit }: ReviewOverviewPageProps) {
         <div className="mt-9 grid grid-cols-2 gap-3 sm:grid-cols-4">
           <div className="rounded-[14px] border border-[#E9EBEE] bg-background-primary transition-colors px-4 py-3.5">
             -text-body">Total</p>
-            <p className="mt-1 text-[22px] font-semibold text-[#191919]">
+            <p className="mt-1 text-[22px] font-semibold text-text-title">
               {totals.total}
             </p>
           </div>

@@ -320,7 +320,7 @@ export default function LoginPage() {
                             !current,
                         )
                       }
-                      className="absolute right-4 top-1/2 flex -translate-y-1/2 items-center justify-center text-[#A0A5AC] transition-colors duration-200 hover:text-[#555A60] focus-visible:outline-none focus-visible:text-[#F40009] disabled:cursor-not-allowed disabled:opacity-50"
+                      className="absolute right-4 top-1/2 flex -translate-y-1/2 items-center justify-center text-[#A0A5AC] transition-colors duration-200 hover:text-text-body focus-visible:outline-none focus-visible:text-[#F40009] disabled:cursor-not-allowed disabled:opacity-50"
                       aria-label={
                         showPassword
                           ? "Ocultar senha"

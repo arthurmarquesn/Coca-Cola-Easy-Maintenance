@@ -342,11 +342,11 @@ export function UsersPage({
             <div className="flex items-center gap-5">
             <ThemeSwitcher />
             <div className="hidden text-right sm:block">
-              <p className="text-[13px] font-medium text-[#25272A]">
+              <p className="text-[13px] font-medium text-text-title">
                 {user.name}
               </p>
 
-              <p className="mt-0.5 text-[11px] text-[#999DA2]">
+              <p className="mt-0.5 text-[11px] text-text-body">
                 {unit.city}
               </p>
             </div>
@@ -355,7 +355,7 @@ export function UsersPage({
 
             <Link
               href="/dashboard"
-              className="flex items-center gap-2 text-[12px] font-medium text-[#777B80] transition-colors hover:text-[#E41E2B]"
+              className="flex items-center gap-2 text-[12px] font-medium text-text-body transition-colors hover:text-[#E41E2B]"
             >
               <ArrowLeft
                 size={16}
@@ -370,11 +370,11 @@ export function UsersPage({
       </header>
 
       <div className="mx-auto w-full max-w-[1280px] px-6 pb-20 pt-12 sm:px-8 lg:px-10">
-        <h1 className="text-[38px] font-semibold leading-[1.04] tracking-[-0.045em] text-[#181A1D] sm:text-[46px]">
+        <h1 className="text-[38px] font-semibold leading-[1.04] tracking-[-0.045em] text-text-title sm:text-[46px]">
           Usuários
         </h1>
 
-        <p className="mt-4 max-w-[560px] text-[14px] leading-6 text-[#777B80]">
+        <p className="mt-4 max-w-[560px] text-[14px] leading-6 text-text-body">
           Cadastre novos usuários e defina a função de
           cada um. Apenas Admins têm acesso a esta página.
         </p>
@@ -566,7 +566,7 @@ export function UsersPage({
             <div className="overflow-x-auto">
               <table className="w-full min-w-[720px] text-left text-[13px]">
                 <thead>
-                  <tr className="border-b border-[#EEEEEC] text-[11px] uppercase tracking-wide text-[#999DA2]">
+                  <tr className="border-b border-[#EEEEEC] text-[11px] uppercase tracking-wide text-text-body">
                     <th className="px-6 py-4 font-medium">
                       Usuário
                     </th>
@@ -605,11 +605,11 @@ export function UsersPage({
                           className="border-b border-[#F3F3F1] last:border-0"
                         >
                           <td className="px-6 py-4">
-                            <p className="font-medium text-[#25272A]">
+                            <p className="font-medium text-text-title">
                               {item.name}
                             </p>
 
-                            <p className="mt-0.5 text-[12px] text-[#999DA2]">
+                            <p className="mt-0.5 text-[12px] text-text-body">
                               {item.email}
                             </p>
                           </td>
@@ -680,7 +680,7 @@ export function UsersPage({
                             </select>
                           </td>
 
-                          <td className="px-4 py-4 text-[#555A60]">
+                          <td className="px-4 py-4 text-text-body">
                             {item.unitName ??
                               "—"}
                           </td>
@@ -704,7 +704,7 @@ export function UsersPage({
                               className={`rounded-full px-3 py-1.5 text-[12px] font-medium transition-colors disabled:cursor-not-allowed disabled:opacity-60 ${
                                 item.active
                                   ? "bg-[#E9F6EE] text-[#1E6B3A] hover:bg-[#DCF0E4]"
-                                  : "bg-[#F1F1EF] text-[#777B80] hover:bg-[#E8E8E5]"
+                                  : "bg-[#F1F1EF] text-text-body hover:bg-[#E8E8E5]"
                               }`}
                             >
                               {item.active

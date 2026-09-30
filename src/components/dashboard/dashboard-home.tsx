@@ -141,7 +141,7 @@ export function DashboardHome({
               disabled={
                 loggingOut
               }
-              className="group flex items-center gap-2 text-[12px] font-medium text-[#777B80] transition-colors hover:text-[#E41E2B] disabled:cursor-not-allowed disabled:opacity-40"
+              className="group flex items-center gap-2 text-[12px] font-medium text-text-body transition-colors hover:text-[#E41E2B] disabled:cursor-not-allowed disabled:opacity-40"
             >
               <LogOut
                 size={16}

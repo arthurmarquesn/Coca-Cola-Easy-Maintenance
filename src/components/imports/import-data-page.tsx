@@ -971,7 +971,7 @@ export function ImportDataPage({
                   </p>
 
 
-                  <p className="mt-1 text-[11px] text-[#999DA2]">
+                  <p className="mt-1 text-[11px] text-text-body">
                     {formatFileSize(
                       file.size,
                     )}
@@ -1345,7 +1345,7 @@ export function ImportDataPage({
                             />
 
 
-                            <p className="text-[12px] font-medium text-[#44484D]">
+                            <p className="text-[12px] font-medium text-text-body">
                               {mlCompleted
                                 ? "Concluído"
                                 : mlResult.status ===

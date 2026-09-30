@@ -31,7 +31,7 @@ export function CategoryCard({ category, href }: CategoryCardProps) {
     >
       <div>
         <div className="flex items-start justify-between gap-3">
-          <h3 className="text-[16px] font-semibold leading-tight tracking-[-0.01em] text-[#202225]">
+          <h3 className="text-[16px] font-semibold leading-tight tracking-[-0.01em] text-text-title">
             {category.label}
           </h3>
 
@@ -46,7 +46,7 @@ export function CategoryCard({ category, href }: CategoryCardProps) {
           )}
         </div>
 
-        <p className="mt-3 text-[26px] font-semibold tracking-[-0.02em] text-[#191919]">
+        <p className="mt-3 text-[26px] font-semibold tracking-[-0.02em] text-text-title">
           {category.total}
           <span className="ml-1.5 text-[12px] font-medium text-[#9A9EA3]">
             ocorrência(s)
