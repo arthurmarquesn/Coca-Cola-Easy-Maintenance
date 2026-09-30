@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { FormEvent, useEffect, useState } from "react";
+import { preload } from "react-dom";
 
 import {
   ArrowRight,
@@ -13,16 +14,17 @@ import {
   Mail,
 } from "lucide-react";
 
-const CURVE_PATH =
-  "M205 0 H118 C72 82 160 171 102 262 C38 361 28 449 112 526 C169 579 94 672 70 748 C44 830 148 901 102 1000 H205 Z";
+import { BRAND_CURVE_PATH } from "@/components/brand/brand-curve";
+import {
+  LOGIN_TRANSITION_BOTTLE_SRC,
+  useLoginTransition,
+} from "@/components/transitions/login-transition";
 
 const WAVE_PATH_1 =
   "M0 105 C135 195 285 64 430 112 C575 160 705 217 850 112 V270 H0 Z";
 
 const WAVE_PATH_2 =
   "M0 174 C155 240 308 116 465 157 C615 197 725 240 850 170 V270 H0 Z";
-
-const LOGIN_TRANSITION_DURATION = 1800;
 
 interface LoginResponse {
   success: boolean;
@@ -31,6 +33,11 @@ interface LoginResponse {
 
 export default function LoginPage() {
   const router = useRouter();
+  const startLoginTransition = useLoginTransition();
+
+  preload(LOGIN_TRANSITION_BOTTLE_SRC, {
+    as: "image",
+  });
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -84,15 +91,7 @@ export default function LoginPage() {
       }
 
       setIsLeaving(true);
-
-      await new Promise((resolve) => {
-        setTimeout(
-          resolve,
-          LOGIN_TRANSITION_DURATION,
-        );
-      });
-
-      router.replace("/dashboard");
+      startLoginTransition("/dashboard");
     } catch {
       setError(
         "Não foi possível conectar ao servidor.",
@@ -104,31 +103,6 @@ export default function LoginPage() {
 
   return (
     <main className="relative min-h-screen w-full overflow-hidden bg-white">
-      {/* =========================================================
-          TRANSIÇÃO DE SAÍDA
-      ========================================================== */}
-
-      <div
-        className={
-          isLeaving
-            ? "login-transition login-transition-active"
-            : "login-transition"
-        }
-        aria-hidden="true"
-      >
-        <div className="login-transition-glow" />
-
-        <div className="login-transition-content">
-          <Image
-            src="/logo.webp"
-            alt=""
-            width={240}
-            height={110}
-            className="h-auto w-[190px] object-contain brightness-0 invert"
-          />
-        </div>
-      </div>
-
       {/* =========================================================
           PÁGINA
       ========================================================== */}
@@ -153,7 +127,7 @@ export default function LoginPage() {
               aria-hidden="true"
             >
               <path
-                d={CURVE_PATH}
+                d={BRAND_CURVE_PATH}
                 fill="#ffffff"
               />
             </svg>

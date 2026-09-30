@@ -260,49 +260,67 @@ button {
 }
 
 /* =========================================================
-   CORTINA VERMELHA
+   TRANSIÇÃO DE LOGIN (cortina + logo + garrafa)
+   Animada por src/components/transitions/login-transition.tsx.
+   Os estados abaixo são as poses iniciais, fora da tela.
 ========================================================= */
 
 .login-transition {
+  --login-transition-edge: clamp(64px, 12vw, 205px);
+  --login-transition-outline-h: clamp(260px, 62vh, 560px);
+  --login-transition-outline-w: calc(var(--login-transition-outline-h) * 285 / 886);
+  --login-transition-bottle: clamp(44px, 9vw, 104px);
+  --login-transition-gap: clamp(12px, 2.5vw, 32px);
+
   position: fixed;
   inset: 0;
 
   z-index: 9999;
 
-  display: flex;
-
-  align-items: center;
-  justify-content: center;
-
   overflow: hidden;
 
-  background: #f40009;
-
-  opacity: 0;
-
-  transform:
-    translateX(-100%)
-    scaleX(1.03);
-
-  transform-origin: left center;
-
   pointer-events: none;
-
-  transition:
-    transform
-      1.05s
-      cubic-bezier(0.65, 0, 0.35, 1),
-    opacity
-      0.35s
-      ease;
 }
 
-.login-transition-active {
-  opacity: 1;
+/* Cortina com bordas orgânicas nas duas pontas */
 
-  transform:
-    translateX(0)
-    scaleX(1);
+.login-transition-curtain {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+
+  left: calc(var(--login-transition-edge) * -1);
+  width: calc(100% + var(--login-transition-edge) * 2);
+
+  display: flex;
+
+  translate: -100% 0;
+
+  will-change: translate;
+}
+
+.login-transition-edge {
+  flex: none;
+
+  width: var(--login-transition-edge);
+  height: 100%;
+
+  fill: #f40009;
+}
+
+.login-transition-edge-leading {
+  transform: scaleX(-1);
+}
+
+.login-transition-fill {
+  position: relative;
+
+  flex: 1;
+
+  /* evita frestas de subpixel entre as bordas e o preenchimento */
+  margin-inline: -1px;
+
+  background: #f40009;
 }
 
 /* brilho suave */
@@ -319,9 +337,7 @@ button {
   max-width: 850px;
   max-height: 850px;
 
-  transform:
-    translate(-50%, -50%)
-    scale(0.75);
+  transform: translate(-50%, -50%);
 
   border-radius: 999px;
 
@@ -332,77 +348,96 @@ button {
       rgba(255, 255, 255, 0.05) 35%,
       rgba(255, 255, 255, 0) 70%
     );
+}
+
+/* Contorno da garrafa desenhado no centro */
+
+.login-transition-outline {
+  position: absolute;
+
+  top: 50%;
+  left: 50%;
+
+  z-index: 1;
+
+  width: var(--login-transition-outline-w);
+  height: var(--login-transition-outline-h);
+
+  translate: -50% -50%;
+}
+
+/* pathLength=1: dashoffset 1 → 0 desenha o traço inteiro */
+
+.login-transition-outline-stroke {
+  fill: none;
+
+  stroke: #ffffff;
+  stroke-width: 13;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+
+  opacity: 0;
+}
+
+/* Escrita Coca-Cola no meio do corpo da garrafa */
+
+.login-transition-logo {
+  position: absolute;
+
+  top: 52%;
+  left: 50%;
+
+  width: 78%;
+
+  translate: -50% -50%;
 
   opacity: 0;
 
-  transition:
-    opacity 0.8s ease 0.35s,
-    transform
-      1.2s
-      cubic-bezier(0.22, 1, 0.36, 1)
-      0.3s;
+  will-change: opacity, transform;
 }
 
-.login-transition-active
-.login-transition-glow {
-  opacity: 1;
+/* Garrafa — repousa à direita do contorno; a linha do tempo
+   desloca a partir desse ponto. Origem 0 0 + imagem
+   centralizada = giro em torno do centro da garrafa. */
 
-  transform:
-    translate(-50%, -50%)
-    scale(1);
-}
+.login-transition-bottle {
+  position: absolute;
 
-/* =========================================================
-   LOGO DA TRANSIÇÃO
-========================================================= */
-
-.login-transition-content {
-  position: relative;
+  top: 50%;
+  left: calc(
+    50% +
+    var(--login-transition-outline-w) / 2 +
+    var(--login-transition-gap) +
+    var(--login-transition-bottle) / 2
+  );
 
   z-index: 2;
 
-  opacity: 0;
+  width: var(--login-transition-bottle);
 
-  transform:
-    translateY(18px)
-    scale(0.94);
+  transform-origin: 0 0;
 
-  transition:
-    opacity
-      0.6s
-      ease
-      0.5s,
-    transform
-      0.85s
-      cubic-bezier(0.22, 1, 0.36, 1)
-      0.5s;
+  translate: -95vw 0;
+
+  will-change: translate, rotate, scale;
 }
 
-.login-transition-active
-.login-transition-content {
-  opacity: 1;
+.login-transition-bottle-image {
+  display: block;
 
-  transform:
-    translateY(0)
-    scale(1);
+  width: 100%;
+  height: auto;
 
-  animation:
-    transition-logo-breathe
-    1.4s
-    ease-in-out
-    1s
-    infinite
-    alternate;
-}
+  transform: translate(-50%, -50%);
 
-@keyframes transition-logo-breathe {
-  from {
-    transform: scale(1);
-  }
-
-  to {
-    transform: scale(1.018);
-  }
+  filter:
+    drop-shadow(
+      0 10px 14px
+      rgba(80, 0, 0, 0.28)
+    );
 }
 
 /* =========================================================
@@ -579,11 +614,6 @@ button {
   .typing-title {
     width: 16ch;
     border-right: none;
-  }
-
-  .login-transition-active {
-    opacity: 1;
-    transform: translateX(0);
   }
 
   .dashboard-transition-hide {
