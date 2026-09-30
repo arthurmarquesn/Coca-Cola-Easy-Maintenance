@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { ThemeSwitcher } from "@/components/theme/theme-switcher";
 
 import {
   Activity,
@@ -103,8 +104,8 @@ export function DashboardHome({
   }
 
   return (
-    <main className="min-h-screen bg-[#F7F7F6]">
-      <header className="border-b border-black/[0.05] bg-white">
+    <main className="min-h-screen bg-background-primary transition-colors">
+      <header className="border-b border-border-theme bg-surface transition-colors">
         <div className="mx-auto flex h-[76px] w-full max-w-[1280px] items-center justify-between px-6 sm:px-8 lg:px-10">
           <Image
             src="/logo.webp"
@@ -112,21 +113,25 @@ export function DashboardHome({
             width={180}
             height={64}
             priority
-            className="h-auto max-h-[42px] w-auto object-contain"
+            className="h-auto max-h-[42px] w-auto object-contain dark:invert dark:brightness-0 dark:contrast-200 dark:sepia dark:hue-rotate-[340deg] dark:saturate-[5000%]"
           />
 
           <div className="flex items-center gap-5">
             <div className="hidden text-right sm:block">
-              <p className="text-[13px] font-medium text-[#25272A]">
+              <p className="text-[13px] font-medium text-text-primary">
                 {user.name}
               </p>
 
-              <p className="mt-0.5 text-[11px] text-[#999DA2]">
+              <p className="mt-0.5 text-[11px] text-text-secondary">
                 {unit.city}
               </p>
             </div>
 
-            <div className="h-8 w-px bg-black/[0.07]" />
+            <div className="h-8 w-px bg-border-theme" />
+            
+            <ThemeSwitcher />
+            
+            <div className="h-8 w-px bg-border-theme hidden sm:block" />
 
             <button
               type="button"
@@ -155,12 +160,12 @@ export function DashboardHome({
 
       <div className="mx-auto w-full max-w-[1280px] px-6 pb-20 pt-14 sm:px-8 lg:px-10 lg:pt-20">
         <section>
-          <h1 className="max-w-[760px] text-[38px] font-semibold leading-[1.04] tracking-[-0.045em] text-[#181A1D] sm:text-[48px] lg:text-[54px]">
+          <h1 className="max-w-[760px] text-[38px] font-semibold leading-[1.04] tracking-[-0.045em] text-text-primary sm:text-[48px] lg:text-[54px]">
             Manutenção orientada
             por dados.
           </h1>
 
-          <p className="mt-5 max-w-[520px] text-[14px] leading-6 text-[#777B80]">
+          <p className="mt-5 max-w-[520px] text-[14px] leading-6 text-text-secondary">
             Olá, {firstName}. Importe novos apontamentos,
             consulte o histórico ou analise a confiabilidade
             da unidade.
@@ -205,99 +210,99 @@ export function DashboardHome({
 
           <Link
             href="/dashboard/historico"
-            className="group flex min-h-[330px] flex-col justify-between rounded-[30px] border border-black/[0.07] bg-white p-8 transition-all duration-200 hover:-translate-y-0.5 hover:border-black/[0.12] hover:shadow-[0_16px_40px_rgba(0,0,0,0.045)]"
+            className="group flex min-h-[330px] flex-col justify-between rounded-[30px] border border-border-theme bg-surface p-8 transition-all duration-200 hover:-translate-y-0.5 hover:border-text-secondary hover:shadow-xl"
           >
             <div>
               <History
                 size={25}
                 strokeWidth={1.7}
-                className="text-[#44484D]"
+                className="text-text-secondary"
               />
 
-              <h2 className="mt-12 text-[30px] font-semibold leading-[1.08] tracking-[-0.04em] text-[#202225]">
+              <h2 className="mt-12 text-[30px] font-semibold leading-[1.08] tracking-[-0.04em] text-text-primary">
                 Histórico
               </h2>
 
-              <p className="mt-4 text-[14px] leading-6 text-[#777B80]">
+              <p className="mt-4 text-[14px] leading-6 text-text-secondary">
                 Consulte falhas, ocorrências e paradas
                 registradas na manutenção.
               </p>
             </div>
 
-            <div className="mt-10 flex items-center justify-between border-t border-[#EEEEEC] pt-6">
-              <span className="text-[13px] font-semibold text-[#303338]">
+            <div className="mt-10 flex items-center justify-between border-t border-border-theme pt-6">
+              <span className="text-[13px] font-semibold text-text-primary">
                 Consultar
               </span>
 
               <ArrowRight
                 size={18}
-                className="text-[#777C82] transition-transform duration-200 group-hover:translate-x-1"
+                className="text-text-secondary transition-transform duration-200 group-hover:translate-x-1"
               />
             </div>
           </Link>
 
           <Link
             href="/dashboard/confiabilidade"
-            className="group flex min-h-[330px] flex-col justify-between rounded-[30px] border border-black/[0.07] bg-white p-8 transition-all duration-200 hover:-translate-y-0.5 hover:border-black/[0.12] hover:shadow-[0_16px_40px_rgba(0,0,0,0.045)]"
+            className="group flex min-h-[330px] flex-col justify-between rounded-[30px] border border-border-theme bg-surface p-8 transition-all duration-200 hover:-translate-y-0.5 hover:border-text-secondary hover:shadow-xl"
           >
             <div>
               <Activity
                 size={25}
                 strokeWidth={1.7}
-                className="text-[#44484D]"
+                className="text-text-secondary"
               />
 
-              <h2 className="mt-12 text-[30px] font-semibold leading-[1.08] tracking-[-0.04em] text-[#202225]">
+              <h2 className="mt-12 text-[30px] font-semibold leading-[1.08] tracking-[-0.04em] text-text-primary">
                 Confiabilidade
               </h2>
 
-              <p className="mt-4 text-[14px] leading-6 text-[#777B80]">
+              <p className="mt-4 text-[14px] leading-6 text-text-secondary">
                 Identifique concentração de perdas,
                 recorrência e impacto das falhas.
               </p>
             </div>
 
-            <div className="mt-10 flex items-center justify-between border-t border-[#EEEEEC] pt-6">
-              <span className="text-[13px] font-semibold text-[#303338]">
+            <div className="mt-10 flex items-center justify-between border-t border-border-theme pt-6">
+              <span className="text-[13px] font-semibold text-text-primary">
                 Analisar
               </span>
 
               <ArrowRight
                 size={18}
-                className="text-[#777C82] transition-transform duration-200 group-hover:translate-x-1"
+                className="text-text-secondary transition-transform duration-200 group-hover:translate-x-1"
               />
             </div>
           </Link>
 
           <Link
             href="/dashboard/revisao"
-            className="group flex min-h-[330px] flex-col justify-between rounded-[30px] border border-black/[0.07] bg-white p-8 transition-all duration-200 hover:-translate-y-0.5 hover:border-black/[0.12] hover:shadow-[0_16px_40px_rgba(0,0,0,0.045)]"
+            className="group flex min-h-[330px] flex-col justify-between rounded-[30px] border border-border-theme bg-surface p-8 transition-all duration-200 hover:-translate-y-0.5 hover:border-text-secondary hover:shadow-xl"
           >
             <div>
               <ClipboardCheck
                 size={25}
                 strokeWidth={1.7}
-                className="text-[#44484D]"
+                className="text-text-secondary"
               />
 
-              <h2 className="mt-12 text-[30px] font-semibold leading-[1.08] tracking-[-0.04em] text-[#202225]">
+              <h2 className="mt-12 text-[30px] font-semibold leading-[1.08] tracking-[-0.04em] text-text-primary">
                 Validação
               </h2>
 
-              <p className="mt-4 text-[14px] leading-6 text-[#777B80]">
+              <p className="mt-4 text-[14px] leading-6 text-text-secondary">
                 Revise por categoria as classificações sugeridas
                 pela IA e registre o feedback humano.
               </p>
             </div>
 
-            <div className="mt-10 flex items-center justify-between border-t border-[#EEEEEC] pt-6">
-              <span className="text-[13px] font-semibold text-[#303338]">
+            <div className="mt-10 flex items-center justify-between border-t border-border-theme pt-6">
+              <span className="text-[13px] font-semibold text-text-primary">
                 Revisar
               </span>
 
               <ArrowRight
                 size={18}
-                className="text-[#777C82] transition-transform duration-200 group-hover:translate-x-1"
+                className="text-text-secondary transition-transform duration-200 group-hover:translate-x-1"
               />
             </div>
           </Link>
@@ -305,33 +310,33 @@ export function DashboardHome({
           {isAdmin && (
             <Link
               href="/dashboard/usuarios"
-              className="group flex min-h-[330px] flex-col justify-between rounded-[30px] border border-black/[0.07] bg-white p-8 transition-all duration-200 hover:-translate-y-0.5 hover:border-black/[0.12] hover:shadow-[0_16px_40px_rgba(0,0,0,0.045)]"
+              className="group flex min-h-[330px] flex-col justify-between rounded-[30px] border border-border-theme bg-surface p-8 transition-all duration-200 hover:-translate-y-0.5 hover:border-text-secondary hover:shadow-xl"
             >
               <div>
                 <UserPlus
                   size={25}
                   strokeWidth={1.7}
-                  className="text-[#44484D]"
+                  className="text-text-secondary"
                 />
 
-                <h2 className="mt-12 text-[30px] font-semibold leading-[1.08] tracking-[-0.04em] text-[#202225]">
+                <h2 className="mt-12 text-[30px] font-semibold leading-[1.08] tracking-[-0.04em] text-text-primary">
                   Usuários
                 </h2>
 
-                <p className="mt-4 text-[14px] leading-6 text-[#777B80]">
+                <p className="mt-4 text-[14px] leading-6 text-text-secondary">
                   Cadastre novos usuários e defina a
                   função de cada um no sistema.
                 </p>
               </div>
 
-              <div className="mt-10 flex items-center justify-between border-t border-[#EEEEEC] pt-6">
-                <span className="text-[13px] font-semibold text-[#303338]">
+              <div className="mt-10 flex items-center justify-between border-t border-border-theme pt-6">
+                <span className="text-[13px] font-semibold text-text-primary">
                   Gerenciar
                 </span>
 
                 <ArrowRight
                   size={18}
-                  className="text-[#777C82] transition-transform duration-200 group-hover:translate-x-1"
+                  className="text-text-secondary transition-transform duration-200 group-hover:translate-x-1"
                 />
               </div>
             </Link>
