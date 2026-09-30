@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { cookies } from "next/headers";
-import "./globals.css";
-import { ThemeProvider } from "@/components/theme/theme-provider";
 import { LoginTransitionProvider } from "@/components/transitions/login-transition";
+import { ThemeProvider } from "@/components/theme/theme-provider";
+import "./globals.css";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -20,19 +20,16 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  // Ler a preferência do usuário do cookie
   const cookieStore = await cookies();
   const themeCookie = cookieStore.get("theme");
   const initialTheme = themeCookie?.value === "light" ? "light" : "dark";
 
   return (
-    <html lang="pt-BR" className={initialTheme}>
-      <body className={`${inter.variable} antialiased font-sans bg-background-primary text-text-primary`}>
-        <ThemeProvider initialTheme={initialTheme}>
-          <LoginTransitionProvider>
-            {children}
-          </LoginTransitionProvider>
-        </ThemeProvider>
+    <html lang="pt-BR">
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+      >
+        {children}
       </body>
     </html>
   );

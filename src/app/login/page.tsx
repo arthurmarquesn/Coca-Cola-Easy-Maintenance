@@ -200,11 +200,11 @@ export default function LoginPage() {
               {/* Cabeçalho */}
 
               <header className="login-header mb-9 text-center">
-                <h2 className="text-[30px] font-semibold tracking-[-0.04em] text-text-primary sm:text-[32px]">
+                <h2 className="text-text-title">
                   Acesse sua conta
                 </h2>
 
-                <p className="mx-auto mt-3 max-w-[340px] text-[13px] leading-6 text-text-secondary sm:text-sm">
+                <p className="mt-2 text-[13px] text-text-body sm:text-sm">
                   Informe suas credenciais corporativas para continuar.
                 </p>
               </header>
@@ -320,7 +320,7 @@ export default function LoginPage() {
                             !current,
                         )
                       }
-                      className="absolute right-4 top-1/2 flex -translate-y-1/2 items-center justify-center text-[#A0A5AC] transition-colors duration-200 hover:text-[#555A60] focus-visible:outline-none focus-visible:text-[#F40009] disabled:cursor-not-allowed disabled:opacity-50"
+                      className="absolute right-4 top-1/2 flex -translate-y-1/2 items-center justify-center text-[#A0A5AC] transition-colors duration-200 hover:text-text-body focus-visible:outline-none focus-visible:text-[#F40009] disabled:cursor-not-allowed disabled:opacity-50"
                       aria-label={
                         showPassword
                           ? "Ocultar senha"

@@ -12,10 +12,10 @@ export function DashboardHeader({
   return (
     <header className="flex w-full flex-wrap items-center justify-between gap-2 bg-background-secondary px-4 py-4 sm:px-8 border-b border-border-theme transition-colors">
       <div className="flex items-center gap-4">
-        <h1 className="text-[16px] font-semibold tracking-[-0.01em] text-text-primary sm:text-[18px]">
+        <h1 className="text-text-title">
           {title}
         </h1>
-        <p className="text-[12px] font-medium text-text-secondary sm:text-[13px] hidden sm:block">
+        <p className="text-[11px] text-text-body sm:text-[13px] hidden sm:block">
           {summary}
         </p>
       </div>

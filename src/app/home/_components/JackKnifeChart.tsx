@@ -67,7 +67,7 @@ function JackKnifeTooltip({
 
   return (
     <div className="rounded-[11px] border border-[#E9EBEE] bg-white px-3.5 py-2.5 text-[12px] shadow-sm">
-      <p className="font-semibold text-[#191919]">
+      <p className="font-semibold text-text-title">
         {entry.label}
       </p>
 

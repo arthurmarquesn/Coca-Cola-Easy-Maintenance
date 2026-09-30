@@ -25,7 +25,7 @@ export function KpiCard({
         className={`mt-1.5 text-[26px] font-semibold tracking-[-0.02em] sm:text-[28px] ${
           accent
             ? "text-[#F40009]"
-            : "text-[#191919]"
+            : "text-text-title"
         }`}
       >
         {value}

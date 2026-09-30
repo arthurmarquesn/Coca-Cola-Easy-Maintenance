@@ -16,7 +16,7 @@ export function ChartPanel({
   return (
     <div className="overflow-hidden rounded-[11px] border border-[#E9EBEE] bg-white">
       <div className="flex items-center justify-between gap-3 border-b border-[#E9EBEE] bg-[#F7F8FA] px-5 py-3.5">
-        <h3 className="text-[14px] font-semibold text-[#191919]">
+        <h3 className="text-[14px] font-semibold text-text-title">
           {title}
         </h3>
 
