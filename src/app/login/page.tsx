@@ -200,11 +200,11 @@ export default function LoginPage() {
               {/* Cabeçalho */}
 
               <header className="login-header mb-9 text-center">
-                -text-title sm:text-[32px]">
+                <h2 className="text-text-title">
                   Acesse sua conta
                 </h2>
 
-                -text-body sm:text-sm">
+                <p className="mt-2 text-[13px] text-text-body sm:text-sm">
                   Informe suas credenciais corporativas para continuar.
                 </p>
               </header>

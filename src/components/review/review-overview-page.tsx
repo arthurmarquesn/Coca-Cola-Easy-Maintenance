@@ -204,7 +204,7 @@ export function ReviewOverviewPage({ user, unit }: ReviewOverviewPageProps) {
             </p>
 
             {unit.city && (
-              -text-body">
+              <p className="mt-4 text-[14px] leading-6 text-text-body">
                 {unit.city}
               </p>
             )}
@@ -223,11 +223,11 @@ export function ReviewOverviewPage({ user, unit }: ReviewOverviewPageProps) {
         </Link>
 
         <div className="mt-10">
-          -text-title sm:text-[40px]">
+          <h1 className="text-text-title">
             Validação humana
           </h1>
 
-          -text-body">
+          <p className="mt-4 text-[14px] leading-6 text-text-body">
             Revise as classificações sugeridas pela IA agrupadas por tipo de
             problema. Apenas classificações revisadas por uma pessoa são
             registradas como oficiais.
@@ -236,14 +236,14 @@ export function ReviewOverviewPage({ user, unit }: ReviewOverviewPageProps) {
 
         <div className="mt-9 grid grid-cols-2 gap-3 sm:grid-cols-4">
           <div className="rounded-[14px] border border-[#E9EBEE] bg-background-primary transition-colors px-4 py-3.5">
-            -text-body">Total</p>
+            <p className="mt-4 text-[14px] leading-6 text-text-body">Total</p>
             <p className="mt-1 text-[22px] font-semibold text-text-title">
               {totals.total}
             </p>
           </div>
 
           <div className="rounded-[14px] border border-[#F8C6C8] bg-surface px-4 py-3.5 transition-colors">
-            -text-body">
+            <p className="mt-4 text-[14px] leading-6 text-text-body">
               Pendentes
             </p>
             <p className="mt-1 text-[22px] font-semibold text-[#F40009]">
@@ -252,7 +252,7 @@ export function ReviewOverviewPage({ user, unit }: ReviewOverviewPageProps) {
           </div>
 
           <div className="rounded-[14px] border border-border-theme bg-surface px-4 py-3.5 transition-colors">
-            -text-body">
+            <p className="mt-4 text-[14px] leading-6 text-text-body">
               Validadas
             </p>
             <p className="mt-1 text-[22px] font-semibold text-[#238636]">
@@ -261,7 +261,7 @@ export function ReviewOverviewPage({ user, unit }: ReviewOverviewPageProps) {
           </div>
 
           <div className="rounded-[14px] border border-border-theme bg-surface px-4 py-3.5 transition-colors">
-            -text-body">
+            <p className="mt-4 text-[14px] leading-6 text-text-body">
               Baixa confiança
             </p>
             <p className="mt-1 text-[22px] font-semibold text-[#B8860B]">

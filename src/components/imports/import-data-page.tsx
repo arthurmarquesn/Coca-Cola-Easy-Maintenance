@@ -814,7 +814,7 @@ export function ImportDataPage({
 
 
             {unit.city && (
-              -text-body">
+              <p className="mt-4 text-[14px] leading-6 text-text-body">
                 {unit.city}
               </p>
             )}
@@ -846,12 +846,12 @@ export function ImportDataPage({
 
         <div className="mt-10">
 
-          -text-title sm:text-[40px]">
+          <h1 className="text-text-title">
             Importar dados
           </h1>
 
 
-          -text-body">
+          <p className="mt-4 text-[14px] leading-6 text-text-body">
             Importe os apontamentos de manutenção.
             Após o armazenamento, o Modelo ML analisa
             automaticamente as ocorrências e prepara as
@@ -919,7 +919,7 @@ export function ImportDataPage({
             </h2>
 
 
-            -text-body">
+            <p className="mt-4 text-[14px] leading-6 text-text-body">
               ou clique para selecionar
             </p>
 
@@ -1404,7 +1404,7 @@ export function ImportDataPage({
                     0 && (
                     <div className="mt-6">
 
-                      -text-body">
+                      <p className="mt-4 text-[14px] leading-6 text-text-body">
                         As sugestões do Modelo ML ainda não são
                         classificações oficiais. Cada ocorrência
                         precisa ser confirmada ou corrigida por um

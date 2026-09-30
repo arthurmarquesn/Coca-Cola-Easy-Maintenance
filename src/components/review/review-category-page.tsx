@@ -470,7 +470,7 @@ export function ReviewCategoryPage({
             </p>
 
             {unit.city && (
-              -text-body">
+              <p className="mt-4 text-[14px] leading-6 text-text-body">
                 {unit.city}
               </p>
             )}
@@ -490,11 +490,11 @@ export function ReviewCategoryPage({
 
         <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
           <div>
-            -text-title sm:text-[34px]">
+            <h1 className="text-text-title">
               {categoryLabel}
             </h1>
 
-            -text-body">
+            <p className="mt-4 text-[14px] leading-6 text-text-body">
               {summary.total} ocorrência(s) · {summary.pending} pendente(s) ·
               {" "}
               {progress}% já validado

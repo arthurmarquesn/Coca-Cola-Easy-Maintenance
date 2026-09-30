@@ -902,7 +902,7 @@ export function HistoryPage({
             </p>
 
             {unit.city && (
-              -text-body">
+              <p className="mt-4 text-[14px] leading-6 text-text-body">
                 {unit.city}
               </p>
             )}
@@ -933,11 +933,11 @@ export function HistoryPage({
 
           <div>
 
-            -text-title sm:text-[40px]">
+            <h1 className="text-text-title">
               Histórico de manutenção
             </h1>
 
-            -text-body">
+            <p className="mt-4 text-[14px] leading-6 text-text-body">
               Consulte os apontamentos registrados e suas classificações.
             </p>
 

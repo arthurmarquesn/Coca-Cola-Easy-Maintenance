@@ -408,7 +408,7 @@ export function UsersPage({
               className="text-text-secondary"
             />
 
-            -text-title">
+            <h2 className="mt-12 text-[30px] font-semibold leading-[1.08] tracking-[-0.04em] text-text-title">
               Novo usuário
             </h2>
 

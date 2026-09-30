@@ -1558,7 +1558,7 @@ export function ReliabilityPage({
             </p>
 
             {unit.city && (
-              -text-body">
+              <p className="mt-4 text-[14px] leading-6 text-text-body">
                 {unit.city}
               </p>
             )}
@@ -1580,7 +1580,7 @@ export function ReliabilityPage({
         </Link>
 
         <div className="mt-9">
-          -text-title sm:text-[40px]">
+          <h1 className="text-text-title">
             Confiabilidade
           </h1>
         </div>
@@ -1591,7 +1591,7 @@ export function ReliabilityPage({
 
         <section className="mt-8 grid gap-4 border-y border-border-theme py-5 md:grid-cols-2 xl:grid-cols-[180px_180px_1fr_1fr_auto]">
           <label className="block">
-            -text-body">
+            <span className="mb-2 block text-[12px] font-medium text-text-body">
               De
             </span>
 
@@ -1617,7 +1617,7 @@ export function ReliabilityPage({
           </label>
 
           <label className="block">
-            -text-body">
+            <span className="mb-2 block text-[12px] font-medium text-text-body">
               Até
             </span>
 
@@ -1643,7 +1643,7 @@ export function ReliabilityPage({
           </label>
 
           <label className="block">
-            -text-body">
+            <span className="mb-2 block text-[12px] font-medium text-text-body">
               Linha
             </span>
 
@@ -1689,7 +1689,7 @@ export function ReliabilityPage({
           </label>
 
           <label className="block">
-            -text-body">
+            <span className="mb-2 block text-[12px] font-medium text-text-body">
               Equipamento
             </span>
 

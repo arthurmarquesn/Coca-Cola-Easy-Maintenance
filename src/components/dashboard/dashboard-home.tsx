@@ -113,7 +113,7 @@ export function DashboardHome({
             width={180}
             height={64}
             priority
-            className="h-auto max-h-[42px] w-auto object-contain dark:invert dark:brightness-0 dark:contrast-200 dark:sepia dark:hue-rotate-[340deg] dark:saturate-[5000%]"
+            className="h-auto max-h-[42px] w-auto object-contain"
           />
 
           <div className="flex items-center gap-5">
@@ -122,15 +122,15 @@ export function DashboardHome({
                 {user.name}
               </p>
 
-              -text-body">
+              <p className="mt-0.5 text-[11px] text-text-body">
                 {unit.city}
               </p>
             </div>
 
             <div className="h-8 w-px bg-border-theme" />
-            
+
             <ThemeSwitcher />
-            
+
             <div className="h-8 w-px bg-border-theme hidden sm:block" />
 
             <button
@@ -141,7 +141,7 @@ export function DashboardHome({
               disabled={
                 loggingOut
               }
-              className="group flex items-center gap-2 text-[12px] font-medium text-text-body transition-colors hover:text-[#E41E2B] disabled:cursor-not-allowed disabled:opacity-40"
+              className="group flex items-center gap-2 text-[12px] font-medium text-text-secondary transition-colors hover:text-[#E41E2B] disabled:cursor-not-allowed disabled:opacity-40"
             >
               <LogOut
                 size={16}
@@ -160,12 +160,12 @@ export function DashboardHome({
 
       <div className="mx-auto w-full max-w-[1280px] px-6 pb-20 pt-14 sm:px-8 lg:px-10 lg:pt-20">
         <section>
-          -text-title sm:text-[48px] lg:text-[54px]">
+          <h1 className="max-w-[760px] text-[38px] font-semibold leading-[1.04] tracking-[-0.045em] text-text-title sm:text-[48px] lg:text-[54px]">
             Manutenção orientada
             por dados.
           </h1>
 
-          -text-body">
+          <p className="mt-4 max-w-[560px] text-[14px] leading-6 text-text-body">
             Olá, {firstName}. Importe novos apontamentos,
             consulte o histórico ou analise a confiabilidade
             da unidade.
@@ -219,11 +219,11 @@ export function DashboardHome({
                 className="text-text-secondary"
               />
 
-              -text-title">
+              <h2 className="mt-12 text-[30px] font-semibold leading-[1.08] tracking-[-0.04em] text-text-title">
                 Histórico
               </h2>
 
-              -text-body">
+              <p className="mt-4 text-[14px] leading-6 text-text-body">
                 Consulte falhas, ocorrências e paradas
                 registradas na manutenção.
               </p>
@@ -252,11 +252,11 @@ export function DashboardHome({
                 className="text-text-secondary"
               />
 
-              -text-title">
+              <h2 className="mt-12 text-[30px] font-semibold leading-[1.08] tracking-[-0.04em] text-text-title">
                 Confiabilidade
               </h2>
 
-              -text-body">
+              <p className="mt-4 text-[14px] leading-6 text-text-body">
                 Identifique concentração de perdas,
                 recorrência e impacto das falhas.
               </p>
@@ -285,11 +285,11 @@ export function DashboardHome({
                 className="text-text-secondary"
               />
 
-              -text-title">
+              <h2 className="mt-12 text-[30px] font-semibold leading-[1.08] tracking-[-0.04em] text-text-title">
                 Validação
               </h2>
 
-              -text-body">
+              <p className="mt-4 text-[14px] leading-6 text-text-body">
                 Revise por categoria as classificações sugeridas
                 pela IA e registre o feedback humano.
               </p>
@@ -319,11 +319,11 @@ export function DashboardHome({
                   className="text-text-secondary"
                 />
 
-                -text-title">
+                <h2 className="mt-12 text-[30px] font-semibold leading-[1.08] tracking-[-0.04em] text-text-title">
                   Usuários
                 </h2>
 
-                -text-body">
+                <p className="mt-4 text-[14px] leading-6 text-text-body">
                   Cadastre novos usuários e defina a
                   função de cada um no sistema.
                 </p>
