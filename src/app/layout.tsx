@@ -1,12 +1,9 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
-
-import { LoginTransitionProvider } from "@/components/transitions/login-transition";
-
 import { Inter } from "next/font/google";
 import { cookies } from "next/headers";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme/theme-provider";
+import { LoginTransitionProvider } from "@/components/transitions/login-transition";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -29,11 +26,13 @@ export default async function RootLayout({
   const initialTheme = themeCookie?.value === "light" ? "light" : "dark";
 
   return (
-    <html lang="pt-BR">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        {children}
+    <html lang="pt-BR" className={initialTheme}>
+      <body className={`${inter.variable} antialiased font-sans bg-background-primary text-text-primary`}>
+        <ThemeProvider initialTheme={initialTheme}>
+          <LoginTransitionProvider>
+            {children}
+          </LoginTransitionProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

@@ -122,14 +122,14 @@ export default function LoginPage() {
 
           <section className="login-brand-panel relative hidden min-h-screen overflow-hidden bg-[#F40009] lg:flex lg:items-center">
             <svg
-              className="pointer-events-none absolute -right-[2px] top-0 h-full w-[185px] xl:w-[205px]"
+              className="pointer-events-none absolute -right-[2px] top-0 z-[1] h-full w-[185px] xl:w-[205px]"
               viewBox="0 0 205 1000"
               preserveAspectRatio="none"
               aria-hidden="true"
             >
               <path
                 d={BRAND_CURVE_PATH}
-                fill="#ffffff"
+                className="fill-background-secondary transition-colors"
               />
             </svg>
 
