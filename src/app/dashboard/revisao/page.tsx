@@ -7,8 +7,8 @@ import type {
 } from "mysql2/promise";
 
 import {
-  ReviewPage,
-} from "@/components/review/review-page";
+  ReviewOverviewPage,
+} from "@/components/review/review-overview-page";
 
 import {
   executeRows,
@@ -67,7 +67,7 @@ export default async function ReviewPageRoute() {
   }
 
   return (
-    <ReviewPage
+    <ReviewOverviewPage
       user={{
         name:
           session.name,
