@@ -1535,7 +1535,7 @@ export function ReliabilityPage({
 
   return (
     <main className="min-h-screen bg-background-secondary transition-colors">
-      <header className="border-b border-black/[0.05] bg-background-primary transition-colors">
+      <header className="border-b border-border-theme bg-surface transition-colors">
         <div className="mx-auto flex h-[76px] w-full max-w-[1380px] items-center justify-between px-6 sm:px-8 lg:px-12">
           <Link
             href="/dashboard"
@@ -1553,12 +1553,12 @@ export function ReliabilityPage({
           <div className="flex items-center gap-5">
             <ThemeSwitcher />
             <div className="hidden text-right sm:block">
-            <p className="text-[13px] font-medium text-[#25272A]">
+            <p className="text-[13px] font-medium text-text-primary">
               {user.name}
             </p>
 
             {unit.city && (
-              <p className="mt-0.5 text-[11px] text-[#999DA2]">
+              <p className="mt-0.5 text-[11px] text-text-secondary">
                 {unit.city}
               </p>
             )}
@@ -1570,7 +1570,7 @@ export function ReliabilityPage({
       <div className="mx-auto w-full max-w-[1380px] px-6 pb-20 pt-10 sm:px-8 lg:px-12">
         <Link
           href="/dashboard"
-          className="inline-flex items-center gap-2 text-[12px] font-medium text-[#81868C] transition-colors hover:text-[#282B2F]"
+          className="inline-flex items-center gap-2 text-[12px] font-medium text-text-secondary transition-colors hover:text-text-primary"
         >
           <ArrowLeft
             size={15}
@@ -1589,9 +1589,9 @@ export function ReliabilityPage({
             FILTROS
         ================================================== */}
 
-        <section className="mt-8 grid gap-4 border-y border-[#E2E4E6] py-5 md:grid-cols-2 xl:grid-cols-[180px_180px_1fr_1fr_auto]">
+        <section className="mt-8 grid gap-4 border-y border-border-theme py-5 md:grid-cols-2 xl:grid-cols-[180px_180px_1fr_1fr_auto]">
           <label className="block">
-            <span className="text-[10px] font-medium text-[#969BA1]">
+            <span className="text-[10px] font-medium text-text-secondary">
               De
             </span>
 
@@ -1612,12 +1612,12 @@ export function ReliabilityPage({
                     .value,
                 )
               }
-              className="mt-2 h-11 w-full rounded-[10px] border border-[#DDE0E3] bg-background-primary transition-colors px-3 text-[12px] text-[#303438] outline-none focus:border-[#B9BDC2]"
+              className="mt-2 h-11 w-full rounded-[10px] border border-border-theme bg-surface-elevated px-3 text-[12px] text-text-primary outline-none transition-colors focus:border-accent-primary focus:ring-2 focus:ring-[var(--focus-ring)] [color-scheme:dark] dark:[color-scheme:dark]"
             />
           </label>
 
           <label className="block">
-            <span className="text-[10px] font-medium text-[#969BA1]">
+            <span className="text-[10px] font-medium text-text-secondary">
               Até
             </span>
 
@@ -1638,12 +1638,12 @@ export function ReliabilityPage({
                     .value,
                 )
               }
-              className="mt-2 h-11 w-full rounded-[10px] border border-[#DDE0E3] bg-background-primary transition-colors px-3 text-[12px] text-[#303438] outline-none focus:border-[#B9BDC2]"
+              className="mt-2 h-11 w-full rounded-[10px] border border-border-theme bg-surface-elevated px-3 text-[12px] text-text-primary outline-none transition-colors focus:border-accent-primary focus:ring-2 focus:ring-[var(--focus-ring)] [color-scheme:dark] dark:[color-scheme:dark]"
             />
           </label>
 
           <label className="block">
-            <span className="text-[10px] font-medium text-[#969BA1]">
+            <span className="text-[10px] font-medium text-text-secondary">
               Linha
             </span>
 
@@ -1663,7 +1663,7 @@ export function ReliabilityPage({
                   "",
                 );
               }}
-              className="mt-2 h-11 w-full rounded-[10px] border border-[#DDE0E3] bg-background-primary transition-colors px-3 text-[12px] text-[#303438] outline-none focus:border-[#B9BDC2]"
+              className="mt-2 h-11 w-full rounded-[10px] border border-border-theme bg-surface-elevated px-3 text-[12px] text-text-primary outline-none transition-colors focus:border-accent-primary focus:ring-2 focus:ring-[var(--focus-ring)] [color-scheme:dark] dark:[color-scheme:dark]"
             >
               <option value="">
                 Todas as linhas
@@ -1689,7 +1689,7 @@ export function ReliabilityPage({
           </label>
 
           <label className="block">
-            <span className="text-[10px] font-medium text-[#969BA1]">
+            <span className="text-[10px] font-medium text-text-secondary">
               Equipamento
             </span>
 
@@ -1705,7 +1705,7 @@ export function ReliabilityPage({
                     .value,
                 )
               }
-              className="mt-2 h-11 w-full rounded-[10px] border border-[#DDE0E3] bg-background-primary transition-colors px-3 text-[12px] text-[#303438] outline-none focus:border-[#B9BDC2]"
+              className="mt-2 h-11 w-full rounded-[10px] border border-border-theme bg-surface-elevated px-3 text-[12px] text-text-primary outline-none transition-colors focus:border-accent-primary focus:ring-2 focus:ring-[var(--focus-ring)] [color-scheme:dark] dark:[color-scheme:dark]"
             >
               <option value="">
                 Todos os equipamentos
@@ -1736,7 +1736,7 @@ export function ReliabilityPage({
               onClick={
                 resetFilters
               }
-              className="flex h-11 items-center gap-2 px-2 text-[12px] font-medium text-[#777C82] transition-colors hover:text-[#E41E2B]"
+              className="flex h-11 items-center gap-2 px-2 text-[12px] font-medium text-text-secondary transition-colors hover:text-accent-primary"
             >
               <RotateCcw
                 size={15}

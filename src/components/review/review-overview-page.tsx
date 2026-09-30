@@ -216,7 +216,7 @@ export function ReviewOverviewPage({ user, unit }: ReviewOverviewPageProps) {
       <section className="mx-auto w-full max-w-[1380px] px-6 pb-24 pt-12 sm:px-8 lg:px-12 lg:pt-16">
         <Link
           href="/dashboard"
-          className="inline-flex items-center gap-2 text-[12px] font-medium text-[#81868C] transition-colors hover:text-[#282B2F]"
+          className="inline-flex items-center gap-2 text-[12px] font-medium text-text-secondary transition-colors hover:text-text-primary"
         >
           <ArrowLeft size={15} strokeWidth={1.8} />
           Voltar
@@ -236,14 +236,14 @@ export function ReviewOverviewPage({ user, unit }: ReviewOverviewPageProps) {
 
         <div className="mt-9 grid grid-cols-2 gap-3 sm:grid-cols-4">
           <div className="rounded-[14px] border border-[#E9EBEE] bg-background-primary transition-colors px-4 py-3.5">
-            <p className="text-[11px] font-medium text-[#7C8087]">Total</p>
+            <p className="text-[11px] font-medium text-text-secondary">Total</p>
             <p className="mt-1 text-[22px] font-semibold text-[#191919]">
               {totals.total}
             </p>
           </div>
 
-          <div className="rounded-[14px] border border-[#F8C6C8] bg-background-primary transition-colors px-4 py-3.5">
-            <p className="text-[11px] font-medium text-[#7C8087]">
+          <div className="rounded-[14px] border border-[#F8C6C8] bg-surface px-4 py-3.5 transition-colors">
+            <p className="text-[11px] font-medium text-text-secondary">
               Pendentes
             </p>
             <p className="mt-1 text-[22px] font-semibold text-[#F40009]">
@@ -251,8 +251,8 @@ export function ReviewOverviewPage({ user, unit }: ReviewOverviewPageProps) {
             </p>
           </div>
 
-          <div className="rounded-[14px] border border-[#E9EBEE] bg-background-primary transition-colors px-4 py-3.5">
-            <p className="text-[11px] font-medium text-[#7C8087]">
+          <div className="rounded-[14px] border border-border-theme bg-surface px-4 py-3.5 transition-colors">
+            <p className="text-[11px] font-medium text-text-secondary">
               Validadas
             </p>
             <p className="mt-1 text-[22px] font-semibold text-[#238636]">
@@ -260,8 +260,8 @@ export function ReviewOverviewPage({ user, unit }: ReviewOverviewPageProps) {
             </p>
           </div>
 
-          <div className="rounded-[14px] border border-[#E9EBEE] bg-background-primary transition-colors px-4 py-3.5">
-            <p className="text-[11px] font-medium text-[#7C8087]">
+          <div className="rounded-[14px] border border-border-theme bg-surface px-4 py-3.5 transition-colors">
+            <p className="text-[11px] font-medium text-text-secondary">
               Baixa confiança
             </p>
             <p className="mt-1 text-[22px] font-semibold text-[#B8860B]">

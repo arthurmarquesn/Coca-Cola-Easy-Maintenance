@@ -876,7 +876,7 @@ export function HistoryPage({
           HEADER
       ==================================================== */}
 
-      <header className="border-b border-border-theme transition-colors">
+      <header className="border-b border-border-theme bg-surface transition-colors">
 
         <div className="mx-auto flex h-[78px] w-full max-w-[1380px] items-center justify-between px-6 sm:px-8 lg:px-12">
 
@@ -951,7 +951,7 @@ export function HistoryPage({
                 onSubmit={
                   handleSearch
                 }
-                className="flex w-full items-center border-b border-[#D9DCE0] pb-2 sm:max-w-[360px]"
+                className="group flex w-full items-center gap-2.5 rounded-[10px] border border-border-theme bg-surface-elevated px-3.5 py-2.5 transition-all focus-within:border-accent-primary focus-within:ring-2 focus-within:ring-[var(--focus-ring)] sm:max-w-[390px]"
               >
 
                 <Search
@@ -987,7 +987,7 @@ export function HistoryPage({
                   loading ||
                   pagination.total === 0
                 }
-                className="inline-flex h-10 shrink-0 items-center justify-center gap-2 rounded-full border border-[#DFE2E5] bg-background-primary transition-colors px-4 text-[12px] font-medium text-[#4F545A] transition-colors hover:border-[#CFD3D7] hover:bg-surface-elevated transition-colors disabled:cursor-not-allowed disabled:opacity-40"
+                className="inline-flex h-10 shrink-0 items-center justify-center gap-2 rounded-full bg-accent-primary px-5 text-[12px] font-semibold text-white shadow-[0_4px_14px_rgba(244,0,9,0.3)] transition-all hover:bg-accent-secondary hover:shadow-[0_4px_18px_rgba(244,0,9,0.4)] active:scale-95 disabled:cursor-not-allowed disabled:opacity-40"
               >
                 {exporting ? (
                   <LoaderCircle
