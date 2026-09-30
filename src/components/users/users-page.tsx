@@ -52,10 +52,10 @@ interface ApiResult {
 }
 
 const inputClass =
-  "h-11 w-full rounded-xl border border-black/[0.1] bg-background-primary transition-colors px-3 text-[14px] text-[#25272A] outline-none transition-colors focus:border-[#E41E2B]";
+  "h-11 w-full rounded-xl border border-black/[0.1] bg-background-primary px-3 text-[14px] text-[#25272A] dark:text-white outline-none transition-colors focus:border-[#E41E2B]";
 
 const labelClass =
-  "mb-1.5 block text-[12px] font-medium text-[#555A60]";
+  "mb-1.5 block text-[12px] font-medium text-[#555A60] dark:text-white";
 
 export function UsersPage({
   currentUserId,
@@ -408,7 +408,7 @@ export function UsersPage({
               className="text-[#44484D]"
             />
 
-            <h2 className="mt-5 text-[22px] font-semibold tracking-[-0.03em] text-[#202225]">
+            <h2 className="mt-5 text-[22px] font-semibold tracking-[-0.03em] text-[#202225] dark:text-white">
               Novo usuário
             </h2>
 
