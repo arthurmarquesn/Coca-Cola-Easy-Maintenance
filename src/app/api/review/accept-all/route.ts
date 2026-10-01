@@ -15,6 +15,11 @@ import {
   getSession,
 } from "@/lib/session";
 
+import {
+  buildUnitInClause,
+  getUnitSelection,
+} from "@/lib/unit-selection";
+
 
 interface CountRow
   extends RowDataPacket {
@@ -98,6 +103,45 @@ export async function POST() {
   }
 
 
+  const unitSelection =
+    await getUnitSelection({
+      userId:
+        session.userId,
+
+      defaultUnitId:
+        session.unitId,
+    });
+
+
+  if (
+    unitSelection
+      .selectedUnitIds
+      .length ===
+    0
+  ) {
+    return NextResponse.json(
+      {
+        success:
+          false,
+
+        error:
+          "Nenhuma unidade válida está selecionada.",
+      },
+      {
+        status:
+          403,
+      },
+    );
+  }
+
+
+  const unitFilter =
+    buildUnitInClause(
+      unitSelection
+        .selectedUnitIds,
+    );
+
+
   const connection =
     await getConnection();
 
@@ -130,7 +174,9 @@ export async function POST() {
                  cs.event_id
 
           WHERE
-              me.unit_id = ?
+              me.unit_id IN (
+                ${unitFilter.placeholders}
+              )
 
               AND cs.model_type =
                   'ML'
@@ -139,7 +185,7 @@ export async function POST() {
                   'PENDENTE_REVISAO'
         `,
         [
-          session.unitId,
+          ...unitFilter.values,
         ],
       );
 
@@ -410,7 +456,9 @@ export async function POST() {
                cs.event_id
 
         WHERE
-            me.unit_id = ?
+            me.unit_id IN (
+              ${unitFilter.placeholders}
+            )
 
             AND cs.model_type =
                 'ML'
@@ -433,7 +481,7 @@ export async function POST() {
       [
         session.userId,
 
-        session.unitId,
+        ...unitFilter.values,
       ],
     );
 
@@ -465,7 +513,9 @@ export async function POST() {
                 NOW()
 
         WHERE
-            me.unit_id = ?
+            me.unit_id IN (
+              ${unitFilter.placeholders}
+            )
 
             AND cs.model_type =
                 'ML'
@@ -476,7 +526,7 @@ export async function POST() {
       [
         session.userId,
 
-        session.unitId,
+        ...unitFilter.values,
       ],
     );
 
@@ -519,13 +569,15 @@ export async function POST() {
                  cs.event_id
 
           WHERE
-              me.unit_id = ?
+              me.unit_id IN (
+                ${unitFilter.placeholders}
+              )
 
               AND cs.model_type =
                   'ML'
         `,
         [
-          session.unitId,
+          ...unitFilter.values,
         ],
       );
 

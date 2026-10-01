@@ -5,20 +5,43 @@ import Link from "next/link";
 
 import {
   ArrowLeft,
+  ChevronLeft,
+  ChevronRight,
+  ClipboardPlus,
+  FileDown,
   LoaderCircle,
   RotateCcw,
+  Search,
+  Target,
+  X,
 } from "lucide-react";
 
 import {
+  type KeyboardEvent as ReactKeyboardEvent,
+  type ReactNode,
   useCallback,
   useEffect,
   useMemo,
   useState,
 } from "react";
 
-/* =========================================================
-   TIPOS
-========================================================= */
+import {
+  ReportGeneratorModal,
+} from "@/components/reports/report-generator-modal";
+
+import {
+  UnitFilter,
+} from "@/components/units/unit-filter";
+
+import {
+  ReliabilityMaspDialog,
+  type ReliabilityMaspSelection,
+} from "@/components/reliability/reliability-masp-dialog";
+
+import {
+  FailureOriginAnalysis,
+  type FailureOriginSummary,
+} from "@/components/reliability/failure-origin-analysis";
 
 interface ReliabilityPageProps {
   user: {
@@ -26,10 +49,16 @@ interface ReliabilityPageProps {
   };
 
   unit: {
-    city:
-      | string
-      | null;
+    city: string | null;
   };
+}
+
+interface ReliabilityUnit {
+  id: number;
+  code: string | null;
+  name: string;
+  city: string | null;
+  state: string | null;
 }
 
 interface ParetoItem {
@@ -41,40 +70,34 @@ interface ParetoItem {
 }
 
 type Quadrant =
-  | "CRITICO"
-  | "CRITICO_CRONICO"
-  | "CONFORTO"
-  | "CRONICO";
+  | "CRITICA"
+  | "CRITICA_E_CRONICA"
+  | "BAIXA_RELEVANCIA"
+  | "CRONICA";
 
 interface JackKnifeItem {
   label: string;
-  failures: number;
+  frequency: number;
   downtimeMinutes: number;
   mttr: number;
   quadrant: Quadrant;
 }
 
 interface ReliabilityData {
+  success?: boolean;
+  message?: string;
+
   analysisLevel:
     | "EQUIPMENT"
     | "FAILURE_MODE";
 
   filters: {
-    startDate:
-      | string
-      | null;
-
-    endDate:
-      | string
-      | null;
-
-    line:
-      | string
-      | null;
-
-    equipment:
-      | string
-      | null;
+    selectedUnitIds: number[];
+    selectedUnits: ReliabilityUnit[];
+    startDate: string | null;
+    endDate: string | null;
+    line: string | null;
+    equipment: string | null;
 
     options: {
       lines: string[];
@@ -88,14 +111,16 @@ interface ReliabilityData {
     groups: number;
   };
 
-  pareto:
-    ParetoItem[];
+  failureOrigin:
+    FailureOriginSummary;
+
+  pareto: ParetoItem[];
 
   jackKnife:
     JackKnifeItem[];
 
   jackKnifeLimits: {
-    failures: number;
+    frequency: number;
     mttr: number;
   };
 }
@@ -107,9 +132,308 @@ interface TooltipState {
   lines: string[];
 }
 
-/* =========================================================
-   HELPERS
-========================================================= */
+type SelectedChartPoint =
+  | {
+      type: "PARETO";
+      item: ParetoItem;
+      index: number;
+    }
+  | {
+      type: "JACK_KNIFE";
+      item: JackKnifeItem;
+      index: number;
+    };
+
+interface ReliabilityDetailDrawerProps {
+  selected:
+    | SelectedChartPoint
+    | null;
+
+  analysisLevel:
+    | "EQUIPMENT"
+    | "FAILURE_MODE";
+
+  equipment: string;
+  frequencyLimit: number;
+  mttrLimit: number;
+
+  onClose:
+    () => void;
+
+  onDrillDownEquipment:
+    (
+      equipmentName: string,
+    ) => void;
+
+  onBackToEquipments:
+    () => void;
+
+  onStartMasp:
+    () => void;
+}
+
+interface RawParetoItem {
+  label?: unknown;
+  occurrences?: unknown;
+  downtimeMinutes?: unknown;
+  downtime_minutes?: unknown;
+  percentage?: unknown;
+  cumulativePercentage?: unknown;
+  cumulative_percentage?: unknown;
+}
+
+interface RawJackKnifeItem {
+  label?: unknown;
+  frequency?: unknown;
+  occurrences?: unknown;
+  downtimeMinutes?: unknown;
+  downtime_minutes?: unknown;
+  mttr?: unknown;
+  quadrant?: unknown;
+}
+
+function parseNumber(
+  value: unknown,
+): number {
+  if (
+    typeof value ===
+    "number"
+  ) {
+    return Number.isFinite(
+      value,
+    )
+      ? value
+      : Number.NaN;
+  }
+
+  if (
+    typeof value !==
+    "string"
+  ) {
+    return Number.NaN;
+  }
+
+  let text =
+    value
+      .trim()
+      .replace(
+        /\s+/g,
+        "",
+      );
+
+  if (!text) {
+    return Number.NaN;
+  }
+
+  if (
+    text.includes(",")
+  ) {
+    if (
+      text.includes(".")
+    ) {
+      text =
+        text.replace(
+          /\./g,
+          "",
+        );
+    }
+
+    text =
+      text.replace(
+        ",",
+        ".",
+      );
+  }
+
+  const parsed =
+    Number(
+      text,
+    );
+
+  return Number.isFinite(
+    parsed,
+  )
+    ? parsed
+    : Number.NaN;
+}
+
+function firstFinite(
+  ...values: unknown[]
+): number {
+  for (
+    const value
+    of values
+  ) {
+    const parsed =
+      parseNumber(
+        value,
+      );
+
+    if (
+      Number.isFinite(
+        parsed,
+      )
+    ) {
+      return parsed;
+    }
+  }
+
+  return Number.NaN;
+}
+
+function safeNonNegative(
+  value: unknown,
+  fallback = 0,
+): number {
+  const parsed =
+    parseNumber(
+      value,
+    );
+
+  if (
+    !Number.isFinite(
+      parsed,
+    ) ||
+    parsed < 0
+  ) {
+    return fallback;
+  }
+
+  return parsed;
+}
+
+function safePositive(
+  value: unknown,
+  fallback = 1,
+): number {
+  const parsed =
+    parseNumber(
+      value,
+    );
+
+  if (
+    !Number.isFinite(
+      parsed,
+    ) ||
+    parsed <= 0
+  ) {
+    return fallback;
+  }
+
+  return parsed;
+}
+
+function safeLabel(
+  value: unknown,
+  fallback: string,
+): string {
+  if (
+    typeof value !==
+    "string"
+  ) {
+    return fallback;
+  }
+
+  const result =
+    value.trim();
+
+  return (
+    result ||
+    fallback
+  );
+}
+
+function normalizeReliabilityUnit(
+  value: unknown,
+): ReliabilityUnit | null {
+  if (
+    !value ||
+    typeof value !==
+      "object"
+  ) {
+    return null;
+  }
+
+  const source =
+    value as
+      Record<
+        string,
+        unknown
+      >;
+
+  const id =
+    Number(
+      source.id,
+    );
+
+  if (
+    !Number.isInteger(
+      id,
+    ) ||
+    id <= 0
+  ) {
+    return null;
+  }
+
+  const name =
+    typeof source.name ===
+      "string"
+      ? source.name.trim()
+      : "";
+
+  if (!name) {
+    return null;
+  }
+
+  return {
+    id,
+
+    code:
+      typeof source.code ===
+        "string"
+        ? source.code.trim() ||
+          null
+        : null,
+
+    name,
+
+    city:
+      typeof source.city ===
+        "string"
+        ? source.city.trim() ||
+          null
+        : null,
+
+    state:
+      typeof source.state ===
+        "string"
+        ? source.state.trim() ||
+          null
+        : null,
+  };
+}
+
+function getUnitLabel(
+  unit:
+    ReliabilityUnit,
+): string {
+  return (
+    unit.city?.trim() ||
+    unit.name?.trim() ||
+    unit.code?.trim() ||
+    `Unidade ${unit.id}`
+  );
+}
+
+function normalizeLabelKey(
+  value: string,
+): string {
+  return value
+    .trim()
+    .toLocaleLowerCase(
+      "pt-BR",
+    );
+}
 
 function dateToInput(
   date: Date,
@@ -164,16 +488,26 @@ function defaultDateRange() {
 
 function formatNumber(
   value: number,
-  maximumFractionDigits = 0,
+  maximumFractionDigits =
+    0,
 ) {
-  return new Intl.NumberFormat(
-    "pt-BR",
-    {
-      maximumFractionDigits,
-    },
-  ).format(
-    value,
-  );
+  const safe =
+    Number.isFinite(
+      value,
+    )
+      ? value
+      : 0;
+
+  return new Intl
+    .NumberFormat(
+      "pt-BR",
+      {
+        maximumFractionDigits,
+      },
+    )
+    .format(
+      safe,
+    );
 }
 
 function truncate(
@@ -191,36 +525,930 @@ function truncate(
     0,
     Math.max(
       1,
-      maxLength -
-        1,
+      maxLength - 1,
     ),
   )}…`;
 }
 
+function calculateQuadrant(
+  frequency: number,
+  mttr: number,
+  frequencyLimit:
+    number,
+  mttrLimit:
+    number,
+): Quadrant {
+  const highFrequency =
+    frequency >=
+    frequencyLimit;
+
+  const highMttr =
+    mttr >=
+    mttrLimit;
+
+  if (
+    highFrequency &&
+    highMttr
+  ) {
+    return "CRITICA_E_CRONICA";
+  }
+
+  if (
+    !highFrequency &&
+    highMttr
+  ) {
+    return "CRITICA";
+  }
+
+  if (
+    highFrequency &&
+    !highMttr
+  ) {
+    return "CRONICA";
+  }
+
+  return "BAIXA_RELEVANCIA";
+}
+
 function quadrantColor(
-  quadrant: Quadrant,
+  quadrant:
+    Quadrant,
 ) {
   switch (
     quadrant
   ) {
-    case "CRITICO_CRONICO":
+    case "CRITICA_E_CRONICA":
       return "#E41E2B";
 
-    case "CRITICO":
+    case "CRITICA":
       return "#E3A52F";
 
-    case "CRONICO":
+    case "CRONICA":
       return "#4E9ED7";
 
-    case "CONFORTO":
+    case "BAIXA_RELEVANCIA":
+
     default:
       return "#62A96B";
   }
 }
 
-/* =========================================================
-   TOOLTIP
-========================================================= */
+function quadrantLabel(
+  quadrant:
+    Quadrant,
+): string {
+  switch (
+    quadrant
+  ) {
+    case "CRITICA_E_CRONICA":
+      return "Crítico-crônico";
+
+    case "CRITICA":
+      return "Crítico";
+
+    case "CRONICA":
+      return "Crônico";
+
+    case "BAIXA_RELEVANCIA":
+
+    default:
+      return "Conforto";
+  }
+}
+
+function quadrantDescription(
+  quadrant:
+    Quadrant,
+): string {
+  switch (
+    quadrant
+  ) {
+    case "CRITICA_E_CRONICA":
+      return (
+        "Alta frequência e MTTR elevado. " +
+        "O ponto combina reincidência com impacto."
+      );
+
+    case "CRITICA":
+      return (
+        "MTTR elevado, mas frequência abaixo do limite. " +
+        "As ocorrências são menos frequentes, porém demoradas."
+      );
+
+    case "CRONICA":
+      return (
+        "Frequência elevada e MTTR abaixo do limite. " +
+        "O problema se repete com frequência."
+      );
+
+    case "BAIXA_RELEVANCIA":
+
+    default:
+      return (
+        "Frequência e MTTR abaixo dos limites definidos " +
+        "para o recorte atual."
+      );
+  }
+}
+
+function normalizeReliabilityData(
+  raw: unknown,
+): ReliabilityData {
+  const source =
+    raw &&
+    typeof raw ===
+      "object"
+      ? raw as
+          Record<
+            string,
+            unknown
+          >
+      : {};
+
+  const filtersRaw =
+    source.filters &&
+    typeof source.filters ===
+      "object"
+      ? source
+          .filters as
+            Record<
+              string,
+              unknown
+            >
+      : {};
+
+  const selectedUnitIds =
+    Array.isArray(
+      filtersRaw
+        .selectedUnitIds,
+    )
+      ? [
+          ...new Set(
+            filtersRaw
+              .selectedUnitIds
+              .map(
+                (
+                  value,
+                ) =>
+                  Number(
+                    value,
+                  ),
+              )
+              .filter(
+                (
+                  value,
+                ) =>
+                  Number.isInteger(
+                    value,
+                  ) &&
+                  value > 0,
+              ),
+          ),
+        ]
+      : [];
+
+  const selectedUnits =
+    Array.isArray(
+      filtersRaw
+        .selectedUnits,
+    )
+      ? filtersRaw
+          .selectedUnits
+          .map(
+            normalizeReliabilityUnit,
+          )
+          .filter(
+            (
+              item,
+            ): item is ReliabilityUnit =>
+              item !==
+              null,
+          )
+      : [];
+
+  const optionsRaw =
+    filtersRaw.options &&
+    typeof filtersRaw
+      .options ===
+      "object"
+      ? filtersRaw
+          .options as
+            Record<
+              string,
+              unknown
+            >
+      : {};
+
+  const summaryRaw =
+    source.summary &&
+    typeof source.summary ===
+      "object"
+      ? source
+          .summary as
+            Record<
+              string,
+              unknown
+            >
+      : {};
+
+  const failureOriginRaw =
+    source.failureOrigin &&
+    typeof source.failureOrigin ===
+      "object"
+      ? source
+          .failureOrigin as
+            Record<
+              string,
+              unknown
+            >
+      : {};
+
+  const limitsRaw =
+    source
+      .jackKnifeLimits &&
+    typeof source
+      .jackKnifeLimits ===
+      "object"
+      ? source
+          .jackKnifeLimits as
+            Record<
+              string,
+              unknown
+            >
+      : {};
+
+  const paretoRaw =
+    Array.isArray(
+      source.pareto,
+    )
+      ? source.pareto
+      : [];
+
+  const pareto:
+    ParetoItem[] =
+    paretoRaw.map(
+      (
+        rawItem,
+        index,
+      ) => {
+        const item =
+          (
+            rawItem &&
+            typeof rawItem ===
+              "object"
+              ? rawItem
+              : {}
+          ) as
+            RawParetoItem;
+
+        return {
+          label:
+            safeLabel(
+              item.label,
+              `Item ${index + 1}`,
+            ),
+
+          occurrences:
+            safeNonNegative(
+              item.occurrences,
+              0,
+            ),
+
+          downtimeMinutes:
+            safeNonNegative(
+              firstFinite(
+                item.downtimeMinutes,
+                item.downtime_minutes,
+              ),
+              0,
+            ),
+
+          percentage:
+            safeNonNegative(
+              item.percentage,
+              0,
+            ),
+
+          cumulativePercentage:
+            safeNonNegative(
+              firstFinite(
+                item.cumulativePercentage,
+                item.cumulative_percentage,
+              ),
+              0,
+            ),
+        };
+      },
+    );
+
+  const paretoByLabel =
+    new Map<
+      string,
+      ParetoItem
+    >();
+
+  for (
+    const item
+    of pareto
+  ) {
+    paretoByLabel.set(
+      normalizeLabelKey(
+        item.label,
+      ),
+      item,
+    );
+  }
+
+  const jackRaw =
+    Array.isArray(
+      source.jackKnife,
+    )
+      ? source.jackKnife
+      : [];
+
+  const reconstructed:
+    Array<{
+      label: string;
+      frequency: number;
+      downtimeMinutes: number;
+      mttr: number;
+    }> =
+    [];
+
+  if (
+    jackRaw.length >
+    0
+  ) {
+    for (
+      let index = 0;
+      index <
+      jackRaw.length;
+      index += 1
+    ) {
+      const rawItem =
+        jackRaw[
+          index
+        ];
+
+      const item =
+        (
+          rawItem &&
+          typeof rawItem ===
+            "object"
+            ? rawItem
+            : {}
+        ) as
+          RawJackKnifeItem;
+
+      const label =
+        safeLabel(
+          item.label,
+          `Item ${index + 1}`,
+        );
+
+      const paretoItem =
+        paretoByLabel.get(
+          normalizeLabelKey(
+            label,
+          ),
+        );
+
+      let frequency =
+        firstFinite(
+          item.frequency,
+          item.occurrences,
+          paretoItem
+            ?.occurrences,
+        );
+
+      let downtimeMinutes =
+        firstFinite(
+          item.downtimeMinutes,
+          item.downtime_minutes,
+          paretoItem
+            ?.downtimeMinutes,
+        );
+
+      let mttr =
+        firstFinite(
+          item.mttr,
+        );
+
+      if (
+        (
+          !Number.isFinite(
+            frequency,
+          ) ||
+          frequency <= 0
+        ) &&
+        Number.isFinite(
+          downtimeMinutes,
+        ) &&
+        downtimeMinutes >=
+          0 &&
+        Number.isFinite(
+          mttr,
+        ) &&
+        mttr > 0
+      ) {
+        frequency =
+          downtimeMinutes /
+          mttr;
+      }
+
+      if (
+        (
+          !Number.isFinite(
+            mttr,
+          ) ||
+          mttr < 0
+        ) &&
+        Number.isFinite(
+          frequency,
+        ) &&
+        frequency > 0 &&
+        Number.isFinite(
+          downtimeMinutes,
+        )
+      ) {
+        mttr =
+          downtimeMinutes /
+          frequency;
+      }
+
+      if (
+        (
+          !Number.isFinite(
+            downtimeMinutes,
+          ) ||
+          downtimeMinutes <
+            0
+        ) &&
+        Number.isFinite(
+          mttr,
+        ) &&
+        mttr >= 0 &&
+        Number.isFinite(
+          frequency,
+        ) &&
+        frequency > 0
+      ) {
+        downtimeMinutes =
+          mttr *
+          frequency;
+      }
+
+      if (
+        (
+          !Number.isFinite(
+            frequency,
+          ) ||
+          frequency <= 0
+        ) &&
+        paretoItem &&
+        paretoItem
+          .occurrences >
+          0
+      ) {
+        frequency =
+          paretoItem
+            .occurrences;
+      }
+
+      if (
+        (
+          !Number.isFinite(
+            downtimeMinutes,
+          ) ||
+          downtimeMinutes <
+            0
+        ) &&
+        paretoItem
+      ) {
+        downtimeMinutes =
+          paretoItem
+            .downtimeMinutes;
+      }
+
+      if (
+        (
+          !Number.isFinite(
+            mttr,
+          ) ||
+          mttr < 0
+        ) &&
+        Number.isFinite(
+          frequency,
+        ) &&
+        frequency > 0
+      ) {
+        mttr =
+          (
+            Number.isFinite(
+              downtimeMinutes,
+            )
+              ? downtimeMinutes
+              : 0
+          ) /
+          frequency;
+      }
+
+      if (
+        !Number.isFinite(
+          frequency,
+        ) ||
+        frequency <= 0
+      ) {
+        continue;
+      }
+
+      reconstructed.push({
+        label,
+
+        frequency,
+
+        downtimeMinutes:
+          Number.isFinite(
+            downtimeMinutes,
+          ) &&
+          downtimeMinutes >= 0
+            ? downtimeMinutes
+            : 0,
+
+        mttr:
+          Number.isFinite(
+            mttr,
+          ) &&
+          mttr >= 0
+            ? mttr
+            : 0,
+      });
+    }
+  }
+
+  if (
+    reconstructed.length ===
+      0 &&
+    pareto.length > 0
+  ) {
+    for (
+      const item
+      of pareto
+    ) {
+      if (
+        item.occurrences <=
+        0
+      ) {
+        continue;
+      }
+
+      reconstructed.push({
+        label:
+          item.label,
+
+        frequency:
+          item.occurrences,
+
+        downtimeMinutes:
+          item
+            .downtimeMinutes,
+
+        mttr:
+          item.occurrences >
+            0
+            ? item
+                .downtimeMinutes /
+              item.occurrences
+            : 0,
+      });
+    }
+  }
+
+  const totalFrequency =
+    reconstructed.reduce(
+      (
+        total,
+        item,
+      ) =>
+        total +
+        item.frequency,
+      0,
+    );
+
+  const totalDowntime =
+    reconstructed.reduce(
+      (
+        total,
+        item,
+      ) =>
+        total +
+        item.downtimeMinutes,
+      0,
+    );
+
+  const calculatedFrequencyLimit =
+    reconstructed.length >
+      0
+      ? Math.max(
+          1,
+          Math.ceil(
+            totalFrequency /
+              reconstructed.length,
+          ),
+        )
+      : 1;
+
+  const calculatedMttrLimit =
+    totalFrequency > 0
+      ? totalDowntime /
+        totalFrequency
+      : 0;
+
+  const apiFrequencyLimit =
+    parseNumber(
+      limitsRaw.frequency,
+    );
+
+  const apiMttrLimit =
+    parseNumber(
+      limitsRaw.mttr,
+    );
+
+  const frequencyLimit =
+    Number.isFinite(
+      apiFrequencyLimit,
+    ) &&
+    apiFrequencyLimit > 0
+      ? apiFrequencyLimit
+      : calculatedFrequencyLimit;
+
+  const mttrLimit =
+    Number.isFinite(
+      apiMttrLimit,
+    ) &&
+    apiMttrLimit >= 0
+      ? apiMttrLimit
+      : calculatedMttrLimit;
+
+  const jackKnife:
+    JackKnifeItem[] =
+    reconstructed.map(
+      (
+        item,
+      ) => ({
+        label:
+          item.label,
+
+        frequency:
+          item.frequency,
+
+        downtimeMinutes:
+          item
+            .downtimeMinutes,
+
+        mttr:
+          item.mttr,
+
+        quadrant:
+          calculateQuadrant(
+            item.frequency,
+            item.mttr,
+            frequencyLimit,
+            mttrLimit,
+          ),
+      }),
+    );
+
+  const lines =
+    Array.isArray(
+      optionsRaw.lines,
+    )
+      ? optionsRaw
+          .lines
+          .filter(
+            (
+              item,
+            ): item is string =>
+              typeof item ===
+              "string",
+          )
+      : [];
+
+  const equipments =
+    Array.isArray(
+      optionsRaw
+        .equipments,
+    )
+      ? optionsRaw
+          .equipments
+          .filter(
+            (
+              item,
+            ): item is string =>
+              typeof item ===
+              "string",
+          )
+      : [];
+
+  const operation =
+    safeNonNegative(
+      failureOriginRaw
+        .operation,
+      0,
+    );
+
+  const maintenance =
+    safeNonNegative(
+      failureOriginRaw
+        .maintenance,
+      0,
+    );
+
+  const unclassified =
+    safeNonNegative(
+      failureOriginRaw
+        .unclassified,
+      0,
+    );
+
+  const classified =
+    safeNonNegative(
+      failureOriginRaw
+        .classified,
+      operation +
+        maintenance,
+    );
+
+  const originTotal =
+    safeNonNegative(
+      failureOriginRaw.total,
+      classified +
+        unclassified,
+    );
+
+  const operationPercentage =
+    safeNonNegative(
+      failureOriginRaw
+        .operationPercentage,
+      classified > 0
+        ? (
+            operation /
+            classified
+          ) *
+          100
+        : 0,
+    );
+
+  const maintenancePercentage =
+    safeNonNegative(
+      failureOriginRaw
+        .maintenancePercentage,
+      classified > 0
+        ? (
+            maintenance /
+            classified
+          ) *
+          100
+        : 0,
+    );
+
+  const unclassifiedPercentage =
+    safeNonNegative(
+      failureOriginRaw
+        .unclassifiedPercentage,
+      originTotal > 0
+        ? (
+            unclassified /
+            originTotal
+          ) *
+          100
+        : 0,
+    );
+
+  return {
+    success:
+      source.success ===
+      true,
+
+    message:
+      typeof source.message ===
+        "string"
+        ? source.message
+        : undefined,
+
+    analysisLevel:
+      source.analysisLevel ===
+        "FAILURE_MODE"
+        ? "FAILURE_MODE"
+        : "EQUIPMENT",
+
+    filters: {
+      selectedUnitIds,
+      selectedUnits,
+
+      startDate:
+        typeof filtersRaw
+          .startDate ===
+          "string"
+          ? filtersRaw
+              .startDate
+          : null,
+
+      endDate:
+        typeof filtersRaw
+          .endDate ===
+          "string"
+          ? filtersRaw
+              .endDate
+          : null,
+
+      line:
+        typeof filtersRaw
+          .line ===
+          "string"
+          ? filtersRaw.line
+          : null,
+
+      equipment:
+        typeof filtersRaw
+          .equipment ===
+          "string"
+          ? filtersRaw
+              .equipment
+          : null,
+
+      options: {
+        lines,
+        equipments,
+      },
+    },
+
+    summary: {
+      events:
+        safeNonNegative(
+          summaryRaw.events,
+          totalFrequency,
+        ),
+
+      downtimeMinutes:
+        safeNonNegative(
+          summaryRaw
+            .downtimeMinutes,
+          totalDowntime,
+        ),
+
+      groups:
+        safeNonNegative(
+          summaryRaw.groups,
+          jackKnife.length,
+        ),
+    },
+
+    failureOrigin: {
+      operation,
+      maintenance,
+      unclassified,
+      classified,
+
+      total:
+        originTotal,
+
+      operationPercentage,
+      maintenancePercentage,
+      unclassifiedPercentage,
+    },
+
+    pareto,
+
+    jackKnife,
+
+    jackKnifeLimits: {
+      frequency:
+        frequencyLimit,
+
+      mttr:
+        mttrLimit,
+    },
+  };
+}
+
+function activateWithKeyboard(
+  event:
+    ReactKeyboardEvent<
+      SVGGElement
+    >,
+  action:
+    () => void,
+) {
+  if (
+    event.key ===
+      "Enter" ||
+    event.key === " "
+  ) {
+    event.preventDefault();
+    action();
+  }
+}
 
 function ChartTooltip({
   tooltip,
@@ -270,15 +1498,648 @@ function ChartTooltip({
   );
 }
 
-/* =========================================================
-   PARETO
-========================================================= */
+function MetricCell({
+  label,
+  value,
+  suffix,
+}: {
+  label: string;
+  value: string;
+  suffix?: string;
+}) {
+  return (
+    <div className="bg-white p-4">
+      <p className="text-[10px] font-medium uppercase tracking-[0.08em] text-[#9A9FA5]">
+        {label}
+      </p>
+
+      <p className="mt-2 text-[25px] font-semibold tracking-[-0.04em] text-[#202327]">
+        {value}
+
+        {suffix && (
+          <span className="ml-1 text-[12px] font-medium tracking-normal text-[#94999F]">
+            {suffix}
+          </span>
+        )}
+      </p>
+    </div>
+  );
+}
+
+function ProgressMetric({
+  title,
+  description,
+  value,
+}: {
+  title: string;
+  description: string;
+  value: number;
+}) {
+  const safeValue =
+    Math.min(
+      100,
+      Math.max(
+        0,
+        value,
+      ),
+    );
+
+  return (
+    <div className="mt-7">
+      <div className="flex items-end justify-between gap-4">
+        <div>
+          <p className="text-[11px] font-medium text-[#70757B]">
+            {title}
+          </p>
+
+          <p className="mt-1 text-[12px] text-[#9A9FA5]">
+            {description}
+          </p>
+        </div>
+
+        <p className="text-[21px] font-semibold tracking-[-0.04em] text-[#25282C]">
+          {formatNumber(
+            safeValue,
+            1,
+          )}
+          %
+        </p>
+      </div>
+
+      <div className="mt-3 h-2 overflow-hidden rounded-full bg-[#F0F1F2]">
+        <div
+          className="h-full rounded-full bg-[#E41E2B]"
+          style={{
+            width:
+              `${safeValue}%`,
+          }}
+        />
+      </div>
+    </div>
+  );
+}
+
+function LimitComparison({
+  label,
+  current,
+  limit,
+  difference,
+}: {
+  label: string;
+  current: string;
+  limit: string;
+  difference: string;
+}) {
+  return (
+    <div>
+      <div className="flex items-center justify-between gap-4">
+        <span className="text-[11px] text-[#7D8288]">
+          {label}
+        </span>
+
+        <span className="text-[11px] font-medium text-[#373B3F]">
+          {current}
+          {" / "}
+          {limit}
+        </span>
+      </div>
+
+      <p className="mt-1 text-[10px] text-[#A0A4A9]">
+        {difference}
+      </p>
+    </div>
+  );
+}
+
+function ReliabilityDetailDrawer({
+  selected,
+  analysisLevel,
+  equipment,
+  frequencyLimit,
+  mttrLimit,
+  onClose,
+  onDrillDownEquipment,
+  onBackToEquipments,
+  onStartMasp,
+}: ReliabilityDetailDrawerProps) {
+  useEffect(() => {
+    if (!selected) {
+      return;
+    }
+
+    function handleKeyDown(
+      event:
+        KeyboardEvent,
+    ) {
+      if (
+        event.key ===
+        "Escape"
+      ) {
+        onClose();
+      }
+    }
+
+    const oldOverflow =
+      document.body.style
+        .overflow;
+
+    document.body.style
+      .overflow =
+      "hidden";
+
+    window.addEventListener(
+      "keydown",
+      handleKeyDown,
+    );
+
+    return () => {
+      document.body.style
+        .overflow =
+        oldOverflow;
+
+      window.removeEventListener(
+        "keydown",
+        handleKeyDown,
+      );
+    };
+  }, [
+    selected,
+    onClose,
+  ]);
+
+  if (!selected) {
+    return null;
+  }
+
+  const isEquipmentLevel =
+    analysisLevel ===
+    "EQUIPMENT";
+
+  const title =
+    selected.item.label;
+
+  const selectedOccurrences =
+    selected.type ===
+      "PARETO"
+      ? selected.item
+          .occurrences
+      : selected.item
+          .frequency;
+
+  let content:
+    ReactNode;
+
+  if (
+    selected.type ===
+    "PARETO"
+  ) {
+    const item =
+      selected.item;
+
+    const averageDowntime =
+      item.occurrences > 0
+        ? item.downtimeMinutes /
+          item.occurrences
+        : 0;
+
+    const previousCumulative =
+      item.cumulativePercentage -
+      item.percentage;
+
+    const crossesEighty =
+      previousCumulative <
+        80 &&
+      item.cumulativePercentage >=
+        80;
+
+    const priority =
+      item.cumulativePercentage <=
+        80 ||
+      crossesEighty;
+
+    content = (
+      <>
+        <div className="mt-7 grid grid-cols-2 gap-px overflow-hidden rounded-[18px] border border-[#E6E8EA] bg-[#E6E8EA]">
+          <MetricCell
+            label="Ranking"
+            value={
+              `#${
+                selected.index +
+                1
+              }`
+            }
+          />
+
+          <MetricCell
+            label="Ocorrências"
+            value={
+              formatNumber(
+                item.occurrences,
+              )
+            }
+          />
+
+          <MetricCell
+            label="Tempo de parada"
+            value={
+              formatNumber(
+                item
+                  .downtimeMinutes,
+                1,
+              )
+            }
+            suffix="min"
+          />
+
+          <MetricCell
+            label="Média por ocorrência"
+            value={
+              formatNumber(
+                averageDowntime,
+                1,
+              )
+            }
+            suffix="min"
+          />
+        </div>
+
+        <ProgressMetric
+          title="Participação no tempo total"
+          description="Impacto individual no período"
+          value={
+            item.percentage
+          }
+        />
+
+        <div className="mt-7">
+          <div className="flex items-end justify-between gap-4">
+            <div>
+              <p className="text-[11px] font-medium text-[#70757B]">
+                Percentual acumulado
+              </p>
+
+              <p className="mt-1 text-[12px] text-[#9A9FA5]">
+                Posição dentro da curva de Pareto
+              </p>
+            </div>
+
+            <p className="text-[21px] font-semibold tracking-[-0.04em] text-[#25282C]">
+              {formatNumber(
+                item
+                  .cumulativePercentage,
+                1,
+              )}
+              %
+            </p>
+          </div>
+
+          <div className="relative mt-3 h-2 overflow-hidden rounded-full bg-[#F0F1F2]">
+            <div
+              className="h-full rounded-full bg-[#2C3034]"
+              style={{
+                width:
+                  `${
+                    Math.min(
+                      100,
+                      item
+                        .cumulativePercentage,
+                    )
+                  }%`,
+              }}
+            />
+
+            <div className="absolute bottom-0 left-[80%] top-0 w-px bg-[#C79B21]" />
+          </div>
+        </div>
+
+        <div className="mt-7 rounded-[16px] bg-[#F7F7F6] p-4">
+          <div className="flex gap-3">
+            <Target
+              size={17}
+              className="mt-0.5 shrink-0 text-[#6F747A]"
+            />
+
+            <div>
+              <p className="text-[12px] font-semibold text-[#303438]">
+                {priority
+                  ? "Dentro da faixa prioritária do Pareto"
+                  : "Após a faixa de 80%"}
+              </p>
+
+              <p className="mt-1.5 text-[11px] leading-5 text-[#858A90]">
+                {crossesEighty
+                  ? "Este é o item que ultrapassa o limite acumulado de 80%."
+                  : priority
+                    ? "Este item integra a concentração principal do tempo de parada."
+                    : "Este item aparece após a concentração principal do Pareto."}
+              </p>
+            </div>
+          </div>
+        </div>
+      </>
+    );
+  } else {
+    const item =
+      selected.item;
+
+    const frequencyDifference =
+      item.frequency -
+      frequencyLimit;
+
+    const mttrDifference =
+      item.mttr -
+      mttrLimit;
+
+    content = (
+      <>
+        <div className="mt-7">
+          <div
+            className="inline-flex items-center gap-2 rounded-full px-3 py-1.5 text-[11px] font-semibold"
+            style={{
+              color:
+                quadrantColor(
+                  item.quadrant,
+                ),
+
+              backgroundColor:
+                `${
+                  quadrantColor(
+                    item.quadrant,
+                  )
+                }12`,
+            }}
+          >
+            <span
+              className="h-2 w-2 rounded-full"
+              style={{
+                backgroundColor:
+                  quadrantColor(
+                    item.quadrant,
+                  ),
+              }}
+            />
+
+            {quadrantLabel(
+              item.quadrant,
+            )}
+          </div>
+
+          <p className="mt-3 text-[12px] leading-5 text-[#858A90]">
+            {quadrantDescription(
+              item.quadrant,
+            )}
+          </p>
+        </div>
+
+        <div className="mt-7 grid grid-cols-2 gap-px overflow-hidden rounded-[18px] border border-[#E6E8EA] bg-[#E6E8EA]">
+          <MetricCell
+            label="Nº de falhas"
+            value={
+              formatNumber(
+                item.frequency,
+                1,
+              )
+            }
+          />
+
+          <MetricCell
+            label="MTTR"
+            value={
+              formatNumber(
+                item.mttr,
+                1,
+              )
+            }
+            suffix="min"
+          />
+
+          <div className="col-span-2">
+            <MetricCell
+              label="Tempo total de parada"
+              value={
+                formatNumber(
+                  item
+                    .downtimeMinutes,
+                  1,
+                )
+              }
+              suffix="min"
+            />
+          </div>
+        </div>
+
+        <div className="mt-7 border-t border-[#ECEDEF] pt-6">
+          <p className="text-[11px] font-semibold text-[#45494E]">
+            Posição em relação aos limites
+          </p>
+
+          <div className="mt-4 space-y-5">
+            <LimitComparison
+              label="Frequência"
+              current={
+                formatNumber(
+                  item.frequency,
+                  1,
+                )
+              }
+              limit={
+                formatNumber(
+                  frequencyLimit,
+                  1,
+                )
+              }
+              difference={
+                frequencyDifference >=
+                  0
+                  ? `${formatNumber(
+                      frequencyDifference,
+                      1,
+                    )} acima do limite`
+                  : `${formatNumber(
+                      Math.abs(
+                        frequencyDifference,
+                      ),
+                      1,
+                    )} abaixo do limite`
+              }
+            />
+
+            <LimitComparison
+              label="MTTR"
+              current={
+                `${formatNumber(
+                  item.mttr,
+                  1,
+                )} min`
+              }
+              limit={
+                `${formatNumber(
+                  mttrLimit,
+                  1,
+                )} min`
+              }
+              difference={
+                mttrDifference >=
+                  0
+                  ? `${formatNumber(
+                      mttrDifference,
+                      1,
+                    )} min acima do limite`
+                  : `${formatNumber(
+                      Math.abs(
+                        mttrDifference,
+                      ),
+                      1,
+                    )} min abaixo do limite`
+              }
+            />
+          </div>
+        </div>
+      </>
+    );
+  }
+
+  return (
+    <div
+      className="fixed inset-0 z-50"
+      role="dialog"
+      aria-modal="true"
+    >
+      <button
+        type="button"
+        aria-label="Fechar detalhes"
+        onClick={
+          onClose
+        }
+        className="absolute inset-0 h-full w-full cursor-default bg-black/20 backdrop-blur-[2px]"
+      />
+
+      <aside className="absolute bottom-0 right-0 top-0 flex w-full max-w-[460px] flex-col border-l border-black/[0.06] bg-white shadow-[-18px_0_50px_rgba(0,0,0,0.08)]">
+        <div className="flex items-start justify-between gap-5 border-b border-[#ECEDEF] px-6 py-5">
+          <div>
+            <p className="text-[10px] font-medium uppercase tracking-[0.09em] text-[#9A9FA5]">
+              {selected.type ===
+              "PARETO"
+                ? "Detalhe do Pareto"
+                : "Detalhe do Jack-Knife"}
+            </p>
+
+            <p className="mt-1 text-[11px] text-[#A0A4A9]">
+              {isEquipmentLevel
+                ? "Equipamento"
+                : "Modo de falha"}
+            </p>
+          </div>
+
+          <button
+            type="button"
+            onClick={
+              onClose
+            }
+            className="flex h-10 w-10 items-center justify-center rounded-full text-[#777C82] hover:bg-[#F4F4F3]"
+          >
+            <X
+              size={18}
+            />
+          </button>
+        </div>
+
+        <div className="flex-1 overflow-y-auto px-6 py-6">
+          <h3 className="text-[22px] font-semibold leading-[1.25] tracking-[-0.035em] text-[#202327]">
+            {title}
+          </h3>
+
+          {equipment &&
+            analysisLevel ===
+              "FAILURE_MODE" && (
+              <div className="mt-3 flex items-center gap-2 text-[11px] text-[#92979D]">
+                <Search
+                  size={13}
+                />
+
+                {equipment}
+              </div>
+            )}
+
+          {content}
+        </div>
+
+        <div className="space-y-3 border-t border-[#ECEDEF] px-6 py-5">
+          <button
+            type="button"
+            onClick={
+              onStartMasp
+            }
+            className="flex h-12 w-full items-center justify-center gap-2 rounded-[12px] bg-[#E41E2B] text-[12px] font-semibold text-white hover:bg-[#CF1824]"
+          >
+            <ClipboardPlus
+              size={16}
+            />
+
+            Iniciar MASP com{" "}
+            {formatNumber(
+              selectedOccurrences,
+            )}{" "}
+            {selectedOccurrences ===
+              1
+              ? "ocorrência"
+              : "ocorrências"}
+          </button>
+
+          {isEquipmentLevel ? (
+            <button
+              type="button"
+              onClick={() =>
+                onDrillDownEquipment(
+                  title,
+                )
+              }
+              className="flex h-12 w-full items-center justify-center gap-2 rounded-[12px] border border-[#DDE0E3] text-[12px] font-semibold text-[#4F5459] hover:bg-[#F7F7F6]"
+            >
+              <Search
+                size={15}
+              />
+
+              Analisar modos de falha
+            </button>
+          ) : (
+            <button
+              type="button"
+              onClick={
+                onBackToEquipments
+              }
+              className="flex h-12 w-full items-center justify-center gap-2 rounded-[12px] border border-[#DDE0E3] text-[12px] font-semibold text-[#4F5459]"
+            >
+              <ArrowLeft
+                size={15}
+              />
+
+              Voltar para equipamentos
+            </button>
+          )}
+        </div>
+      </aside>
+    </div>
+  );
+}
+
+const PARETO_ITEMS_PER_PAGE =
+  10;
 
 function ParetoChart({
   items,
+  onSelect,
 }: {
   items:
     ParetoItem[];
+
+  onSelect:
+    (
+      item:
+        ParetoItem,
+      index:
+        number,
+    ) => void;
 }) {
   const [
     tooltip,
@@ -288,34 +2149,99 @@ function ParetoChart({
       TooltipState | null
     >(null);
 
+  const [
+    page,
+    setPage,
+  ] =
+    useState(
+      0,
+    );
+
+  const totalPages =
+    Math.max(
+      1,
+      Math.ceil(
+        items.length /
+          PARETO_ITEMS_PER_PAGE,
+      ),
+    );
+
+  const safePage =
+    Math.min(
+      page,
+      totalPages -
+        1,
+    );
+
+  const startIndex =
+    safePage *
+    PARETO_ITEMS_PER_PAGE;
+
+  const endIndex =
+    Math.min(
+      startIndex +
+        PARETO_ITEMS_PER_PAGE,
+      items.length,
+    );
+
+  const visibleItems =
+    items.slice(
+      startIndex,
+      endIndex,
+    );
+
+  useEffect(() => {
+    const timeoutId =
+      window.setTimeout(
+        () => {
+          setPage(
+            0,
+          );
+
+          setTooltip(
+            null,
+          );
+        },
+        0,
+      );
+
+    return () => {
+      window.clearTimeout(
+        timeoutId,
+      );
+    };
+  }, [
+    items,
+  ]);
+
   if (
     items.length ===
     0
   ) {
     return (
-      <div className="flex min-h-[380px] items-center justify-center text-[13px] text-[#93989E]">
+      <div className="flex min-h-[420px] items-center justify-center text-[13px] text-[#93989E]">
         Não há dados para o período selecionado.
       </div>
     );
   }
 
   const width =
-    1100;
+    1160;
 
   const height =
-    430;
+    500;
 
   const left =
-    66;
+    76;
 
   const right =
-    58;
+    72;
 
   const top =
-    34;
+    52;
 
   const bottom =
-    112;
+    128;
 
   const plotWidth =
     width -
@@ -333,61 +2259,91 @@ function ParetoChart({
         (
           item,
         ) =>
-          item.downtimeMinutes,
+          item
+            .downtimeMinutes,
       ),
       1,
     );
 
+  const axisMaximum =
+    maxDowntime *
+    1.12;
+
   const slotWidth =
     plotWidth /
-    items.length;
+    PARETO_ITEMS_PER_PAGE;
 
   const barWidth =
     Math.min(
-      66,
+      72,
       slotWidth *
-        0.64,
+        0.68,
     );
 
-  const pointCoordinates =
-    items.map(
+  function yForMinutes(
+    minutes: number,
+  ) {
+    return (
+      top +
+      plotHeight -
+      (
+        minutes /
+        axisMaximum
+      ) *
+        plotHeight
+    );
+  }
+
+  function yForPercentage(
+    percentage: number,
+  ) {
+    return (
+      top +
+      plotHeight -
+      (
+        Math.min(
+          100,
+          Math.max(
+            0,
+            percentage,
+          ),
+        ) /
+        100
+      ) *
+        plotHeight
+    );
+  }
+
+  const points =
+    visibleItems.map(
       (
         item,
         index,
-      ) => {
-        const x =
+      ) => ({
+        x:
           left +
           slotWidth *
             index +
           slotWidth /
-            2;
+            2,
 
-        const y =
-          top +
-          plotHeight -
-          (
-            item.cumulativePercentage /
-            100
-          ) *
-            plotHeight;
-
-        return {
-          x,
-          y,
-        };
-      },
+        y:
+          yForPercentage(
+            item
+              .cumulativePercentage,
+          ),
+      }),
     );
 
-  const linePath =
-    pointCoordinates
+  const cumulativePath =
+    points
       .map(
         (
           point,
           index,
         ) =>
           `${
-            index ===
-            0
+            index === 0
               ? "M"
               : "L"
           } ${point.x} ${point.y}`,
@@ -396,11 +2352,61 @@ function ParetoChart({
         " ",
       );
 
+  const minuteFractions =
+    [
+      0,
+      0.25,
+      0.5,
+      0.75,
+      1,
+    ];
+
+  const percentageTicks =
+    [
+      0,
+      20,
+      40,
+      60,
+      80,
+      100,
+    ];
+
   const eightyY =
-    top +
-    plotHeight -
-    0.8 *
-      plotHeight;
+    yForPercentage(
+      80,
+    );
+
+  function goToPreviousPage() {
+    setPage(
+      (
+        current,
+      ) =>
+        Math.max(
+          0,
+          current - 1,
+        ),
+    );
+
+    setTooltip(
+      null,
+    );
+  }
+
+  function goToNextPage() {
+    setPage(
+      (
+        current,
+      ) =>
+        Math.min(
+          totalPages - 1,
+          current + 1,
+        ),
+    );
+
+    setTooltip(
+      null,
+    );
+  }
 
   return (
     <div
@@ -418,19 +2424,29 @@ function ParetoChart({
       />
 
       <svg
-        viewBox={`0 0 ${width} ${height}`}
+        viewBox={
+          `0 0 ${width} ${height}`
+        }
         className="h-auto w-full"
         role="img"
-        aria-label="Gráfico de Pareto do tempo de parada"
+        aria-label={
+          `Pareto do tempo de parada. Exibindo itens ${
+            startIndex + 1
+          } a ${endIndex} de ${items.length}.`
+        }
         onMouseMove={(
           event,
         ) => {
-          if (!tooltip) {
+          if (
+            !tooltip
+          ) {
             return;
           }
 
           const rect =
-            event.currentTarget.getBoundingClientRect();
+            event
+              .currentTarget
+              .getBoundingClientRect();
 
           setTooltip(
             (
@@ -452,17 +2468,18 @@ function ParetoChart({
           );
         }}
       >
-        {/* grid */}
-
-        {[0, 0.5, 1].map(
+        {minuteFractions.map(
           (
             fraction,
           ) => {
+            const minutes =
+              axisMaximum *
+              fraction;
+
             const y =
-              top +
-              plotHeight -
-              fraction *
-                plotHeight;
+              yForMinutes(
+                minutes,
+              );
 
             return (
               <g
@@ -485,13 +2502,12 @@ function ParetoChart({
                     y
                   }
                   stroke="#ECEDEF"
-                  strokeWidth="1"
                 />
 
                 <text
                   x={
                     left -
-                    12
+                    14
                   }
                   y={
                     y +
@@ -499,11 +2515,10 @@ function ParetoChart({
                   }
                   textAnchor="end"
                   fontSize="11"
-                  fill="#9A9EA3"
+                  fill="#92979D"
                 >
                   {formatNumber(
-                    maxDowntime *
-                      fraction,
+                    minutes,
                   )}
                 </text>
               </g>
@@ -511,7 +2526,42 @@ function ParetoChart({
           },
         )}
 
-        {/* 80% */}
+        {percentageTicks.map(
+          (
+            percentage,
+          ) => {
+            const y =
+              yForPercentage(
+                percentage,
+              );
+
+            return (
+              <text
+                key={
+                  percentage
+                }
+                x={
+                  width -
+                  right +
+                  14
+                }
+                y={
+                  y +
+                  4
+                }
+                fontSize="11"
+                fill={
+                  percentage ===
+                  80
+                    ? "#A68424"
+                    : "#92979D"
+                }
+              >
+                {percentage}%
+              </text>
+            );
+          },
+        )}
 
         <line
           x1={
@@ -529,63 +2579,69 @@ function ParetoChart({
           }
           stroke="#C79B21"
           strokeWidth="2"
-          strokeDasharray="8 7"
+          strokeDasharray="9 7"
         />
 
-        <text
-          x={
-            width -
-            right
-          }
-          y={
-            eightyY -
-            8
-          }
-          textAnchor="end"
-          fontSize="11"
-          fill="#A68424"
-        >
-          80%
-        </text>
-
-        {/* barras */}
-
-        {items.map(
+        {visibleItems.map(
           (
             item,
-            index,
+            localIndex,
           ) => {
-            const barHeight =
-              (
-                item.downtimeMinutes /
-                maxDowntime
-              ) *
-              plotHeight;
+            const globalIndex =
+              startIndex +
+              localIndex;
 
             const x =
               left +
               slotWidth *
-                index +
+                localIndex +
               (
                 slotWidth -
-                barWidth
+                  barWidth
               ) /
                 2;
 
             const y =
+              yForMinutes(
+                item
+                  .downtimeMinutes,
+              );
+
+            const heightValue =
               top +
               plotHeight -
-              barHeight;
+              y;
 
             const centerX =
               x +
               barWidth /
                 2;
 
+            const open =
+              () =>
+                onSelect(
+                  item,
+                  globalIndex,
+                );
+
             return (
               <g
                 key={
-                  `${item.label}-${index}`
+                  `${item.label}-${globalIndex}`
+                }
+                className="cursor-pointer"
+                role="button"
+                tabIndex={0}
+                onClick={
+                  open
+                }
+                onKeyDown={(
+                  event,
+                ) =>
+                  activateWithKeyboard(
+                    event,
+                    open,
+                  )
                 }
                 onMouseEnter={() =>
                   setTooltip({
@@ -598,17 +2654,27 @@ function ParetoChart({
                       item.label,
 
                     lines: [
+                      `#${globalIndex + 1} no ranking`,
+
                       `${formatNumber(
-                        item.downtimeMinutes,
+                        item
+                          .downtimeMinutes,
                         1,
                       )} min de parada`,
 
                       `${formatNumber(
-                        item.occurrences,
+                        item
+                          .occurrences,
                       )} ocorrências`,
 
                       `${formatNumber(
-                        item.cumulativePercentage,
+                        item.percentage,
+                        1,
+                      )}% do total`,
+
+                      `${formatNumber(
+                        item
+                          .cumulativePercentage,
                         1,
                       )}% acumulado`,
                     ],
@@ -626,12 +2692,35 @@ function ParetoChart({
                     barWidth
                   }
                   height={
-                    barHeight
+                    heightValue
                   }
-                  rx="4"
+                  rx="3"
                   fill="#E41E2B"
-                  className="transition-opacity hover:opacity-80"
                 />
+
+                <text
+                  x={
+                    centerX
+                  }
+                  y={
+                    Math.max(
+                      top +
+                        12,
+                      y -
+                        9,
+                    )
+                  }
+                  textAnchor="middle"
+                  fontSize="10"
+                  fontWeight="600"
+                  fill="#5E6369"
+                  className="pointer-events-none"
+                >
+                  {formatNumber(
+                    item
+                      .downtimeMinutes,
+                  )}
+                </text>
 
                 <text
                   x={
@@ -640,20 +2729,23 @@ function ParetoChart({
                   y={
                     top +
                     plotHeight +
-                    22
+                    24
                   }
                   textAnchor="end"
-                  transform={`rotate(-35 ${centerX} ${
-                    top +
-                    plotHeight +
-                    22
-                  })`}
+                  transform={
+                    `rotate(-38 ${centerX} ${
+                      top +
+                      plotHeight +
+                      24
+                    })`
+                  }
                   fontSize="10"
-                  fill="#777C82"
+                  fill="#70757B"
+                  className="pointer-events-none"
                 >
                   {truncate(
                     item.label,
-                    22,
+                    24,
                   )}
                 </text>
               </g>
@@ -661,41 +2753,73 @@ function ParetoChart({
           },
         )}
 
-        {/* linha acumulada */}
-
         <path
           d={
-            linePath
+            cumulativePath
           }
           fill="none"
-          stroke="#25282C"
+          stroke="#24272B"
           strokeWidth="3"
           strokeLinejoin="round"
           strokeLinecap="round"
+          pointerEvents="none"
         />
 
-        {pointCoordinates.map(
+        {points.map(
           (
             point,
-            index,
-          ) => (
-            <circle
-              key={
-                `point-${index}`
-              }
-              cx={
-                point.x
-              }
-              cy={
-                point.y
-              }
-              r="4"
-              fill="#25282C"
-            />
-          ),
-        )}
+            localIndex,
+          ) => {
+            const item =
+              visibleItems[
+                localIndex
+              ];
 
-        {/* eixos */}
+            const globalIndex =
+              startIndex +
+              localIndex;
+
+            return (
+              <g
+                key={
+                  globalIndex
+                }
+                className="cursor-pointer"
+                onClick={() =>
+                  onSelect(
+                    item,
+                    globalIndex,
+                  )
+                }
+              >
+                <circle
+                  cx={
+                    point.x
+                  }
+                  cy={
+                    point.y
+                  }
+                  r="13"
+                  fill="transparent"
+                />
+
+                <circle
+                  cx={
+                    point.x
+                  }
+                  cy={
+                    point.y
+                  }
+                  r="4.5"
+                  fill="#24272B"
+                  stroke="white"
+                  strokeWidth="1.5"
+                  className="pointer-events-none"
+                />
+              </g>
+            );
+          },
+        )}
 
         <line
           x1={
@@ -711,7 +2835,7 @@ function ParetoChart({
             top +
             plotHeight
           }
-          stroke="#B9BDC2"
+          stroke="#AEB2B7"
         />
 
         <line
@@ -730,18 +2854,18 @@ function ParetoChart({
             top +
             plotHeight
           }
-          stroke="#B9BDC2"
+          stroke="#AEB2B7"
         />
 
         <text
           x={
             left
           }
-          y="18"
+          y="24"
           fontSize="11"
-          fill="#92979D"
+          fill="#777C82"
         >
-          Minutos
+          Tempo de parada (min)
         </text>
 
         <text
@@ -749,33 +2873,106 @@ function ParetoChart({
             width -
             right
           }
-          y="18"
+          y="24"
           textAnchor="end"
           fontSize="11"
-          fill="#92979D"
+          fill="#777C82"
         >
-          % acumulado
+          Percentual acumulado
         </text>
       </svg>
+
+      <div className="mt-2 flex flex-col gap-3 border-t border-[#ECEDEF] px-2 pt-4 sm:flex-row sm:items-center sm:justify-between">
+        <div>
+          <p className="text-[11px] font-medium text-[#555A60]">
+            Exibindo{" "}
+            {startIndex + 1}
+            –
+            {endIndex} de{" "}
+            {items.length} categorias
+          </p>
+
+          <p className="mt-0.5 text-[10px] text-[#9A9FA5]">
+            Ordenação global por tempo de parada · acumulado preservado entre páginas
+          </p>
+        </div>
+
+        {totalPages >
+          1 && (
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              onClick={
+                goToPreviousPage
+              }
+              disabled={
+                safePage ===
+                0
+              }
+              className="inline-flex h-9 items-center gap-1.5 rounded-[10px] border border-[#E0E2E4] bg-white px-3 text-[11px] font-medium text-[#555A60] transition hover:bg-[#F7F7F6] disabled:cursor-not-allowed disabled:opacity-35"
+              aria-label="Página anterior do Pareto"
+            >
+              <ChevronLeft
+                size={14}
+              />
+
+              Anterior
+            </button>
+
+            <span className="min-w-[64px] text-center text-[11px] font-semibold text-[#555A60]">
+              {safePage + 1}
+              {" / "}
+              {totalPages}
+            </span>
+
+            <button
+              type="button"
+              onClick={
+                goToNextPage
+              }
+              disabled={
+                safePage >=
+                totalPages -
+                  1
+              }
+              className="inline-flex h-9 items-center gap-1.5 rounded-[10px] border border-[#E0E2E4] bg-white px-3 text-[11px] font-medium text-[#555A60] transition hover:bg-[#F7F7F6] disabled:cursor-not-allowed disabled:opacity-35"
+              aria-label="Próxima página do Pareto"
+            >
+              Próximo
+
+              <ChevronRight
+                size={14}
+              />
+            </button>
+          </div>
+        )}
+      </div>
     </div>
   );
 }
 
-/* =========================================================
-   JACK-KNIFE
-========================================================= */
-
 function JackKnifeChart({
   items,
-  failuresLimit,
+  frequencyLimit,
   mttrLimit,
+  onSelect,
 }: {
   items:
     JackKnifeItem[];
 
-  failuresLimit: number;
+  frequencyLimit:
+    number;
 
-  mttrLimit: number;
+  mttrLimit:
+    number;
+
+  onSelect:
+    (
+      item:
+        JackKnifeItem,
+      index:
+        number,
+    ) => void;
 }) {
   const [
     tooltip,
@@ -791,7 +2988,7 @@ function JackKnifeChart({
   ) {
     return (
       <div className="flex min-h-[430px] items-center justify-center text-[13px] text-[#93989E]">
-        Não há dados para o período selecionado.
+        Nenhuma ocorrência foi encontrada para o recorte selecionado.
       </div>
     );
   }
@@ -800,19 +2997,19 @@ function JackKnifeChart({
     1100;
 
   const height =
-    470;
+    500;
 
   const left =
-    72;
+    86;
 
   const right =
-    42;
+    44;
 
   const top =
-    42;
+    46;
 
   const bottom =
-    64;
+    78;
 
   const plotWidth =
     width -
@@ -824,71 +3021,151 @@ function JackKnifeChart({
     top -
     bottom;
 
-  const maxFailures =
+  const minX =
+    1;
+
+  const minY =
+    0.1;
+
+  const safeFrequencyLimit =
+    safePositive(
+      frequencyLimit,
+      1,
+    );
+
+  const safeMttrLimit =
+    Math.max(
+      minY,
+      safeNonNegative(
+        mttrLimit,
+        minY,
+      ),
+    );
+
+  const maximumFrequency =
     Math.max(
       ...items.map(
         (
           item,
         ) =>
-          item.failures,
+          Math.max(
+            minX,
+            item.frequency,
+          ),
       ),
-      failuresLimit,
+      safeFrequencyLimit,
       1,
     );
 
-  const maxMttr =
+  const maximumMttr =
     Math.max(
       ...items.map(
         (
           item,
         ) =>
-          item.mttr,
+          Math.max(
+            minY,
+            item.mttr,
+          ),
       ),
-      mttrLimit,
-      1,
+      safeMttrLimit,
+      minY,
     );
 
-  /*
-    Frequência em escala logarítmica.
-    log(1 + n) preserva o zero e evita esmagar
-    equipamentos com poucas ocorrências.
-  */
+  const maxX =
+    Math.max(
+      10,
+      10 **
+        Math.ceil(
+          Math.log10(
+            maximumFrequency,
+          ),
+        ),
+    );
 
-  const maxLog =
-    Math.log1p(
-      maxFailures,
+  const maxY =
+    Math.max(
+      1,
+      10 **
+        Math.ceil(
+          Math.log10(
+            maximumMttr,
+          ),
+        ),
+    );
+
+  const logXMin =
+    Math.log10(
+      minX,
+    );
+
+  const logXMax =
+    Math.log10(
+      maxX,
+    );
+
+  const logYMin =
+    Math.log10(
+      minY,
+    );
+
+  const logYMax =
+    Math.log10(
+      maxY,
     );
 
   function xFor(
-    failures: number,
+    frequency:
+      number,
   ) {
+    const safe =
+      Math.max(
+        minX,
+        frequency,
+      );
+
     return (
       left +
       (
-        Math.log1p(
-          Math.max(
-            0,
-            failures,
-          ),
+        (
+          Math.log10(
+            safe,
+          ) -
+          logXMin
         ) /
-        maxLog
+        (
+          logXMax -
+          logXMin
+        )
       ) *
         plotWidth
     );
   }
 
   function yFor(
-    mttr: number,
+    mttr:
+      number,
   ) {
+    const safe =
+      Math.max(
+        minY,
+        mttr,
+      );
+
     return (
       top +
       plotHeight -
       (
-        Math.max(
-          0,
-          mttr,
+        (
+          Math.log10(
+            safe,
+          ) -
+          logYMin
         ) /
-        maxMttr
+        (
+          logYMax -
+          logYMin
+        )
       ) *
         plotHeight
     );
@@ -896,13 +3173,43 @@ function JackKnifeChart({
 
   const dividerX =
     xFor(
-      failuresLimit,
+      safeFrequencyLimit,
     );
 
   const dividerY =
     yFor(
-      mttrLimit,
+      safeMttrLimit,
     );
+
+  const xTicks:
+    number[] =
+    [];
+
+  for (
+    let tick = 1;
+    tick <= maxX;
+    tick *= 10
+  ) {
+    xTicks.push(
+      tick,
+    );
+  }
+
+  const yTicks:
+    number[] =
+    [];
+
+  for (
+    let exponent = -1;
+    10 ** exponent <=
+      maxY;
+    exponent += 1
+  ) {
+    yTicks.push(
+      10 **
+        exponent,
+    );
+  }
 
   return (
     <div
@@ -920,19 +3227,25 @@ function JackKnifeChart({
       />
 
       <svg
-        viewBox={`0 0 ${width} ${height}`}
+        viewBox={
+          `0 0 ${width} ${height}`
+        }
         className="h-auto w-full"
         role="img"
-        aria-label="Gráfico Jack-Knife de frequência por MTTR"
+        aria-label="Jack-Knife de frequência por MTTR"
         onMouseMove={(
           event,
         ) => {
-          if (!tooltip) {
+          if (
+            !tooltip
+          ) {
             return;
           }
 
           const rect =
-            event.currentTarget.getBoundingClientRect();
+            event
+              .currentTarget
+              .getBoundingClientRect();
 
           setTooltip(
             (
@@ -954,58 +3267,116 @@ function JackKnifeChart({
           );
         }}
       >
-        {/* áreas suaves */}
+        {xTicks.map(
+          (
+            tick,
+          ) => {
+            const x =
+              xFor(
+                tick,
+              );
 
-        <rect
-          x={
-            left
-          }
-          y={
-            top
-          }
-          width={
-            Math.max(
-              0,
-              dividerX -
-                left,
-            )
-          }
-          height={
-            Math.max(
-              0,
-              dividerY -
-                top,
-            )
-          }
-          fill="#FFF9EC"
-        />
+            return (
+              <g
+                key={
+                  `x-${tick}`
+                }
+              >
+                <line
+                  x1={
+                    x
+                  }
+                  x2={
+                    x
+                  }
+                  y1={
+                    top
+                  }
+                  y2={
+                    top +
+                    plotHeight
+                  }
+                  stroke="#EFF0F1"
+                />
 
-        <rect
-          x={
-            dividerX
-          }
-          y={
-            top
-          }
-          width={
-            Math.max(
-              0,
-              width -
-                right -
-                dividerX,
-            )
-          }
-          height={
-            Math.max(
-              0,
-              dividerY -
-                top,
-            )
-          }
-          fill="#FFF4F4"
-        />
+                <text
+                  x={
+                    x
+                  }
+                  y={
+                    top +
+                    plotHeight +
+                    22
+                  }
+                  textAnchor="middle"
+                  fontSize="10"
+                  fill="#92979D"
+                >
+                  {formatNumber(
+                    tick,
+                  )}
+                </text>
+              </g>
+            );
+          },
+        )}
 
-        {/* divisores */}
+        {yTicks.map(
+          (
+            tick,
+          ) => {
+            const y =
+              yFor(
+                tick,
+              );
+
+            return (
+              <g
+                key={
+                  `y-${tick}`
+                }
+              >
+                <line
+                  x1={
+                    left
+                  }
+                  x2={
+                    width -
+                    right
+                  }
+                  y1={
+                    y
+                  }
+                  y2={
+                    y
+                  }
+                  stroke="#EFF0F1"
+                />
+
+                <text
+                  x={
+                    left -
+                    12
+                  }
+                  y={
+                    y +
+                    4
+                  }
+                  textAnchor="end"
+                  fontSize="10"
+                  fill="#92979D"
+                >
+                  {formatNumber(
+                    tick,
+                    tick < 1
+                      ? 1
+                      : 0,
+                  )}
+                </text>
+              </g>
+            );
+          },
+        )}
 
         <line
           x1={
@@ -1021,9 +3392,8 @@ function JackKnifeChart({
             top +
             plotHeight
           }
-          stroke="#8E9399"
+          stroke="#33373B"
           strokeWidth="2"
-          strokeDasharray="8 7"
         />
 
         <line
@@ -1040,12 +3410,9 @@ function JackKnifeChart({
           y2={
             dividerY
           }
-          stroke="#8E9399"
+          stroke="#33373B"
           strokeWidth="2"
-          strokeDasharray="8 7"
         />
-
-        {/* quadrantes */}
 
         <text
           x={
@@ -1057,7 +3424,8 @@ function JackKnifeChart({
             22
           }
           fontSize="12"
-          fill="#A18A4A"
+          fontWeight="600"
+          fill="#4C5055"
         >
           Crítico
         </text>
@@ -1074,7 +3442,8 @@ function JackKnifeChart({
           }
           textAnchor="end"
           fontSize="12"
-          fill="#C75E64"
+          fontWeight="600"
+          fill="#B72831"
         >
           Crítico-crônico
         </text>
@@ -1090,7 +3459,8 @@ function JackKnifeChart({
             14
           }
           fontSize="12"
-          fill="#729078"
+          fontWeight="600"
+          fill="#6D747A"
         >
           Conforto
         </text>
@@ -1108,12 +3478,11 @@ function JackKnifeChart({
           }
           textAnchor="end"
           fontSize="12"
-          fill="#668CAD"
+          fontWeight="600"
+          fill="#6D747A"
         >
           Crônico
         </text>
-
-        {/* pontos */}
 
         {items.map(
           (
@@ -1122,7 +3491,7 @@ function JackKnifeChart({
           ) => {
             const x =
               xFor(
-                item.failures,
+                item.frequency,
               );
 
             const y =
@@ -1130,42 +3499,32 @@ function JackKnifeChart({
                 item.mttr,
               );
 
-            const radius =
-              Math.min(
-                17,
-                Math.max(
-                  7,
-                  6 +
-                    Math.sqrt(
-                      item.downtimeMinutes,
-                    ) *
-                      0.22,
-                ),
-              );
+            const open =
+              () =>
+                onSelect(
+                  item,
+                  index,
+                );
 
             return (
-              <circle
+              <g
                 key={
                   `${item.label}-${index}`
                 }
-                cx={
-                  x
+                className="group cursor-pointer"
+                role="button"
+                tabIndex={0}
+                onClick={
+                  open
                 }
-                cy={
-                  y
-                }
-                r={
-                  radius
-                }
-                fill={
-                  quadrantColor(
-                    item.quadrant,
+                onKeyDown={(
+                  event,
+                ) =>
+                  activateWithKeyboard(
+                    event,
+                    open,
                   )
                 }
-                fillOpacity="0.9"
-                stroke="white"
-                strokeWidth="2"
-                className="cursor-default transition-opacity hover:opacity-75"
                 onMouseEnter={() =>
                   setTooltip({
                     x,
@@ -1175,28 +3534,81 @@ function JackKnifeChart({
                       item.label,
 
                     lines: [
-                      `${formatNumber(
-                        item.failures,
-                      )} falhas`,
+                      `Falhas: ${formatNumber(
+                        item.frequency,
+                        1,
+                      )}`,
 
-                      `MTTR ${formatNumber(
+                      `MTTR: ${formatNumber(
                         item.mttr,
                         1,
                       )} min`,
 
-                      `${formatNumber(
-                        item.downtimeMinutes,
+                      `Tempo total: ${formatNumber(
+                        item
+                          .downtimeMinutes,
                         1,
-                      )} min de parada`,
+                      )} min`,
                     ],
                   })
                 }
-              />
+              >
+                <circle
+                  cx={
+                    x
+                  }
+                  cy={
+                    y
+                  }
+                  r="18"
+                  fill="transparent"
+                />
+
+                <circle
+                  cx={
+                    x
+                  }
+                  cy={
+                    y
+                  }
+                  r="8"
+                  fill={
+                    quadrantColor(
+                      item.quadrant,
+                    )
+                  }
+                  stroke="white"
+                  strokeWidth="2"
+                  className="pointer-events-none transition-transform group-hover:scale-125"
+                  style={{
+                    transformOrigin:
+                      `${x}px ${y}px`,
+                  }}
+                />
+
+                {items.length <=
+                  18 && (
+                  <text
+                    x={
+                      x +
+                      11
+                    }
+                    y={
+                      y -
+                      8
+                    }
+                    fontSize="9"
+                    fill="#777C82"
+                    className="pointer-events-none"
+                  >
+                    {index +
+                      1}
+                  </text>
+                )}
+              </g>
             );
           },
         )}
-
-        {/* eixos */}
 
         <line
           x1={
@@ -1240,7 +3652,7 @@ function JackKnifeChart({
           }
           y="22"
           fontSize="11"
-          fill="#92979D"
+          fill="#777C82"
         >
           MTTR (min)
         </text>
@@ -1256,56 +3668,91 @@ function JackKnifeChart({
           }
           textAnchor="end"
           fontSize="11"
-          fill="#92979D"
+          fill="#777C82"
         >
-          Número de falhas · escala log
+          Nº de falhas
         </text>
 
-        <text
-          x={
-            dividerX +
-            8
-          }
-          y={
-            top +
-            plotHeight +
-            22
-          }
-          fontSize="10"
-          fill="#969BA1"
-        >
-          média {formatNumber(
-            failuresLimit,
-            1,
-          )}
-        </text>
+        <g>
+          <rect
+            x={
+              dividerX -
+              20
+            }
+            y={
+              top +
+              plotHeight +
+              28
+            }
+            width="40"
+            height="19"
+            rx="5"
+            fill="#FFF4F4"
+            stroke="#F0BFC3"
+          />
 
-        <text
-          x={
-            left -
-            10
-          }
-          y={
-            dividerY -
-            7
-          }
-          textAnchor="end"
-          fontSize="10"
-          fill="#969BA1"
-        >
-          {formatNumber(
-            mttrLimit,
-            1,
-          )}
-        </text>
+          <text
+            x={
+              dividerX
+            }
+            y={
+              top +
+              plotHeight +
+              41
+            }
+            textAnchor="middle"
+            fontSize="10"
+            fontWeight="600"
+            fill="#B72831"
+          >
+            {formatNumber(
+              safeFrequencyLimit,
+              1,
+            )}
+          </text>
+        </g>
+
+        <g>
+          <rect
+            x={
+              left -
+              58
+            }
+            y={
+              dividerY -
+              10
+            }
+            width="48"
+            height="19"
+            rx="5"
+            fill="#FFF4F4"
+            stroke="#F0BFC3"
+          />
+
+          <text
+            x={
+              left -
+              34
+            }
+            y={
+              dividerY +
+              3
+            }
+            textAnchor="middle"
+            fontSize="10"
+            fontWeight="600"
+            fill="#B72831"
+          >
+            {formatNumber(
+              safeMttrLimit,
+              1,
+            )}
+          </text>
+        </g>
       </svg>
     </div>
   );
 }
-
-/* =========================================================
-   PÁGINA
-========================================================= */
 
 export function ReliabilityPage({
   user,
@@ -1358,7 +3805,9 @@ export function ReliabilityPage({
     loading,
     setLoading,
   ] =
-    useState(true);
+    useState(
+      true,
+    );
 
   const [
     error,
@@ -1366,10 +3815,45 @@ export function ReliabilityPage({
   ] =
     useState("");
 
+  const [
+    selectedPoint,
+    setSelectedPoint,
+  ] =
+    useState<
+      SelectedChartPoint | null
+    >(null);
+
+  const [
+    reportOpen,
+    setReportOpen,
+  ] =
+    useState(
+      false,
+    );
+
+  const [
+    maspSelection,
+    setMaspSelection,
+  ] =
+    useState<
+      ReliabilityMaspSelection | null
+    >(null);
+
+  const closeDetail =
+    useCallback(
+      () => {
+        setSelectedPoint(
+          null,
+        );
+      },
+      [],
+    );
+
   const loadData =
     useCallback(
       async (
-        signal?: AbortSignal,
+        signal?:
+          AbortSignal,
       ) => {
         setLoading(
           true,
@@ -1377,6 +3861,10 @@ export function ReliabilityPage({
 
         setError(
           "",
+        );
+
+        setSelectedPoint(
+          null,
         );
 
         try {
@@ -1401,7 +3889,9 @@ export function ReliabilityPage({
             );
           }
 
-          if (line) {
+          if (
+            line
+          ) {
             params.set(
               "line",
               line,
@@ -1428,21 +3918,27 @@ export function ReliabilityPage({
               },
             );
 
-          const json =
-            await response.json();
+          const raw =
+            await response
+              .json();
 
           if (
             !response.ok ||
-            !json.success
+            !raw?.success
           ) {
             throw new Error(
-              json.message ??
-                "Não foi possível carregar os dados.",
+              raw?.message ??
+              "Não foi possível carregar os dados.",
             );
           }
 
+          const normalized =
+            normalizeReliabilityData(
+              raw,
+            );
+
           setData(
-            json,
+            normalized,
           );
         } catch (
           requestError
@@ -1464,7 +3960,8 @@ export function ReliabilityPage({
           );
         } finally {
           if (
-            !signal?.aborted
+            !signal
+              ?.aborted
           ) {
             setLoading(
               false,
@@ -1484,16 +3981,95 @@ export function ReliabilityPage({
     const controller =
       new AbortController();
 
-    void loadData(
-      controller.signal,
-    );
+    const timeoutId =
+      window.setTimeout(
+        () => {
+          void loadData(
+            controller.signal,
+          );
+        },
+        0,
+      );
 
     return () => {
+      window.clearTimeout(
+        timeoutId,
+      );
+
       controller.abort();
     };
   }, [
     loadData,
   ]);
+
+  const handleUnitSelectionApplied =
+    useCallback(
+      async () => {
+        setSelectedPoint(
+          null,
+        );
+
+        if (
+          line ||
+          equipment
+        ) {
+          setLine(
+            "",
+          );
+
+          setEquipment(
+            "",
+          );
+
+          return;
+        }
+
+        await loadData();
+      },
+      [
+        loadData,
+        line,
+        equipment,
+      ],
+    );
+
+  const selectedUnitsLabel =
+    useMemo(
+      () => {
+        const selectedUnits =
+          data
+            ?.filters
+            .selectedUnits ??
+          [];
+
+        if (
+          selectedUnits.length ===
+          0
+        ) {
+          return (
+            unit.city ??
+            "Unidade atual"
+          );
+        }
+
+        if (
+          selectedUnits.length ===
+          1
+        ) {
+          return getUnitLabel(
+            selectedUnits[
+              0
+            ],
+          );
+        }
+
+        return `${selectedUnits.length} unidades selecionadas`;
+      },
+      [
+        data,
+        unit.city,
+      ],
+    );
 
   function resetFilters() {
     const range =
@@ -1514,21 +4090,30 @@ export function ReliabilityPage({
     setEquipment(
       "",
     );
+
+    setSelectedPoint(
+      null,
+    );
   }
 
   const analysisLabel =
-    data?.analysisLevel ===
+    data
+      ?.analysisLevel ===
     "FAILURE_MODE"
       ? "falha"
       : "equipamento";
 
   const lines =
-    data?.filters.options
+    data
+      ?.filters
+      .options
       .lines ??
     [];
 
   const equipments =
-    data?.filters.options
+    data
+      ?.filters
+      .options
       .equipments ??
     [];
 
@@ -1542,23 +4127,38 @@ export function ReliabilityPage({
             <Image
               src="/logo.webp"
               alt="Coca-Cola FEMSA"
-              width={180}
-              height={64}
+              width={
+                180
+              }
+              height={
+                64
+              }
               priority
               className="h-auto max-h-[42px] w-auto object-contain"
             />
           </Link>
 
-          <div className="hidden text-right sm:block">
-            <p className="text-[13px] font-medium text-[#25272A]">
-              {user.name}
-            </p>
+          <div className="flex items-center gap-3 sm:gap-5">
+            <UnitFilter
+              fallbackLabel={
+                unit.city
+              }
+              onSelectionApplied={
+                handleUnitSelectionApplied
+              }
+            />
 
-            {unit.city && (
-              <p className="mt-0.5 text-[11px] text-[#999DA2]">
-                {unit.city}
+            <div className="hidden h-8 w-px bg-black/[0.07] sm:block" />
+
+            <div className="hidden text-right sm:block">
+              <p className="text-[13px] font-medium text-[#25272A]">
+                {user.name}
               </p>
-            )}
+
+              <p className="mt-0.5 text-[10px] text-[#999DA2]">
+                Análise de confiabilidade
+              </p>
+            </div>
           </div>
         </div>
       </header>
@@ -1569,21 +4169,45 @@ export function ReliabilityPage({
           className="inline-flex items-center gap-2 text-[12px] font-medium text-[#81868C] transition-colors hover:text-[#282B2F]"
         >
           <ArrowLeft
-            size={15}
+            size={
+              15
+            }
           />
 
           Voltar
         </Link>
 
-        <div className="mt-9">
-          <h1 className="text-[34px] font-semibold tracking-[-0.045em] text-[#191B1E] sm:text-[40px]">
-            Confiabilidade
-          </h1>
-        </div>
+        <div className="mt-9 flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <h1 className="text-[34px] font-semibold tracking-[-0.045em] text-[#191B1E] sm:text-[40px]">
+              Confiabilidade
+            </h1>
 
-        {/* =================================================
-            FILTROS
-        ================================================== */}
+            <div className="mt-4 inline-flex items-center rounded-full bg-[#F0F0EF] px-3 py-1.5">
+              <span className="text-[10px] font-medium text-[#747980]">
+                {selectedUnitsLabel}
+              </span>
+            </div>
+          </div>
+
+          <button
+            type="button"
+            onClick={() =>
+              setReportOpen(
+                true,
+              )
+            }
+            className="inline-flex h-11 items-center justify-center gap-2 self-start rounded-[12px] bg-[#E41E2B] px-5 text-[11px] font-semibold text-white shadow-[0_8px_22px_rgba(228,30,43,0.15)] transition-colors hover:bg-[#CF1824] sm:self-auto"
+          >
+            <FileDown
+              size={
+                15
+              }
+            />
+
+            Gerar relatório
+          </button>
+        </div>
 
         <section className="mt-8 grid gap-4 border-y border-[#E2E4E6] py-5 md:grid-cols-2 xl:grid-cols-[180px_180px_1fr_1fr_auto]">
           <label className="block">
@@ -1604,7 +4228,8 @@ export function ReliabilityPage({
                 event,
               ) =>
                 setStartDate(
-                  event.target
+                  event
+                    .target
                     .value,
                 )
               }
@@ -1630,7 +4255,8 @@ export function ReliabilityPage({
                 event,
               ) =>
                 setEndDate(
-                  event.target
+                  event
+                    .target
                     .value,
                 )
               }
@@ -1651,7 +4277,8 @@ export function ReliabilityPage({
                 event,
               ) => {
                 setLine(
-                  event.target
+                  event
+                    .target
                     .value,
                 );
 
@@ -1697,7 +4324,8 @@ export function ReliabilityPage({
                 event,
               ) =>
                 setEquipment(
-                  event.target
+                  event
+                    .target
                     .value,
                 )
               }
@@ -1735,17 +4363,15 @@ export function ReliabilityPage({
               className="flex h-11 items-center gap-2 px-2 text-[12px] font-medium text-[#777C82] transition-colors hover:text-[#E41E2B]"
             >
               <RotateCcw
-                size={15}
+                size={
+                  15
+                }
               />
 
               Limpar
             </button>
           </div>
         </section>
-
-        {/* =================================================
-            ESTADO
-        ================================================== */}
 
         {error && (
           <div className="mt-8 rounded-[14px] border border-[#F0D2D5] bg-[#FFF8F8] px-4 py-3 text-[12px] text-[#BF2C35]">
@@ -1755,26 +4381,30 @@ export function ReliabilityPage({
 
         {loading &&
           !data && (
-            <div className="flex min-h-[420px] items-center justify-center">
-              <LoaderCircle
-                size={22}
-                className="animate-spin text-[#E41E2B]"
-              />
-            </div>
-          )}
+          <div className="flex min-h-[420px] items-center justify-center">
+            <LoaderCircle
+              size={
+                22
+              }
+              className="animate-spin text-[#E41E2B]"
+            />
+          </div>
+        )}
 
         {data && (
           <>
             <div className="mt-7 flex flex-wrap items-center justify-between gap-3">
               <p className="text-[12px] text-[#888D93]">
                 {formatNumber(
-                  data.summary
+                  data
+                    .summary
                     .events,
                 )}{" "}
                 ocorrências
                 {" · "}
                 {formatNumber(
-                  data.summary
+                  data
+                    .summary
                     .downtimeMinutes,
                   1,
                 )}{" "}
@@ -1783,30 +4413,89 @@ export function ReliabilityPage({
 
               {loading && (
                 <LoaderCircle
-                  size={16}
+                  size={
+                    16
+                  }
                   className="animate-spin text-[#E41E2B]"
                 />
               )}
             </div>
 
-            {/* =============================================
-                PARETO
-            ============================================== */}
-
             <section className="mt-5 overflow-hidden rounded-[24px] border border-[#E5E7E9] bg-white">
-              <div className="flex items-center justify-between border-b border-[#ECEDEF] px-6 py-5">
-                <div>
-                  <h2 className="text-[17px] font-semibold tracking-[-0.025em] text-[#24272B]">
-                    Pareto de tempo de parada
-                  </h2>
+              <div className="flex flex-col gap-3 border-b border-[#ECEDEF] px-6 py-5 sm:flex-row sm:items-center sm:justify-between">
+                <div className="flex items-start gap-4">
+                  <div className="flex h-8 min-w-8 items-center justify-center rounded-full bg-[#E41E2B] px-2 text-[10px] font-bold text-white">
+                    01
+                  </div>
 
-                  <p className="mt-1 text-[11px] text-[#979CA2]">
-                    Por{" "}
-                    {
-                      analysisLabel
-                    }
-                  </p>
+                  <div>
+                    <h2 className="text-[18px] font-semibold tracking-[-0.03em] text-[#24272B]">
+                      Origem das falhas
+                    </h2>
+
+                    <p className="mt-1 text-[11px] text-[#979CA2]">
+                      Operação × manutenção no recorte selecionado
+                    </p>
+                  </div>
                 </div>
+
+                <p className="text-[10px] font-medium text-[#989DA3]">
+                  {formatNumber(
+                    data
+                      .failureOrigin
+                      .classified,
+                  )}{" "}
+                  ocorrências classificadas
+                </p>
+              </div>
+
+              <div className="px-6 py-5 sm:px-8 sm:py-6">
+                <FailureOriginAnalysis
+                  data={
+                    data
+                      .failureOrigin
+                  }
+                  startDate={
+                    startDate
+                  }
+                  endDate={
+                    endDate
+                  }
+                  line={
+                    line
+                  }
+                  equipment={
+                    equipment
+                  }
+                  onChanged={
+                    loadData
+                  }
+                />
+              </div>
+            </section>
+
+            <section className="mt-6 overflow-hidden rounded-[24px] border border-[#E5E7E9] bg-white">
+              <div className="flex items-center justify-between gap-6 border-b border-[#ECEDEF] px-6 py-5">
+                <div className="flex items-start gap-4">
+                  <div className="flex h-8 min-w-8 items-center justify-center rounded-full bg-[#25282C] px-2 text-[10px] font-bold text-white">
+                    02
+                  </div>
+
+                  <div>
+                    <h2 className="text-[18px] font-semibold tracking-[-0.03em] text-[#24272B]">
+                      Pareto de tempo de parada
+                    </h2>
+
+                    <p className="mt-1 text-[11px] text-[#979CA2]">
+                      Tempo de parada + percentual acumulado · por{" "}
+                      {analysisLabel}
+                    </p>
+                  </div>
+                </div>
+
+                <p className="hidden text-[10px] text-[#A1A5AA] sm:block">
+                  Clique em uma barra ou ponto para detalhar
+                </p>
               </div>
 
               <div className="p-4 sm:p-6">
@@ -1814,51 +4503,219 @@ export function ReliabilityPage({
                   items={
                     data.pareto
                   }
+                  onSelect={(
+                    item,
+                    index,
+                  ) => {
+                    setSelectedPoint({
+                      type:
+                        "PARETO",
+
+                      item,
+
+                      index,
+                    });
+                  }}
                 />
               </div>
             </section>
 
-            {/* =============================================
-                JACK-KNIFE
-            ============================================== */}
-
             <section className="mt-6 overflow-hidden rounded-[24px] border border-[#E5E7E9] bg-white">
-              <div className="flex items-center justify-between border-b border-[#ECEDEF] px-6 py-5">
-                <div>
-                  <h2 className="text-[17px] font-semibold tracking-[-0.025em] text-[#24272B]">
-                    Jack-Knife
-                  </h2>
+              <div className="flex items-center justify-between gap-6 border-b border-[#ECEDEF] px-6 py-5">
+                <div className="flex items-start gap-4">
+                  <div className="flex h-8 min-w-8 items-center justify-center rounded-full bg-[#25282C] px-2 text-[10px] font-bold text-white">
+                    03
+                  </div>
 
-                  <p className="mt-1 text-[11px] text-[#979CA2]">
-                    Frequência × MTTR por{" "}
-                    {
-                      analysisLabel
-                    }
-                  </p>
+                  <div>
+                    <h2 className="text-[18px] font-semibold tracking-[-0.03em] text-[#24272B]">
+                      Jack-Knife
+                    </h2>
+
+                    <p className="mt-1 text-[11px] text-[#979CA2]">
+                      Nº de falhas × MTTR · por{" "}
+                      {analysisLabel}
+                    </p>
+                  </div>
                 </div>
+
+                <p className="hidden text-[10px] text-[#A1A5AA] sm:block">
+                  Clique em um ponto para detalhar
+                </p>
               </div>
 
               <div className="p-4 sm:p-6">
                 <JackKnifeChart
                   items={
-                    data.jackKnife
+                    data
+                      .jackKnife
                   }
-                  failuresLimit={
+                  frequencyLimit={
                     data
                       .jackKnifeLimits
-                      .failures
+                      .frequency
                   }
                   mttrLimit={
                     data
                       .jackKnifeLimits
                       .mttr
                   }
+                  onSelect={(
+                    item,
+                    index,
+                  ) => {
+                    setSelectedPoint({
+                      type:
+                        "JACK_KNIFE",
+
+                      item,
+
+                      index,
+                    });
+                  }}
                 />
               </div>
             </section>
           </>
         )}
       </div>
+
+      <ReportGeneratorModal
+        open={
+          reportOpen
+        }
+        onClose={() =>
+          setReportOpen(
+            false,
+          )
+        }
+        initialStartDate={
+          startDate
+        }
+        initialEndDate={
+          endDate
+        }
+        initialUnitIds={
+          data
+            ?.filters
+            .selectedUnitIds ??
+          []
+        }
+      />
+
+      <ReliabilityDetailDrawer
+        selected={
+          selectedPoint
+        }
+        analysisLevel={
+          data
+            ?.analysisLevel ??
+          "EQUIPMENT"
+        }
+        equipment={
+          equipment
+        }
+        frequencyLimit={
+          data
+            ?.jackKnifeLimits
+            .frequency ??
+          1
+        }
+        mttrLimit={
+          data
+            ?.jackKnifeLimits
+            .mttr ??
+          0
+        }
+        onClose={
+          closeDetail
+        }
+        onDrillDownEquipment={(
+          equipmentName,
+        ) => {
+          setSelectedPoint(
+            null,
+          );
+
+          setEquipment(
+            equipmentName,
+          );
+        }}
+        onBackToEquipments={() => {
+          setSelectedPoint(
+            null,
+          );
+
+          setEquipment(
+            "",
+          );
+        }}
+        onStartMasp={() => {
+          if (
+            !selectedPoint ||
+            !data
+          ) {
+            return;
+          }
+
+          const groupLabel =
+            selectedPoint
+              .item
+              .label;
+
+          const occurrences =
+            selectedPoint.type ===
+              "PARETO"
+              ? selectedPoint
+                  .item
+                  .occurrences
+              : selectedPoint
+                  .item
+                  .frequency;
+
+          const equipmentLabel =
+            data.analysisLevel ===
+              "FAILURE_MODE"
+              ? equipment
+              : groupLabel ===
+                  "Equipamento não informado"
+                ? ""
+                : groupLabel;
+
+          setMaspSelection({
+            analysisLevel:
+              data.analysisLevel,
+
+            groupLabel,
+
+            occurrences,
+
+            startDate,
+
+            endDate,
+
+            line,
+
+            equipmentFilter:
+              equipment,
+
+            equipmentLabel,
+          });
+        }}
+      />
+
+      {maspSelection && (
+        <ReliabilityMaspDialog
+          selection={
+            maspSelection
+          }
+          onClose={() =>
+            setMaspSelection(
+              null,
+            )
+          }
+        />
+      )}
     </main>
   );
 }

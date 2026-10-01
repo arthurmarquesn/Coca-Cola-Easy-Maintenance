@@ -10,6 +10,7 @@ import {
   ChevronRight,
   LoaderCircle,
   Pencil,
+  Trash2,
 } from "lucide-react";
 
 import {
@@ -48,7 +49,20 @@ interface ReviewSummary {
 
   corrected: number;
 
+  discarded: number;
+
   reviewed: number;
+}
+
+
+interface FailureModeOption {
+  id:
+    | number
+    | null;
+
+  code: string;
+
+  name: string;
 }
 
 
@@ -58,6 +72,10 @@ interface TopPrediction {
   failureMode: string;
 
   confidence: number;
+
+  decisionScore:
+    | number
+    | null;
 }
 
 
@@ -103,12 +121,30 @@ interface ReviewItem {
 
     failureMode: string;
 
-    confidence: number;
-
     modelVersion: string;
 
     topPredictions:
       TopPrediction[];
+
+    decisionSource:
+      | string
+      | null;
+
+    decisionMargin:
+      | number
+      | null;
+
+    automationThreshold:
+      | number
+      | null;
+
+    automationStatus:
+      | string
+      | null;
+
+    confidenceType:
+      | string
+      | null;
   };
 }
 
@@ -120,9 +156,17 @@ interface ReviewResponse {
 
   message?: string;
 
+  modelVersion?:
+    | string
+    | null;
+
   summary?: ReviewSummary;
 
-  items?: ReviewItem[];
+  failureModes?:
+    FailureModeOption[];
+
+  items?:
+    ReviewItem[];
 }
 
 
@@ -133,30 +177,27 @@ interface PatchResponse {
 
   message?: string;
 
-  classification?: {
-    eventId: number;
+  action?: string;
 
-    failedComponentCode: string;
+  suggestionStatus?: string;
 
-    failureMode: string;
+  classification?:
+    | {
+        eventId: number;
 
-    status:
-      | "APROVADA"
-      | "CORRIGIDA";
-  };
-}
+        failureMode: string;
 
+        failureModeCode: string;
 
-interface BulkAcceptResponse {
-  success: boolean;
+        failureModeId:
+          | number
+          | null;
 
-  error?: string;
-
-  message?: string;
-
-  accepted?: number;
-
-  summary?: ReviewSummary;
+        status:
+          | "APROVADA"
+          | "CORRIGIDA";
+      }
+    | null;
 }
 
 
@@ -168,11 +209,12 @@ function formatDate(
   value:
     | string
     | null,
-) {
-  if (!value) {
+): string {
+  if (
+    !value
+  ) {
     return "—";
   }
-
 
   const normalized =
     /^\d{4}-\d{2}-\d{2}$/.test(
@@ -181,12 +223,10 @@ function formatDate(
       ? `${value}T12:00:00`
       : value;
 
-
   const date =
     new Date(
       normalized,
     );
-
 
   if (
     Number.isNaN(
@@ -196,7 +236,6 @@ function formatDate(
     return value;
   }
 
-
   return new Intl.DateTimeFormat(
     "pt-BR",
   ).format(
@@ -205,12 +244,15 @@ function formatDate(
 }
 
 
-function formatConfidence(
+function formatNumber(
   value:
     | number
     | null
     | undefined,
-) {
+
+  digits =
+    4,
+): string {
   if (
     value ===
       null ||
@@ -223,46 +265,133 @@ function formatConfidence(
     return "—";
   }
 
+  return new Intl.NumberFormat(
+    "pt-BR",
+    {
+      minimumFractionDigits:
+        digits,
 
-  return `${Math.round(
-    value * 100,
-  )}%`;
+      maximumFractionDigits:
+        digits,
+    },
+  ).format(
+    value,
+  );
 }
 
 
-function suggestedComponentName(
-  item:
-    ReviewItem,
-) {
-  const fromMode =
-    item
-      .suggestion
-      .failureMode
-      ?.replace(
-        /^Falha\s+de\s+/i,
-        "",
-      )
-      .trim();
-
-
-  if (fromMode) {
-    return fromMode;
-  }
-
-
-  return item
-    .suggestion
-    .failedComponentCode
-    .toLowerCase()
+function normalizeFailureMode(
+  value: string,
+): string {
+  return value
+    .normalize(
+      "NFD",
+    )
     .replace(
-      /_/g,
+      /[\u0300-\u036f]/g,
+      "",
+    )
+    .toUpperCase()
+    .replace(
+      /[^A-Z0-9]+/g,
       " ",
     )
     .replace(
-      /\b\w/g,
-      (letter) =>
-        letter.toUpperCase(),
-    );
+      /\s+/g,
+      " ",
+    )
+    .trim();
+}
+
+
+function sourceLabel(
+  value:
+    | string
+    | null,
+): string {
+  if (
+    value ===
+    "RULE"
+  ) {
+    return "Regra determinística";
+  }
+
+  if (
+    value ===
+    "ML"
+  ) {
+    return "Classificador";
+  }
+
+  return (
+    value ||
+    "Não informada"
+  );
+}
+
+
+function automationStatusLabel(
+  value:
+    | string
+    | null,
+): string {
+  switch (
+    value
+  ) {
+    case "HIGH_CONFIDENCE":
+      return "Alta confiança";
+
+    case "REVIEW_REQUIRED":
+      return "Revisão necessária";
+
+    case "RULE_HIGH_CONFIDENCE":
+      return "Regra determinística";
+
+    default:
+      return (
+        value ||
+        "Não informado"
+      );
+  }
+}
+
+
+function automationStatusClass(
+  value:
+    | string
+    | null,
+): string {
+  switch (
+    value
+  ) {
+    case "HIGH_CONFIDENCE":
+      return (
+        "border-[#CFE5D5] " +
+        "bg-[#F5FAF6] " +
+        "text-[#387447]"
+      );
+
+    case "RULE_HIGH_CONFIDENCE":
+      return (
+        "border-[#D8E2EA] " +
+        "bg-[#F6F9FB] " +
+        "text-[#496579]"
+      );
+
+    case "REVIEW_REQUIRED":
+      return (
+        "border-[#F0D9B8] " +
+        "bg-[#FFFBF4] " +
+        "text-[#946122]"
+      );
+
+    default:
+      return (
+        "border-[#DFE2E5] " +
+        "bg-[#F8F9FA] " +
+        "text-[#6E7379]"
+      );
+  }
 }
 
 
@@ -280,71 +409,97 @@ export function ReviewPage({
   ] =
     useState<
       ReviewItem[]
-    >([]);
-
+    >(
+      [],
+    );
 
   const [
     summary,
     setSummary,
   ] =
     useState<ReviewSummary>({
-      total: 0,
+      total:
+        0,
 
-      pending: 0,
+      pending:
+        0,
 
-      confirmed: 0,
+      confirmed:
+        0,
 
-      corrected: 0,
+      corrected:
+        0,
 
-      reviewed: 0,
+      discarded:
+        0,
+
+      reviewed:
+        0,
     });
 
+  const [
+    failureModes,
+    setFailureModes,
+  ] =
+    useState<
+      FailureModeOption[]
+    >(
+      [],
+    );
+
+  const [
+    modelVersion,
+    setModelVersion,
+  ] =
+    useState<
+      string | null
+    >(
+      null,
+    );
 
   const [
     loading,
     setLoading,
   ] =
-    useState(true);
-
+    useState(
+      true,
+    );
 
   const [
     busy,
     setBusy,
   ] =
-    useState(false);
-
-
-
-  const [
-    acceptingAll,
-    setAcceptingAll,
-  ] =
-    useState(false);
-
+    useState(
+      false,
+    );
 
   const [
     error,
     setError,
   ] =
-    useState("");
-
+    useState(
+      "",
+    );
 
   const [
     editing,
     setEditing,
   ] =
-    useState(false);
-
+    useState(
+      false,
+    );
 
   const [
-    correctedComponent,
-    setCorrectedComponent,
+    correctedFailureMode,
+    setCorrectedFailureMode,
   ] =
-    useState("");
+    useState(
+      "",
+    );
 
 
   /* =======================================================
-     ATUAL
+     CURRENT
   ======================================================= */
 
   const current =
@@ -353,11 +508,12 @@ export function ReviewPage({
 
 
   /* =======================================================
-     PROGRESSO
+     PROGRESS
   ======================================================= */
 
   const progress =
-    summary.total > 0
+    summary.total >
+    0
       ? Math.round(
           (
             summary.reviewed /
@@ -369,32 +525,68 @@ export function ReviewPage({
 
 
   /* =======================================================
-     PREVIEW DA CORREÇÃO
+     SELECTED MODE
   ======================================================= */
 
-  const correctedFailureMode =
+  const selectedFailureMode =
     useMemo(
       () => {
-        const component =
-          correctedComponent
-            .trim()
-            .replace(
-              /\s+/g,
-              " ",
-            )
-            .replace(
-              /^falha\s+de\s+/i,
-              "",
-            )
-            .trim();
+        const selectedKey =
+          normalizeFailureMode(
+            correctedFailureMode,
+          );
 
+        if (
+          !selectedKey
+        ) {
+          return null;
+        }
 
-        return component
-          ? `Falha de ${component}`
-          : "Informe o componente correto";
+        return (
+          failureModes.find(
+            (
+              mode,
+            ) =>
+              normalizeFailureMode(
+                mode.name,
+              ) ===
+              selectedKey,
+          ) ??
+          null
+        );
       },
       [
-        correctedComponent,
+        correctedFailureMode,
+        failureModes,
+      ],
+    );
+
+
+  const sameAsSuggestion =
+    useMemo(
+      () => {
+        if (
+          !current ||
+          !selectedFailureMode
+        ) {
+          return false;
+        }
+
+        return (
+          normalizeFailureMode(
+            selectedFailureMode
+              .name,
+          ) ===
+          normalizeFailureMode(
+            current
+              .suggestion
+              .failureMode,
+          )
+        );
+      },
+      [
+        current,
+        selectedFailureMode,
       ],
     );
 
@@ -406,7 +598,8 @@ export function ReviewPage({
   const loadReviews =
     useCallback(
       async (
-        replace = true,
+        replace =
+          true,
       ) => {
         try {
           const response =
@@ -418,11 +611,9 @@ export function ReviewPage({
               },
             );
 
-
           const data =
             (await response.json()) as
               ReviewResponse;
-
 
           if (
             !response.ok ||
@@ -430,11 +621,10 @@ export function ReviewPage({
           ) {
             throw new Error(
               data.error ??
-                data.message ??
-                "Não foi possível carregar as revisões.",
+              data.message ??
+              "Não foi possível carregar as revisões.",
             );
           }
-
 
           if (
             data.summary
@@ -444,6 +634,23 @@ export function ReviewPage({
             );
           }
 
+          if (
+            Array.isArray(
+              data.failureModes,
+            )
+          ) {
+            setFailureModes(
+              data.failureModes,
+            );
+          }
+
+          setModelVersion(
+            typeof data
+              .modelVersion ===
+              "string"
+              ? data.modelVersion
+              : null,
+          );
 
           const received =
             Array.isArray(
@@ -452,8 +659,9 @@ export function ReviewPage({
               ? data.items
               : [];
 
-
-          if (replace) {
+          if (
+            replace
+          ) {
             setItems(
               received,
             );
@@ -468,7 +676,6 @@ export function ReviewPage({
                     ReviewItem
                   >();
 
-
                 for (
                   const item of
                   currentItems
@@ -478,7 +685,6 @@ export function ReviewPage({
                     item,
                   );
                 }
-
 
                 for (
                   const item of
@@ -490,14 +696,12 @@ export function ReviewPage({
                   );
                 }
 
-
                 return Array.from(
                   map.values(),
                 );
               },
             );
           }
-
 
           setError(
             "",
@@ -532,45 +736,51 @@ export function ReviewPage({
 
 
   /* =======================================================
-     ABRIR EDIÇÃO
+     START EDITING
   ======================================================= */
 
   function startEditing() {
-    if (!current) {
+    if (
+      !current
+    ) {
       return;
     }
 
-
-    setCorrectedComponent(
-      suggestedComponentName(
-        current,
-      ),
+    setCorrectedFailureMode(
+      current
+        .suggestion
+        .failureMode,
     );
-
 
     setEditing(
       true,
+    );
+
+    setError(
+      "",
     );
   }
 
 
   /* =======================================================
-     REMOVE ITEM LOCAL
+     REMOVE CURRENT
   ======================================================= */
 
   function removeCurrent(
     action:
       | "CONFIRM"
-      | "CORRECT",
+      | "CORRECT"
+      | "DISCARD",
   ) {
-    if (!current) {
+    if (
+      !current
+    ) {
       return;
     }
 
-
     const currentSuggestionId =
-      current.suggestionId;
-
+      current
+        .suggestionId;
 
     setItems(
       (
@@ -585,7 +795,6 @@ export function ReviewPage({
         ),
     );
 
-
     setSummary(
       (
         currentSummary,
@@ -594,45 +803,61 @@ export function ReviewPage({
 
         pending:
           Math.max(
-            currentSummary.pending -
+            currentSummary
+              .pending -
               1,
             0,
           ),
 
         reviewed:
-          currentSummary.reviewed +
+          currentSummary
+            .reviewed +
           1,
 
         confirmed:
           action ===
           "CONFIRM"
-            ? currentSummary.confirmed +
+            ? currentSummary
+                .confirmed +
               1
-            : currentSummary.confirmed,
+            : currentSummary
+                .confirmed,
 
         corrected:
           action ===
           "CORRECT"
-            ? currentSummary.corrected +
+            ? currentSummary
+                .corrected +
               1
-            : currentSummary.corrected,
+            : currentSummary
+                .corrected,
+
+        discarded:
+          action ===
+          "DISCARD"
+            ? currentSummary
+                .discarded +
+              1
+            : currentSummary
+                .discarded,
       }),
     );
-
 
     setEditing(
       false,
     );
 
-    setCorrectedComponent(
+    setCorrectedFailureMode(
       "",
     );
 
+    setError(
+      "",
+    );
 
     /*
-     * Mantemos um buffer de registros.
-     * Quando cair abaixo de 10, buscamos mais
-     * em segundo plano.
+     * Mantemos registros carregados
+     * à frente para tornar a revisão fluida.
      */
     if (
       items.length <=
@@ -646,13 +871,14 @@ export function ReviewPage({
 
 
   /* =======================================================
-     PATCH
+     SUBMIT
   ======================================================= */
 
   async function submitReview(
     action:
       | "CONFIRM"
-      | "CORRECT",
+      | "CORRECT"
+      | "DISCARD",
   ) {
     if (
       !current ||
@@ -661,34 +887,52 @@ export function ReviewPage({
       return;
     }
 
+    if (
+      action ===
+      "CORRECT"
+    ) {
+      if (
+        !selectedFailureMode
+      ) {
+        setError(
+          "Selecione um modo de falha pertencente à taxonomia.",
+        );
 
-    const cleanedComponent =
-      correctedComponent
-        .trim()
-        .replace(
-          /\s+/g,
-          " ",
-        )
-        .replace(
-          /^falha\s+de\s+/i,
-          "",
-        )
-        .trim();
+        return;
+      }
 
+      if (
+        sameAsSuggestion
+      ) {
+        setError(
+          "Esse modo é igual à sugestão atual. Use Confirmar.",
+        );
+
+        return;
+      }
+    }
 
     if (
       action ===
-        "CORRECT" &&
-      cleanedComponent.length <
-        2
+      "DISCARD"
     ) {
-      setError(
-        "Informe o componente correto.",
-      );
+      const confirmed =
+        window.confirm(
+          [
+            "Descartar esta sugestão?",
+            "",
+            "Nenhuma classificação oficial será criada para este apontamento.",
+          ].join(
+            "\n",
+          ),
+        );
 
-      return;
+      if (
+        !confirmed
+      ) {
+        return;
+      }
     }
-
 
     setBusy(
       true,
@@ -698,7 +942,6 @@ export function ReviewPage({
       "",
     );
 
-
     try {
       const body:
         Record<
@@ -706,20 +949,21 @@ export function ReviewPage({
           unknown
         > = {
           suggestionId:
-            current.suggestionId,
+            current
+              .suggestionId,
 
           action,
         };
 
-
       if (
         action ===
-        "CORRECT"
+        "CORRECT" &&
+        selectedFailureMode
       ) {
-        body.correctedComponent =
-          cleanedComponent;
+        body.correctedFailureMode =
+          selectedFailureMode
+            .name;
       }
-
 
       const response =
         await fetch(
@@ -740,11 +984,9 @@ export function ReviewPage({
           },
         );
 
-
       const data =
         (await response.json()) as
           PatchResponse;
-
 
       if (
         !response.ok ||
@@ -752,11 +994,10 @@ export function ReviewPage({
       ) {
         throw new Error(
           data.error ??
-            data.message ??
-            "Não foi possível registrar a revisão.",
+          data.message ??
+          "Não foi possível registrar a revisão.",
         );
       }
-
 
       removeCurrent(
         action,
@@ -779,118 +1020,7 @@ export function ReviewPage({
 
 
   /* =======================================================
-     ACEITAR TODAS TEMPORARIAMENTE
-  ======================================================= */
-
-  async function acceptAllTemporarily() {
-    if (
-      acceptingAll ||
-      busy ||
-      summary.pending <= 0
-    ) {
-      return;
-    }
-
-
-    const confirmed =
-      window.confirm(
-        [
-          `Aceitar temporariamente as ${summary.pending} sugestões pendentes?`,
-          "",
-          "Elas serão liberadas para uso nos dados agora,",
-          "mas continuarão marcadas internamente como aceitação temporária",
-          "e não devem ser usadas como rótulos humanos no treinamento.",
-        ].join(
-          "\n",
-        ),
-      );
-
-
-    if (!confirmed) {
-      return;
-    }
-
-
-    setAcceptingAll(
-      true,
-    );
-
-    setError(
-      "",
-    );
-
-
-    try {
-      const response =
-        await fetch(
-          "/api/review/accept-all",
-          {
-            method:
-              "POST",
-          },
-        );
-
-
-      const data =
-        (await response.json()) as
-          BulkAcceptResponse;
-
-
-      if (
-        !response.ok ||
-        !data.success
-      ) {
-        throw new Error(
-          data.error ??
-            data.message ??
-            "Não foi possível aceitar todas as sugestões.",
-        );
-      }
-
-
-      setEditing(
-        false,
-      );
-
-      setCorrectedComponent(
-        "",
-      );
-
-      setItems(
-        [],
-      );
-
-
-      if (
-        data.summary
-      ) {
-        setSummary(
-          data.summary,
-        );
-      } else {
-        await loadReviews(
-          true,
-        );
-      }
-    } catch (
-      bulkError
-    ) {
-      setError(
-        bulkError instanceof
-          Error
-          ? bulkError.message
-          : "Não foi possível aceitar todas as sugestões.",
-      );
-    } finally {
-      setAcceptingAll(
-        false,
-      );
-    }
-  }
-
-
-  /* =======================================================
-     TECLADO
+     KEYBOARD
   ======================================================= */
 
   useEffect(
@@ -903,27 +1033,26 @@ export function ReviewPage({
           event.target as
             HTMLElement | null;
 
-
         const tag =
-          target?.tagName
+          target
+            ?.tagName
             ?.toLowerCase();
 
-
         const isInput =
-          tag === "input" ||
-          tag === "select" ||
-          tag === "textarea";
-
+          tag ===
+            "input" ||
+          tag ===
+            "select" ||
+          tag ===
+            "textarea";
 
         if (
           isInput ||
           busy ||
-          acceptingAll ||
           !current
         ) {
           return;
         }
-
 
         if (
           event.key ===
@@ -937,7 +1066,6 @@ export function ReviewPage({
           );
         }
 
-
         if (
           event.key
             .toLowerCase() ===
@@ -949,6 +1077,18 @@ export function ReviewPage({
           startEditing();
         }
 
+        if (
+          event.key
+            .toLowerCase() ===
+            "d" &&
+          !editing
+        ) {
+          event.preventDefault();
+
+          void submitReview(
+            "DISCARD",
+          );
+        }
 
         if (
           event.key ===
@@ -961,18 +1101,20 @@ export function ReviewPage({
             false,
           );
 
-          setCorrectedComponent(
+          setCorrectedFailureMode(
+            "",
+          );
+
+          setError(
             "",
           );
         }
       }
 
-
       window.addEventListener(
         "keydown",
         handleKeyDown,
       );
-
 
       return () => {
         window.removeEventListener(
@@ -983,7 +1125,6 @@ export function ReviewPage({
     },
     [
       busy,
-      acceptingAll,
       current,
       editing,
     ],
@@ -994,7 +1135,9 @@ export function ReviewPage({
      LOADING
   ======================================================= */
 
-  if (loading) {
+  if (
+    loading
+  ) {
     return (
       <main className="flex min-h-screen items-center justify-center bg-white">
 
@@ -1049,7 +1192,6 @@ export function ReviewPage({
               {user.name}
             </p>
 
-
             {unit.city && (
               <p className="mt-0.5 text-[11px] text-[#979BA1]">
                 {unit.city}
@@ -1092,12 +1234,10 @@ export function ReviewPage({
             Revisão humana
           </h1>
 
-
-          <p className="mt-3 max-w-[680px] text-[14px] leading-7 text-[#7D8288]">
-            Confirme ou corrija as sugestões do Modelo ML.
-            Somente classificações revisadas por uma pessoa
-            são registradas como oficiais e podem servir de
-            referência para evolução futura do modelo.
+          <p className="mt-3 max-w-[720px] text-[14px] leading-7 text-[#7D8288]">
+            Valide o modo de falha sugerido para cada apontamento.
+            Confirmações e correções passam a compor o histórico
+            oficial e preservam a rastreabilidade da decisão humana.
           </p>
 
         </div>
@@ -1117,7 +1257,6 @@ export function ReviewPage({
                 Progresso da revisão
               </p>
 
-
               <p className="mt-1 text-[24px] font-semibold tracking-[-0.03em] text-[#292C30]">
                 {progress}%
               </p>
@@ -1130,7 +1269,6 @@ export function ReviewPage({
               <p className="text-[12px] text-[#73787E]">
                 {summary.reviewed} revisadas
               </p>
-
 
               <p className="mt-1 text-[11px] text-[#A0A4A9]">
                 {summary.pending} pendentes
@@ -1169,41 +1307,12 @@ export function ReviewPage({
               {summary.corrected}
             </span>
 
+            <span>
+              Descartadas:{" "}
+              {summary.discarded}
+            </span>
+
           </div>
-
-
-          {summary.pending > 0 && (
-            <div className="mt-5 flex flex-col gap-2 border-t border-[#ECEDEF] pt-5 sm:flex-row sm:items-center sm:justify-between">
-
-              <p className="max-w-[610px] text-[10px] leading-5 text-[#9A9EA3]">
-                Uso temporário: aceita todas as sugestões pendentes para liberar os dados.
-                Essas classificações são registradas como aceitação em lote e não como revisão humana individual.
-              </p>
-
-
-              <button
-                type="button"
-                disabled={
-                  acceptingAll ||
-                  busy
-                }
-                onClick={() =>
-                  void acceptAllTemporarily()
-                }
-                className="inline-flex shrink-0 items-center justify-center gap-2 rounded-[10px] border border-[#D9DCE0] bg-white px-5 py-2.5 text-[11px] font-semibold text-[#4A4F55] transition-colors hover:bg-[#F8F8F9] disabled:opacity-50"
-              >
-                {acceptingAll && (
-                  <LoaderCircle
-                    size={14}
-                    className="animate-spin"
-                  />
-                )}
-
-                Aceitar tudo temporariamente
-              </button>
-
-            </div>
-          )}
 
         </div>
 
@@ -1219,7 +1328,6 @@ export function ReviewPage({
               size={17}
               className="mt-0.5 shrink-0 text-[#C92A32]"
             />
-
 
             <p className="text-[12px] leading-5 text-[#6F3D40]">
               {error}
@@ -1250,10 +1358,9 @@ export function ReviewPage({
               Revisões concluídas
             </h2>
 
-
-            <p className="mx-auto mt-2 max-w-[440px] text-[13px] leading-6 text-[#858A90]">
-              Não existem outras sugestões do Modelo ML
-              pendentes de revisão neste momento.
+            <p className="mx-auto mt-2 max-w-[460px] text-[13px] leading-6 text-[#858A90]">
+              Não existem outras sugestões pendentes de revisão
+              para a versão atual do classificador.
             </p>
 
 
@@ -1273,7 +1380,7 @@ export function ReviewPage({
 
 
         {/* =================================================
-            REVIEW CARD
+            REVIEW
         ================================================== */}
 
         {current && (
@@ -1289,9 +1396,17 @@ export function ReviewPage({
 
                 <div>
 
-                  <p className="text-[10px] font-semibold uppercase tracking-[0.12em] text-[#A0A4A9]">
-                    Ocorrência
-                  </p>
+                  <div className="flex flex-wrap items-center justify-between gap-3">
+
+                    <p className="text-[10px] font-semibold uppercase tracking-[0.12em] text-[#A0A4A9]">
+                      Ocorrência
+                    </p>
+
+                    <p className="text-[10px] text-[#B0B4B8]">
+                      Evento #{current.eventId}
+                    </p>
+
+                  </div>
 
 
                   <p className="mt-3 text-[17px] font-medium leading-7 text-[#24272B]">
@@ -1312,7 +1427,6 @@ export function ReviewPage({
                       Equipamento
                     </p>
 
-
                     <p className="mt-1.5 text-[12px] leading-5 text-[#52575D]">
                       {current
                         .event
@@ -1328,7 +1442,6 @@ export function ReviewPage({
                     <p className="text-[10px] text-[#A0A4A9]">
                       Linha
                     </p>
-
 
                     <p className="mt-1.5 text-[12px] leading-5 text-[#52575D]">
                       {current
@@ -1346,7 +1459,6 @@ export function ReviewPage({
                       Data
                     </p>
 
-
                     <p className="mt-1.5 text-[12px] leading-5 text-[#52575D]">
                       {formatDate(
                         current
@@ -1360,14 +1472,13 @@ export function ReviewPage({
                 </div>
 
 
-                <div className="grid gap-5 border-t border-[#ECEDEF] pt-6 sm:grid-cols-3">
+                <div className="grid gap-5 border-t border-[#ECEDEF] pt-6 sm:grid-cols-4">
 
                   <div>
 
                     <p className="text-[10px] text-[#A0A4A9]">
                       Tipo de parada
                     </p>
-
 
                     <p className="mt-1.5 text-[12px] leading-5 text-[#52575D]">
                       {current
@@ -1385,7 +1496,6 @@ export function ReviewPage({
                       Chave de parada
                     </p>
 
-
                     <p className="mt-1.5 text-[12px] leading-5 text-[#52575D]">
                       {current
                         .event
@@ -1399,9 +1509,24 @@ export function ReviewPage({
                   <div>
 
                     <p className="text-[10px] text-[#A0A4A9]">
-                      Minutos de parada
+                      Subchave
                     </p>
 
+                    <p className="mt-1.5 text-[12px] leading-5 text-[#52575D]">
+                      {current
+                        .event
+                        .stopSubkey ||
+                        "Não informada"}
+                    </p>
+
+                  </div>
+
+
+                  <div>
+
+                    <p className="text-[10px] text-[#A0A4A9]">
+                      Parada
+                    </p>
 
                     <p className="mt-1.5 text-[12px] leading-5 text-[#52575D]">
                       {current
@@ -1409,9 +1534,9 @@ export function ReviewPage({
                           .downtimeMinutes ===
                         null
                         ? "—"
-                        : current
+                        : `${current
                             .event
-                            .downtimeMinutes}
+                            .downtimeMinutes} min`}
                     </p>
 
                   </div>
@@ -1430,34 +1555,43 @@ export function ReviewPage({
             {!editing && (
               <div className="mt-5 rounded-[18px] border border-[#E3E5E7] bg-[#FBFBFC] p-6 sm:p-8">
 
-                <p className="text-[10px] font-semibold uppercase tracking-[0.12em] text-[#A0A4A9]">
-                  Sugestão do Modelo ML
-                </p>
+                <div className="flex flex-wrap items-start justify-between gap-4">
+
+                  <div>
+
+                    <p className="text-[10px] font-semibold uppercase tracking-[0.12em] text-[#A0A4A9]">
+                      Modo de falha sugerido
+                    </p>
+
+                    <p className="mt-3 text-[24px] font-semibold leading-8 tracking-[-0.035em] text-[#202327]">
+                      {current
+                        .suggestion
+                        .failureMode ||
+                        "Não identificado"}
+                    </p>
+
+                  </div>
 
 
-                {/* ===========================================
-                    FAILURE MODE — PRINCIPAL
-                ============================================ */}
-
-                <div className="mt-6">
-
-                  <p className="text-[11px] text-[#969BA1]">
-                    O que falhou?
-                  </p>
-
-
-                  <p className="mt-2 text-[24px] font-semibold leading-8 tracking-[-0.035em] text-[#202327]">
-                    {current
-                      .suggestion
-                      .failureMode ||
-                      "Não identificado"}
-                  </p>
+                  <span
+                    className={`rounded-full border px-3 py-1.5 text-[10px] font-semibold ${automationStatusClass(
+                      current
+                        .suggestion
+                        .automationStatus,
+                    )}`}
+                  >
+                    {automationStatusLabel(
+                      current
+                        .suggestion
+                        .automationStatus,
+                    )}
+                  </span>
 
                 </div>
 
 
                 {/* ===========================================
-                    SECONDARY DATA
+                    DECISION DATA
                 ============================================ */}
 
                 <div className="mt-7 grid gap-5 border-t border-[#E6E8EA] pt-6 sm:grid-cols-3">
@@ -1465,32 +1599,14 @@ export function ReviewPage({
                   <div>
 
                     <p className="text-[10px] text-[#9A9EA3]">
-                      Código interno
+                      Origem da decisão
                     </p>
-
 
                     <p className="mt-1.5 text-[12px] font-medium text-[#51565C]">
-                      {current
-                        .suggestion
-                        .failedComponentCode ||
-                        "NAO_IDENTIFICADO"}
-                    </p>
-
-                  </div>
-
-
-                  <div>
-
-                    <p className="text-[10px] text-[#9A9EA3]">
-                      Confiança do modelo
-                    </p>
-
-
-                    <p className="mt-1.5 text-[12px] font-medium text-[#51565C]">
-                      {formatConfidence(
+                      {sourceLabel(
                         current
                           .suggestion
-                          .confidence,
+                          .decisionSource,
                       )}
                     </p>
 
@@ -1500,15 +1616,34 @@ export function ReviewPage({
                   <div>
 
                     <p className="text-[10px] text-[#9A9EA3]">
-                      Versão
+                      Margem de decisão
                     </p>
 
+                    <p className="mt-1.5 text-[12px] font-medium text-[#51565C]">
+                      {formatNumber(
+                        current
+                          .suggestion
+                          .decisionMargin,
+                        4,
+                      )}
+                    </p>
+
+                  </div>
+
+
+                  <div>
+
+                    <p className="text-[10px] text-[#9A9EA3]">
+                      Limite de alta confiança
+                    </p>
 
                     <p className="mt-1.5 text-[12px] font-medium text-[#51565C]">
-                      {current
-                        .suggestion
-                        .modelVersion ||
-                        "Não informada"}
+                      {formatNumber(
+                        current
+                          .suggestion
+                          .automationThreshold,
+                        4,
+                      )}
                     </p>
 
                   </div>
@@ -1516,61 +1651,176 @@ export function ReviewPage({
                 </div>
 
 
+                {/* ===========================================
+                    MARGIN VISUAL
+                ============================================ */}
+
+                {current
+                    .suggestion
+                    .decisionMargin !==
+                  null &&
+                  current
+                    .suggestion
+                    .automationThreshold !==
+                  null && (
+                    <div className="mt-5 rounded-[12px] border border-[#E5E7E9] bg-white px-4 py-3">
+
+                      <div className="flex items-center justify-between gap-4">
+
+                        <p className="text-[10px] text-[#8D9298]">
+                          Comparação com o limite
+                        </p>
+
+                        <p className="text-[11px] font-medium text-[#53585E]">
+                          {current
+                              .suggestion
+                              .decisionMargin >=
+                            current
+                              .suggestion
+                              .automationThreshold
+                            ? "Acima do limite"
+                            : "Abaixo do limite"}
+                        </p>
+
+                      </div>
+
+                      <p className="mt-2 text-[10px] leading-5 text-[#A0A4A9]">
+                        A margem é a diferença entre os dois maiores
+                        scores do classificador. Ela não representa
+                        uma probabilidade.
+                      </p>
+
+                    </div>
+                )}
+
+
+                {/* ===========================================
+                    TOP 3
+                ============================================ */}
+
                 {current
                     .suggestion
                     .topPredictions
                     .length >
-                  1 && (
-                  <div className="mt-6 border-t border-[#E6E8EA] pt-5">
+                  0 && (
+                    <div className="mt-6 border-t border-[#E6E8EA] pt-5">
 
-                    <p className="text-[10px] text-[#9A9EA3]">
-                      Outras hipóteses do modelo
-                    </p>
+                      <p className="text-[10px] text-[#9A9EA3]">
+                        Ranking de hipóteses
+                      </p>
+
+                      <div className="mt-3 space-y-2">
+
+                        {current
+                          .suggestion
+                          .topPredictions
+                          .slice(
+                            0,
+                            3,
+                          )
+                          .map(
+                            (
+                              prediction,
+                              index,
+                            ) => (
+                              <div
+                                key={`${prediction.failedComponentCode}-${index}`}
+                                className="flex items-center gap-4 rounded-[10px] border border-[#E8EAEC] bg-white px-4 py-3"
+                              >
+
+                                <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#F2F3F4] text-[10px] font-semibold text-[#7A7F85]">
+                                  {index + 1}
+                                </div>
 
 
-                    <div className="mt-3 space-y-2">
+                                <div className="min-w-0 flex-1">
 
-                      {current
-                        .suggestion
-                        .topPredictions
-                        .slice(
-                          0,
-                          3,
-                        )
-                        .map(
-                          (
-                            prediction,
-                            index,
-                          ) => (
-                            <div
-                              key={`${prediction.failedComponentCode}-${index}`}
-                              className="flex items-center justify-between gap-4 text-[11px]"
-                            >
-                              <span className="min-w-0 truncate text-[#60656B]">
-                                {prediction.failureMode}
-                              </span>
+                                  <p className="truncate text-[11px] font-medium text-[#555A60]">
+                                    {prediction
+                                      .failureMode}
+                                  </p>
 
-                              <span className="shrink-0 text-[#9A9EA3]">
-                                {formatConfidence(
-                                  prediction.confidence,
-                                )}
-                              </span>
-                            </div>
-                          ),
-                        )}
+                                  {prediction
+                                      .decisionScore !==
+                                    null && (
+                                      <p className="mt-1 text-[9px] text-[#A2A6AB]">
+                                        Score:{" "}
+                                        {formatNumber(
+                                          prediction
+                                            .decisionScore,
+                                          4,
+                                        )}
+                                      </p>
+                                  )}
+
+                                </div>
+
+                              </div>
+                            ),
+                          )}
+
+                      </div>
+
+                      <p className="mt-3 text-[9px] leading-4 text-[#A8ACB0]">
+                        Os scores servem para ordenação das hipóteses
+                        e não são probabilidades.
+                      </p>
+
+                    </div>
+                )}
+
+
+                {/* ===========================================
+                    AUDIT
+                ============================================ */}
+
+                <div className="mt-6 border-t border-[#E6E8EA] pt-5">
+
+                  <div className="grid gap-4 sm:grid-cols-2">
+
+                    <div>
+
+                      <p className="text-[9px] text-[#A5A9AE]">
+                        Versão do classificador
+                      </p>
+
+                      <p className="mt-1 break-all text-[10px] leading-5 text-[#777C82]">
+                        {current
+                          .suggestion
+                          .modelVersion ||
+                          modelVersion ||
+                          "—"}
+                      </p>
+
+                    </div>
+
+
+                    <div>
+
+                      <p className="text-[9px] text-[#A5A9AE]">
+                        Código técnico
+                      </p>
+
+                      <p className="mt-1 break-all text-[10px] leading-5 text-[#777C82]">
+                        {current
+                          .suggestion
+                          .failedComponentCode ||
+                          "—"}
+                      </p>
 
                     </div>
 
                   </div>
-                )}
+
+                </div>
 
 
                 <div className="mt-5 border-t border-[#E6E8EA] pt-5">
 
                   <p className="text-[10px] leading-5 text-[#A1A5AA]">
-                    A sugestão acima ainda não é uma classificação
-                    oficial. Ela só será registrada após sua
-                    confirmação ou correção.
+                    A sugestão ainda não é uma classificação humana
+                    oficial. Confirme, corrija ou descarte antes de
+                    utilizá-la como referência validada.
                   </p>
 
                 </div>
@@ -1594,9 +1844,8 @@ export function ReviewPage({
                     className="text-[#74797F]"
                   />
 
-
                   <p className="text-[12px] font-semibold text-[#41464C]">
-                    Corrigir classificação
+                    Corrigir modo de falha
                   </p>
 
                 </div>
@@ -1605,42 +1854,141 @@ export function ReviewPage({
                 <div className="mt-7">
 
                   <label
-                    htmlFor="corrected-component"
+                    htmlFor="corrected-failure-mode"
                     className="text-[11px] font-medium text-[#676C72]"
                   >
-                    Componente correto
+                    Modo de falha correto
                   </label>
 
-
                   <input
-                    id="corrected-component"
+                    id="corrected-failure-mode"
                     type="text"
+                    list="failure-mode-options"
                     autoFocus
+                    autoComplete="off"
                     value={
-                      correctedComponent
+                      correctedFailureMode
                     }
                     onChange={(
                       event,
                     ) =>
-                      setCorrectedComponent(
+                      setCorrectedFailureMode(
                         event
                           .target
                           .value,
                       )
                     }
-                    placeholder="Ex.: rolamento, sensor, bomba, datadora"
+                    placeholder="Pesquise um modo de falha..."
                     className="mt-2 h-11 w-full rounded-[10px] border border-[#D8DBDE] bg-white px-3 text-[13px] text-[#32363A] outline-none transition-colors placeholder:text-[#B0B4B8] focus:border-[#AEB2B7]"
                   />
 
+                  <datalist
+                    id="failure-mode-options"
+                  >
+                    {failureModes.map(
+                      (
+                        mode,
+                      ) => (
+                        <option
+                          key={`${mode.code}-${mode.name}`}
+                          value={mode.name}
+                        />
+                      ),
+                    )}
+                  </datalist>
+
 
                   <p className="mt-2 text-[10px] leading-5 text-[#A0A4A9]">
-                    Informe o componente que efetivamente falhou.
-                    O sistema criará o código interno e o modo de
-                    falha correspondente.
+                    Utilize uma nomenclatura existente na taxonomia.
+                    Isso evita recriar duplicatas durante a revisão.
                   </p>
 
                 </div>
 
+
+                {/* ===========================================
+                    QUICK ALTERNATIVES
+                ============================================ */}
+
+                {current
+                    .suggestion
+                    .topPredictions
+                    .some(
+                      (
+                        prediction,
+                      ) =>
+                        normalizeFailureMode(
+                          prediction
+                            .failureMode,
+                        ) !==
+                        normalizeFailureMode(
+                          current
+                            .suggestion
+                            .failureMode,
+                        ),
+                    ) && (
+                    <div className="mt-6">
+
+                      <p className="text-[10px] text-[#969BA1]">
+                        Alternativas sugeridas
+                      </p>
+
+                      <div className="mt-3 flex flex-wrap gap-2">
+
+                        {current
+                          .suggestion
+                          .topPredictions
+                          .filter(
+                            (
+                              prediction,
+                            ) =>
+                              normalizeFailureMode(
+                                prediction
+                                  .failureMode,
+                              ) !==
+                              normalizeFailureMode(
+                                current
+                                  .suggestion
+                                  .failureMode,
+                              ),
+                          )
+                          .slice(
+                            0,
+                            3,
+                          )
+                          .map(
+                            (
+                              prediction,
+                            ) => (
+                              <button
+                                key={
+                                  prediction
+                                    .failedComponentCode
+                                }
+                                type="button"
+                                onClick={() =>
+                                  setCorrectedFailureMode(
+                                    prediction
+                                      .failureMode,
+                                  )
+                                }
+                                className="rounded-full border border-[#DDE0E3] bg-white px-3 py-2 text-[10px] font-medium text-[#666B71] transition-colors hover:border-[#CACDD1] hover:bg-[#F8F9FA]"
+                              >
+                                {prediction
+                                  .failureMode}
+                              </button>
+                            ),
+                          )}
+
+                      </div>
+
+                    </div>
+                )}
+
+
+                {/* ===========================================
+                    SELECTED MODE
+                ============================================ */}
 
                 <div className="mt-6 border-y border-[#E5E7E9] py-5">
 
@@ -1648,12 +1996,39 @@ export function ReviewPage({
                     Classificação resultante
                   </p>
 
-
                   <p className="mt-2 text-[21px] font-semibold tracking-[-0.03em] text-[#24272B]">
-                    {correctedFailureMode}
+                    {selectedFailureMode
+                      ?.name ||
+                      "Selecione um modo válido"}
                   </p>
 
+                  {selectedFailureMode && (
+                    <p className="mt-2 text-[9px] text-[#A4A8AD]">
+                      Código:{" "}
+                      {selectedFailureMode
+                        .code}
+                    </p>
+                  )}
+
                 </div>
+
+
+                {sameAsSuggestion && (
+                  <div className="mt-5 flex items-start gap-3 rounded-[10px] border border-[#E7E9EB] bg-white px-4 py-3">
+
+                    <AlertCircle
+                      size={15}
+                      className="mt-0.5 shrink-0 text-[#84898F]"
+                    />
+
+                    <p className="text-[10px] leading-5 text-[#777C82]">
+                      O modo selecionado é igual à sugestão atual.
+                      Nesse caso, use Confirmar em vez de salvar
+                      uma correção.
+                    </p>
+
+                  </div>
+                )}
 
 
                 <div className="mt-7 flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
@@ -1661,15 +2036,14 @@ export function ReviewPage({
                   <button
                     type="button"
                     disabled={
-                      busy ||
-                      acceptingAll
+                      busy
                     }
                     onClick={() => {
                       setEditing(
                         false,
                       );
 
-                      setCorrectedComponent(
+                      setCorrectedFailureMode(
                         "",
                       );
 
@@ -1687,17 +2061,15 @@ export function ReviewPage({
                     type="button"
                     disabled={
                       busy ||
-                      correctedComponent
-                        .trim()
-                        .length <
-                        2
+                      !selectedFailureMode ||
+                      sameAsSuggestion
                     }
                     onClick={() =>
                       void submitReview(
                         "CORRECT",
                       )
                     }
-                    className="inline-flex items-center justify-center gap-2 rounded-[10px] bg-[#F40009] px-6 py-3 text-[12px] font-semibold text-white transition-colors hover:bg-[#D90008] disabled:opacity-60"
+                    className="inline-flex items-center justify-center gap-2 rounded-[10px] bg-[#F40009] px-6 py-3 text-[12px] font-semibold text-white transition-colors hover:bg-[#D90008] disabled:opacity-50"
                   >
 
                     {busy && (
@@ -1722,26 +2094,7 @@ export function ReviewPage({
             ================================================ */}
 
             {!editing && (
-              <div className="mt-7 flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
-
-                <button
-                  type="button"
-                  disabled={
-                    busy
-                  }
-                  onClick={
-                    startEditing
-                  }
-                  className="inline-flex items-center justify-center gap-2 rounded-[10px] border border-[#D9DCE0] bg-white px-6 py-3 text-[13px] font-semibold text-[#4A4F55] transition-colors hover:bg-[#F8F8F9] disabled:opacity-50"
-                >
-                  <Pencil
-                    size={15}
-                    strokeWidth={1.8}
-                  />
-
-                  Corrigir
-                </button>
-
+              <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
 
                 <button
                   type="button"
@@ -1750,27 +2103,71 @@ export function ReviewPage({
                   }
                   onClick={() =>
                     void submitReview(
-                      "CONFIRM",
+                      "DISCARD",
                     )
                   }
-                  className="inline-flex items-center justify-center gap-2 rounded-[10px] bg-[#F40009] px-7 py-3 text-[13px] font-semibold text-white transition-colors hover:bg-[#D90008] disabled:opacity-60"
+                  className="inline-flex items-center justify-center gap-2 rounded-[10px] border border-[#E4D8D9] bg-white px-5 py-3 text-[12px] font-semibold text-[#8D5B5E] transition-colors hover:bg-[#FFF8F8] disabled:opacity-50"
                 >
+                  <Trash2
+                    size={14}
+                    strokeWidth={1.8}
+                  />
 
-                  {busy ? (
-                    <LoaderCircle
-                      size={15}
-                      className="animate-spin"
-                    />
-                  ) : (
-                    <Check
-                      size={15}
-                      strokeWidth={2}
-                    />
-                  )}
-
-                  Confirmar
-
+                  Descartar
                 </button>
+
+
+                <div className="flex flex-col-reverse gap-3 sm:flex-row">
+
+                  <button
+                    type="button"
+                    disabled={
+                      busy
+                    }
+                    onClick={
+                      startEditing
+                    }
+                    className="inline-flex items-center justify-center gap-2 rounded-[10px] border border-[#D9DCE0] bg-white px-6 py-3 text-[13px] font-semibold text-[#4A4F55] transition-colors hover:bg-[#F8F8F9] disabled:opacity-50"
+                  >
+                    <Pencil
+                      size={15}
+                      strokeWidth={1.8}
+                    />
+
+                    Corrigir
+                  </button>
+
+
+                  <button
+                    type="button"
+                    disabled={
+                      busy
+                    }
+                    onClick={() =>
+                      void submitReview(
+                        "CONFIRM",
+                      )
+                    }
+                    className="inline-flex items-center justify-center gap-2 rounded-[10px] bg-[#F40009] px-7 py-3 text-[13px] font-semibold text-white transition-colors hover:bg-[#D90008] disabled:opacity-60"
+                  >
+
+                    {busy ? (
+                      <LoaderCircle
+                        size={15}
+                        className="animate-spin"
+                      />
+                    ) : (
+                      <Check
+                        size={15}
+                        strokeWidth={2}
+                      />
+                    )}
+
+                    Confirmar
+
+                  </button>
+
+                </div>
 
               </div>
             )}
@@ -1778,7 +2175,7 @@ export function ReviewPage({
 
             {!editing && (
               <p className="mt-5 text-right text-[10px] text-[#A1A5AA]">
-                Enter confirma · E corrige
+                Enter confirma · E corrige · D descarta
               </p>
             )}
 

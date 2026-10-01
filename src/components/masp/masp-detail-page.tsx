@@ -432,6 +432,13 @@ export function MaspDetailPage({
       "",
     );
   const [
+    selectedHypothesisId,
+    setSelectedHypothesisId,
+  ] =
+    useState<
+      number | null
+    >(null);
+  const [
     whyParentId,
     setWhyParentId,
   ] =
@@ -1273,6 +1280,9 @@ export function MaspDetailPage({
           1 && (
           <div className="space-y-5">
             <IshikawaBoard
+              maspId={
+                maspId
+              }
               problem={
                 data.analysis
                   .problem_statement
@@ -1280,6 +1290,28 @@ export function MaspDetailPage({
               hypotheses={
                 data.hypotheses
               }
+              onSelect={(
+                hypothesis,
+              ) => {
+                setSelectedHypothesisId(
+                  hypothesis.id,
+                );
+
+                window.requestAnimationFrame(
+                  () => {
+                    document
+                      .getElementById(
+                        `hypothesis-${hypothesis.id}`,
+                      )
+                      ?.scrollIntoView({
+                        behavior:
+                          "smooth",
+                        block:
+                          "center",
+                      });
+                  },
+                );
+              }}
             />
 
             <div className="grid gap-5 xl:grid-cols-2">
@@ -1388,7 +1420,8 @@ export function MaspDetailPage({
                         key={
                           item.id
                         }
-                        className="rounded-[13px] border border-[#E7E8EA] p-4"
+                        id={`hypothesis-${item.id}`}
+                        className={`rounded-[13px] border p-4 transition-colors ${selectedHypothesisId === item.id ? "border-[#E41E2B] bg-[#FFF7F7]" : "border-[#E7E8EA]"}`}
                       >
                         <p className="text-[11px] font-medium leading-5 text-[#41464B]">
                           {item.description}

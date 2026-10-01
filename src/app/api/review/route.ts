@@ -16,6 +16,11 @@ import {
   getSession,
 } from "@/lib/session";
 
+import {
+  buildUnitInClause,
+  getUnitSelection,
+} from "@/lib/unit-selection";
+
 
 interface SummaryRow
   extends RowDataPacket {
@@ -378,6 +383,42 @@ export async function GET(
     );
   }
 
+  const unitSelection =
+    await getUnitSelection({
+      userId:
+        session.userId,
+
+      defaultUnitId:
+        session.unitId,
+    });
+
+  if (
+    unitSelection
+      .selectedUnitIds
+      .length ===
+    0
+  ) {
+    return NextResponse.json(
+      {
+        success:
+          false,
+
+        error:
+          "Nenhuma unidade válida está selecionada.",
+      },
+      {
+        status:
+          403,
+      },
+    );
+  }
+
+  const unitFilter =
+    buildUnitInClause(
+      unitSelection
+        .selectedUnitIds,
+    );
+
   const limit =
     normalizeLimit(
       request.nextUrl
@@ -425,13 +466,15 @@ export async function GET(
                  cs.event_id
 
           WHERE
-              me.unit_id = ?
+              me.unit_id IN (
+                ${unitFilter.placeholders}
+              )
 
               AND cs.model_type =
                   'ML'
         `,
         [
-          session.unitId,
+          ...unitFilter.values,
         ],
       );
 
@@ -483,7 +526,9 @@ export async function GET(
                  cs.event_id
 
           WHERE
-              me.unit_id = ?
+              me.unit_id IN (
+                ${unitFilter.placeholders}
+              )
 
               AND cs.model_type =
                   'ML'
@@ -498,7 +543,7 @@ export async function GET(
           LIMIT ?
         `,
         [
-          session.unitId,
+          ...unitFilter.values,
           limit,
         ],
       );
@@ -730,6 +775,42 @@ export async function PATCH(
     );
   }
 
+  const unitSelection =
+    await getUnitSelection({
+      userId:
+        session.userId,
+
+      defaultUnitId:
+        session.unitId,
+    });
+
+  if (
+    unitSelection
+      .selectedUnitIds
+      .length ===
+    0
+  ) {
+    return NextResponse.json(
+      {
+        success:
+          false,
+
+        error:
+          "Nenhuma unidade válida está selecionada.",
+      },
+      {
+        status:
+          403,
+      },
+    );
+  }
+
+  const unitFilter =
+    buildUnitInClause(
+      unitSelection
+        .selectedUnitIds,
+    );
+
   const connection =
     await getConnection();
 
@@ -773,7 +854,9 @@ export async function PATCH(
           WHERE
               cs.id = ?
 
-              AND me.unit_id = ?
+              AND me.unit_id IN (
+                ${unitFilter.placeholders}
+              )
 
           LIMIT 1
 
@@ -781,7 +864,7 @@ export async function PATCH(
         `,
         [
           suggestionId,
-          session.unitId,
+          ...unitFilter.values,
         ],
       );
 

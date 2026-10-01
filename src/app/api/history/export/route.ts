@@ -18,15 +18,41 @@ import {
   getSession,
 } from "@/lib/session";
 
+import {
+  buildUnitInClause,
+  getUnitSelection,
+} from "@/lib/unit-selection";
+
+
 export const runtime =
   "nodejs";
 
 export const dynamic =
   "force-dynamic";
 
+
+/* =========================================================
+   TYPES
+========================================================= */
+
 interface ExportRow
   extends RowDataPacket {
   id: number;
+
+  unit_code:
+    | string
+    | null;
+
+  unit_name:
+    string;
+
+  unit_city:
+    | string
+    | null;
+
+  unit_state:
+    | string
+    | null;
 
   event_date:
     | string
@@ -84,6 +110,7 @@ interface ExportRow
     | null;
 }
 
+
 interface ClassificationNotes {
   failureMode?: string;
 
@@ -94,8 +121,14 @@ interface ClassificationNotes {
   };
 }
 
+
+/* =========================================================
+   HELPERS
+========================================================= */
+
 function parseClassificationNotes(
-  value: unknown,
+  value:
+    unknown,
 ): ClassificationNotes | null {
   if (
     value === null ||
@@ -103,6 +136,7 @@ function parseClassificationNotes(
   ) {
     return null;
   }
+
 
   if (
     typeof value ===
@@ -112,20 +146,26 @@ function parseClassificationNotes(
       ClassificationNotes;
   }
 
+
   const text =
     String(
       value,
     ).trim();
 
-  if (!text) {
+
+  if (
+    !text
+  ) {
     return null;
   }
+
 
   try {
     const parsed =
       JSON.parse(
         text,
       );
+
 
     if (
       parsed &&
@@ -136,30 +176,41 @@ function parseClassificationNotes(
         ClassificationNotes;
     }
 
+
     return null;
   } catch {
     return null;
   }
 }
 
+
 function firstText(
-  ...values: Array<
-    string | null | undefined
-  >
+  ...values:
+    Array<
+      string |
+      null |
+      undefined
+    >
 ): string | null {
   for (
-    const value of values
+    const value of
+    values
   ) {
     const normalized =
       value?.trim();
 
-    if (normalized) {
+
+    if (
+      normalized
+    ) {
       return normalized;
     }
   }
 
+
   return null;
 }
+
 
 function formatDate(
   value:
@@ -167,26 +218,34 @@ function formatDate(
     | Date
     | null,
 ): string {
-  if (!value) {
+  if (
+    !value
+  ) {
     return "";
   }
 
-  let isoDate = "";
+
+  let isoDate =
+    "";
+
 
   if (
-    value instanceof Date
+    value instanceof
+    Date
   ) {
     const year =
       value.getUTCFullYear();
 
+
     const month =
       String(
         value.getUTCMonth() +
-          1,
+        1,
       ).padStart(
         2,
         "0",
       );
+
 
     const day =
       String(
@@ -195,6 +254,7 @@ function formatDate(
         2,
         "0",
       );
+
 
     isoDate =
       `${year}-${month}-${day}`;
@@ -208,13 +268,16 @@ function formatDate(
       );
   }
 
+
   const [
     year,
     month,
     day,
-  ] = isoDate.split(
-    "-",
-  );
+  ] =
+    isoDate.split(
+      "-",
+    );
+
 
   if (
     !year ||
@@ -224,8 +287,10 @@ function formatDate(
     return isoDate;
   }
 
+
   return `${day}/${month}/${year}`;
 }
+
 
 function numberOrBlank(
   value:
@@ -240,10 +305,12 @@ function numberOrBlank(
     return "";
   }
 
+
   const parsed =
     Number(
       value,
     );
+
 
   return Number.isFinite(
     parsed,
@@ -252,33 +319,110 @@ function numberOrBlank(
     : "";
 }
 
+
+function unitLabel(
+  row:
+    ExportRow,
+): string {
+  return (
+    row.unit_city
+      ?.trim() ||
+    row.unit_name
+      ?.trim() ||
+    row.unit_code
+      ?.trim() ||
+    ""
+  );
+}
+
+
+/* =========================================================
+   GET /api/history/export
+========================================================= */
+
 export async function GET(
-  request: NextRequest,
+  request:
+    NextRequest,
 ) {
   const session =
     await getSession();
 
-  if (!session) {
+
+  if (
+    !session
+  ) {
     return NextResponse.json(
       {
-        success: false,
+        success:
+          false,
+
         message:
           "Sessão inválida.",
       },
       {
-        status: 401,
+        status:
+          401,
       },
     );
   }
 
+
   try {
+    /* =====================================================
+       GLOBAL UNIT SELECTION
+    ===================================================== */
+
+    const unitSelection =
+      await getUnitSelection({
+        userId:
+          session.userId,
+
+        defaultUnitId:
+          session.unitId,
+      });
+
+
+    if (
+      unitSelection
+        .selectedUnitIds
+        .length ===
+      0
+    ) {
+      return NextResponse.json(
+        {
+          success:
+            false,
+
+          message:
+            "Nenhuma unidade válida está selecionada.",
+        },
+        {
+          status:
+            403,
+        },
+      );
+    }
+
+
+    const unitFilter =
+      buildUnitInClause(
+        unitSelection
+          .selectedUnitIds,
+      );
+
+
+    /* =====================================================
+       SEARCH
+    ===================================================== */
+
     const search =
       (
         request.nextUrl
           .searchParams
           .get(
             "search",
-          ) ?? ""
+          ) ??
+        ""
       )
         .trim()
         .slice(
@@ -286,36 +430,72 @@ export async function GET(
           120,
         );
 
-    const whereParts: string[] =
-      [
-        "e.unit_id = ?",
+
+    const whereParts:
+      string[] = [
+        `
+          e.unit_id IN (
+            ${unitFilter.placeholders}
+          )
+        `,
       ];
+
 
     let values:
       ExecuteValues = [
-        session.unitId,
+        ...unitFilter.values,
       ];
 
-    if (search) {
+
+    if (
+      search
+    ) {
       whereParts.push(
         `
           (
             e.source_line_name LIKE ?
-            OR e.source_equipment_name LIKE ?
-            OR e.source_stop_type LIKE ?
-            OR e.source_stop_subkey LIKE ?
-            OR e.source_stop_key_1 LIKE ?
-            OR e.observation LIKE ?
-            OR e.source_material_description LIKE ?
+
+            OR
+            e.source_equipment_name LIKE ?
+
+            OR
+            e.source_stop_type LIKE ?
+
+            OR
+            e.source_stop_subkey LIKE ?
+
+            OR
+            e.source_stop_key_1 LIKE ?
+
+            OR
+            e.observation LIKE ?
+
+            OR
+            e.source_material_description LIKE ?
+
+            OR
+            un.name LIKE ?
+
+            OR
+            un.city LIKE ?
+
+            OR
+            un.code LIKE ?
           )
         `,
       );
 
+
       const like =
         `%${search}%`;
 
+
       values = [
-        session.unitId,
+        ...unitFilter.values,
+
+        like,
+        like,
+        like,
         like,
         like,
         like,
@@ -326,10 +506,16 @@ export async function GET(
       ];
     }
 
+
     const whereClause =
       whereParts.join(
         " AND ",
       );
+
+
+    /* =====================================================
+       DATA
+    ===================================================== */
 
     const rows =
       await executeRows<
@@ -337,182 +523,373 @@ export async function GET(
       >(
         `
           SELECT
-            e.id,
-            e.event_date,
-            e.shift,
-            e.source_line_name,
-            e.source_stop_type,
-            e.source_material_code,
-            e.source_material_description,
-            e.source_equipment_name,
-            e.source_stop_subkey,
-            e.source_stop_key_1,
-            e.observation,
-            e.downtime_minutes,
-            ec.classification_notes,
-            cs.failure_mode
-              AS suggestion_failure_mode
+              e.id,
 
-          FROM maintenance_events e
+              un.code
+                  AS unit_code,
 
-          LEFT JOIN event_classifications ec
-            ON ec.event_id =
-              e.id
+              un.name
+                  AS unit_name,
+
+              un.city
+                  AS unit_city,
+
+              un.state
+                  AS unit_state,
+
+              e.event_date,
+
+              e.shift,
+
+              e.source_line_name,
+
+              e.source_stop_type,
+
+              e.source_material_code,
+
+              e.source_material_description,
+
+              e.source_equipment_name,
+
+              e.source_stop_subkey,
+
+              e.source_stop_key_1,
+
+              e.observation,
+
+              e.downtime_minutes,
+
+              ec.classification_notes,
+
+              cs.failure_mode
+                  AS suggestion_failure_mode
+
+          FROM
+              maintenance_events e
+
+          INNER JOIN
+              units un
+              ON un.id =
+                 e.unit_id
+
+          LEFT JOIN
+              event_classifications ec
+              ON ec.event_id =
+                 e.id
 
           /*
-             Fallback apenas para dados históricos que ainda
-             possuem a classificação na antiga sugestão.
-             Nada referente ao modelo é exposto na planilha.
-          */
+           * Fallback para apontamentos
+           * ainda não classificados oficialmente.
+           */
           LEFT JOIN (
             SELECT
-              cs_current.event_id,
-              cs_current.failure_mode
+                cs_current.event_id,
 
-            FROM classification_suggestions cs_current
+                cs_current.failure_mode
+
+            FROM
+                classification_suggestions
+                cs_current
 
             INNER JOIN (
               SELECT
-                event_id,
-                MAX(id) AS latest_id
+                  event_id,
 
-              FROM classification_suggestions
+                  MAX(id)
+                      AS latest_id
 
-              WHERE model_type =
-                'ML'
+              FROM
+                  classification_suggestions
 
-              GROUP BY event_id
+              WHERE
+                  model_type =
+                    'ML'
+
+              GROUP BY
+                  event_id
             ) latest
-              ON latest.latest_id =
-                cs_current.id
+                ON latest.latest_id =
+                   cs_current.id
           ) cs
-            ON cs.event_id =
-              e.id
+              ON cs.event_id =
+                 e.id
 
           WHERE
-            ${whereClause}
+              ${whereClause}
 
           ORDER BY
-            e.event_date DESC,
-            e.id DESC
+              e.event_date DESC,
+              e.id DESC
         `,
         values,
       );
 
+
+    /* =====================================================
+       EXCEL ROWS
+    ===================================================== */
+
     const exportRows =
       rows.map(
-        (row) => {
+        (
+          row,
+        ) => {
           const notes =
             parseClassificationNotes(
-              row.classification_notes,
+              row
+                .classification_notes,
             );
+
 
           const classification =
             firstText(
-              notes?.failureMode,
-              notes?.failure_mode,
+              notes
+                ?.failureMode,
+
+              notes
+                ?.failure_mode,
+
               notes
                 ?.modelSuggestion
                 ?.failureMode,
+
               row
                 .suggestion_failure_mode,
             ) ??
             "Não classificado";
 
+
           return [
+            unitLabel(
+              row,
+            ),
+
+            row
+              .unit_code ??
+            "",
+
+            row
+              .unit_state ??
+            "",
+
             formatDate(
-              row.event_date,
+              row
+                .event_date,
             ),
-            row.shift ?? "",
-            row.source_line_name ??
-              "",
-            row.source_equipment_name ??
-              "",
-            row.source_stop_type ??
-              "",
-            row.source_material_code ??
-              "",
-            row.source_material_description ??
-              "",
-            row.source_stop_subkey ??
-              "",
-            row.source_stop_key_1 ??
-              "",
-            row.observation ??
-              "",
+
+            row.shift ??
+            "",
+
+            row
+              .source_line_name ??
+            "",
+
+            row
+              .source_equipment_name ??
+            "",
+
+            row
+              .source_stop_type ??
+            "",
+
+            row
+              .source_material_code ??
+            "",
+
+            row
+              .source_material_description ??
+            "",
+
+            row
+              .source_stop_subkey ??
+            "",
+
+            row
+              .source_stop_key_1 ??
+            "",
+
+            row
+              .observation ??
+            "",
+
             numberOrBlank(
-              row.downtime_minutes,
+              row
+                .downtime_minutes,
             ),
+
             classification,
           ];
         },
       );
 
+
+    /* =====================================================
+       WORKSHEET
+    ===================================================== */
+
     const worksheet =
       XLSX.utils.aoa_to_sheet(
         [
           [
+            "Unidade",
+
+            "Código da unidade",
+
+            "UF",
+
             "Data",
+
             "Turno",
+
             "Linha",
+
             "Equipamento",
+
             "Tipo de parada",
+
             "Código do material",
+
             "Material",
+
             "Subchave da parada",
+
             "Chave 1 da parada",
+
             "Ocorrência",
+
             "Tempo de parada (min)",
+
             "Classificação",
           ],
+
           ...exportRows,
         ],
       );
 
+
     worksheet["!cols"] = [
-      { wch: 12 },
-      { wch: 10 },
-      { wch: 16 },
-      { wch: 34 },
-      { wch: 22 },
-      { wch: 18 },
-      { wch: 38 },
-      { wch: 30 },
-      { wch: 30 },
-      { wch: 60 },
-      { wch: 22 },
-      { wch: 28 },
+      {
+        wch:
+          20,
+      },
+
+      {
+        wch:
+          18,
+      },
+
+      {
+        wch:
+          10,
+      },
+
+      {
+        wch:
+          12,
+      },
+
+      {
+        wch:
+          10,
+      },
+
+      {
+        wch:
+          16,
+      },
+
+      {
+        wch:
+          34,
+      },
+
+      {
+        wch:
+          22,
+      },
+
+      {
+        wch:
+          18,
+      },
+
+      {
+        wch:
+          38,
+      },
+
+      {
+        wch:
+          30,
+      },
+
+      {
+        wch:
+          30,
+      },
+
+      {
+        wch:
+          60,
+      },
+
+      {
+        wch:
+          22,
+      },
+
+      {
+        wch:
+          30,
+      },
     ];
 
+
     if (
-      exportRows.length > 0
+      exportRows.length >
+      0
     ) {
-      worksheet["!autofilter"] = {
+      worksheet[
+        "!autofilter"
+      ] = {
         ref:
-          `A1:L${exportRows.length + 1}`,
+          `A1:O${exportRows.length + 1}`,
       };
     }
 
-    const workbook =
-      XLSX.utils.book_new();
 
-    XLSX.utils.book_append_sheet(
-      workbook,
-      worksheet,
-      "Histórico",
-    );
+    /* =====================================================
+       WORKBOOK
+    ===================================================== */
+
+    const workbook =
+      XLSX.utils
+        .book_new();
+
+
+    XLSX.utils
+      .book_append_sheet(
+        workbook,
+        worksheet,
+        "Histórico",
+      );
+
 
     const output =
       XLSX.write(
         workbook,
         {
-          type: "buffer",
+          type:
+            "buffer",
+
           bookType:
             "xlsx",
+
           compression:
             true,
         },
       ) as Buffer;
+
 
     const today =
       new Date()
@@ -522,15 +899,24 @@ export async function GET(
           10,
         );
 
+
     const filename =
-      `historico-manutencao-${today}.xlsx`;
+      unitSelection
+          .selectedUnitIds
+          .length >
+        1
+        ? `historico-manutencao-multiunidade-${today}.xlsx`
+        : `historico-manutencao-${today}.xlsx`;
+
 
     return new NextResponse(
       new Uint8Array(
         output,
       ),
       {
-        status: 200,
+        status:
+          200,
+
         headers: {
           "Content-Type":
             "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
@@ -543,20 +929,26 @@ export async function GET(
         },
       },
     );
-  } catch (error) {
+  } catch (
+    error
+  ) {
     console.error(
       "Erro ao exportar histórico:",
       error,
     );
 
+
     return NextResponse.json(
       {
-        success: false,
+        success:
+          false,
+
         message:
           "Não foi possível exportar o histórico.",
       },
       {
-        status: 500,
+        status:
+          500,
       },
     );
   }

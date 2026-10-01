@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+
 import Link from "next/link";
 
 import {
@@ -21,8 +22,14 @@ import type {
 import {
   useCallback,
   useEffect,
+  useMemo,
   useState,
 } from "react";
+
+import {
+  UnitFilter,
+} from "@/components/units/unit-filter";
+
 
 /* =========================================================
    PROPS
@@ -40,8 +47,32 @@ interface HistoryPageProps {
   };
 }
 
+
 /* =========================================================
-   CLASSIFICAÇÃO
+   UNIT
+========================================================= */
+
+interface HistoryUnit {
+  id: number;
+
+  code:
+    | string
+    | null;
+
+  name: string;
+
+  city:
+    | string
+    | null;
+
+  state:
+    | string
+    | null;
+}
+
+
+/* =========================================================
+   CLASSIFICATION
 ========================================================= */
 
 interface Classification {
@@ -84,12 +115,16 @@ interface Classification {
     | null;
 }
 
+
 /* =========================================================
-   EVENTO
+   EVENT
 ========================================================= */
 
 interface HistoryItem {
   id: number;
+
+  unit:
+    HistoryUnit;
 
   eventDate:
     | string
@@ -140,8 +175,22 @@ interface HistoryItem {
     | null;
 }
 
+
 /* =========================================================
-   PAGINAÇÃO
+   FILTERS
+========================================================= */
+
+interface HistoryFilters {
+  selectedUnitIds:
+    number[];
+
+  selectedUnits:
+    HistoryUnit[];
+}
+
+
+/* =========================================================
+   PAGINATION
 ========================================================= */
 
 interface Pagination {
@@ -154,8 +203,29 @@ interface Pagination {
   totalPages: number;
 }
 
+
 /* =========================================================
-   CATEGORIAS
+   API RESPONSE
+========================================================= */
+
+interface HistoryResponse {
+  success: boolean;
+
+  message?: string;
+
+  filters?:
+    HistoryFilters;
+
+  items?:
+    HistoryItem[];
+
+  pagination?:
+    Pagination;
+}
+
+
+/* =========================================================
+   CATEGORY OPTIONS
 ========================================================= */
 
 const CATEGORY_OPTIONS = [
@@ -224,6 +294,7 @@ const CATEGORY_OPTIONS = [
   },
 ];
 
+
 /* =========================================================
    HELPERS
 ========================================================= */
@@ -233,15 +304,22 @@ function formatDate(
     | string
     | null,
 ) {
-  if (!value) {
+  if (
+    !value
+  ) {
     return "—";
   }
+
 
   const [
     year,
     month,
     day,
-  ] = value.split("-");
+  ] =
+    value.split(
+      "-",
+    );
+
 
   if (
     !year ||
@@ -251,8 +329,10 @@ function formatDate(
     return value;
   }
 
+
   return `${day}/${month}/${year}`;
 }
+
 
 function formatMinutes(
   value:
@@ -260,10 +340,12 @@ function formatMinutes(
     | null,
 ) {
   if (
-    value === null
+    value ===
+    null
   ) {
     return "—";
   }
+
 
   return new Intl.NumberFormat(
     "pt-BR",
@@ -276,6 +358,7 @@ function formatMinutes(
   );
 }
 
+
 function formatCategory(
   value:
     | string
@@ -283,10 +366,13 @@ function formatCategory(
 ) {
   const option =
     CATEGORY_OPTIONS.find(
-      (item) =>
+      (
+        item,
+      ) =>
         item.value ===
         value,
     );
+
 
   return (
     option?.label ??
@@ -295,86 +381,149 @@ function formatCategory(
   );
 }
 
+
 function getClassificationTitle(
   classification:
     | Classification
     | null,
 ) {
-  if (!classification) {
+  if (
+    !classification
+  ) {
     return "Não classificado";
   }
 
+
   return (
-    classification.failureMode ??
-    classification.system ??
+    classification
+      .failureMode ??
+    classification
+      .system ??
     formatCategory(
-      classification.category,
+      classification
+        .category,
     )
   );
 }
 
+
+function getUnitLabel(
+  unit:
+    HistoryUnit,
+): string {
+  return (
+    unit.city?.trim() ||
+    unit.name?.trim() ||
+    unit.code?.trim() ||
+    `Unidade ${unit.id}`
+  );
+}
+
+
 /* =========================================================
-   COMPONENTE
+   COMPONENT
 ========================================================= */
 
 export function HistoryPage({
   user,
   unit,
 }: HistoryPageProps) {
-  const [items, setItems] =
+  const [
+    items,
+    setItems,
+  ] =
     useState<
       HistoryItem[]
-    >([]);
+    >(
+      [],
+    );
+
+
+  const [
+    filters,
+    setFilters,
+  ] =
+    useState<
+      HistoryFilters | null
+    >(
+      null,
+    );
+
 
   const [
     pagination,
     setPagination,
   ] =
-    useState<Pagination>({
-      page: 1,
+    useState<
+      Pagination
+    >({
+      page:
+        1,
 
-      pageSize: 20,
+      pageSize:
+        20,
 
-      total: 0,
+      total:
+        0,
 
-      totalPages: 1,
+      totalPages:
+        1,
     });
+
 
   const [
     loading,
     setLoading,
   ] =
-    useState(true);
+    useState(
+      true,
+    );
+
 
   const [
     error,
     setError,
   ] =
-    useState("");
+    useState(
+      "",
+    );
+
 
   const [
     exporting,
     setExporting,
   ] =
-    useState(false);
+    useState(
+      false,
+    );
+
 
   const [
     exportError,
     setExportError,
   ] =
-    useState("");
+    useState(
+      "",
+    );
+
 
   const [
     searchInput,
     setSearchInput,
   ] =
-    useState("");
+    useState(
+      "",
+    );
+
 
   const [
     search,
     setSearch,
   ] =
-    useState("");
+    useState(
+      "",
+    );
+
 
   const [
     selected,
@@ -382,73 +531,168 @@ export function HistoryPage({
   ] =
     useState<
       HistoryItem | null
-    >(null);
+    >(
+      null,
+    );
+
 
   const [
     editing,
     setEditing,
   ] =
-    useState(false);
+    useState(
+      false,
+    );
+
 
   const [
     saving,
     setSaving,
   ] =
-    useState(false);
+    useState(
+      false,
+    );
+
 
   const [
     editCategory,
     setEditCategory,
   ] =
-    useState("");
+    useState(
+      "",
+    );
+
 
   const [
     editSystem,
     setEditSystem,
   ] =
-    useState("");
+    useState(
+      "",
+    );
+
 
   const [
     editFailureMode,
     setEditFailureMode,
   ] =
-    useState("");
+    useState(
+      "",
+    );
+
 
   const [
     editExplanation,
     setEditExplanation,
   ] =
-    useState("");
+    useState(
+      "",
+    );
+
 
   const [
     editError,
     setEditError,
   ] =
-    useState("");
+    useState(
+      "",
+    );
+
 
   /* =======================================================
-     CARREGA HISTÓRICO
+     COMPUTED
+  ======================================================= */
+
+  const multipleUnits =
+    (
+      filters
+        ?.selectedUnitIds
+        .length ??
+      0
+    ) >
+    1;
+
+
+  const selectedUnitsLabel =
+    useMemo(
+      () => {
+        const selectedUnits =
+          filters
+            ?.selectedUnits ??
+          [];
+
+
+        if (
+          selectedUnits.length ===
+          0
+        ) {
+          return (
+            unit.city ??
+            "Unidade atual"
+          );
+        }
+
+
+        if (
+          selectedUnits.length ===
+          1
+        ) {
+          return getUnitLabel(
+            selectedUnits[0],
+          );
+        }
+
+
+        return `${selectedUnits.length} unidades selecionadas`;
+      },
+      [
+        filters,
+        unit.city,
+      ],
+    );
+
+
+  const tableColumnCount =
+    multipleUnits
+      ? 7
+      : 6;
+
+
+  /* =======================================================
+     LOAD HISTORY
   ======================================================= */
 
   const loadHistory =
     useCallback(
       async (
-        page: number,
-        searchTerm: string,
-      ) => {
-        setLoading(true);
+        page:
+          number,
 
-        setError("");
+        searchTerm:
+          string,
+      ) => {
+        setLoading(
+          true,
+        );
+
+
+        setError(
+          "",
+        );
+
 
         try {
           const params =
             new URLSearchParams({
               page:
-                String(page),
+                String(
+                  page,
+                ),
 
               pageSize:
                 "20",
             });
+
 
           if (
             searchTerm
@@ -459,6 +703,7 @@ export function HistoryPage({
             );
           }
 
+
           const response =
             await fetch(
               `/api/history?${params.toString()}`,
@@ -468,91 +713,177 @@ export function HistoryPage({
               },
             );
 
+
           const data =
-            await response.json();
+            (await response.json()) as
+              HistoryResponse;
+
 
           if (
             !response.ok ||
             !data.success
           ) {
-            setError(
+            throw new Error(
               data.message ??
-                "Não foi possível carregar o histórico.",
+              "Não foi possível carregar o histórico.",
             );
-
-            return;
           }
+
+
+          const nextItems =
+            Array.isArray(
+              data.items,
+            )
+              ? data.items
+              : [];
+
 
           setItems(
-            data.items,
+            nextItems,
           );
 
-          setPagination(
-            data.pagination,
-          );
+
+          if (
+            data.pagination
+          ) {
+            setPagination(
+              data.pagination,
+            );
+          }
+
+
+          if (
+            data.filters
+          ) {
+            setFilters(
+              data.filters,
+            );
+          }
+
 
           /*
-             Se o registro selecionado estiver na lista,
-             atualizamos o drawer também.
-          */
-          if (
-            selected
-          ) {
-            const refreshed =
-              (
-                data.items as HistoryItem[]
-              ).find(
-                (item) =>
-                  item.id ===
-                  selected.id,
-              );
+           * Se um drawer já estiver aberto,
+           * atualizamos o registro se ele ainda
+           * fizer parte do novo resultado.
+           */
+          setSelected(
+            (
+              current,
+            ) => {
+              if (
+                !current
+              ) {
+                return null;
+              }
 
-            if (
-              refreshed
-            ) {
-              setSelected(
-                refreshed,
+
+              return (
+                nextItems.find(
+                  (
+                    item,
+                  ) =>
+                    item.id ===
+                    current.id,
+                ) ??
+                null
               );
-            }
-          }
-        } catch {
+            },
+          );
+        } catch (
+          loadError
+        ) {
           setError(
-            "Não foi possível carregar o histórico.",
+            loadError instanceof
+              Error
+              ? loadError.message
+              : "Não foi possível carregar o histórico.",
           );
         } finally {
-          setLoading(false);
+          setLoading(
+            false,
+          );
         }
       },
+      [],
+    );
+
+
+  /* =======================================================
+     INITIAL LOAD
+  ======================================================= */
+
+  useEffect(
+    () => {
+      void loadHistory(
+        1,
+        "",
+      );
+    },
+    [
+      loadHistory,
+    ],
+  );
+
+
+  /* =======================================================
+     UNIT FILTER CHANGE
+  ======================================================= */
+
+  const handleUnitSelectionApplied =
+    useCallback(
+      async () => {
+        setSelected(
+          null,
+        );
+
+
+        setEditing(
+          false,
+        );
+
+
+        setEditError(
+          "",
+        );
+
+
+        setExportError(
+          "",
+        );
+
+
+        await loadHistory(
+          1,
+          search,
+        );
+      },
       [
-        selected,
+        loadHistory,
+        search,
       ],
     );
 
-  useEffect(() => {
-    void loadHistory(
-      1,
-      "",
-    );
-
-    // Executar apenas na abertura.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   /* =======================================================
-     PESQUISA
+     SEARCH
   ======================================================= */
 
   function handleSearch(
-    event: FormEvent,
+    event:
+      FormEvent,
   ) {
     event.preventDefault();
 
+
     const value =
-      searchInput.trim();
+      searchInput
+        .trim();
+
 
     setSearch(
       value,
     );
+
 
     void loadHistory(
       1,
@@ -560,32 +891,52 @@ export function HistoryPage({
     );
   }
 
+
+  /* =======================================================
+     EXPORT
+  ======================================================= */
+
   async function handleExport() {
     if (
       exporting ||
-      pagination.total === 0
+      pagination.total ===
+        0
     ) {
       return;
     }
 
-    setExporting(true);
-    setExportError("");
+
+    setExporting(
+      true,
+    );
+
+
+    setExportError(
+      "",
+    );
+
 
     try {
       const params =
         new URLSearchParams();
 
-      if (search) {
+
+      if (
+        search
+      ) {
         params.set(
           "search",
           search,
         );
       }
 
+
       const url =
-        params.size > 0
+        params.size >
+        0
           ? `/api/history/export?${params.toString()}`
           : "/api/history/export";
+
 
       const response =
         await fetch(
@@ -599,116 +950,148 @@ export function HistoryPage({
           },
         );
 
-      if (!response.ok) {
+
+      if (
+        !response.ok
+      ) {
         let message =
           "Não foi possível exportar o histórico.";
+
 
         try {
           const data =
             await response.json();
 
+
           message =
             data.message ??
             message;
         } catch {
-          // A resposta pode não ser JSON.
+          // resposta pode não ser JSON
         }
+
 
         throw new Error(
           message,
         );
       }
 
+
       const blob =
         await response.blob();
+
 
       const disposition =
         response.headers.get(
           "content-disposition",
         );
 
+
       const filenameMatch =
         disposition?.match(
           /filename="?([^";]+)"?/i,
         );
 
+
       const filename =
         filenameMatch?.[1] ??
         "historico-manutencao.xlsx";
+
 
       const objectUrl =
         URL.createObjectURL(
           blob,
         );
 
+
       const anchor =
         document.createElement(
           "a",
         );
 
+
       anchor.href =
         objectUrl;
 
+
       anchor.download =
         filename;
+
 
       document.body.appendChild(
         anchor,
       );
 
+
       anchor.click();
+
+
       anchor.remove();
+
 
       URL.revokeObjectURL(
         objectUrl,
       );
-    } catch (error) {
+    } catch (
+      exportFailure
+    ) {
       setExportError(
-        error instanceof Error
-          ? error.message
+        exportFailure instanceof
+          Error
+          ? exportFailure.message
           : "Não foi possível exportar o histórico.",
       );
     } finally {
-      setExporting(false);
+      setExporting(
+        false,
+      );
     }
   }
 
+
   /* =======================================================
-     SELECIONA
+     EVENT
   ======================================================= */
 
   function openEvent(
-    item: HistoryItem,
+    item:
+      HistoryItem,
   ) {
     setSelected(
       item,
     );
 
+
     setEditing(
       false,
     );
+
 
     setEditError(
       "",
     );
   }
+
 
   function closeEvent() {
     setSelected(
       null,
     );
 
+
     setEditing(
       false,
     );
+
 
     setEditError(
       "",
     );
   }
 
+
   /* =======================================================
-     EDITAR
+     EDIT
   ======================================================= */
 
   function startEditing() {
@@ -718,41 +1101,52 @@ export function HistoryPage({
       return;
     }
 
+
     setEditCategory(
       selected
         .classification
         ?.category ??
-        "",
+      "",
     );
+
 
     setEditSystem(
       selected
         .classification
         ?.system ??
-        "",
+      "",
     );
+
 
     setEditFailureMode(
       selected
         .classification
         ?.failureMode ??
-        "",
+      "",
     );
+
 
     setEditExplanation(
       selected
         .classification
         ?.explanation ??
-        "",
+      "",
     );
 
-    setEditError("");
 
-    setEditing(true);
+    setEditError(
+      "",
+    );
+
+
+    setEditing(
+      true,
+    );
   }
 
+
   /* =======================================================
-     SALVAR CORREÇÃO
+     SAVE CLASSIFICATION
   ======================================================= */
 
   async function saveClassification() {
@@ -763,6 +1157,7 @@ export function HistoryPage({
       return;
     }
 
+
     if (
       !editCategory ||
       !editSystem.trim() ||
@@ -772,12 +1167,20 @@ export function HistoryPage({
         "Preencha categoria, sistema e modo de falha.",
       );
 
+
       return;
     }
 
-    setSaving(true);
 
-    setEditError("");
+    setSaving(
+      true,
+    );
+
+
+    setEditError(
+      "",
+    );
+
 
     try {
       const response =
@@ -812,39 +1215,102 @@ export function HistoryPage({
           },
         );
 
+
       const data =
         await response.json();
+
 
       if (
         !response.ok ||
         !data.success
       ) {
-        setEditError(
+        throw new Error(
           data.message ??
-            "Não foi possível salvar a classificação.",
+          "Não foi possível salvar a classificação.",
         );
-
-        return;
       }
 
-      const updatedItem: HistoryItem =
-        {
+
+      const updatedClassification:
+        Classification = {
+          id:
+            selected
+              .classification
+              ?.id ??
+            selected.id,
+
+          source:
+            "MANUAL",
+
+          confidence:
+            null,
+
+          status:
+            typeof data
+                .classification
+                ?.status ===
+              "string"
+              ? data
+                  .classification
+                  .status
+              : "CORRIGIDA",
+
+          classifiedBy:
+            user.name,
+
+          category:
+            editCategory,
+
+          system:
+            editSystem
+              .trim(),
+
+          failureMode:
+            typeof data
+                .classification
+                ?.failureMode ===
+              "string"
+              ? data
+                  .classification
+                  .failureMode
+              : editFailureMode
+                  .trim(),
+
+          explanation:
+            editExplanation
+                .trim() ||
+              null,
+
+          model:
+            selected
+              .classification
+              ?.model ??
+            null,
+        };
+
+
+      const updatedItem:
+        HistoryItem = {
           ...selected,
 
           classification:
-            data.classification,
+            updatedClassification,
         };
+
 
       setSelected(
         updatedItem,
       );
+
 
       setItems(
         (
           current,
         ) =>
           current.map(
-            (item) =>
+            (
+              item,
+            ) =>
               item.id ===
               selected.id
                 ? updatedItem
@@ -852,20 +1318,29 @@ export function HistoryPage({
           ),
       );
 
+
       setEditing(
         false,
       );
-    } catch {
+    } catch (
+      saveError
+    ) {
       setEditError(
-        "Não foi possível salvar a classificação.",
+        saveError instanceof
+          Error
+          ? saveError.message
+          : "Não foi possível salvar a classificação.",
       );
     } finally {
-      setSaving(false);
+      setSaving(
+        false,
+      );
     }
   }
 
+
   /* =======================================================
-     INTERFACE
+     UI
   ======================================================= */
 
   return (
@@ -875,9 +1350,9 @@ export function HistoryPage({
           HEADER
       ==================================================== */}
 
-      <header className="border-b border-[#E8E9EB]">
+      <header className="border-b border-[#E8E9EB] bg-white">
 
-        <div className="mx-auto flex h-[78px] w-full max-w-[1380px] items-center justify-between px-6 sm:px-8 lg:px-12">
+        <div className="mx-auto flex min-h-[78px] w-full max-w-[1380px] items-center justify-between gap-6 px-6 py-2 sm:px-8 lg:px-12">
 
           <Link
             href="/dashboard"
@@ -892,17 +1367,34 @@ export function HistoryPage({
             />
           </Link>
 
-          <div className="hidden text-right sm:block">
 
-            <p className="text-[13px] font-medium text-[#2D3034]">
-              {user.name}
-            </p>
+          <div className="flex items-center gap-3 sm:gap-5">
 
-            {unit.city && (
-              <p className="mt-0.5 text-[11px] text-[#979BA1]">
-                {unit.city}
+            <UnitFilter
+              fallbackLabel={
+                unit.city
+              }
+              onSelectionApplied={
+                handleUnitSelectionApplied
+              }
+            />
+
+
+            <div className="hidden h-8 w-px bg-black/[0.07] sm:block" />
+
+
+            <div className="hidden text-right sm:block">
+
+              <p className="text-[13px] font-medium text-[#2D3034]">
+                {user.name}
               </p>
-            )}
+
+
+              <p className="mt-0.5 text-[10px] text-[#A0A4A9]">
+                Histórico de manutenção
+              </p>
+
+            </div>
 
           </div>
 
@@ -910,8 +1402,9 @@ export function HistoryPage({
 
       </header>
 
+
       {/* ===================================================
-          CONTEÚDO
+          CONTENT
       ==================================================== */}
 
       <section className="mx-auto w-full max-w-[1380px] px-6 pb-20 pt-10 sm:px-8 lg:px-12">
@@ -920,12 +1413,19 @@ export function HistoryPage({
           href="/dashboard"
           className="inline-flex items-center gap-2 text-[12px] font-medium text-[#81868C] transition-colors hover:text-[#282B2F]"
         >
+
           <ArrowLeft
             size={15}
           />
 
           Voltar
+
         </Link>
+
+
+        {/* =================================================
+            TITLE / FILTER SUMMARY
+        ================================================== */}
 
         <div className="mt-9 flex flex-col justify-between gap-6 lg:flex-row lg:items-end">
 
@@ -935,13 +1435,24 @@ export function HistoryPage({
               Histórico de manutenção
             </h1>
 
+
             <p className="mt-3 text-[14px] text-[#7D8288]">
               Consulte os apontamentos registrados e suas classificações.
             </p>
 
+
+            <div className="mt-4 inline-flex items-center rounded-full bg-[#F5F5F4] px-3 py-1.5">
+
+              <span className="text-[10px] font-medium text-[#747980]">
+                {selectedUnitsLabel}
+              </span>
+
+            </div>
+
           </div>
 
-          <div className="flex w-full flex-col gap-3 lg:max-w-[560px] lg:items-end">
+
+          <div className="flex w-full flex-col gap-3 lg:max-w-[600px] lg:items-end">
 
             <div className="flex w-full flex-col gap-3 sm:flex-row sm:items-center sm:justify-end">
 
@@ -949,13 +1460,14 @@ export function HistoryPage({
                 onSubmit={
                   handleSearch
                 }
-                className="flex w-full items-center border-b border-[#D9DCE0] pb-2 sm:max-w-[360px]"
+                className="flex w-full items-center border-b border-[#D9DCE0] pb-2 sm:max-w-[380px]"
               >
 
                 <Search
                   size={17}
                   className="mr-3 shrink-0 text-[#94999F]"
                 />
+
 
                 <input
                   value={
@@ -969,11 +1481,12 @@ export function HistoryPage({
                         .value,
                     )
                   }
-                  placeholder="Buscar equipamento, linha ou ocorrência"
+                  placeholder="Buscar equipamento, linha, unidade ou ocorrência"
                   className="w-full bg-transparent text-[13px] text-[#292C30] outline-none placeholder:text-[#A2A6AB]"
                 />
 
               </form>
+
 
               <button
                 type="button"
@@ -983,10 +1496,12 @@ export function HistoryPage({
                 disabled={
                   exporting ||
                   loading ||
-                  pagination.total === 0
+                  pagination.total ===
+                    0
                 }
                 className="inline-flex h-10 shrink-0 items-center justify-center gap-2 rounded-full border border-[#DFE2E5] bg-white px-4 text-[12px] font-medium text-[#4F545A] transition-colors hover:border-[#CFD3D7] hover:bg-[#FAFAFA] disabled:cursor-not-allowed disabled:opacity-40"
               >
+
                 {exporting ? (
                   <LoaderCircle
                     size={15}
@@ -998,12 +1513,15 @@ export function HistoryPage({
                   />
                 )}
 
+
                 {exporting
                   ? "Exportando..."
                   : "Exportar Excel"}
+
               </button>
 
             </div>
+
 
             {exportError && (
               <p className="text-[11px] text-[#C92A32]">
@@ -1015,13 +1533,23 @@ export function HistoryPage({
 
         </div>
 
+
         {/* =================================================
-            TABELA
+            TABLE
         ================================================== */}
 
         <div className="mt-10 overflow-x-auto border-y border-[#E7E9EB]">
 
-          <table className="w-full min-w-[1000px] border-collapse">
+          <table
+            className={[
+              "w-full border-collapse",
+              multipleUnits
+                ? "min-w-[1140px]"
+                : "min-w-[1000px]",
+            ].join(
+              " ",
+            )}
+          >
 
             <thead>
 
@@ -1031,21 +1559,33 @@ export function HistoryPage({
                   Data
                 </th>
 
+
+                {multipleUnits && (
+                  <th className="px-5 py-4 text-[11px] font-medium text-[#8B9096]">
+                    Unidade
+                  </th>
+                )}
+
+
                 <th className="px-5 py-4 text-[11px] font-medium text-[#8B9096]">
                   Linha
                 </th>
+
 
                 <th className="px-5 py-4 text-[11px] font-medium text-[#8B9096]">
                   Equipamento
                 </th>
 
+
                 <th className="px-5 py-4 text-[11px] font-medium text-[#8B9096]">
                   Ocorrência
                 </th>
 
+
                 <th className="px-5 py-4 text-[11px] font-medium text-[#8B9096]">
                   Classificação
                 </th>
+
 
                 <th className="py-4 pl-5 text-right text-[11px] font-medium text-[#8B9096]">
                   Min.
@@ -1055,13 +1595,16 @@ export function HistoryPage({
 
             </thead>
 
+
             <tbody>
 
               {loading && (
                 <tr>
 
                   <td
-                    colSpan={6}
+                    colSpan={
+                      tableColumnCount
+                    }
                     className="py-16 text-center"
                   >
 
@@ -1075,12 +1618,15 @@ export function HistoryPage({
                 </tr>
               )}
 
+
               {!loading &&
                 error && (
                   <tr>
 
                     <td
-                      colSpan={6}
+                      colSpan={
+                        tableColumnCount
+                      }
                       className="py-16 text-center text-[13px] text-[#8A8F95]"
                     >
                       {error}
@@ -1089,6 +1635,7 @@ export function HistoryPage({
                   </tr>
                 )}
 
+
               {!loading &&
                 !error &&
                 items.length ===
@@ -1096,7 +1643,9 @@ export function HistoryPage({
                   <tr>
 
                     <td
-                      colSpan={6}
+                      colSpan={
+                        tableColumnCount
+                      }
                       className="py-16 text-center text-[13px] text-[#8A8F95]"
                     >
                       Nenhum apontamento encontrado.
@@ -1105,10 +1654,13 @@ export function HistoryPage({
                   </tr>
                 )}
 
+
               {!loading &&
                 !error &&
                 items.map(
-                  (item) => (
+                  (
+                    item,
+                  ) => (
                     <tr
                       key={
                         item.id
@@ -1127,10 +1679,38 @@ export function HistoryPage({
                         )}
                       </td>
 
+
+                      {multipleUnits && (
+                        <td className="px-5 py-5">
+
+                          <p className="max-w-[150px] truncate text-[12px] font-medium text-[#393D42]">
+                            {getUnitLabel(
+                              item.unit,
+                            )}
+                          </p>
+
+
+                          {item
+                            .unit
+                            .code && (
+                            <p className="mt-1 text-[9px] text-[#A0A4A9]">
+                              {
+                                item
+                                  .unit
+                                  .code
+                              }
+                            </p>
+                          )}
+
+                        </td>
+                      )}
+
+
                       <td className="px-5 py-5 text-[12px] font-medium text-[#393D42]">
                         {item.line ??
                           "—"}
                       </td>
+
 
                       <td className="max-w-[230px] px-5 py-5 text-[12px] text-[#4F545A]">
 
@@ -1140,6 +1720,7 @@ export function HistoryPage({
                         </p>
 
                       </td>
+
 
                       <td className="max-w-[280px] px-5 py-5 text-[12px] text-[#62676D]">
 
@@ -1152,6 +1733,7 @@ export function HistoryPage({
 
                       </td>
 
+
                       <td className="px-5 py-5">
 
                         {item.classification ? (
@@ -1162,6 +1744,7 @@ export function HistoryPage({
                                 item.classification,
                               )}
                             </p>
+
 
                             <p className="mt-1 text-[11px] text-[#91969C]">
                               {item
@@ -1183,6 +1766,7 @@ export function HistoryPage({
 
                       </td>
 
+
                       <td className="whitespace-nowrap py-5 pl-5 text-right text-[12px] text-[#5E6369]">
                         {formatMinutes(
                           item.downtimeMinutes,
@@ -1199,8 +1783,9 @@ export function HistoryPage({
 
         </div>
 
+
         {/* =================================================
-            PAGINAÇÃO
+            PAGINATION
         ================================================== */}
 
         {!loading &&
@@ -1216,6 +1801,7 @@ export function HistoryPage({
                 )}{" "}
                 registros
               </p>
+
 
               <div className="flex items-center gap-4">
 
@@ -1235,10 +1821,13 @@ export function HistoryPage({
                   className="text-[#777C82] transition-colors hover:text-[#202327] disabled:cursor-not-allowed disabled:opacity-30"
                   aria-label="Página anterior"
                 >
+
                   <ChevronLeft
                     size={18}
                   />
+
                 </button>
+
 
                 <span className="text-[11px] text-[#6F747A]">
                   {
@@ -1249,6 +1838,7 @@ export function HistoryPage({
                     pagination.totalPages
                   }
                 </span>
+
 
                 <button
                   type="button"
@@ -1266,9 +1856,11 @@ export function HistoryPage({
                   className="text-[#777C82] transition-colors hover:text-[#202327] disabled:cursor-not-allowed disabled:opacity-30"
                   aria-label="Próxima página"
                 >
+
                   <ChevronRight
                     size={18}
                   />
+
                 </button>
 
               </div>
@@ -1278,8 +1870,9 @@ export function HistoryPage({
 
       </section>
 
+
       {/* ===================================================
-          PAINEL LATERAL
+          DRAWER
       ==================================================== */}
 
       {selected && (
@@ -1294,11 +1887,12 @@ export function HistoryPage({
             className="absolute inset-0 bg-black/20 backdrop-blur-[1px]"
           />
 
+
           <aside className="absolute right-0 top-0 h-full w-full max-w-[560px] overflow-y-auto bg-white shadow-[-16px_0_48px_rgba(0,0,0,0.08)]">
 
             <div className="sticky top-0 z-10 border-b border-[#E8E9EB] bg-white/96 backdrop-blur-sm">
 
-              <div className="flex h-[78px] items-center justify-between px-7">
+              <div className="flex min-h-[78px] items-center justify-between gap-5 px-7 py-3">
 
                 <div>
 
@@ -1306,11 +1900,15 @@ export function HistoryPage({
                     Detalhes do apontamento
                   </p>
 
+
                   <p className="mt-1 text-[11px] text-[#9AA0A6]">
-                    Visualize e ajuste a classificação quando necessário.
+                    {getUnitLabel(
+                      selected.unit,
+                    )}
                   </p>
 
                 </div>
+
 
                 <button
                   type="button"
@@ -1319,16 +1917,23 @@ export function HistoryPage({
                   }
                   className="flex h-9 w-9 items-center justify-center rounded-full text-[#8E9399] transition-colors hover:bg-[#F5F6F7] hover:text-[#33373B]"
                 >
+
                   <X
                     size={18}
                   />
+
                 </button>
 
               </div>
 
             </div>
 
+
             <div className="px-7 py-7 pb-10">
+
+              {/* =============================================
+                  MAIN FAILURE
+              ============================================== */}
 
               <div className="rounded-[22px] border border-[#ECEDEF] bg-[#FAFAFA] p-5">
 
@@ -1336,29 +1941,38 @@ export function HistoryPage({
                   Falha registrada
                 </p>
 
+
                 <p className="mt-3 text-[24px] font-semibold leading-8 tracking-[-0.035em] text-[#202327]">
                   {getClassificationTitle(
                     selected.classification,
                   )}
                 </p>
 
+
                 <div className="mt-5 grid grid-cols-2 gap-4 border-t border-[#E8EAEC] pt-4">
 
                   <div>
+
                     <p className="text-[10px] text-[#A1A6AC]">
-                      Linha
+                      Unidade
                     </p>
+
 
                     <p className="mt-1 text-[12px] font-medium text-[#3A3F45]">
-                      {selected.line ??
-                        "—"}
+                      {getUnitLabel(
+                        selected.unit,
+                      )}
                     </p>
+
                   </div>
 
+
                   <div>
+
                     <p className="text-[10px] text-[#A1A6AC]">
                       Tempo de parada
                     </p>
+
 
                     <p className="mt-1 text-[12px] font-medium text-[#3A3F45]">
                       {formatMinutes(
@@ -1366,10 +1980,17 @@ export function HistoryPage({
                       )}{" "}
                       min
                     </p>
+
                   </div>
+
                 </div>
 
               </div>
+
+
+              {/* =============================================
+                  EVENT INFORMATION
+              ============================================== */}
 
               <div className="mt-7 rounded-[22px] border border-[#ECEDEF] bg-white p-5">
 
@@ -1377,46 +1998,94 @@ export function HistoryPage({
                   Informações do apontamento
                 </h2>
 
+
                 <div className="mt-5 grid grid-cols-2 gap-x-5 gap-y-5">
 
                   <div>
+
+                    <p className="text-[10px] text-[#969BA1]">
+                      Unidade
+                    </p>
+
+
+                    <p className="mt-1.5 text-[13px] text-[#34383D]">
+                      {getUnitLabel(
+                        selected.unit,
+                      )}
+                    </p>
+
+                  </div>
+
+
+                  <div>
+
+                    <p className="text-[10px] text-[#969BA1]">
+                      Código
+                    </p>
+
+
+                    <p className="mt-1.5 text-[13px] text-[#34383D]">
+                      {selected
+                        .unit
+                        .code ??
+                        "—"}
+                    </p>
+
+                  </div>
+
+
+                  <div>
+
                     <p className="text-[10px] text-[#969BA1]">
                       Data
                     </p>
+
 
                     <p className="mt-1.5 text-[13px] text-[#34383D]">
                       {formatDate(
                         selected.eventDate,
                       )}
                     </p>
+
                   </div>
 
+
                   <div>
+
                     <p className="text-[10px] text-[#969BA1]">
                       Turno
                     </p>
+
 
                     <p className="mt-1.5 text-[13px] text-[#34383D]">
                       {selected.shift ??
                         "—"}
                     </p>
+
                   </div>
 
+
                   <div>
+
                     <p className="text-[10px] text-[#969BA1]">
                       Linha
                     </p>
+
 
                     <p className="mt-1.5 text-[13px] text-[#34383D]">
                       {selected.line ??
                         "—"}
                     </p>
+
                   </div>
 
+
                   <div>
+
                     <p className="text-[10px] text-[#969BA1]">
                       Tempo de parada
                     </p>
+
 
                     <p className="mt-1.5 text-[13px] text-[#34383D]">
                       {formatMinutes(
@@ -1424,14 +2093,18 @@ export function HistoryPage({
                       )}{" "}
                       min
                     </p>
+
                   </div>
+
                 </div>
+
 
                 <div className="mt-6 border-t border-[#ECEDEF] pt-5">
 
                   <p className="text-[10px] text-[#969BA1]">
                     Equipamento
                   </p>
+
 
                   <p className="mt-1.5 text-[13px] leading-6 text-[#34383D]">
                     {selected.equipment ??
@@ -1440,11 +2113,28 @@ export function HistoryPage({
 
                 </div>
 
+
+                <div className="mt-6 border-t border-[#ECEDEF] pt-5">
+
+                  <p className="text-[10px] text-[#969BA1]">
+                    Tipo de parada
+                  </p>
+
+
+                  <p className="mt-1.5 text-[13px] leading-6 text-[#34383D]">
+                    {selected.stopType ??
+                      "—"}
+                  </p>
+
+                </div>
+
+
                 <div className="mt-6 border-t border-[#ECEDEF] pt-5">
 
                   <p className="text-[10px] text-[#969BA1]">
                     Observação
                   </p>
+
 
                   <p className="mt-1.5 text-[13px] leading-6 text-[#4F545A]">
                     {selected.observation ??
@@ -1457,19 +2147,28 @@ export function HistoryPage({
 
               </div>
 
+
+              {/* =============================================
+                  CLASSIFICATION
+              ============================================== */}
+
               <div className="mt-7 rounded-[22px] border border-[#ECEDEF] bg-white p-5">
 
                 <div className="flex items-start justify-between gap-4">
 
                   <div>
+
                     <h2 className="text-[15px] font-semibold text-[#262A2F]">
                       Classificação
                     </h2>
 
+
                     <p className="mt-1 text-[11px] text-[#9AA0A6]">
                       Ajuste os dados com clareza e padronização.
                     </p>
+
                   </div>
+
 
                   {!editing && (
                     <button
@@ -1479,15 +2178,18 @@ export function HistoryPage({
                       }
                       className="inline-flex items-center gap-2 rounded-full border border-[#E3E5E8] px-4 py-2 text-[12px] font-medium text-[#4C5157] transition-colors hover:border-[#D5D8DC] hover:bg-[#F8F8F8]"
                     >
+
                       <Pencil
                         size={14}
                       />
 
                       Editar
+
                     </button>
                   )}
 
                 </div>
+
 
                 {!editing && (
                   <div className="mt-6 space-y-5">
@@ -1498,6 +2200,7 @@ export function HistoryPage({
                         Falha
                       </p>
 
+
                       <p className="mt-2 text-[20px] font-semibold leading-7 tracking-[-0.03em] text-[#222529]">
                         {selected
                           .classification
@@ -1507,12 +2210,15 @@ export function HistoryPage({
 
                     </div>
 
+
                     <div className="grid grid-cols-2 gap-4">
 
                       <div>
+
                         <p className="text-[10px] text-[#969BA1]">
                           Categoria
                         </p>
+
 
                         <p className="mt-1.5 text-[13px] text-[#34383D]">
                           {formatCategory(
@@ -1522,12 +2228,16 @@ export function HistoryPage({
                               null,
                           )}
                         </p>
+
                       </div>
 
+
                       <div>
+
                         <p className="text-[10px] text-[#969BA1]">
                           Sistema
                         </p>
+
 
                         <p className="mt-1.5 text-[13px] text-[#34383D]">
                           {selected
@@ -1535,9 +2245,33 @@ export function HistoryPage({
                             ?.system ??
                             "—"}
                         </p>
+
                       </div>
 
                     </div>
+
+
+                    {selected
+                      .classification
+                      ?.classifiedBy && (
+                      <div className="border-t border-[#ECEDEF] pt-5">
+
+                        <p className="text-[10px] text-[#969BA1]">
+                          Revisado por
+                        </p>
+
+
+                        <p className="mt-1.5 text-[12px] text-[#64696F]">
+                          {
+                            selected
+                              .classification
+                              .classifiedBy
+                          }
+                        </p>
+
+                      </div>
+                    )}
+
 
                     {selected
                       .classification
@@ -1547,6 +2281,7 @@ export function HistoryPage({
                         <p className="text-[10px] text-[#969BA1]">
                           Observação da classificação
                         </p>
+
 
                         <p className="mt-1.5 text-[12px] leading-6 text-[#64696F]">
                           {
@@ -1562,6 +2297,11 @@ export function HistoryPage({
                   </div>
                 )}
 
+
+                {/* ===========================================
+                    EDIT FORM
+                ============================================ */}
+
                 {editing && (
                   <div className="mt-6">
 
@@ -1570,6 +2310,7 @@ export function HistoryPage({
                       <p className="text-[10px] uppercase tracking-[0.12em] text-[#A0A4A9]">
                         Ocorrência
                       </p>
+
 
                       <p className="mt-2 text-[13px] leading-6 text-[#4A5056]">
                         {selected.observation ??
@@ -1580,6 +2321,7 @@ export function HistoryPage({
 
                     </div>
 
+
                     <div className="mt-5 grid gap-5 sm:grid-cols-2">
 
                       <div>
@@ -1587,6 +2329,7 @@ export function HistoryPage({
                         <label className="text-[11px] font-medium text-[#777C82]">
                           Categoria
                         </label>
+
 
                         <select
                           value={
@@ -1596,8 +2339,7 @@ export function HistoryPage({
                             event,
                           ) =>
                             setEditCategory(
-                              event
-                                .target
+                              event.target
                                 .value,
                             )
                           }
@@ -1607,6 +2349,7 @@ export function HistoryPage({
                           <option value="">
                             Selecione
                           </option>
+
 
                           {CATEGORY_OPTIONS.map(
                             (
@@ -1631,11 +2374,13 @@ export function HistoryPage({
 
                       </div>
 
+
                       <div>
 
                         <label className="text-[11px] font-medium text-[#777C82]">
                           Sistema
                         </label>
+
 
                         <input
                           value={
@@ -1645,8 +2390,7 @@ export function HistoryPage({
                             event,
                           ) =>
                             setEditSystem(
-                              event
-                                .target
+                              event.target
                                 .value,
                             )
                           }
@@ -1658,11 +2402,13 @@ export function HistoryPage({
 
                     </div>
 
+
                     <div className="mt-5">
 
                       <label className="text-[11px] font-medium text-[#777C82]">
                         Falha identificada
                       </label>
+
 
                       <input
                         value={
@@ -1672,8 +2418,7 @@ export function HistoryPage({
                           event,
                         ) =>
                           setEditFailureMode(
-                            event
-                              .target
+                            event.target
                               .value,
                           )
                         }
@@ -1683,30 +2428,28 @@ export function HistoryPage({
 
                     </div>
 
+
                     <div className="mt-5 rounded-[18px] border border-[#ECEDEF] bg-[#FCFCFC] p-4">
 
                       <p className="text-[10px] uppercase tracking-[0.12em] text-[#A0A4A9]">
                         Pré-visualização
                       </p>
 
+
                       <p className="mt-2 text-[18px] font-semibold tracking-[-0.03em] text-[#212429]">
                         {editFailureMode.trim() ||
                           "Informe a falha"}
                       </p>
 
-                      <p className="mt-3 text-[11px] leading-5 text-[#8A9096]">
-                        Use uma nomenclatura curta e padronizada, como
-                        “Falha de rolamento”, “Falha de sensor” ou
-                        “Falha de válvula”.
-                      </p>
-
                     </div>
+
 
                     <div className="mt-5">
 
                       <label className="text-[11px] font-medium text-[#777C82]">
                         Observação da classificação
                       </label>
+
 
                       <textarea
                         value={
@@ -1716,8 +2459,7 @@ export function HistoryPage({
                           event,
                         ) =>
                           setEditExplanation(
-                            event
-                              .target
+                            event.target
                               .value,
                           )
                         }
@@ -1728,13 +2470,17 @@ export function HistoryPage({
 
                     </div>
 
+
                     {editError && (
                       <div className="mt-5 rounded-[14px] border border-[#F1D6D9] bg-[#FFF8F8] px-4 py-3">
+
                         <p className="text-[12px] text-[#C92A32]">
                           {editError}
                         </p>
+
                       </div>
                     )}
+
 
                     <div className="mt-7 flex justify-end gap-3 border-t border-[#ECEDEF] pt-5">
 
@@ -1748,14 +2494,16 @@ export function HistoryPage({
                             false,
                           );
 
+
                           setEditError(
                             "",
                           );
                         }}
-                        className="rounded-full border border-[#E1E4E7] px-5 py-2.5 text-[12px] font-medium text-[#70757B] transition-colors hover:bg-[#F8F8F8]"
+                        className="rounded-full border border-[#E1E4E7] px-5 py-2.5 text-[12px] font-medium text-[#70757B] transition-colors hover:bg-[#F8F8F8] disabled:opacity-50"
                       >
                         Cancelar
                       </button>
+
 
                       <button
                         type="button"

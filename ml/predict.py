@@ -3,9 +3,13 @@ from __future__ import annotations
 import argparse
 import re
 import unicodedata
+from functools import lru_cache
 from pathlib import Path
+from typing import Any, Mapping
 
 import joblib
+
+from ml.hybrid_classifier import classify_event
 
 
 # ============================================================
@@ -34,6 +38,13 @@ MODEL_PATH = (
 def normalize(
     value: str,
 ) -> str:
+    """
+    Normalização usada pelo modelo ML v0.
+
+    IMPORTANTE:
+    esta função deve permanecer compatível com o tratamento
+    usado durante o treinamento do modelo.
+    """
 
     text = (
         value
@@ -75,37 +86,35 @@ def normalize(
 
 def build_text(
     observation: str,
-
     equipment: str = "",
-
     stop_key_1: str = "",
-
     stop_subkey: str = "",
-
     stop_type: str = "",
 ) -> str:
+    """
+    Constrói exatamente o texto que será entregue ao pipeline ML.
+
+    Os prefixos ajudam o modelo a diferenciar a origem de cada
+    informação.
+    """
 
     fields = [
         (
             "obs",
             observation,
         ),
-
         (
             "eq",
             equipment,
         ),
-
         (
             "k1",
             stop_key_1,
         ),
-
         (
             "sk",
             stop_subkey,
         ),
-
         (
             "st",
             stop_type,
@@ -115,11 +124,8 @@ def build_text(
     parts: list[str] = []
 
     for prefix, value in fields:
-
-        normalized = (
-            normalize(
-                value
-            )
+        normalized = normalize(
+            value
         )
 
         if normalized:
@@ -134,14 +140,18 @@ def build_text(
 
 
 # ============================================================
-# PREDICT
+# CARREGAMENTO DO MODELO
 # ============================================================
 
-def predict(
-    observation: str,
+@lru_cache(
+    maxsize=1,
+)
+def load_model_package() -> dict[str, Any]:
+    """
+    Carrega o modelo apenas uma vez por processo.
 
-    equipment: str = "",
-) -> None:
+    Isso evita executar joblib.load() em toda classificação.
+    """
 
     if not MODEL_PATH.exists():
         raise FileNotFoundError(
@@ -151,10 +161,78 @@ def predict(
             ".\\ml\\training\\train.py"
         )
 
-    package = (
-        joblib.load(
-            MODEL_PATH
+    package = joblib.load(
+        MODEL_PATH
+    )
+
+    if (
+        "model"
+        not in package
+    ):
+        raise ValueError(
+            "O arquivo do modelo não possui a chave 'model'."
         )
+
+    if (
+        "failure_mode_labels"
+        not in package
+    ):
+        raise ValueError(
+            "O arquivo do modelo não possui "
+            "a chave 'failure_mode_labels'."
+        )
+
+    return package
+
+
+# ============================================================
+# AUXILIARES
+# ============================================================
+
+def first_text(
+    event: Mapping[str, Any],
+    *keys: str,
+) -> str:
+    """
+    Busca a primeira representação textual válida dentre
+    diferentes nomes possíveis do mesmo campo.
+    """
+
+    for key in keys:
+        value = event.get(
+            key
+        )
+
+        if value is None:
+            continue
+
+        text = str(
+            value
+        ).strip()
+
+        if text:
+            return text
+
+    return ""
+
+
+# ============================================================
+# MODELO ML PURO
+# ============================================================
+
+def predict_with_current_model(
+    event: Mapping[str, Any],
+) -> dict[str, Any]:
+    """
+    Executa SOMENTE o modelo ML v0.
+
+    Esta função é usada como fallback pelo classificador híbrido.
+
+    Não aplica regras semânticas.
+    """
+
+    package = (
+        load_model_package()
     )
 
     model = (
@@ -167,14 +245,55 @@ def predict(
         ]
     )
 
-    text = (
-        build_text(
-            observation=
-                observation,
+    observation = first_text(
+        event,
+        "observation",
+        "occurrence",
+        "ocorrencia",
+        "description",
+        "descricao",
+    )
 
-            equipment=
-                equipment,
+    equipment = first_text(
+        event,
+        "equipment",
+        "source_equipment_name",
+        "equipment_name",
+        "equipamento",
+    )
+
+    stop_key_1 = first_text(
+        event,
+        "stop_key_1",
+        "source_stop_key_1",
+        "chave_1",
+    )
+
+    stop_subkey = first_text(
+        event,
+        "stop_subkey",
+        "source_stop_subkey",
+        "subchave",
+    )
+
+    stop_type = first_text(
+        event,
+        "stop_type",
+        "source_stop_type",
+        "tipo_parada",
+    )
+
+    if not observation:
+        raise ValueError(
+            "Informe uma ocorrência para realizar a classificação."
         )
+
+    text = build_text(
+        observation=observation,
+        equipment=equipment,
+        stop_key_1=stop_key_1,
+        stop_subkey=stop_subkey,
+        stop_type=stop_type,
     )
 
     prediction = (
@@ -211,16 +330,153 @@ def predict(
         reverse=True,
     )
 
-    confidence = (
-        float(
-            ranked[0][1]
-        )
+    confidence = float(
+        ranked[0][1]
     )
 
     failure_mode = (
         labels[
             prediction
         ]
+    )
+
+    top_predictions: list[
+        dict[str, Any]
+    ] = []
+
+    for (
+        component,
+        probability,
+    ) in ranked[:5]:
+        top_predictions.append(
+            {
+                "failed_component_code":
+                    str(
+                        component
+                    ),
+
+                "failure_mode":
+                    str(
+                        labels[
+                            component
+                        ]
+                    ),
+
+                "confidence":
+                    float(
+                        probability
+                    ),
+            }
+        )
+
+    return {
+        "failed_component_code":
+            str(
+                prediction
+            ),
+
+        "failure_mode":
+            str(
+                failure_mode
+            ),
+
+        "confidence":
+            confidence,
+
+        "top_predictions":
+            top_predictions,
+
+        "decision_source":
+            "ML",
+    }
+
+
+# ============================================================
+# CLASSIFICADOR HÍBRIDO
+# ============================================================
+
+def predict_event(
+    observation: str,
+    equipment: str = "",
+    stop_key_1: str = "",
+    stop_subkey: str = "",
+    stop_type: str = "",
+    line: str = "",
+) -> dict[str, Any]:
+    """
+    Classificação oficial do pipeline.
+
+    Primeiro tenta uma regra semântica inequívoca.
+    Caso nenhuma regra seja aplicável, utiliza o modelo ML v0.
+    """
+
+    event = {
+        "observation":
+            observation,
+
+        "equipment":
+            equipment,
+
+        "stop_key_1":
+            stop_key_1,
+
+        "stop_subkey":
+            stop_subkey,
+
+        "stop_type":
+            stop_type,
+
+        "line":
+            line,
+    }
+
+    return classify_event(
+        event=event,
+        ml_predictor=
+            predict_with_current_model,
+    )
+
+
+# ============================================================
+# SAÍDA DE CONSOLE
+# ============================================================
+
+def print_prediction(
+    result: Mapping[str, Any],
+    observation: str,
+    equipment: str = "",
+) -> None:
+    """
+    Exibição utilizada somente pelo CLI de desenvolvimento.
+    """
+
+    failure_mode = str(
+        result.get(
+            "failure_mode",
+            "Não classificado",
+        )
+    )
+
+    failed_component_code = str(
+        result.get(
+            "failed_component_code",
+            "-",
+        )
+    )
+
+    confidence = float(
+        result.get(
+            "confidence",
+            0,
+        )
+        or 0
+    )
+
+    decision_source = str(
+        result.get(
+            "decision_source",
+            "ML",
+        )
     )
 
     print()
@@ -230,7 +486,7 @@ def predict(
     )
 
     print(
-        "MODELO ML - PREDIÇÃO"
+        "EASY MAINTENANCE - CLASSIFICAÇÃO"
     )
 
     print(
@@ -238,7 +494,7 @@ def predict(
     )
 
     print(
-        f"Ocorrência:"
+        "Ocorrência:"
     )
 
     print(
@@ -269,9 +525,14 @@ def predict(
     print()
 
     print(
-        f"Classe interna: "
-        f"{prediction}"
+        "Componente:"
     )
+
+    print(
+        failed_component_code
+    )
+
+    print()
 
     print(
         f"Confiança: "
@@ -280,35 +541,89 @@ def predict(
 
     print()
 
-    print(
-        "Top 5:"
-    )
-
-    for (
-        component,
-        probability,
-    ) in ranked[:5]:
-
-        component_label = (
-            labels[
-                component
-            ]
+    if (
+        decision_source
+        == "RULE"
+    ):
+        print(
+            "Decisão:"
         )
 
         print(
-            f"  "
-            f"{component_label:<32} "
-            f"{probability * 100:>6.2f}%"
+            "Regra semântica de alta confiança"
         )
+
+        rule_id = (
+            result.get(
+                "rule_id"
+            )
+        )
+
+        if rule_id:
+            print(
+                f"Regra: "
+                f"{rule_id}"
+            )
+
+    else:
+        print(
+            "Decisão:"
+        )
+
+        print(
+            "Modelo ML"
+        )
+
+        top_predictions = (
+            result.get(
+                "top_predictions"
+            )
+        )
+
+        if isinstance(
+            top_predictions,
+            list,
+        ):
+            print()
+
+            print(
+                "Top 5:"
+            )
+
+            for item in (
+                top_predictions[:5]
+            ):
+                if not isinstance(
+                    item,
+                    Mapping,
+                ):
+                    continue
+
+                label = str(
+                    item.get(
+                        "failure_mode",
+                        "-",
+                    )
+                )
+
+                probability = float(
+                    item.get(
+                        "confidence",
+                        0,
+                    )
+                    or 0
+                )
+
+                print(
+                    f"  "
+                    f"{label:<38} "
+                    f"{probability * 100:>6.2f}%"
+                )
 
     print()
 
     print(
-        "Status: sugestão do Modelo ML."
-    )
-
-    print(
-        "Revisão humana obrigatória."
+        "Status: classificação automática."
     )
 
     print(
@@ -317,23 +632,101 @@ def predict(
 
 
 # ============================================================
+# FUNÇÃO COMPATÍVEL COM O CLI ANTIGO
+# ============================================================
+
+def predict(
+    observation: str,
+    equipment: str = "",
+    stop_key_1: str = "",
+    stop_subkey: str = "",
+    stop_type: str = "",
+    line: str = "",
+) -> dict[str, Any]:
+    """
+    Mantém uma função `predict()` pública como existia anteriormente.
+
+    Agora ela utiliza o pipeline híbrido.
+    """
+
+    result = predict_event(
+        observation=observation,
+        equipment=equipment,
+        stop_key_1=stop_key_1,
+        stop_subkey=stop_subkey,
+        stop_type=stop_type,
+        line=line,
+    )
+
+    print_prediction(
+        result=result,
+        observation=observation,
+        equipment=equipment,
+    )
+
+    return result
+
+
+# ============================================================
 # CLI
 # ============================================================
 
 def main() -> None:
-
     parser = (
-        argparse.ArgumentParser()
+        argparse.ArgumentParser(
+            description=(
+                "Classificador de modos de falha "
+                "do Easy Maintenance."
+            )
+        )
     )
 
     parser.add_argument(
         "observation",
         nargs="?",
+        help=(
+            "Descrição da ocorrência."
+        ),
     )
 
     parser.add_argument(
         "--equipment",
         default="",
+        help=(
+            "Nome do equipamento."
+        ),
+    )
+
+    parser.add_argument(
+        "--stop-key-1",
+        default="",
+        help=(
+            "Chave 1 da parada."
+        ),
+    )
+
+    parser.add_argument(
+        "--stop-subkey",
+        default="",
+        help=(
+            "Subchave da parada."
+        ),
+    )
+
+    parser.add_argument(
+        "--stop-type",
+        default="",
+        help=(
+            "Tipo de parada."
+        ),
+    )
+
+    parser.add_argument(
+        "--line",
+        default="",
+        help=(
+            "Linha de produção."
+        ),
     )
 
     args = (
@@ -360,6 +753,18 @@ def main() -> None:
 
         equipment=
             args.equipment,
+
+        stop_key_1=
+            args.stop_key_1,
+
+        stop_subkey=
+            args.stop_subkey,
+
+        stop_type=
+            args.stop_type,
+
+        line=
+            args.line,
     )
 
 

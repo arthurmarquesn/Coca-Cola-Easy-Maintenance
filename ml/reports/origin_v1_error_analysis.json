@@ -1,0 +1,561 @@
+{
+  "dataset": {
+    "test_rows": 480,
+    "test_scenarios": 6,
+    "train_rows": 1760,
+    "train_scenarios": 22
+  },
+  "test_scenarios": [
+    {
+      "scenario_id": "BOCAL_O_01",
+      "real_origin": "OPERACAO",
+      "majority_prediction": "MANUTENCAO",
+      "prediction_counts": {
+        "MANUTENCAO": 43,
+        "OPERACAO": 37
+      },
+      "accuracy": 0.4625,
+      "mean_confidence": 0.586752,
+      "component": "BOCAL",
+      "failure_mode": "Falha de bocal",
+      "top_context_terms": [
+        "bocal",
+        "enchimento",
+        "ajuste",
+        "falha",
+        "altura",
+        "producao",
+        "inadequada",
+        "provocou",
+        "contato",
+        "embalagem",
+        "configurado",
+        "errada",
+        "formato",
+        "parada",
+        "regulagem"
+      ],
+      "terms_seen_in_opposite_class_train": [
+        "bocal",
+        "enchimento",
+        "falha",
+        "producao",
+        "provocou",
+        "parada",
+        "causando",
+        "verificado",
+        "ciclo",
+        "maquina",
+        "parou",
+        "identificado"
+      ],
+      "nearest_train_scenarios": [
+        {
+          "scenario_id": "CILINDRO_O_01",
+          "similarity": 0.560976,
+          "origin": "OPERACAO"
+        },
+        {
+          "scenario_id": "GUIA_O_01",
+          "similarity": 0.511628,
+          "origin": "OPERACAO"
+        },
+        {
+          "scenario_id": "CORREIA_O_01",
+          "similarity": 0.477273,
+          "origin": "OPERACAO"
+        }
+      ]
+    },
+    {
+      "scenario_id": "CILINDRO_M_01",
+      "real_origin": "MANUTENCAO",
+      "majority_prediction": "OPERACAO",
+      "prediction_counts": {
+        "OPERACAO": 80
+      },
+      "accuracy": 0.0,
+      "mean_confidence": 0.563781,
+      "component": "CILINDRO",
+      "failure_mode": "Falha de cilindro",
+      "top_context_terms": [
+        "cilindro",
+        "falha",
+        "pneumatica",
+        "pneumatico",
+        "vazamento",
+        "perdeu",
+        "forca",
+        "devido",
+        "desgaste",
+        "vedacao",
+        "producao",
+        "apresentou",
+        "maquina",
+        "parou",
+        "parada"
+      ],
+      "terms_seen_in_opposite_class_train": [
+        "cilindro",
+        "falha",
+        "pneumatica",
+        "producao",
+        "maquina",
+        "parou",
+        "parada",
+        "ocorreu",
+        "movimento",
+        "ciclo",
+        "verificado",
+        "interrupcao"
+      ],
+      "nearest_train_scenarios": [
+        {
+          "scenario_id": "BOCAL_M_01",
+          "similarity": 0.580645,
+          "origin": "MANUTENCAO"
+        },
+        {
+          "scenario_id": "BOMBA_M_01",
+          "similarity": 0.5625,
+          "origin": "MANUTENCAO"
+        },
+        {
+          "scenario_id": "GARRA_M_01",
+          "similarity": 0.558824,
+          "origin": "MANUTENCAO"
+        }
+      ]
+    },
+    {
+      "scenario_id": "CORREIA_M_01",
+      "real_origin": "MANUTENCAO",
+      "majority_prediction": "OPERACAO",
+      "prediction_counts": {
+        "OPERACAO": 80
+      },
+      "accuracy": 0.0,
+      "mean_confidence": 0.70472,
+      "component": "CORREIA",
+      "failure_mode": "Falha de correia",
+      "top_context_terms": [
+        "correia",
+        "transmissao",
+        "falha",
+        "parada",
+        "desgaste",
+        "excessivo",
+        "apresentou",
+        "producao",
+        "desgastada",
+        "provocou",
+        "saiu",
+        "devido",
+        "tensionador",
+        "danificado",
+        "interrupcao"
+      ],
+      "terms_seen_in_opposite_class_train": [
+        "correia",
+        "transmissao",
+        "falha",
+        "parada",
+        "producao",
+        "provocou",
+        "saiu",
+        "interrupcao",
+        "equipamento",
+        "ocorreu",
+        "causando",
+        "identificado"
+      ],
+      "nearest_train_scenarios": [
+        {
+          "scenario_id": "BOCAL_M_01",
+          "similarity": 0.515152,
+          "origin": "MANUTENCAO"
+        },
+        {
+          "scenario_id": "MOTOR_M_01",
+          "similarity": 0.515152,
+          "origin": "MANUTENCAO"
+        },
+        {
+          "scenario_id": "GUIA_M_01",
+          "similarity": 0.514286,
+          "origin": "MANUTENCAO"
+        }
+      ]
+    },
+    {
+      "scenario_id": "SENSOR_M_01",
+      "real_origin": "MANUTENCAO",
+      "majority_prediction": "OPERACAO",
+      "prediction_counts": {
+        "OPERACAO": 80
+      },
+      "accuracy": 0.0,
+      "mean_confidence": 0.727521,
+      "component": "SENSOR",
+      "failure_mode": "Falha de sensor",
+      "top_context_terms": [
+        "sensor",
+        "sinal",
+        "sem",
+        "falha",
+        "devido",
+        "cabo",
+        "leitura",
+        "detecta",
+        "defeito",
+        "eletrico",
+        "parada",
+        "perdeu",
+        "danificado",
+        "producao",
+        "rompido"
+      ],
+      "terms_seen_in_opposite_class_train": [
+        "sensor",
+        "sem",
+        "falha",
+        "leitura",
+        "parada",
+        "producao",
+        "identificado",
+        "maquina",
+        "parou",
+        "ocorreu",
+        "causando",
+        "ciclo"
+      ],
+      "nearest_train_scenarios": [
+        {
+          "scenario_id": "SERVO_M_01",
+          "similarity": 0.558824,
+          "origin": "MANUTENCAO"
+        },
+        {
+          "scenario_id": "BOMBA_M_01",
+          "similarity": 0.485714,
+          "origin": "MANUTENCAO"
+        },
+        {
+          "scenario_id": "INVERSOR_M_01",
+          "similarity": 0.485714,
+          "origin": "MANUTENCAO"
+        }
+      ]
+    },
+    {
+      "scenario_id": "SERVO_O_01",
+      "real_origin": "OPERACAO",
+      "majority_prediction": "OPERACAO",
+      "prediction_counts": {
+        "OPERACAO": 80
+      },
+      "accuracy": 1.0,
+      "mean_confidence": 0.799557,
+      "component": "SERVO",
+      "failure_mode": "Falha de servo",
+      "top_context_terms": [
+        "servo",
+        "parametro",
+        "acionamento",
+        "falha",
+        "posicao",
+        "incorreto",
+        "receita",
+        "deixou",
+        "referencia",
+        "fora",
+        "ponto",
+        "parada",
+        "configurada",
+        "incorretamente",
+        "setup"
+      ],
+      "terms_seen_in_opposite_class_train": [
+        "servo",
+        "acionamento",
+        "falha",
+        "parada",
+        "producao",
+        "movimento",
+        "interrupcao",
+        "equipamento",
+        "identificado",
+        "causando",
+        "ocorreu",
+        "maquina"
+      ],
+      "nearest_train_scenarios": [
+        {
+          "scenario_id": "INVERSOR_O_01",
+          "similarity": 0.657143,
+          "origin": "OPERACAO"
+        },
+        {
+          "scenario_id": "DOSADOR_O_01",
+          "similarity": 0.552632,
+          "origin": "OPERACAO"
+        },
+        {
+          "scenario_id": "REJEITOR_O_01",
+          "similarity": 0.540541,
+          "origin": "OPERACAO"
+        }
+      ]
+    },
+    {
+      "scenario_id": "VALVULA_O_01",
+      "real_origin": "OPERACAO",
+      "majority_prediction": "OPERACAO",
+      "prediction_counts": {
+        "OPERACAO": 45,
+        "MANUTENCAO": 35
+      },
+      "accuracy": 0.5625,
+      "mean_confidence": 0.634567,
+      "component": "VALVULA",
+      "failure_mode": "Falha de válvula",
+      "top_context_terms": [
+        "valvula",
+        "ajuste",
+        "falha",
+        "incorreta",
+        "deixou",
+        "fora",
+        "maquina",
+        "ponto",
+        "regulagem",
+        "producao",
+        "parametro",
+        "configurado",
+        "incorretamente",
+        "alterou",
+        "atuacao"
+      ],
+      "terms_seen_in_opposite_class_train": [
+        "valvula",
+        "falha",
+        "maquina",
+        "producao",
+        "parada",
+        "parou",
+        "identificado",
+        "interrupcao",
+        "equipamento",
+        "verificado",
+        "causando",
+        "ocorreu"
+      ],
+      "nearest_train_scenarios": [
+        {
+          "scenario_id": "GUIA_O_01",
+          "similarity": 0.512195,
+          "origin": "OPERACAO"
+        },
+        {
+          "scenario_id": "DOSADOR_O_01",
+          "similarity": 0.5,
+          "origin": "OPERACAO"
+        },
+        {
+          "scenario_id": "INVERSOR_O_01",
+          "similarity": 0.475,
+          "origin": "OPERACAO"
+        }
+      ]
+    }
+  ],
+  "shortcut_checks": {
+    "equipment": {
+      "known_test_coverage": 1.0,
+      "majority_train_accuracy_on_known_test": 0.166667,
+      "train_value_label_dominance": {
+        "ALIMENTADOR": 0.5,
+        "DOSADOR": 1.0,
+        "EMPACOTADORA": 1.0,
+        "ENCHEDORA": 0.75,
+        "INSPETORA": 0.5,
+        "PALETIZADOR": 1.0,
+        "ROTULADORA": 0.666667,
+        "SISTEMA DE PROCESSO": 0.5,
+        "TRANSPORTADOR": 0.666667
+      }
+    },
+    "stop_key_1": {
+      "known_test_coverage": 1.0,
+      "majority_train_accuracy_on_known_test": 0.0,
+      "train_value_label_dominance": {
+        "ACIONAMENTO": 0.6,
+        "ALIMENTACAO": 0.5,
+        "BOMBEAMENTO": 0.5,
+        "DOSAGEM": 1.0,
+        "ENCHIMENTO": 1.0,
+        "GUIA": 0.5,
+        "MANIPULACAO": 1.0,
+        "PNEUMATICA": 1.0,
+        "REJEICAO": 0.5,
+        "SENSOR": 1.0,
+        "TRANSFERENCIA": 1.0,
+        "TRANSMISSAO": 1.0,
+        "TRANSPORTE": 1.0,
+        "VALVULA": 1.0
+      }
+    },
+    "stop_subkey": {
+      "known_test_coverage": 0.5,
+      "majority_train_accuracy_on_known_test": 1.0,
+      "train_value_label_dominance": {
+        "ACUMULO": 1.0,
+        "AJUSTE": 1.0,
+        "BOCAL": 1.0,
+        "DEFEITO": 1.0,
+        "DESGASTE": 1.0,
+        "ESTRELA": 1.0,
+        "FLUXO": 1.0,
+        "GARRA": 1.0,
+        "INVERSOR": 1.0,
+        "MOTOR": 1.0,
+        "PARAMETRO": 1.0,
+        "POSICIONAMENTO": 1.0,
+        "PROCESSO": 1.0,
+        "REGULAGEM": 1.0,
+        "SERVO": 1.0,
+        "SOBRECARGA": 1.0,
+        "VAZAMENTO": 1.0
+      }
+    },
+    "failed_component_code": {
+      "known_test_coverage": 1.0,
+      "majority_train_accuracy_on_known_test": 0.0,
+      "train_value_label_dominance": {
+        "ALIMENTADOR": 0.5,
+        "BOCAL": 1.0,
+        "BOMBA": 0.5,
+        "CILINDRO": 1.0,
+        "CORREIA": 1.0,
+        "DOSADOR": 1.0,
+        "ESTRELA": 1.0,
+        "GARRA": 1.0,
+        "GUIA": 0.5,
+        "INVERSOR": 0.5,
+        "MOTOR": 0.5,
+        "REJEITOR": 0.5,
+        "SENSOR": 1.0,
+        "SERVO": 1.0,
+        "TRANSPORTADOR": 1.0,
+        "VALVULA": 1.0
+      }
+    },
+    "failure_mode": {
+      "known_test_coverage": 1.0,
+      "majority_train_accuracy_on_known_test": 0.0,
+      "train_value_label_dominance": {
+        "Falha de alimentador": 0.5,
+        "Falha de bocal": 1.0,
+        "Falha de bomba": 0.5,
+        "Falha de cilindro": 1.0,
+        "Falha de correia": 1.0,
+        "Falha de dosador": 1.0,
+        "Falha de estrela": 1.0,
+        "Falha de garra": 1.0,
+        "Falha de guia": 0.5,
+        "Falha de inversor": 0.5,
+        "Falha de motor": 0.5,
+        "Falha de rejeitor": 0.5,
+        "Falha de sensor": 1.0,
+        "Falha de servo": 1.0,
+        "Falha de transportador": 1.0,
+        "Falha de válvula": 1.0
+      }
+    }
+  },
+  "causal_terms_absent_from_same_class_train": {
+    "MANUTENCAO": [
+      "cilindro",
+      "correia",
+      "sensor",
+      "sinal",
+      "sem",
+      "pneumatica",
+      "transmissao",
+      "cabo",
+      "leitura",
+      "detecta",
+      "pneumatico",
+      "forca",
+      "desgastada",
+      "rompido",
+      "saiu",
+      "tensionador",
+      "rompeu"
+    ],
+    "OPERACAO": [
+      "bocal",
+      "servo",
+      "enchimento",
+      "ponto",
+      "altura",
+      "contato",
+      "errada",
+      "atuacao",
+      "abertura",
+      "troca",
+      "ajustada"
+    ]
+  },
+  "semantic_conflicts_terms_shared_between_classes": [
+    "falha",
+    "acionamento",
+    "parada",
+    "producao",
+    "guia",
+    "motor",
+    "bomba",
+    "inversor",
+    "parou",
+    "alimentador",
+    "alimentacao",
+    "valvula",
+    "causando",
+    "provocou",
+    "verificado",
+    "ocorreu",
+    "rejeitor",
+    "rejeicao",
+    "maquina",
+    "equipamento",
+    "interrupcao",
+    "ciclo",
+    "identificado",
+    "produto",
+    "bombeamento",
+    "dur",
+    "travamento",
+    "garrafas",
+    "desalinhamento",
+    "movimento"
+  ],
+  "inferred_causal_gap_analysis": {
+    "note": "A V1 não possui causal_family; as famílias abaixo são inferidas das observações e devem ser tratadas como diagnóstico qualitativo.",
+    "maintenance_test_gaps": [
+      "SIGNAL_FAILURE / cabo danificado no SENSOR aparece apenas no holdout avaliado.",
+      "PNEUMATIC_FAILURE e SEAL_FAILURE do CILINDRO não transferiram de outros componentes.",
+      "MECHANICAL_WEAR, RUPTURE e falha do tensionador da CORREIA não transferiram do treino."
+    ],
+    "operation_transfer_gaps": [
+      "BAD_ADJUSTMENT e BAD_SETUP existiam em outros componentes, mas não generalizaram para BOCAL.",
+      "BAD_ADJUSTMENT, WRONG_PARAMETER e FORMAT_CHANGE_ERROR transferiram apenas parcialmente para VALVULA.",
+      "WRONG_PARAMETER / WRONG_REFERENCE transferiram bem para SERVO, o único cenário perfeito."
+    ]
+  },
+  "semantic_conflict_analysis": [
+    "Sintomas como fora de posição, sem atuação, sobrecarga e travamento podem pertencer às duas classes; a causa precisa estar explícita.",
+    "Tokens genéricos como falha, parada, produção e o nome do componente aparecem nas duas classes e diluem a evidência causal.",
+    "Cada failure_mode é essencialmente o nome do componente; no teste, o baseline por componente/failure_mode aprendido no treino acerta 0% dos casos conhecidos."
+  ],
+  "conclusion": "A V1 tem poucas unidades causais independentes. O holdout por scenario expõe forte dependência de contexto/componente: três cenários de MANUTENCAO têm accuracy zero. Campos estruturados repetidos e termos compartilhados entre classes podem superar a evidência causal da observação. A V2 deve cruzar cada família por vários componentes, balancear metadados e incluir pares mínimos com o mesmo sintoma e causas opostas."
+}
