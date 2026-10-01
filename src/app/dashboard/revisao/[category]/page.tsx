@@ -80,8 +80,8 @@ export default async function CategoryReviewPageRoute({
       categorySlug={category}
       categoryLabel={getCategoryLabel(category)}
       initialFilters={{
-        lineId: firstValue(resolvedSearchParams.lineId) ?? "",
-        equipmentId: firstValue(resolvedSearchParams.equipmentId) ?? "",
+        line: firstValue(resolvedSearchParams.line) ?? "",
+        equipment: firstValue(resolvedSearchParams.equipment) ?? "",
         shift: firstValue(resolvedSearchParams.shift) ?? "",
         dateFrom: firstValue(resolvedSearchParams.dateFrom) ?? "",
         dateTo: firstValue(resolvedSearchParams.dateTo) ?? "",

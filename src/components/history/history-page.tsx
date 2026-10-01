@@ -1,8 +1,7 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
-import { ThemeSwitcher } from "@/components/theme/theme-switcher";
+import { AppHeader } from "@/components/layout/app-header";
 
 import {
   ArrowLeft,
@@ -876,41 +875,7 @@ export function HistoryPage({
           HEADER
       ==================================================== */}
 
-      <header className="border-b border-border-theme bg-surface transition-colors">
-
-        <div className="mx-auto flex h-[78px] w-full max-w-[1380px] items-center justify-between px-6 sm:px-8 lg:px-12">
-
-          <Link
-            href="/dashboard"
-          >
-            <Image
-              src="/logo.webp"
-              alt="Coca-Cola FEMSA"
-              width={180}
-              height={70}
-              priority
-              className="h-auto max-h-[52px] w-auto max-w-[140px] object-contain"
-            />
-          </Link>
-
-          <div className="flex items-center gap-5">
-            <ThemeSwitcher />
-            <div className="hidden text-right sm:block">
-
-            <p className="text-[13px] font-medium text-text-primary">
-              {user.name}
-            </p>
-
-            {unit.city && (
-              <p className="mt-4 text-[14px] leading-6 text-text-body">
-                {unit.city}
-              </p>
-            )}
-
-          </div>
-          </div>
-        </div>
-      </header>
+      <AppHeader userName={user.name} city={unit.city} />
 
       {/* ===================================================
           CONTEÚDO
@@ -920,7 +885,7 @@ export function HistoryPage({
 
         <Link
           href="/dashboard"
-          className="inline-flex items-center gap-2 text-[12px] font-medium text-[#81868C] transition-colors hover:text-[#282B2F]"
+          className="inline-flex items-center gap-2 rounded-[10px] border border-[#F40009] bg-[#F40009] px-3.5 py-2 text-[12px] font-semibold text-white transition-colors hover:border-[#B90007] hover:bg-[#B90007]"
         >
           <ArrowLeft
             size={15}

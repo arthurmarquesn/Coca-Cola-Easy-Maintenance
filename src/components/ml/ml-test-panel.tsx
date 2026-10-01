@@ -6,12 +6,9 @@ import {
   useState,
 } from "react";
 
-import Link from "next/link";
-import { ThemeSwitcher } from "@/components/theme/theme-switcher";
+import { AppHeader } from "@/components/layout/app-header";
 
 import {
-  Activity,
-  ArrowLeft,
   CheckCircle2,
   Cpu,
   Database,
@@ -327,39 +324,7 @@ export function MlTestPanel() {
 
   return (
     <main className="min-h-screen bg-[#f7f7f7]">
-      <header className="border-b border-black/5 bg-background-primary transition-colors">
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-5 lg:px-8">
-          <div className="flex items-center gap-5">
-            <Link
-              href="/dashboard"
-              className="flex h-10 w-10 items-center justify-center rounded-2xl border border-black/10 text-neutral-600 transition hover:bg-neutral-50 hover:text-neutral-950"
-              aria-label="Voltar"
-            >
-              <ArrowLeft
-                size={18}
-              />
-            </Link>
-
-            <img
-              src="/logo.webp"
-              alt="Coca-Cola FEMSA"
-              className="h-9 w-auto object-contain"
-            />
-          </div>
-
-          <div className="flex items-center gap-3 text-sm text-neutral-500">
-            <Activity
-              size={17}
-            />
-
-            {health.loading
-              ? "Verificando Modelo ML"
-              : health.available
-                ? "Modelo ML disponível"
-                : "Modelo ML indisponível"}
-          </div>
-        </div>
-      </header>
+      <AppHeader />
 
       <div className="mx-auto max-w-7xl px-6 py-10 lg:px-8">
         <div className="mb-10">

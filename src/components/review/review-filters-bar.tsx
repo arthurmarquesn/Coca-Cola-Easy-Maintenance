@@ -112,15 +112,15 @@ export function ReviewFiltersBar({
             <label className={labelClassName}>Linha</label>
 
             <select
-              value={filters.lineId}
-              onChange={(event) => patch({ lineId: event.target.value })}
+              value={filters.line}
+              onChange={(event) => patch({ line: event.target.value })}
               className={selectClassName}
             >
               <option value="">Todas</option>
 
               {options.lines.map((line) => (
-                <option key={line.id} value={String(line.id)}>
-                  {line.name}
+                <option key={line} value={line}>
+                  {line}
                 </option>
               ))}
             </select>
@@ -130,15 +130,15 @@ export function ReviewFiltersBar({
             <label className={labelClassName}>Equipamento</label>
 
             <select
-              value={filters.equipmentId}
-              onChange={(event) => patch({ equipmentId: event.target.value })}
+              value={filters.equipment}
+              onChange={(event) => patch({ equipment: event.target.value })}
               className={selectClassName}
             >
               <option value="">Todos</option>
 
               {options.equipments.map((equipment) => (
-                <option key={equipment.id} value={String(equipment.id)}>
-                  {equipment.name}
+                <option key={equipment} value={equipment}>
+                  {equipment}
                 </option>
               ))}
             </select>

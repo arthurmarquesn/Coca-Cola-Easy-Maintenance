@@ -197,14 +197,7 @@ export default function DashboardPage() {
       {/* Conteúdo do dashboard */}
 
       <div className="dashboard-content flex min-h-screen flex-col">
-        <DashboardHeader
-          title="COCA-COLA · Confiabilidade"
-          summary={
-            dataset
-              ? `${dataset.totalRecordsLabel} · ${dataset.totalUnitsLabel}`
-              : ""
-          }
-        />
+        <DashboardHeader />
 
         <div className="mx-auto flex w-full max-w-[1600px] flex-1 flex-col gap-6 px-4 py-6 lg:flex-row lg:px-8">
           <aside className="w-full shrink-0 lg:w-[280px]">

@@ -4,8 +4,8 @@
 ========================================================= */
 
 export interface ReviewFiltersState {
-  lineId: string;
-  equipmentId: string;
+  line: string;
+  equipment: string;
   shift: string;
   status: string;
   dateFrom: string;
@@ -16,8 +16,8 @@ export interface ReviewFiltersState {
 }
 
 export const DEFAULT_REVIEW_FILTERS: ReviewFiltersState = {
-  lineId: "",
-  equipmentId: "",
+  line: "",
+  equipment: "",
   shift: "",
   status: "",
   dateFrom: "",
@@ -27,14 +27,9 @@ export const DEFAULT_REVIEW_FILTERS: ReviewFiltersState = {
   search: "",
 };
 
-export interface FilterOption {
-  id: number;
-  name: string;
-}
-
 export interface ReviewFilterOptions {
-  lines: FilterOption[];
-  equipments: FilterOption[];
+  lines: string[];
+  equipments: string[];
   shifts: string[];
 }
 
@@ -110,8 +105,8 @@ export function buildFilterSearchParams(
 ): URLSearchParams {
   const params = new URLSearchParams();
 
-  if (filters.lineId) params.set("lineId", filters.lineId);
-  if (filters.equipmentId) params.set("equipmentId", filters.equipmentId);
+  if (filters.line) params.set("line", filters.line);
+  if (filters.equipment) params.set("equipment", filters.equipment);
   if (filters.shift) params.set("shift", filters.shift);
   if (filters.status) params.set("status", filters.status);
   if (filters.dateFrom) params.set("dateFrom", filters.dateFrom);
@@ -142,8 +137,8 @@ export function countActiveFilters(
 ): number {
   let count = 0;
 
-  if (filters.lineId) count += 1;
-  if (filters.equipmentId) count += 1;
+  if (filters.line) count += 1;
+  if (filters.equipment) count += 1;
   if (filters.shift) count += 1;
   if (filters.status) count += 1;
   if (filters.dateFrom) count += 1;

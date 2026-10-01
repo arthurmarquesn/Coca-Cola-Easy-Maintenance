@@ -1,8 +1,7 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
-import { ThemeSwitcher } from "@/components/theme/theme-switcher";
+import { AppHeader } from "@/components/layout/app-header";
 
 import {
   ArrowLeft,
@@ -327,49 +326,18 @@ export function UsersPage({
 
   return (
     <main className="min-h-screen bg-background-secondary transition-colors">
-      <header className="border-b border-black/[0.05] bg-background-primary transition-colors">
-        <div className="mx-auto flex h-[76px] w-full max-w-[1280px] items-center justify-between px-6 sm:px-8 lg:px-10">
-          <Image
-            src="/logo.webp"
-            alt="Coca-Cola FEMSA"
-            width={180}
-            height={64}
-            priority
-            className="h-auto max-h-[42px] w-auto object-contain"
-          />
-
-          <div className="flex items-center gap-5">
-            <div className="flex items-center gap-5">
-            <ThemeSwitcher />
-            <div className="hidden text-right sm:block">
-              <p className="text-[13px] font-medium text-text-title">
-                {user.name}
-              </p>
-
-              <p className="mt-0.5 text-[11px] text-text-body">
-                {unit.city}
-              </p>
-            </div>
-
-            <div className="h-8 w-px bg-black/[0.07]" />
-
-            <Link
-              href="/dashboard"
-              className="flex items-center gap-2 text-[12px] font-medium text-text-body transition-colors hover:text-[#E41E2B]"
-            >
-              <ArrowLeft
-                size={16}
-                strokeWidth={1.8}
-              />
-
-              <span>Voltar</span>
-            </Link>
-          </div>
-          </div>
-        </div>
-      </header>
+      <AppHeader userName={user.name} city={unit.city} />
 
       <div className="mx-auto w-full max-w-[1280px] px-6 pb-20 pt-12 sm:px-8 lg:px-10">
+        <Link
+          href="/dashboard"
+          className="mb-8 inline-flex items-center gap-2 rounded-[10px] border border-[#F40009] bg-[#F40009] px-3.5 py-2 text-[12px] font-semibold text-white transition-colors hover:border-[#B90007] hover:bg-[#B90007]"
+        >
+          <ArrowLeft size={15} />
+
+          Voltar
+        </Link>
+
         <h1 className="text-[38px] font-semibold leading-[1.04] tracking-[-0.045em] text-text-title sm:text-[46px]">
           Usuários
         </h1>

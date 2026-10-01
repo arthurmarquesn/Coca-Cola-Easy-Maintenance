@@ -64,25 +64,22 @@ export function parseReviewFilters(
     values.push(status);
   }
 
-  const lineId = Number(
-    searchParams.get("lineId") ?? "",
-  );
+  const line = (
+    searchParams.get("line") ?? ""
+  ).trim();
 
-  if (Number.isInteger(lineId) && lineId > 0) {
-    whereParts.push("me.production_line_id = ?");
-    values.push(lineId);
+  if (line) {
+    whereParts.push("TRIM(me.source_line_name) = ?");
+    values.push(line);
   }
 
-  const equipmentId = Number(
-    searchParams.get("equipmentId") ?? "",
-  );
+  const equipment = (
+    searchParams.get("equipment") ?? ""
+  ).trim();
 
-  if (
-    Number.isInteger(equipmentId) &&
-    equipmentId > 0
-  ) {
-    whereParts.push("me.equipment_id = ?");
-    values.push(equipmentId);
+  if (equipment) {
+    whereParts.push("TRIM(me.source_equipment_name) = ?");
+    values.push(equipment);
   }
 
   const shift = (

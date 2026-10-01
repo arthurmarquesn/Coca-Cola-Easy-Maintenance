@@ -2,7 +2,6 @@
 
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { ThemeSwitcher } from "@/components/theme/theme-switcher";
 import { FormEvent, useEffect, useState } from "react";
 import { preload } from "react-dom";
 
@@ -178,9 +177,6 @@ export default function LoginPage() {
           ====================================================== */}
 
           <section className="relative flex min-h-screen items-center justify-center bg-background-secondary px-6 py-10 sm:px-10 lg:px-16 xl:px-24 transition-colors">
-            <div className="absolute top-4 right-4 sm:top-8 sm:right-8 z-50">
-              <ThemeSwitcher />
-            </div>
             <div className="absolute left-0 top-0 h-1 w-full bg-[#F40009] lg:hidden" />
 
             <div className="login-form-container w-full max-w-[410px]">

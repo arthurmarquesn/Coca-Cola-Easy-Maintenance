@@ -1,8 +1,7 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
-import { ThemeSwitcher } from "@/components/theme/theme-switcher";
+import { AppHeader } from "@/components/layout/app-header";
 
 import {
   Activity,
@@ -10,13 +9,8 @@ import {
   ClipboardCheck,
   FileSpreadsheet,
   History,
-  LogOut,
   UserPlus,
 } from "lucide-react";
-
-import {
-  useState,
-} from "react";
 
 import type {
   LucideIcon,
@@ -112,109 +106,9 @@ export function DashboardHome({
   const isAdmin =
     user.role === "ADMIN";
 
-  const [
-    loggingOut,
-    setLoggingOut,
-  ] =
-    useState(false);
-
-  async function handleLogout() {
-    if (loggingOut) {
-      return;
-    }
-
-    setLoggingOut(
-      true,
-    );
-
-    try {
-      const response =
-        await fetch(
-          "/api/auth/logout",
-          {
-            method:
-              "POST",
-          },
-        );
-
-      if (
-        !response.ok
-      ) {
-        throw new Error(
-          "Não foi possível encerrar a sessão.",
-        );
-      }
-
-      window.location.href =
-        "/login";
-    } catch (
-      error
-    ) {
-      console.error(
-        "Erro ao sair:",
-        error,
-      );
-
-      setLoggingOut(
-        false,
-      );
-    }
-  }
-
   return (
     <main className="min-h-screen bg-background-primary transition-colors">
-      <header className="border-b border-border-theme bg-surface transition-colors">
-        <div className="mx-auto flex h-[76px] w-full max-w-[1280px] items-center justify-between px-6 sm:px-8 lg:px-10">
-          <Image
-            src="/logo.webp"
-            alt="Coca-Cola FEMSA"
-            width={180}
-            height={64}
-            priority
-            className="h-auto max-h-[42px] w-auto object-contain"
-          />
-
-          <div className="flex items-center gap-5">
-            <div className="hidden text-right sm:block">
-              <p className="text-[13px] font-medium text-text-primary">
-                {user.name}
-              </p>
-
-              <p className="mt-0.5 text-[11px] text-text-body">
-                {unit.city}
-              </p>
-            </div>
-
-            <div className="h-8 w-px bg-border-theme" />
-
-            <ThemeSwitcher />
-
-            <div className="h-8 w-px bg-border-theme hidden sm:block" />
-
-            <button
-              type="button"
-              onClick={() =>
-                void handleLogout()
-              }
-              disabled={
-                loggingOut
-              }
-              className="group flex items-center gap-2 text-[12px] font-medium text-text-secondary transition-colors hover:text-[#E41E2B] disabled:cursor-not-allowed disabled:opacity-40"
-            >
-              <LogOut
-                size={16}
-                strokeWidth={1.8}
-              />
-
-              <span className="hidden sm:inline">
-                {loggingOut
-                  ? "Saindo..."
-                  : "Sair"}
-              </span>
-            </button>
-          </div>
-        </div>
-      </header>
+      <AppHeader userName={user.name} city={unit.city} />
 
       <div className="mx-auto w-full max-w-[1280px] px-6 pb-12 pt-10 sm:px-8 lg:px-10 lg:pt-12">
         <section>

@@ -17,13 +17,38 @@ import {
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
-interface OptionRow extends RowDataPacket {
-  id: number;
-  name: string;
+interface NameRow extends RowDataPacket {
+  name: string | null;
 }
 
 interface ShiftRow extends RowDataPacket {
   shift: string | null;
+}
+
+function distinctNames(
+  column: "source_line_name" | "source_equipment_name",
+  unitId: number,
+) {
+  return executeRows<NameRow[]>(
+    `
+      SELECT DISTINCT
+        TRIM(me.${column}) AS name
+
+      FROM maintenance_events me
+
+      INNER JOIN classification_suggestions cs
+        ON cs.event_id = me.id
+
+      WHERE
+        me.unit_id = ?
+        AND cs.model_type = 'ML'
+        AND me.${column} IS NOT NULL
+        AND TRIM(me.${column}) <> ''
+
+      ORDER BY name ASC
+    `,
+    [unitId],
+  );
 }
 
 export async function GET() {
@@ -38,51 +63,8 @@ export async function GET() {
 
   try {
     const [lines, equipments, shifts] = await Promise.all([
-      executeRows<OptionRow[]>(
-        `
-          SELECT DISTINCT
-            pl.id,
-            pl.name
-
-          FROM production_lines pl
-
-          INNER JOIN maintenance_events me
-            ON me.production_line_id = pl.id
-
-          INNER JOIN classification_suggestions cs
-            ON cs.event_id = me.id
-
-          WHERE
-            me.unit_id = ?
-            AND cs.model_type = 'ML'
-
-          ORDER BY pl.name ASC
-        `,
-        [session.unitId],
-      ),
-
-      executeRows<OptionRow[]>(
-        `
-          SELECT DISTINCT
-            eq.id,
-            eq.name
-
-          FROM equipments eq
-
-          INNER JOIN maintenance_events me
-            ON me.equipment_id = eq.id
-
-          INNER JOIN classification_suggestions cs
-            ON cs.event_id = me.id
-
-          WHERE
-            me.unit_id = ?
-            AND cs.model_type = 'ML'
-
-          ORDER BY eq.name ASC
-        `,
-        [session.unitId],
-      ),
+      distinctNames("source_line_name", session.unitId),
+      distinctNames("source_equipment_name", session.unitId),
 
       executeRows<ShiftRow[]>(
         `
@@ -108,14 +90,12 @@ export async function GET() {
 
     return NextResponse.json({
       success: true,
-      lines: lines.map((row) => ({
-        id: Number(row.id),
-        name: row.name,
-      })),
-      equipments: equipments.map((row) => ({
-        id: Number(row.id),
-        name: row.name,
-      })),
+      lines: lines
+        .map((row) => row.name)
+        .filter((name): name is string => Boolean(name)),
+      equipments: equipments
+        .map((row) => row.name)
+        .filter((name): name is string => Boolean(name)),
       shifts: shifts
         .map((row) => row.shift)
         .filter((shift): shift is string => Boolean(shift)),

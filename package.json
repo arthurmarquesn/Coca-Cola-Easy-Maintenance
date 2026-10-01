@@ -3,7 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "node scripts/dev.mjs",
+    "dev:next": "next dev",
+    "ml": "python -m uvicorn ml.api.app:app --host 127.0.0.1 --port 8001",
     "build": "next build",
     "start": "next start",
     "lint": "eslint"

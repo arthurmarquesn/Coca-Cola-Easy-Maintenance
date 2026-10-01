@@ -55,25 +55,25 @@
 
 .dark {
   /* DARK THEME (Premium Industrial - Default) */
-  --background-primary: #050505; /* Preto profundo */
-  --background-secondary: #0D0D0F; /* Carvão */
-  --surface: #141416; /* Grafite */
-  --surface-elevated: #1F1F22; /* Cinza escuro */
+  --background-primary: #161618; /* Preto suave */
+  --background-secondary: #1E1E21; /* Carvão */
+  --surface: #26262A; /* Grafite */
+  --surface-elevated: #323237; /* Cinza escuro */
   --text-primary: #F4F4F5;
   --text-secondary: #A1A1AA;
   --text-title: #F40009; /* Red for titles */
   --text-body: #F4F4F5; /* White for body */
   --text-title: #F40009; /* Red for titles */
   --text-body: #F4F4F5; /* White for body */
-  --border-theme: #27272A;
+  --border-theme: #3C3C42;
   
   --accent-primary: #F40009;
   --accent-secondary: #990005;
   
   --button-primary: var(--accent-primary);
   --button-primary-hover: var(--accent-secondary);
-  --button-secondary: #27272A;
-  --button-secondary-hover: #3F3F46;
+  --button-secondary: #3C3C42;
+  --button-secondary-hover: #52525A;
   
   --focus-ring: rgba(244, 0, 9, 0.4);
   
