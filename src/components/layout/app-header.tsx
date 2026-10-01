@@ -41,14 +41,29 @@ export function AppHeader({ userName, city }: AppHeaderProps) {
   return (
     <header className="border-b border-border-theme bg-background-secondary transition-colors">
       <div className="mx-auto flex h-[76px] w-full max-w-[1380px] items-center justify-between px-6 sm:px-8 lg:px-12">
-        <Link href="/dashboard" aria-label="Início">
+        <Link
+          href="/dashboard"
+          aria-label="Início"
+          className="flex items-center gap-4"
+        >
           <Image
             src="/logo.webp"
-            alt="Coca-Cola FEMSA"
+            alt="Coca-Cola"
             width={180}
             height={64}
             priority
             className="h-auto max-h-[42px] w-auto object-contain"
+          />
+
+          <div className="hidden h-8 w-px bg-border-theme sm:block" />
+
+          <Image
+            src="/femsa-logo.png"
+            alt="FEMSA"
+            width={544}
+            height={129}
+            priority
+            className="hidden h-[22px] w-auto rounded-[2px] object-contain sm:block"
           />
         </Link>
 

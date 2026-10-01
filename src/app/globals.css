@@ -61,9 +61,9 @@
   --surface-elevated: #323237; /* Cinza escuro */
   --text-primary: #F4F4F5;
   --text-secondary: #A1A1AA;
-  --text-title: #F40009; /* Red for titles */
+  --text-title: #F4F4F5; /* White for titles */
   --text-body: #F4F4F5; /* White for body */
-  --text-title: #F40009; /* Red for titles */
+  --text-title: #F4F4F5; /* White for titles */
   --text-body: #F4F4F5; /* White for body */
   --border-theme: #3C3C42;
   

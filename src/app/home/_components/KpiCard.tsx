@@ -11,10 +11,10 @@ export function KpiCard({
 }: KpiCardProps) {
   return (
     <div
-      className={`rounded-[11px] border bg-white px-5 py-4 ${
+      className={`rounded-[11px] border bg-surface px-5 py-4 ${
         accent
           ? "border-[#F8C6C8]"
-          : "border-[#E9EBEE]"
+          : "border-border-theme"
       }`}
     >
       <p className="text-[12px] font-medium text-[#7C8087]">

@@ -27,7 +27,7 @@ export function CategoryCard({ category, href }: CategoryCardProps) {
   return (
     <Link
       href={href}
-      className="group flex flex-col justify-between rounded-[18px] border border-[#E9EBED] bg-white p-5 transition-all duration-200 hover:-translate-y-0.5 hover:border-[#D5D8DC] hover:shadow-[0_12px_30px_rgba(0,0,0,0.05)]"
+      className="group flex flex-col justify-between rounded-[18px] border border-border-theme bg-surface p-5 transition-all duration-200 hover:-translate-y-0.5 hover:border-[#D5D8DC] hover:shadow-[0_12px_30px_rgba(0,0,0,0.05)]"
     >
       <div>
         <div className="flex items-start justify-between gap-3">
@@ -77,7 +77,7 @@ export function CategoryCard({ category, href }: CategoryCardProps) {
         </div>
       </div>
 
-      <div className="mt-5 flex items-center justify-between border-t border-[#F0F1F2] pt-4">
+      <div className="mt-5 flex items-center justify-between border-t border-border-theme pt-4">
         <span
           className="text-[11.5px] font-semibold"
           style={{ color: confidenceColor(category.averageConfidence) }}

@@ -13,7 +13,7 @@ export function FilterChip({
     <button
       type="button"
       onClick={onRemove}
-      className="group flex items-center gap-1.5 rounded-full border border-[#DEE1E5] bg-white px-3.5 py-1.5 text-[12px] font-medium text-[#323438] transition-colors duration-200 hover:border-[#F40009] hover:text-[#F40009]"
+      className="group flex items-center gap-1.5 rounded-full border border-border-theme bg-surface px-3.5 py-1.5 text-[12px] font-medium text-text-primary transition-colors duration-200 hover:border-[#F40009] hover:text-[#F40009]"
     >
       <span>{label}</span>
 

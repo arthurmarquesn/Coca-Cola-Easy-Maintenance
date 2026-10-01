@@ -31,7 +31,7 @@ interface ReviewFiltersBarProps {
 }
 
 const selectClassName =
-  "h-10 w-full rounded-[10px] border border-[#DEE1E5] bg-white px-3 text-[12.5px] text-[#2D3034] outline-none transition-colors focus:border-[#F40009]";
+  "h-10 w-full rounded-[10px] border border-border-theme bg-surface px-3 text-[12.5px] text-text-primary outline-none transition-colors focus:border-[#F40009]";
 
 const labelClassName =
   "mb-1.5 block text-[11px] font-medium text-[#8A8E94]";
@@ -55,7 +55,7 @@ export function ReviewFiltersBar({
   }
 
   return (
-    <div className="rounded-[16px] border border-[#E9EBED] bg-white">
+    <div className="rounded-[16px] border border-border-theme bg-surface">
       <div className="flex flex-col gap-3 p-4 sm:flex-row sm:items-center sm:gap-3">
         <div className="relative flex-1">
           <Search
@@ -69,7 +69,7 @@ export function ReviewFiltersBar({
             value={filters.search}
             onChange={(event) => patch({ search: event.target.value })}
             placeholder="Buscar por descrição, linha ou equipamento..."
-            className="h-10 w-full rounded-[10px] border border-[#DEE1E5] bg-white pl-9 pr-3 text-[12.5px] text-[#2D3034] outline-none transition-colors placeholder:text-[#B3B6BB] focus:border-[#F40009]"
+            className="h-10 w-full rounded-[10px] border border-border-theme bg-surface pl-9 pr-3 text-[12.5px] text-text-primary outline-none transition-colors placeholder:text-[#B3B6BB] focus:border-[#F40009]"
           />
         </div>
 
@@ -93,7 +93,7 @@ export function ReviewFiltersBar({
           className={`flex h-10 shrink-0 items-center justify-center gap-2 rounded-[10px] border px-4 text-[12px] font-semibold transition-colors ${
             expanded || activeCount > 0
               ? "border-[#F40009] text-[#F40009]"
-              : "border-[#DEE1E5] text-[#4A4F55] hover:border-[#C7CBD1]"
+              : "border-border-theme text-text-secondary hover:border-[#C7CBD1]"
           }`}
         >
           <SlidersHorizontal size={14} strokeWidth={2} />
@@ -107,7 +107,7 @@ export function ReviewFiltersBar({
       </div>
 
       {expanded && (
-        <div className="grid grid-cols-2 gap-3 border-t border-[#EEEEEC] p-4 sm:grid-cols-3 lg:grid-cols-6">
+        <div className="grid grid-cols-2 gap-3 border-t border-border-theme p-4 sm:grid-cols-3 lg:grid-cols-6">
           <div>
             <label className={labelClassName}>Linha</label>
 
@@ -227,7 +227,7 @@ export function ReviewFiltersBar({
       )}
 
       {activeCount > 0 && (
-        <div className="flex items-center justify-between border-t border-[#EEEEEC] px-4 py-2.5">
+        <div className="flex items-center justify-between border-t border-border-theme px-4 py-2.5">
           <p className="text-[11px] text-[#9A9EA3]">
             {activeCount} filtro(s) aplicado(s)
           </p>

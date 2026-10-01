@@ -669,12 +669,20 @@ export function UsersPage({
                                   },
                                 )
                               }
-                              className={`rounded-full px-3 py-1.5 text-[12px] font-medium transition-colors disabled:cursor-not-allowed disabled:opacity-60 ${
+                              className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-[12px] font-semibold transition-colors disabled:cursor-not-allowed disabled:opacity-60 ${
                                 item.active
-                                  ? "bg-[#E9F6EE] text-[#1E6B3A] hover:bg-[#DCF0E4]"
-                                  : "bg-[#F1F1EF] text-text-body hover:bg-[#E8E8E5]"
+                                  ? "bg-[#22E06B] text-[#052E16] shadow-[0_0_14px_rgba(34,224,107,0.85),inset_0_0_0_1px_rgba(255,255,255,0.35)] hover:bg-[#4DEB89]"
+                                  : "bg-[#FF3B47] text-white shadow-[0_0_14px_rgba(255,59,71,0.85),inset_0_0_0_1px_rgba(255,255,255,0.35)] hover:bg-[#FF5A64]"
                               }`}
                             >
+                              <span
+                                className={`h-1.5 w-1.5 rounded-full ${
+                                  item.active
+                                    ? "bg-[#052E16]"
+                                    : "bg-white"
+                                }`}
+                              />
+
                               {item.active
                                 ? "Ativo"
                                 : "Inativo"}
@@ -693,7 +701,7 @@ export function UsersPage({
                                   item,
                                 )
                               }
-                              className="rounded-full px-3 py-1.5 text-[12px] font-medium text-[#B4141F] transition-colors hover:bg-[#FDECEE] disabled:cursor-not-allowed disabled:opacity-40"
+                              className="inline-flex items-center gap-1.5 rounded-full bg-[#FF3B47] px-3 py-1.5 text-[12px] font-semibold text-white shadow-[0_0_14px_rgba(255,59,71,0.85),inset_0_0_0_1px_rgba(255,255,255,0.35)] transition-colors hover:bg-[#FF5A64] disabled:cursor-not-allowed disabled:opacity-40"
                             >
                               Remover
                             </button>

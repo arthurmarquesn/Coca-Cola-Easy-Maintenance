@@ -71,7 +71,7 @@ function SidebarSection({
 }) {
   return (
     <div>
-      <p className="mb-2.5 text-[12px] font-semibold text-[#323438]">
+      <p className="mb-2.5 text-[12px] font-semibold text-text-primary">
         {label}
       </p>
 
@@ -98,7 +98,7 @@ function SidebarSelect({
         onChange={(event) =>
           onChange(event.target.value)
         }
-        className="h-[46px] w-full appearance-none rounded-[11px] border border-[#DEE1E5] bg-[#F7F8FA] bg-[right_1rem_center] bg-no-repeat px-4 text-[13px] text-[#232529] outline-none transition-colors duration-200 hover:border-[#CBCFD4] focus:border-[#F40009] focus:bg-white focus:ring-[3px] focus:ring-[rgba(244,0,9,0.08)]"
+        className="h-[46px] w-full appearance-none rounded-[11px] border border-border-theme bg-surface-elevated bg-[right_1rem_center] bg-no-repeat px-4 text-[13px] text-text-primary outline-none transition-colors duration-200 hover:border-[#CBCFD4] focus:border-[#F40009] focus:bg-surface focus:ring-[3px] focus:ring-[rgba(244,0,9,0.08)]"
       >
         {options.map((option) => (
           <option
@@ -163,11 +163,11 @@ function SidebarSearchableSelect({
         onBlur={() =>
           setTimeout(() => setOpen(false), 120)
         }
-        className="h-[46px] w-full rounded-[11px] border border-[#DEE1E5] bg-[#F7F8FA] px-4 text-[13px] text-[#232529] outline-none transition-colors duration-200 hover:border-[#CBCFD4] focus:border-[#F40009] focus:bg-white focus:ring-[3px] focus:ring-[rgba(244,0,9,0.08)]"
+        className="h-[46px] w-full rounded-[11px] border border-border-theme bg-surface-elevated px-4 text-[13px] text-text-primary outline-none transition-colors duration-200 hover:border-[#CBCFD4] focus:border-[#F40009] focus:bg-surface focus:ring-[3px] focus:ring-[rgba(244,0,9,0.08)]"
       />
 
       {open && (
-        <div className="absolute z-10 mt-1 max-h-[220px] w-full overflow-y-auto rounded-[11px] border border-[#E9EBEE] bg-white p-1.5 shadow-lg">
+        <div className="absolute z-10 mt-1 max-h-[220px] w-full overflow-y-auto rounded-[11px] border border-border-theme bg-surface p-1.5 shadow-lg">
           {filteredOptions.length === 0 && (
             <p className="px-3 py-2 text-[12px] text-[#9BA0A7]">
               Nenhum resultado
@@ -186,10 +186,10 @@ function SidebarSearchableSelect({
                 setOpen(false);
                 setQuery("");
               }}
-              className={`block w-full rounded-[8px] px-3 py-2 text-left text-[13px] transition-colors duration-150 hover:bg-[#F7F8FA] ${
+              className={`block w-full rounded-[8px] px-3 py-2 text-left text-[13px] transition-colors duration-150 hover:bg-surface-elevated ${
                 option.value === value
                   ? "font-semibold text-[#F40009]"
-                  : "text-[#323438]"
+                  : "text-text-primary"
               }`}
             >
               {option.label}
@@ -237,13 +237,13 @@ export function FilterSidebar({
   );
 
   return (
-    <div className="space-y-7 rounded-[11px] border border-[#E9EBEE] bg-white p-5">
+    <div className="space-y-7 rounded-[11px] border border-border-theme bg-surface p-5">
       <SidebarSection label="Tipo de análise">
         <div className="space-y-2.5">
           {ANALYSIS_TYPE_OPTIONS.map((option) => (
             <label
               key={option.value}
-              className="flex cursor-pointer items-center gap-2.5 text-[13px] text-[#323438]"
+              className="flex cursor-pointer items-center gap-2.5 text-[13px] text-text-primary"
             >
               <input
                 type="radio"
@@ -293,7 +293,7 @@ export function FilterSidebar({
                     event.target.value,
                   )
                 }
-                className="h-[42px] w-full rounded-[11px] border border-[#DEE1E5] bg-[#F7F8FA] px-3 text-[13px] text-[#232529] outline-none transition-colors duration-200 hover:border-[#CBCFD4] focus:border-[#F40009] focus:bg-white focus:ring-[3px] focus:ring-[rgba(244,0,9,0.08)]"
+                className="h-[42px] w-full rounded-[11px] border border-border-theme bg-surface-elevated px-3 text-[13px] text-text-primary outline-none transition-colors duration-200 hover:border-[#CBCFD4] focus:border-[#F40009] focus:bg-surface focus:ring-[3px] focus:ring-[rgba(244,0,9,0.08)]"
               />
             </div>
 
@@ -310,7 +310,7 @@ export function FilterSidebar({
                 onChange={(event) =>
                   onCustomToChange(event.target.value)
                 }
-                className="h-[42px] w-full rounded-[11px] border border-[#DEE1E5] bg-[#F7F8FA] px-3 text-[13px] text-[#232529] outline-none transition-colors duration-200 hover:border-[#CBCFD4] focus:border-[#F40009] focus:bg-white focus:ring-[3px] focus:ring-[rgba(244,0,9,0.08)]"
+                className="h-[42px] w-full rounded-[11px] border border-border-theme bg-surface-elevated px-3 text-[13px] text-text-primary outline-none transition-colors duration-200 hover:border-[#CBCFD4] focus:border-[#F40009] focus:bg-surface focus:ring-[3px] focus:ring-[rgba(244,0,9,0.08)]"
               />
             </div>
           </div>
@@ -339,7 +339,7 @@ export function FilterSidebar({
           {turnoOptions.map((option) => (
             <label
               key={option.value}
-              className="flex cursor-pointer items-center gap-2.5 text-[13px] text-[#323438]"
+              className="flex cursor-pointer items-center gap-2.5 text-[13px] text-text-primary"
             >
               <input
                 type="radio"

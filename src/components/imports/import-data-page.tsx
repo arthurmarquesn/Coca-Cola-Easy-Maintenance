@@ -862,8 +862,8 @@ export function ImportDataPage({
             }}
             className={`mt-10 flex min-h-[300px] cursor-pointer flex-col items-center justify-center rounded-[18px] border border-dashed px-8 text-center outline-none transition-all duration-200 ${
               dragging
-                ? "border-[#F40009] bg-[#FFF9F9]"
-                : "border-[#CED1D5] bg-[#FBFBFC] hover:border-[#AEB2B7]"
+                ? "border-[#F40009] bg-surface-elevated"
+                : "border-border-theme bg-surface-elevated hover:border-[#AEB2B7]"
             }`}
           >
 
@@ -917,7 +917,7 @@ export function ImportDataPage({
 
               <div className="flex min-w-0 items-center gap-4">
 
-                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-[10px] bg-[#F4F5F6] text-[#3E4247]">
+                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-[10px] bg-surface-elevated text-text-primary">
 
                   <FileSpreadsheet
                     size={20}
@@ -1269,7 +1269,7 @@ export function ImportDataPage({
                   ========================================== */}
 
                   {mlResult && (
-                    <div className="mt-6 rounded-[14px] bg-[#F7F8F9] px-5 py-4">
+                    <div className="mt-6 rounded-[14px] bg-surface-elevated px-5 py-4">
 
                       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
 

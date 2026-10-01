@@ -1650,13 +1650,13 @@ export function HistoryPage({
 
                     </div>
 
-                    <div className="mt-5 rounded-[18px] border border-[#ECEDEF] bg-[#FCFCFC] p-4">
+                    <div className="mt-5 rounded-[18px] border border-border-theme bg-surface-elevated p-4">
 
                       <p className="text-[10px] uppercase tracking-[0.12em] text-[#A0A4A9]">
                         Pré-visualização
                       </p>
 
-                      <p className="mt-2 text-[18px] font-semibold tracking-[-0.03em] text-[#212429]">
+                      <p className="mt-2 text-[18px] font-semibold tracking-[-0.03em] text-text-primary">
                         {editFailureMode.trim() ||
                           "Informe a falha"}
                       </p>

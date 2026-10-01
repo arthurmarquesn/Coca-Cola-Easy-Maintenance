@@ -1766,7 +1766,7 @@ export function ReliabilityPage({
                 PARETO
             ============================================== */}
 
-            <section className="mt-5 overflow-hidden rounded-[24px] border border-[#E5E7E9] bg-background-primary transition-colors">
+            <section className="mt-5 overflow-hidden rounded-[24px] border border-[#E5E7E9] bg-white transition-colors">
               <div className="flex items-center justify-between border-b border-[#ECEDEF] px-6 py-5">
                 <div>
                   <h2 className="text-[17px] font-semibold tracking-[-0.025em] text-[#24272B]">
@@ -1795,7 +1795,7 @@ export function ReliabilityPage({
                 JACK-KNIFE
             ============================================== */}
 
-            <section className="mt-6 overflow-hidden rounded-[24px] border border-[#E5E7E9] bg-background-primary transition-colors">
+            <section className="mt-6 overflow-hidden rounded-[24px] border border-[#E5E7E9] bg-white transition-colors">
               <div className="flex items-center justify-between border-b border-[#ECEDEF] px-6 py-5">
                 <div>
                   <h2 className="text-[17px] font-semibold tracking-[-0.025em] text-[#24272B]">

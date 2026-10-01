@@ -729,7 +729,7 @@ export function ReviewCategoryPage({
                     </tr>
 
                     {isEditing && (
-                      <tr className="border-b border-[#F0F1F2] bg-[#FAFBFF]">
+                      <tr className="border-b border-border-theme bg-surface-elevated">
                         <td colSpan={8} className="px-4 py-4">
                           <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
                             <input

@@ -172,7 +172,7 @@ export default function DashboardPage() {
   }
 
   return (
-    <main className="relative min-h-screen overflow-hidden bg-[#F6F7F8]">
+    <main className="relative min-h-screen overflow-hidden bg-background-primary">
       {/* Continuação da transição vinda do login */}
 
       <div

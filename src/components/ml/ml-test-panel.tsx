@@ -323,7 +323,7 @@ export function MlTestPanel() {
 
 
   return (
-    <main className="min-h-screen bg-[#f7f7f7]">
+    <main className="min-h-screen bg-background-secondary">
       <AppHeader />
 
       <div className="mx-auto max-w-7xl px-6 py-10 lg:px-8">
@@ -336,17 +336,17 @@ export function MlTestPanel() {
             </div>
 
             <div>
-              <h1 className="text-2xl font-semibold tracking-tight text-neutral-950">
+              <h1 className="text-2xl font-semibold tracking-tight text-text-primary">
                 Modelo ML
               </h1>
 
-              <p className="mt-1 text-sm text-neutral-500">
+              <p className="mt-1 text-sm text-text-secondary">
                 Classificação assistida de falhas
               </p>
             </div>
           </div>
 
-          <p className="max-w-3xl text-sm leading-6 text-neutral-600">
+          <p className="max-w-3xl text-sm leading-6 text-text-secondary">
             O modelo identifica qual componente provavelmente
             falhou. Toda sugestão permanece pendente até revisão
             humana.
@@ -356,20 +356,20 @@ export function MlTestPanel() {
         <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_360px]">
           <div className="space-y-6">
 
-            <section className="rounded-[28px] border border-black/5 bg-background-primary transition-colors p-7 shadow-sm">
+            <section className="rounded-[28px] border border-border-theme bg-background-primary transition-colors p-7 shadow-sm">
               <div className="mb-7 flex items-start gap-4">
-                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-neutral-100 text-neutral-800">
+                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-surface-elevated text-text-primary">
                   <Database
                     size={20}
                   />
                 </div>
 
                 <div>
-                  <h2 className="text-lg font-semibold text-neutral-950">
+                  <h2 className="text-lg font-semibold text-text-primary">
                     Classificar ocorrências reais
                   </h2>
 
-                  <p className="mt-1 max-w-2xl text-sm leading-6 text-neutral-500">
+                  <p className="mt-1 max-w-2xl text-sm leading-6 text-text-secondary">
                     Envie apontamentos ainda não analisados para o
                     Modelo ML. Os resultados serão armazenados como
                     sugestões pendentes de revisão.
@@ -381,7 +381,7 @@ export function MlTestPanel() {
                 <div>
                   <label
                     htmlFor="batchSize"
-                    className="mb-2 block text-sm font-medium text-neutral-700"
+                    className="mb-2 block text-sm font-medium text-text-primary"
                   >
                     Quantidade
                   </label>
@@ -400,7 +400,7 @@ export function MlTestPanel() {
                         ),
                       )
                     }
-                    className="h-12 min-w-40 rounded-2xl border border-neutral-200 bg-background-primary transition-colors px-4 text-sm outline-none"
+                    className="h-12 min-w-40 rounded-2xl border border-border-theme bg-background-primary transition-colors px-4 text-sm outline-none"
                   >
                     <option value={10}>
                       10 ocorrências
@@ -460,42 +460,42 @@ export function MlTestPanel() {
 
               {batchResult && (
                 <div className="mt-6 grid gap-3 sm:grid-cols-4">
-                  <div className="rounded-2xl bg-neutral-50 p-4">
-                    <p className="text-xs text-neutral-400">
+                  <div className="rounded-2xl bg-surface-elevated p-4">
+                    <p className="text-xs text-text-secondary">
                       Encontradas
                     </p>
 
-                    <p className="mt-2 text-xl font-semibold text-neutral-950">
+                    <p className="mt-2 text-xl font-semibold text-text-primary">
                       {batchResult.found}
                     </p>
                   </div>
 
-                  <div className="rounded-2xl bg-neutral-50 p-4">
-                    <p className="text-xs text-neutral-400">
+                  <div className="rounded-2xl bg-surface-elevated p-4">
+                    <p className="text-xs text-text-secondary">
                       Processadas
                     </p>
 
-                    <p className="mt-2 text-xl font-semibold text-neutral-950">
+                    <p className="mt-2 text-xl font-semibold text-text-primary">
                       {batchResult.processed}
                     </p>
                   </div>
 
-                  <div className="rounded-2xl bg-neutral-50 p-4">
-                    <p className="text-xs text-neutral-400">
+                  <div className="rounded-2xl bg-surface-elevated p-4">
+                    <p className="text-xs text-text-secondary">
                       Salvas
                     </p>
 
-                    <p className="mt-2 text-xl font-semibold text-neutral-950">
+                    <p className="mt-2 text-xl font-semibold text-text-primary">
                       {batchResult.inserted}
                     </p>
                   </div>
 
-                  <div className="rounded-2xl bg-neutral-50 p-4">
-                    <p className="text-xs text-neutral-400">
+                  <div className="rounded-2xl bg-surface-elevated p-4">
+                    <p className="text-xs text-text-secondary">
                       Erros
                     </p>
 
-                    <p className="mt-2 text-xl font-semibold text-neutral-950">
+                    <p className="mt-2 text-xl font-semibold text-text-primary">
                       {batchResult.failed}
                     </p>
                   </div>
@@ -504,13 +504,13 @@ export function MlTestPanel() {
             </section>
 
 
-            <section className="rounded-[28px] border border-black/5 bg-background-primary transition-colors p-7 shadow-sm">
+            <section className="rounded-[28px] border border-border-theme bg-background-primary transition-colors p-7 shadow-sm">
               <div className="mb-7">
-                <h2 className="text-lg font-semibold text-neutral-950">
+                <h2 className="text-lg font-semibold text-text-primary">
                   Testar ocorrência manualmente
                 </h2>
 
-                <p className="mt-1 text-sm text-neutral-500">
+                <p className="mt-1 text-sm text-text-secondary">
                   Consulte o Modelo ML sem gravar uma sugestão no histórico.
                 </p>
               </div>
@@ -524,7 +524,7 @@ export function MlTestPanel() {
                 <div>
                   <label
                     htmlFor="observation"
-                    className="mb-2 block text-sm font-medium text-neutral-700"
+                    className="mb-2 block text-sm font-medium text-text-primary"
                   >
                     Ocorrência
                   </label>
@@ -543,14 +543,14 @@ export function MlTestPanel() {
                     }
                     placeholder="Ex.: QUEBROU ROLAMENTOS DA ESTEIRA DE SAIDA DO FORNO"
                     rows={5}
-                    className="w-full resize-none rounded-2xl border border-neutral-200 bg-background-primary transition-colors px-4 py-3.5 text-sm text-neutral-950 outline-none transition focus:border-neutral-400"
+                    className="w-full resize-none rounded-2xl border border-border-theme bg-background-primary transition-colors px-4 py-3.5 text-sm text-text-primary outline-none transition focus:border-neutral-400"
                   />
                 </div>
 
                 <div>
                   <label
                     htmlFor="equipment"
-                    className="mb-2 block text-sm font-medium text-neutral-700"
+                    className="mb-2 block text-sm font-medium text-text-primary"
                   >
                     Equipamento
                   </label>
@@ -568,7 +568,7 @@ export function MlTestPanel() {
                       )
                     }
                     placeholder="Opcional"
-                    className="h-12 w-full rounded-2xl border border-neutral-200 bg-background-primary transition-colors px-4 text-sm outline-none transition focus:border-neutral-400"
+                    className="h-12 w-full rounded-2xl border border-border-theme bg-background-primary transition-colors px-4 text-sm outline-none transition focus:border-neutral-400"
                   />
                 </div>
 
@@ -608,8 +608,8 @@ export function MlTestPanel() {
               </form>
 
               {prediction && (
-                <div className="mt-8 border-t border-neutral-100 pt-8">
-                  <p className="mb-2 text-xs font-semibold uppercase tracking-[0.14em] text-neutral-400">
+                <div className="mt-8 border-t border-border-theme pt-8">
+                  <p className="mb-2 text-xs font-semibold uppercase tracking-[0.14em] text-text-secondary">
                     Sugestão do Modelo ML
                   </p>
 
@@ -649,17 +649,17 @@ export function MlTestPanel() {
                           }
                           className="flex items-center gap-4"
                         >
-                          <div className="w-6 text-xs text-neutral-400">
+                          <div className="w-6 text-xs text-text-secondary">
                             {index + 1}
                           </div>
 
                           <div className="min-w-0 flex-1">
                             <div className="flex justify-between gap-4">
-                              <span className="text-sm text-neutral-700">
+                              <span className="text-sm text-text-primary">
                                 {item.failureMode}
                               </span>
 
-                              <span className="text-xs font-medium text-neutral-500">
+                              <span className="text-xs font-medium text-text-secondary">
                                 {percentage(
                                   item.confidence,
                                 )}
@@ -671,13 +671,13 @@ export function MlTestPanel() {
                     )}
                   </div>
 
-                  <div className="mt-7 flex items-start gap-3 rounded-2xl bg-neutral-50 p-4">
+                  <div className="mt-7 flex items-start gap-3 rounded-2xl bg-surface-elevated p-4">
                     <CheckCircle2
                       size={18}
-                      className="mt-0.5 shrink-0 text-neutral-500"
+                      className="mt-0.5 shrink-0 text-text-secondary"
                     />
 
-                    <p className="text-sm leading-6 text-neutral-600">
+                    <p className="text-sm leading-6 text-text-secondary">
                       Resultado somente para consulta. A revisão humana
                       continua obrigatória.
                     </p>
@@ -689,8 +689,8 @@ export function MlTestPanel() {
 
 
           <aside className="space-y-5">
-            <div className="rounded-[28px] border border-black/5 bg-background-primary transition-colors p-6 shadow-sm">
-              <p className="text-sm font-medium text-neutral-950">
+            <div className="rounded-[28px] border border-border-theme bg-background-primary transition-colors p-6 shadow-sm">
+              <p className="text-sm font-medium text-text-primary">
                 Status do modelo
               </p>
 
@@ -703,7 +703,7 @@ export function MlTestPanel() {
                   }`}
                 />
 
-                <span className="text-sm text-neutral-700">
+                <span className="text-sm text-text-primary">
                   {health.loading
                     ? "Verificando..."
                     : health.available
@@ -712,12 +712,12 @@ export function MlTestPanel() {
                 </span>
               </div>
 
-              <div className="mt-5 border-t border-neutral-100 pt-5">
-                <p className="text-xs uppercase tracking-[0.12em] text-neutral-400">
+              <div className="mt-5 border-t border-border-theme pt-5">
+                <p className="text-xs uppercase tracking-[0.12em] text-text-secondary">
                   Versão
                 </p>
 
-                <p className="mt-2 text-sm font-medium text-neutral-800">
+                <p className="mt-2 text-sm font-medium text-text-primary">
                   {health.modelVersion ??
                     "Não disponível"}
                 </p>
