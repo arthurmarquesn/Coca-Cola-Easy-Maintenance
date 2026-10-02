@@ -16,9 +16,16 @@ import {
 } from "@/lib/session";
 
 import {
+<<<<<<< HEAD
   buildDateWhere,
   FAILURE_MODE_EXPRESSION,
 } from "@/lib/analytics/sql";
+=======
+  buildUnitInClause,
+  getUnitSelection,
+} from "@/lib/unit-selection";
+
+>>>>>>> origin/marques
 
 export const runtime =
   "nodejs";
@@ -26,44 +33,92 @@ export const runtime =
 export const dynamic =
   "force-dynamic";
 
+
 /* =========================================================
    TIPOS
 ========================================================= */
 
-interface OptionRow extends RowDataPacket {
+interface OptionRow
+  extends RowDataPacket {
   value: string;
 }
 
-interface AggregateRow extends RowDataPacket {
+
+interface AggregateRow
+  extends RowDataPacket {
   label: string;
+
   occurrences:
     | number
     | string;
+
   downtime_minutes:
     | number
     | string
     | null;
 }
 
+
+interface FailureOriginRow
+  extends RowDataPacket {
+  origin:
+    | string
+    | null;
+
+  occurrences:
+    | number
+    | string;
+}
+
+
 interface ParetoItem {
   label: string;
+
   occurrences: number;
+
   downtimeMinutes: number;
+
   percentage: number;
+
   cumulativePercentage: number;
 }
 
+
 interface JackKnifeItem {
   label: string;
+
   failures: number;
+
   downtimeMinutes: number;
+
   mttr: number;
+
   quadrant:
     | "CRITICO"
     | "CRITICO_CRONICO"
     | "CONFORTO"
     | "CRONICO";
 }
+
+
+interface FailureOriginSummary {
+  operation: number;
+
+  maintenance: number;
+
+  unclassified: number;
+
+  classified: number;
+
+  total: number;
+
+  operationPercentage: number;
+
+  maintenancePercentage: number;
+
+  unclassifiedPercentage: number;
+}
+
 
 /* =========================================================
    HELPERS
@@ -77,7 +132,9 @@ function toNumber(
     | undefined,
 ): number {
   const parsed =
-    Number(value ?? 0);
+    Number(
+      value ?? 0,
+    );
 
   return Number.isFinite(
     parsed,
@@ -85,6 +142,7 @@ function toNumber(
     ? parsed
     : 0;
 }
+
 
 function round(
   value: number,
@@ -102,21 +160,98 @@ function round(
   );
 }
 
+<<<<<<< HEAD
+=======
+
+function isDateValue(
+  value:
+    | string
+    | null,
+): value is string {
+  return Boolean(
+    value &&
+      /^\d{4}-\d{2}-\d{2}$/.test(
+        value,
+      ),
+  );
+}
+
+
+function buildDateWhere(
+  startDate:
+    | string
+    | null,
+
+  endDate:
+    | string
+    | null,
+
+  params:
+    Array<
+      string | number
+    >,
+): string[] {
+  const where:
+    string[] =
+    [];
+
+  if (
+    isDateValue(
+      startDate,
+    )
+  ) {
+    where.push(
+      "e.event_date >= ?",
+    );
+
+    params.push(
+      startDate,
+    );
+  }
+
+  if (
+    isDateValue(
+      endDate,
+    )
+  ) {
+    where.push(
+      "e.event_date <= ?",
+    );
+
+    params.push(
+      endDate,
+    );
+  }
+
+  return where;
+}
+
+
+>>>>>>> origin/marques
 /* =========================================================
    GET
 ========================================================= */
 
 export async function GET(
-  request: NextRequest,
+  request:
+    NextRequest,
 ) {
   const session =
     await getSession();
 
-  if (!session) {
+
+  /* =======================================================
+     AUTH
+  ======================================================= */
+
+  if (
+    !session
+  ) {
     return NextResponse.json(
       {
         success:
           false,
+
         message:
           "Sessão expirada.",
       },
@@ -127,7 +262,95 @@ export async function GET(
     );
   }
 
+
   try {
+    /* =====================================================
+       GLOBAL UNIT SELECTION
+    ====================================================== */
+
+    const unitSelection =
+      await getUnitSelection({
+        userId:
+          session.userId,
+
+        defaultUnitId:
+          session.unitId,
+      });
+
+
+    if (
+      unitSelection
+        .selectedUnitIds
+        .length ===
+      0
+    ) {
+      return NextResponse.json(
+        {
+          success:
+            false,
+
+          message:
+            "Nenhuma unidade válida está selecionada.",
+        },
+        {
+          status:
+            403,
+        },
+      );
+    }
+
+
+    const unitFilter =
+      buildUnitInClause(
+        unitSelection
+          .selectedUnitIds,
+      );
+
+
+    const selectedSet =
+      new Set(
+        unitSelection
+          .selectedUnitIds,
+      );
+
+
+    const selectedUnits =
+      unitSelection
+        .units
+        .filter(
+          (
+            unit,
+          ) =>
+            selectedSet.has(
+              unit.id,
+            ),
+        )
+        .map(
+          (
+            unit,
+          ) => ({
+            id:
+              unit.id,
+
+            code:
+              unit.code,
+
+            name:
+              unit.name,
+
+            city:
+              unit.city,
+
+            state:
+              unit.state,
+          }),
+        );
+
+
+    /* =====================================================
+       SEARCH PARAMS
+    ====================================================== */
+
     const {
       searchParams,
     } =
@@ -135,15 +358,18 @@ export async function GET(
         request.url,
       );
 
+
     const startDate =
       searchParams.get(
         "startDate",
       );
 
+
     const endDate =
       searchParams.get(
         "endDate",
       );
+
 
     const line =
       searchParams
@@ -153,6 +379,7 @@ export async function GET(
         ?.trim() ||
       "";
 
+
     const equipment =
       searchParams
         .get(
@@ -161,8 +388,10 @@ export async function GET(
         ?.trim() ||
       "";
 
+
     /* =====================================================
        OPÇÕES DE LINHA
+
        - respeitam unidade e período
     ====================================================== */
 
@@ -170,20 +399,25 @@ export async function GET(
       Array<
         string | number
       > = [
-        session.unitId,
+        ...unitFilter.values,
       ];
+
 
     const lineWhere =
       [
-        "e.unit_id = ?",
+        `e.unit_id IN (${unitFilter.placeholders})`,
+
         "e.source_line_name IS NOT NULL",
+
         "TRIM(e.source_line_name) <> ''",
+
         ...buildDateWhere(
           startDate,
           endDate,
           lineParams,
         ),
       ];
+
 
     const lines =
       await executeRows<
@@ -194,17 +428,25 @@ export async function GET(
             TRIM(
               e.source_line_name
             ) AS value
-          FROM maintenance_events e
-          WHERE ${lineWhere.join(
-            "\nAND ",
-          )}
-          ORDER BY value ASC
+
+          FROM
+            maintenance_events e
+
+          WHERE
+            ${lineWhere.join(
+              "\nAND ",
+            )}
+
+          ORDER BY
+            value ASC
         `,
         lineParams,
       );
 
+
     /* =====================================================
        OPÇÕES DE EQUIPAMENTO
+
        - respeitam unidade, período e linha
     ====================================================== */
 
@@ -212,14 +454,18 @@ export async function GET(
       Array<
         string | number
       > = [
-        session.unitId,
+        ...unitFilter.values,
       ];
+
 
     const equipmentWhere =
       [
-        "e.unit_id = ?",
+        `e.unit_id IN (${unitFilter.placeholders})`,
+
         "e.source_equipment_name IS NOT NULL",
+
         "TRIM(e.source_equipment_name) <> ''",
+
         ...buildDateWhere(
           startDate,
           endDate,
@@ -227,7 +473,10 @@ export async function GET(
         ),
       ];
 
-    if (line) {
+
+    if (
+      line
+    ) {
       equipmentWhere.push(
         "TRIM(e.source_line_name) = ?",
       );
@@ -236,6 +485,7 @@ export async function GET(
         line,
       );
     }
+
 
     const equipments =
       await executeRows<
@@ -246,29 +496,44 @@ export async function GET(
             TRIM(
               e.source_equipment_name
             ) AS value
-          FROM maintenance_events e
-          WHERE ${equipmentWhere.join(
-            "\nAND ",
-          )}
-          ORDER BY value ASC
+
+          FROM
+            maintenance_events e
+
+          WHERE
+            ${equipmentWhere.join(
+              "\nAND ",
+            )}
+
+          ORDER BY
+            value ASC
         `,
         equipmentParams,
       );
 
+
     /* =====================================================
-       CONSULTA ANALÍTICA
+       FILTRO PRINCIPAL DA ANÁLISE
+
+       Esse mesmo recorte será utilizado por:
+
+       - Pareto
+       - Jack-Knife
+       - Origem das falhas
     ====================================================== */
 
     const params:
       Array<
         string | number
       > = [
-        session.unitId,
+        ...unitFilter.values,
       ];
+
 
     const where =
       [
-        "e.unit_id = ?",
+        `e.unit_id IN (${unitFilter.placeholders})`,
+
         ...buildDateWhere(
           startDate,
           endDate,
@@ -276,7 +541,10 @@ export async function GET(
         ),
       ];
 
-    if (line) {
+
+    if (
+      line
+    ) {
       where.push(
         "TRIM(e.source_line_name) = ?",
       );
@@ -286,7 +554,10 @@ export async function GET(
       );
     }
 
-    if (equipment) {
+
+    if (
+      equipment
+    ) {
       where.push(
         "TRIM(e.source_equipment_name) = ?",
       );
@@ -296,17 +567,87 @@ export async function GET(
       );
     }
 
-    /*
-      A classificação oficial em event_classifications
-      sempre tem prioridade.
 
-      classification_suggestions existe apenas como fallback
-      para preservar as classificações históricas já geradas
-      antes da retirada da tela do Modelo ML.
-    */
+    /*
+     * A classificação oficial em event_classifications
+     * sempre tem prioridade.
+     *
+     * classification_suggestions existe apenas como fallback
+     * para preservar as classificações históricas já geradas
+     * antes da retirada da tela do Modelo ML.
+     */
 
     const failureModeExpression =
+<<<<<<< HEAD
       FAILURE_MODE_EXPRESSION;
+=======
+      `
+        COALESCE(
+
+          NULLIF(
+            CASE
+              WHEN JSON_VALID(
+                ec.classification_notes
+              ) THEN
+                JSON_UNQUOTE(
+                  JSON_EXTRACT(
+                    ec.classification_notes,
+                    '$.failureMode'
+                  )
+                )
+
+              ELSE
+                NULL
+            END,
+            ''
+          ),
+
+          NULLIF(
+            CASE
+              WHEN JSON_VALID(
+                ec.classification_notes
+              ) THEN
+                JSON_UNQUOTE(
+                  JSON_EXTRACT(
+                    ec.classification_notes,
+                    '$.failure_mode'
+                  )
+                )
+
+              ELSE
+                NULL
+            END,
+            ''
+          ),
+
+          NULLIF(
+            CASE
+              WHEN JSON_VALID(
+                ec.classification_notes
+              ) THEN
+                JSON_UNQUOTE(
+                  JSON_EXTRACT(
+                    ec.classification_notes,
+                    '$.modelSuggestion.failureMode'
+                  )
+                )
+
+              ELSE
+                NULL
+            END,
+            ''
+          ),
+
+          NULLIF(
+            cs.failure_mode,
+            ''
+          ),
+
+          'Não classificado'
+        )
+      `;
+>>>>>>> origin/marques
+
 
     const groupExpression =
       equipment
@@ -323,6 +664,15 @@ export async function GET(
             )
           `;
 
+
+    /* =====================================================
+       CONSULTA ANALÍTICA
+
+       Alimenta:
+       - Pareto
+       - Jack-Knife
+    ====================================================== */
+
     const aggregates =
       await executeRows<
         AggregateRow[]
@@ -331,11 +681,17 @@ export async function GET(
           WITH latest_suggestion AS (
             SELECT
               cs0.event_id,
+
               MAX(
                 cs0.id
               ) AS suggestion_id
-            FROM classification_suggestions cs0
-            WHERE cs0.model_type = 'ML'
+
+            FROM
+              classification_suggestions cs0
+
+            WHERE
+              cs0.model_type = 'ML'
+
             GROUP BY
               cs0.event_id
           ),
@@ -352,23 +708,28 @@ export async function GET(
               ${failureModeExpression}
                 AS failure_mode
 
-            FROM maintenance_events e
+            FROM
+              maintenance_events e
 
-            LEFT JOIN event_classifications ec
-              ON ec.event_id =
-                 e.id
+            LEFT JOIN
+              event_classifications ec
+                ON ec.event_id =
+                   e.id
 
-            LEFT JOIN latest_suggestion latest
-              ON latest.event_id =
-                 e.id
+            LEFT JOIN
+              latest_suggestion latest
+                ON latest.event_id =
+                   e.id
 
-            LEFT JOIN classification_suggestions cs
-              ON cs.id =
-                 latest.suggestion_id
+            LEFT JOIN
+              classification_suggestions cs
+                ON cs.id =
+                   latest.suggestion_id
 
-            WHERE ${where.join(
-              "\nAND ",
-            )}
+            WHERE
+              ${where.join(
+                "\nAND ",
+              )}
           )
 
           SELECT
@@ -386,7 +747,8 @@ export async function GET(
             )
               AS downtime_minutes
 
-          FROM base
+          FROM
+            base
 
           GROUP BY
             label
@@ -399,6 +761,11 @@ export async function GET(
         params,
       );
 
+
+    /* =====================================================
+       NORMALIZAÇÃO DA CONSULTA ANALÍTICA
+    ====================================================== */
+
     const normalized =
       aggregates
         .map(
@@ -410,10 +777,12 @@ export async function GET(
                 row.occurrences,
               );
 
+
             const downtimeMinutes =
               toNumber(
                 row.downtime_minutes,
               );
+
 
             return {
               label:
@@ -440,6 +809,242 @@ export async function GET(
             0,
         );
 
+
+    /* =====================================================
+       ORIGEM DAS FALHAS
+
+       A origem já foi calculada pelo modelo e persistida em:
+
+       event_failure_origin_predictions
+
+       Valores oficiais:
+
+       - OPERACAO
+       - MANUTENCAO
+
+       Eventos ainda não classificados são preservados como
+       NAO_CLASSIFICADO para não distorcer os percentuais.
+
+       IMPORTANTE:
+
+       A consulta utiliza exatamente o mesmo recorte de:
+
+       - unidade
+       - período
+       - linha
+       - equipamento
+
+       utilizado pelo Pareto e Jack-Knife.
+    ====================================================== */
+
+    const failureOriginParams:
+      Array<
+        string | number
+      > = [
+        ...params,
+      ];
+
+
+    const failureOriginRows =
+      await executeRows<
+        FailureOriginRow[]
+      >(
+        `
+          SELECT
+
+            CASE
+
+              WHEN
+                UPPER(
+                  TRIM(
+                    COALESCE(
+                      fop.failure_origin,
+                      ''
+                    )
+                  )
+                ) = 'OPERACAO'
+              THEN
+                'OPERACAO'
+
+              WHEN
+                UPPER(
+                  TRIM(
+                    COALESCE(
+                      fop.failure_origin,
+                      ''
+                    )
+                  )
+                ) = 'MANUTENCAO'
+              THEN
+                'MANUTENCAO'
+
+              ELSE
+                'NAO_CLASSIFICADO'
+
+            END AS origin,
+
+            COUNT(*)
+              AS occurrences
+
+          FROM
+            maintenance_events e
+
+          LEFT JOIN
+            event_failure_origin_predictions fop
+              ON fop.event_id =
+                 e.id
+
+          WHERE
+            ${where.join(
+              "\nAND ",
+            )}
+
+          GROUP BY
+            origin
+        `,
+        failureOriginParams,
+      );
+
+
+    let operationFailures =
+      0;
+
+    let maintenanceFailures =
+      0;
+
+    let unclassifiedFailures =
+      0;
+
+
+    for (
+      const row
+      of failureOriginRows
+    ) {
+      const occurrences =
+        toNumber(
+          row.occurrences,
+        );
+
+
+      switch (
+        row.origin
+      ) {
+        case "OPERACAO":
+          operationFailures +=
+            occurrences;
+
+          break;
+
+
+        case "MANUTENCAO":
+          maintenanceFailures +=
+            occurrences;
+
+          break;
+
+
+        default:
+          unclassifiedFailures +=
+            occurrences;
+
+          break;
+      }
+    }
+
+
+    const classifiedFailures =
+      operationFailures +
+      maintenanceFailures;
+
+
+    const failureOriginTotal =
+      classifiedFailures +
+      unclassifiedFailures;
+
+
+    /*
+     * Os percentuais de Operação e Manutenção são calculados
+     * sobre as ocorrências efetivamente classificadas.
+     *
+     * Isso evita que registros ainda sem classificação
+     * alterem artificialmente a relação:
+     *
+     * Operação x Manutenção.
+     */
+
+    const operationPercentage =
+      classifiedFailures >
+      0
+        ? (
+            operationFailures /
+            classifiedFailures
+          ) *
+          100
+        : 0;
+
+
+    const maintenancePercentage =
+      classifiedFailures >
+      0
+        ? (
+            maintenanceFailures /
+            classifiedFailures
+          ) *
+          100
+        : 0;
+
+
+    /*
+     * O percentual não classificado utiliza o universo total,
+     * pois representa a cobertura atual da classificação.
+     */
+
+    const unclassifiedPercentage =
+      failureOriginTotal >
+      0
+        ? (
+            unclassifiedFailures /
+            failureOriginTotal
+          ) *
+          100
+        : 0;
+
+
+    const failureOrigin:
+      FailureOriginSummary =
+      {
+        operation:
+          operationFailures,
+
+        maintenance:
+          maintenanceFailures,
+
+        unclassified:
+          unclassifiedFailures,
+
+        classified:
+          classifiedFailures,
+
+        total:
+          failureOriginTotal,
+
+        operationPercentage:
+          round(
+            operationPercentage,
+          ),
+
+        maintenancePercentage:
+          round(
+            maintenancePercentage,
+          ),
+
+        unclassifiedPercentage:
+          round(
+            unclassifiedPercentage,
+          ),
+      };
+
+
     /* =====================================================
        JACK-KNIFE
     ====================================================== */
@@ -459,6 +1064,7 @@ export async function GET(
           normalized.length
         : 0;
 
+
     const mttrAverage =
       normalized.length >
       0
@@ -474,6 +1080,7 @@ export async function GET(
           normalized.length
         : 0;
 
+
     const jackKnife:
       JackKnifeItem[] =
       normalized.map(
@@ -484,13 +1091,16 @@ export async function GET(
             item.occurrences >=
             failuresAverage;
 
+
           const highMttr =
             item.mttr >=
             mttrAverage;
 
+
           let quadrant:
             JackKnifeItem["quadrant"] =
             "CONFORTO";
+
 
           if (
             highFrequency &&
@@ -511,6 +1121,7 @@ export async function GET(
             quadrant =
               "CRONICO";
           }
+
 
           return {
             label:
@@ -534,9 +1145,13 @@ export async function GET(
         },
       );
 
+
     /* =====================================================
        PARETO
-       - Top 10 + Outros
+
+       - Todas as categorias
+       - Sem agrupamento em "Outros"
+       - Paginação é responsabilidade da interface
     ====================================================== */
 
     const totalDowntime =
@@ -550,6 +1165,7 @@ export async function GET(
         0,
       );
 
+
     const sortedPareto =
       [
         ...normalized,
@@ -562,63 +1178,20 @@ export async function GET(
           a.downtimeMinutes,
       );
 
-    const top =
-      sortedPareto.slice(
-        0,
-        10,
-      );
-
-    const rest =
-      sortedPareto.slice(
-        10,
-      );
-
-    if (
-      rest.length >
-      0
-    ) {
-      top.push({
-        label:
-          "Outros",
-
-        occurrences:
-          rest.reduce(
-            (
-              total,
-              item,
-            ) =>
-              total +
-              item.occurrences,
-            0,
-          ),
-
-        downtimeMinutes:
-          rest.reduce(
-            (
-              total,
-              item,
-            ) =>
-              total +
-              item.downtimeMinutes,
-            0,
-          ),
-
-        mttr:
-          0,
-      });
-    }
 
     let cumulative =
       0;
 
+
     const pareto:
       ParetoItem[] =
-      top.map(
+      sortedPareto.map(
         (
           item,
         ) => {
           cumulative +=
             item.downtimeMinutes;
+
 
           const percentage =
             totalDowntime >
@@ -630,6 +1203,7 @@ export async function GET(
                 100
               : 0;
 
+
           const cumulativePercentage =
             totalDowntime >
             0
@@ -639,6 +1213,7 @@ export async function GET(
                 ) *
                 100
               : 0;
+
 
           return {
             label:
@@ -665,6 +1240,11 @@ export async function GET(
         },
       );
 
+
+    /* =====================================================
+       SUMMARY
+    ====================================================== */
+
     const totalEvents =
       normalized.reduce(
         (
@@ -676,31 +1256,58 @@ export async function GET(
         0,
       );
 
+
+    /* =====================================================
+       RESPONSE
+    ====================================================== */
+
     return NextResponse.json({
       success:
         true,
+
+
+      /* ---------------------------------------------------
+         NÍVEL DA ANÁLISE
+      --------------------------------------------------- */
 
       analysisLevel:
         equipment
           ? "FAILURE_MODE"
           : "EQUIPMENT",
 
+
+      /* ---------------------------------------------------
+         FILTROS
+      --------------------------------------------------- */
+
       filters: {
+        selectedUnitIds:
+          unitSelection
+            .selectedUnitIds,
+
+
+        selectedUnits,
+
+
         startDate:
           startDate ??
           null,
+
 
         endDate:
           endDate ??
           null,
 
+
         line:
           line ||
           null,
 
+
         equipment:
           equipment ||
           null,
+
 
         options: {
           lines:
@@ -711,6 +1318,7 @@ export async function GET(
                 item.value,
             ),
 
+
           equipments:
             equipments.map(
               (
@@ -720,6 +1328,11 @@ export async function GET(
             ),
         },
       },
+
+
+      /* ---------------------------------------------------
+         RESUMO GERAL
+      --------------------------------------------------- */
 
       summary: {
         events:
@@ -734,11 +1347,47 @@ export async function GET(
           normalized.length,
       },
 
+
+      /* ---------------------------------------------------
+         ORIGEM DAS FALHAS
+
+         Novo bloco.
+      --------------------------------------------------- */
+
+      failureOrigin,
+
+
+      /* ---------------------------------------------------
+         PARETO
+      --------------------------------------------------- */
+
       pareto,
+
+
+      /* ---------------------------------------------------
+         JACK-KNIFE
+      --------------------------------------------------- */
 
       jackKnife,
 
+
+      /* ---------------------------------------------------
+         LIMITES JACK-KNIFE
+      --------------------------------------------------- */
+
       jackKnifeLimits: {
+        /*
+         * frequency é o nome consumido pela interface.
+         *
+         * failures é mantido por compatibilidade com
+         * versões anteriores do endpoint.
+         */
+
+        frequency:
+          round(
+            failuresAverage,
+          ),
+
         failures:
           round(
             failuresAverage,
@@ -758,10 +1407,12 @@ export async function GET(
       error,
     );
 
+
     return NextResponse.json(
       {
         success:
           false,
+
         message:
           "Não foi possível carregar os dados de confiabilidade.",
       },

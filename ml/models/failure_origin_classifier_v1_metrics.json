@@ -1,0 +1,295 @@
+{
+  "model_version": "failure_origin_classifier_v1_eval",
+  "dataset_version": "synthetic-origin-v1",
+  "algorithm": "TFIDF_WORD_CHAR_LINEAR_SVC_SIGMOID_CALIBRATION",
+  "active_features": [
+    "observation",
+    "equipment",
+    "stop_key_1",
+    "stop_subkey",
+    "failed_component_code",
+    "failure_mode"
+  ],
+  "excluded_features": [
+    "stop_type",
+    "line"
+  ],
+  "split": {
+    "total_rows": 2720,
+    "total_scenarios": 34,
+    "train_rows": 1760,
+    "validation_rows": 480,
+    "test_rows": 480,
+    "train_scenarios": 22,
+    "validation_scenarios": 6,
+    "test_scenarios": 6,
+    "scenario_leakage": {
+      "train_validation": 0,
+      "train_test": 0,
+      "validation_test": 0
+    }
+  },
+  "validation": {
+    "row_level": {
+      "accuracy": 0.954167,
+      "macro_f1": 0.95407,
+      "weighted_f1": 0.95407,
+      "roc_auc_operacao": 0.970781,
+      "brier_score_operacao": 0.093274,
+      "log_loss": 0.335383,
+      "per_class": {
+        "MANUTENCAO": {
+          "precision": 1.0,
+          "recall": 0.908333,
+          "f1": 0.951965,
+          "support": 240
+        },
+        "OPERACAO": {
+          "precision": 0.916031,
+          "recall": 1.0,
+          "f1": 0.956175,
+          "support": 240
+        }
+      },
+      "confusion_matrix": {
+        "labels": [
+          "MANUTENCAO",
+          "OPERACAO"
+        ],
+        "matrix": [
+          [
+            218,
+            22
+          ],
+          [
+            0,
+            240
+          ]
+        ]
+      }
+    },
+    "scenario_level": {
+      "scenarios": 6,
+      "scenario_accuracy": 1.0,
+      "mean_row_accuracy_per_scenario": 0.954167,
+      "details": [
+        {
+          "scenario_id": "ACOPLAMENTO_M_01",
+          "real": "MANUTENCAO",
+          "prediction": "MANUTENCAO",
+          "row_accuracy": 0.725,
+          "mean_confidence": 0.644917,
+          "correct": true
+        },
+        {
+          "scenario_id": "ACOPLAMENTO_O_01",
+          "real": "OPERACAO",
+          "prediction": "OPERACAO",
+          "row_accuracy": 1.0,
+          "mean_confidence": 0.900838,
+          "correct": true
+        },
+        {
+          "scenario_id": "DOSADOR_M_01",
+          "real": "MANUTENCAO",
+          "prediction": "MANUTENCAO",
+          "row_accuracy": 1.0,
+          "mean_confidence": 0.864967,
+          "correct": true
+        },
+        {
+          "scenario_id": "ESTRELA_O_01",
+          "real": "OPERACAO",
+          "prediction": "OPERACAO",
+          "row_accuracy": 1.0,
+          "mean_confidence": 0.678068,
+          "correct": true
+        },
+        {
+          "scenario_id": "GARRA_O_01",
+          "real": "OPERACAO",
+          "prediction": "OPERACAO",
+          "row_accuracy": 1.0,
+          "mean_confidence": 0.604105,
+          "correct": true
+        },
+        {
+          "scenario_id": "TRANSPORTADOR_M_01",
+          "real": "MANUTENCAO",
+          "prediction": "MANUTENCAO",
+          "row_accuracy": 1.0,
+          "mean_confidence": 0.765522,
+          "correct": true
+        }
+      ]
+    }
+  },
+  "confidence": {
+    "type": "calibrated_probability_sigmoid",
+    "target_precision_thresholds": {
+      "90": {
+        "threshold": 0.503494,
+        "selected": 479,
+        "total": 480,
+        "coverage": 0.997917,
+        "precision": 0.954071
+      },
+      "95": {
+        "threshold": 0.503494,
+        "selected": 479,
+        "total": 480,
+        "coverage": 0.997917,
+        "precision": 0.954071
+      },
+      "97": {
+        "threshold": 0.640205,
+        "selected": 341,
+        "total": 480,
+        "coverage": 0.710417,
+        "precision": 0.970674
+      }
+    },
+    "selected_high_confidence_threshold": 0.503494,
+    "selected_precision_target": 0.95
+  },
+  "test": {
+    "row_level": {
+      "accuracy": 0.3375,
+      "macro_f1": 0.252336,
+      "weighted_f1": 0.252336,
+      "roc_auc_operacao": 0.440799,
+      "brier_score_operacao": 0.310272,
+      "log_loss": 0.829496,
+      "per_class": {
+        "MANUTENCAO": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 240
+        },
+        "OPERACAO": {
+          "precision": 0.402985,
+          "recall": 0.675,
+          "f1": 0.504673,
+          "support": 240
+        }
+      },
+      "confusion_matrix": {
+        "labels": [
+          "MANUTENCAO",
+          "OPERACAO"
+        ],
+        "matrix": [
+          [
+            0,
+            240
+          ],
+          [
+            78,
+            162
+          ]
+        ]
+      }
+    },
+    "scenario_level": {
+      "scenarios": 6,
+      "scenario_accuracy": 0.333333,
+      "mean_row_accuracy_per_scenario": 0.3375,
+      "details": [
+        {
+          "scenario_id": "BOCAL_O_01",
+          "real": "OPERACAO",
+          "prediction": "MANUTENCAO",
+          "row_accuracy": 0.4625,
+          "mean_confidence": 0.586752,
+          "correct": false
+        },
+        {
+          "scenario_id": "CILINDRO_M_01",
+          "real": "MANUTENCAO",
+          "prediction": "OPERACAO",
+          "row_accuracy": 0.0,
+          "mean_confidence": 0.563781,
+          "correct": false
+        },
+        {
+          "scenario_id": "CORREIA_M_01",
+          "real": "MANUTENCAO",
+          "prediction": "OPERACAO",
+          "row_accuracy": 0.0,
+          "mean_confidence": 0.70472,
+          "correct": false
+        },
+        {
+          "scenario_id": "SENSOR_M_01",
+          "real": "MANUTENCAO",
+          "prediction": "OPERACAO",
+          "row_accuracy": 0.0,
+          "mean_confidence": 0.727521,
+          "correct": false
+        },
+        {
+          "scenario_id": "SERVO_O_01",
+          "real": "OPERACAO",
+          "prediction": "OPERACAO",
+          "row_accuracy": 1.0,
+          "mean_confidence": 0.799557,
+          "correct": true
+        },
+        {
+          "scenario_id": "VALVULA_O_01",
+          "real": "OPERACAO",
+          "prediction": "OPERACAO",
+          "row_accuracy": 0.5625,
+          "mean_confidence": 0.634567,
+          "correct": true
+        }
+      ]
+    },
+    "high_confidence": {
+      "threshold": 0.503494,
+      "selected": 480,
+      "total": 480,
+      "coverage": 1.0,
+      "precision": 0.3375
+    }
+  },
+  "acceptance": {
+    "passed": false,
+    "checks": {
+      "accuracy_gte_0_92": false,
+      "macro_f1_gte_0_90": false,
+      "maintenance_precision_gte_0_90": false,
+      "operation_precision_gte_0_90": false,
+      "high_confidence_precision_gte_0_95": false
+    },
+    "note": "Este aceite vale somente para o holdout sintético. Produção depende de teste real."
+  },
+  "classification_report_test": {
+    "MANUTENCAO": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 240.0
+    },
+    "OPERACAO": {
+      "precision": 0.40298507462686567,
+      "recall": 0.675,
+      "f1-score": 0.5046728971962616,
+      "support": 240.0
+    },
+    "accuracy": 0.3375,
+    "macro avg": {
+      "precision": 0.20149253731343283,
+      "recall": 0.3375,
+      "f1-score": 0.2523364485981308,
+      "support": 480.0
+    },
+    "weighted avg": {
+      "precision": 0.20149253731343283,
+      "recall": 0.3375,
+      "f1-score": 0.2523364485981308,
+      "support": 480.0
+    }
+  }
+}

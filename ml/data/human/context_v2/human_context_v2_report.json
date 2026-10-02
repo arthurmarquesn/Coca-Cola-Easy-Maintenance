@@ -1,0 +1,39 @@
+{
+  "dataset_version": "human-context-v2-draft",
+  "unit_id": 1,
+  "total_human_rows": 4480,
+  "safe_context_rows": 1399,
+  "safe_context_percent": 31.2277,
+  "ambiguous_context_rows": 100,
+  "not_found_rows": 2956,
+  "human_conflict_rows": 25,
+  "unique_safe_observations": 1128,
+  "safe_failure_modes": 233,
+  "context_field_coverage": {
+    "source_equipment_name": {
+      "present": 1399,
+      "total_safe": 1399,
+      "coverage_percent": 100.0
+    },
+    "source_stop_key_1": {
+      "present": 1280,
+      "total_safe": 1399,
+      "coverage_percent": 91.4939
+    },
+    "source_stop_subkey": {
+      "present": 178,
+      "total_safe": 1399,
+      "coverage_percent": 12.7234
+    },
+    "source_stop_type": {
+      "present": 1399,
+      "total_safe": 1399,
+      "coverage_percent": 100.0
+    },
+    "source_line_name": {
+      "present": 1399,
+      "total_safe": 1399,
+      "coverage_percent": 100.0
+    }
+  }
+}

@@ -1,74 +1,121 @@
-import { redirect } from "next/navigation";
+import {
+  redirect,
+} from "next/navigation";
 
-import type { RowDataPacket } from "mysql2";
+import type {
+  RowDataPacket,
+} from "mysql2/promise";
 
-import { DashboardHome } from "@/components/dashboard/dashboard-home";
-import { executeRows } from "@/lib/db";
-import { getSession } from "@/lib/session";
+import {
+  DashboardHome,
+} from "@/components/dashboard/dashboard-home";
+
+import {
+  executeRows,
+} from "@/lib/db";
+
+import {
+  getSession,
+} from "@/lib/session";
+
 
 /* =========================================================
-   TIPOS
+   TYPES
 ========================================================= */
 
-interface UnitRow extends RowDataPacket {
+interface UnitRow
+  extends RowDataPacket {
   id: number;
-  city: string | null;
+
+  city:
+    | string
+    | null;
 }
+
 
 /* =========================================================
    DASHBOARD
 ========================================================= */
 
 export default async function DashboardPage() {
-  const session = await getSession();
+  const session =
+    await getSession();
+
 
   /* =======================================================
-     PROTEÇÃO DA ROTA
+     AUTH
   ======================================================= */
 
-  if (!session) {
-    redirect("/login");
+  if (
+    !session
+  ) {
+    redirect(
+      "/login",
+    );
   }
 
+
   /* =======================================================
-     UNIDADE ATUAL
+     DEFAULT UNIT
+
+     A unidade abaixo continua sendo a unidade operacional
+     padrão da sessão.
+
+     O filtro multiunidade é carregado separadamente pelo
+     UnitFilter através de /api/units.
   ======================================================= */
 
-  const units = await executeRows<UnitRow[]>(
-    `
-      SELECT
-        id,
-        city
-      FROM units
-      WHERE id = ?
-      AND active = TRUE
-      LIMIT 1
-    `,
-    [
-      session.unitId,
-    ],
-  );
+  const units =
+    await executeRows<
+      UnitRow[]
+    >(
+      `
+        SELECT
+            id,
+            city
 
-  const unit = units[0];
+        FROM
+            units
 
-  if (!unit) {
-    redirect("/login");
+        WHERE
+            id = ?
+
+            AND active = TRUE
+
+        LIMIT 1
+      `,
+      [
+        session.unitId,
+      ],
+    );
+
+  const unit =
+    units[0];
+
+
+  if (
+    !unit
+  ) {
+    redirect(
+      "/login",
+    );
   }
 
+
   /* =======================================================
-     INTERFACE
+     UI
   ======================================================= */
 
   return (
     <DashboardHome
       user={{
-        name: session.name,
-        email: session.email,
-        role: session.role,
+        name:
+          session.name,
       }}
+
       unit={{
-        id: unit.id,
-        city: unit.city,
+        city:
+          unit.city,
       }}
     />
   );

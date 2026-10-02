@@ -1,0 +1,126 @@
+{
+  "dataset_rows": 1399,
+  "unique_observations": 1128,
+  "classes": 233,
+  "split": {
+    "train_rows": 954,
+    "validation_rows": 226,
+    "test_rows": 219,
+    "train_groups": 764,
+    "validation_groups": 186,
+    "test_groups": 178
+  },
+  "baseline": {
+    "text_column": "text_observation",
+    "feature_count": 16549,
+    "validation_metrics": {
+      "accuracy": 0.707965,
+      "macro_f1": 0.531308,
+      "weighted_f1": 0.672933,
+      "top3_accuracy": 0.836283
+    },
+    "test_metrics": {
+      "accuracy": 0.69863,
+      "macro_f1": 0.503146,
+      "weighted_f1": 0.660036,
+      "top3_accuracy": 0.858447
+    },
+    "thresholds": {
+      "90": {
+        "threshold": 0.45733879,
+        "selected": 124,
+        "coverage": 0.548673,
+        "precision": 0.903226
+      },
+      "95": {
+        "threshold": 0.73855317,
+        "selected": 81,
+        "coverage": 0.358407,
+        "precision": 0.950617
+      },
+      "97": {
+        "threshold": 1.10222534,
+        "selected": 55,
+        "coverage": 0.243363,
+        "precision": 0.981818
+      }
+    },
+    "test_automation": {
+      "90": {
+        "threshold": 0.45733879,
+        "automated": 121,
+        "review": 98,
+        "coverage": 0.552511,
+        "precision": 0.900826
+      },
+      "95": {
+        "threshold": 0.73855317,
+        "automated": 82,
+        "review": 137,
+        "coverage": 0.374429,
+        "precision": 0.926829
+      },
+      "97": {
+        "threshold": 1.10222534,
+        "automated": 53,
+        "review": 166,
+        "coverage": 0.242009,
+        "precision": 0.924528
+      }
+    }
+  },
+  "contextual": {
+    "text_column": "text_context",
+    "feature_count": 18753,
+    "validation_metrics": {
+      "accuracy": 0.60177,
+      "macro_f1": 0.392157,
+      "weighted_f1": 0.561268,
+      "top3_accuracy": 0.80531
+    },
+    "test_metrics": {
+      "accuracy": 0.671233,
+      "macro_f1": 0.440111,
+      "weighted_f1": 0.635411,
+      "top3_accuracy": 0.812785
+    },
+    "thresholds": {
+      "90": {
+        "threshold": 0.63930901,
+        "selected": 94,
+        "coverage": 0.415929,
+        "precision": 0.904255
+      },
+      "95": {
+        "threshold": 1.26571149,
+        "selected": 29,
+        "coverage": 0.128319,
+        "precision": 0.965517
+      },
+      "97": null
+    },
+    "test_automation": {
+      "90": {
+        "threshold": 0.63930901,
+        "automated": 92,
+        "review": 127,
+        "coverage": 0.420091,
+        "precision": 0.891304
+      },
+      "95": {
+        "threshold": 1.26571149,
+        "automated": 21,
+        "review": 198,
+        "coverage": 0.09589,
+        "precision": 1.0
+      },
+      "97": null
+    }
+  },
+  "test_delta_context_minus_baseline": {
+    "accuracy": -0.027397,
+    "macro_f1": -0.063035,
+    "weighted_f1": -0.024625,
+    "top3_accuracy": -0.045662
+  }
+}

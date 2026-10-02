@@ -1,0 +1,103 @@
+{
+  "script_version": "context-v2.1-stability",
+  "runs": 20,
+  "test_ratio": 0.2,
+  "equipment_weight": 0.25,
+  "baseline_accuracy_mean": 0.695487,
+  "contextual_accuracy_mean": 0.698248,
+  "row_level_delta": {
+    "accuracy": {
+      "runs": 20,
+      "mean": 0.002761,
+      "median": 0.005036,
+      "std": 0.011115,
+      "minimum": -0.016666,
+      "maximum": 0.022876,
+      "wins": 11,
+      "ties": 1,
+      "losses": 8,
+      "win_rate_excluding_ties": 0.578947,
+      "sign_test_p_value": 0.6476059
+    },
+    "macro_f1": {
+      "runs": 20,
+      "mean": -0.003255,
+      "median": -0.00194,
+      "std": 0.016119,
+      "minimum": -0.027514,
+      "maximum": 0.022415,
+      "wins": 9,
+      "ties": 0,
+      "losses": 11,
+      "win_rate_excluding_ties": 0.45,
+      "sign_test_p_value": 0.82380295
+    },
+    "weighted_f1": {
+      "runs": 20,
+      "mean": 0.000598,
+      "median": 0.000954,
+      "std": 0.011913,
+      "minimum": -0.018992,
+      "maximum": 0.026324,
+      "wins": 11,
+      "ties": 0,
+      "losses": 9,
+      "win_rate_excluding_ties": 0.55,
+      "sign_test_p_value": 0.82380295
+    },
+    "top3_accuracy": {
+      "runs": 20,
+      "mean": 0.003266,
+      "median": 0.003284,
+      "std": 0.008111,
+      "minimum": -0.010135,
+      "maximum": 0.018382,
+      "wins": 11,
+      "ties": 3,
+      "losses": 6,
+      "win_rate_excluding_ties": 0.647059,
+      "sign_test_p_value": 0.33230591
+    }
+  },
+  "unique_observation_delta": {
+    "accuracy": {
+      "runs": 20,
+      "mean": 0.001667,
+      "median": 0.004166,
+      "std": 0.012419,
+      "minimum": -0.025,
+      "maximum": 0.020833,
+      "wins": 11,
+      "ties": 1,
+      "losses": 8,
+      "win_rate_excluding_ties": 0.578947,
+      "sign_test_p_value": 0.6476059
+    },
+    "macro_f1": {
+      "runs": 20,
+      "mean": -0.003602,
+      "median": -0.002615,
+      "std": 0.016369,
+      "minimum": -0.031163,
+      "maximum": 0.023287,
+      "wins": 8,
+      "ties": 0,
+      "losses": 12,
+      "win_rate_excluding_ties": 0.4,
+      "sign_test_p_value": 0.50344467
+    },
+    "weighted_f1": {
+      "runs": 20,
+      "mean": -0.00151,
+      "median": -0.001736,
+      "std": 0.012402,
+      "minimum": -0.026256,
+      "maximum": 0.018174,
+      "wins": 7,
+      "ties": 0,
+      "losses": 13,
+      "win_rate_excluding_ties": 0.35,
+      "sign_test_p_value": 0.26317596
+    }
+  }
+}
