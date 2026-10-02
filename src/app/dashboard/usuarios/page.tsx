@@ -15,7 +15,7 @@ import {
 } from "@/lib/db";
 
 import {
-  isAdminRole,
+  isAnalystRole,
 } from "@/lib/roles";
 
 import {
@@ -41,7 +41,7 @@ export default async function UsersPageRoute() {
     redirect("/login");
   }
 
-  if (!isAdminRole(session.role)) {
+  if (!isAnalystRole(session.role)) {
     redirect("/dashboard");
   }
 

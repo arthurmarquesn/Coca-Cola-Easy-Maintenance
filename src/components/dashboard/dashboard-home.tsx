@@ -16,6 +16,8 @@ import type {
   LucideIcon,
 } from "lucide-react";
 
+import { isAnalystRole } from "@/lib/roles";
+
 interface DashboardHomeProps {
   user: {
     name: string;
@@ -103,8 +105,8 @@ export function DashboardHome({
       user.name,
     );
 
-  const isAdmin =
-    user.role === "ADMIN";
+  const isAnalyst =
+    isAnalystRole(user.role);
 
   return (
     <main className="min-h-screen bg-background-primary transition-colors">
@@ -182,13 +184,13 @@ export function DashboardHome({
             description="Revise por categoria as classificações sugeridas pela IA e registre o feedback humano."
             action="Revisar"
             className={
-              isAdmin
+              isAnalyst
                 ? undefined
                 : "sm:col-span-2"
             }
           />
 
-          {isAdmin && (
+          {isAnalyst && (
             <ModuleCard
               href="/dashboard/usuarios"
               icon={UserPlus}

@@ -1,7 +1,6 @@
 export const ASSIGNABLE_ROLES = [
-  "ADMIN",
-  "MANAGER",
   "MAINTENANCE",
+  "MANAGER",
 ] as const;
 
 export type AssignableRole =
@@ -11,10 +10,8 @@ export const ROLE_LABELS: Record<
   string,
   string
 > = {
-  ADMIN: "Admin",
-  MANAGER: "Gestor",
   MAINTENANCE: "Analista",
-  VIEWER: "Visualizador",
+  MANAGER: "Gestor",
 };
 
 export function isAssignableRole(
@@ -28,8 +25,22 @@ export function isAssignableRole(
   );
 }
 
-export function isAdminRole(
+/*
+ * Analista tem acesso total (cadastro de usuários,
+ * importação e revisão). Gestor apenas consulta os
+ * dados já gerados.
+ *
+ * ADMIN é aceito aqui apenas como compatibilidade: bancos
+ * que ainda não rodaram database/migrations/001 continuam
+ * com usuários nesse papel, e sem isso eles perderiam o
+ * acesso. Depois da migração nenhum usuário tem ADMIN e
+ * esta condição pode ser removida.
+ */
+export function isAnalystRole(
   role: string | undefined | null,
 ): boolean {
-  return role === "ADMIN";
+  return (
+    role === "MAINTENANCE" ||
+    role === "ADMIN"
+  );
 }

@@ -5,7 +5,7 @@ import {
 } from "@/lib/db";
 
 import {
-  isAdminRole,
+  isAnalystRole,
   isAssignableRole,
 } from "@/lib/roles";
 
@@ -48,7 +48,7 @@ export async function PATCH(
     return fail(401, "Sessão inválida.");
   }
 
-  if (!isAdminRole(session.role)) {
+  if (!isAnalystRole(session.role)) {
     return fail(403, "Acesso negado.");
   }
 
@@ -88,11 +88,11 @@ export async function PATCH(
 
     if (
       userId === session.userId &&
-      body.role !== "ADMIN"
+      body.role !== "MAINTENANCE"
     ) {
       return fail(
         400,
-        "Você não pode remover o seu próprio acesso de Admin.",
+        "Você não pode remover o seu próprio acesso de Analista.",
       );
     }
 
@@ -176,7 +176,7 @@ export async function DELETE(
     return fail(401, "Sessão inválida.");
   }
 
-  if (!isAdminRole(session.role)) {
+  if (!isAnalystRole(session.role)) {
     return fail(403, "Acesso negado.");
   }
 

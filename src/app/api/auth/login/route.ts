@@ -28,7 +28,7 @@ interface UserRow extends RowDataPacket {
   name: string;
   email: string;
   password_hash: string;
-  role: "ADMIN" | "MANAGER" | "MAINTENANCE" | "VIEWER";
+  role: "MANAGER" | "MAINTENANCE";
   active: number;
 }
 

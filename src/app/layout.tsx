@@ -23,7 +23,8 @@ export default async function RootLayout({
   // Ler a preferência do usuário do cookie
   const cookieStore = await cookies();
   const themeCookie = cookieStore.get("theme");
-  const initialTheme = themeCookie?.value === "light" ? "light" : "dark";
+  // Light é o padrão: só entra no dark se o usuário escolheu.
+  const initialTheme = themeCookie?.value === "dark" ? "dark" : "light";
 
   return (
     <html lang="pt-BR" className={initialTheme}>

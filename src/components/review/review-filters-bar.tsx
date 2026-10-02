@@ -34,7 +34,7 @@ const selectClassName =
   "h-10 w-full rounded-[10px] border border-border-theme bg-surface px-3 text-[12.5px] text-text-primary outline-none transition-colors focus:border-[#F40009]";
 
 const labelClassName =
-  "mb-1.5 block text-[11px] font-medium text-[#8A8E94]";
+  "mb-1.5 block text-[11px] font-medium text-text-secondary";
 
 export function ReviewFiltersBar({
   filters,
@@ -61,7 +61,7 @@ export function ReviewFiltersBar({
           <Search
             size={15}
             strokeWidth={1.8}
-            className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-[#A0A4A9]"
+            className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-text-secondary"
           />
 
           <input
@@ -69,7 +69,7 @@ export function ReviewFiltersBar({
             value={filters.search}
             onChange={(event) => patch({ search: event.target.value })}
             placeholder="Buscar por descrição, linha ou equipamento..."
-            className="h-10 w-full rounded-[10px] border border-border-theme bg-surface pl-9 pr-3 text-[12.5px] text-text-primary outline-none transition-colors placeholder:text-[#B3B6BB] focus:border-[#F40009]"
+            className="h-10 w-full rounded-[10px] border border-border-theme bg-surface pl-9 pr-3 text-[12.5px] text-text-primary outline-none transition-colors placeholder:text-text-muted focus:border-[#F40009]"
           />
         </div>
 
@@ -93,7 +93,7 @@ export function ReviewFiltersBar({
           className={`flex h-10 shrink-0 items-center justify-center gap-2 rounded-[10px] border px-4 text-[12px] font-semibold transition-colors ${
             expanded || activeCount > 0
               ? "border-[#F40009] text-[#F40009]"
-              : "border-border-theme text-text-secondary hover:border-[#C7CBD1]"
+              : "border-border-theme text-text-secondary hover:border-text-secondary"
           }`}
         >
           <SlidersHorizontal size={14} strokeWidth={2} />
@@ -228,14 +228,14 @@ export function ReviewFiltersBar({
 
       {activeCount > 0 && (
         <div className="flex items-center justify-between border-t border-border-theme px-4 py-2.5">
-          <p className="text-[11px] text-[#9A9EA3]">
+          <p className="text-[11px] text-text-secondary">
             {activeCount} filtro(s) aplicado(s)
           </p>
 
           <button
             type="button"
             onClick={clearAll}
-            className="flex items-center gap-1 text-[11px] font-medium text-[#81868C] transition-colors hover:text-[#F40009]"
+            className="flex items-center gap-1 text-[11px] font-medium text-text-secondary transition-colors hover:text-[#F40009]"
           >
             <X size={12} strokeWidth={2} />
             Limpar filtros

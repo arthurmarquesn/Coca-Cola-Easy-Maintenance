@@ -66,11 +66,9 @@ CREATE TABLE IF NOT EXISTS users (
     password_hash VARCHAR(255) NOT NULL,
 
     role ENUM(
-        'ADMIN',
-        'MANAGER',
         'MAINTENANCE',
-        'VIEWER'
-    ) NOT NULL DEFAULT 'VIEWER',
+        'MANAGER'
+    ) NOT NULL DEFAULT 'MANAGER',
 
     active BOOLEAN NOT NULL DEFAULT TRUE,
 
@@ -161,7 +159,7 @@ ON DUPLICATE KEY UPDATE
 
 
 -- =========================================================
--- 4.1 USUÁRIO ADMIN INICIAL
+-- 4.1 USUÁRIO ANALISTA INICIAL
 --
 -- Login: teste@email.com
 -- Senha: teste123
@@ -184,7 +182,7 @@ VALUES (
     'teste',
     'teste@email.com',
     '$2b$10$siuikaQ90Q1UrXzbc1Qgj.mZ7LmMPAjIoT5DAhnxHGoDuTdRlbmuq',
-    'ADMIN',
+    'MAINTENANCE',
     TRUE
 )
 ON DUPLICATE KEY UPDATE

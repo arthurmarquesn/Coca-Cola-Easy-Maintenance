@@ -102,7 +102,7 @@ export default function LoginPage() {
   }
 
   return (
-    <main className="relative min-h-screen w-full overflow-hidden bg-background-primary transition-colors">
+    <main className="login-light relative min-h-screen w-full overflow-hidden bg-background-primary transition-colors">
       {/* =========================================================
           PÁGINA
       ========================================================== */}

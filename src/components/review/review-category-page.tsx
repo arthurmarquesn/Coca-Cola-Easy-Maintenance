@@ -489,7 +489,7 @@ export function ReviewCategoryPage({
         </div>
 
         <div className="mt-5 flex flex-wrap items-center justify-between gap-3">
-          <label className="flex items-center gap-2 text-[12px] font-medium text-[#4A4F55]">
+          <label className="flex items-center gap-2 text-[12px] font-medium text-text-primary">
             <input
               type="checkbox"
               checked={allSelected}
@@ -500,12 +500,12 @@ export function ReviewCategoryPage({
           </label>
 
           <div className="flex items-center gap-2">
-            <span className="text-[11px] text-[#9A9EA3]">Ordenar por:</span>
+            <span className="text-[11px] text-text-secondary">Ordenar por:</span>
 
             <select
               value={sort}
               onChange={(event) => setSort(event.target.value as SortValue)}
-              className="h-8 rounded-[8px] border border-[#DEE1E5] bg-background-primary transition-colors px-2 text-[11.5px] text-[#4A4F55] outline-none focus:border-[#F40009]"
+              className="h-8 rounded-[8px] border border-border-theme bg-background-primary transition-colors px-2 text-[11.5px] text-text-primary outline-none focus:border-[#F40009]"
             >
               {SORT_OPTIONS.map((option) => (
                 <option key={option.value} value={option.value}>
@@ -517,8 +517,8 @@ export function ReviewCategoryPage({
         </div>
 
         {selected.size > 0 && (
-          <div className="sticky top-3 z-10 mt-3 flex flex-wrap items-center justify-between gap-3 rounded-[12px] border border-[#F40009] bg-[#FFF6F6] px-4 py-3">
-            <span className="text-[12.5px] font-semibold text-[#8A2A2E]">
+          <div className="sticky top-3 z-10 mt-3 flex flex-wrap items-center justify-between gap-3 rounded-[12px] border border-[#F40009] bg-surface-elevated px-4 py-3">
+            <span className="text-[12.5px] font-semibold text-text-primary">
               {selected.size} selecionada(s)
             </span>
 
@@ -537,7 +537,7 @@ export function ReviewCategoryPage({
                 type="button"
                 disabled={bulkBusy}
                 onClick={() => setBulkCorrectOpen(true)}
-                className="inline-flex items-center gap-1.5 rounded-[8px] border border-[#DEE1E5] bg-background-primary transition-colors px-3.5 py-2 text-[11.5px] font-semibold text-[#4A4F55] transition-colors hover:bg-[#F5F5F5] disabled:opacity-50"
+                className="inline-flex items-center gap-1.5 rounded-[8px] border border-border-theme bg-background-primary transition-colors px-3.5 py-2 text-[11.5px] font-semibold text-text-primary transition-colors hover:bg-[#F5F5F5] disabled:opacity-50"
               >
                 <Pencil size={13} />
                 Reclassificar selecionadas
@@ -547,7 +547,7 @@ export function ReviewCategoryPage({
                 type="button"
                 disabled={bulkBusy}
                 onClick={() => void runBulkAction("REJECT")}
-                className="inline-flex items-center gap-1.5 rounded-[8px] border border-[#DEE1E5] bg-background-primary transition-colors px-3.5 py-2 text-[11.5px] font-semibold text-[#C92A32] transition-colors hover:bg-[#FFF6F6] disabled:opacity-50"
+                className="inline-flex items-center gap-1.5 rounded-[8px] border border-border-theme bg-background-primary transition-colors px-3.5 py-2 text-[11.5px] font-semibold text-[#C92A32] transition-colors hover:bg-surface-hover disabled:opacity-50"
               >
                 <X size={13} />
                 Rejeitar selecionadas
@@ -556,7 +556,7 @@ export function ReviewCategoryPage({
               <button
                 type="button"
                 onClick={() => setSelected(new Set())}
-                className="text-[11.5px] font-medium text-[#8A8E94] hover:text-[#4A4F55]"
+                className="text-[11.5px] font-medium text-text-secondary hover:text-text-primary"
               >
                 Limpar seleção
               </button>
@@ -565,14 +565,14 @@ export function ReviewCategoryPage({
         )}
 
         {bulkCorrectOpen && (
-          <div className="mt-3 flex flex-col gap-3 rounded-[12px] border border-[#DEE1E5] bg-surface-elevated transition-colors p-4 sm:flex-row sm:items-center">
+          <div className="mt-3 flex flex-col gap-3 rounded-[12px] border border-border-theme bg-surface-elevated transition-colors p-4 sm:flex-row sm:items-center">
             <input
               type="text"
               autoFocus
               value={bulkCorrectComponent}
               onChange={(event) => setBulkCorrectComponent(event.target.value)}
               placeholder="Componente correto (ex.: rolamento do motor)"
-              className="h-10 w-full flex-1 rounded-[8px] border border-[#DEE1E5] bg-background-primary transition-colors px-3 text-[12.5px] outline-none focus:border-[#F40009]"
+              className="h-10 w-full flex-1 rounded-[8px] border border-border-theme bg-background-primary transition-colors px-3 text-[12.5px] outline-none focus:border-[#F40009]"
             />
 
             <div className="flex gap-2">
@@ -591,7 +591,7 @@ export function ReviewCategoryPage({
               <button
                 type="button"
                 onClick={() => setBulkCorrectOpen(false)}
-                className="rounded-[8px] border border-[#DEE1E5] px-3.5 py-2 text-[11.5px] font-medium text-[#4A4F55] hover:bg-[#F0F0F0]"
+                className="rounded-[8px] border border-border-theme px-3.5 py-2 text-[11.5px] font-medium text-text-primary hover:bg-surface-hover"
               >
                 Cancelar
               </button>
@@ -609,10 +609,10 @@ export function ReviewCategoryPage({
           </div>
         )}
 
-        <div className="mt-5 overflow-x-auto rounded-[14px] border border-[#E9EBEE]">
+        <div className="mt-5 overflow-x-auto rounded-[14px] border border-border-theme">
           <table className="w-full min-w-[1080px] border-collapse text-left text-[12.5px]">
             <thead>
-              <tr className="border-b border-[#E9EBEE] bg-surface-elevated transition-colors text-[10.5px] font-semibold uppercase tracking-wide text-[#8A8E94]">
+              <tr className="border-b border-border-theme bg-surface-elevated transition-colors text-[10.5px] font-semibold uppercase tracking-wide text-text-secondary">
                 <th className="w-10 px-3 py-3" />
                 <th className="px-3 py-3">Data / Turno</th>
                 <th className="px-3 py-3">Linha / Equipamento</th>
@@ -631,7 +631,7 @@ export function ReviewCategoryPage({
 
                 return (
                   <Fragment key={item.suggestionId}>
-                    <tr className="border-b border-[#F0F1F2] align-top transition-colors hover:bg-surface-elevated transition-colors">
+                    <tr className="border-b border-border-theme align-top outline outline-1 -outline-offset-1 outline-transparent transition-colors hover:outline-text-primary">
                       <td className="px-3 py-3.5">
                         <input
                           type="checkbox"
@@ -641,37 +641,37 @@ export function ReviewCategoryPage({
                         />
                       </td>
 
-                      <td className="px-3 py-3.5 text-[#4A4F55]">
+                      <td className="px-3 py-3.5 text-text-primary">
                         <p className="font-medium">
                           {formatDate(item.event.date)}
                         </p>
-                        <p className="mt-0.5 text-[11px] text-[#9A9EA3]">
+                        <p className="mt-0.5 text-[11px] text-text-secondary">
                           {item.event.shift ?? "—"}
                         </p>
                       </td>
 
-                      <td className="px-3 py-3.5 text-[#4A4F55]">
+                      <td className="px-3 py-3.5 text-text-primary">
                         <p className="font-medium">
                           {item.event.line ?? "—"}
                         </p>
-                        <p className="mt-0.5 text-[11px] text-[#9A9EA3]">
+                        <p className="mt-0.5 text-[11px] text-text-secondary">
                           {item.event.equipment ?? "—"}
                         </p>
                       </td>
 
-                      <td className="max-w-[260px] px-3 py-3.5 text-[#4A4F55]">
+                      <td className="max-w-[260px] px-3 py-3.5 text-text-primary">
                         <p className="line-clamp-3">
                           {item.event.observation || "—"}
                         </p>
                       </td>
 
                       <td className="max-w-[200px] px-3 py-3.5">
-                        <p className="font-medium text-[#292C30]">
+                        <p className="font-medium text-text-primary">
                           {item.suggestion.failureMode}
                         </p>
 
                         {item.reviewedByName && (
-                          <p className="mt-0.5 text-[11px] text-[#9A9EA3]">
+                          <p className="mt-0.5 text-[11px] text-text-secondary">
                             revisado por {item.reviewedByName}
                           </p>
                         )}
@@ -695,7 +695,7 @@ export function ReviewCategoryPage({
                               onClick={() =>
                                 void reviewOne(item.suggestionId, "CONFIRM")
                               }
-                              className="flex h-8 w-8 items-center justify-center rounded-[8px] border border-[#DEE1E5] text-[#238636] transition-colors hover:bg-[#F0F9F1] disabled:opacity-40"
+                              className="flex h-8 w-8 items-center justify-center rounded-[8px] border border-border-theme text-[#238636] transition-colors hover:bg-surface-hover disabled:opacity-40"
                             >
                               <Check size={14} />
                             </button>
@@ -705,7 +705,7 @@ export function ReviewCategoryPage({
                               disabled={busy}
                               title="Corrigir"
                               onClick={() => startEditing(item)}
-                              className="flex h-8 w-8 items-center justify-center rounded-[8px] border border-[#DEE1E5] text-[#2E5AAC] transition-colors hover:bg-[#EEF3FF] disabled:opacity-40"
+                              className="flex h-8 w-8 items-center justify-center rounded-[8px] border border-border-theme text-[#2E5AAC] transition-colors hover:bg-surface-hover disabled:opacity-40"
                             >
                               <Pencil size={14} />
                             </button>
@@ -715,13 +715,13 @@ export function ReviewCategoryPage({
                               disabled={busy}
                               title="Rejeitar"
                               onClick={() => handleReject(item)}
-                              className="flex h-8 w-8 items-center justify-center rounded-[8px] border border-[#DEE1E5] text-[#C92A32] transition-colors hover:bg-[#FFF6F6] disabled:opacity-40"
+                              className="flex h-8 w-8 items-center justify-center rounded-[8px] border border-border-theme text-[#C92A32] transition-colors hover:bg-surface-hover disabled:opacity-40"
                             >
                               <X size={14} />
                             </button>
                           </div>
                         ) : (
-                          <p className="text-right text-[11px] text-[#B3B6BB]">
+                          <p className="text-right text-[11px] text-text-secondary">
                             revisada
                           </p>
                         )}
@@ -740,7 +740,7 @@ export function ReviewCategoryPage({
                                 setEditComponent(event.target.value)
                               }
                               placeholder="Componente correto"
-                              className="h-10 w-full flex-1 rounded-[8px] border border-[#DEE1E5] bg-background-primary transition-colors px-3 text-[12.5px] outline-none focus:border-[#F40009]"
+                              className="h-10 w-full flex-1 rounded-[8px] border border-border-theme bg-background-primary transition-colors px-3 text-[12.5px] outline-none focus:border-[#F40009]"
                             />
 
                             <input
@@ -750,7 +750,7 @@ export function ReviewCategoryPage({
                                 setEditNote(event.target.value)
                               }
                               placeholder="Observação (opcional)"
-                              className="h-10 w-full flex-1 rounded-[8px] border border-[#DEE1E5] bg-background-primary transition-colors px-3 text-[12.5px] outline-none focus:border-[#F40009]"
+                              className="h-10 w-full flex-1 rounded-[8px] border border-border-theme bg-background-primary transition-colors px-3 text-[12.5px] outline-none focus:border-[#F40009]"
                             />
 
                             <div className="flex shrink-0 gap-2">
@@ -781,7 +781,7 @@ export function ReviewCategoryPage({
                               <button
                                 type="button"
                                 onClick={() => setEditingId(null)}
-                                className="rounded-[8px] border border-[#DEE1E5] px-3.5 py-2 text-[11.5px] font-medium text-[#4A4F55] hover:bg-[#F0F0F0]"
+                                className="rounded-[8px] border border-border-theme px-3.5 py-2 text-[11.5px] font-medium text-text-primary hover:bg-surface-hover"
                               >
                                 Cancelar
                               </button>
@@ -798,7 +798,7 @@ export function ReviewCategoryPage({
                 <tr>
                   <td
                     colSpan={8}
-                    className="px-4 py-14 text-center text-[13px] text-[#9A9EA3]"
+                    className="px-4 py-14 text-center text-[13px] text-text-secondary"
                   >
                     Nenhuma ocorrência encontrada com os filtros atuais.
                   </td>
@@ -808,7 +808,7 @@ export function ReviewCategoryPage({
           </table>
 
           {loading && (
-            <div className="flex items-center justify-center gap-3 border-t border-[#F0F1F2] py-8 text-[13px] text-[#777C82]">
+            <div className="flex items-center justify-center gap-3 border-t border-border-theme py-8 text-[13px] text-text-secondary">
               <LoaderCircle size={17} className="animate-spin text-[#F40009]" />
               Carregando ocorrências...
             </div>
@@ -826,7 +826,7 @@ export function ReviewCategoryPage({
                 type="button"
                 disabled={page <= 1 || loading}
                 onClick={() => goToPage(page - 1)}
-                className="flex h-8 w-8 items-center justify-center rounded-[8px] border border-[#DEE1E5] text-[#4A4F55] disabled:opacity-40"
+                className="flex h-8 w-8 items-center justify-center rounded-[8px] border border-border-theme text-text-primary disabled:opacity-40"
               >
                 <ChevronLeft size={15} />
               </button>
@@ -835,7 +835,7 @@ export function ReviewCategoryPage({
                 type="button"
                 disabled={page >= totalPages || loading}
                 onClick={() => goToPage(page + 1)}
-                className="flex h-8 w-8 items-center justify-center rounded-[8px] border border-[#DEE1E5] text-[#4A4F55] disabled:opacity-40"
+                className="flex h-8 w-8 items-center justify-center rounded-[8px] border border-border-theme text-text-primary disabled:opacity-40"
               >
                 <ChevronRight size={15} />
               </button>

@@ -11,7 +11,7 @@ import { getConnection } from "@/lib/db";
 import { listUsersAndUnits } from "@/lib/users";
 
 import {
-  isAdminRole,
+  isAnalystRole,
   isAssignableRole,
 } from "@/lib/roles";
 
@@ -52,7 +52,7 @@ export async function GET() {
     return fail(401, "Sessão inválida.");
   }
 
-  if (!isAdminRole(session.role)) {
+  if (!isAnalystRole(session.role)) {
     return fail(403, "Acesso negado.");
   }
 
@@ -87,7 +87,7 @@ export async function POST(
     return fail(401, "Sessão inválida.");
   }
 
-  if (!isAdminRole(session.role)) {
+  if (!isAnalystRole(session.role)) {
     return fail(403, "Acesso negado.");
   }
 
