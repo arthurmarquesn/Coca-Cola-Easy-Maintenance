@@ -9,12 +9,11 @@ import {
   ClipboardCheck,
   FileSpreadsheet,
   History,
+  Upload,
   UserPlus,
 } from "lucide-react";
 
-import type {
-  LucideIcon,
-} from "lucide-react";
+import type { LucideIcon } from "lucide-react";
 
 interface DashboardHomeProps {
   user: {
@@ -29,16 +28,11 @@ interface DashboardHomeProps {
   };
 }
 
-function getFirstName(
-  name: string,
-): string {
-  return (
-    name
-      .trim()
-      .split(/\s+/)[0] ||
-    name
-  );
+function getFirstName(name: string): string {
+  return name.trim().split(/\s+/)[0] || name;
 }
+
+/* ─── Card secundário ────────────────────────────────────────────────────── */
 
 interface ModuleCardProps {
   href: string;
@@ -60,105 +54,88 @@ function ModuleCard({
   return (
     <Link
       href={href}
-      className={`group flex flex-col justify-between rounded-[26px] border border-border-theme bg-surface p-6 transition-all duration-200 hover:-translate-y-0.5 hover:border-text-secondary hover:shadow-xl ${className ?? ""}`}
+      className={`group flex flex-col justify-between rounded-2xl border border-border-theme bg-surface p-6 shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md ${className ?? ""}`}
     >
+      {/* Cabeçalho do card */}
       <div>
         <div className="flex items-center gap-3">
-          <Icon
-            size={20}
-            strokeWidth={1.7}
-            className="text-text-secondary"
-          />
-
-          <h2 className="text-[22px] font-semibold leading-[1.1] tracking-[-0.035em] text-text-title">
+          <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-xl bg-surface-elevated">
+            <Icon size={18} strokeWidth={1.7} className="text-text-secondary" />
+          </div>
+          <h2 className="text-[17px] font-semibold leading-tight tracking-[-0.02em] text-text-title dark:text-text-primary">
             {title}
           </h2>
         </div>
 
-        <p className="mt-3 text-[13px] leading-5 text-text-body">
-          {description}
-        </p>
+        <p className="mt-3 text-sm leading-5 text-text-body">{description}</p>
       </div>
 
-      <div className="mt-5 flex items-center justify-between border-t border-border-theme pt-4">
-        <span className="text-[13px] font-semibold text-text-primary">
+      {/* Rodapé do card — botão pílula */}
+      <div className="mt-5">
+        <span className="inline-flex items-center gap-1.5 rounded-full border border-border-theme bg-surface-elevated px-4 py-1.5 text-[13px] font-medium text-text-secondary transition-all duration-150 group-hover:border-accent-primary/30 group-hover:bg-accent-primary/10 group-hover:text-accent-primary">
           {action}
+          <ArrowRight
+            size={14}
+            className="transition-transform duration-200 group-hover:translate-x-0.5"
+          />
         </span>
-
-        <ArrowRight
-          size={18}
-          className="text-text-secondary transition-transform duration-200 group-hover:translate-x-1"
-        />
       </div>
     </Link>
   );
 }
 
-export function DashboardHome({
-  user,
-  unit,
-}: DashboardHomeProps) {
-  const firstName =
-    getFirstName(
-      user.name,
-    );
+/* ─── Componente principal ───────────────────────────────────────────────── */
 
-  const isAdmin =
-    user.role === "ADMIN";
+export function DashboardHome({ user, unit }: DashboardHomeProps) {
+  const firstName = getFirstName(user.name);
+  const isAdmin = user.role === "ADMIN";
 
   return (
     <main className="min-h-screen bg-background-primary transition-colors">
       <AppHeader userName={user.name} city={unit.city} />
 
       <div className="mx-auto w-full max-w-[1280px] px-6 pb-12 pt-10 sm:px-8 lg:px-10 lg:pt-12">
-        <section>
-          <h1 className="text-[34px] font-semibold leading-[1.05] tracking-[-0.045em] text-text-title sm:text-[42px]">
+
+        {/* ── Saudação ──────────────────────────────────────────────── */}
+        <section className="mb-8">
+          <h1 className="text-[34px] font-semibold leading-[1.05] tracking-[-0.045em] text-text-title sm:text-[40px]">
             Olá, {firstName}.
           </h1>
-
           <p className="mt-2 text-[14px] leading-6 text-text-body">
             Manutenção orientada por dados
-            {unit.city
-              ? ` · ${unit.city}`
-              : ""}
+            {unit.city ? ` · ${unit.city}` : ""}
           </p>
         </section>
 
-        <section className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)_minmax(0,1fr)] lg:grid-rows-2">
-          <Link
-            href="/dashboard/importar"
-            className="group flex flex-col justify-between rounded-[26px] bg-[#E41E2B] p-7 text-white transition-colors duration-200 hover:bg-[#CF1925] sm:col-span-2 lg:col-span-1 lg:row-span-2"
-          >
+        {/* ── Hero banner — Importar Apontamentos ───────────────────── */}
+        <Link
+          href="/dashboard/importar"
+          className="group flex w-full flex-col items-start justify-between gap-5 rounded-2xl bg-[#D8232A] p-6 transition-colors duration-200 hover:bg-[#C01F25] sm:flex-row sm:items-center"
+        >
+          {/* Lado esquerdo: ícone + textos */}
+          <div className="flex items-start gap-4 sm:items-center">
+            <div className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-xl border border-white/20 bg-white/10">
+              <FileSpreadsheet size={22} strokeWidth={1.7} className="text-white" />
+            </div>
             <div>
-              <FileSpreadsheet
-                size={25}
-                strokeWidth={1.7}
-                className="text-white/80"
-              />
-
-              <h2 className="mt-6 text-[28px] font-semibold leading-[1.08] tracking-[-0.04em]">
-                Importar
-                apontamentos
+              <h2 className="text-xl font-semibold leading-snug text-white">
+                Importar apontamentos
               </h2>
-
-              <p className="mt-3 text-[14px] leading-6 text-white/70">
-                Adicione uma nova planilha de manutenção
-                ao histórico da unidade.
+              <p className="mt-0.5 text-sm leading-5 text-white/70">
+                Adicione uma nova planilha de manutenção ao histórico da unidade.
               </p>
             </div>
+          </div>
 
-            <div className="mt-8 flex items-center justify-between rounded-[16px] bg-white px-5 py-3.5 text-[#E41E2B]">
-              <span className="text-[13px] font-semibold">
-                Importar planilha
-              </span>
+          {/* Lado direito: botão pílula branco */}
+          <div className="flex flex-shrink-0 items-center gap-2 rounded-full bg-white px-5 py-2.5 text-sm font-medium text-[#D8232A] transition-opacity duration-200 group-hover:opacity-90">
+            <Upload size={15} strokeWidth={2} />
+            <span>Importar planilha</span>
+          </div>
+        </Link>
 
-              <ArrowRight
-                size={18}
-                className="transition-transform duration-200 group-hover:translate-x-1"
-              />
-            </div>
-          </Link>
-
+        {/* ── Grade 2 × 2 de módulos ────────────────────────────────── */}
+        <div className="mt-4 grid grid-cols-1 gap-4 md:grid-cols-2">
           <ModuleCard
             href="/dashboard/historico"
             icon={History}
@@ -181,11 +158,7 @@ export function DashboardHome({
             title="Validação"
             description="Revise por categoria as classificações sugeridas pela IA e registre o feedback humano."
             action="Revisar"
-            className={
-              isAdmin
-                ? undefined
-                : "sm:col-span-2"
-            }
+            className={isAdmin ? undefined : "md:col-span-2"}
           />
 
           {isAdmin && (
@@ -197,7 +170,7 @@ export function DashboardHome({
               action="Gerenciar"
             />
           )}
-        </section>
+        </div>
       </div>
     </main>
   );
