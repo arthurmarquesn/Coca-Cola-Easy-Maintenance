@@ -15,6 +15,11 @@ import {
   getSession,
 } from "@/lib/session";
 
+import {
+  buildDateWhere,
+  FAILURE_MODE_EXPRESSION,
+} from "@/lib/analytics/sql";
+
 export const runtime =
   "nodejs";
 
@@ -95,62 +100,6 @@ function round(
     ) /
     factor
   );
-}
-
-function isDateValue(
-  value: string | null,
-): value is string {
-  return Boolean(
-    value &&
-      /^\d{4}-\d{2}-\d{2}$/.test(
-        value,
-      ),
-  );
-}
-
-function buildDateWhere(
-  startDate:
-    | string
-    | null,
-  endDate:
-    | string
-    | null,
-  params: Array<
-    string | number
-  >,
-): string[] {
-  const where: string[] =
-    [];
-
-  if (
-    isDateValue(
-      startDate,
-    )
-  ) {
-    where.push(
-      "e.event_date >= ?",
-    );
-
-    params.push(
-      startDate,
-    );
-  }
-
-  if (
-    isDateValue(
-      endDate,
-    )
-  ) {
-    where.push(
-      "e.event_date <= ?",
-    );
-
-    params.push(
-      endDate,
-    );
-  }
-
-  return where;
 }
 
 /* =========================================================
@@ -357,64 +306,7 @@ export async function GET(
     */
 
     const failureModeExpression =
-      `
-        COALESCE(
-          NULLIF(
-            CASE
-              WHEN JSON_VALID(
-                ec.classification_notes
-              ) THEN
-                JSON_UNQUOTE(
-                  JSON_EXTRACT(
-                    ec.classification_notes,
-                    '$.failureMode'
-                  )
-                )
-              ELSE NULL
-            END,
-            ''
-          ),
-
-          NULLIF(
-            CASE
-              WHEN JSON_VALID(
-                ec.classification_notes
-              ) THEN
-                JSON_UNQUOTE(
-                  JSON_EXTRACT(
-                    ec.classification_notes,
-                    '$.failure_mode'
-                  )
-                )
-              ELSE NULL
-            END,
-            ''
-          ),
-
-          NULLIF(
-            CASE
-              WHEN JSON_VALID(
-                ec.classification_notes
-              ) THEN
-                JSON_UNQUOTE(
-                  JSON_EXTRACT(
-                    ec.classification_notes,
-                    '$.modelSuggestion.failureMode'
-                  )
-                )
-              ELSE NULL
-            END,
-            ''
-          ),
-
-          NULLIF(
-            cs.failure_mode,
-            ''
-          ),
-
-          'Não classificado'
-        )
-      `;
+      FAILURE_MODE_EXPRESSION;
 
     const groupExpression =
       equipment

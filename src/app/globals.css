@@ -26,6 +26,12 @@
   --color-success: var(--success);
   --color-warning: var(--warning);
   --color-error: var(--error);
+
+  /* Gráficos (validados para daltonismo em light e dark) */
+  --color-chart-good: var(--chart-good);
+  --color-chart-bad: var(--chart-bad);
+  --color-chart-neutral: var(--chart-neutral);
+  --color-chart-grid: var(--chart-grid);
 }
 
 :root {
@@ -56,6 +62,11 @@
   --button-secondary-hover: #D7DBDF;
 
   --focus-ring: rgba(244, 0, 9, 0.2);
+
+  --chart-good: #29A366;
+  --chart-bad: #F40009;
+  --chart-neutral: #2E5AAC;
+  --chart-grid: #E6E8EB;
 
   --success: #29A366;
   --warning: #F59E0B;
@@ -90,6 +101,11 @@
   --button-secondary-hover: #52525A;
 
   --focus-ring: rgba(244, 0, 9, 0.4);
+
+  --chart-good: #0E9E6E;
+  --chart-bad: #F22F36;
+  --chart-neutral: #4A90D9;
+  --chart-grid: #303239;
 
   --success: #10B981;
   --warning: #F59E0B;

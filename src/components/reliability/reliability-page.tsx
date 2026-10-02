@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { AppHeader } from "@/components/layout/app-header";
+import { ComplementaryCharts } from "@/components/charts/complementary-charts";
 
 import {
   ArrowLeft,
@@ -1831,6 +1832,23 @@ export function ReliabilityPage({
             </section>
           </>
         )}
+
+        {/* =============================================
+            GRÁFICOS COMPLEMENTARES
+
+            Compartilham os filtros acima e carregam os
+            próprios dados, para não atrasar o Pareto e o
+            Jack-Knife.
+        ============================================== */}
+
+        <ComplementaryCharts
+          city={unit.city}
+          startDate={startDate}
+          endDate={endDate}
+          line={line}
+          equipment={equipment}
+          onLineChange={setLine}
+        />
       </div>
     </main>
   );
