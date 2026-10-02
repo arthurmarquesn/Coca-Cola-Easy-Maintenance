@@ -1,0 +1,2766 @@
+{
+  "model_version": "failure_origin_classifier_v2_eval",
+  "dataset_version": "synthetic-origin-v2",
+  "random_seed": 20260919,
+  "dataset_audit": {
+    "rows": 1280,
+    "scenarios": 128,
+    "causal_families": 32,
+    "components": 20,
+    "class_distribution": {
+      "MANUTENCAO": 640,
+      "OPERACAO": 640
+    },
+    "direct_target_leakage": 0,
+    "feature_label_conflicts": 0,
+    "categorical_proxy_max_dominance": {
+      "equipment": 0.5,
+      "stop_type": 0.5,
+      "stop_key_1": 0.5,
+      "stop_subkey": 0.5,
+      "line": 0.518519,
+      "failed_component_code": 0.5,
+      "failure_mode": 0.5
+    }
+  },
+  "split_strategy": {
+    "description": "Holdout determinístico por scenario_id, estratificado por origem e causal_family: 2 cenários TRAIN, 1 VALIDATION e 1 TEST por família. Todas as famílias aparecem nos três splits; nenhuma variação do mesmo cenário cruza splits.",
+    "rows": {
+      "TRAIN": 640,
+      "VALIDATION": 320,
+      "TEST": 320
+    },
+    "scenarios": {
+      "TEST": 32,
+      "TRAIN": 64,
+      "VALIDATION": 32
+    },
+    "class_rows": {
+      "TEST": {
+        "MANUTENCAO": 160,
+        "OPERACAO": 160
+      },
+      "TRAIN": {
+        "MANUTENCAO": 320,
+        "OPERACAO": 320
+      },
+      "VALIDATION": {
+        "MANUTENCAO": 160,
+        "OPERACAO": 160
+      }
+    },
+    "causal_family_coverage": {
+      "TEST": 32,
+      "TRAIN": 32,
+      "VALIDATION": 32
+    },
+    "scenario_overlap": {
+      "train_validation": 0,
+      "train_test": 0,
+      "validation_test": 0
+    }
+  },
+  "validation_candidates": [
+    {
+      "feature_set": "A_OBSERVATION",
+      "features": [
+        "observation"
+      ],
+      "algorithm": "linear_svc",
+      "calibration": "sigmoid",
+      "validation": {
+        "rows": 320,
+        "accuracy": 1.0,
+        "macro_f1": 1.0,
+        "weighted_f1": 1.0,
+        "per_class": {
+          "MANUTENCAO": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0,
+            "support": 160
+          },
+          "OPERACAO": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0,
+            "support": 160
+          }
+        },
+        "confusion_matrix": {
+          "labels": [
+            "MANUTENCAO",
+            "OPERACAO"
+          ],
+          "values": [
+            [
+              160,
+              0
+            ],
+            [
+              0,
+              160
+            ]
+          ]
+        },
+        "roc_auc": 1.0,
+        "brier_score": 0.002649,
+        "log_loss": 0.029895,
+        "mean_confidence": 0.971579,
+        "accuracy_by_scenario_id": {
+          "M_BEARING_FAILURE_04": 1.0,
+          "M_BLOCKAGE_BY_FAILURE_02": 1.0,
+          "M_COMPONENT_DEGRADATION_04": 1.0,
+          "M_DRIVE_FAILURE_02": 1.0,
+          "M_ELECTRICAL_FAILURE_01": 1.0,
+          "M_HARDWARE_FAILURE_01": 1.0,
+          "M_LEAKAGE_03": 1.0,
+          "M_MECHANICAL_BREAKAGE_03": 1.0,
+          "M_MECHANICAL_CLEARANCE_04": 1.0,
+          "M_MECHANICAL_WEAR_01": 1.0,
+          "M_OVERHEATING_01": 1.0,
+          "M_PNEUMATIC_FAILURE_03": 1.0,
+          "M_RUPTURE_01": 1.0,
+          "M_SEAL_FAILURE_04": 1.0,
+          "M_SIGNAL_FAILURE_01": 1.0,
+          "M_STRUCTURAL_DAMAGE_01": 1.0,
+          "O_BAD_ADJUSTMENT_02": 1.0,
+          "O_BAD_SETUP_02": 1.0,
+          "O_EXCESS_FEED_01": 1.0,
+          "O_FORMAT_CHANGE_ERROR_04": 1.0,
+          "O_HANDLING_ERROR_03": 1.0,
+          "O_INADEQUATE_FLOW_01": 1.0,
+          "O_POSITIONING_ERROR_01": 1.0,
+          "O_PRODUCT_ACCUMULATION_04": 1.0,
+          "O_STARTUP_PROCEDURE_ERROR_01": 1.0,
+          "O_WRONG_GUIDE_ADJUSTMENT_01": 1.0,
+          "O_WRONG_PARAMETER_03": 1.0,
+          "O_WRONG_PROCEDURE_02": 1.0,
+          "O_WRONG_RECIPE_04": 1.0,
+          "O_WRONG_REFERENCE_01": 1.0,
+          "O_WRONG_SEQUENCE_03": 1.0,
+          "O_WRONG_SPEED_SETTING_02": 1.0
+        },
+        "accuracy_by_causal_family": {
+          "BAD_ADJUSTMENT": 1.0,
+          "BAD_SETUP": 1.0,
+          "BEARING_FAILURE": 1.0,
+          "BLOCKAGE_BY_FAILURE": 1.0,
+          "COMPONENT_DEGRADATION": 1.0,
+          "DRIVE_FAILURE": 1.0,
+          "ELECTRICAL_FAILURE": 1.0,
+          "EXCESS_FEED": 1.0,
+          "FORMAT_CHANGE_ERROR": 1.0,
+          "HANDLING_ERROR": 1.0,
+          "HARDWARE_FAILURE": 1.0,
+          "INADEQUATE_FLOW": 1.0,
+          "LEAKAGE": 1.0,
+          "MECHANICAL_BREAKAGE": 1.0,
+          "MECHANICAL_CLEARANCE": 1.0,
+          "MECHANICAL_WEAR": 1.0,
+          "OVERHEATING": 1.0,
+          "PNEUMATIC_FAILURE": 1.0,
+          "POSITIONING_ERROR": 1.0,
+          "PRODUCT_ACCUMULATION": 1.0,
+          "RUPTURE": 1.0,
+          "SEAL_FAILURE": 1.0,
+          "SIGNAL_FAILURE": 1.0,
+          "STARTUP_PROCEDURE_ERROR": 1.0,
+          "STRUCTURAL_DAMAGE": 1.0,
+          "WRONG_GUIDE_ADJUSTMENT": 1.0,
+          "WRONG_PARAMETER": 1.0,
+          "WRONG_PROCEDURE": 1.0,
+          "WRONG_RECIPE": 1.0,
+          "WRONG_REFERENCE": 1.0,
+          "WRONG_SEQUENCE": 1.0,
+          "WRONG_SPEED_SETTING": 1.0
+        },
+        "accuracy_by_component": {
+          "ACOPLAMENTO": 1.0,
+          "BOCAL": 1.0,
+          "BOMBA": 1.0,
+          "CILINDRO": 1.0,
+          "CORREIA": 1.0,
+          "DOSADOR": 1.0,
+          "ESTRELA": 1.0,
+          "GARRA": 1.0,
+          "GUIA": 1.0,
+          "INVERSOR": 1.0,
+          "MANGUEIRA": 1.0,
+          "MOTOR": 1.0,
+          "REJEITOR": 1.0,
+          "SENSOR": 1.0,
+          "SERVO": 1.0,
+          "VALVULA": 1.0,
+          "VEDACAO": 1.0
+        },
+        "accuracy_by_hard_negative_type": {
+          "BLOCKAGE": 1.0,
+          "COMMAND_FAILURE": 1.0,
+          "INTERMITTENT_STOP": 1.0,
+          "LOW_FLOW": 1.0,
+          "LOW_PERFORMANCE": 1.0,
+          "MISALIGNMENT": 1.0,
+          "NO_ACTUATION": 1.0,
+          "NO_SIGNAL": 1.0,
+          "OUT_OF_POSITION": 1.0,
+          "OVERLOAD": 1.0,
+          "POSITION_DRIFT": 1.0,
+          "PRODUCT_LOSS": 1.0,
+          "SLOW_MOVEMENT": 1.0,
+          "THERMAL_ALARM": 1.0,
+          "VIBRATION": 1.0,
+          "WRONG_SPEED": 1.0
+        },
+        "reliability_bins": [
+          {
+            "lower": 0.0,
+            "upper": 0.1,
+            "count": 154,
+            "mean_probability_operacao": 0.03157,
+            "observed_operacao_rate": 0.0
+          },
+          {
+            "lower": 0.1,
+            "upper": 0.2,
+            "count": 1,
+            "mean_probability_operacao": 0.112055,
+            "observed_operacao_rate": 0.0
+          },
+          {
+            "lower": 0.2,
+            "upper": 0.3,
+            "count": 5,
+            "mean_probability_operacao": 0.207017,
+            "observed_operacao_rate": 0.0
+          },
+          {
+            "lower": 0.7,
+            "upper": 0.8,
+            "count": 4,
+            "mean_probability_operacao": 0.794103,
+            "observed_operacao_rate": 1.0
+          },
+          {
+            "lower": 0.8,
+            "upper": 0.9,
+            "count": 6,
+            "mean_probability_operacao": 0.84845,
+            "observed_operacao_rate": 1.0
+          },
+          {
+            "lower": 0.9,
+            "upper": 1.0,
+            "count": 150,
+            "mean_probability_operacao": 0.99098,
+            "observed_operacao_rate": 1.0
+          }
+        ]
+      }
+    },
+    {
+      "feature_set": "A_OBSERVATION",
+      "features": [
+        "observation"
+      ],
+      "algorithm": "logistic_regression",
+      "calibration": "sigmoid",
+      "validation": {
+        "rows": 320,
+        "accuracy": 1.0,
+        "macro_f1": 1.0,
+        "weighted_f1": 1.0,
+        "per_class": {
+          "MANUTENCAO": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0,
+            "support": 160
+          },
+          "OPERACAO": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0,
+            "support": 160
+          }
+        },
+        "confusion_matrix": {
+          "labels": [
+            "MANUTENCAO",
+            "OPERACAO"
+          ],
+          "values": [
+            [
+              160,
+              0
+            ],
+            [
+              0,
+              160
+            ]
+          ]
+        },
+        "roc_auc": 1.0,
+        "brier_score": 0.00333,
+        "log_loss": 0.034756,
+        "mean_confidence": 0.96711,
+        "accuracy_by_scenario_id": {
+          "M_BEARING_FAILURE_04": 1.0,
+          "M_BLOCKAGE_BY_FAILURE_02": 1.0,
+          "M_COMPONENT_DEGRADATION_04": 1.0,
+          "M_DRIVE_FAILURE_02": 1.0,
+          "M_ELECTRICAL_FAILURE_01": 1.0,
+          "M_HARDWARE_FAILURE_01": 1.0,
+          "M_LEAKAGE_03": 1.0,
+          "M_MECHANICAL_BREAKAGE_03": 1.0,
+          "M_MECHANICAL_CLEARANCE_04": 1.0,
+          "M_MECHANICAL_WEAR_01": 1.0,
+          "M_OVERHEATING_01": 1.0,
+          "M_PNEUMATIC_FAILURE_03": 1.0,
+          "M_RUPTURE_01": 1.0,
+          "M_SEAL_FAILURE_04": 1.0,
+          "M_SIGNAL_FAILURE_01": 1.0,
+          "M_STRUCTURAL_DAMAGE_01": 1.0,
+          "O_BAD_ADJUSTMENT_02": 1.0,
+          "O_BAD_SETUP_02": 1.0,
+          "O_EXCESS_FEED_01": 1.0,
+          "O_FORMAT_CHANGE_ERROR_04": 1.0,
+          "O_HANDLING_ERROR_03": 1.0,
+          "O_INADEQUATE_FLOW_01": 1.0,
+          "O_POSITIONING_ERROR_01": 1.0,
+          "O_PRODUCT_ACCUMULATION_04": 1.0,
+          "O_STARTUP_PROCEDURE_ERROR_01": 1.0,
+          "O_WRONG_GUIDE_ADJUSTMENT_01": 1.0,
+          "O_WRONG_PARAMETER_03": 1.0,
+          "O_WRONG_PROCEDURE_02": 1.0,
+          "O_WRONG_RECIPE_04": 1.0,
+          "O_WRONG_REFERENCE_01": 1.0,
+          "O_WRONG_SEQUENCE_03": 1.0,
+          "O_WRONG_SPEED_SETTING_02": 1.0
+        },
+        "accuracy_by_causal_family": {
+          "BAD_ADJUSTMENT": 1.0,
+          "BAD_SETUP": 1.0,
+          "BEARING_FAILURE": 1.0,
+          "BLOCKAGE_BY_FAILURE": 1.0,
+          "COMPONENT_DEGRADATION": 1.0,
+          "DRIVE_FAILURE": 1.0,
+          "ELECTRICAL_FAILURE": 1.0,
+          "EXCESS_FEED": 1.0,
+          "FORMAT_CHANGE_ERROR": 1.0,
+          "HANDLING_ERROR": 1.0,
+          "HARDWARE_FAILURE": 1.0,
+          "INADEQUATE_FLOW": 1.0,
+          "LEAKAGE": 1.0,
+          "MECHANICAL_BREAKAGE": 1.0,
+          "MECHANICAL_CLEARANCE": 1.0,
+          "MECHANICAL_WEAR": 1.0,
+          "OVERHEATING": 1.0,
+          "PNEUMATIC_FAILURE": 1.0,
+          "POSITIONING_ERROR": 1.0,
+          "PRODUCT_ACCUMULATION": 1.0,
+          "RUPTURE": 1.0,
+          "SEAL_FAILURE": 1.0,
+          "SIGNAL_FAILURE": 1.0,
+          "STARTUP_PROCEDURE_ERROR": 1.0,
+          "STRUCTURAL_DAMAGE": 1.0,
+          "WRONG_GUIDE_ADJUSTMENT": 1.0,
+          "WRONG_PARAMETER": 1.0,
+          "WRONG_PROCEDURE": 1.0,
+          "WRONG_RECIPE": 1.0,
+          "WRONG_REFERENCE": 1.0,
+          "WRONG_SEQUENCE": 1.0,
+          "WRONG_SPEED_SETTING": 1.0
+        },
+        "accuracy_by_component": {
+          "ACOPLAMENTO": 1.0,
+          "BOCAL": 1.0,
+          "BOMBA": 1.0,
+          "CILINDRO": 1.0,
+          "CORREIA": 1.0,
+          "DOSADOR": 1.0,
+          "ESTRELA": 1.0,
+          "GARRA": 1.0,
+          "GUIA": 1.0,
+          "INVERSOR": 1.0,
+          "MANGUEIRA": 1.0,
+          "MOTOR": 1.0,
+          "REJEITOR": 1.0,
+          "SENSOR": 1.0,
+          "SERVO": 1.0,
+          "VALVULA": 1.0,
+          "VEDACAO": 1.0
+        },
+        "accuracy_by_hard_negative_type": {
+          "BLOCKAGE": 1.0,
+          "COMMAND_FAILURE": 1.0,
+          "INTERMITTENT_STOP": 1.0,
+          "LOW_FLOW": 1.0,
+          "LOW_PERFORMANCE": 1.0,
+          "MISALIGNMENT": 1.0,
+          "NO_ACTUATION": 1.0,
+          "NO_SIGNAL": 1.0,
+          "OUT_OF_POSITION": 1.0,
+          "OVERLOAD": 1.0,
+          "POSITION_DRIFT": 1.0,
+          "PRODUCT_LOSS": 1.0,
+          "SLOW_MOVEMENT": 1.0,
+          "THERMAL_ALARM": 1.0,
+          "VIBRATION": 1.0,
+          "WRONG_SPEED": 1.0
+        },
+        "reliability_bins": [
+          {
+            "lower": 0.0,
+            "upper": 0.1,
+            "count": 147,
+            "mean_probability_operacao": 0.032882,
+            "observed_operacao_rate": 0.0
+          },
+          {
+            "lower": 0.1,
+            "upper": 0.2,
+            "count": 8,
+            "mean_probability_operacao": 0.110316,
+            "observed_operacao_rate": 0.0
+          },
+          {
+            "lower": 0.2,
+            "upper": 0.3,
+            "count": 5,
+            "mean_probability_operacao": 0.238381,
+            "observed_operacao_rate": 0.0
+          },
+          {
+            "lower": 0.7,
+            "upper": 0.8,
+            "count": 4,
+            "mean_probability_operacao": 0.793719,
+            "observed_operacao_rate": 1.0
+          },
+          {
+            "lower": 0.8,
+            "upper": 0.9,
+            "count": 6,
+            "mean_probability_operacao": 0.837086,
+            "observed_operacao_rate": 1.0
+          },
+          {
+            "lower": 0.9,
+            "upper": 1.0,
+            "count": 150,
+            "mean_probability_operacao": 0.987905,
+            "observed_operacao_rate": 1.0
+          }
+        ]
+      }
+    },
+    {
+      "feature_set": "B_CONTEXT",
+      "features": [
+        "observation",
+        "equipment",
+        "stop_key_1",
+        "stop_subkey"
+      ],
+      "algorithm": "linear_svc",
+      "calibration": "sigmoid",
+      "validation": {
+        "rows": 320,
+        "accuracy": 1.0,
+        "macro_f1": 1.0,
+        "weighted_f1": 1.0,
+        "per_class": {
+          "MANUTENCAO": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0,
+            "support": 160
+          },
+          "OPERACAO": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0,
+            "support": 160
+          }
+        },
+        "confusion_matrix": {
+          "labels": [
+            "MANUTENCAO",
+            "OPERACAO"
+          ],
+          "values": [
+            [
+              160,
+              0
+            ],
+            [
+              0,
+              160
+            ]
+          ]
+        },
+        "roc_auc": 1.0,
+        "brier_score": 0.008195,
+        "log_loss": 0.067702,
+        "mean_confidence": 0.937078,
+        "accuracy_by_scenario_id": {
+          "M_BEARING_FAILURE_04": 1.0,
+          "M_BLOCKAGE_BY_FAILURE_02": 1.0,
+          "M_COMPONENT_DEGRADATION_04": 1.0,
+          "M_DRIVE_FAILURE_02": 1.0,
+          "M_ELECTRICAL_FAILURE_01": 1.0,
+          "M_HARDWARE_FAILURE_01": 1.0,
+          "M_LEAKAGE_03": 1.0,
+          "M_MECHANICAL_BREAKAGE_03": 1.0,
+          "M_MECHANICAL_CLEARANCE_04": 1.0,
+          "M_MECHANICAL_WEAR_01": 1.0,
+          "M_OVERHEATING_01": 1.0,
+          "M_PNEUMATIC_FAILURE_03": 1.0,
+          "M_RUPTURE_01": 1.0,
+          "M_SEAL_FAILURE_04": 1.0,
+          "M_SIGNAL_FAILURE_01": 1.0,
+          "M_STRUCTURAL_DAMAGE_01": 1.0,
+          "O_BAD_ADJUSTMENT_02": 1.0,
+          "O_BAD_SETUP_02": 1.0,
+          "O_EXCESS_FEED_01": 1.0,
+          "O_FORMAT_CHANGE_ERROR_04": 1.0,
+          "O_HANDLING_ERROR_03": 1.0,
+          "O_INADEQUATE_FLOW_01": 1.0,
+          "O_POSITIONING_ERROR_01": 1.0,
+          "O_PRODUCT_ACCUMULATION_04": 1.0,
+          "O_STARTUP_PROCEDURE_ERROR_01": 1.0,
+          "O_WRONG_GUIDE_ADJUSTMENT_01": 1.0,
+          "O_WRONG_PARAMETER_03": 1.0,
+          "O_WRONG_PROCEDURE_02": 1.0,
+          "O_WRONG_RECIPE_04": 1.0,
+          "O_WRONG_REFERENCE_01": 1.0,
+          "O_WRONG_SEQUENCE_03": 1.0,
+          "O_WRONG_SPEED_SETTING_02": 1.0
+        },
+        "accuracy_by_causal_family": {
+          "BAD_ADJUSTMENT": 1.0,
+          "BAD_SETUP": 1.0,
+          "BEARING_FAILURE": 1.0,
+          "BLOCKAGE_BY_FAILURE": 1.0,
+          "COMPONENT_DEGRADATION": 1.0,
+          "DRIVE_FAILURE": 1.0,
+          "ELECTRICAL_FAILURE": 1.0,
+          "EXCESS_FEED": 1.0,
+          "FORMAT_CHANGE_ERROR": 1.0,
+          "HANDLING_ERROR": 1.0,
+          "HARDWARE_FAILURE": 1.0,
+          "INADEQUATE_FLOW": 1.0,
+          "LEAKAGE": 1.0,
+          "MECHANICAL_BREAKAGE": 1.0,
+          "MECHANICAL_CLEARANCE": 1.0,
+          "MECHANICAL_WEAR": 1.0,
+          "OVERHEATING": 1.0,
+          "PNEUMATIC_FAILURE": 1.0,
+          "POSITIONING_ERROR": 1.0,
+          "PRODUCT_ACCUMULATION": 1.0,
+          "RUPTURE": 1.0,
+          "SEAL_FAILURE": 1.0,
+          "SIGNAL_FAILURE": 1.0,
+          "STARTUP_PROCEDURE_ERROR": 1.0,
+          "STRUCTURAL_DAMAGE": 1.0,
+          "WRONG_GUIDE_ADJUSTMENT": 1.0,
+          "WRONG_PARAMETER": 1.0,
+          "WRONG_PROCEDURE": 1.0,
+          "WRONG_RECIPE": 1.0,
+          "WRONG_REFERENCE": 1.0,
+          "WRONG_SEQUENCE": 1.0,
+          "WRONG_SPEED_SETTING": 1.0
+        },
+        "accuracy_by_component": {
+          "ACOPLAMENTO": 1.0,
+          "BOCAL": 1.0,
+          "BOMBA": 1.0,
+          "CILINDRO": 1.0,
+          "CORREIA": 1.0,
+          "DOSADOR": 1.0,
+          "ESTRELA": 1.0,
+          "GARRA": 1.0,
+          "GUIA": 1.0,
+          "INVERSOR": 1.0,
+          "MANGUEIRA": 1.0,
+          "MOTOR": 1.0,
+          "REJEITOR": 1.0,
+          "SENSOR": 1.0,
+          "SERVO": 1.0,
+          "VALVULA": 1.0,
+          "VEDACAO": 1.0
+        },
+        "accuracy_by_hard_negative_type": {
+          "BLOCKAGE": 1.0,
+          "COMMAND_FAILURE": 1.0,
+          "INTERMITTENT_STOP": 1.0,
+          "LOW_FLOW": 1.0,
+          "LOW_PERFORMANCE": 1.0,
+          "MISALIGNMENT": 1.0,
+          "NO_ACTUATION": 1.0,
+          "NO_SIGNAL": 1.0,
+          "OUT_OF_POSITION": 1.0,
+          "OVERLOAD": 1.0,
+          "POSITION_DRIFT": 1.0,
+          "PRODUCT_LOSS": 1.0,
+          "SLOW_MOVEMENT": 1.0,
+          "THERMAL_ALARM": 1.0,
+          "VIBRATION": 1.0,
+          "WRONG_SPEED": 1.0
+        },
+        "reliability_bins": [
+          {
+            "lower": 0.0,
+            "upper": 0.1,
+            "count": 125,
+            "mean_probability_operacao": 0.050214,
+            "observed_operacao_rate": 0.0
+          },
+          {
+            "lower": 0.1,
+            "upper": 0.2,
+            "count": 15,
+            "mean_probability_operacao": 0.110355,
+            "observed_operacao_rate": 0.0
+          },
+          {
+            "lower": 0.2,
+            "upper": 0.3,
+            "count": 12,
+            "mean_probability_operacao": 0.24307,
+            "observed_operacao_rate": 0.0
+          },
+          {
+            "lower": 0.3,
+            "upper": 0.4,
+            "count": 8,
+            "mean_probability_operacao": 0.311459,
+            "observed_operacao_rate": 0.0
+          },
+          {
+            "lower": 0.8,
+            "upper": 0.9,
+            "count": 20,
+            "mean_probability_operacao": 0.877065,
+            "observed_operacao_rate": 1.0
+          },
+          {
+            "lower": 0.9,
+            "upper": 1.0,
+            "count": 140,
+            "mean_probability_operacao": 0.96903,
+            "observed_operacao_rate": 1.0
+          }
+        ]
+      }
+    },
+    {
+      "feature_set": "B_CONTEXT",
+      "features": [
+        "observation",
+        "equipment",
+        "stop_key_1",
+        "stop_subkey"
+      ],
+      "algorithm": "logistic_regression",
+      "calibration": "sigmoid",
+      "validation": {
+        "rows": 320,
+        "accuracy": 1.0,
+        "macro_f1": 1.0,
+        "weighted_f1": 1.0,
+        "per_class": {
+          "MANUTENCAO": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0,
+            "support": 160
+          },
+          "OPERACAO": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0,
+            "support": 160
+          }
+        },
+        "confusion_matrix": {
+          "labels": [
+            "MANUTENCAO",
+            "OPERACAO"
+          ],
+          "values": [
+            [
+              160,
+              0
+            ],
+            [
+              0,
+              160
+            ]
+          ]
+        },
+        "roc_auc": 1.0,
+        "brier_score": 0.01644,
+        "log_loss": 0.104623,
+        "mean_confidence": 0.905449,
+        "accuracy_by_scenario_id": {
+          "M_BEARING_FAILURE_04": 1.0,
+          "M_BLOCKAGE_BY_FAILURE_02": 1.0,
+          "M_COMPONENT_DEGRADATION_04": 1.0,
+          "M_DRIVE_FAILURE_02": 1.0,
+          "M_ELECTRICAL_FAILURE_01": 1.0,
+          "M_HARDWARE_FAILURE_01": 1.0,
+          "M_LEAKAGE_03": 1.0,
+          "M_MECHANICAL_BREAKAGE_03": 1.0,
+          "M_MECHANICAL_CLEARANCE_04": 1.0,
+          "M_MECHANICAL_WEAR_01": 1.0,
+          "M_OVERHEATING_01": 1.0,
+          "M_PNEUMATIC_FAILURE_03": 1.0,
+          "M_RUPTURE_01": 1.0,
+          "M_SEAL_FAILURE_04": 1.0,
+          "M_SIGNAL_FAILURE_01": 1.0,
+          "M_STRUCTURAL_DAMAGE_01": 1.0,
+          "O_BAD_ADJUSTMENT_02": 1.0,
+          "O_BAD_SETUP_02": 1.0,
+          "O_EXCESS_FEED_01": 1.0,
+          "O_FORMAT_CHANGE_ERROR_04": 1.0,
+          "O_HANDLING_ERROR_03": 1.0,
+          "O_INADEQUATE_FLOW_01": 1.0,
+          "O_POSITIONING_ERROR_01": 1.0,
+          "O_PRODUCT_ACCUMULATION_04": 1.0,
+          "O_STARTUP_PROCEDURE_ERROR_01": 1.0,
+          "O_WRONG_GUIDE_ADJUSTMENT_01": 1.0,
+          "O_WRONG_PARAMETER_03": 1.0,
+          "O_WRONG_PROCEDURE_02": 1.0,
+          "O_WRONG_RECIPE_04": 1.0,
+          "O_WRONG_REFERENCE_01": 1.0,
+          "O_WRONG_SEQUENCE_03": 1.0,
+          "O_WRONG_SPEED_SETTING_02": 1.0
+        },
+        "accuracy_by_causal_family": {
+          "BAD_ADJUSTMENT": 1.0,
+          "BAD_SETUP": 1.0,
+          "BEARING_FAILURE": 1.0,
+          "BLOCKAGE_BY_FAILURE": 1.0,
+          "COMPONENT_DEGRADATION": 1.0,
+          "DRIVE_FAILURE": 1.0,
+          "ELECTRICAL_FAILURE": 1.0,
+          "EXCESS_FEED": 1.0,
+          "FORMAT_CHANGE_ERROR": 1.0,
+          "HANDLING_ERROR": 1.0,
+          "HARDWARE_FAILURE": 1.0,
+          "INADEQUATE_FLOW": 1.0,
+          "LEAKAGE": 1.0,
+          "MECHANICAL_BREAKAGE": 1.0,
+          "MECHANICAL_CLEARANCE": 1.0,
+          "MECHANICAL_WEAR": 1.0,
+          "OVERHEATING": 1.0,
+          "PNEUMATIC_FAILURE": 1.0,
+          "POSITIONING_ERROR": 1.0,
+          "PRODUCT_ACCUMULATION": 1.0,
+          "RUPTURE": 1.0,
+          "SEAL_FAILURE": 1.0,
+          "SIGNAL_FAILURE": 1.0,
+          "STARTUP_PROCEDURE_ERROR": 1.0,
+          "STRUCTURAL_DAMAGE": 1.0,
+          "WRONG_GUIDE_ADJUSTMENT": 1.0,
+          "WRONG_PARAMETER": 1.0,
+          "WRONG_PROCEDURE": 1.0,
+          "WRONG_RECIPE": 1.0,
+          "WRONG_REFERENCE": 1.0,
+          "WRONG_SEQUENCE": 1.0,
+          "WRONG_SPEED_SETTING": 1.0
+        },
+        "accuracy_by_component": {
+          "ACOPLAMENTO": 1.0,
+          "BOCAL": 1.0,
+          "BOMBA": 1.0,
+          "CILINDRO": 1.0,
+          "CORREIA": 1.0,
+          "DOSADOR": 1.0,
+          "ESTRELA": 1.0,
+          "GARRA": 1.0,
+          "GUIA": 1.0,
+          "INVERSOR": 1.0,
+          "MANGUEIRA": 1.0,
+          "MOTOR": 1.0,
+          "REJEITOR": 1.0,
+          "SENSOR": 1.0,
+          "SERVO": 1.0,
+          "VALVULA": 1.0,
+          "VEDACAO": 1.0
+        },
+        "accuracy_by_hard_negative_type": {
+          "BLOCKAGE": 1.0,
+          "COMMAND_FAILURE": 1.0,
+          "INTERMITTENT_STOP": 1.0,
+          "LOW_FLOW": 1.0,
+          "LOW_PERFORMANCE": 1.0,
+          "MISALIGNMENT": 1.0,
+          "NO_ACTUATION": 1.0,
+          "NO_SIGNAL": 1.0,
+          "OUT_OF_POSITION": 1.0,
+          "OVERLOAD": 1.0,
+          "POSITION_DRIFT": 1.0,
+          "PRODUCT_LOSS": 1.0,
+          "SLOW_MOVEMENT": 1.0,
+          "THERMAL_ALARM": 1.0,
+          "VIBRATION": 1.0,
+          "WRONG_SPEED": 1.0
+        },
+        "reliability_bins": [
+          {
+            "lower": 0.0,
+            "upper": 0.1,
+            "count": 95,
+            "mean_probability_operacao": 0.059718,
+            "observed_operacao_rate": 0.0
+          },
+          {
+            "lower": 0.1,
+            "upper": 0.2,
+            "count": 41,
+            "mean_probability_operacao": 0.136474,
+            "observed_operacao_rate": 0.0
+          },
+          {
+            "lower": 0.2,
+            "upper": 0.3,
+            "count": 14,
+            "mean_probability_operacao": 0.25785,
+            "observed_operacao_rate": 0.0
+          },
+          {
+            "lower": 0.3,
+            "upper": 0.4,
+            "count": 3,
+            "mean_probability_operacao": 0.37843,
+            "observed_operacao_rate": 0.0
+          },
+          {
+            "lower": 0.4,
+            "upper": 0.5,
+            "count": 7,
+            "mean_probability_operacao": 0.413643,
+            "observed_operacao_rate": 0.0
+          },
+          {
+            "lower": 0.6,
+            "upper": 0.7,
+            "count": 1,
+            "mean_probability_operacao": 0.699543,
+            "observed_operacao_rate": 1.0
+          },
+          {
+            "lower": 0.7,
+            "upper": 0.8,
+            "count": 9,
+            "mean_probability_operacao": 0.732109,
+            "observed_operacao_rate": 1.0
+          },
+          {
+            "lower": 0.8,
+            "upper": 0.9,
+            "count": 24,
+            "mean_probability_operacao": 0.865112,
+            "observed_operacao_rate": 1.0
+          },
+          {
+            "lower": 0.9,
+            "upper": 1.0,
+            "count": 126,
+            "mean_probability_operacao": 0.957157,
+            "observed_operacao_rate": 1.0
+          }
+        ]
+      }
+    },
+    {
+      "feature_set": "C_FULL",
+      "features": [
+        "observation",
+        "equipment",
+        "stop_key_1",
+        "stop_subkey",
+        "failed_component_code",
+        "failure_mode"
+      ],
+      "algorithm": "linear_svc",
+      "calibration": "sigmoid",
+      "validation": {
+        "rows": 320,
+        "accuracy": 1.0,
+        "macro_f1": 1.0,
+        "weighted_f1": 1.0,
+        "per_class": {
+          "MANUTENCAO": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0,
+            "support": 160
+          },
+          "OPERACAO": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0,
+            "support": 160
+          }
+        },
+        "confusion_matrix": {
+          "labels": [
+            "MANUTENCAO",
+            "OPERACAO"
+          ],
+          "values": [
+            [
+              160,
+              0
+            ],
+            [
+              0,
+              160
+            ]
+          ]
+        },
+        "roc_auc": 1.0,
+        "brier_score": 0.025522,
+        "log_loss": 0.150181,
+        "mean_confidence": 0.865244,
+        "accuracy_by_scenario_id": {
+          "M_BEARING_FAILURE_04": 1.0,
+          "M_BLOCKAGE_BY_FAILURE_02": 1.0,
+          "M_COMPONENT_DEGRADATION_04": 1.0,
+          "M_DRIVE_FAILURE_02": 1.0,
+          "M_ELECTRICAL_FAILURE_01": 1.0,
+          "M_HARDWARE_FAILURE_01": 1.0,
+          "M_LEAKAGE_03": 1.0,
+          "M_MECHANICAL_BREAKAGE_03": 1.0,
+          "M_MECHANICAL_CLEARANCE_04": 1.0,
+          "M_MECHANICAL_WEAR_01": 1.0,
+          "M_OVERHEATING_01": 1.0,
+          "M_PNEUMATIC_FAILURE_03": 1.0,
+          "M_RUPTURE_01": 1.0,
+          "M_SEAL_FAILURE_04": 1.0,
+          "M_SIGNAL_FAILURE_01": 1.0,
+          "M_STRUCTURAL_DAMAGE_01": 1.0,
+          "O_BAD_ADJUSTMENT_02": 1.0,
+          "O_BAD_SETUP_02": 1.0,
+          "O_EXCESS_FEED_01": 1.0,
+          "O_FORMAT_CHANGE_ERROR_04": 1.0,
+          "O_HANDLING_ERROR_03": 1.0,
+          "O_INADEQUATE_FLOW_01": 1.0,
+          "O_POSITIONING_ERROR_01": 1.0,
+          "O_PRODUCT_ACCUMULATION_04": 1.0,
+          "O_STARTUP_PROCEDURE_ERROR_01": 1.0,
+          "O_WRONG_GUIDE_ADJUSTMENT_01": 1.0,
+          "O_WRONG_PARAMETER_03": 1.0,
+          "O_WRONG_PROCEDURE_02": 1.0,
+          "O_WRONG_RECIPE_04": 1.0,
+          "O_WRONG_REFERENCE_01": 1.0,
+          "O_WRONG_SEQUENCE_03": 1.0,
+          "O_WRONG_SPEED_SETTING_02": 1.0
+        },
+        "accuracy_by_causal_family": {
+          "BAD_ADJUSTMENT": 1.0,
+          "BAD_SETUP": 1.0,
+          "BEARING_FAILURE": 1.0,
+          "BLOCKAGE_BY_FAILURE": 1.0,
+          "COMPONENT_DEGRADATION": 1.0,
+          "DRIVE_FAILURE": 1.0,
+          "ELECTRICAL_FAILURE": 1.0,
+          "EXCESS_FEED": 1.0,
+          "FORMAT_CHANGE_ERROR": 1.0,
+          "HANDLING_ERROR": 1.0,
+          "HARDWARE_FAILURE": 1.0,
+          "INADEQUATE_FLOW": 1.0,
+          "LEAKAGE": 1.0,
+          "MECHANICAL_BREAKAGE": 1.0,
+          "MECHANICAL_CLEARANCE": 1.0,
+          "MECHANICAL_WEAR": 1.0,
+          "OVERHEATING": 1.0,
+          "PNEUMATIC_FAILURE": 1.0,
+          "POSITIONING_ERROR": 1.0,
+          "PRODUCT_ACCUMULATION": 1.0,
+          "RUPTURE": 1.0,
+          "SEAL_FAILURE": 1.0,
+          "SIGNAL_FAILURE": 1.0,
+          "STARTUP_PROCEDURE_ERROR": 1.0,
+          "STRUCTURAL_DAMAGE": 1.0,
+          "WRONG_GUIDE_ADJUSTMENT": 1.0,
+          "WRONG_PARAMETER": 1.0,
+          "WRONG_PROCEDURE": 1.0,
+          "WRONG_RECIPE": 1.0,
+          "WRONG_REFERENCE": 1.0,
+          "WRONG_SEQUENCE": 1.0,
+          "WRONG_SPEED_SETTING": 1.0
+        },
+        "accuracy_by_component": {
+          "ACOPLAMENTO": 1.0,
+          "BOCAL": 1.0,
+          "BOMBA": 1.0,
+          "CILINDRO": 1.0,
+          "CORREIA": 1.0,
+          "DOSADOR": 1.0,
+          "ESTRELA": 1.0,
+          "GARRA": 1.0,
+          "GUIA": 1.0,
+          "INVERSOR": 1.0,
+          "MANGUEIRA": 1.0,
+          "MOTOR": 1.0,
+          "REJEITOR": 1.0,
+          "SENSOR": 1.0,
+          "SERVO": 1.0,
+          "VALVULA": 1.0,
+          "VEDACAO": 1.0
+        },
+        "accuracy_by_hard_negative_type": {
+          "BLOCKAGE": 1.0,
+          "COMMAND_FAILURE": 1.0,
+          "INTERMITTENT_STOP": 1.0,
+          "LOW_FLOW": 1.0,
+          "LOW_PERFORMANCE": 1.0,
+          "MISALIGNMENT": 1.0,
+          "NO_ACTUATION": 1.0,
+          "NO_SIGNAL": 1.0,
+          "OUT_OF_POSITION": 1.0,
+          "OVERLOAD": 1.0,
+          "POSITION_DRIFT": 1.0,
+          "PRODUCT_LOSS": 1.0,
+          "SLOW_MOVEMENT": 1.0,
+          "THERMAL_ALARM": 1.0,
+          "VIBRATION": 1.0,
+          "WRONG_SPEED": 1.0
+        },
+        "reliability_bins": [
+          {
+            "lower": 0.0,
+            "upper": 0.1,
+            "count": 50,
+            "mean_probability_operacao": 0.061307,
+            "observed_operacao_rate": 0.0
+          },
+          {
+            "lower": 0.1,
+            "upper": 0.2,
+            "count": 73,
+            "mean_probability_operacao": 0.146824,
+            "observed_operacao_rate": 0.0
+          },
+          {
+            "lower": 0.2,
+            "upper": 0.3,
+            "count": 26,
+            "mean_probability_operacao": 0.264729,
+            "observed_operacao_rate": 0.0
+          },
+          {
+            "lower": 0.3,
+            "upper": 0.4,
+            "count": 1,
+            "mean_probability_operacao": 0.313601,
+            "observed_operacao_rate": 0.0
+          },
+          {
+            "lower": 0.4,
+            "upper": 0.5,
+            "count": 10,
+            "mean_probability_operacao": 0.408625,
+            "observed_operacao_rate": 0.0
+          },
+          {
+            "lower": 0.7,
+            "upper": 0.8,
+            "count": 10,
+            "mean_probability_operacao": 0.733004,
+            "observed_operacao_rate": 1.0
+          },
+          {
+            "lower": 0.8,
+            "upper": 0.9,
+            "count": 65,
+            "mean_probability_operacao": 0.843837,
+            "observed_operacao_rate": 1.0
+          },
+          {
+            "lower": 0.9,
+            "upper": 1.0,
+            "count": 85,
+            "mean_probability_operacao": 0.938411,
+            "observed_operacao_rate": 1.0
+          }
+        ]
+      }
+    },
+    {
+      "feature_set": "C_FULL",
+      "features": [
+        "observation",
+        "equipment",
+        "stop_key_1",
+        "stop_subkey",
+        "failed_component_code",
+        "failure_mode"
+      ],
+      "algorithm": "logistic_regression",
+      "calibration": "sigmoid",
+      "validation": {
+        "rows": 320,
+        "accuracy": 0.996875,
+        "macro_f1": 0.996875,
+        "weighted_f1": 0.996875,
+        "per_class": {
+          "MANUTENCAO": {
+            "precision": 1.0,
+            "recall": 0.99375,
+            "f1": 0.996865,
+            "support": 160
+          },
+          "OPERACAO": {
+            "precision": 0.993789,
+            "recall": 1.0,
+            "f1": 0.996885,
+            "support": 160
+          }
+        },
+        "confusion_matrix": {
+          "labels": [
+            "MANUTENCAO",
+            "OPERACAO"
+          ],
+          "values": [
+            [
+              159,
+              1
+            ],
+            [
+              0,
+              160
+            ]
+          ]
+        },
+        "roc_auc": 1.0,
+        "brier_score": 0.052142,
+        "log_loss": 0.237899,
+        "mean_confidence": 0.795405,
+        "accuracy_by_scenario_id": {
+          "M_BEARING_FAILURE_04": 1.0,
+          "M_BLOCKAGE_BY_FAILURE_02": 1.0,
+          "M_COMPONENT_DEGRADATION_04": 1.0,
+          "M_DRIVE_FAILURE_02": 1.0,
+          "M_ELECTRICAL_FAILURE_01": 1.0,
+          "M_HARDWARE_FAILURE_01": 1.0,
+          "M_LEAKAGE_03": 1.0,
+          "M_MECHANICAL_BREAKAGE_03": 1.0,
+          "M_MECHANICAL_CLEARANCE_04": 1.0,
+          "M_MECHANICAL_WEAR_01": 1.0,
+          "M_OVERHEATING_01": 1.0,
+          "M_PNEUMATIC_FAILURE_03": 1.0,
+          "M_RUPTURE_01": 1.0,
+          "M_SEAL_FAILURE_04": 1.0,
+          "M_SIGNAL_FAILURE_01": 1.0,
+          "M_STRUCTURAL_DAMAGE_01": 0.9,
+          "O_BAD_ADJUSTMENT_02": 1.0,
+          "O_BAD_SETUP_02": 1.0,
+          "O_EXCESS_FEED_01": 1.0,
+          "O_FORMAT_CHANGE_ERROR_04": 1.0,
+          "O_HANDLING_ERROR_03": 1.0,
+          "O_INADEQUATE_FLOW_01": 1.0,
+          "O_POSITIONING_ERROR_01": 1.0,
+          "O_PRODUCT_ACCUMULATION_04": 1.0,
+          "O_STARTUP_PROCEDURE_ERROR_01": 1.0,
+          "O_WRONG_GUIDE_ADJUSTMENT_01": 1.0,
+          "O_WRONG_PARAMETER_03": 1.0,
+          "O_WRONG_PROCEDURE_02": 1.0,
+          "O_WRONG_RECIPE_04": 1.0,
+          "O_WRONG_REFERENCE_01": 1.0,
+          "O_WRONG_SEQUENCE_03": 1.0,
+          "O_WRONG_SPEED_SETTING_02": 1.0
+        },
+        "accuracy_by_causal_family": {
+          "BAD_ADJUSTMENT": 1.0,
+          "BAD_SETUP": 1.0,
+          "BEARING_FAILURE": 1.0,
+          "BLOCKAGE_BY_FAILURE": 1.0,
+          "COMPONENT_DEGRADATION": 1.0,
+          "DRIVE_FAILURE": 1.0,
+          "ELECTRICAL_FAILURE": 1.0,
+          "EXCESS_FEED": 1.0,
+          "FORMAT_CHANGE_ERROR": 1.0,
+          "HANDLING_ERROR": 1.0,
+          "HARDWARE_FAILURE": 1.0,
+          "INADEQUATE_FLOW": 1.0,
+          "LEAKAGE": 1.0,
+          "MECHANICAL_BREAKAGE": 1.0,
+          "MECHANICAL_CLEARANCE": 1.0,
+          "MECHANICAL_WEAR": 1.0,
+          "OVERHEATING": 1.0,
+          "PNEUMATIC_FAILURE": 1.0,
+          "POSITIONING_ERROR": 1.0,
+          "PRODUCT_ACCUMULATION": 1.0,
+          "RUPTURE": 1.0,
+          "SEAL_FAILURE": 1.0,
+          "SIGNAL_FAILURE": 1.0,
+          "STARTUP_PROCEDURE_ERROR": 1.0,
+          "STRUCTURAL_DAMAGE": 0.9,
+          "WRONG_GUIDE_ADJUSTMENT": 1.0,
+          "WRONG_PARAMETER": 1.0,
+          "WRONG_PROCEDURE": 1.0,
+          "WRONG_RECIPE": 1.0,
+          "WRONG_REFERENCE": 1.0,
+          "WRONG_SEQUENCE": 1.0,
+          "WRONG_SPEED_SETTING": 1.0
+        },
+        "accuracy_by_component": {
+          "ACOPLAMENTO": 1.0,
+          "BOCAL": 1.0,
+          "BOMBA": 1.0,
+          "CILINDRO": 0.95,
+          "CORREIA": 1.0,
+          "DOSADOR": 1.0,
+          "ESTRELA": 1.0,
+          "GARRA": 1.0,
+          "GUIA": 1.0,
+          "INVERSOR": 1.0,
+          "MANGUEIRA": 1.0,
+          "MOTOR": 1.0,
+          "REJEITOR": 1.0,
+          "SENSOR": 1.0,
+          "SERVO": 1.0,
+          "VALVULA": 1.0,
+          "VEDACAO": 1.0
+        },
+        "accuracy_by_hard_negative_type": {
+          "BLOCKAGE": 1.0,
+          "COMMAND_FAILURE": 1.0,
+          "INTERMITTENT_STOP": 1.0,
+          "LOW_FLOW": 1.0,
+          "LOW_PERFORMANCE": 1.0,
+          "MISALIGNMENT": 1.0,
+          "NO_ACTUATION": 1.0,
+          "NO_SIGNAL": 1.0,
+          "OUT_OF_POSITION": 1.0,
+          "OVERLOAD": 1.0,
+          "POSITION_DRIFT": 1.0,
+          "PRODUCT_LOSS": 1.0,
+          "SLOW_MOVEMENT": 1.0,
+          "THERMAL_ALARM": 1.0,
+          "VIBRATION": 0.95,
+          "WRONG_SPEED": 1.0
+        },
+        "reliability_bins": [
+          {
+            "lower": 0.0,
+            "upper": 0.1,
+            "count": 15,
+            "mean_probability_operacao": 0.063361,
+            "observed_operacao_rate": 0.0
+          },
+          {
+            "lower": 0.1,
+            "upper": 0.2,
+            "count": 60,
+            "mean_probability_operacao": 0.155918,
+            "observed_operacao_rate": 0.0
+          },
+          {
+            "lower": 0.2,
+            "upper": 0.3,
+            "count": 44,
+            "mean_probability_operacao": 0.246959,
+            "observed_operacao_rate": 0.0
+          },
+          {
+            "lower": 0.3,
+            "upper": 0.4,
+            "count": 30,
+            "mean_probability_operacao": 0.348925,
+            "observed_operacao_rate": 0.0
+          },
+          {
+            "lower": 0.4,
+            "upper": 0.5,
+            "count": 10,
+            "mean_probability_operacao": 0.473617,
+            "observed_operacao_rate": 0.0
+          },
+          {
+            "lower": 0.5,
+            "upper": 0.6,
+            "count": 5,
+            "mean_probability_operacao": 0.567682,
+            "observed_operacao_rate": 0.8
+          },
+          {
+            "lower": 0.6,
+            "upper": 0.7,
+            "count": 9,
+            "mean_probability_operacao": 0.636489,
+            "observed_operacao_rate": 1.0
+          },
+          {
+            "lower": 0.7,
+            "upper": 0.8,
+            "count": 38,
+            "mean_probability_operacao": 0.758094,
+            "observed_operacao_rate": 1.0
+          },
+          {
+            "lower": 0.8,
+            "upper": 0.9,
+            "count": 75,
+            "mean_probability_operacao": 0.848204,
+            "observed_operacao_rate": 1.0
+          },
+          {
+            "lower": 0.9,
+            "upper": 1.0,
+            "count": 34,
+            "mean_probability_operacao": 0.909282,
+            "observed_operacao_rate": 1.0
+          }
+        ]
+      }
+    }
+  ],
+  "ablation_summary": {
+    "A_OBSERVATION": {
+      "best_algorithm": "linear_svc",
+      "features": [
+        "observation"
+      ],
+      "validation": {
+        "rows": 320,
+        "accuracy": 1.0,
+        "macro_f1": 1.0,
+        "weighted_f1": 1.0,
+        "per_class": {
+          "MANUTENCAO": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0,
+            "support": 160
+          },
+          "OPERACAO": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0,
+            "support": 160
+          }
+        },
+        "confusion_matrix": {
+          "labels": [
+            "MANUTENCAO",
+            "OPERACAO"
+          ],
+          "values": [
+            [
+              160,
+              0
+            ],
+            [
+              0,
+              160
+            ]
+          ]
+        },
+        "roc_auc": 1.0,
+        "brier_score": 0.002649,
+        "log_loss": 0.029895,
+        "mean_confidence": 0.971579,
+        "accuracy_by_scenario_id": {
+          "M_BEARING_FAILURE_04": 1.0,
+          "M_BLOCKAGE_BY_FAILURE_02": 1.0,
+          "M_COMPONENT_DEGRADATION_04": 1.0,
+          "M_DRIVE_FAILURE_02": 1.0,
+          "M_ELECTRICAL_FAILURE_01": 1.0,
+          "M_HARDWARE_FAILURE_01": 1.0,
+          "M_LEAKAGE_03": 1.0,
+          "M_MECHANICAL_BREAKAGE_03": 1.0,
+          "M_MECHANICAL_CLEARANCE_04": 1.0,
+          "M_MECHANICAL_WEAR_01": 1.0,
+          "M_OVERHEATING_01": 1.0,
+          "M_PNEUMATIC_FAILURE_03": 1.0,
+          "M_RUPTURE_01": 1.0,
+          "M_SEAL_FAILURE_04": 1.0,
+          "M_SIGNAL_FAILURE_01": 1.0,
+          "M_STRUCTURAL_DAMAGE_01": 1.0,
+          "O_BAD_ADJUSTMENT_02": 1.0,
+          "O_BAD_SETUP_02": 1.0,
+          "O_EXCESS_FEED_01": 1.0,
+          "O_FORMAT_CHANGE_ERROR_04": 1.0,
+          "O_HANDLING_ERROR_03": 1.0,
+          "O_INADEQUATE_FLOW_01": 1.0,
+          "O_POSITIONING_ERROR_01": 1.0,
+          "O_PRODUCT_ACCUMULATION_04": 1.0,
+          "O_STARTUP_PROCEDURE_ERROR_01": 1.0,
+          "O_WRONG_GUIDE_ADJUSTMENT_01": 1.0,
+          "O_WRONG_PARAMETER_03": 1.0,
+          "O_WRONG_PROCEDURE_02": 1.0,
+          "O_WRONG_RECIPE_04": 1.0,
+          "O_WRONG_REFERENCE_01": 1.0,
+          "O_WRONG_SEQUENCE_03": 1.0,
+          "O_WRONG_SPEED_SETTING_02": 1.0
+        },
+        "accuracy_by_causal_family": {
+          "BAD_ADJUSTMENT": 1.0,
+          "BAD_SETUP": 1.0,
+          "BEARING_FAILURE": 1.0,
+          "BLOCKAGE_BY_FAILURE": 1.0,
+          "COMPONENT_DEGRADATION": 1.0,
+          "DRIVE_FAILURE": 1.0,
+          "ELECTRICAL_FAILURE": 1.0,
+          "EXCESS_FEED": 1.0,
+          "FORMAT_CHANGE_ERROR": 1.0,
+          "HANDLING_ERROR": 1.0,
+          "HARDWARE_FAILURE": 1.0,
+          "INADEQUATE_FLOW": 1.0,
+          "LEAKAGE": 1.0,
+          "MECHANICAL_BREAKAGE": 1.0,
+          "MECHANICAL_CLEARANCE": 1.0,
+          "MECHANICAL_WEAR": 1.0,
+          "OVERHEATING": 1.0,
+          "PNEUMATIC_FAILURE": 1.0,
+          "POSITIONING_ERROR": 1.0,
+          "PRODUCT_ACCUMULATION": 1.0,
+          "RUPTURE": 1.0,
+          "SEAL_FAILURE": 1.0,
+          "SIGNAL_FAILURE": 1.0,
+          "STARTUP_PROCEDURE_ERROR": 1.0,
+          "STRUCTURAL_DAMAGE": 1.0,
+          "WRONG_GUIDE_ADJUSTMENT": 1.0,
+          "WRONG_PARAMETER": 1.0,
+          "WRONG_PROCEDURE": 1.0,
+          "WRONG_RECIPE": 1.0,
+          "WRONG_REFERENCE": 1.0,
+          "WRONG_SEQUENCE": 1.0,
+          "WRONG_SPEED_SETTING": 1.0
+        },
+        "accuracy_by_component": {
+          "ACOPLAMENTO": 1.0,
+          "BOCAL": 1.0,
+          "BOMBA": 1.0,
+          "CILINDRO": 1.0,
+          "CORREIA": 1.0,
+          "DOSADOR": 1.0,
+          "ESTRELA": 1.0,
+          "GARRA": 1.0,
+          "GUIA": 1.0,
+          "INVERSOR": 1.0,
+          "MANGUEIRA": 1.0,
+          "MOTOR": 1.0,
+          "REJEITOR": 1.0,
+          "SENSOR": 1.0,
+          "SERVO": 1.0,
+          "VALVULA": 1.0,
+          "VEDACAO": 1.0
+        },
+        "accuracy_by_hard_negative_type": {
+          "BLOCKAGE": 1.0,
+          "COMMAND_FAILURE": 1.0,
+          "INTERMITTENT_STOP": 1.0,
+          "LOW_FLOW": 1.0,
+          "LOW_PERFORMANCE": 1.0,
+          "MISALIGNMENT": 1.0,
+          "NO_ACTUATION": 1.0,
+          "NO_SIGNAL": 1.0,
+          "OUT_OF_POSITION": 1.0,
+          "OVERLOAD": 1.0,
+          "POSITION_DRIFT": 1.0,
+          "PRODUCT_LOSS": 1.0,
+          "SLOW_MOVEMENT": 1.0,
+          "THERMAL_ALARM": 1.0,
+          "VIBRATION": 1.0,
+          "WRONG_SPEED": 1.0
+        },
+        "reliability_bins": [
+          {
+            "lower": 0.0,
+            "upper": 0.1,
+            "count": 154,
+            "mean_probability_operacao": 0.03157,
+            "observed_operacao_rate": 0.0
+          },
+          {
+            "lower": 0.1,
+            "upper": 0.2,
+            "count": 1,
+            "mean_probability_operacao": 0.112055,
+            "observed_operacao_rate": 0.0
+          },
+          {
+            "lower": 0.2,
+            "upper": 0.3,
+            "count": 5,
+            "mean_probability_operacao": 0.207017,
+            "observed_operacao_rate": 0.0
+          },
+          {
+            "lower": 0.7,
+            "upper": 0.8,
+            "count": 4,
+            "mean_probability_operacao": 0.794103,
+            "observed_operacao_rate": 1.0
+          },
+          {
+            "lower": 0.8,
+            "upper": 0.9,
+            "count": 6,
+            "mean_probability_operacao": 0.84845,
+            "observed_operacao_rate": 1.0
+          },
+          {
+            "lower": 0.9,
+            "upper": 1.0,
+            "count": 150,
+            "mean_probability_operacao": 0.99098,
+            "observed_operacao_rate": 1.0
+          }
+        ]
+      }
+    },
+    "B_CONTEXT": {
+      "best_algorithm": "linear_svc",
+      "features": [
+        "observation",
+        "equipment",
+        "stop_key_1",
+        "stop_subkey"
+      ],
+      "validation": {
+        "rows": 320,
+        "accuracy": 1.0,
+        "macro_f1": 1.0,
+        "weighted_f1": 1.0,
+        "per_class": {
+          "MANUTENCAO": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0,
+            "support": 160
+          },
+          "OPERACAO": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0,
+            "support": 160
+          }
+        },
+        "confusion_matrix": {
+          "labels": [
+            "MANUTENCAO",
+            "OPERACAO"
+          ],
+          "values": [
+            [
+              160,
+              0
+            ],
+            [
+              0,
+              160
+            ]
+          ]
+        },
+        "roc_auc": 1.0,
+        "brier_score": 0.008195,
+        "log_loss": 0.067702,
+        "mean_confidence": 0.937078,
+        "accuracy_by_scenario_id": {
+          "M_BEARING_FAILURE_04": 1.0,
+          "M_BLOCKAGE_BY_FAILURE_02": 1.0,
+          "M_COMPONENT_DEGRADATION_04": 1.0,
+          "M_DRIVE_FAILURE_02": 1.0,
+          "M_ELECTRICAL_FAILURE_01": 1.0,
+          "M_HARDWARE_FAILURE_01": 1.0,
+          "M_LEAKAGE_03": 1.0,
+          "M_MECHANICAL_BREAKAGE_03": 1.0,
+          "M_MECHANICAL_CLEARANCE_04": 1.0,
+          "M_MECHANICAL_WEAR_01": 1.0,
+          "M_OVERHEATING_01": 1.0,
+          "M_PNEUMATIC_FAILURE_03": 1.0,
+          "M_RUPTURE_01": 1.0,
+          "M_SEAL_FAILURE_04": 1.0,
+          "M_SIGNAL_FAILURE_01": 1.0,
+          "M_STRUCTURAL_DAMAGE_01": 1.0,
+          "O_BAD_ADJUSTMENT_02": 1.0,
+          "O_BAD_SETUP_02": 1.0,
+          "O_EXCESS_FEED_01": 1.0,
+          "O_FORMAT_CHANGE_ERROR_04": 1.0,
+          "O_HANDLING_ERROR_03": 1.0,
+          "O_INADEQUATE_FLOW_01": 1.0,
+          "O_POSITIONING_ERROR_01": 1.0,
+          "O_PRODUCT_ACCUMULATION_04": 1.0,
+          "O_STARTUP_PROCEDURE_ERROR_01": 1.0,
+          "O_WRONG_GUIDE_ADJUSTMENT_01": 1.0,
+          "O_WRONG_PARAMETER_03": 1.0,
+          "O_WRONG_PROCEDURE_02": 1.0,
+          "O_WRONG_RECIPE_04": 1.0,
+          "O_WRONG_REFERENCE_01": 1.0,
+          "O_WRONG_SEQUENCE_03": 1.0,
+          "O_WRONG_SPEED_SETTING_02": 1.0
+        },
+        "accuracy_by_causal_family": {
+          "BAD_ADJUSTMENT": 1.0,
+          "BAD_SETUP": 1.0,
+          "BEARING_FAILURE": 1.0,
+          "BLOCKAGE_BY_FAILURE": 1.0,
+          "COMPONENT_DEGRADATION": 1.0,
+          "DRIVE_FAILURE": 1.0,
+          "ELECTRICAL_FAILURE": 1.0,
+          "EXCESS_FEED": 1.0,
+          "FORMAT_CHANGE_ERROR": 1.0,
+          "HANDLING_ERROR": 1.0,
+          "HARDWARE_FAILURE": 1.0,
+          "INADEQUATE_FLOW": 1.0,
+          "LEAKAGE": 1.0,
+          "MECHANICAL_BREAKAGE": 1.0,
+          "MECHANICAL_CLEARANCE": 1.0,
+          "MECHANICAL_WEAR": 1.0,
+          "OVERHEATING": 1.0,
+          "PNEUMATIC_FAILURE": 1.0,
+          "POSITIONING_ERROR": 1.0,
+          "PRODUCT_ACCUMULATION": 1.0,
+          "RUPTURE": 1.0,
+          "SEAL_FAILURE": 1.0,
+          "SIGNAL_FAILURE": 1.0,
+          "STARTUP_PROCEDURE_ERROR": 1.0,
+          "STRUCTURAL_DAMAGE": 1.0,
+          "WRONG_GUIDE_ADJUSTMENT": 1.0,
+          "WRONG_PARAMETER": 1.0,
+          "WRONG_PROCEDURE": 1.0,
+          "WRONG_RECIPE": 1.0,
+          "WRONG_REFERENCE": 1.0,
+          "WRONG_SEQUENCE": 1.0,
+          "WRONG_SPEED_SETTING": 1.0
+        },
+        "accuracy_by_component": {
+          "ACOPLAMENTO": 1.0,
+          "BOCAL": 1.0,
+          "BOMBA": 1.0,
+          "CILINDRO": 1.0,
+          "CORREIA": 1.0,
+          "DOSADOR": 1.0,
+          "ESTRELA": 1.0,
+          "GARRA": 1.0,
+          "GUIA": 1.0,
+          "INVERSOR": 1.0,
+          "MANGUEIRA": 1.0,
+          "MOTOR": 1.0,
+          "REJEITOR": 1.0,
+          "SENSOR": 1.0,
+          "SERVO": 1.0,
+          "VALVULA": 1.0,
+          "VEDACAO": 1.0
+        },
+        "accuracy_by_hard_negative_type": {
+          "BLOCKAGE": 1.0,
+          "COMMAND_FAILURE": 1.0,
+          "INTERMITTENT_STOP": 1.0,
+          "LOW_FLOW": 1.0,
+          "LOW_PERFORMANCE": 1.0,
+          "MISALIGNMENT": 1.0,
+          "NO_ACTUATION": 1.0,
+          "NO_SIGNAL": 1.0,
+          "OUT_OF_POSITION": 1.0,
+          "OVERLOAD": 1.0,
+          "POSITION_DRIFT": 1.0,
+          "PRODUCT_LOSS": 1.0,
+          "SLOW_MOVEMENT": 1.0,
+          "THERMAL_ALARM": 1.0,
+          "VIBRATION": 1.0,
+          "WRONG_SPEED": 1.0
+        },
+        "reliability_bins": [
+          {
+            "lower": 0.0,
+            "upper": 0.1,
+            "count": 125,
+            "mean_probability_operacao": 0.050214,
+            "observed_operacao_rate": 0.0
+          },
+          {
+            "lower": 0.1,
+            "upper": 0.2,
+            "count": 15,
+            "mean_probability_operacao": 0.110355,
+            "observed_operacao_rate": 0.0
+          },
+          {
+            "lower": 0.2,
+            "upper": 0.3,
+            "count": 12,
+            "mean_probability_operacao": 0.24307,
+            "observed_operacao_rate": 0.0
+          },
+          {
+            "lower": 0.3,
+            "upper": 0.4,
+            "count": 8,
+            "mean_probability_operacao": 0.311459,
+            "observed_operacao_rate": 0.0
+          },
+          {
+            "lower": 0.8,
+            "upper": 0.9,
+            "count": 20,
+            "mean_probability_operacao": 0.877065,
+            "observed_operacao_rate": 1.0
+          },
+          {
+            "lower": 0.9,
+            "upper": 1.0,
+            "count": 140,
+            "mean_probability_operacao": 0.96903,
+            "observed_operacao_rate": 1.0
+          }
+        ]
+      }
+    },
+    "C_FULL": {
+      "best_algorithm": "linear_svc",
+      "features": [
+        "observation",
+        "equipment",
+        "stop_key_1",
+        "stop_subkey",
+        "failed_component_code",
+        "failure_mode"
+      ],
+      "validation": {
+        "rows": 320,
+        "accuracy": 1.0,
+        "macro_f1": 1.0,
+        "weighted_f1": 1.0,
+        "per_class": {
+          "MANUTENCAO": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0,
+            "support": 160
+          },
+          "OPERACAO": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0,
+            "support": 160
+          }
+        },
+        "confusion_matrix": {
+          "labels": [
+            "MANUTENCAO",
+            "OPERACAO"
+          ],
+          "values": [
+            [
+              160,
+              0
+            ],
+            [
+              0,
+              160
+            ]
+          ]
+        },
+        "roc_auc": 1.0,
+        "brier_score": 0.025522,
+        "log_loss": 0.150181,
+        "mean_confidence": 0.865244,
+        "accuracy_by_scenario_id": {
+          "M_BEARING_FAILURE_04": 1.0,
+          "M_BLOCKAGE_BY_FAILURE_02": 1.0,
+          "M_COMPONENT_DEGRADATION_04": 1.0,
+          "M_DRIVE_FAILURE_02": 1.0,
+          "M_ELECTRICAL_FAILURE_01": 1.0,
+          "M_HARDWARE_FAILURE_01": 1.0,
+          "M_LEAKAGE_03": 1.0,
+          "M_MECHANICAL_BREAKAGE_03": 1.0,
+          "M_MECHANICAL_CLEARANCE_04": 1.0,
+          "M_MECHANICAL_WEAR_01": 1.0,
+          "M_OVERHEATING_01": 1.0,
+          "M_PNEUMATIC_FAILURE_03": 1.0,
+          "M_RUPTURE_01": 1.0,
+          "M_SEAL_FAILURE_04": 1.0,
+          "M_SIGNAL_FAILURE_01": 1.0,
+          "M_STRUCTURAL_DAMAGE_01": 1.0,
+          "O_BAD_ADJUSTMENT_02": 1.0,
+          "O_BAD_SETUP_02": 1.0,
+          "O_EXCESS_FEED_01": 1.0,
+          "O_FORMAT_CHANGE_ERROR_04": 1.0,
+          "O_HANDLING_ERROR_03": 1.0,
+          "O_INADEQUATE_FLOW_01": 1.0,
+          "O_POSITIONING_ERROR_01": 1.0,
+          "O_PRODUCT_ACCUMULATION_04": 1.0,
+          "O_STARTUP_PROCEDURE_ERROR_01": 1.0,
+          "O_WRONG_GUIDE_ADJUSTMENT_01": 1.0,
+          "O_WRONG_PARAMETER_03": 1.0,
+          "O_WRONG_PROCEDURE_02": 1.0,
+          "O_WRONG_RECIPE_04": 1.0,
+          "O_WRONG_REFERENCE_01": 1.0,
+          "O_WRONG_SEQUENCE_03": 1.0,
+          "O_WRONG_SPEED_SETTING_02": 1.0
+        },
+        "accuracy_by_causal_family": {
+          "BAD_ADJUSTMENT": 1.0,
+          "BAD_SETUP": 1.0,
+          "BEARING_FAILURE": 1.0,
+          "BLOCKAGE_BY_FAILURE": 1.0,
+          "COMPONENT_DEGRADATION": 1.0,
+          "DRIVE_FAILURE": 1.0,
+          "ELECTRICAL_FAILURE": 1.0,
+          "EXCESS_FEED": 1.0,
+          "FORMAT_CHANGE_ERROR": 1.0,
+          "HANDLING_ERROR": 1.0,
+          "HARDWARE_FAILURE": 1.0,
+          "INADEQUATE_FLOW": 1.0,
+          "LEAKAGE": 1.0,
+          "MECHANICAL_BREAKAGE": 1.0,
+          "MECHANICAL_CLEARANCE": 1.0,
+          "MECHANICAL_WEAR": 1.0,
+          "OVERHEATING": 1.0,
+          "PNEUMATIC_FAILURE": 1.0,
+          "POSITIONING_ERROR": 1.0,
+          "PRODUCT_ACCUMULATION": 1.0,
+          "RUPTURE": 1.0,
+          "SEAL_FAILURE": 1.0,
+          "SIGNAL_FAILURE": 1.0,
+          "STARTUP_PROCEDURE_ERROR": 1.0,
+          "STRUCTURAL_DAMAGE": 1.0,
+          "WRONG_GUIDE_ADJUSTMENT": 1.0,
+          "WRONG_PARAMETER": 1.0,
+          "WRONG_PROCEDURE": 1.0,
+          "WRONG_RECIPE": 1.0,
+          "WRONG_REFERENCE": 1.0,
+          "WRONG_SEQUENCE": 1.0,
+          "WRONG_SPEED_SETTING": 1.0
+        },
+        "accuracy_by_component": {
+          "ACOPLAMENTO": 1.0,
+          "BOCAL": 1.0,
+          "BOMBA": 1.0,
+          "CILINDRO": 1.0,
+          "CORREIA": 1.0,
+          "DOSADOR": 1.0,
+          "ESTRELA": 1.0,
+          "GARRA": 1.0,
+          "GUIA": 1.0,
+          "INVERSOR": 1.0,
+          "MANGUEIRA": 1.0,
+          "MOTOR": 1.0,
+          "REJEITOR": 1.0,
+          "SENSOR": 1.0,
+          "SERVO": 1.0,
+          "VALVULA": 1.0,
+          "VEDACAO": 1.0
+        },
+        "accuracy_by_hard_negative_type": {
+          "BLOCKAGE": 1.0,
+          "COMMAND_FAILURE": 1.0,
+          "INTERMITTENT_STOP": 1.0,
+          "LOW_FLOW": 1.0,
+          "LOW_PERFORMANCE": 1.0,
+          "MISALIGNMENT": 1.0,
+          "NO_ACTUATION": 1.0,
+          "NO_SIGNAL": 1.0,
+          "OUT_OF_POSITION": 1.0,
+          "OVERLOAD": 1.0,
+          "POSITION_DRIFT": 1.0,
+          "PRODUCT_LOSS": 1.0,
+          "SLOW_MOVEMENT": 1.0,
+          "THERMAL_ALARM": 1.0,
+          "VIBRATION": 1.0,
+          "WRONG_SPEED": 1.0
+        },
+        "reliability_bins": [
+          {
+            "lower": 0.0,
+            "upper": 0.1,
+            "count": 50,
+            "mean_probability_operacao": 0.061307,
+            "observed_operacao_rate": 0.0
+          },
+          {
+            "lower": 0.1,
+            "upper": 0.2,
+            "count": 73,
+            "mean_probability_operacao": 0.146824,
+            "observed_operacao_rate": 0.0
+          },
+          {
+            "lower": 0.2,
+            "upper": 0.3,
+            "count": 26,
+            "mean_probability_operacao": 0.264729,
+            "observed_operacao_rate": 0.0
+          },
+          {
+            "lower": 0.3,
+            "upper": 0.4,
+            "count": 1,
+            "mean_probability_operacao": 0.313601,
+            "observed_operacao_rate": 0.0
+          },
+          {
+            "lower": 0.4,
+            "upper": 0.5,
+            "count": 10,
+            "mean_probability_operacao": 0.408625,
+            "observed_operacao_rate": 0.0
+          },
+          {
+            "lower": 0.7,
+            "upper": 0.8,
+            "count": 10,
+            "mean_probability_operacao": 0.733004,
+            "observed_operacao_rate": 1.0
+          },
+          {
+            "lower": 0.8,
+            "upper": 0.9,
+            "count": 65,
+            "mean_probability_operacao": 0.843837,
+            "observed_operacao_rate": 1.0
+          },
+          {
+            "lower": 0.9,
+            "upper": 1.0,
+            "count": 85,
+            "mean_probability_operacao": 0.938411,
+            "observed_operacao_rate": 1.0
+          }
+        ]
+      }
+    }
+  },
+  "selection": {
+    "selected_without_test": true,
+    "feature_set": "A_OBSERVATION",
+    "features": [
+      "observation"
+    ],
+    "algorithm": "linear_svc",
+    "calibration": "sigmoid",
+    "selection_order": [
+      "macro_f1 desc",
+      "accuracy desc",
+      "brier_score asc"
+    ]
+  },
+  "high_confidence_threshold_selection_on_validation": {
+    "selected": {
+      "threshold": 0.75,
+      "rows": 320,
+      "coverage": 1.0,
+      "precision": 1.0
+    },
+    "curve": [
+      {
+        "threshold": 0.75,
+        "rows": 320,
+        "coverage": 1.0,
+        "precision": 1.0
+      },
+      {
+        "threshold": 0.755,
+        "rows": 320,
+        "coverage": 1.0,
+        "precision": 1.0
+      },
+      {
+        "threshold": 0.76,
+        "rows": 320,
+        "coverage": 1.0,
+        "precision": 1.0
+      },
+      {
+        "threshold": 0.765,
+        "rows": 320,
+        "coverage": 1.0,
+        "precision": 1.0
+      },
+      {
+        "threshold": 0.77,
+        "rows": 320,
+        "coverage": 1.0,
+        "precision": 1.0
+      },
+      {
+        "threshold": 0.775,
+        "rows": 319,
+        "coverage": 0.996875,
+        "precision": 1.0
+      },
+      {
+        "threshold": 0.78,
+        "rows": 319,
+        "coverage": 0.996875,
+        "precision": 1.0
+      },
+      {
+        "threshold": 0.785,
+        "rows": 319,
+        "coverage": 0.996875,
+        "precision": 1.0
+      },
+      {
+        "threshold": 0.79,
+        "rows": 319,
+        "coverage": 0.996875,
+        "precision": 1.0
+      },
+      {
+        "threshold": 0.795,
+        "rows": 316,
+        "coverage": 0.9875,
+        "precision": 1.0
+      },
+      {
+        "threshold": 0.8,
+        "rows": 311,
+        "coverage": 0.971875,
+        "precision": 1.0
+      },
+      {
+        "threshold": 0.805,
+        "rows": 311,
+        "coverage": 0.971875,
+        "precision": 1.0
+      },
+      {
+        "threshold": 0.81,
+        "rows": 311,
+        "coverage": 0.971875,
+        "precision": 1.0
+      },
+      {
+        "threshold": 0.815,
+        "rows": 310,
+        "coverage": 0.96875,
+        "precision": 1.0
+      },
+      {
+        "threshold": 0.82,
+        "rows": 310,
+        "coverage": 0.96875,
+        "precision": 1.0
+      },
+      {
+        "threshold": 0.825,
+        "rows": 310,
+        "coverage": 0.96875,
+        "precision": 1.0
+      },
+      {
+        "threshold": 0.83,
+        "rows": 310,
+        "coverage": 0.96875,
+        "precision": 1.0
+      },
+      {
+        "threshold": 0.835,
+        "rows": 310,
+        "coverage": 0.96875,
+        "precision": 1.0
+      },
+      {
+        "threshold": 0.84,
+        "rows": 309,
+        "coverage": 0.965625,
+        "precision": 1.0
+      },
+      {
+        "threshold": 0.845,
+        "rows": 309,
+        "coverage": 0.965625,
+        "precision": 1.0
+      },
+      {
+        "threshold": 0.85,
+        "rows": 308,
+        "coverage": 0.9625,
+        "precision": 1.0
+      },
+      {
+        "threshold": 0.855,
+        "rows": 306,
+        "coverage": 0.95625,
+        "precision": 1.0
+      },
+      {
+        "threshold": 0.86,
+        "rows": 306,
+        "coverage": 0.95625,
+        "precision": 1.0
+      },
+      {
+        "threshold": 0.865,
+        "rows": 306,
+        "coverage": 0.95625,
+        "precision": 1.0
+      },
+      {
+        "threshold": 0.87,
+        "rows": 306,
+        "coverage": 0.95625,
+        "precision": 1.0
+      },
+      {
+        "threshold": 0.875,
+        "rows": 306,
+        "coverage": 0.95625,
+        "precision": 1.0
+      },
+      {
+        "threshold": 0.88,
+        "rows": 306,
+        "coverage": 0.95625,
+        "precision": 1.0
+      },
+      {
+        "threshold": 0.885,
+        "rows": 306,
+        "coverage": 0.95625,
+        "precision": 1.0
+      },
+      {
+        "threshold": 0.89,
+        "rows": 304,
+        "coverage": 0.95,
+        "precision": 1.0
+      },
+      {
+        "threshold": 0.895,
+        "rows": 304,
+        "coverage": 0.95,
+        "precision": 1.0
+      },
+      {
+        "threshold": 0.9,
+        "rows": 304,
+        "coverage": 0.95,
+        "precision": 1.0
+      },
+      {
+        "threshold": 0.905,
+        "rows": 303,
+        "coverage": 0.946875,
+        "precision": 1.0
+      },
+      {
+        "threshold": 0.91,
+        "rows": 297,
+        "coverage": 0.928125,
+        "precision": 1.0
+      },
+      {
+        "threshold": 0.915,
+        "rows": 291,
+        "coverage": 0.909375,
+        "precision": 1.0
+      },
+      {
+        "threshold": 0.92,
+        "rows": 289,
+        "coverage": 0.903125,
+        "precision": 1.0
+      },
+      {
+        "threshold": 0.925,
+        "rows": 286,
+        "coverage": 0.89375,
+        "precision": 1.0
+      },
+      {
+        "threshold": 0.93,
+        "rows": 281,
+        "coverage": 0.878125,
+        "precision": 1.0
+      },
+      {
+        "threshold": 0.935,
+        "rows": 275,
+        "coverage": 0.859375,
+        "precision": 1.0
+      },
+      {
+        "threshold": 0.94,
+        "rows": 271,
+        "coverage": 0.846875,
+        "precision": 1.0
+      },
+      {
+        "threshold": 0.945,
+        "rows": 268,
+        "coverage": 0.8375,
+        "precision": 1.0
+      },
+      {
+        "threshold": 0.95,
+        "rows": 266,
+        "coverage": 0.83125,
+        "precision": 1.0
+      },
+      {
+        "threshold": 0.955,
+        "rows": 261,
+        "coverage": 0.815625,
+        "precision": 1.0
+      },
+      {
+        "threshold": 0.96,
+        "rows": 249,
+        "coverage": 0.778125,
+        "precision": 1.0
+      },
+      {
+        "threshold": 0.965,
+        "rows": 236,
+        "coverage": 0.7375,
+        "precision": 1.0
+      },
+      {
+        "threshold": 0.97,
+        "rows": 231,
+        "coverage": 0.721875,
+        "precision": 1.0
+      },
+      {
+        "threshold": 0.975,
+        "rows": 209,
+        "coverage": 0.653125,
+        "precision": 1.0
+      },
+      {
+        "threshold": 0.98,
+        "rows": 198,
+        "coverage": 0.61875,
+        "precision": 1.0
+      },
+      {
+        "threshold": 0.985,
+        "rows": 193,
+        "coverage": 0.603125,
+        "precision": 1.0
+      },
+      {
+        "threshold": 0.99,
+        "rows": 163,
+        "coverage": 0.509375,
+        "precision": 1.0
+      }
+    ]
+  },
+  "final_test": {
+    "rows": 320,
+    "accuracy": 1.0,
+    "macro_f1": 1.0,
+    "weighted_f1": 1.0,
+    "per_class": {
+      "MANUTENCAO": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "support": 160
+      },
+      "OPERACAO": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "support": 160
+      }
+    },
+    "confusion_matrix": {
+      "labels": [
+        "MANUTENCAO",
+        "OPERACAO"
+      ],
+      "values": [
+        [
+          160,
+          0
+        ],
+        [
+          0,
+          160
+        ]
+      ]
+    },
+    "roc_auc": 1.0,
+    "brier_score": 0.002121,
+    "log_loss": 0.026065,
+    "mean_confidence": 0.975091,
+    "accuracy_by_scenario_id": {
+      "M_BEARING_FAILURE_01": 1.0,
+      "M_BLOCKAGE_BY_FAILURE_01": 1.0,
+      "M_COMPONENT_DEGRADATION_03": 1.0,
+      "M_DRIVE_FAILURE_04": 1.0,
+      "M_ELECTRICAL_FAILURE_03": 1.0,
+      "M_HARDWARE_FAILURE_04": 1.0,
+      "M_LEAKAGE_04": 1.0,
+      "M_MECHANICAL_BREAKAGE_04": 1.0,
+      "M_MECHANICAL_CLEARANCE_01": 1.0,
+      "M_MECHANICAL_WEAR_04": 1.0,
+      "M_OVERHEATING_02": 1.0,
+      "M_PNEUMATIC_FAILURE_02": 1.0,
+      "M_RUPTURE_02": 1.0,
+      "M_SEAL_FAILURE_03": 1.0,
+      "M_SIGNAL_FAILURE_02": 1.0,
+      "M_STRUCTURAL_DAMAGE_02": 1.0,
+      "O_BAD_ADJUSTMENT_01": 1.0,
+      "O_BAD_SETUP_01": 1.0,
+      "O_EXCESS_FEED_04": 1.0,
+      "O_FORMAT_CHANGE_ERROR_03": 1.0,
+      "O_HANDLING_ERROR_01": 1.0,
+      "O_INADEQUATE_FLOW_02": 1.0,
+      "O_POSITIONING_ERROR_04": 1.0,
+      "O_PRODUCT_ACCUMULATION_01": 1.0,
+      "O_STARTUP_PROCEDURE_ERROR_03": 1.0,
+      "O_WRONG_GUIDE_ADJUSTMENT_04": 1.0,
+      "O_WRONG_PARAMETER_01": 1.0,
+      "O_WRONG_PROCEDURE_03": 1.0,
+      "O_WRONG_RECIPE_02": 1.0,
+      "O_WRONG_REFERENCE_03": 1.0,
+      "O_WRONG_SEQUENCE_01": 1.0,
+      "O_WRONG_SPEED_SETTING_01": 1.0
+    },
+    "accuracy_by_causal_family": {
+      "BAD_ADJUSTMENT": 1.0,
+      "BAD_SETUP": 1.0,
+      "BEARING_FAILURE": 1.0,
+      "BLOCKAGE_BY_FAILURE": 1.0,
+      "COMPONENT_DEGRADATION": 1.0,
+      "DRIVE_FAILURE": 1.0,
+      "ELECTRICAL_FAILURE": 1.0,
+      "EXCESS_FEED": 1.0,
+      "FORMAT_CHANGE_ERROR": 1.0,
+      "HANDLING_ERROR": 1.0,
+      "HARDWARE_FAILURE": 1.0,
+      "INADEQUATE_FLOW": 1.0,
+      "LEAKAGE": 1.0,
+      "MECHANICAL_BREAKAGE": 1.0,
+      "MECHANICAL_CLEARANCE": 1.0,
+      "MECHANICAL_WEAR": 1.0,
+      "OVERHEATING": 1.0,
+      "PNEUMATIC_FAILURE": 1.0,
+      "POSITIONING_ERROR": 1.0,
+      "PRODUCT_ACCUMULATION": 1.0,
+      "RUPTURE": 1.0,
+      "SEAL_FAILURE": 1.0,
+      "SIGNAL_FAILURE": 1.0,
+      "STARTUP_PROCEDURE_ERROR": 1.0,
+      "STRUCTURAL_DAMAGE": 1.0,
+      "WRONG_GUIDE_ADJUSTMENT": 1.0,
+      "WRONG_PARAMETER": 1.0,
+      "WRONG_PROCEDURE": 1.0,
+      "WRONG_RECIPE": 1.0,
+      "WRONG_REFERENCE": 1.0,
+      "WRONG_SEQUENCE": 1.0,
+      "WRONG_SPEED_SETTING": 1.0
+    },
+    "accuracy_by_component": {
+      "ACOPLAMENTO": 1.0,
+      "ALIMENTADOR": 1.0,
+      "BOMBA": 1.0,
+      "CILINDRO": 1.0,
+      "CORREIA": 1.0,
+      "ESTRELA": 1.0,
+      "GARRA": 1.0,
+      "GUIA": 1.0,
+      "INVERSOR": 1.0,
+      "MANGUEIRA": 1.0,
+      "REJEITOR": 1.0,
+      "ROLAMENTO": 1.0,
+      "SENSOR": 1.0,
+      "SERVO": 1.0,
+      "TRANSPORTADOR": 1.0,
+      "VALVULA": 1.0,
+      "VEDACAO": 1.0
+    },
+    "accuracy_by_hard_negative_type": {
+      "BLOCKAGE": 1.0,
+      "COMMAND_FAILURE": 1.0,
+      "INTERMITTENT_STOP": 1.0,
+      "LOW_FLOW": 1.0,
+      "LOW_PERFORMANCE": 1.0,
+      "MISALIGNMENT": 1.0,
+      "NO_ACTUATION": 1.0,
+      "NO_SIGNAL": 1.0,
+      "OUT_OF_POSITION": 1.0,
+      "OVERLOAD": 1.0,
+      "POSITION_DRIFT": 1.0,
+      "PRODUCT_LOSS": 1.0,
+      "SLOW_MOVEMENT": 1.0,
+      "THERMAL_ALARM": 1.0,
+      "VIBRATION": 1.0,
+      "WRONG_SPEED": 1.0
+    },
+    "reliability_bins": [
+      {
+        "lower": 0.0,
+        "upper": 0.1,
+        "count": 140,
+        "mean_probability_operacao": 0.021641,
+        "observed_operacao_rate": 0.0
+      },
+      {
+        "lower": 0.1,
+        "upper": 0.2,
+        "count": 20,
+        "mean_probability_operacao": 0.140057,
+        "observed_operacao_rate": 0.0
+      },
+      {
+        "lower": 0.8,
+        "upper": 0.9,
+        "count": 5,
+        "mean_probability_operacao": 0.866101,
+        "observed_operacao_rate": 1.0
+      },
+      {
+        "lower": 0.9,
+        "upper": 1.0,
+        "count": 155,
+        "mean_probability_operacao": 0.990513,
+        "observed_operacao_rate": 1.0
+      }
+    ]
+  },
+  "high_confidence_test": {
+    "threshold": 0.75,
+    "rows": 320,
+    "coverage": 1.0,
+    "precision": 1.0
+  },
+  "component_holdout": {
+    "held_out_components": [
+      "SENSOR",
+      "VALVULA",
+      "MOTOR",
+      "ROLAMENTO"
+    ],
+    "component_overlap": [],
+    "train_rows": 1020,
+    "test_rows": 260,
+    "metrics": {
+      "rows": 260,
+      "accuracy": 1.0,
+      "macro_f1": 1.0,
+      "weighted_f1": 1.0,
+      "per_class": {
+        "MANUTENCAO": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "support": 130
+        },
+        "OPERACAO": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "support": 130
+        }
+      },
+      "confusion_matrix": {
+        "labels": [
+          "MANUTENCAO",
+          "OPERACAO"
+        ],
+        "values": [
+          [
+            130,
+            0
+          ],
+          [
+            0,
+            130
+          ]
+        ]
+      },
+      "roc_auc": 1.0,
+      "brier_score": 0.000661,
+      "log_loss": 0.012322,
+      "mean_confidence": 0.988031,
+      "accuracy_by_scenario_id": {
+        "M_BLOCKAGE_BY_FAILURE_03": 1.0,
+        "M_COMPONENT_DEGRADATION_02": 1.0,
+        "M_DRIVE_FAILURE_02": 1.0,
+        "M_DRIVE_FAILURE_03": 1.0,
+        "M_ELECTRICAL_FAILURE_01": 1.0,
+        "M_MECHANICAL_CLEARANCE_03": 1.0,
+        "M_MECHANICAL_WEAR_01": 1.0,
+        "M_OVERHEATING_01": 1.0,
+        "M_OVERHEATING_02": 1.0,
+        "M_RUPTURE_03": 1.0,
+        "M_RUPTURE_04": 1.0,
+        "M_SEAL_FAILURE_04": 1.0,
+        "M_SIGNAL_FAILURE_04": 1.0,
+        "O_BAD_SETUP_01": 1.0,
+        "O_FORMAT_CHANGE_ERROR_03": 1.0,
+        "O_POSITIONING_ERROR_03": 1.0,
+        "O_POSITIONING_ERROR_04": 1.0,
+        "O_PRODUCT_ACCUMULATION_03": 1.0,
+        "O_STARTUP_PROCEDURE_ERROR_01": 1.0,
+        "O_STARTUP_PROCEDURE_ERROR_02": 1.0,
+        "O_WRONG_GUIDE_ADJUSTMENT_02": 1.0,
+        "O_WRONG_PARAMETER_01": 1.0,
+        "O_WRONG_PROCEDURE_04": 1.0,
+        "O_WRONG_REFERENCE_04": 1.0,
+        "O_WRONG_SPEED_SETTING_02": 1.0,
+        "O_WRONG_SPEED_SETTING_03": 1.0
+      },
+      "accuracy_by_causal_family": {
+        "BAD_SETUP": 1.0,
+        "BLOCKAGE_BY_FAILURE": 1.0,
+        "COMPONENT_DEGRADATION": 1.0,
+        "DRIVE_FAILURE": 1.0,
+        "ELECTRICAL_FAILURE": 1.0,
+        "FORMAT_CHANGE_ERROR": 1.0,
+        "MECHANICAL_CLEARANCE": 1.0,
+        "MECHANICAL_WEAR": 1.0,
+        "OVERHEATING": 1.0,
+        "POSITIONING_ERROR": 1.0,
+        "PRODUCT_ACCUMULATION": 1.0,
+        "RUPTURE": 1.0,
+        "SEAL_FAILURE": 1.0,
+        "SIGNAL_FAILURE": 1.0,
+        "STARTUP_PROCEDURE_ERROR": 1.0,
+        "WRONG_GUIDE_ADJUSTMENT": 1.0,
+        "WRONG_PARAMETER": 1.0,
+        "WRONG_PROCEDURE": 1.0,
+        "WRONG_REFERENCE": 1.0,
+        "WRONG_SPEED_SETTING": 1.0
+      },
+      "accuracy_by_component": {
+        "MOTOR": 1.0,
+        "ROLAMENTO": 1.0,
+        "SENSOR": 1.0,
+        "VALVULA": 1.0
+      },
+      "accuracy_by_hard_negative_type": {
+        "BLOCKAGE": 1.0,
+        "INTERMITTENT_STOP": 1.0,
+        "LOW_PERFORMANCE": 1.0,
+        "MISALIGNMENT": 1.0,
+        "NO_ACTUATION": 1.0,
+        "NO_SIGNAL": 1.0,
+        "POSITION_DRIFT": 1.0,
+        "PRODUCT_LOSS": 1.0,
+        "THERMAL_ALARM": 1.0,
+        "WRONG_SPEED": 1.0
+      },
+      "reliability_bins": [
+        {
+          "lower": 0.0,
+          "upper": 0.1,
+          "count": 130,
+          "mean_probability_operacao": 0.011846,
+          "observed_operacao_rate": 0.0
+        },
+        {
+          "lower": 0.8,
+          "upper": 0.9,
+          "count": 5,
+          "mean_probability_operacao": 0.876489,
+          "observed_operacao_rate": 1.0
+        },
+        {
+          "lower": 0.9,
+          "upper": 1.0,
+          "count": 125,
+          "mean_probability_operacao": 0.992365,
+          "observed_operacao_rate": 1.0
+        }
+      ]
+    }
+  },
+  "hard_negative_test": {
+    "description": "Subset do TEST formado por pares com o mesmo sintoma superficial e cláusulas causais opostas.",
+    "metrics": {
+      "rows": 320,
+      "accuracy": 1.0,
+      "macro_f1": 1.0,
+      "weighted_f1": 1.0,
+      "per_class": {
+        "MANUTENCAO": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "support": 160
+        },
+        "OPERACAO": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "support": 160
+        }
+      },
+      "confusion_matrix": {
+        "labels": [
+          "MANUTENCAO",
+          "OPERACAO"
+        ],
+        "values": [
+          [
+            160,
+            0
+          ],
+          [
+            0,
+            160
+          ]
+        ]
+      },
+      "roc_auc": 1.0,
+      "brier_score": 0.002121,
+      "log_loss": 0.026065,
+      "mean_confidence": 0.975091,
+      "accuracy_by_scenario_id": {
+        "M_BEARING_FAILURE_01": 1.0,
+        "M_BLOCKAGE_BY_FAILURE_01": 1.0,
+        "M_COMPONENT_DEGRADATION_03": 1.0,
+        "M_DRIVE_FAILURE_04": 1.0,
+        "M_ELECTRICAL_FAILURE_03": 1.0,
+        "M_HARDWARE_FAILURE_04": 1.0,
+        "M_LEAKAGE_04": 1.0,
+        "M_MECHANICAL_BREAKAGE_04": 1.0,
+        "M_MECHANICAL_CLEARANCE_01": 1.0,
+        "M_MECHANICAL_WEAR_04": 1.0,
+        "M_OVERHEATING_02": 1.0,
+        "M_PNEUMATIC_FAILURE_02": 1.0,
+        "M_RUPTURE_02": 1.0,
+        "M_SEAL_FAILURE_03": 1.0,
+        "M_SIGNAL_FAILURE_02": 1.0,
+        "M_STRUCTURAL_DAMAGE_02": 1.0,
+        "O_BAD_ADJUSTMENT_01": 1.0,
+        "O_BAD_SETUP_01": 1.0,
+        "O_EXCESS_FEED_04": 1.0,
+        "O_FORMAT_CHANGE_ERROR_03": 1.0,
+        "O_HANDLING_ERROR_01": 1.0,
+        "O_INADEQUATE_FLOW_02": 1.0,
+        "O_POSITIONING_ERROR_04": 1.0,
+        "O_PRODUCT_ACCUMULATION_01": 1.0,
+        "O_STARTUP_PROCEDURE_ERROR_03": 1.0,
+        "O_WRONG_GUIDE_ADJUSTMENT_04": 1.0,
+        "O_WRONG_PARAMETER_01": 1.0,
+        "O_WRONG_PROCEDURE_03": 1.0,
+        "O_WRONG_RECIPE_02": 1.0,
+        "O_WRONG_REFERENCE_03": 1.0,
+        "O_WRONG_SEQUENCE_01": 1.0,
+        "O_WRONG_SPEED_SETTING_01": 1.0
+      },
+      "accuracy_by_causal_family": {
+        "BAD_ADJUSTMENT": 1.0,
+        "BAD_SETUP": 1.0,
+        "BEARING_FAILURE": 1.0,
+        "BLOCKAGE_BY_FAILURE": 1.0,
+        "COMPONENT_DEGRADATION": 1.0,
+        "DRIVE_FAILURE": 1.0,
+        "ELECTRICAL_FAILURE": 1.0,
+        "EXCESS_FEED": 1.0,
+        "FORMAT_CHANGE_ERROR": 1.0,
+        "HANDLING_ERROR": 1.0,
+        "HARDWARE_FAILURE": 1.0,
+        "INADEQUATE_FLOW": 1.0,
+        "LEAKAGE": 1.0,
+        "MECHANICAL_BREAKAGE": 1.0,
+        "MECHANICAL_CLEARANCE": 1.0,
+        "MECHANICAL_WEAR": 1.0,
+        "OVERHEATING": 1.0,
+        "PNEUMATIC_FAILURE": 1.0,
+        "POSITIONING_ERROR": 1.0,
+        "PRODUCT_ACCUMULATION": 1.0,
+        "RUPTURE": 1.0,
+        "SEAL_FAILURE": 1.0,
+        "SIGNAL_FAILURE": 1.0,
+        "STARTUP_PROCEDURE_ERROR": 1.0,
+        "STRUCTURAL_DAMAGE": 1.0,
+        "WRONG_GUIDE_ADJUSTMENT": 1.0,
+        "WRONG_PARAMETER": 1.0,
+        "WRONG_PROCEDURE": 1.0,
+        "WRONG_RECIPE": 1.0,
+        "WRONG_REFERENCE": 1.0,
+        "WRONG_SEQUENCE": 1.0,
+        "WRONG_SPEED_SETTING": 1.0
+      },
+      "accuracy_by_component": {
+        "ACOPLAMENTO": 1.0,
+        "ALIMENTADOR": 1.0,
+        "BOMBA": 1.0,
+        "CILINDRO": 1.0,
+        "CORREIA": 1.0,
+        "ESTRELA": 1.0,
+        "GARRA": 1.0,
+        "GUIA": 1.0,
+        "INVERSOR": 1.0,
+        "MANGUEIRA": 1.0,
+        "REJEITOR": 1.0,
+        "ROLAMENTO": 1.0,
+        "SENSOR": 1.0,
+        "SERVO": 1.0,
+        "TRANSPORTADOR": 1.0,
+        "VALVULA": 1.0,
+        "VEDACAO": 1.0
+      },
+      "accuracy_by_hard_negative_type": {
+        "BLOCKAGE": 1.0,
+        "COMMAND_FAILURE": 1.0,
+        "INTERMITTENT_STOP": 1.0,
+        "LOW_FLOW": 1.0,
+        "LOW_PERFORMANCE": 1.0,
+        "MISALIGNMENT": 1.0,
+        "NO_ACTUATION": 1.0,
+        "NO_SIGNAL": 1.0,
+        "OUT_OF_POSITION": 1.0,
+        "OVERLOAD": 1.0,
+        "POSITION_DRIFT": 1.0,
+        "PRODUCT_LOSS": 1.0,
+        "SLOW_MOVEMENT": 1.0,
+        "THERMAL_ALARM": 1.0,
+        "VIBRATION": 1.0,
+        "WRONG_SPEED": 1.0
+      },
+      "reliability_bins": [
+        {
+          "lower": 0.0,
+          "upper": 0.1,
+          "count": 140,
+          "mean_probability_operacao": 0.021641,
+          "observed_operacao_rate": 0.0
+        },
+        {
+          "lower": 0.1,
+          "upper": 0.2,
+          "count": 20,
+          "mean_probability_operacao": 0.140057,
+          "observed_operacao_rate": 0.0
+        },
+        {
+          "lower": 0.8,
+          "upper": 0.9,
+          "count": 5,
+          "mean_probability_operacao": 0.866101,
+          "observed_operacao_rate": 1.0
+        },
+        {
+          "lower": 0.9,
+          "upper": 1.0,
+          "count": 155,
+          "mean_probability_operacao": 0.990513,
+          "observed_operacao_rate": 1.0
+        }
+      ]
+    }
+  },
+  "acceptance": {
+    "checks": {
+      "accuracy_gte_0_92": true,
+      "macro_f1_gte_0_90": true,
+      "precision_manutencao_gte_0_90": true,
+      "precision_operacao_gte_0_90": true,
+      "high_confidence_precision_gte_0_95": true
+    },
+    "passed": true
+  },
+  "production_status": "APROVADO_SOMENTE_EM_SINTETICO",
+  "real_data_required": true
+}

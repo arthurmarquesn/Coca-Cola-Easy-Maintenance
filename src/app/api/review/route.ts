@@ -17,10 +17,17 @@ import {
 } from "@/lib/session";
 
 import {
+<<<<<<< HEAD
   buildProblemCategoryCaseSql,
   deriveProblemCategorySlug,
   getCategoryLabel,
 } from "@/lib/maintenance/problem-categories";
+=======
+  buildUnitInClause,
+  getUnitSelection,
+} from "@/lib/unit-selection";
+
+>>>>>>> origin/marques
 
 import {
   parseReviewFilters,
@@ -301,7 +308,54 @@ export async function GET(request: NextRequest) {
     );
   }
 
+<<<<<<< HEAD
   const searchParams = request.nextUrl.searchParams;
+=======
+  const unitSelection =
+    await getUnitSelection({
+      userId:
+        session.userId,
+
+      defaultUnitId:
+        session.unitId,
+    });
+
+  if (
+    unitSelection
+      .selectedUnitIds
+      .length ===
+    0
+  ) {
+    return NextResponse.json(
+      {
+        success:
+          false,
+
+        error:
+          "Nenhuma unidade válida está selecionada.",
+      },
+      {
+        status:
+          403,
+      },
+    );
+  }
+
+  const unitFilter =
+    buildUnitInClause(
+      unitSelection
+        .selectedUnitIds,
+    );
+
+  const limit =
+    normalizeLimit(
+      request.nextUrl
+        .searchParams
+        .get(
+          "limit",
+        ),
+    );
+>>>>>>> origin/marques
 
   const page = normalizeLimit(searchParams.get("page"), 1, 100000);
   const pageSize = normalizeLimit(searchParams.get("pageSize"), 50, 200);
@@ -311,9 +365,254 @@ export async function GET(request: NextRequest) {
   const connection = await getConnection();
 
   try {
+<<<<<<< HEAD
     const { whereSql, values } = parseReviewFilters(
       searchParams,
       session.unitId,
+=======
+    const [
+      summaryRows,
+    ] =
+      await connection.query<
+        SummaryRow[]
+      >(
+        `
+          SELECT
+              COUNT(*) AS total,
+
+              SUM(
+                  cs.status =
+                  'PENDENTE_REVISAO'
+              ) AS pending,
+
+              SUM(
+                  cs.status =
+                  'CONFIRMADA'
+              ) AS confirmed,
+
+              SUM(
+                  cs.status =
+                  'CORRIGIDA'
+              ) AS corrected
+
+          FROM
+              classification_suggestions cs
+
+          INNER JOIN
+              maintenance_events me
+              ON me.id =
+                 cs.event_id
+
+          WHERE
+              me.unit_id IN (
+                ${unitFilter.placeholders}
+              )
+
+              AND cs.model_type =
+                  'ML'
+        `,
+        [
+          ...unitFilter.values,
+        ],
+      );
+
+    const [
+      suggestionRows,
+    ] =
+      await connection.query<
+        SuggestionRow[]
+      >(
+        `
+          SELECT
+              cs.id
+                  AS suggestion_id,
+
+              cs.event_id,
+
+              me.event_date,
+
+              me.source_line_name,
+
+              me.source_equipment_name,
+
+              me.source_stop_type,
+
+              me.source_stop_key_1,
+
+              me.source_stop_subkey,
+
+              me.observation,
+
+              me.downtime_minutes,
+
+              cs.failed_component_code,
+
+              cs.failure_mode,
+
+              cs.confidence,
+
+              cs.model_version,
+
+              cs.top_predictions
+
+          FROM
+              classification_suggestions cs
+
+          INNER JOIN
+              maintenance_events me
+              ON me.id =
+                 cs.event_id
+
+          WHERE
+              me.unit_id IN (
+                ${unitFilter.placeholders}
+              )
+
+              AND cs.model_type =
+                  'ML'
+
+              AND cs.status =
+                  'PENDENTE_REVISAO'
+
+          ORDER BY
+              cs.created_at ASC,
+              cs.id ASC
+
+          LIMIT ?
+        `,
+        [
+          ...unitFilter.values,
+          limit,
+        ],
+      );
+
+    const summary =
+      summaryRows[0];
+
+    const pending =
+      numericValue(
+        summary?.pending,
+      );
+
+    const confirmed =
+      numericValue(
+        summary?.confirmed,
+      );
+
+    const corrected =
+      numericValue(
+        summary?.corrected,
+      );
+
+    return NextResponse.json({
+      success:
+        true,
+
+      summary: {
+        total:
+          numericValue(
+            summary?.total,
+          ),
+
+        pending,
+
+        confirmed,
+
+        corrected,
+
+        reviewed:
+          confirmed +
+          corrected,
+      },
+
+      items:
+        suggestionRows.map(
+          (
+            row,
+          ) => ({
+            suggestionId:
+              Number(
+                row.suggestion_id,
+              ),
+
+            eventId:
+              Number(
+                row.event_id,
+              ),
+
+            event: {
+              date:
+                formatDate(
+                  row.event_date,
+                ),
+
+              line:
+                row
+                  .source_line_name,
+
+              equipment:
+                row
+                  .source_equipment_name,
+
+              stopType:
+                row
+                  .source_stop_type,
+
+              stopKey1:
+                row
+                  .source_stop_key_1,
+
+              stopSubkey:
+                row
+                  .source_stop_subkey,
+
+              observation:
+                row.observation ??
+                "",
+
+              downtimeMinutes:
+                row
+                  .downtime_minutes ===
+                null
+                  ? null
+                  : numericValue(
+                      row
+                        .downtime_minutes,
+                    ),
+            },
+
+            suggestion: {
+              failedComponentCode:
+                row
+                  .failed_component_code,
+
+              failureMode:
+                row
+                  .failure_mode,
+
+              confidence:
+                numericValue(
+                  row.confidence,
+                ),
+
+              modelVersion:
+                row
+                  .model_version,
+
+              topPredictions:
+                parseTopPredictions(
+                  row
+                    .top_predictions,
+                ),
+            },
+          }),
+        ),
+    });
+  } catch (error) {
+    console.error(
+      "Erro ao carregar revisão:",
+      error,
+>>>>>>> origin/marques
     );
 
     const categoryFilterClause = category
@@ -561,11 +860,52 @@ export async function PATCH(request: NextRequest) {
     );
   }
 
+<<<<<<< HEAD
   const note = typeof body.note === "string"
     ? body.note.trim().slice(0, 500)
     : "";
 
   const connection = await getConnection();
+=======
+  const unitSelection =
+    await getUnitSelection({
+      userId:
+        session.userId,
+
+      defaultUnitId:
+        session.unitId,
+    });
+
+  if (
+    unitSelection
+      .selectedUnitIds
+      .length ===
+    0
+  ) {
+    return NextResponse.json(
+      {
+        success:
+          false,
+
+        error:
+          "Nenhuma unidade válida está selecionada.",
+      },
+      {
+        status:
+          403,
+      },
+    );
+  }
+
+  const unitFilter =
+    buildUnitInClause(
+      unitSelection
+        .selectedUnitIds,
+    );
+
+  const connection =
+    await getConnection();
+>>>>>>> origin/marques
 
   try {
     const result = await applyReview(connection, {
@@ -580,10 +920,61 @@ export async function PATCH(request: NextRequest) {
       note,
     });
 
+<<<<<<< HEAD
     if (!result.ok) {
       return NextResponse.json(
         { error: result.error },
         { status: result.status },
+=======
+    const [
+      rows,
+    ] =
+      await connection.query<
+        LockedSuggestionRow[]
+      >(
+        `
+          SELECT
+              cs.id
+                  AS suggestion_id,
+
+              cs.event_id,
+
+              cs.status,
+
+              cs.failed_component_code,
+
+              cs.failure_mode,
+
+              cs.confidence,
+
+              cs.model_version,
+
+              cs.top_predictions
+
+          FROM
+              classification_suggestions cs
+
+          INNER JOIN
+              maintenance_events me
+              ON me.id =
+                 cs.event_id
+
+          WHERE
+              cs.id = ?
+
+              AND me.unit_id IN (
+                ${unitFilter.placeholders}
+              )
+
+          LIMIT 1
+
+          FOR UPDATE
+        `,
+        [
+          suggestionId,
+          ...unitFilter.values,
+        ],
+>>>>>>> origin/marques
       );
     }
 

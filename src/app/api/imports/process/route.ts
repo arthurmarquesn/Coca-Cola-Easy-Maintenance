@@ -53,6 +53,43 @@ const ML_BATCH_SIZE =
 const SOURCE_SYSTEM =
   "SAP";
 
+const CENTERS_SHEET_NAME =
+  "Centros KOFBR";
+
+const CRITICALITY_SHEET_NAME =
+  "Criticidade ABC";
+
+const CENTER_MATRIX_HEADERS = {
+  centerCode:
+    "Cod. Centro",
+
+  unitName:
+    "Unidade",
+
+  sapCode:
+    "Cod. SAP",
+} as const;
+
+const CRITICALITY_MATRIX_HEADERS = {
+  plant:
+    "Planta",
+
+  technicalLocation:
+    "Ubicación Tecnica",
+
+  parentEquipment:
+    "Equipo Padre",
+
+  tag:
+    "N° de Identifi. Técnica (Tag)",
+
+  equipmentDescription:
+    "Descripción del Equipo",
+
+  criticality:
+    "CRITICIDADE",
+} as const;
+
 
 // ============================================================
 // CABEÇALHOS DA PLANILHA
@@ -182,8 +219,17 @@ interface UnitRow
   plant_code?:
     string | null;
 
+  sap_code?:
+    string | null;
+
   city?:
     string | null;
+
+  state?:
+    string | null;
+
+  active?:
+    boolean | number | null;
 
   name?:
     string | null;
@@ -209,6 +255,9 @@ interface RawRowId
 
 
 interface PreparedRow {
+  unitId:
+    number;
+
   sourceRowNumber:
     number;
 
@@ -355,6 +404,174 @@ interface RawTableConfig {
 }
 
 
+type EquipmentCriticality =
+  | "A"
+  | "B"
+  | "C";
+
+
+type MatrixMatchType =
+  | "EXACT_UNIQUE"
+  | "EXACT_SAME_CRITICALITY"
+  | "CONFLICT"
+  | "NOT_FOUND";
+
+
+interface CriticalityMatrixAsset {
+  plant:
+    string;
+
+  technicalLocation:
+    string | null;
+
+  parentEquipment:
+    string | null;
+
+  tag:
+    string;
+
+  equipmentName:
+    string;
+
+  normalizedEquipmentName:
+    string;
+
+  criticality:
+    EquipmentCriticality;
+}
+
+
+interface CriticalityNameResolution {
+  criticality:
+    EquipmentCriticality | null;
+
+  matchType:
+    MatrixMatchType;
+
+  matrixRows:
+    number;
+}
+
+
+interface CriticalityContext {
+  available:
+    boolean;
+
+  centerSheetName:
+    string | null;
+
+  matrixSheetName:
+    string | null;
+
+  plantName:
+    string | null;
+
+  message:
+    string | null;
+
+  assets:
+    CriticalityMatrixAsset[];
+
+  matrixByCriticality: {
+    A: number;
+    B: number;
+    C: number;
+  };
+
+  nameResolution:
+    Map<
+      string,
+      CriticalityNameResolution
+    >;
+}
+
+
+// ============================================================
+// EQUIPAMENTOS
+// ============================================================
+
+/*
+ * EquipmentRecord representa um equipamento dentro
+ * da lógica da aplicação.
+ *
+ * Ele NÃO depende do mysql2 e, portanto, também pode
+ * representar equipamentos que acabaram de ser criados
+ * durante a própria importação.
+ */
+interface EquipmentRecord {
+  id:
+    number;
+
+  code:
+    string;
+
+  name:
+    string;
+
+  criticality:
+    EquipmentCriticality | null;
+}
+
+
+/*
+ * EquipmentDbRow representa especificamente uma linha
+ * retornada pelo mysql2.
+ *
+ * Como todo EquipmentDbRow também possui os campos de
+ * EquipmentRecord, podemos utilizá-lo normalmente na
+ * construção do mapa de equipamentos.
+ */
+interface EquipmentDbRow
+  extends RowDataPacket,
+    EquipmentRecord {}
+
+
+interface ExistingEventEquipmentRow
+  extends RowDataPacket {
+  id:
+    number;
+
+  source_equipment_name:
+    string | null;
+}
+
+
+interface EquipmentSyncResult {
+  equipmentIdsByNormalizedName:
+    Map<
+      string,
+      number
+    >;
+
+  eventsWithEquipment:
+    number;
+
+  matchedEvents:
+    number;
+
+  unmatchedEvents:
+    number;
+
+  coveragePercent:
+    number;
+
+  uniqueEquipmentNames:
+    number;
+
+  matchedUniqueEquipmentNames:
+    number;
+
+  ambiguousSameCriticalityNames:
+    number;
+
+  conflictingNames:
+    number;
+
+  notFoundNames:
+    number;
+}
+
+
 // ============================================================
 // NORMALIZAÇÃO
 // ============================================================
@@ -381,6 +598,34 @@ function normalizeText(
     )
     .trim()
     .toUpperCase();
+}
+
+
+function normalizeEquipmentMatchText(
+  value: unknown,
+): string {
+  return normalizeText(
+    value,
+  ).replace(
+    /\s+/g,
+    " ",
+  );
+}
+
+
+function isEquipmentCriticality(
+  value: unknown,
+): value is EquipmentCriticality {
+  const normalized =
+    normalizeText(
+      value,
+    );
+
+  return (
+    normalized === "A" ||
+    normalized === "B" ||
+    normalized === "C"
+  );
 }
 
 
@@ -1651,6 +1896,68 @@ async function getUnit(
 }
 
 
+async function getAccessibleUnits(
+  connection:
+    PoolConnection,
+
+  userId:
+    number,
+
+  defaultUnitId:
+    number,
+): Promise<UnitRow[]> {
+  const [
+    rows,
+  ] =
+    await connection.query<
+      UnitRow[]
+    >(
+      `
+        SELECT DISTINCT
+          u.*
+
+        FROM
+          units u
+
+        LEFT JOIN
+          user_units uu
+          ON uu.unit_id = u.id
+          AND uu.user_id = ?
+
+        WHERE
+          (
+            uu.user_id IS NOT NULL
+            OR u.id = ?
+          )
+
+          AND
+          (
+            u.active = TRUE
+            OR u.id = ?
+          )
+
+        ORDER BY
+          u.id ASC
+      `,
+      [
+        userId,
+        defaultUnitId,
+        defaultUnitId,
+      ],
+    );
+
+  if (
+    rows.length ===
+    0
+  ) {
+    throw new Error(
+      "O usuário atual não possui unidades disponíveis para importação.",
+    );
+  }
+
+  return rows;
+}
+
 function getUnitAliases(
   unit:
     UnitRow,
@@ -1660,12 +1967,13 @@ function getUnitAliases(
     unit.external_code,
     unit.erp_code,
     unit.plant_code,
+    unit.sap_code,
   ];
 
   return new Set(
     values
       .map(
-        normalizeText,
+        normalizeIntegrationCode,
       )
       .filter(
         Boolean,
@@ -1674,39 +1982,123 @@ function getUnitAliases(
 }
 
 
-function rowBelongsToUnit(
+function buildUnitAliasMap(
+  units:
+    UnitRow[],
+): Map<
+  string,
+  UnitRow
+> {
+  const result =
+    new Map<
+      string,
+      UnitRow
+    >();
+
+  for (
+    const unit
+    of units
+  ) {
+    for (
+      const alias
+      of getUnitAliases(
+        unit,
+      )
+    ) {
+      const existing =
+        result.get(
+          alias,
+        );
+
+      if (
+        existing &&
+        Number(
+          existing.id,
+        ) !==
+          Number(
+            unit.id,
+          )
+      ) {
+        throw new Error(
+          `O código de integração "${alias}" está associado a mais de uma unidade no banco. Corrija o cadastro antes de importar.`,
+        );
+      }
+
+      result.set(
+        alias,
+        unit,
+      );
+    }
+  }
+
+  return result;
+}
+
+
+function resolveRowUnit(
   row:
     ExcelRow,
 
-  unitAliases:
-    Set<string>,
-): boolean {
-  /*
-   * Se a unidade não possuir código
-   * de integração configurado, não
-   * aplicamos um filtro destrutivo.
-   */
-  if (
-    unitAliases.size ===
-    0
-  ) {
-    return true;
-  }
-
+  unitByAlias:
+    Map<
+      string,
+      UnitRow
+    >,
+): UnitRow | null {
   const rowCenter =
-    normalizeText(
+    normalizeIntegrationCode(
       row[
         HEADERS.center
       ],
     );
 
   if (!rowCenter) {
-    return false;
+    return null;
   }
 
-  return unitAliases.has(
-    rowCenter,
+  return (
+    unitByAlias.get(
+      rowCenter,
+    ) ??
+    null
   );
+}
+
+
+function groupPreparedRowsByUnit(
+  rows:
+    PreparedRow[],
+): Map<
+  number,
+  PreparedRow[]
+> {
+  const grouped =
+    new Map<
+      number,
+      PreparedRow[]
+    >();
+
+  for (
+    const row
+    of rows
+  ) {
+    const current =
+      grouped.get(
+        row.unitId,
+      ) ??
+      [];
+
+    current.push(
+      row,
+    );
+
+    grouped.set(
+      row.unitId,
+      current,
+    );
+  }
+
+  return grouped;
 }
 
 
@@ -1882,6 +2274,9 @@ function prepareRow(
 
   sourceRowNumber:
     number,
+
+  unitId:
+    number,
 ): PreparedRow | null {
   const eventDate =
     excelDateToString(
@@ -1902,6 +2297,8 @@ function prepareRow(
     );
 
   return {
+    unitId,
+
     sourceRowNumber,
 
     raw:
@@ -2526,6 +2923,21 @@ async function insertRawBatch(
   }
 
 
+  for (
+    const row
+    of params.rows
+  ) {
+    if (
+      row.unitId !==
+      params.unitId
+    ) {
+      throw new Error(
+        `Lote RAW contém uma linha da unidade ${row.unitId}, mas o lote pertence à unidade ${params.unitId}.`,
+      );
+    }
+  }
+
+
   const columns: string[] =
     [
       config.importIdColumn,
@@ -2587,7 +2999,7 @@ async function insertRawBatch(
             config.unitIdColumn
           ) {
             current.push(
-              params.unitId,
+              row.unitId,
             );
           }
 
@@ -2749,6 +3161,1843 @@ async function insertRawBatch(
 }
 
 
+
+// ============================================================
+// MATRIZ DE CRITICIDADE
+// ============================================================
+
+function normalizeIntegrationCode(
+  value: unknown,
+): string {
+  return normalizeText(
+    value,
+  ).replace(
+    /\*+$/g,
+    "",
+  );
+}
+
+
+function findWorkbookSheet(
+  workbook:
+    XLSX.WorkBook,
+
+  expectedName:
+    string,
+): {
+  name: string;
+  worksheet: XLSX.WorkSheet;
+} | null {
+  const expected =
+    normalizeText(
+      expectedName,
+    );
+
+  for (
+    const sheetName
+    of workbook.SheetNames
+  ) {
+    if (
+      normalizeText(
+        sheetName,
+      ) !== expected
+    ) {
+      continue;
+    }
+
+    const worksheet =
+      workbook.Sheets[
+        sheetName
+      ];
+
+    if (!worksheet) {
+      continue;
+    }
+
+    return {
+      name:
+        sheetName,
+
+      worksheet,
+    };
+  }
+
+  return null;
+}
+
+
+function worksheetToRows(
+  worksheet:
+    XLSX.WorkSheet,
+): ExcelRow[] {
+  return XLSX.utils
+    .sheet_to_json<
+      ExcelRow
+    >(
+      worksheet,
+      {
+        defval:
+          null,
+
+        raw:
+          true,
+
+        blankrows:
+          false,
+      },
+    );
+}
+
+
+function buildCriticalityContext(
+  workbook:
+    XLSX.WorkBook,
+
+  unit:
+    UnitRow,
+
+  preparedRows:
+    PreparedRow[],
+): CriticalityContext {
+  const centersSheet =
+    findWorkbookSheet(
+      workbook,
+      CENTERS_SHEET_NAME,
+    );
+
+  const criticalitySheet =
+    findWorkbookSheet(
+      workbook,
+      CRITICALITY_SHEET_NAME,
+    );
+
+  if (!criticalitySheet) {
+    return {
+      available:
+        false,
+
+      centerSheetName:
+        centersSheet?.name ??
+        null,
+
+      matrixSheetName:
+        null,
+
+      plantName:
+        null,
+
+      message:
+        `A aba "${CRITICALITY_SHEET_NAME}" não foi encontrada. A importação continuará sem sincronizar criticidade.`,
+
+      assets:
+        [],
+
+      matrixByCriticality: {
+        A: 0,
+        B: 0,
+        C: 0,
+      },
+
+      nameResolution:
+        new Map(),
+    };
+  }
+
+
+  const matrixRows =
+    worksheetToRows(
+      criticalitySheet
+        .worksheet,
+    );
+
+
+  const matrixPlantNames =
+    new Map<
+      string,
+      string
+    >();
+
+
+  for (
+    const row
+    of matrixRows
+  ) {
+    const rawPlant =
+      nullableString(
+        row[
+          CRITICALITY_MATRIX_HEADERS
+            .plant
+        ],
+      );
+
+    const normalizedPlant =
+      normalizeText(
+        rawPlant,
+      );
+
+    if (
+      rawPlant &&
+      normalizedPlant &&
+      !matrixPlantNames.has(
+        normalizedPlant,
+      )
+    ) {
+      matrixPlantNames.set(
+        normalizedPlant,
+        rawPlant,
+      );
+    }
+  }
+
+
+  const plantCandidates:
+    string[] =
+      [];
+
+
+  /*
+   * A primeira fonte para descobrir a planta é o próprio
+   * centro dos apontamentos, cruzado com "Centros KOFBR".
+   */
+  if (centersSheet) {
+    const centerRows =
+      worksheetToRows(
+        centersSheet
+          .worksheet,
+      );
+
+    const sourceCenters =
+      new Set(
+        preparedRows
+          .map(
+            (
+              row,
+            ) =>
+              normalizeIntegrationCode(
+                row.sourceCenter,
+              ),
+          )
+          .filter(
+            Boolean,
+          ),
+      );
+
+    const unitIntegrationCodes =
+      new Set(
+        [
+          unit.code,
+          unit.external_code,
+          unit.erp_code,
+          unit.plant_code,
+          unit.sap_code,
+        ]
+          .map(
+            normalizeIntegrationCode,
+          )
+          .filter(
+            Boolean,
+          ),
+      );
+
+
+    for (
+      const row
+      of centerRows
+    ) {
+      const centerCode =
+        normalizeIntegrationCode(
+          row[
+            CENTER_MATRIX_HEADERS
+              .centerCode
+          ],
+        );
+
+      const sapCode =
+        normalizeIntegrationCode(
+          row[
+            CENTER_MATRIX_HEADERS
+              .sapCode
+          ],
+        );
+
+      const belongsBySourceCenter =
+        Boolean(
+          centerCode &&
+          sourceCenters.has(
+            centerCode,
+          ),
+        );
+
+      const belongsByUnitCode =
+        Boolean(
+          (
+            centerCode &&
+            unitIntegrationCodes.has(
+              centerCode,
+            )
+          ) ||
+          (
+            sapCode &&
+            unitIntegrationCodes.has(
+              sapCode,
+            )
+          ),
+        );
+
+
+      if (
+        !belongsBySourceCenter &&
+        !belongsByUnitCode
+      ) {
+        continue;
+      }
+
+
+      const mappedUnitName =
+        nullableString(
+          row[
+            CENTER_MATRIX_HEADERS
+              .unitName
+          ],
+        );
+
+
+      if (
+        mappedUnitName
+      ) {
+        plantCandidates.push(
+          mappedUnitName,
+        );
+      }
+    }
+  }
+
+
+  /*
+   * Fallbacks seguros do cadastro da unidade.
+   */
+  for (
+    const candidate
+    of [
+      unit.city,
+      unit.name,
+      unit.short_name,
+    ]
+  ) {
+    const text =
+      nullableString(
+        candidate,
+      );
+
+    if (text) {
+      plantCandidates.push(
+        text,
+      );
+    }
+  }
+
+
+  let plantName:
+    string | null =
+      null;
+
+
+  for (
+    const candidate
+    of plantCandidates
+  ) {
+    const normalized =
+      normalizeText(
+        candidate,
+      );
+
+    const matrixPlant =
+      matrixPlantNames.get(
+        normalized,
+      );
+
+    if (
+      matrixPlant
+    ) {
+      plantName =
+        matrixPlant;
+
+      break;
+    }
+  }
+
+
+  if (!plantName) {
+    return {
+      available:
+        false,
+
+      centerSheetName:
+        centersSheet?.name ??
+        null,
+
+      matrixSheetName:
+        criticalitySheet.name,
+
+      plantName:
+        null,
+
+      message:
+        "Não foi possível relacionar a unidade ativa a uma planta da aba Criticidade ABC. A importação continuará sem sincronizar criticidade.",
+
+      assets:
+        [],
+
+      matrixByCriticality: {
+        A: 0,
+        B: 0,
+        C: 0,
+      },
+
+      nameResolution:
+        new Map(),
+    };
+  }
+
+
+  const normalizedPlantName =
+    normalizeText(
+      plantName,
+    );
+
+
+  const assetsByTag =
+    new Map<
+      string,
+      CriticalityMatrixAsset
+    >();
+
+
+  for (
+    const row
+    of matrixRows
+  ) {
+    if (
+      normalizeText(
+        row[
+          CRITICALITY_MATRIX_HEADERS
+            .plant
+        ],
+      ) !==
+      normalizedPlantName
+    ) {
+      continue;
+    }
+
+
+    const tag =
+      limitString(
+        row[
+          CRITICALITY_MATRIX_HEADERS
+            .tag
+        ],
+        100,
+      );
+
+    const equipmentName =
+      limitString(
+        row[
+          CRITICALITY_MATRIX_HEADERS
+            .equipmentDescription
+        ],
+        255,
+      );
+
+    const criticalityValue =
+      row[
+        CRITICALITY_MATRIX_HEADERS
+          .criticality
+      ];
+
+
+    if (
+      !tag ||
+      !equipmentName ||
+      !isEquipmentCriticality(
+        criticalityValue,
+      )
+    ) {
+      continue;
+    }
+
+
+    const normalizedEquipmentName =
+      normalizeEquipmentMatchText(
+        equipmentName,
+      );
+
+
+    if (
+      !normalizedEquipmentName
+    ) {
+      continue;
+    }
+
+
+    const asset:
+      CriticalityMatrixAsset = {
+        plant:
+          plantName,
+
+        technicalLocation:
+          limitString(
+            row[
+              CRITICALITY_MATRIX_HEADERS
+                .technicalLocation
+            ],
+            255,
+          ),
+
+        parentEquipment:
+          limitString(
+            row[
+              CRITICALITY_MATRIX_HEADERS
+                .parentEquipment
+            ],
+            255,
+          ),
+
+        tag,
+
+        equipmentName,
+
+        normalizedEquipmentName,
+
+        criticality:
+          normalizeText(
+            criticalityValue,
+          ) as
+            EquipmentCriticality,
+      };
+
+
+    /*
+     * O Tag é o identificador mestre da linha na matriz.
+     * Se houver repetição acidental no Excel, mantemos
+     * somente uma representação daquele Tag.
+     */
+    assetsByTag.set(
+      normalizeText(
+        tag,
+      ),
+      asset,
+    );
+  }
+
+
+  const assets =
+    Array.from(
+      assetsByTag.values(),
+    );
+
+
+  if (
+    assets.length ===
+    0
+  ) {
+    return {
+      available:
+        false,
+
+      centerSheetName:
+        centersSheet?.name ??
+        null,
+
+      matrixSheetName:
+        criticalitySheet.name,
+
+      plantName,
+
+      message:
+        `A planta "${plantName}" foi localizada, mas nenhum ativo válido A/B/C foi encontrado na matriz.`,
+
+      assets:
+        [],
+
+      matrixByCriticality: {
+        A: 0,
+        B: 0,
+        C: 0,
+      },
+
+      nameResolution:
+        new Map(),
+    };
+  }
+
+
+  const matrixByCriticality = {
+    A: 0,
+    B: 0,
+    C: 0,
+  };
+
+
+  for (
+    const asset
+    of assets
+  ) {
+    matrixByCriticality[
+      asset.criticality
+    ] +=
+      1;
+  }
+
+
+  /*
+   * Um mesmo texto de descrição pode existir em mais de um
+   * Tag da matriz.
+   *
+   * Regras:
+   *
+   * 1. descrição única:
+   *    podemos atribuir a criticidade com segurança;
+   *
+   * 2. descrição repetida, mas todos os Tags têm a mesma
+   *    criticidade:
+   *    podemos atribuir A/B/C ao apontamento, porém não
+   *    afirmamos qual Tag específico originou a falha;
+   *
+   * 3. descrição repetida com criticidades diferentes:
+   *    NÃO classificamos automaticamente.
+   */
+  const groupedByName =
+    new Map<
+      string,
+      CriticalityMatrixAsset[]
+    >();
+
+
+  for (
+    const asset
+    of assets
+  ) {
+    const current =
+      groupedByName.get(
+        asset
+          .normalizedEquipmentName,
+      ) ??
+      [];
+
+    current.push(
+      asset,
+    );
+
+    groupedByName.set(
+      asset
+        .normalizedEquipmentName,
+      current,
+    );
+  }
+
+
+  const nameResolution =
+    new Map<
+      string,
+      CriticalityNameResolution
+    >();
+
+
+  for (
+    const [
+      normalizedName,
+      groupedAssets,
+    ]
+    of groupedByName
+  ) {
+    const criticalities =
+      new Set(
+        groupedAssets.map(
+          (
+            asset,
+          ) =>
+            asset.criticality,
+        ),
+      );
+
+
+    if (
+      groupedAssets.length ===
+      1
+    ) {
+      nameResolution.set(
+        normalizedName,
+        {
+          criticality:
+            groupedAssets[0]
+              .criticality,
+
+          matchType:
+            "EXACT_UNIQUE",
+
+          matrixRows:
+            1,
+        },
+      );
+
+      continue;
+    }
+
+
+    if (
+      criticalities.size ===
+      1
+    ) {
+      nameResolution.set(
+        normalizedName,
+        {
+          criticality:
+            groupedAssets[0]
+              .criticality,
+
+          matchType:
+            "EXACT_SAME_CRITICALITY",
+
+          matrixRows:
+            groupedAssets.length,
+        },
+      );
+
+      continue;
+    }
+
+
+    nameResolution.set(
+      normalizedName,
+      {
+        criticality:
+          null,
+
+        matchType:
+          "CONFLICT",
+
+        matrixRows:
+          groupedAssets.length,
+      },
+    );
+  }
+
+
+  return {
+    available:
+      true,
+
+    centerSheetName:
+      centersSheet?.name ??
+      null,
+
+    matrixSheetName:
+      criticalitySheet.name,
+
+    plantName,
+
+    message:
+      null,
+
+    assets,
+
+    matrixByCriticality,
+
+    nameResolution,
+  };
+}
+
+
+async function syncCriticalityMatrix(
+  connection:
+    PoolConnection,
+
+  params: {
+    unitId:
+      number;
+
+    importId:
+      number;
+
+    context:
+      CriticalityContext;
+  },
+): Promise<void> {
+  if (
+    !params.context
+      .available ||
+    params.context
+      .assets.length ===
+      0
+  ) {
+    return;
+  }
+
+
+  try {
+    await getTableDefinition(
+      connection,
+      "equipment_criticality_matrix",
+    );
+  } catch {
+    throw new Error(
+      "A tabela equipment_criticality_matrix não existe. Execute a migration da matriz de criticidade antes de processar a planilha.",
+    );
+  }
+
+
+  /*
+   * A tabela é uma cópia estruturada da fonte oficial.
+   * Marcamos o snapshot anterior como inativo e reativamos
+   * tudo o que está presente na planilha atual.
+   */
+  await connection.execute<
+    ResultSetHeader
+  >(
+    `
+      UPDATE
+        equipment_criticality_matrix
+
+      SET
+        active = FALSE
+
+      WHERE
+        unit_id = ?
+    `,
+    [
+      params.unitId,
+    ],
+  );
+
+
+  const batches =
+    splitIntoBatches(
+      params.context
+        .assets,
+      DATABASE_BATCH_SIZE,
+    );
+
+
+  for (
+    const batch
+    of batches
+  ) {
+    const values:
+      SqlValue[] =
+        [];
+
+
+    const placeholders =
+      batch
+        .map(
+          (
+            asset,
+          ) => {
+            values.push(
+              params.unitId,
+              params.importId,
+              asset.plant,
+              asset
+                .technicalLocation,
+              asset
+                .parentEquipment,
+              asset.tag,
+              asset
+                .equipmentName,
+              asset
+                .normalizedEquipmentName,
+              asset
+                .criticality,
+              params.context
+                .matrixSheetName ??
+                CRITICALITY_SHEET_NAME,
+              true,
+            );
+
+            return (
+              "(" +
+              new Array(
+                11,
+              )
+                .fill(
+                  "?",
+                )
+                .join(
+                  ", ",
+                ) +
+              ")"
+            );
+          },
+        )
+        .join(
+          ", ",
+        );
+
+
+    await connection.query<
+      ResultSetHeader
+    >(
+      `
+        INSERT INTO
+          equipment_criticality_matrix
+        (
+          unit_id,
+          last_import_id,
+          plant_name,
+          technical_location,
+          parent_equipment,
+          tag,
+          equipment_name,
+          normalized_equipment_name,
+          criticality,
+          source_sheet,
+          active
+        )
+
+        VALUES
+          ${placeholders}
+
+        ON DUPLICATE KEY UPDATE
+          last_import_id =
+            VALUES(
+              last_import_id
+            ),
+
+          plant_name =
+            VALUES(
+              plant_name
+            ),
+
+          technical_location =
+            VALUES(
+              technical_location
+            ),
+
+          parent_equipment =
+            VALUES(
+              parent_equipment
+            ),
+
+          equipment_name =
+            VALUES(
+              equipment_name
+            ),
+
+          normalized_equipment_name =
+            VALUES(
+              normalized_equipment_name
+            ),
+
+          criticality =
+            VALUES(
+              criticality
+            ),
+
+          source_sheet =
+            VALUES(
+              source_sheet
+            ),
+
+          active =
+            TRUE
+      `,
+      values,
+    );
+  }
+}
+
+
+function sourceEquipmentCode(
+  unitId:
+    number,
+
+  normalizedEquipmentName:
+    string,
+): string {
+  return (
+    "SRC-" +
+    sha256Text(
+      `${unitId}|${normalizedEquipmentName}`,
+    ).slice(
+      0,
+      24,
+    )
+  );
+}
+
+
+async function syncEquipmentAliases(
+  connection:
+    PoolConnection,
+
+  items:
+    Array<{
+      equipmentId:
+        number;
+
+      alias:
+        string;
+
+      normalizedAlias:
+        string;
+    }>,
+): Promise<void> {
+  if (
+    items.length ===
+    0
+  ) {
+    return;
+  }
+
+
+  const unique =
+    new Map<
+      string,
+      {
+        equipmentId:
+          number;
+
+        alias:
+          string;
+
+        normalizedAlias:
+          string;
+      }
+    >();
+
+
+  for (
+    const item
+    of items
+  ) {
+    unique.set(
+      `${item.equipmentId}|${item.alias}`,
+      item,
+    );
+  }
+
+
+  const batches =
+    splitIntoBatches(
+      Array.from(
+        unique.values(),
+      ),
+      DATABASE_BATCH_SIZE,
+    );
+
+
+  for (
+    const batch
+    of batches
+  ) {
+    const values:
+      SqlValue[] =
+        [];
+
+
+    const placeholders =
+      batch
+        .map(
+          (
+            item,
+          ) => {
+            values.push(
+              item
+                .equipmentId,
+              item.alias,
+              item
+                .normalizedAlias,
+              SOURCE_SYSTEM,
+              true,
+            );
+
+            return (
+              "(?, ?, ?, ?, ?)"
+            );
+          },
+        )
+        .join(
+          ", ",
+        );
+
+
+    await connection.query<
+      ResultSetHeader
+    >(
+      `
+        INSERT IGNORE INTO
+          equipment_aliases
+        (
+          equipment_id,
+          alias,
+          normalized_alias,
+          source_system,
+          active
+        )
+
+        VALUES
+          ${placeholders}
+      `,
+      values,
+    );
+  }
+}
+
+
+
+async function relinkMaintenanceEvents(
+  connection:
+    PoolConnection,
+
+  params: {
+    unitId:
+      number;
+
+    equipmentIdsByNormalizedName:
+      Map<
+        string,
+        number
+      >;
+  },
+): Promise<number> {
+  if (
+    params
+      .equipmentIdsByNormalizedName
+      .size ===
+    0
+  ) {
+    return 0;
+  }
+
+
+  const [
+    rows,
+  ] =
+    await connection.query<
+      ExistingEventEquipmentRow[]
+    >(
+      `
+        SELECT
+          id,
+          source_equipment_name
+
+        FROM
+          maintenance_events
+
+        WHERE
+          unit_id = ?
+
+          AND source_equipment_name
+              IS NOT NULL
+      `,
+      [
+        params.unitId,
+      ],
+    );
+
+
+  const eventIdsByEquipment =
+    new Map<
+      number,
+      number[]
+    >();
+
+
+  for (
+    const row
+    of rows
+  ) {
+    const normalizedName =
+      normalizeEquipmentMatchText(
+        row
+          .source_equipment_name,
+      );
+
+    if (!normalizedName) {
+      continue;
+    }
+
+
+    const equipmentId =
+      params
+        .equipmentIdsByNormalizedName
+        .get(
+          normalizedName,
+        );
+
+
+    if (!equipmentId) {
+      continue;
+    }
+
+
+    const current =
+      eventIdsByEquipment.get(
+        equipmentId,
+      ) ??
+      [];
+
+    current.push(
+      Number(
+        row.id,
+      ),
+    );
+
+    eventIdsByEquipment.set(
+      equipmentId,
+      current,
+    );
+  }
+
+
+  let updated =
+    0;
+
+
+  for (
+    const [
+      equipmentId,
+      eventIds,
+    ]
+    of eventIdsByEquipment
+  ) {
+    const batches =
+      splitIntoBatches(
+        eventIds,
+        DATABASE_BATCH_SIZE,
+      );
+
+
+    for (
+      const batch
+      of batches
+    ) {
+      const placeholders =
+        batch
+          .map(
+            () => "?",
+          )
+          .join(
+            ", ",
+          );
+
+
+      const [
+        result,
+      ] =
+        await connection.query<
+          ResultSetHeader
+        >(
+          `
+            UPDATE
+              maintenance_events
+
+            SET
+              equipment_id = ?
+
+            WHERE
+              unit_id = ?
+
+              AND id IN (
+                ${placeholders}
+              )
+          `,
+          [
+            equipmentId,
+            params.unitId,
+            ...batch,
+          ],
+        );
+
+
+      updated +=
+        result.affectedRows;
+    }
+  }
+
+
+  return updated;
+}
+
+
+async function syncOperationalEquipments(
+  connection:
+    PoolConnection,
+
+  params: {
+    unitId:
+      number;
+
+    rows:
+      PreparedRow[];
+
+    context:
+      CriticalityContext;
+  },
+): Promise<
+  EquipmentSyncResult
+> {
+  const equipmentTable =
+    await getTableDefinition(
+      connection,
+      "equipments",
+    );
+
+
+  if (
+    !equipmentTable
+      .columns.has(
+        "criticality",
+      )
+  ) {
+    throw new Error(
+      "A coluna equipments.criticality não existe. Execute a migration de criticidade antes de importar a matriz.",
+    );
+  }
+
+
+  const [
+    existingRows,
+  ] =
+    await connection.query<
+      EquipmentDbRow[]
+    >(
+      `
+        SELECT
+          id,
+          code,
+          name,
+          criticality
+
+        FROM
+          equipments
+
+        WHERE
+          unit_id = ?
+
+          AND active = TRUE
+
+        ORDER BY
+          id ASC
+      `,
+      [
+        params.unitId,
+      ],
+    );
+
+
+const existingByName =
+  new Map<
+    string,
+    EquipmentRecord[]
+  >();
+
+
+  for (
+    const existing
+    of existingRows
+  ) {
+    const normalizedName =
+      normalizeEquipmentMatchText(
+        existing.name,
+      );
+
+    if (
+      !normalizedName
+    ) {
+      continue;
+    }
+
+    const current =
+      existingByName.get(
+        normalizedName,
+      ) ??
+      [];
+
+    current.push(
+      existing,
+    );
+
+    existingByName.set(
+      normalizedName,
+      current,
+    );
+  }
+
+
+  const sourceNames =
+    new Map<
+      string,
+      {
+        sourceName:
+          string;
+
+        occurrences:
+          number;
+      }
+    >();
+
+
+  for (
+    const row
+    of params.rows
+  ) {
+    const sourceName =
+      nullableString(
+        row.sourceEquipmentName,
+      );
+
+    const normalizedName =
+      normalizeEquipmentMatchText(
+        sourceName,
+      );
+
+    if (
+      !sourceName ||
+      !normalizedName
+    ) {
+      continue;
+    }
+
+
+    const current =
+      sourceNames.get(
+        normalizedName,
+      );
+
+
+    if (current) {
+      current.occurrences +=
+        1;
+    } else {
+      sourceNames.set(
+        normalizedName,
+        {
+          sourceName,
+
+          occurrences:
+            1,
+        },
+      );
+    }
+  }
+
+
+  const equipmentIdsByNormalizedName =
+    new Map<
+      string,
+      number
+    >();
+
+
+  const aliases:
+    Array<{
+      equipmentId:
+        number;
+
+      alias:
+        string;
+
+      normalizedAlias:
+        string;
+    }> =
+      [];
+
+
+  let matchedEvents =
+    0;
+
+  let matchedUniqueEquipmentNames =
+    0;
+
+  let ambiguousSameCriticalityNames =
+    0;
+
+  let conflictingNames =
+    0;
+
+  let notFoundNames =
+    0;
+
+
+  for (
+    const [
+      normalizedName,
+      source,
+    ]
+    of sourceNames
+  ) {
+    const resolution =
+      params.context
+        .available
+        ? params.context
+            .nameResolution
+            .get(
+              normalizedName,
+            )
+        : undefined;
+
+
+    const resolvedCriticality =
+      resolution
+        ?.criticality ??
+      null;
+
+
+    if (
+      params.context
+        .available
+    ) {
+      if (
+        resolvedCriticality
+      ) {
+        matchedEvents +=
+          source.occurrences;
+
+        matchedUniqueEquipmentNames +=
+          1;
+
+        if (
+          resolution
+            ?.matchType ===
+          "EXACT_SAME_CRITICALITY"
+        ) {
+          ambiguousSameCriticalityNames +=
+            1;
+        }
+      } else if (
+        resolution
+          ?.matchType ===
+        "CONFLICT"
+      ) {
+        conflictingNames +=
+          1;
+      } else {
+        notFoundNames +=
+          1;
+      }
+    }
+
+
+    const candidates =
+      existingByName.get(
+        normalizedName,
+      ) ??
+      [];
+
+
+    let selected:
+  EquipmentRecord | null =
+    candidates.find(
+      (
+        item,
+      ) =>
+        item.code
+          .toUpperCase()
+          .startsWith(
+            "SRC-",
+          ),
+    ) ??
+    candidates[0] ??
+    null;
+
+
+    if (!selected) {
+      const data:
+        Record<
+          string,
+          unknown
+        > = {
+        unit_id:
+          params.unitId,
+
+        production_line_id:
+          null,
+
+        code:
+          sourceEquipmentCode(
+            params.unitId,
+            normalizedName,
+          ),
+
+        name:
+          source.sourceName,
+
+        description:
+          "Equipamento identificado automaticamente nos apontamentos. A criticidade é sincronizada pela matriz Criticidade ABC quando existe correspondência segura.",
+
+        criticality:
+          params.context
+            .available
+            ? resolvedCriticality
+            : null,
+
+        active:
+          true,
+      };
+
+
+      if (
+        equipmentTable
+          .columns.has(
+            "criticality_justification",
+          )
+      ) {
+        data
+          .criticality_justification =
+          resolvedCriticality
+            ? "Sincronizado automaticamente da aba Criticidade ABC."
+            : null;
+      }
+
+
+      if (
+        equipmentTable
+          .columns.has(
+            "criticality_updated_by",
+          )
+      ) {
+        data
+          .criticality_updated_by =
+          null;
+      }
+
+
+      if (
+        equipmentTable
+          .columns.has(
+            "criticality_updated_at",
+          )
+      ) {
+        data
+          .criticality_updated_at =
+          params.context
+            .available
+            ? new Date()
+            : null;
+      }
+
+
+      const insertedId =
+        await insertObject(
+          connection,
+          "equipments",
+          data,
+        );
+
+
+      selected = {
+        id:
+          insertedId,
+
+        code:
+          String(
+            data.code,
+          ),
+
+        name:
+          source.sourceName,
+
+        criticality:
+          params.context
+            .available
+            ? resolvedCriticality
+            : null,
+      };
+
+
+      const current =
+        existingByName.get(
+          normalizedName,
+        ) ??
+        [];
+
+      current.push(
+        selected,
+      );
+
+      existingByName.set(
+        normalizedName,
+        current,
+      );
+    } else {
+      const updateData:
+        Record<
+          string,
+          unknown
+        > = {
+        name:
+          source.sourceName,
+
+        active:
+          true,
+      };
+
+
+      /*
+       * Só alteramos a criticidade se a matriz desta
+       * importação foi realmente localizada.
+       *
+       * Se a planilha vier sem a aba oficial, preservamos
+       * o valor já armazenado.
+       */
+      if (
+        params.context
+          .available
+      ) {
+        updateData.criticality =
+          resolvedCriticality;
+
+
+        if (
+          equipmentTable
+            .columns.has(
+              "criticality_justification",
+            )
+        ) {
+          updateData
+            .criticality_justification =
+            resolvedCriticality
+              ? "Sincronizado automaticamente da aba Criticidade ABC."
+              : null;
+        }
+
+
+        if (
+          equipmentTable
+            .columns.has(
+              "criticality_updated_by",
+            )
+        ) {
+          updateData
+            .criticality_updated_by =
+            null;
+        }
+
+
+        if (
+          equipmentTable
+            .columns.has(
+              "criticality_updated_at",
+            )
+        ) {
+          updateData
+            .criticality_updated_at =
+            new Date();
+        }
+      }
+
+
+      await updateObject(
+        connection,
+        "equipments",
+        Number(
+          selected.id,
+        ),
+        updateData,
+      );
+    }
+
+
+    const equipmentId =
+      Number(
+        selected.id,
+      );
+
+
+    equipmentIdsByNormalizedName.set(
+      normalizedName,
+      equipmentId,
+    );
+
+
+    aliases.push({
+      equipmentId,
+
+      alias:
+        source.sourceName,
+
+      normalizedAlias:
+        normalizedName,
+    });
+  }
+
+
+  await syncEquipmentAliases(
+    connection,
+    aliases,
+  );
+
+
+  const eventsWithEquipment =
+    Array.from(
+      sourceNames.values(),
+    ).reduce(
+      (
+        total,
+        item,
+      ) =>
+        total +
+        item.occurrences,
+      0,
+    );
+
+
+  const unmatchedEvents =
+    params.context
+      .available
+      ? Math.max(
+          0,
+          eventsWithEquipment -
+          matchedEvents,
+        )
+      : eventsWithEquipment;
+
+
+  const coveragePercent =
+    (
+      params.context
+        .available &&
+      eventsWithEquipment >
+        0
+    )
+      ? Number(
+          (
+            matchedEvents /
+            eventsWithEquipment *
+            100
+          ).toFixed(
+            2,
+          ),
+        )
+      : 0;
+
+
+  return {
+    equipmentIdsByNormalizedName,
+
+    eventsWithEquipment,
+
+    matchedEvents,
+
+    unmatchedEvents,
+
+    coveragePercent,
+
+    uniqueEquipmentNames:
+      sourceNames.size,
+
+    matchedUniqueEquipmentNames,
+
+    ambiguousSameCriticalityNames,
+
+    conflictingNames,
+
+    notFoundNames,
+  };
+}
+
+
 // ============================================================
 // MAINTENANCE EVENTS
 // ============================================================
@@ -2772,6 +5021,12 @@ async function insertMaintenanceBatch(
         number,
         number
       >;
+
+    equipmentIdsByNormalizedName:
+      Map<
+        string,
+        number
+      >;
   },
 ): Promise<number> {
   if (
@@ -2779,6 +5034,21 @@ async function insertMaintenanceBatch(
     0
   ) {
     return 0;
+  }
+
+
+  for (
+    const row
+    of params.rows
+  ) {
+    if (
+      row.unitId !==
+      params.unitId
+    ) {
+      throw new Error(
+        `Lote de manutenção contém uma linha da unidade ${row.unitId}, mas o lote pertence à unidade ${params.unitId}.`,
+      );
+    }
   }
 
 
@@ -2805,12 +5075,14 @@ async function insertMaintenanceBatch(
    * maintenance_events possui 26 colunas
    * neste INSERT.
    *
-   * 23 valores são enviados por parâmetros (?).
-   * 3 campos ficam NULL:
+   * 24 valores são enviados por parâmetros (?).
+   * 2 campos continuam NULL:
    *
    * production_line_id
-   * equipment_id
    * material_id
+   *
+   * equipment_id agora é preenchido automaticamente
+   * pelo cadastro operacional sincronizado com a matriz.
    *
    * IMPORTANTE:
    * cada bloco abaixo deve conter exatamente
@@ -2825,7 +5097,7 @@ async function insertMaintenanceBatch(
             ?,
             ?,
             NULL,
-            NULL,
+            ?,
             NULL,
             ?,
             ?,
@@ -2855,7 +5127,7 @@ async function insertMaintenanceBatch(
 
 
   /*
-   * São exatamente 23 valores
+   * São exatamente 24 valores
    * por ocorrência.
    */
   const values:
@@ -2883,7 +5155,7 @@ async function insertMaintenanceBatch(
 
     values.push(
       // 1
-      params.unitId,
+      row.unitId,
 
       // 2
       params.importId,
@@ -2892,13 +5164,27 @@ async function insertMaintenanceBatch(
       rawRowId,
 
       /*
-       * 4, 5 e 6 são NULL diretamente
-       * no SQL:
+       * 4 = production_line_id
+       * permanece NULL diretamente no SQL.
        *
-       * production_line_id
-       * equipment_id
-       * material_id
+       * 5 = equipment_id
+       * agora é resolvido a partir do nome do equipamento.
+       *
+       * 6 = material_id
+       * permanece NULL diretamente no SQL.
        */
+
+      // 5
+      row.sourceEquipmentName
+        ? params
+            .equipmentIdsByNormalizedName
+            .get(
+              normalizeEquipmentMatchText(
+                row.sourceEquipmentName,
+              ),
+            ) ??
+          null
+        : null,
 
       // 7
       SOURCE_SYSTEM,
@@ -2967,10 +5253,10 @@ async function insertMaintenanceBatch(
    * Validação defensiva.
    *
    * Cada ocorrência precisa gerar
-   * exatamente 23 parâmetros.
+   * exatamente 24 parâmetros.
    */
   const expectedParameters =
-    rows.length * 23;
+    rows.length * 24;
 
 
   if (
@@ -3387,60 +5673,48 @@ export async function POST(
 
 
     // --------------------------------------------------------
-    // UNIDADE
+    // UNIDADES DISPONÍVEIS PARA O USUÁRIO
+    //
+    // A unidade de cada falha agora vem do campo Centro da
+    // própria linha. A session.unitId continua sendo apenas a
+    // unidade padrão da sessão e não é mais aplicada a todas
+    // as ocorrências.
     // --------------------------------------------------------
 
-    const unit =
-      await getUnit(
+    const accessibleUnits =
+      await getAccessibleUnits(
         connection,
+        session.userId,
         session.unitId,
       );
 
 
-    const unitAliases =
-      getUnitAliases(
-        unit,
+    const unitsById =
+      new Map<
+        number,
+        UnitRow
+      >(
+        accessibleUnits.map(
+          (
+            unit,
+          ) => [
+            Number(
+              unit.id,
+            ),
+            unit,
+          ],
+        ),
+      );
+
+
+    const unitByAlias =
+      buildUnitAliasMap(
+        accessibleUnits,
       );
 
 
     // --------------------------------------------------------
-    // DUPLICIDADE
-    // --------------------------------------------------------
-
-    const duplicateId =
-      await findDuplicateImport(
-        connection,
-        importConfig,
-        session.unitId,
-        fileHash,
-      );
-
-
-    if (
-      duplicateId !==
-      null
-    ) {
-      return NextResponse.json(
-        {
-          error:
-            "Essa planilha já foi importada para a unidade atual.",
-
-          duplicate:
-            true,
-
-          importId:
-            duplicateId,
-        },
-        {
-          status:
-            409,
-        },
-      );
-    }
-
-
-    // --------------------------------------------------------
-    // FILTRA E NORMALIZA
+    // RESOLVE UNIDADE E NORMALIZA CADA LINHA
     // --------------------------------------------------------
 
     const preparedRows:
@@ -3452,6 +5726,9 @@ export async function POST(
 
     let ignoredInvalidDate =
       0;
+
+    const ignoredCenters =
+      new Set<string>();
 
 
     for (
@@ -3471,14 +5748,29 @@ export async function POST(
         ];
 
 
-      if (
-        !rowBelongsToUnit(
+      const rowUnit =
+        resolveRowUnit(
           row,
-          unitAliases,
-        )
-      ) {
+          unitByAlias,
+        );
+
+
+      if (!rowUnit) {
         ignoredByUnit +=
           1;
+
+        const sourceCenter =
+          nullableString(
+            row[
+              HEADERS.center
+            ],
+          );
+
+        if (sourceCenter) {
+          ignoredCenters.add(
+            sourceCenter,
+          );
+        }
 
         continue;
       }
@@ -3488,6 +5780,9 @@ export async function POST(
         prepareRow(
           row,
           sourceRowNumber,
+          Number(
+            rowUnit.id,
+          ),
         );
 
 
@@ -3514,10 +5809,12 @@ export async function POST(
       preparedRows.length ===
       0
     ) {
+      connection.release();
+
       return NextResponse.json(
         {
           error:
-            "Nenhum apontamento válido da unidade ativa foi encontrado na planilha.",
+            "Nenhum apontamento válido de uma unidade autorizada foi encontrado na planilha.",
 
           details: {
             totalRows:
@@ -3526,11 +5823,536 @@ export async function POST(
             ignoredByUnit,
 
             ignoredInvalidDate,
+
+            ignoredCenters:
+              Array.from(
+                ignoredCenters,
+              ),
           },
         },
         {
           status:
             400,
+        },
+      );
+    }
+
+
+    // --------------------------------------------------------
+    // AGRUPA POR UNIDADE
+    //
+    // Equipamentos, criticidade e maintenance_events são
+    // processados dentro da unidade correta.
+    // --------------------------------------------------------
+
+    const rowsByUnit =
+      groupPreparedRowsByUnit(
+        preparedRows,
+      );
+
+
+    const importedUnitIds =
+      Array.from(
+        rowsByUnit.keys(),
+      ).sort(
+        (
+          left,
+          right,
+        ) =>
+          left - right,
+      );
+
+
+    const primaryUnitId =
+      importedUnitIds.includes(
+        session.unitId,
+      )
+        ? session.unitId
+        : importedUnitIds[0];
+
+
+    const primaryUnit =
+      unitsById.get(
+        primaryUnitId,
+      );
+
+
+    if (!primaryUnit) {
+      throw new Error(
+        "Não foi possível determinar a unidade principal da importação.",
+      );
+    }
+
+
+    // --------------------------------------------------------
+    // CONTEXTOS DE CRITICIDADE POR UNIDADE
+    // --------------------------------------------------------
+
+    const criticalityByUnit =
+      new Map<
+        number,
+        CriticalityContext
+      >();
+
+
+    for (
+      const unitId
+      of importedUnitIds
+    ) {
+      const unit =
+        unitsById.get(
+          unitId,
+        );
+
+      const unitRows =
+        rowsByUnit.get(
+          unitId,
+        ) ??
+        [];
+
+
+      if (!unit) {
+        throw new Error(
+          `A unidade ${unitId} não está disponível para o usuário atual.`,
+        );
+      }
+
+
+      const context =
+        buildCriticalityContext(
+          workbook,
+          unit,
+          unitRows,
+        );
+
+
+      criticalityByUnit.set(
+        unitId,
+        context,
+      );
+
+
+      if (
+        !context.available &&
+        context.message
+      ) {
+        console.warn(
+          `[Unidade ${unitId}] ${context.message}`,
+        );
+      }
+    }
+
+
+    // --------------------------------------------------------
+    // DUPLICIDADE
+    //
+    // imports.unit_id continua representando a unidade
+    // principal do arquivo para compatibilidade com o schema
+    // atual. O vínculo real de cada falha fica em
+    // maintenance_events.unit_id.
+    // --------------------------------------------------------
+
+    const duplicateId =
+      await findDuplicateImport(
+        connection,
+        importConfig,
+        primaryUnitId,
+        fileHash,
+      );
+
+
+    /*
+     * Não retornamos imediatamente em caso de duplicidade.
+     *
+     * Mesmo quando os apontamentos já foram importados,
+     * ainda permitimos sincronizar criticidade, equipamentos
+     * e os vínculos dos eventos de todas as unidades do arquivo.
+     */
+
+
+    // --------------------------------------------------------
+    // PLANILHA JÁ IMPORTADA
+    // --------------------------------------------------------
+
+    if (
+      duplicateId !==
+      null
+    ) {
+      await connection
+        .beginTransaction();
+
+
+      const duplicateUnitSummaries:
+        Array<
+          {
+            unit: {
+              id: number;
+              code: string | null;
+              sapCode: string | null;
+              city: string | null;
+              state: string | null;
+              name: string | null;
+            };
+            rows: number;
+            criticality: CriticalityContext;
+            equipmentSync: EquipmentSyncResult;
+            relinkedEvents: number;
+          }
+        > =
+          [];
+
+
+      for (
+        const unitId
+        of importedUnitIds
+      ) {
+        const unit =
+          unitsById.get(
+            unitId,
+          );
+
+        const unitRows =
+          rowsByUnit.get(
+            unitId,
+          ) ??
+          [];
+
+        const context =
+          criticalityByUnit.get(
+            unitId,
+          );
+
+
+        if (
+          !unit ||
+          !context
+        ) {
+          throw new Error(
+            `Contexto da unidade ${unitId} não encontrado durante a sincronização da duplicidade.`,
+          );
+        }
+
+
+        await syncCriticalityMatrix(
+          connection,
+          {
+            unitId,
+
+            importId:
+              duplicateId,
+
+            context,
+          },
+        );
+
+
+        const equipmentSync =
+          await syncOperationalEquipments(
+            connection,
+            {
+              unitId,
+
+              rows:
+                unitRows,
+
+              context,
+            },
+          );
+
+
+        const relinkedEvents =
+          await relinkMaintenanceEvents(
+            connection,
+            {
+              unitId,
+
+              equipmentIdsByNormalizedName:
+                equipmentSync
+                  .equipmentIdsByNormalizedName,
+            },
+          );
+
+
+        duplicateUnitSummaries.push({
+          unit: {
+            id:
+              Number(
+                unit.id,
+              ),
+
+            code:
+              unit.code ??
+              null,
+
+            sapCode:
+              unit.sap_code ??
+              null,
+
+            city:
+              unit.city ??
+              null,
+
+            state:
+              unit.state ??
+              null,
+
+            name:
+              unit.name ??
+              null,
+          },
+
+          rows:
+            unitRows.length,
+
+          criticality:
+            context,
+
+          equipmentSync,
+
+          relinkedEvents,
+        });
+      }
+
+
+      await connection
+        .commit();
+
+
+      const primarySummary =
+        duplicateUnitSummaries.find(
+          (
+            item,
+          ) =>
+            item.unit.id ===
+            primaryUnitId,
+        ) ??
+        duplicateUnitSummaries[0];
+
+
+      connection.release();
+
+
+      return NextResponse.json(
+        {
+          error:
+            "Essa planilha já havia sido importada. Os apontamentos não foram duplicados e a matriz de criticidade foi sincronizada para as unidades identificadas.",
+
+          duplicate:
+            true,
+
+          importId:
+            duplicateId,
+
+          ignoredByUnit,
+
+          ignoredInvalidDate,
+
+          ignoredCenters:
+            Array.from(
+              ignoredCenters,
+            ),
+
+          units:
+            duplicateUnitSummaries.map(
+              (
+                item,
+              ) => ({
+                ...item.unit,
+
+                rows:
+                  item.rows,
+
+                relinkedEvents:
+                  item.relinkedEvents,
+              }),
+            ),
+
+          criticality:
+            primarySummary
+              ? {
+                  source:
+                    CRITICALITY_SHEET_NAME,
+
+                  available:
+                    primarySummary
+                      .criticality
+                      .available,
+
+                  message:
+                    primarySummary
+                      .criticality
+                      .message,
+
+                  centerSheetName:
+                    primarySummary
+                      .criticality
+                      .centerSheetName,
+
+                  matrixSheetName:
+                    primarySummary
+                      .criticality
+                      .matrixSheetName,
+
+                  plant:
+                    primarySummary
+                      .criticality
+                      .plantName,
+
+                  matrixAssets:
+                    primarySummary
+                      .criticality
+                      .assets.length,
+
+                  matrixByCriticality:
+                    primarySummary
+                      .criticality
+                      .matrixByCriticality,
+
+                  relinkedEvents:
+                    primarySummary
+                      .relinkedEvents,
+
+                  matching: {
+                    eventsWithEquipment:
+                      primarySummary
+                        .equipmentSync
+                        .eventsWithEquipment,
+
+                    matchedEvents:
+                      primarySummary
+                        .equipmentSync
+                        .matchedEvents,
+
+                    unmatchedEvents:
+                      primarySummary
+                        .equipmentSync
+                        .unmatchedEvents,
+
+                    coveragePercent:
+                      primarySummary
+                        .equipmentSync
+                        .coveragePercent,
+
+                    uniqueEquipmentNames:
+                      primarySummary
+                        .equipmentSync
+                        .uniqueEquipmentNames,
+
+                    matchedUniqueEquipmentNames:
+                      primarySummary
+                        .equipmentSync
+                        .matchedUniqueEquipmentNames,
+
+                    ambiguousSameCriticalityNames:
+                      primarySummary
+                        .equipmentSync
+                        .ambiguousSameCriticalityNames,
+
+                    conflictingNames:
+                      primarySummary
+                        .equipmentSync
+                        .conflictingNames,
+
+                    notFoundNames:
+                      primarySummary
+                        .equipmentSync
+                        .notFoundNames,
+                  },
+
+                  units:
+                    duplicateUnitSummaries.map(
+                      (
+                        item,
+                      ) => ({
+                        unit:
+                          item.unit,
+
+                        rows:
+                          item.rows,
+
+                        available:
+                          item
+                            .criticality
+                            .available,
+
+                        message:
+                          item
+                            .criticality
+                            .message,
+
+                        plant:
+                          item
+                            .criticality
+                            .plantName,
+
+                        matrixAssets:
+                          item
+                            .criticality
+                            .assets.length,
+
+                        matrixByCriticality:
+                          item
+                            .criticality
+                            .matrixByCriticality,
+
+                        relinkedEvents:
+                          item
+                            .relinkedEvents,
+
+                        matching: {
+                          eventsWithEquipment:
+                            item
+                              .equipmentSync
+                              .eventsWithEquipment,
+
+                          matchedEvents:
+                            item
+                              .equipmentSync
+                              .matchedEvents,
+
+                          unmatchedEvents:
+                            item
+                              .equipmentSync
+                              .unmatchedEvents,
+
+                          coveragePercent:
+                            item
+                              .equipmentSync
+                              .coveragePercent,
+
+                          uniqueEquipmentNames:
+                            item
+                              .equipmentSync
+                              .uniqueEquipmentNames,
+
+                          matchedUniqueEquipmentNames:
+                            item
+                              .equipmentSync
+                              .matchedUniqueEquipmentNames,
+
+                          ambiguousSameCriticalityNames:
+                            item
+                              .equipmentSync
+                              .ambiguousSameCriticalityNames,
+
+                          conflictingNames:
+                            item
+                              .equipmentSync
+                              .conflictingNames,
+
+                          notFoundNames:
+                            item
+                              .equipmentSync
+                              .notFoundNames,
+                        },
+                      }),
+                    ),
+                }
+              : null,
+        },
+        {
+          status:
+            409,
         },
       );
     }
@@ -3546,7 +6368,7 @@ export async function POST(
         importConfig,
         {
           unitId:
-            session.unitId,
+            primaryUnitId,
 
           userId:
             session.userId,
@@ -3578,56 +6400,182 @@ export async function POST(
       0;
 
 
-    const batches =
-      splitIntoBatches(
-        preparedRows,
-        DATABASE_BATCH_SIZE,
+    const unitSummaries:
+      Array<
+        {
+          unit: {
+            id: number;
+            code: string | null;
+            sapCode: string | null;
+            city: string | null;
+            state: string | null;
+            name: string | null;
+          };
+          rows: number;
+          criticality: CriticalityContext;
+          equipmentSync: EquipmentSyncResult;
+        }
+      > =
+        [];
+
+
+    /*
+     * A importação é processada por unidade.
+     *
+     * Isso garante que:
+     * - cada falha receba o unit_id do seu próprio Centro;
+     * - equipamentos sejam criados/vinculados na unidade certa;
+     * - a matriz de criticidade seja sincronizada por unidade;
+     * - raw_import_rows.unit_id, quando existir, também fique certo.
+     */
+    for (
+      const unitId
+      of importedUnitIds
+    ) {
+      const unit =
+        unitsById.get(
+          unitId,
+        );
+
+      const unitRows =
+        rowsByUnit.get(
+          unitId,
+        ) ??
+        [];
+
+      const context =
+        criticalityByUnit.get(
+          unitId,
+        );
+
+
+      if (
+        !unit ||
+        !context
+      ) {
+        throw new Error(
+          `Contexto da unidade ${unitId} não encontrado durante a importação.`,
+        );
+      }
+
+
+      await syncCriticalityMatrix(
+        connection,
+        {
+          unitId,
+
+          importId,
+
+          context,
+        },
       );
 
 
-    for (
-      const batch
-      of batches
-    ) {
-      const rawIds =
-        await insertRawBatch(
+      const equipmentSync =
+        await syncOperationalEquipments(
           connection,
-          rawConfig,
           {
-            importId,
-
-            unitId:
-              session.unitId,
-
-            sheetName:
-              selectedSheet
-                .name,
+            unitId,
 
             rows:
-              batch,
+              unitRows,
+
+            context,
           },
         );
 
 
-      const inserted =
-        await insertMaintenanceBatch(
-          connection,
-          {
-            unitId:
-              session.unitId,
-
-            importId,
-
-            rows:
-              batch,
-
-            rawIds,
-          },
+      const batches =
+        splitIntoBatches(
+          unitRows,
+          DATABASE_BATCH_SIZE,
         );
 
 
-      importedRows +=
-        inserted;
+      for (
+        const batch
+        of batches
+      ) {
+        const rawIds =
+          await insertRawBatch(
+            connection,
+            rawConfig,
+            {
+              importId,
+
+              unitId,
+
+              sheetName:
+                selectedSheet
+                  .name,
+
+              rows:
+                batch,
+            },
+          );
+
+
+        const inserted =
+          await insertMaintenanceBatch(
+            connection,
+            {
+              unitId,
+
+              importId,
+
+              rows:
+                batch,
+
+              rawIds,
+
+              equipmentIdsByNormalizedName:
+                equipmentSync
+                  .equipmentIdsByNormalizedName,
+            },
+          );
+
+
+        importedRows +=
+          inserted;
+      }
+
+
+      unitSummaries.push({
+        unit: {
+          id:
+            Number(
+              unit.id,
+            ),
+
+          code:
+            unit.code ??
+            null,
+
+          sapCode:
+            unit.sap_code ??
+            null,
+
+          city:
+            unit.city ??
+            null,
+
+          state:
+            unit.state ??
+            null,
+
+          name:
+            unit.name ??
+            null,
+        },
+
+        rows:
+          unitRows.length,
+
+        criticality:
+          context,
+
+        equipmentSync,
+      });
     }
 
 
@@ -3656,15 +6604,11 @@ export async function POST(
 
 
     // ========================================================
-    // MODELO ML
+    // MODELO ML POR UNIDADE
     //
-    // A importação já está salva e concluída neste momento.
-    //
-    // Se o ML estiver offline ou falhar:
-    //
-    // - NÃO apagamos a importação;
-    // - NÃO apagamos maintenance_events;
-    // - retornamos o estado separadamente.
+    // O mesmo import_id pode conter eventos de várias unidades,
+    // porém classifyImportWithMl também recebe unitId. Portanto
+    // executamos uma passagem para cada unidade presente no arquivo.
     // ========================================================
 
     let mlResult:
@@ -3676,30 +6620,106 @@ export async function POST(
         null;
 
 
-    try {
-      mlResult =
-        await classifyImportWithMl({
-          importId,
+    const mlByUnit:
+      Array<
+        {
+          unitId: number;
+          success: boolean;
+          result:
+            Awaited<
+              ReturnType<
+                typeof classifyImportWithMl
+              >
+            > | null;
+          error: string | null;
+        }
+      > =
+        [];
 
-          unitId:
-            session.unitId,
 
-          batchSize:
-            ML_BATCH_SIZE,
-        });
-    } catch (
-      error
+    for (
+      const unitId
+      of importedUnitIds
     ) {
-      console.error(
-        `Importação ${importId} concluída, mas houve erro no Modelo ML:`,
-        error,
-      );
+      try {
+        const result =
+          await classifyImportWithMl({
+            importId,
+
+            unitId,
+
+            batchSize:
+              ML_BATCH_SIZE,
+          });
+
+
+        if (
+          unitId ===
+            primaryUnitId ||
+          mlResult ===
+            null
+        ) {
+          mlResult =
+            result;
+        }
+
+
+        mlByUnit.push({
+          unitId,
+
+          success:
+            true,
+
+          result,
+
+          error:
+            null,
+        });
+      } catch (
+        error
+      ) {
+        const message =
+          error instanceof Error
+            ? error.message
+            : "Erro desconhecido no Modelo ML.";
+
+
+        console.error(
+          `Importação ${importId} concluída, mas houve erro no Modelo ML para a unidade ${unitId}:`,
+          error,
+        );
+
+
+        mlByUnit.push({
+          unitId,
+
+          success:
+            false,
+
+          result:
+            null,
+
+          error:
+            message,
+        });
+      }
     }
 
 
     // --------------------------------------------------------
     // RESPOSTA FINAL
     // --------------------------------------------------------
+
+    const primarySummary =
+      unitSummaries.find(
+        (
+          item,
+        ) =>
+          item.unit.id ===
+          primaryUnitId,
+      ) ??
+      unitSummaries[0];
+
 
     return NextResponse.json({
       success:
@@ -3722,34 +6742,249 @@ export async function POST(
 
         importedRows,
 
+        /*
+         * Mantidos também para compatibilidade com componentes
+         * antigos da interface de importação.
+         */
+        totalRows:
+          excelRows.length,
+
+        processedRows:
+          importedRows,
+
+        failedRows:
+          ignoredRows,
+
         ignoredRows,
 
         ignoredByUnit,
 
         ignoredInvalidDate,
 
+        ignoredCenters:
+          Array.from(
+            ignoredCenters,
+          ),
+
         unit: {
           id:
             Number(
-              unit.id,
+              primaryUnit.id,
             ),
 
           code:
-            unit.code ??
+            primaryUnit.code ??
+            null,
+
+          sapCode:
+            primaryUnit.sap_code ??
             null,
 
           city:
-            unit.city ??
+            primaryUnit.city ??
+            null,
+
+          state:
+            primaryUnit.state ??
             null,
 
           name:
-            unit.name ??
+            primaryUnit.name ??
             null,
         },
+
+        units:
+          unitSummaries.map(
+            (
+              item,
+            ) => ({
+              ...item.unit,
+
+              rows:
+                item.rows,
+            }),
+          ),
       },
+
+      criticality:
+        primarySummary
+          ? {
+              source:
+                CRITICALITY_SHEET_NAME,
+
+              available:
+                primarySummary
+                  .criticality
+                  .available,
+
+              message:
+                primarySummary
+                  .criticality
+                  .message,
+
+              centerSheetName:
+                primarySummary
+                  .criticality
+                  .centerSheetName,
+
+              matrixSheetName:
+                primarySummary
+                  .criticality
+                  .matrixSheetName,
+
+              plant:
+                primarySummary
+                  .criticality
+                  .plantName,
+
+              matrixAssets:
+                primarySummary
+                  .criticality
+                  .assets.length,
+
+              matrixByCriticality:
+                primarySummary
+                  .criticality
+                  .matrixByCriticality,
+
+              matching: {
+                eventsWithEquipment:
+                  primarySummary
+                    .equipmentSync
+                    .eventsWithEquipment,
+
+                matchedEvents:
+                  primarySummary
+                    .equipmentSync
+                    .matchedEvents,
+
+                unmatchedEvents:
+                  primarySummary
+                    .equipmentSync
+                    .unmatchedEvents,
+
+                coveragePercent:
+                  primarySummary
+                    .equipmentSync
+                    .coveragePercent,
+
+                uniqueEquipmentNames:
+                  primarySummary
+                    .equipmentSync
+                    .uniqueEquipmentNames,
+
+                matchedUniqueEquipmentNames:
+                  primarySummary
+                    .equipmentSync
+                    .matchedUniqueEquipmentNames,
+
+                ambiguousSameCriticalityNames:
+                  primarySummary
+                    .equipmentSync
+                    .ambiguousSameCriticalityNames,
+
+                conflictingNames:
+                  primarySummary
+                    .equipmentSync
+                    .conflictingNames,
+
+                notFoundNames:
+                  primarySummary
+                    .equipmentSync
+                    .notFoundNames,
+              },
+
+              units:
+                unitSummaries.map(
+                  (
+                    item,
+                  ) => ({
+                    unit:
+                      item.unit,
+
+                    rows:
+                      item.rows,
+
+                    available:
+                      item
+                        .criticality
+                        .available,
+
+                    message:
+                      item
+                        .criticality
+                        .message,
+
+                    plant:
+                      item
+                        .criticality
+                        .plantName,
+
+                    matrixAssets:
+                      item
+                        .criticality
+                        .assets.length,
+
+                    matrixByCriticality:
+                      item
+                        .criticality
+                        .matrixByCriticality,
+
+                    matching: {
+                      eventsWithEquipment:
+                        item
+                          .equipmentSync
+                          .eventsWithEquipment,
+
+                      matchedEvents:
+                        item
+                          .equipmentSync
+                          .matchedEvents,
+
+                      unmatchedEvents:
+                        item
+                          .equipmentSync
+                          .unmatchedEvents,
+
+                      coveragePercent:
+                        item
+                          .equipmentSync
+                          .coveragePercent,
+
+                      uniqueEquipmentNames:
+                        item
+                          .equipmentSync
+                          .uniqueEquipmentNames,
+
+                      matchedUniqueEquipmentNames:
+                        item
+                          .equipmentSync
+                          .matchedUniqueEquipmentNames,
+
+                      ambiguousSameCriticalityNames:
+                        item
+                          .equipmentSync
+                          .ambiguousSameCriticalityNames,
+
+                      conflictingNames:
+                        item
+                          .equipmentSync
+                          .conflictingNames,
+
+                      notFoundNames:
+                        item
+                          .equipmentSync
+                          .notFoundNames,
+                    },
+                  }),
+                ),
+            }
+          : null,
 
       ml:
         mlResult,
+
+      mlByUnit,
 
       review: {
         required:

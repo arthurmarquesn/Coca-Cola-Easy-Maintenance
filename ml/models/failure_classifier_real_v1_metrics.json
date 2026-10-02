@@ -1,0 +1,1781 @@
+{
+  "model_version": "failure_classifier_real_v1",
+  "dataset_version": "human-dataset-v1",
+  "split_strategy": "grouped_by_normalized_observation",
+  "random_seed": 42,
+  "dataset": {
+    "raw_rows": 4480,
+    "conflict_rows_excluded": 25,
+    "usable_rows": 4455,
+    "train_rows": 3560,
+    "test_rows": 895,
+    "train_observation_groups": 2925,
+    "test_observation_groups": 746,
+    "train_classes": 437,
+    "test_classes": 247,
+    "feature_count": 37115,
+    "observation_leakage_groups": 0
+  },
+  "ml": {
+    "algorithm": "TFIDF_WORD_CHAR_LINEAR_SVC",
+    "accuracy": 0.732961,
+    "macro_f1": 0.546636,
+    "weighted_f1": 0.721846,
+    "top3_accuracy": 0.877095,
+    "margin_thresholds": [
+      {
+        "threshold": 0.1,
+        "selected": 772,
+        "total": 895,
+        "coverage": 0.86257,
+        "accuracy": 0.794041
+      },
+      {
+        "threshold": 0.2,
+        "selected": 688,
+        "total": 895,
+        "coverage": 0.768715,
+        "accuracy": 0.834302
+      },
+      {
+        "threshold": 0.3,
+        "selected": 603,
+        "total": 895,
+        "coverage": 0.673743,
+        "accuracy": 0.880597
+      },
+      {
+        "threshold": 0.4,
+        "selected": 535,
+        "total": 895,
+        "coverage": 0.597765,
+        "accuracy": 0.917757
+      },
+      {
+        "threshold": 0.5,
+        "selected": 486,
+        "total": 895,
+        "coverage": 0.543017,
+        "accuracy": 0.940329
+      },
+      {
+        "threshold": 0.75,
+        "selected": 373,
+        "total": 895,
+        "coverage": 0.41676,
+        "accuracy": 0.975871
+      },
+      {
+        "threshold": 1.0,
+        "selected": 264,
+        "total": 895,
+        "coverage": 0.294972,
+        "accuracy": 0.988636
+      }
+    ]
+  },
+  "retrieval": {
+    "algorithm": "TFIDF_COSINE_NEAREST_EXAMPLE",
+    "accuracy": 0.588827,
+    "macro_f1": 0.425796,
+    "weighted_f1": 0.560517,
+    "similarity_thresholds": [
+      {
+        "threshold": 0.3,
+        "selected": 854,
+        "total": 895,
+        "coverage": 0.95419,
+        "accuracy": 0.59719
+      },
+      {
+        "threshold": 0.4,
+        "selected": 748,
+        "total": 895,
+        "coverage": 0.835754,
+        "accuracy": 0.636364
+      },
+      {
+        "threshold": 0.5,
+        "selected": 564,
+        "total": 895,
+        "coverage": 0.630168,
+        "accuracy": 0.698582
+      },
+      {
+        "threshold": 0.6,
+        "selected": 402,
+        "total": 895,
+        "coverage": 0.449162,
+        "accuracy": 0.756219
+      },
+      {
+        "threshold": 0.7,
+        "selected": 274,
+        "total": 895,
+        "coverage": 0.306145,
+        "accuracy": 0.781022
+      },
+      {
+        "threshold": 0.8,
+        "selected": 129,
+        "total": 895,
+        "coverage": 0.144134,
+        "accuracy": 0.844961
+      },
+      {
+        "threshold": 0.9,
+        "selected": 30,
+        "total": 895,
+        "coverage": 0.03352,
+        "accuracy": 0.966667
+      }
+    ]
+  },
+  "classification_report": {
+    "ALIMENTACAO TAMPAS FALHA": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 0.0
+    },
+    "ALTERACAO DA VELOCIDADE DO DEVICER": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 0.0
+    },
+    "AMASSAMENTO DE LATAS": {
+      "precision": 0.3333333333333333,
+      "recall": 0.5,
+      "f1-score": 0.4,
+      "support": 2.0
+    },
+    "ATUACAO QUEIMA DE FUSIVEL": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 1.0
+    },
+    "AUSENCIA DE PARAFUSO DE FIXACAO": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 1.0
+    },
+    "COLAPSO DE LATAS": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 2.0
+    },
+    "COLISAO DO BRACO DE ESTIRAMENTO": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 1.0
+    },
+    "CRASH DE GARRAFAS": {
+      "precision": 0.6666666666666666,
+      "recall": 1.0,
+      "f1-score": 0.8,
+      "support": 2.0
+    },
+    "CRASH DE LATAS": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 1.0
+    },
+    "CURTO CIRCUITO": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 6.0
+    },
+    "DANIFICACAO DE GARRAFAS": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 1.0
+    },
+    "DEFORMACAO DE SUPORTE": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 1.0
+    },
+    "DEFORMACAO DESALINHAMENTO DE GUIA": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 3.0
+    },
+    "DESALINHAMENTO DE AGREGADO": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 1.0
+    },
+    "DESALINHAMENTO DE CHAPA": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 0.0
+    },
+    "DESALINHAMENTO DE EIXO": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 1.0
+    },
+    "DESALINHAMENTO DE GUIA": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 2.0
+    },
+    "DESALINHAMENTO DE PALETE": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 0.0
+    },
+    "DESALINHAMENTO MECANICO": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 2.0
+    },
+    "DESARME DE BOMBA": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 0.0
+    },
+    "DESARME DE DISJUNTOR": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 1.0
+    },
+    "DESARME DE EQUIPAMENTO": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 1.0
+    },
+    "DESARME DE ESTEIRA": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 1.0
+    },
+    "DESARME DE MESA": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 1.0
+    },
+    "DESARME DE MOTOR": {
+      "precision": 0.75,
+      "recall": 1.0,
+      "f1-score": 0.8571428571428571,
+      "support": 6.0
+    },
+    "DESARME DE PAINEL": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 1.0
+    },
+    "DESARME DE TRANSPORTE": {
+      "precision": 0.5,
+      "recall": 0.3333333333333333,
+      "f1-score": 0.4,
+      "support": 3.0
+    },
+    "DESARME TERMICO": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 1.0
+    },
+    "DESLIGAMENTO INDEVIDO DO EQUIPAMENTO": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 1.0
+    },
+    "DESNIVELAMENTO DE ESTEIRA": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 1.0
+    },
+    "ENROSCO DE CAIXAS": {
+      "precision": 1.0,
+      "recall": 0.5,
+      "f1-score": 0.6666666666666666,
+      "support": 2.0
+    },
+    "ENROSCO DE GARRAFAS": {
+      "precision": 1.0,
+      "recall": 0.7333333333333333,
+      "f1-score": 0.8461538461538461,
+      "support": 15.0
+    },
+    "ENROSCO DE LATAS": {
+      "precision": 0.6666666666666666,
+      "recall": 0.8571428571428571,
+      "f1-score": 0.75,
+      "support": 7.0
+    },
+    "ENROSCO DE PACOTES": {
+      "precision": 0.9090909090909091,
+      "recall": 1.0,
+      "f1-score": 0.9523809523809523,
+      "support": 10.0
+    },
+    "ENROSCO DE ROTULOS": {
+      "precision": 0.25,
+      "recall": 0.5,
+      "f1-score": 0.3333333333333333,
+      "support": 2.0
+    },
+    "ENROSCO DE TAMPAS": {
+      "precision": 0.7333333333333333,
+      "recall": 0.9166666666666666,
+      "f1-score": 0.8148148148148148,
+      "support": 12.0
+    },
+    "ENTUPIMENTO": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 1.0
+    },
+    "ESCAPE DE CORREIA": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 1.0
+    },
+    "ESCAPE DE ESTEIRA": {
+      "precision": 0.7619047619047619,
+      "recall": 0.8888888888888888,
+      "f1-score": 0.8205128205128205,
+      "support": 18.0
+    },
+    "ESPUMAMENTO DE BEBIDA": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 4.0
+    },
+    "ETICADOR DE CORRENTE ESCAPOU": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 1.0
+    },
+    "EXCESSO DE GARRAFA COM ROTULO": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 3.0
+    },
+    "FALHA DE ABA CONICA": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 4.0
+    },
+    "FALHA DE ACIONAMENTO DO EMPURRADOR": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 0.0
+    },
+    "FALHA DE ACOPLAMENTO": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 1.0
+    },
+    "FALHA DE ACUMULO NO TRANSPORTE": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 2.0
+    },
+    "FALHA DE ALIMENTACAO": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 1.0
+    },
+    "FALHA DE ALIMENTACAO DE GARRAFAS": {
+      "precision": 0.5,
+      "recall": 1.0,
+      "f1-score": 0.6666666666666666,
+      "support": 1.0
+    },
+    "FALHA DE ALIMENTACAO DE PACOTES": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 1.0
+    },
+    "FALHA DE ALIMENTACAO DE TAMPAS": {
+      "precision": 0.6666666666666666,
+      "recall": 1.0,
+      "f1-score": 0.8,
+      "support": 4.0
+    },
+    "FALHA DE ATUADOR": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 1.0
+    },
+    "FALHA DE ATUADOR DA VALVULA": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 1.0
+    },
+    "FALHA DE ATUADOR DO DEVAISER": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 1.0
+    },
+    "FALHA DE AUTOMACAO": {
+      "precision": 1.0,
+      "recall": 0.3333333333333333,
+      "f1-score": 0.5,
+      "support": 3.0
+    },
+    "FALHA DE BAILARINA": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 1.0
+    },
+    "FALHA DE BARREIRA": {
+      "precision": 0.75,
+      "recall": 0.8571428571428571,
+      "f1-score": 0.8,
+      "support": 7.0
+    },
+    "FALHA DE BOMBA": {
+      "precision": 0.8333333333333334,
+      "recall": 1.0,
+      "f1-score": 0.9090909090909091,
+      "support": 5.0
+    },
+    "FALHA DE BOTAO DE RESET": {
+      "precision": 0.5,
+      "recall": 1.0,
+      "f1-score": 0.6666666666666666,
+      "support": 1.0
+    },
+    "FALHA DE BOTOEIRA DE EMERGENCIA": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 0.0
+    },
+    "FALHA DE CABECOTE": {
+      "precision": 0.4,
+      "recall": 1.0,
+      "f1-score": 0.5714285714285714,
+      "support": 2.0
+    },
+    "FALHA DE CALIBRACAO": {
+      "precision": 0.5,
+      "recall": 1.0,
+      "f1-score": 0.6666666666666666,
+      "support": 1.0
+    },
+    "FALHA DE CAME": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 1.0
+    },
+    "FALHA DE CAMERA": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 1.0
+    },
+    "FALHA DE CARBONATACAO": {
+      "precision": 0.3333333333333333,
+      "recall": 0.5,
+      "f1-score": 0.4,
+      "support": 2.0
+    },
+    "FALHA DE CARTAO MESTRE": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 1.0
+    },
+    "FALHA DE CODIFICACAO": {
+      "precision": 0.7142857142857143,
+      "recall": 0.9090909090909091,
+      "f1-score": 0.8,
+      "support": 11.0
+    },
+    "FALHA DE COMPACTACAO DE CAMADA": {
+      "precision": 0.3333333333333333,
+      "recall": 0.5,
+      "f1-score": 0.4,
+      "support": 2.0
+    },
+    "FALHA DE COMUNICACAO": {
+      "precision": 0.7857142857142857,
+      "recall": 1.0,
+      "f1-score": 0.88,
+      "support": 11.0
+    },
+    "FALHA DE CONEXAO DE MANGUEIRA": {
+      "precision": 1.0,
+      "recall": 0.5,
+      "f1-score": 0.6666666666666666,
+      "support": 2.0
+    },
+    "FALHA DE CONEXAO PNEUMATICA": {
+      "precision": 0.5,
+      "recall": 1.0,
+      "f1-score": 0.6666666666666666,
+      "support": 1.0
+    },
+    "FALHA DE CONTAGEM": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 3.0
+    },
+    "FALHA DE CONTROLE DE PROCESSO": {
+      "precision": 0.8,
+      "recall": 0.8,
+      "f1-score": 0.8,
+      "support": 5.0
+    },
+    "FALHA DE CONTROLE DE TEMPERATURA": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 5.0
+    },
+    "FALHA DE CORREIA": {
+      "precision": 1.0,
+      "recall": 0.75,
+      "f1-score": 0.8571428571428571,
+      "support": 4.0
+    },
+    "FALHA DE CORRENTE": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 1.0
+    },
+    "FALHA DE CORTE DE FILME": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 9.0
+    },
+    "FALHA DE DESCAPSULAMENTO": {
+      "precision": 0.8333333333333334,
+      "recall": 1.0,
+      "f1-score": 0.9090909090909091,
+      "support": 5.0
+    },
+    "FALHA DE DIMENSIONAMENTO DE CAMADA": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 1.0
+    },
+    "FALHA DE DOSAGEM": {
+      "precision": 0.3333333333333333,
+      "recall": 1.0,
+      "f1-score": 0.5,
+      "support": 1.0
+    },
+    "FALHA DE DRIVE": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 1.0
+    },
+    "FALHA DE ELAU": {
+      "precision": 0.5,
+      "recall": 1.0,
+      "f1-score": 0.6666666666666666,
+      "support": 1.0
+    },
+    "FALHA DE ELEVADOR": {
+      "precision": 0.7142857142857143,
+      "recall": 0.625,
+      "f1-score": 0.6666666666666666,
+      "support": 8.0
+    },
+    "FALHA DE ELO DE ESTEIRA": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 2.0
+    },
+    "FALHA DE EMPURRADOR": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 1.0
+    },
+    "FALHA DE ENCHIMENTO": {
+      "precision": 0.6,
+      "recall": 0.5625,
+      "f1-score": 0.5806451612903226,
+      "support": 32.0
+    },
+    "FALHA DE ENCODER": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 2.0
+    },
+    "FALHA DE ENGRENAGEM": {
+      "precision": 0.5,
+      "recall": 1.0,
+      "f1-score": 0.6666666666666666,
+      "support": 2.0
+    },
+    "FALHA DE ENVOLVIMENTO": {
+      "precision": 0.7272727272727273,
+      "recall": 0.7272727272727273,
+      "f1-score": 0.7272727272727273,
+      "support": 11.0
+    },
+    "FALHA DE ESTEIRA": {
+      "precision": 1.0,
+      "recall": 0.5714285714285714,
+      "f1-score": 0.7272727272727273,
+      "support": 7.0
+    },
+    "FALHA DE FACA": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 1.0
+    },
+    "FALHA DE FILTRO": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 2.0
+    },
+    "FALHA DE FIXACAO": {
+      "precision": 0.5,
+      "recall": 0.3333333333333333,
+      "f1-score": 0.4,
+      "support": 6.0
+    },
+    "FALHA DE FLUXIMETRO": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 1.0
+    },
+    "FALHA DE FONTE DE ALIMENTACAO": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 8.0
+    },
+    "FALHA DE FORMACAO DE CAIXA": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 1.0
+    },
+    "FALHA DE FORMACAO DE CAMADA": {
+      "precision": 0.8333333333333334,
+      "recall": 0.7142857142857143,
+      "f1-score": 0.7692307692307693,
+      "support": 7.0
+    },
+    "FALHA DE FORMACAO DE PACOTE": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 1.0
+    },
+    "FALHA DE FREIO": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 1.0
+    },
+    "FALHA DE GUIA": {
+      "precision": 1.0,
+      "recall": 0.5,
+      "f1-score": 0.6666666666666666,
+      "support": 4.0
+    },
+    "FALHA DE IHM": {
+      "precision": 1.0,
+      "recall": 0.75,
+      "f1-score": 0.8571428571428571,
+      "support": 4.0
+    },
+    "FALHA DE INSPECAO": {
+      "precision": 1.0,
+      "recall": 0.5555555555555556,
+      "f1-score": 0.7142857142857143,
+      "support": 18.0
+    },
+    "FALHA DE INVERSOR": {
+      "precision": 1.0,
+      "recall": 0.92,
+      "f1-score": 0.9583333333333334,
+      "support": 25.0
+    },
+    "FALHA DE JATOS DE ENXAGUE": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 1.0
+    },
+    "FALHA DE LEITURA": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 1.0
+    },
+    "FALHA DE LEITURA DA GARRAFA TESTE": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 1.0
+    },
+    "FALHA DE LUBRIFICACAO": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 1.0
+    },
+    "FALHA DE MAGAZINE": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 9.0
+    },
+    "FALHA DE MANDRIL": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 2.0
+    },
+    "FALHA DE MANGUEIRA": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 1.0
+    },
+    "FALHA DE MANGUEIRA PNEUMATICA": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 1.0
+    },
+    "FALHA DE MEDIDOR": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 1.0
+    },
+    "FALHA DE MISTURA": {
+      "precision": 0.75,
+      "recall": 1.0,
+      "f1-score": 0.8571428571428571,
+      "support": 3.0
+    },
+    "FALHA DE MIXER": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 1.0
+    },
+    "FALHA DE MODULO": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 1.0
+    },
+    "FALHA DE MOLA": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 2.0
+    },
+    "FALHA DE MOTOR": {
+      "precision": 0.9333333333333333,
+      "recall": 1.0,
+      "f1-score": 0.9655172413793104,
+      "support": 14.0
+    },
+    "FALHA DE NIVEL DE AGUA": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 0.0
+    },
+    "FALHA DE NOBREAK": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 1.0
+    },
+    "FALHA DE PARAMETRIZACAO": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 1.0
+    },
+    "FALHA DE PATINS": {
+      "precision": 1.0,
+      "recall": 0.5,
+      "f1-score": 0.6666666666666666,
+      "support": 2.0
+    },
+    "FALHA DE PEGADOR": {
+      "precision": 1.0,
+      "recall": 0.6,
+      "f1-score": 0.75,
+      "support": 5.0
+    },
+    "FALHA DE PENTE DE TRANSFERENCIA": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 1.0
+    },
+    "FALHA DE PINCA": {
+      "precision": 0.8181818181818182,
+      "recall": 0.9,
+      "f1-score": 0.8571428571428571,
+      "support": 10.0
+    },
+    "FALHA DE PINO": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 1.0
+    },
+    "FALHA DE PINO DE SEPARACAO": {
+      "precision": 0.5,
+      "recall": 1.0,
+      "f1-score": 0.6666666666666666,
+      "support": 1.0
+    },
+    "FALHA DE PLACA ELETRONICA": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 1.0
+    },
+    "FALHA DE PLC": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 2.0
+    },
+    "FALHA DE PORTA DE SEGURANCA": {
+      "precision": 1.0,
+      "recall": 0.3333333333333333,
+      "f1-score": 0.5,
+      "support": 3.0
+    },
+    "FALHA DE POSICIONAMENTO DO CABECOTE": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 1.0
+    },
+    "FALHA DE PRE ENXAGUE": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 0.0
+    },
+    "FALHA DE PRESSAO": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 1.0
+    },
+    "FALHA DE PRESSAO DOS JATOS": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 1.0
+    },
+    "FALHA DE PRESSOSTATO": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 1.0
+    },
+    "FALHA DE PRESSURIZACAO DA ENCHEDORA": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 1.0
+    },
+    "FALHA DE RECRAVACAO": {
+      "precision": 0.7142857142857143,
+      "recall": 1.0,
+      "f1-score": 0.8333333333333334,
+      "support": 10.0
+    },
+    "FALHA DE REDUTOR": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 2.0
+    },
+    "FALHA DE REGUA DE ARRASTE": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 1.0
+    },
+    "FALHA DE REGUA DE ENVOLVIMENTO": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 1.0
+    },
+    "FALHA DE REJEICAO": {
+      "precision": 0.75,
+      "recall": 0.5294117647058824,
+      "f1-score": 0.6206896551724138,
+      "support": 17.0
+    },
+    "FALHA DE RELE DE SEGURANCA": {
+      "precision": 0.5,
+      "recall": 1.0,
+      "f1-score": 0.6666666666666666,
+      "support": 1.0
+    },
+    "FALHA DE ROBO": {
+      "precision": 0.6,
+      "recall": 0.75,
+      "f1-score": 0.6666666666666666,
+      "support": 4.0
+    },
+    "FALHA DE ROLAMENTO": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 2.0
+    },
+    "FALHA DE ROLETES": {
+      "precision": 0.875,
+      "recall": 0.7777777777777778,
+      "f1-score": 0.8235294117647058,
+      "support": 9.0
+    },
+    "FALHA DE ROTULAGEM": {
+      "precision": 0.25,
+      "recall": 0.25,
+      "f1-score": 0.25,
+      "support": 4.0
+    },
+    "FALHA DE SEGMENTOS": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 1.0
+    },
+    "FALHA DE SENSOR": {
+      "precision": 0.9615384615384616,
+      "recall": 0.9259259259259259,
+      "f1-score": 0.9433962264150944,
+      "support": 81.0
+    },
+    "FALHA DE SERVO MOTOR": {
+      "precision": 0.8333333333333334,
+      "recall": 1.0,
+      "f1-score": 0.9090909090909091,
+      "support": 5.0
+    },
+    "FALHA DE SINCRONISMO": {
+      "precision": 0.8461538461538461,
+      "recall": 1.0,
+      "f1-score": 0.9166666666666666,
+      "support": 11.0
+    },
+    "FALHA DE SOLDA DE FILME": {
+      "precision": 0.7,
+      "recall": 0.875,
+      "f1-score": 0.7777777777777778,
+      "support": 8.0
+    },
+    "FALHA DE SOPRADOR": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 0.0
+    },
+    "FALHA DE SUPRIMENTO DE AR COMPRIMIDO": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 1.0
+    },
+    "FALHA DE TAMPAMENTO": {
+      "precision": 0.6,
+      "recall": 0.75,
+      "f1-score": 0.6666666666666666,
+      "support": 4.0
+    },
+    "FALHA DE TRACAO GUIAMENTO DE FILME": {
+      "precision": 0.5,
+      "recall": 1.0,
+      "f1-score": 0.6666666666666666,
+      "support": 2.0
+    },
+    "FALHA DE TRANSDUTOR": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 1.0
+    },
+    "FALHA DE TRANSPORTE": {
+      "precision": 0.8,
+      "recall": 0.6666666666666666,
+      "f1-score": 0.7272727272727273,
+      "support": 6.0
+    },
+    "FALHA DE TRANSPORTE DE CAIXAS": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 2.0
+    },
+    "FALHA DE TRANSPORTE DE GARRAFAS": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 1.0
+    },
+    "FALHA DE TRANSPORTE DE LATAS": {
+      "precision": 0.2,
+      "recall": 1.0,
+      "f1-score": 0.3333333333333333,
+      "support": 1.0
+    },
+    "FALHA DE TRANSPORTE DE PACOTES": {
+      "precision": 0.5,
+      "recall": 1.0,
+      "f1-score": 0.6666666666666666,
+      "support": 1.0
+    },
+    "FALHA DE TRANSPORTE DE PALETES": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 1.0
+    },
+    "FALHA DE TULIPA": {
+      "precision": 0.5,
+      "recall": 1.0,
+      "f1-score": 0.6666666666666666,
+      "support": 1.0
+    },
+    "FALHA DE TWISTER": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 3.0
+    },
+    "FALHA DE VACUO": {
+      "precision": 1.0,
+      "recall": 0.5,
+      "f1-score": 0.6666666666666666,
+      "support": 2.0
+    },
+    "FALHA DE VALVULA": {
+      "precision": 0.46153846153846156,
+      "recall": 0.6,
+      "f1-score": 0.5217391304347826,
+      "support": 10.0
+    },
+    "FALHA DE VALVULA DE ENCHIMENTO": {
+      "precision": 0.8636363636363636,
+      "recall": 0.5428571428571428,
+      "f1-score": 0.6666666666666666,
+      "support": 35.0
+    },
+    "FALHA DE VALVULA DE NITROGENIO": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 1.0
+    },
+    "FALHA DE VALVULA DE XAROPE": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 1.0
+    },
+    "FALHA DE VALVULA MODULADORA": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 3.0
+    },
+    "FALHA DE VEDACAO": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 1.0
+    },
+    "FALHA DE VEDACAO DA VALVULA": {
+      "precision": 0.3333333333333333,
+      "recall": 1.0,
+      "f1-score": 0.5,
+      "support": 1.0
+    },
+    "FALHA DE VELOCIDADE DO TRANSPORTE": {
+      "precision": 0.25,
+      "recall": 0.6666666666666666,
+      "f1-score": 0.36363636363636365,
+      "support": 3.0
+    },
+    "FALHA DE VENTOSA": {
+      "precision": 0.8571428571428571,
+      "recall": 1.0,
+      "f1-score": 0.9230769230769231,
+      "support": 6.0
+    },
+    "FALHA DE VIBRADOR": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 1.0
+    },
+    "FALHA DO COLOCADOR DE CARTAO": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 1.0
+    },
+    "FALHA DO COLOCADOR DE CHAPATEX": {
+      "precision": 0.2,
+      "recall": 1.0,
+      "f1-score": 0.3333333333333333,
+      "support": 1.0
+    },
+    "FALHA DO SECADOR DE GARRAFAS": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 1.0
+    },
+    "FALHA ELETRICA DO TRANSPORTE": {
+      "precision": 0.5,
+      "recall": 1.0,
+      "f1-score": 0.6666666666666666,
+      "support": 1.0
+    },
+    "FALHA ELETRICA SEM COMPONENTE IDENTIFICADO": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 1.0
+    },
+    "FALHA ELETRONICA DA VALVULA": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 1.0
+    },
+    "FALHA NA DESCARGA DE PALETE": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 0.0
+    },
+    "FALHA NA DESCIDA DE TAMPAS": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 1.0
+    },
+    "FALHA NA INSERCAO DE LATAS FALSAS": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 1.0
+    },
+    "FALHA NA MESA DE CARGA": {
+      "precision": 0.5,
+      "recall": 1.0,
+      "f1-score": 0.6666666666666666,
+      "support": 1.0
+    },
+    "FALHA NA PEGADA DE CAMADA": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 2.0
+    },
+    "FALHA NA REFRIGERACAO DE FUNDO": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 4.0
+    },
+    "FALHA NA SAIDA DE PALETES": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 1.0
+    },
+    "FALHA NA TROCA DE BANDEJA": {
+      "precision": 0.6666666666666666,
+      "recall": 1.0,
+      "f1-score": 0.8,
+      "support": 2.0
+    },
+    "FALHA NA TROCA DE BOBINA": {
+      "precision": 1.0,
+      "recall": 0.5,
+      "f1-score": 0.6666666666666666,
+      "support": 2.0
+    },
+    "FALHA NA TROCA DE PALETE DE CARTAO": {
+      "precision": 0.8333333333333334,
+      "recall": 1.0,
+      "f1-score": 0.9090909090909091,
+      "support": 5.0
+    },
+    "FALHA NA TROCA DE PALETE DE FOLHA SEPARADORA": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 2.0
+    },
+    "FALHA NO AVANCO DE PALETES PARA PALETIZAR": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 1.0
+    },
+    "FALHA NO CARREGAMENTO DE RECEITA": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 0.0
+    },
+    "FALHA NO CORTE DE TUBETES": {
+      "precision": 0.5,
+      "recall": 1.0,
+      "f1-score": 0.6666666666666666,
+      "support": 3.0
+    },
+    "FALHA NO ENVIO DE BEBIDA": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 1.0
+    },
+    "FALHA NO MANUSEIO DE CARTAO": {
+      "precision": 0.6666666666666666,
+      "recall": 0.5714285714285714,
+      "f1-score": 0.6153846153846154,
+      "support": 7.0
+    },
+    "FALHA NO SISTEMA DE CORTE": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 1.0
+    },
+    "FALHA NO SISTEMA DE INSERCAO DE FALSA GARRAFA": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 1.0
+    },
+    "FALHA NO SUPRIMENTO DE AGUA": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 0.0
+    },
+    "FALHA NO TROCADOR DE CALOR": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 2.0
+    },
+    "FALHA NO VIRADOR DE CAIXAS": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 1.0
+    },
+    "FALHA NO VIRADOR DE PACOTES": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 2.0
+    },
+    "FALHA TROCADOR DE CALOR": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 0.0
+    },
+    "FALSO ALARME DE REJEITO OBSTRUIDO": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 0.0
+    },
+    "FALSO REJEITO": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 1.0
+    },
+    "GARRAFAS TORTAS NA SAIDA DO RINSER": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 1.0
+    },
+    "PACOTE FORA DE POSICAO": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 1.0
+    },
+    "PATINAGEM DE ESTEIRA": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 3.0
+    },
+    "PATINS FORA DE POSICAO": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 2.0
+    },
+    "PERDA DE REFERENCIA": {
+      "precision": 0.4,
+      "recall": 1.0,
+      "f1-score": 0.5714285714285714,
+      "support": 2.0
+    },
+    "PERDA DE REFERENCIA DO PEGADOR DE CHAPATEX": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 0.0
+    },
+    "PERDA DE REFERENCIA HOME": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 1.0
+    },
+    "PINO DE SEPARACAO TRAVADO": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 1.0
+    },
+    "QUEBRA DE ATUADOR": {
+      "precision": 0.5,
+      "recall": 0.5,
+      "f1-score": 0.5,
+      "support": 2.0
+    },
+    "QUEBRA DE BRACO": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 2.0
+    },
+    "QUEBRA DE COMPONENTE": {
+      "precision": 0.75,
+      "recall": 0.75,
+      "f1-score": 0.75,
+      "support": 4.0
+    },
+    "QUEBRA DE CORREIA": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 4.0
+    },
+    "QUEBRA DE CORRENTE": {
+      "precision": 0.5,
+      "recall": 1.0,
+      "f1-score": 0.6666666666666666,
+      "support": 1.0
+    },
+    "QUEBRA DE EIXO": {
+      "precision": 0.6,
+      "recall": 1.0,
+      "f1-score": 0.75,
+      "support": 3.0
+    },
+    "QUEBRA DE ELO DE ESTEIRA": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 0.0
+    },
+    "QUEBRA DE ENGRENAGEM": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 1.0
+    },
+    "QUEBRA DE ESTEIRA": {
+      "precision": 0.9375,
+      "recall": 1.0,
+      "f1-score": 0.967741935483871,
+      "support": 15.0
+    },
+    "QUEBRA DE PARAFUSO": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 2.0
+    },
+    "QUEBRA DE REGUA": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 1.0
+    },
+    "QUEBRA DE SEGMENTO": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 0.0
+    },
+    "QUEBRA DE TRANSPORTE": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 2.0
+    },
+    "QUEBRA DE TRECHO DO TRANSPORTE": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 0.0
+    },
+    "QUEBRA NO EIXO DA TAMPA DO ARROLHADOR": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 1.0
+    },
+    "QUEDA DE GARRAFAS": {
+      "precision": 0.6428571428571429,
+      "recall": 0.6,
+      "f1-score": 0.6206896551724138,
+      "support": 15.0
+    },
+    "QUEDA DE LATAS": {
+      "precision": 0.6,
+      "recall": 0.5,
+      "f1-score": 0.5454545454545454,
+      "support": 6.0
+    },
+    "QUEDA DE PACOTES": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 1.0
+    },
+    "QUEIMA DE FILAMENTO": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 1.0
+    },
+    "ROMPIMENTO DE ESTEIRA LONA": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 1.0
+    },
+    "ROMPIMENTO DE FILME": {
+      "precision": 0.3333333333333333,
+      "recall": 0.75,
+      "f1-score": 0.46153846153846156,
+      "support": 4.0
+    },
+    "ROMPIMENTO DE MANGUEIRA": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 1.0
+    },
+    "ROMPIMENTO DE MANGUEIRA DE AGUA": {
+      "precision": 0.5,
+      "recall": 1.0,
+      "f1-score": 0.6666666666666666,
+      "support": 1.0
+    },
+    "ROMPIMENTO DE MANGUEIRA DE AR": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 1.0
+    },
+    "ROMPIMENTO DE TUBEIRA DO FORNO": {
+      "precision": 0.5,
+      "recall": 1.0,
+      "f1-score": 0.6666666666666666,
+      "support": 1.0
+    },
+    "SEM MODO DE FALHA IDENTIFICADO": {
+      "precision": 0.45454545454545453,
+      "recall": 0.2631578947368421,
+      "f1-score": 0.3333333333333333,
+      "support": 19.0
+    },
+    "SOBRECORRENTE": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 1.0
+    },
+    "TAMPA INVERTIDA": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 1.0
+    },
+    "TOMBAMENTO DE RECIPIENTES": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 2.0
+    },
+    "TRANSBORDAMENTO DE TANQUE": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 0.0
+    },
+    "TRAVAMENTO DE ATUADOR": {
+      "precision": 0.5,
+      "recall": 0.5,
+      "f1-score": 0.5,
+      "support": 4.0
+    },
+    "TRAVAMENTO DE BOIA": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 1.0
+    },
+    "TRAVAMENTO DE CENTRADOR": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 0.0
+    },
+    "TRAVAMENTO DE CILINDRO ROTATIVO": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 1.0
+    },
+    "TRAVAMENTO DE ELEVADOR": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 1.0
+    },
+    "TRAVAMENTO DE ENGRENAGEM": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 1.0
+    },
+    "TRAVAMENTO DE ESTEIRA": {
+      "precision": 0.75,
+      "recall": 0.75,
+      "f1-score": 0.75,
+      "support": 4.0
+    },
+    "TRAVAMENTO DE GARRAFAS NA SAIDA DA LAVADORA": {
+      "precision": 0.3333333333333333,
+      "recall": 1.0,
+      "f1-score": 0.5,
+      "support": 1.0
+    },
+    "TRAVAMENTO DE PALETE": {
+      "precision": 0.5,
+      "recall": 0.5,
+      "f1-score": 0.5,
+      "support": 2.0
+    },
+    "TRAVAMENTO DE PERSIANA": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 2.0
+    },
+    "TRAVAMENTO DE PINCA": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 1.0
+    },
+    "TRAVAMENTO DE ROBO": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 2.0
+    },
+    "TRAVAMENTO DE ROLETES": {
+      "precision": 1.0,
+      "recall": 0.5,
+      "f1-score": 0.6666666666666666,
+      "support": 2.0
+    },
+    "TRAVAMENTO DE ROLO DE COLA": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 0.0
+    },
+    "TRAVAMENTO DE SEGMENTOS": {
+      "precision": 0.8,
+      "recall": 0.8888888888888888,
+      "f1-score": 0.8421052631578947,
+      "support": 9.0
+    },
+    "TRAVAMENTO DE STOPPER": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 1.0
+    },
+    "TRAVAMENTO DE TRANSPORTE": {
+      "precision": 0.6666666666666666,
+      "recall": 0.5,
+      "f1-score": 0.5714285714285714,
+      "support": 4.0
+    },
+    "TRAVAMENTO DE VALVULA": {
+      "precision": 0.5,
+      "recall": 0.6666666666666666,
+      "f1-score": 0.5714285714285714,
+      "support": 3.0
+    },
+    "TRAVAMENTO DO CAPSULADOR": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 1.0
+    },
+    "TRAVAMENTO DO SISTEMA DE COMPACTACAO": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 1.0
+    },
+    "TREPIDACAO DE LATAS": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 2.0
+    },
+    "VAZAMENTO": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 1.0
+    },
+    "VAZAMENTO DE PRODUTO": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 0.0
+    },
+    "VAZAMENTO EM COLETOR": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 2.0
+    },
+    "VAZAMENTO EM CONEXAO": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 0.0
+    },
+    "VAZAMENTO EM TUBULACAO": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 0.0
+    },
+    "VAZAMENTO EM VALVULA": {
+      "precision": 0.75,
+      "recall": 0.75,
+      "f1-score": 0.75,
+      "support": 4.0
+    },
+    "VAZAMENTO PNEUMATICO": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 1.0
+    },
+    "VELOCIDADE REDUZIDA SEM CAUSA IDENTIFICADA": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 6.0
+    },
+    "VIBRACAO DE ROBO": {
+      "precision": 0.5,
+      "recall": 1.0,
+      "f1-score": 0.6666666666666666,
+      "support": 1.0
+    },
+    "accuracy": 0.7329608938547486,
+    "macro avg": {
+      "precision": 0.5423220621290474,
+      "recall": 0.5856473874281707,
+      "f1-score": 0.5466357046842971,
+      "support": 895.0
+    },
+    "weighted avg": {
+      "precision": 0.7405274102061812,
+      "recall": 0.7329608938547486,
+      "f1-score": 0.7218461090554584,
+      "support": 895.0
+    }
+  }
+}

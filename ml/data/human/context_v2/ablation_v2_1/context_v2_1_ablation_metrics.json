@@ -1,0 +1,183 @@
+{
+  "model_version": "failure_classifier_context_v2_1_ablation",
+  "random_seed": 20260917,
+  "dataset": {
+    "rows": 1399,
+    "unique_observations": 1128,
+    "classes": 233
+  },
+  "split": {
+    "train_rows": 953,
+    "validation_rows": 219,
+    "test_rows": 227
+  },
+  "validation_candidates": [
+    {
+      "name": "baseline_observation",
+      "weights": {
+        "observation": 1.0
+      },
+      "feature_count": 16677,
+      "validation": {
+        "accuracy": 0.621005,
+        "macro_f1": 0.441193,
+        "weighted_f1": 0.598458,
+        "top3_accuracy": 0.808219
+      }
+    },
+    {
+      "name": "observation_equipment_025",
+      "weights": {
+        "observation": 1.0,
+        "source_equipment_name": 0.25
+      },
+      "feature_count": 19042,
+      "validation": {
+        "accuracy": 0.630137,
+        "macro_f1": 0.455988,
+        "weighted_f1": 0.610607,
+        "top3_accuracy": 0.808219
+      }
+    },
+    {
+      "name": "observation_equipment_050",
+      "weights": {
+        "observation": 1.0,
+        "source_equipment_name": 0.5
+      },
+      "feature_count": 19042,
+      "validation": {
+        "accuracy": 0.625571,
+        "macro_f1": 0.445611,
+        "weighted_f1": 0.596338,
+        "top3_accuracy": 0.794521
+      }
+    },
+    {
+      "name": "observation_key1_025",
+      "weights": {
+        "observation": 1.0,
+        "source_stop_key_1": 0.25
+      },
+      "feature_count": 17746,
+      "validation": {
+        "accuracy": 0.621005,
+        "macro_f1": 0.445736,
+        "weighted_f1": 0.596745,
+        "top3_accuracy": 0.808219
+      }
+    },
+    {
+      "name": "observation_key1_050",
+      "weights": {
+        "observation": 1.0,
+        "source_stop_key_1": 0.5
+      },
+      "feature_count": 17746,
+      "validation": {
+        "accuracy": 0.621005,
+        "macro_f1": 0.433102,
+        "weighted_f1": 0.590384,
+        "top3_accuracy": 0.789954
+      }
+    },
+    {
+      "name": "observation_equipment_key1_025",
+      "weights": {
+        "observation": 1.0,
+        "source_equipment_name": 0.25,
+        "source_stop_key_1": 0.25
+      },
+      "feature_count": 20111,
+      "validation": {
+        "accuracy": 0.621005,
+        "macro_f1": 0.437267,
+        "weighted_f1": 0.594824,
+        "top3_accuracy": 0.808219
+      }
+    },
+    {
+      "name": "observation_equipment_key1_050",
+      "weights": {
+        "observation": 1.0,
+        "source_equipment_name": 0.5,
+        "source_stop_key_1": 0.5
+      },
+      "feature_count": 20111,
+      "validation": {
+        "accuracy": 0.60274,
+        "macro_f1": 0.418626,
+        "weighted_f1": 0.570657,
+        "top3_accuracy": 0.803653
+      }
+    },
+    {
+      "name": "observation_stop_type_025",
+      "weights": {
+        "observation": 1.0,
+        "source_stop_type": 0.25
+      },
+      "feature_count": 16707,
+      "validation": {
+        "accuracy": 0.621005,
+        "macro_f1": 0.441193,
+        "weighted_f1": 0.598458,
+        "top3_accuracy": 0.808219
+      }
+    },
+    {
+      "name": "observation_line_025",
+      "weights": {
+        "observation": 1.0,
+        "source_line_name": 0.25
+      },
+      "feature_count": 16734,
+      "validation": {
+        "accuracy": 0.616438,
+        "macro_f1": 0.446456,
+        "weighted_f1": 0.595538,
+        "top3_accuracy": 0.808219
+      }
+    },
+    {
+      "name": "observation_context_light",
+      "weights": {
+        "observation": 1.0,
+        "source_equipment_name": 0.25,
+        "source_stop_key_1": 0.25,
+        "source_stop_type": 0.15,
+        "source_line_name": 0.1
+      },
+      "feature_count": 20198,
+      "validation": {
+        "accuracy": 0.625571,
+        "macro_f1": 0.444937,
+        "weighted_f1": 0.599517,
+        "top3_accuracy": 0.808219
+      }
+    }
+  ],
+  "selected_by_validation": "observation_equipment_025",
+  "selected_weights": {
+    "observation": 1.0,
+    "source_equipment_name": 0.25
+  },
+  "baseline_test": {
+    "accuracy": 0.651982,
+    "macro_f1": 0.460149,
+    "weighted_f1": 0.605761,
+    "top3_accuracy": 0.832599
+  },
+  "selected_test": {
+    "accuracy": 0.678414,
+    "macro_f1": 0.487555,
+    "weighted_f1": 0.630762,
+    "top3_accuracy": 0.832599
+  },
+  "delta_selected_minus_baseline": {
+    "accuracy": 0.026432,
+    "macro_f1": 0.027406,
+    "weighted_f1": 0.025001,
+    "top3_accuracy": 0.0
+  }
+}

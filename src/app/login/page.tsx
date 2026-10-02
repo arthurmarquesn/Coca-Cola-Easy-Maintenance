@@ -47,8 +47,10 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [isLeaving, setIsLeaving] = useState(false);
+  const [isHydrated, setIsHydrated] = useState(false);
 
   useEffect(() => {
+    setIsHydrated(true);
     router.prefetch("/dashboard");
   }, [router]);
 
@@ -77,12 +79,13 @@ export default function LoginPage() {
         }),
       });
 
-      const data =
-        (await response.json()) as LoginResponse;
+      const data = (await response
+        .json()
+        .catch(() => null)) as LoginResponse | null;
 
-      if (!response.ok || !data.success) {
+      if (!response.ok || !data?.success) {
         setError(
-          data.message ??
+          data?.message ??
             "Não foi possível realizar o login.",
         );
 
@@ -209,6 +212,7 @@ export default function LoginPage() {
 
               <form
                 onSubmit={handleSubmit}
+                inert={!isHydrated}
                 className="login-form space-y-5"
               >
                 {/* E-mail */}
@@ -230,7 +234,6 @@ export default function LoginPage() {
 
                     <input
                       id="email"
-                      name="email"
                       type="email"
                       value={email}
                       onChange={(event) =>
@@ -282,7 +285,6 @@ export default function LoginPage() {
 
                     <input
                       id="password"
-                      name="password"
                       type={
                         showPassword
                           ? "text"
@@ -343,7 +345,6 @@ export default function LoginPage() {
                 <div className="flex items-center gap-2.5 pt-0.5">
                   <input
                     id="remember"
-                    name="remember"
                     type="checkbox"
                     checked={remember}
                     onChange={(event) =>

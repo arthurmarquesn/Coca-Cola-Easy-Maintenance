@@ -16,24 +16,50 @@ import {
   getSession,
 } from "@/lib/session";
 
+import {
+  buildUnitInClause,
+  getUnitSelection,
+} from "@/lib/unit-selection";
+
+
 export const runtime =
   "nodejs";
 
 export const dynamic =
   "force-dynamic";
 
+
 /* =========================================================
-   TIPOS
+   TYPES
 ========================================================= */
 
 interface CountRow
   extends RowDataPacket {
-  total: number;
+  total:
+    number | string;
 }
+
 
 interface HistoryRow
   extends RowDataPacket {
   id: number;
+
+  unit_id: number;
+
+  unit_code:
+    | string
+    | null;
+
+  unit_name:
+    string;
+
+  unit_city:
+    | string
+    | null;
+
+  unit_state:
+    | string
+    | null;
 
   event_date:
     | string
@@ -100,6 +126,7 @@ interface HistoryRow
 
   classification_notes:
     | string
+    | object
     | null;
 
   classified_by_name:
@@ -128,8 +155,9 @@ interface HistoryRow
     | null;
 }
 
+
 /* =========================================================
-   CLASSIFICAÇÃO ARMAZENADA NO JSON
+   CLASSIFICATION NOTES
 ========================================================= */
 
 interface ClassificationNotes {
@@ -156,9 +184,11 @@ interface ClassificationNotes {
   explanation?: string;
 
   modelSuggestion?: {
-    failedComponentCode?: string;
+    failedComponentCode?:
+      string;
 
-    failureMode?: string;
+    failureMode?:
+      string;
 
     confidence?:
       | number
@@ -167,12 +197,14 @@ interface ClassificationNotes {
   };
 }
 
+
 /* =========================================================
-   CONVERSÃO DO JSON DA CLASSIFICAÇÃO
+   HELPERS
 ========================================================= */
 
 function parseClassificationNotes(
-  value: unknown,
+  value:
+    unknown,
 ): ClassificationNotes | null {
   if (
     value === null ||
@@ -194,7 +226,9 @@ function parseClassificationNotes(
       value,
     ).trim();
 
-  if (!text) {
+  if (
+    !text
+  ) {
     return null;
   }
 
@@ -215,11 +249,6 @@ function parseClassificationNotes(
 
     return null;
   } catch {
-    /*
-       Compatibilidade com registros antigos salvos
-       como texto simples em classification_notes.
-    */
-
     return {
       explanation:
         text,
@@ -227,18 +256,25 @@ function parseClassificationNotes(
   }
 }
 
+
 function firstText(
-  ...values: Array<
-    string | null | undefined
-  >
+  ...values:
+    Array<
+      string |
+      null |
+      undefined
+    >
 ): string | null {
   for (
-    const value of values
+    const value of
+    values
   ) {
     const normalized =
       value?.trim();
 
-    if (normalized) {
+    if (
+      normalized
+    ) {
       return normalized;
     }
   }
@@ -246,9 +282,6 @@ function firstText(
   return null;
 }
 
-/* =========================================================
-   DATA
-========================================================= */
 
 function formatDatabaseDate(
   value:
@@ -256,12 +289,15 @@ function formatDatabaseDate(
     | Date
     | null,
 ): string | null {
-  if (!value) {
+  if (
+    !value
+  ) {
     return null;
   }
 
   if (
-    value instanceof Date
+    value instanceof
+    Date
   ) {
     const year =
       value.getUTCFullYear();
@@ -294,56 +330,111 @@ function formatDatabaseDate(
   );
 }
 
+
 /* =========================================================
    GET /api/history
 ========================================================= */
 
 export async function GET(
-  request: NextRequest,
+  request:
+    NextRequest,
 ) {
   /* =======================================================
-     SESSÃO
+     SESSION
   ======================================================= */
 
   const session =
     await getSession();
 
-  if (!session) {
+  if (
+    !session
+  ) {
     return NextResponse.json(
       {
-        success: false,
+        success:
+          false,
 
         message:
           "Sessão inválida.",
       },
       {
-        status: 401,
+        status:
+          401,
       },
     );
   }
 
+
   try {
     /* =====================================================
-       PARÂMETROS
+       GLOBAL UNIT SELECTION
+    ===================================================== */
+
+    const unitSelection =
+      await getUnitSelection({
+        userId:
+          session.userId,
+
+        defaultUnitId:
+          session.unitId,
+      });
+
+
+    if (
+      unitSelection
+        .selectedUnitIds
+        .length ===
+      0
+    ) {
+      return NextResponse.json(
+        {
+          success:
+            false,
+
+          message:
+            "Nenhuma unidade válida está selecionada.",
+        },
+        {
+          status:
+            403,
+        },
+      );
+    }
+
+
+    const unitFilter =
+      buildUnitInClause(
+        unitSelection
+          .selectedUnitIds,
+      );
+
+
+    /* =====================================================
+       PARAMETERS
     ===================================================== */
 
     const searchParams =
       request.nextUrl
         .searchParams;
 
+
     const requestedPage =
       Number(
         searchParams.get(
           "page",
-        ) ?? 1,
+        ) ??
+        1,
       );
+
 
     const requestedPageSize =
       Number(
         searchParams.get(
           "pageSize",
-        ) ?? 20,
+        ) ??
+        20,
       );
+
 
     const page =
       Number.isFinite(
@@ -356,6 +447,7 @@ export async function GET(
             ),
           )
         : 1;
+
 
     const pageSize =
       Number.isFinite(
@@ -372,11 +464,13 @@ export async function GET(
           )
         : 20;
 
+
     const search =
       (
         searchParams.get(
           "search",
-        ) ?? ""
+        ) ??
+        ""
       )
         .trim()
         .slice(
@@ -384,53 +478,80 @@ export async function GET(
           120,
         );
 
+
     /* =====================================================
        WHERE
     ===================================================== */
 
-    const whereParts: string[] =
-      [
-        "e.unit_id = ?",
+    const whereParts:
+      string[] = [
+        `
+          e.unit_id IN (
+            ${unitFilter.placeholders}
+          )
+        `,
       ];
 
-    /*
-       IMPORTANTE:
-
-       Não usamos unknown[].
-
-       Nosso db.ts trabalha com ExecuteValues do mysql2.
-    */
 
     let baseValues:
       ExecuteValues = [
-        session.unitId,
+        ...unitFilter.values,
       ];
 
+
     /* =====================================================
-       PESQUISA
+       SEARCH
     ===================================================== */
 
-    if (search) {
+    if (
+      search
+    ) {
       whereParts.push(
         `
           (
             e.source_line_name LIKE ?
-            OR e.source_equipment_name LIKE ?
-            OR e.source_stop_type LIKE ?
-            OR e.source_stop_subkey LIKE ?
-            OR e.source_stop_key_1 LIKE ?
-            OR e.observation LIKE ?
-            OR e.source_material_description LIKE ?
+
+            OR
+            e.source_equipment_name LIKE ?
+
+            OR
+            e.source_stop_type LIKE ?
+
+            OR
+            e.source_stop_subkey LIKE ?
+
+            OR
+            e.source_stop_key_1 LIKE ?
+
+            OR
+            e.observation LIKE ?
+
+            OR
+            e.source_material_description LIKE ?
+
+            OR
+            un.name LIKE ?
+
+            OR
+            un.city LIKE ?
+
+            OR
+            un.code LIKE ?
           )
         `,
       );
 
+
       const like =
         `%${search}%`;
 
-      baseValues = [
-        session.unitId,
 
+      baseValues = [
+        ...unitFilter.values,
+
+        like,
+        like,
+        like,
         like,
         like,
         like,
@@ -441,13 +562,15 @@ export async function GET(
       ];
     }
 
+
     const whereClause =
       whereParts.join(
         " AND ",
       );
 
+
     /* =====================================================
-       TOTAL DE REGISTROS
+       COUNT
     ===================================================== */
 
     const countRows =
@@ -456,21 +579,30 @@ export async function GET(
       >(
         `
           SELECT
-            COUNT(*) AS total
+              COUNT(*) AS total
 
-          FROM maintenance_events e
+          FROM
+              maintenance_events e
+
+          INNER JOIN
+              units un
+              ON un.id =
+                 e.unit_id
 
           WHERE
-            ${whereClause}
+              ${whereClause}
         `,
         baseValues,
       );
 
+
     const total =
       Number(
         countRows[0]
-          ?.total ?? 0,
+          ?.total ??
+        0,
       );
+
 
     const totalPages =
       Math.max(
@@ -478,15 +610,17 @@ export async function GET(
 
         Math.ceil(
           total /
-            pageSize,
+          pageSize,
         ),
       );
+
 
     const safePage =
       Math.min(
         page,
         totalPages,
       );
+
 
     const offset =
       (
@@ -495,11 +629,9 @@ export async function GET(
       ) *
       pageSize;
 
-    /* =====================================================
-       PARÂMETROS DO SELECT
 
-       Criamos outro ExecuteValues para evitar problemas
-       de tipagem com spread de unknown[].
+    /* =====================================================
+       QUERY VALUES
     ===================================================== */
 
     const dataValues:
@@ -511,8 +643,9 @@ export async function GET(
         offset,
       ];
 
+
     /* =====================================================
-       HISTÓRICO
+       HISTORY
     ===================================================== */
 
     const rows =
@@ -521,132 +654,157 @@ export async function GET(
       >(
         `
           SELECT
-            e.id,
+              e.id,
 
-            e.event_date,
+              e.unit_id,
 
-            e.shift,
+              un.code
+                  AS unit_code,
 
-            e.source_line_name,
+              un.name
+                  AS unit_name,
 
-            e.source_stop_type,
+              un.city
+                  AS unit_city,
 
-            e.source_material_code,
+              un.state
+                  AS unit_state,
 
-            e.source_material_description,
+              e.event_date,
 
-            e.source_equipment_name,
+              e.shift,
 
-            e.source_stop_subkey,
+              e.source_line_name,
 
-            e.source_stop_key_1,
+              e.source_stop_type,
 
-            e.observation,
+              e.source_material_code,
 
-            e.downtime_minutes,
+              e.source_material_description,
 
-            ec.id
-              AS classification_id,
+              e.source_equipment_name,
 
-            ec.source
-              AS classification_source,
+              e.source_stop_subkey,
 
-            ec.confidence
-              AS classification_confidence,
+              e.source_stop_key_1,
 
-            ec.status
-              AS classification_status,
+              e.observation,
 
-            ec.classification_notes,
+              e.downtime_minutes,
 
-            classified_user.name
-              AS classified_by_name,
+              ec.id
+                  AS classification_id,
 
-            cs.id
-              AS suggestion_id,
+              ec.source
+                  AS classification_source,
 
-            cs.failure_mode
-              AS suggestion_failure_mode,
+              ec.confidence
+                  AS classification_confidence,
 
-            cs.failed_component_code
-              AS suggestion_failed_component_code,
+              ec.status
+                  AS classification_status,
 
-            cs.confidence
-              AS suggestion_confidence,
+              ec.classification_notes,
 
-            cs.model_version
-              AS suggestion_model_version
+              classified_user.name
+                  AS classified_by_name,
 
-          FROM maintenance_events e
+              cs.id
+                  AS suggestion_id,
 
-          LEFT JOIN event_classifications ec
-            ON ec.event_id =
-              e.id
+              cs.failure_mode
+                  AS suggestion_failure_mode,
 
-          LEFT JOIN users classified_user
-            ON classified_user.id =
-              ec.classified_by_user_id
+              cs.failed_component_code
+                  AS suggestion_failed_component_code,
+
+              cs.confidence
+                  AS suggestion_confidence,
+
+              cs.model_version
+                  AS suggestion_model_version
+
+          FROM
+              maintenance_events e
+
+          INNER JOIN
+              units un
+              ON un.id =
+                 e.unit_id
+
+          LEFT JOIN
+              event_classifications ec
+              ON ec.event_id =
+                 e.id
+
+          LEFT JOIN
+              users classified_user
+              ON classified_user.id =
+                 ec.classified_by_user_id
 
           /*
-             Pegamos apenas a sugestão ML mais recente de cada
-             evento. Ela funciona como fallback quando a
-             classificação oficial ainda não possui
-             failureMode no JSON.
-          */
-          LEFT JOIN classification_suggestions cs
-            ON cs.id = (
-              SELECT
-                cs_latest.id
-              FROM classification_suggestions cs_latest
-              WHERE
-                cs_latest.event_id =
-                  e.id
-                AND cs_latest.model_type =
-                  'ML'
-              ORDER BY
-                cs_latest.created_at DESC,
-                cs_latest.id DESC
-              LIMIT 1
-            )
+           * Fallback para eventos que ainda
+           * não possuem classificação oficial.
+           *
+           * Pegamos somente a sugestão mais
+           * recente de cada evento.
+           */
+          LEFT JOIN
+              classification_suggestions cs
+              ON cs.id = (
+                SELECT
+                    cs_latest.id
+
+                FROM
+                    classification_suggestions
+                    cs_latest
+
+                WHERE
+                    cs_latest.event_id =
+                        e.id
+
+                    AND
+                    cs_latest.model_type =
+                        'ML'
+
+                ORDER BY
+                    cs_latest.created_at DESC,
+                    cs_latest.id DESC
+
+                LIMIT 1
+              )
 
           WHERE
-            ${whereClause}
+              ${whereClause}
 
           ORDER BY
-            e.event_date DESC,
-            e.id DESC
+              e.event_date DESC,
+              e.id DESC
 
           LIMIT ?
+
           OFFSET ?
         `,
         dataValues,
       );
 
+
     /* =====================================================
-       NORMALIZAÇÃO DA RESPOSTA
+       RESPONSE NORMALIZATION
     ===================================================== */
 
     const items =
       rows.map(
-        (row) => {
+        (
+          row,
+        ) => {
           const notes =
             parseClassificationNotes(
-              row.classification_notes,
+              row
+                .classification_notes,
             );
 
-          /*
-             PRIORIDADE DA FALHA:
 
-             1. classificação oficial salva em
-                event_classifications.classification_notes;
-             2. modelSuggestion legado dentro do mesmo JSON;
-             3. sugestão mais recente do Modelo ML.
-
-             Assim o histórico mostra "Falha de rolamento",
-             "Falha de sensor", etc., mesmo quando
-             category_id / system_id / mode_id não existem
-             ou estão NULL.
-          */
           const failureMode =
             firstText(
               notes
@@ -663,6 +821,7 @@ export async function GET(
                 .suggestion_failure_mode,
             );
 
+
           const model =
             firstText(
               notes
@@ -675,29 +834,40 @@ export async function GET(
                 .suggestion_model_version,
             );
 
+
           const hasOfficialClassification =
-            row.classification_id !==
-              null;
+            row
+              .classification_id !==
+            null;
+
 
           const hasModelSuggestion =
-            row.suggestion_id !==
-              null;
+            row
+              .suggestion_id !==
+            null;
+
 
           const suggestionConfidence =
-            row.suggestion_confidence ===
-            null
+            row
+                .suggestion_confidence ===
+              null
               ? null
               : Number(
-                  row.suggestion_confidence,
+                  row
+                    .suggestion_confidence,
                 );
 
+
           const officialConfidence =
-            row.classification_confidence ===
-            null
+            row
+                .classification_confidence ===
+              null
               ? null
               : Number(
-                  row.classification_confidence,
+                  row
+                    .classification_confidence,
                 );
+
 
           return {
             id:
@@ -705,45 +875,93 @@ export async function GET(
                 row.id,
               ),
 
+
+            unit: {
+              id:
+                Number(
+                  row
+                    .unit_id,
+                ),
+
+              code:
+                row
+                  .unit_code,
+
+              name:
+                row
+                  .unit_name,
+
+              city:
+                row
+                  .unit_city,
+
+              state:
+                row
+                  .unit_state,
+            },
+
+
             eventDate:
               formatDatabaseDate(
-                row.event_date,
+                row
+                  .event_date,
               ),
+
 
             shift:
               row.shift,
 
+
             line:
-              row.source_line_name,
+              row
+                .source_line_name,
+
 
             stopType:
-              row.source_stop_type,
+              row
+                .source_stop_type,
+
 
             materialCode:
-              row.source_material_code,
+              row
+                .source_material_code,
+
 
             materialDescription:
-              row.source_material_description,
+              row
+                .source_material_description,
+
 
             equipment:
-              row.source_equipment_name,
+              row
+                .source_equipment_name,
+
 
             stopSubkey:
-              row.source_stop_subkey,
+              row
+                .source_stop_subkey,
+
 
             stopKey1:
-              row.source_stop_key_1,
+              row
+                .source_stop_key_1,
+
 
             observation:
-              row.observation,
+              row
+                .observation,
+
 
             downtimeMinutes:
-              row.downtime_minutes ===
-              null
+              row
+                  .downtime_minutes ===
+                null
                 ? null
                 : Number(
-                    row.downtime_minutes,
+                    row
+                      .downtime_minutes,
                   ),
+
 
             classification:
               (
@@ -751,57 +969,61 @@ export async function GET(
                 hasModelSuggestion
               )
                 ? {
-                    /*
-                       Se já existe classificação oficial,
-                       usamos seu id. Caso contrário, usamos
-                       o id da sugestão apenas como
-                       identificador de leitura do item.
-                    */
                     id:
                       Number(
-                        row.classification_id ??
-                          row.suggestion_id,
+                        row
+                          .classification_id ??
+                        row
+                          .suggestion_id,
                       ),
+
 
                     source:
                       hasOfficialClassification
-                        ? row.classification_source
+                        ? row
+                            .classification_source
                         : "ML",
+
 
                     confidence:
                       officialConfidence ??
                       suggestionConfidence,
 
+
                     status:
                       hasOfficialClassification
-                        ? row.classification_status
+                        ? row
+                            .classification_status
                         : "SUGESTAO",
+
 
                     classifiedBy:
                       hasOfficialClassification
-                        ? row.classified_by_name
+                        ? row
+                            .classified_by_name
                         : null,
+
 
                     category:
                       notes
                         ?.category ??
                       null,
 
+
                     system:
                       notes
                         ?.system ??
                       null,
 
-                    /*
-                       Este é o campo principal consumido pelo
-                       history-page.tsx.
-                    */
+
                     failureMode,
+
 
                     explanation:
                       notes
                         ?.explanation ??
                       null,
+
 
                     model,
                   }
@@ -810,15 +1032,72 @@ export async function GET(
         },
       );
 
+
     /* =====================================================
-       RESPOSTA
+       SELECTED UNITS
+    ===================================================== */
+
+    const selectedSet =
+      new Set(
+        unitSelection
+          .selectedUnitIds,
+      );
+
+
+    const selectedUnits =
+      unitSelection
+        .units
+        .filter(
+          (
+            unit,
+          ) =>
+            selectedSet.has(
+              unit.id,
+            ),
+        )
+        .map(
+          (
+            unit,
+          ) => ({
+            id:
+              unit.id,
+
+            code:
+              unit.code,
+
+            name:
+              unit.name,
+
+            city:
+              unit.city,
+
+            state:
+              unit.state,
+          }),
+        );
+
+
+    /* =====================================================
+       RESPONSE
     ===================================================== */
 
     return NextResponse.json(
       {
-        success: true,
+        success:
+          true,
+
+
+        filters: {
+          selectedUnitIds:
+            unitSelection
+              .selectedUnitIds,
+
+          selectedUnits,
+        },
+
 
         items,
+
 
         pagination: {
           page:
@@ -832,10 +1111,13 @@ export async function GET(
         },
       },
       {
-        status: 200,
+        status:
+          200,
       },
     );
-  } catch (error) {
+  } catch (
+    error
+  ) {
     console.error(
       "==========================================",
     );
@@ -856,15 +1138,18 @@ export async function GET(
       "==========================================",
     );
 
+
     return NextResponse.json(
       {
-        success: false,
+        success:
+          false,
 
         message:
           "Não foi possível carregar o histórico.",
       },
       {
-        status: 500,
+        status:
+          500,
       },
     );
   }

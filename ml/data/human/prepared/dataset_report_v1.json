@@ -1,0 +1,39 @@
+{
+  "dataset_version": "human-dataset-v1",
+  "taxonomy_version": "taxonomy-v1-draft",
+  "total_valid_rows": 4480,
+  "unique_observations_raw": 3713,
+  "unique_observations_normalized": 3678,
+  "unique_failure_modes": 440,
+  "conflict_groups": 7,
+  "rows_inside_conflict_groups": 25,
+  "singleton_failure_modes": 167,
+  "strong_alias_groups": 13,
+  "strong_alias_rows": 26,
+  "support": [
+    {
+      "minimum_examples": 2,
+      "classes": 273,
+      "rows": 4313,
+      "coverage_percent": 96.2723
+    },
+    {
+      "minimum_examples": 5,
+      "classes": 153,
+      "rows": 3998,
+      "coverage_percent": 89.2411
+    },
+    {
+      "minimum_examples": 10,
+      "classes": 99,
+      "rows": 3630,
+      "coverage_percent": 81.0268
+    },
+    {
+      "minimum_examples": 20,
+      "classes": 51,
+      "rows": 2975,
+      "coverage_percent": 66.4062
+    }
+  ]
+}

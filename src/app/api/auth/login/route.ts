@@ -1,5 +1,8 @@
 import bcrypt from "bcryptjs";
-import { NextResponse } from "next/server";
+
+import {
+  NextResponse,
+} from "next/server";
 
 import type {
   RowDataPacket,
@@ -16,42 +19,77 @@ import {
   executeRows,
 } from "@/lib/db";
 
-export const runtime = "nodejs";
-export const dynamic = "force-dynamic";
+import {
+  serializeUnitSelection,
+  UNIT_SELECTION_COOKIE_NAME,
+} from "@/lib/unit-selection";
+
+
+export const runtime =
+  "nodejs";
+
+export const dynamic =
+  "force-dynamic";
+
 
 /* =========================================================
    TIPOS
 ========================================================= */
 
-interface UserRow extends RowDataPacket {
+interface UserRow
+  extends RowDataPacket {
   id: number;
+
   name: string;
+
   email: string;
+<<<<<<< HEAD
   password_hash: string;
   role: "ADMIN" | "MANAGER" | "MAINTENANCE" | "VIEWER";
+=======
+
+  password_hash:
+    string;
+
+  role:
+    | "ANALISTA"
+    | "GESTOR";
+
+>>>>>>> origin/marques
   active: number;
 }
 
-interface UserUnitRow extends RowDataPacket {
+
+interface UserUnitRow
+  extends RowDataPacket {
   unit_id: number;
+
   unit_code: string;
+
   unit_name: string;
+
   unit_active: number;
+
   is_default: number;
 }
 
+
 interface LoginBody {
   email?: string;
+
   password?: string;
+
   remember?: boolean;
 }
+
 
 /* =========================================================
    POST /api/auth/login
 ========================================================= */
 
 export async function POST(
-  request: Request,
+  request:
+    Request,
 ) {
   try {
     /* =====================================================
@@ -59,58 +97,80 @@ export async function POST(
     ===================================================== */
 
     const body =
-      (await request.json()) as LoginBody;
+      (await request.json()) as
+        LoginBody;
 
     const email =
-      typeof body.email === "string"
+      typeof body.email ===
+      "string"
         ? body.email
             .trim()
             .toLowerCase()
         : "";
 
     const password =
-      typeof body.password === "string"
+      typeof body.password ===
+      "string"
         ? body.password
         : "";
 
     const remember =
-      body.remember === true;
+      body.remember ===
+      true;
+
 
     /* =====================================================
-       VALIDAÇÃO BÁSICA
+       VALIDAÇÃO
     ===================================================== */
 
-    if (!email || !password) {
+    if (
+      !email ||
+      !password
+    ) {
       return NextResponse.json(
         {
-          success: false,
+          success:
+            false,
+
           message:
             "Informe e-mail e senha.",
         },
         {
-          status: 400,
+          status:
+            400,
         },
       );
     }
 
-    /* =====================================================
-       BUSCA USUÁRIO
 
-       unit_id não existe mais em users.
+    /* =====================================================
+       USUÁRIO
     ===================================================== */
 
     const users =
-      await executeRows<UserRow[]>(
+      await executeRows<
+        UserRow[]
+      >(
         `
           SELECT
-            id,
-            name,
-            email,
-            password_hash,
-            role,
-            active
-          FROM users
-          WHERE email = ?
+              id,
+
+              name,
+
+              email,
+
+              password_hash,
+
+              role,
+
+              active
+
+          FROM
+              users
+
+          WHERE
+              email = ?
+
           LIMIT 1
         `,
         [
@@ -118,30 +178,31 @@ export async function POST(
         ],
       );
 
-    const user = users[0];
+    const user =
+      users[0];
 
-    /* =====================================================
-       USUÁRIO INEXISTENTE / INATIVO
-
-       Utilizamos a mesma mensagem para não revelar
-       se determinado e-mail existe no sistema.
-    ===================================================== */
 
     if (
       !user ||
-      !Boolean(user.active)
+      !Boolean(
+        user.active,
+      )
     ) {
       return NextResponse.json(
         {
-          success: false,
+          success:
+            false,
+
           message:
             "E-mail ou senha inválidos.",
         },
         {
-          status: 401,
+          status:
+            401,
         },
       );
     }
+
 
     /* =====================================================
        SENHA
@@ -153,56 +214,72 @@ export async function POST(
         user.password_hash,
       );
 
-    if (!passwordMatches) {
+    if (
+      !passwordMatches
+    ) {
       return NextResponse.json(
         {
-          success: false,
+          success:
+            false,
+
           message:
             "E-mail ou senha inválidos.",
         },
         {
-          status: 401,
+          status:
+            401,
         },
       );
     }
 
+
     /* =====================================================
-       BUSCA UNIDADE PADRÃO
+       UNIDADE PADRÃO
 
-       users
-          ↓
-       user_units
-          ↓
-       units
-
-       Priorizamos is_default = TRUE.
-
-       Caso por algum motivo o usuário não tenha uma
-       unidade marcada como padrão, utilizamos a primeira
-       unidade ativa vinculada a ele.
+       session.unitId continua representando
+       uma única unidade operacional.
     ===================================================== */
 
     const userUnits =
-      await executeRows<UserUnitRow[]>(
+      await executeRows<
+        UserUnitRow[]
+      >(
         `
           SELECT
-            un.id AS unit_id,
-            un.code AS unit_code,
-            un.name AS unit_name,
-            un.active AS unit_active,
-            uu.is_default
-          FROM user_units uu
+              un.id
+                  AS unit_id,
 
-          INNER JOIN units un
-            ON un.id = uu.unit_id
+              un.code
+                  AS unit_code,
+
+              un.name
+                  AS unit_name,
+
+              un.active
+                  AS unit_active,
+
+              uu.is_default
+
+          FROM
+              user_units uu
+
+          INNER JOIN
+              units un
+              ON un.id =
+                 uu.unit_id
 
           WHERE
-            uu.user_id = ?
-            AND un.active = TRUE
+              uu.user_id = ?
+
+              AND un.active =
+                  TRUE
 
           ORDER BY
-            uu.is_default DESC,
-            uu.created_at ASC
+              uu.is_default DESC,
+
+              uu.created_at ASC,
+
+              un.id ASC
 
           LIMIT 1
         `,
@@ -214,37 +291,42 @@ export async function POST(
     const userUnit =
       userUnits[0];
 
-    /* =====================================================
-       USUÁRIO SEM UNIDADE
-    ===================================================== */
 
-    if (!userUnit) {
+    if (
+      !userUnit
+    ) {
       console.error(
         `Usuário ${user.id} não possui unidade ativa vinculada.`,
       );
 
       return NextResponse.json(
         {
-          success: false,
+          success:
+            false,
+
           message:
             "Seu usuário não possui uma unidade ativa vinculada.",
         },
         {
-          status: 403,
+          status:
+            403,
         },
       );
     }
 
+
     /* =====================================================
-       TOKEN DE SESSÃO
+       TOKEN
     ===================================================== */
 
     const token =
       await createSessionToken({
-        userId: user.id,
+        userId:
+          user.id,
 
         unitId:
-          userUnit.unit_id,
+          userUnit
+            .unit_id,
 
         name:
           user.name,
@@ -256,39 +338,47 @@ export async function POST(
           user.role,
       });
 
-    /* =====================================================
-       ÚLTIMO LOGIN
 
-       Falhar ao atualizar last_login não deve invalidar
-       uma autenticação que já foi validada.
+    /* =====================================================
+       LAST LOGIN
     ===================================================== */
 
     try {
       await executeQuery(
         `
-          UPDATE users
-          SET last_login_at = NOW()
-          WHERE id = ?
+          UPDATE
+              users
+
+          SET
+              last_login_at =
+                  NOW()
+
+          WHERE
+              id = ?
         `,
         [
           user.id,
         ],
       );
-    } catch (error) {
+    } catch (
+      error
+    ) {
       console.error(
         "Não foi possível atualizar last_login_at:",
         error,
       );
     }
 
+
     /* =====================================================
-       RESPOSTA
+       RESPONSE
     ===================================================== */
 
     const response =
       NextResponse.json(
         {
-          success: true,
+          success:
+            true,
 
           user: {
             id:
@@ -306,28 +396,37 @@ export async function POST(
 
           unit: {
             id:
-              userUnit.unit_id,
+              userUnit
+                .unit_id,
 
             code:
-              userUnit.unit_code,
+              userUnit
+                .unit_code,
 
             name:
-              userUnit.unit_name,
+              userUnit
+                .unit_name,
           },
+
+          /*
+           * Seleção inicial.
+           * O usuário poderá expandi-la
+           * depois pela checklist.
+           */
+          selectedUnitIds: [
+            userUnit
+              .unit_id,
+          ],
         },
         {
-          status: 200,
+          status:
+            200,
         },
       );
 
+
     /* =====================================================
-       COOKIE
-
-       remember = false
-       -> session cookie
-
-       remember = true
-       -> cookie persistente
+       AUTH COOKIE
     ===================================================== */
 
     response.cookies.set({
@@ -356,8 +455,47 @@ export async function POST(
           : undefined,
     });
 
+
+    /* =====================================================
+       UNIT FILTER COOKIE
+    ===================================================== */
+
+    response.cookies.set({
+      name:
+        UNIT_SELECTION_COOKIE_NAME,
+
+      value:
+        serializeUnitSelection(
+          [
+            userUnit
+              .unit_id,
+          ],
+        ),
+
+      httpOnly:
+        true,
+
+      secure:
+        process.env.NODE_ENV ===
+        "production",
+
+      sameSite:
+        "lax",
+
+      path:
+        "/",
+
+      maxAge:
+        remember
+          ? SESSION_DURATION_SECONDS
+          : undefined,
+    });
+
+
     return response;
-  } catch (error) {
+  } catch (
+    error
+  ) {
     console.error(
       "==========================================",
     );
@@ -370,7 +508,9 @@ export async function POST(
       "==========================================",
     );
 
-    console.error(error);
+    console.error(
+      error,
+    );
 
     console.error(
       "==========================================",
@@ -378,13 +518,15 @@ export async function POST(
 
     return NextResponse.json(
       {
-        success: false,
+        success:
+          false,
 
         message:
           "Não foi possível realizar o login.",
       },
       {
-        status: 500,
+        status:
+          500,
       },
     );
   }
