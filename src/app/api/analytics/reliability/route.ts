@@ -16,16 +16,10 @@ import {
 } from "@/lib/session";
 
 import {
-<<<<<<< HEAD
-  buildDateWhere,
-  FAILURE_MODE_EXPRESSION,
-} from "@/lib/analytics/sql";
-=======
   buildUnitInClause,
   getUnitSelection,
 } from "@/lib/unit-selection";
 
->>>>>>> origin/marques
 
 export const runtime =
   "nodejs";
@@ -160,8 +154,6 @@ function round(
   );
 }
 
-<<<<<<< HEAD
-=======
 
 function isDateValue(
   value:
@@ -227,7 +219,6 @@ function buildDateWhere(
 }
 
 
->>>>>>> origin/marques
 /* =========================================================
    GET
 ========================================================= */
@@ -578,9 +569,6 @@ export async function GET(
      */
 
     const failureModeExpression =
-<<<<<<< HEAD
-      FAILURE_MODE_EXPRESSION;
-=======
       `
         COALESCE(
 
@@ -646,7 +634,6 @@ export async function GET(
           'Não classificado'
         )
       `;
->>>>>>> origin/marques
 
 
     const groupExpression =

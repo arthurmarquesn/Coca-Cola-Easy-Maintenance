@@ -1,12 +1,8 @@
 "use client";
 
-<<<<<<< HEAD
-=======
 import Image from "next/image";
 
->>>>>>> origin/marques
 import Link from "next/link";
-import { AppHeader } from "@/components/layout/app-header";
 
 import {
   ArrowLeft,
@@ -1348,15 +1344,12 @@ export function HistoryPage({
   ======================================================= */
 
   return (
-    <main className="min-h-screen bg-background-primary transition-colors">
+    <main className="min-h-screen bg-white">
 
       {/* ===================================================
           HEADER
       ==================================================== */}
 
-<<<<<<< HEAD
-      <AppHeader userName={user.name} city={unit.city} />
-=======
       <header className="border-b border-[#E8E9EB] bg-white">
 
         <div className="mx-auto flex min-h-[78px] w-full max-w-[1380px] items-center justify-between gap-6 px-6 py-2 sm:px-8 lg:px-12">
@@ -1408,7 +1401,6 @@ export function HistoryPage({
         </div>
 
       </header>
->>>>>>> origin/marques
 
 
       {/* ===================================================
@@ -1419,7 +1411,7 @@ export function HistoryPage({
 
         <Link
           href="/dashboard"
-          className="inline-flex items-center gap-2 rounded-[10px] border border-[#F40009] bg-[#F40009] px-3.5 py-2 text-[12px] font-semibold text-white transition-colors hover:border-[#B90007] hover:bg-[#B90007]"
+          className="inline-flex items-center gap-2 text-[12px] font-medium text-[#81868C] transition-colors hover:text-[#282B2F]"
         >
 
           <ArrowLeft
@@ -1439,16 +1431,12 @@ export function HistoryPage({
 
           <div>
 
-            <h1 className="text-text-title">
+            <h1 className="text-[34px] font-semibold tracking-[-0.045em] text-[#191B1E] sm:text-[40px]">
               Histórico de manutenção
             </h1>
 
-<<<<<<< HEAD
-            <p className="mt-4 text-[14px] leading-6 text-text-body">
-=======
 
             <p className="mt-3 text-[14px] text-[#7D8288]">
->>>>>>> origin/marques
               Consulte os apontamentos registrados e suas classificações.
             </p>
 
@@ -1472,11 +1460,7 @@ export function HistoryPage({
                 onSubmit={
                   handleSearch
                 }
-<<<<<<< HEAD
-                className="group flex w-full items-center gap-2.5 rounded-[10px] border border-border-theme bg-surface-elevated px-3.5 py-2.5 transition-all focus-within:border-accent-primary focus-within:ring-2 focus-within:ring-[var(--focus-ring)] sm:max-w-[390px]"
-=======
                 className="flex w-full items-center border-b border-[#D9DCE0] pb-2 sm:max-w-[380px]"
->>>>>>> origin/marques
               >
 
                 <Search
@@ -1497,13 +1481,8 @@ export function HistoryPage({
                         .value,
                     )
                   }
-<<<<<<< HEAD
-                  placeholder="Buscar equipamento, linha ou ocorrência"
-                  className="w-full bg-transparent text-[13px] text-text-primary outline-none placeholder:text-text-muted"
-=======
                   placeholder="Buscar equipamento, linha, unidade ou ocorrência"
                   className="w-full bg-transparent text-[13px] text-[#292C30] outline-none placeholder:text-[#A2A6AB]"
->>>>>>> origin/marques
                 />
 
               </form>
@@ -1520,7 +1499,7 @@ export function HistoryPage({
                   pagination.total ===
                     0
                 }
-                className="inline-flex h-10 shrink-0 items-center justify-center gap-2 rounded-full bg-accent-primary px-5 text-[12px] font-semibold text-white shadow-[0_4px_14px_rgba(244,0,9,0.3)] transition-all hover:bg-accent-secondary hover:shadow-[0_4px_18px_rgba(244,0,9,0.4)] active:scale-95 disabled:cursor-not-allowed disabled:opacity-40"
+                className="inline-flex h-10 shrink-0 items-center justify-center gap-2 rounded-full border border-[#DFE2E5] bg-white px-4 text-[12px] font-medium text-[#4F545A] transition-colors hover:border-[#CFD3D7] hover:bg-[#FAFAFA] disabled:cursor-not-allowed disabled:opacity-40"
               >
 
                 {exporting ? (
@@ -1576,29 +1555,10 @@ export function HistoryPage({
 
               <tr className="border-b border-[#E7E9EB] text-left">
 
-                <th className="py-4 pr-5 text-[11px] font-medium text-text-secondary">
+                <th className="py-4 pr-5 text-[11px] font-medium text-[#8B9096]">
                   Data
                 </th>
 
-<<<<<<< HEAD
-                <th className="px-5 py-4 text-[11px] font-medium text-text-secondary">
-                  Linha
-                </th>
-
-                <th className="px-5 py-4 text-[11px] font-medium text-text-secondary">
-                  Equipamento
-                </th>
-
-                <th className="px-5 py-4 text-[11px] font-medium text-text-secondary">
-                  Ocorrência
-                </th>
-
-                <th className="px-5 py-4 text-[11px] font-medium text-text-secondary">
-                  Classificação
-                </th>
-
-                <th className="py-4 pl-5 text-right text-[11px] font-medium text-text-secondary">
-=======
 
                 {multipleUnits && (
                   <th className="px-5 py-4 text-[11px] font-medium text-[#8B9096]">
@@ -1628,7 +1588,6 @@ export function HistoryPage({
 
 
                 <th className="py-4 pl-5 text-right text-[11px] font-medium text-[#8B9096]">
->>>>>>> origin/marques
                   Min.
                 </th>
 
@@ -1711,18 +1670,15 @@ export function HistoryPage({
                           item,
                         )
                       }
-                      className="cursor-pointer border-b border-border-theme outline outline-1 -outline-offset-1 outline-transparent transition-colors last:border-b-0 hover:outline-text-primary"
+                      className="cursor-pointer border-b border-[#EEF0F1] transition-colors last:border-b-0 hover:bg-[#FAFAFB]"
                     >
 
-                      <td className="whitespace-nowrap py-5 pr-5 text-[12px] text-text-primary">
+                      <td className="whitespace-nowrap py-5 pr-5 text-[12px] text-[#5E6369]">
                         {formatDate(
                           item.eventDate,
                         )}
                       </td>
 
-<<<<<<< HEAD
-                      <td className="px-5 py-5 text-[12px] font-medium text-text-primary">
-=======
 
                       {multipleUnits && (
                         <td className="px-5 py-5">
@@ -1751,17 +1707,12 @@ export function HistoryPage({
 
 
                       <td className="px-5 py-5 text-[12px] font-medium text-[#393D42]">
->>>>>>> origin/marques
                         {item.line ??
                           "—"}
                       </td>
 
-<<<<<<< HEAD
-                      <td className="max-w-[230px] px-5 py-5 text-[12px] text-text-primary">
-=======
 
                       <td className="max-w-[230px] px-5 py-5 text-[12px] text-[#4F545A]">
->>>>>>> origin/marques
 
                         <p className="truncate">
                           {item.equipment ??
@@ -1770,12 +1721,8 @@ export function HistoryPage({
 
                       </td>
 
-<<<<<<< HEAD
-                      <td className="max-w-[280px] px-5 py-5 text-[12px] text-text-primary">
-=======
 
                       <td className="max-w-[280px] px-5 py-5 text-[12px] text-[#62676D]">
->>>>>>> origin/marques
 
                         <p className="truncate">
                           {item.observation ??
@@ -1792,18 +1739,14 @@ export function HistoryPage({
                         {item.classification ? (
                           <div>
 
-                            <p className="text-[12px] font-medium text-text-primary">
+                            <p className="text-[12px] font-medium text-[#34383D]">
                               {getClassificationTitle(
                                 item.classification,
                               )}
                             </p>
 
-<<<<<<< HEAD
-                            <p className="mt-1 text-[11px] text-text-secondary">
-=======
 
                             <p className="mt-1 text-[11px] text-[#91969C]">
->>>>>>> origin/marques
                               {item
                                 .classification
                                 .system ??
@@ -1816,19 +1759,15 @@ export function HistoryPage({
 
                           </div>
                         ) : (
-                          <span className="text-[12px] text-text-secondary">
+                          <span className="text-[12px] text-[#A0A4A9]">
                             Não classificado
                           </span>
                         )}
 
                       </td>
 
-<<<<<<< HEAD
-                      <td className="whitespace-nowrap py-5 pl-5 text-right text-[12px] text-text-primary">
-=======
 
                       <td className="whitespace-nowrap py-5 pl-5 text-right text-[12px] text-[#5E6369]">
->>>>>>> origin/marques
                         {formatMinutes(
                           item.downtimeMinutes,
                         )}
@@ -1879,7 +1818,7 @@ export function HistoryPage({
                       search,
                     )
                   }
-                  className="text-text-secondary transition-colors hover:text-text-primary disabled:cursor-not-allowed disabled:opacity-30"
+                  className="text-[#777C82] transition-colors hover:text-[#202327] disabled:cursor-not-allowed disabled:opacity-30"
                   aria-label="Página anterior"
                 >
 
@@ -1889,12 +1828,8 @@ export function HistoryPage({
 
                 </button>
 
-<<<<<<< HEAD
-                <span className="text-[11px] text-text-secondary">
-=======
 
                 <span className="text-[11px] text-[#6F747A]">
->>>>>>> origin/marques
                   {
                     pagination.page
                   }{" "}
@@ -1918,7 +1853,7 @@ export function HistoryPage({
                       search,
                     )
                   }
-                  className="text-text-secondary transition-colors hover:text-text-primary disabled:cursor-not-allowed disabled:opacity-30"
+                  className="text-[#777C82] transition-colors hover:text-[#202327] disabled:cursor-not-allowed disabled:opacity-30"
                   aria-label="Próxima página"
                 >
 
@@ -1952,20 +1887,16 @@ export function HistoryPage({
             className="absolute inset-0 bg-black/20 backdrop-blur-[1px]"
           />
 
-<<<<<<< HEAD
-          <aside className="absolute right-0 top-0 h-full w-full max-w-[560px] overflow-y-auto bg-background-primary transition-colors shadow-[-16px_0_48px_rgba(0,0,0,0.08)]">
-=======
 
           <aside className="absolute right-0 top-0 h-full w-full max-w-[560px] overflow-y-auto bg-white shadow-[-16px_0_48px_rgba(0,0,0,0.08)]">
->>>>>>> origin/marques
 
-            <div className="sticky top-0 z-10 border-b border-border-theme transition-colors bg-background-primary transition-colors/96 backdrop-blur-sm">
+            <div className="sticky top-0 z-10 border-b border-[#E8E9EB] bg-white/96 backdrop-blur-sm">
 
               <div className="flex min-h-[78px] items-center justify-between gap-5 px-7 py-3">
 
                 <div>
 
-                  <p className="text-[15px] font-semibold tracking-[-0.02em] text-text-primary">
+                  <p className="text-[15px] font-semibold tracking-[-0.02em] text-[#1F2226]">
                     Detalhes do apontamento
                   </p>
 
@@ -1984,7 +1915,7 @@ export function HistoryPage({
                   onClick={
                     closeEvent
                   }
-                  className="flex h-9 w-9 items-center justify-center rounded-full text-[#8E9399] transition-colors hover:bg-surface-hover hover:text-text-primary"
+                  className="flex h-9 w-9 items-center justify-center rounded-full text-[#8E9399] transition-colors hover:bg-[#F5F6F7] hover:text-[#33373B]"
                 >
 
                   <X
@@ -2000,26 +1931,18 @@ export function HistoryPage({
 
             <div className="px-7 py-7 pb-10">
 
-<<<<<<< HEAD
-              <div className="rounded-[22px] border border-border-theme bg-surface-elevated transition-colors p-5">
-=======
               {/* =============================================
                   MAIN FAILURE
               ============================================== */}
 
               <div className="rounded-[22px] border border-[#ECEDEF] bg-[#FAFAFA] p-5">
->>>>>>> origin/marques
 
                 <p className="text-[10px] uppercase tracking-[0.12em] text-[#A1A6AC]">
                   Falha registrada
                 </p>
 
-<<<<<<< HEAD
-                <p className="mt-3 text-[24px] font-semibold leading-8 tracking-[-0.035em] text-text-primary">
-=======
 
                 <p className="mt-3 text-[24px] font-semibold leading-8 tracking-[-0.035em] text-[#202327]">
->>>>>>> origin/marques
                   {getClassificationTitle(
                     selected.classification,
                   )}
@@ -2034,17 +1957,11 @@ export function HistoryPage({
                       Unidade
                     </p>
 
-<<<<<<< HEAD
-                    <p className="mt-1 text-[12px] font-medium text-text-primary">
-                      {selected.line ??
-                        "—"}
-=======
 
                     <p className="mt-1 text-[12px] font-medium text-[#3A3F45]">
                       {getUnitLabel(
                         selected.unit,
                       )}
->>>>>>> origin/marques
                     </p>
 
                   </div>
@@ -2056,12 +1973,8 @@ export function HistoryPage({
                       Tempo de parada
                     </p>
 
-<<<<<<< HEAD
-                    <p className="mt-1 text-[12px] font-medium text-text-primary">
-=======
 
                     <p className="mt-1 text-[12px] font-medium text-[#3A3F45]">
->>>>>>> origin/marques
                       {formatMinutes(
                         selected.downtimeMinutes,
                       )}{" "}
@@ -2074,18 +1987,14 @@ export function HistoryPage({
 
               </div>
 
-<<<<<<< HEAD
-              <div className="mt-7 rounded-[22px] border border-border-theme bg-background-primary transition-colors p-5">
-=======
 
               {/* =============================================
                   EVENT INFORMATION
               ============================================== */}
 
               <div className="mt-7 rounded-[22px] border border-[#ECEDEF] bg-white p-5">
->>>>>>> origin/marques
 
-                <h2 className="text-[15px] font-semibold text-text-primary">
+                <h2 className="text-[15px] font-semibold text-[#262A2F]">
                   Informações do apontamento
                 </h2>
 
@@ -2131,12 +2040,8 @@ export function HistoryPage({
                       Data
                     </p>
 
-<<<<<<< HEAD
-                    <p className="mt-1.5 text-[13px] text-text-primary">
-=======
 
                     <p className="mt-1.5 text-[13px] text-[#34383D]">
->>>>>>> origin/marques
                       {formatDate(
                         selected.eventDate,
                       )}
@@ -2151,12 +2056,8 @@ export function HistoryPage({
                       Turno
                     </p>
 
-<<<<<<< HEAD
-                    <p className="mt-1.5 text-[13px] text-text-primary">
-=======
 
                     <p className="mt-1.5 text-[13px] text-[#34383D]">
->>>>>>> origin/marques
                       {selected.shift ??
                         "—"}
                     </p>
@@ -2170,12 +2071,8 @@ export function HistoryPage({
                       Linha
                     </p>
 
-<<<<<<< HEAD
-                    <p className="mt-1.5 text-[13px] text-text-primary">
-=======
 
                     <p className="mt-1.5 text-[13px] text-[#34383D]">
->>>>>>> origin/marques
                       {selected.line ??
                         "—"}
                     </p>
@@ -2189,12 +2086,8 @@ export function HistoryPage({
                       Tempo de parada
                     </p>
 
-<<<<<<< HEAD
-                    <p className="mt-1.5 text-[13px] text-text-primary">
-=======
 
                     <p className="mt-1.5 text-[13px] text-[#34383D]">
->>>>>>> origin/marques
                       {formatMinutes(
                         selected.downtimeMinutes,
                       )}{" "}
@@ -2205,32 +2098,21 @@ export function HistoryPage({
 
                 </div>
 
-<<<<<<< HEAD
-                <div className="mt-6 border-t border-border-theme pt-5">
-=======
 
                 <div className="mt-6 border-t border-[#ECEDEF] pt-5">
->>>>>>> origin/marques
 
                   <p className="text-[10px] text-[#969BA1]">
                     Equipamento
                   </p>
 
-<<<<<<< HEAD
-                  <p className="mt-1.5 text-[13px] leading-6 text-text-primary">
-=======
 
                   <p className="mt-1.5 text-[13px] leading-6 text-[#34383D]">
->>>>>>> origin/marques
                     {selected.equipment ??
                       "—"}
                   </p>
 
                 </div>
 
-<<<<<<< HEAD
-                <div className="mt-6 border-t border-border-theme pt-5">
-=======
 
                 <div className="mt-6 border-t border-[#ECEDEF] pt-5">
 
@@ -2248,18 +2130,13 @@ export function HistoryPage({
 
 
                 <div className="mt-6 border-t border-[#ECEDEF] pt-5">
->>>>>>> origin/marques
 
                   <p className="text-[10px] text-[#969BA1]">
                     Observação
                   </p>
 
-<<<<<<< HEAD
-                  <p className="mt-1.5 text-[13px] leading-6 text-text-primary">
-=======
 
                   <p className="mt-1.5 text-[13px] leading-6 text-[#4F545A]">
->>>>>>> origin/marques
                     {selected.observation ??
                       selected.stopKey1 ??
                       selected.stopSubkey ??
@@ -2270,26 +2147,18 @@ export function HistoryPage({
 
               </div>
 
-<<<<<<< HEAD
-              <div className="mt-7 rounded-[22px] border border-border-theme bg-background-primary transition-colors p-5">
-=======
 
               {/* =============================================
                   CLASSIFICATION
               ============================================== */}
 
               <div className="mt-7 rounded-[22px] border border-[#ECEDEF] bg-white p-5">
->>>>>>> origin/marques
 
                 <div className="flex items-start justify-between gap-4">
 
                   <div>
-<<<<<<< HEAD
-                    <h2 className="text-[15px] font-semibold text-text-primary">
-=======
 
                     <h2 className="text-[15px] font-semibold text-[#262A2F]">
->>>>>>> origin/marques
                       Classificação
                     </h2>
 
@@ -2307,7 +2176,7 @@ export function HistoryPage({
                       onClick={
                         startEditing
                       }
-                      className="inline-flex items-center gap-2 rounded-full border border-border-theme px-4 py-2 text-[12px] font-medium text-text-primary transition-colors hover:border-[#D5D8DC] hover:bg-surface-hover"
+                      className="inline-flex items-center gap-2 rounded-full border border-[#E3E5E8] px-4 py-2 text-[12px] font-medium text-[#4C5157] transition-colors hover:border-[#D5D8DC] hover:bg-[#F8F8F8]"
                     >
 
                       <Pencil
@@ -2325,18 +2194,14 @@ export function HistoryPage({
                 {!editing && (
                   <div className="mt-6 space-y-5">
 
-                    <div className="rounded-[18px] bg-surface-elevated transition-colors p-4">
+                    <div className="rounded-[18px] bg-[#FAFAFA] p-4">
 
                       <p className="text-[10px] uppercase tracking-[0.12em] text-[#A0A4A9]">
                         Falha
                       </p>
 
-<<<<<<< HEAD
-                      <p className="mt-2 text-[20px] font-semibold leading-7 tracking-[-0.03em] text-text-primary">
-=======
 
                       <p className="mt-2 text-[20px] font-semibold leading-7 tracking-[-0.03em] text-[#222529]">
->>>>>>> origin/marques
                         {selected
                           .classification
                           ?.failureMode ??
@@ -2354,12 +2219,8 @@ export function HistoryPage({
                           Categoria
                         </p>
 
-<<<<<<< HEAD
-                        <p className="mt-1.5 text-[13px] text-text-primary">
-=======
 
                         <p className="mt-1.5 text-[13px] text-[#34383D]">
->>>>>>> origin/marques
                           {formatCategory(
                             selected
                               .classification
@@ -2377,12 +2238,8 @@ export function HistoryPage({
                           Sistema
                         </p>
 
-<<<<<<< HEAD
-                        <p className="mt-1.5 text-[13px] text-text-primary">
-=======
 
                         <p className="mt-1.5 text-[13px] text-[#34383D]">
->>>>>>> origin/marques
                           {selected
                             .classification
                             ?.system ??
@@ -2419,18 +2276,14 @@ export function HistoryPage({
                     {selected
                       .classification
                       ?.explanation && (
-                      <div className="border-t border-border-theme pt-5">
+                      <div className="border-t border-[#ECEDEF] pt-5">
 
                         <p className="text-[10px] text-[#969BA1]">
                           Observação da classificação
                         </p>
 
-<<<<<<< HEAD
-                        <p className="mt-1.5 text-[12px] leading-6 text-text-secondary">
-=======
 
                         <p className="mt-1.5 text-[12px] leading-6 text-[#64696F]">
->>>>>>> origin/marques
                           {
                             selected
                               .classification
@@ -2452,18 +2305,14 @@ export function HistoryPage({
                 {editing && (
                   <div className="mt-6">
 
-                    <div className="rounded-[18px] bg-surface-elevated transition-colors p-4">
+                    <div className="rounded-[18px] bg-[#FAFAFA] p-4">
 
                       <p className="text-[10px] uppercase tracking-[0.12em] text-[#A0A4A9]">
                         Ocorrência
                       </p>
 
-<<<<<<< HEAD
-                      <p className="mt-2 text-[13px] leading-6 text-text-primary">
-=======
 
                       <p className="mt-2 text-[13px] leading-6 text-[#4A5056]">
->>>>>>> origin/marques
                         {selected.observation ??
                           selected.stopKey1 ??
                           selected.stopSubkey ??
@@ -2477,7 +2326,7 @@ export function HistoryPage({
 
                       <div>
 
-                        <label className="text-[11px] font-medium text-text-secondary">
+                        <label className="text-[11px] font-medium text-[#777C82]">
                           Categoria
                         </label>
 
@@ -2494,7 +2343,7 @@ export function HistoryPage({
                                 .value,
                             )
                           }
-                          className="mt-2 h-12 w-full rounded-[12px] border border-border-theme bg-background-primary transition-colors px-3 text-[13px] text-text-primary outline-none transition-colors focus:border-[#C6CAD0]"
+                          className="mt-2 h-12 w-full rounded-[12px] border border-[#DDE0E3] bg-white px-3 text-[13px] text-[#303438] outline-none transition-colors focus:border-[#C6CAD0]"
                         >
 
                           <option value="">
@@ -2528,7 +2377,7 @@ export function HistoryPage({
 
                       <div>
 
-                        <label className="text-[11px] font-medium text-text-secondary">
+                        <label className="text-[11px] font-medium text-[#777C82]">
                           Sistema
                         </label>
 
@@ -2546,7 +2395,7 @@ export function HistoryPage({
                             )
                           }
                           placeholder="Ex.: Transporte, Rotulagem, Dosagem"
-                          className="mt-2 h-12 w-full rounded-[12px] border border-border-theme bg-background-primary transition-colors px-3 text-[13px] text-text-primary outline-none transition-colors placeholder:text-text-muted focus:border-[#C6CAD0]"
+                          className="mt-2 h-12 w-full rounded-[12px] border border-[#DDE0E3] bg-white px-3 text-[13px] text-[#303438] outline-none transition-colors placeholder:text-[#B0B4B8] focus:border-[#C6CAD0]"
                         />
 
                       </div>
@@ -2556,7 +2405,7 @@ export function HistoryPage({
 
                     <div className="mt-5">
 
-                      <label className="text-[11px] font-medium text-text-secondary">
+                      <label className="text-[11px] font-medium text-[#777C82]">
                         Falha identificada
                       </label>
 
@@ -2574,28 +2423,20 @@ export function HistoryPage({
                           )
                         }
                         placeholder="Ex.: Falha de dosador"
-                        className="mt-2 h-12 w-full rounded-[12px] border border-border-theme bg-background-primary transition-colors px-3 text-[13px] text-text-primary outline-none transition-colors placeholder:text-text-muted focus:border-[#C6CAD0]"
+                        className="mt-2 h-12 w-full rounded-[12px] border border-[#DDE0E3] bg-white px-3 text-[13px] text-[#303438] outline-none transition-colors placeholder:text-[#B0B4B8] focus:border-[#C6CAD0]"
                       />
 
                     </div>
 
-<<<<<<< HEAD
-                    <div className="mt-5 rounded-[18px] border border-border-theme bg-surface-elevated p-4">
-=======
 
                     <div className="mt-5 rounded-[18px] border border-[#ECEDEF] bg-[#FCFCFC] p-4">
->>>>>>> origin/marques
 
                       <p className="text-[10px] uppercase tracking-[0.12em] text-[#A0A4A9]">
                         Pré-visualização
                       </p>
 
-<<<<<<< HEAD
-                      <p className="mt-2 text-[18px] font-semibold tracking-[-0.03em] text-text-primary">
-=======
 
                       <p className="mt-2 text-[18px] font-semibold tracking-[-0.03em] text-[#212429]">
->>>>>>> origin/marques
                         {editFailureMode.trim() ||
                           "Informe a falha"}
                       </p>
@@ -2605,7 +2446,7 @@ export function HistoryPage({
 
                     <div className="mt-5">
 
-                      <label className="text-[11px] font-medium text-text-secondary">
+                      <label className="text-[11px] font-medium text-[#777C82]">
                         Observação da classificação
                       </label>
 
@@ -2624,7 +2465,7 @@ export function HistoryPage({
                         }
                         rows={4}
                         placeholder="Adicione um contexto complementar, se necessário."
-                        className="mt-2 w-full resize-none rounded-[12px] border border-border-theme bg-background-primary transition-colors px-3 py-3 text-[13px] leading-6 text-text-primary outline-none transition-colors placeholder:text-text-muted focus:border-[#C6CAD0]"
+                        className="mt-2 w-full resize-none rounded-[12px] border border-[#DDE0E3] bg-white px-3 py-3 text-[13px] leading-6 text-[#303438] outline-none transition-colors placeholder:text-[#B0B4B8] focus:border-[#C6CAD0]"
                       />
 
                     </div>
@@ -2640,12 +2481,8 @@ export function HistoryPage({
                       </div>
                     )}
 
-<<<<<<< HEAD
-                    <div className="mt-7 flex justify-end gap-3 border-t border-border-theme pt-5">
-=======
 
                     <div className="mt-7 flex justify-end gap-3 border-t border-[#ECEDEF] pt-5">
->>>>>>> origin/marques
 
                       <button
                         type="button"
@@ -2662,11 +2499,7 @@ export function HistoryPage({
                             "",
                           );
                         }}
-<<<<<<< HEAD
-                        className="rounded-full border border-border-theme px-5 py-2.5 text-[12px] font-medium text-text-secondary transition-colors hover:bg-surface-hover"
-=======
                         className="rounded-full border border-[#E1E4E7] px-5 py-2.5 text-[12px] font-medium text-[#70757B] transition-colors hover:bg-[#F8F8F8] disabled:opacity-50"
->>>>>>> origin/marques
                       >
                         Cancelar
                       </button>

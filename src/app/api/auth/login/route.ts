@@ -43,10 +43,6 @@ interface UserRow
   name: string;
 
   email: string;
-<<<<<<< HEAD
-  password_hash: string;
-  role: "MANAGER" | "MAINTENANCE";
-=======
 
   password_hash:
     string;
@@ -55,7 +51,6 @@ interface UserRow
     | "ANALISTA"
     | "GESTOR";
 
->>>>>>> origin/marques
   active: number;
 }
 

@@ -1,8 +1,7 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
-import { AppHeader } from "@/components/layout/app-header";
-import { ComplementaryCharts } from "@/components/charts/complementary-charts";
 
 import {
   ArrowLeft,
@@ -4119,10 +4118,6 @@ export function ReliabilityPage({
     [];
 
   return (
-<<<<<<< HEAD
-    <main className="min-h-screen bg-background-secondary transition-colors">
-      <AppHeader userName={user.name} city={unit.city} />
-=======
     <main className="min-h-screen bg-[#F7F7F6]">
       <header className="border-b border-black/[0.05] bg-white">
         <div className="mx-auto flex h-[76px] w-full max-w-[1380px] items-center justify-between px-6 sm:px-8 lg:px-12">
@@ -4167,12 +4162,11 @@ export function ReliabilityPage({
           </div>
         </div>
       </header>
->>>>>>> origin/marques
 
       <div className="mx-auto w-full max-w-[1380px] px-6 pb-20 pt-10 sm:px-8 lg:px-12">
         <Link
           href="/dashboard"
-          className="inline-flex items-center gap-2 rounded-[10px] border border-[#F40009] bg-[#F40009] px-3.5 py-2 text-[12px] font-semibold text-white transition-colors hover:border-[#B90007] hover:bg-[#B90007]"
+          className="inline-flex items-center gap-2 text-[12px] font-medium text-[#81868C] transition-colors hover:text-[#282B2F]"
         >
           <ArrowLeft
             size={
@@ -4183,19 +4177,11 @@ export function ReliabilityPage({
           Voltar
         </Link>
 
-<<<<<<< HEAD
-        <div className="mt-9">
-          <h1 className="text-text-title">
-            Confiabilidade
-          </h1>
-        </div>
-=======
         <div className="mt-9 flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
           <div>
             <h1 className="text-[34px] font-semibold tracking-[-0.045em] text-[#191B1E] sm:text-[40px]">
               Confiabilidade
             </h1>
->>>>>>> origin/marques
 
             <div className="mt-4 inline-flex items-center rounded-full bg-[#F0F0EF] px-3 py-1.5">
               <span className="text-[10px] font-medium text-[#747980]">
@@ -4223,9 +4209,9 @@ export function ReliabilityPage({
           </button>
         </div>
 
-        <section className="mt-8 grid gap-4 border-y border-border-theme py-5 md:grid-cols-2 xl:grid-cols-[180px_180px_1fr_1fr_auto]">
+        <section className="mt-8 grid gap-4 border-y border-[#E2E4E6] py-5 md:grid-cols-2 xl:grid-cols-[180px_180px_1fr_1fr_auto]">
           <label className="block">
-            <span className="mb-2 block text-[12px] font-medium text-text-body">
+            <span className="text-[10px] font-medium text-[#969BA1]">
               De
             </span>
 
@@ -4247,12 +4233,12 @@ export function ReliabilityPage({
                     .value,
                 )
               }
-              className="mt-2 h-11 w-full rounded-[10px] border border-border-theme bg-surface-elevated px-3 text-[12px] text-text-primary outline-none transition-colors focus:border-accent-primary focus:ring-2 focus:ring-[var(--focus-ring)] [color-scheme:dark] dark:[color-scheme:dark]"
+              className="mt-2 h-11 w-full rounded-[10px] border border-[#DDE0E3] bg-white px-3 text-[12px] text-[#303438] outline-none focus:border-[#B9BDC2]"
             />
           </label>
 
           <label className="block">
-            <span className="mb-2 block text-[12px] font-medium text-text-body">
+            <span className="text-[10px] font-medium text-[#969BA1]">
               Até
             </span>
 
@@ -4274,12 +4260,12 @@ export function ReliabilityPage({
                     .value,
                 )
               }
-              className="mt-2 h-11 w-full rounded-[10px] border border-border-theme bg-surface-elevated px-3 text-[12px] text-text-primary outline-none transition-colors focus:border-accent-primary focus:ring-2 focus:ring-[var(--focus-ring)] [color-scheme:dark] dark:[color-scheme:dark]"
+              className="mt-2 h-11 w-full rounded-[10px] border border-[#DDE0E3] bg-white px-3 text-[12px] text-[#303438] outline-none focus:border-[#B9BDC2]"
             />
           </label>
 
           <label className="block">
-            <span className="mb-2 block text-[12px] font-medium text-text-body">
+            <span className="text-[10px] font-medium text-[#969BA1]">
               Linha
             </span>
 
@@ -4300,7 +4286,7 @@ export function ReliabilityPage({
                   "",
                 );
               }}
-              className="mt-2 h-11 w-full rounded-[10px] border border-border-theme bg-surface-elevated px-3 text-[12px] text-text-primary outline-none transition-colors focus:border-accent-primary focus:ring-2 focus:ring-[var(--focus-ring)] [color-scheme:dark] dark:[color-scheme:dark]"
+              className="mt-2 h-11 w-full rounded-[10px] border border-[#DDE0E3] bg-white px-3 text-[12px] text-[#303438] outline-none focus:border-[#B9BDC2]"
             >
               <option value="">
                 Todas as linhas
@@ -4326,7 +4312,7 @@ export function ReliabilityPage({
           </label>
 
           <label className="block">
-            <span className="mb-2 block text-[12px] font-medium text-text-body">
+            <span className="text-[10px] font-medium text-[#969BA1]">
               Equipamento
             </span>
 
@@ -4343,7 +4329,7 @@ export function ReliabilityPage({
                     .value,
                 )
               }
-              className="mt-2 h-11 w-full rounded-[10px] border border-border-theme bg-surface-elevated px-3 text-[12px] text-text-primary outline-none transition-colors focus:border-accent-primary focus:ring-2 focus:ring-[var(--focus-ring)] [color-scheme:dark] dark:[color-scheme:dark]"
+              className="mt-2 h-11 w-full rounded-[10px] border border-[#DDE0E3] bg-white px-3 text-[12px] text-[#303438] outline-none focus:border-[#B9BDC2]"
             >
               <option value="">
                 Todos os equipamentos
@@ -4374,7 +4360,7 @@ export function ReliabilityPage({
               onClick={
                 resetFilters
               }
-              className="flex h-11 items-center gap-2 px-2 text-[12px] font-medium text-text-secondary transition-colors hover:text-accent-primary"
+              className="flex h-11 items-center gap-2 px-2 text-[12px] font-medium text-[#777C82] transition-colors hover:text-[#E41E2B]"
             >
               <RotateCcw
                 size={
@@ -4435,25 +4421,12 @@ export function ReliabilityPage({
               )}
             </div>
 
-<<<<<<< HEAD
-            {/* =============================================
-                PARETO
-            ============================================== */}
-
-            <section className="mt-5 overflow-hidden rounded-[24px] border border-[#E5E7E9] bg-white transition-colors">
-              <div className="flex items-center justify-between border-b border-[#ECEDEF] px-6 py-5">
-                <div>
-                  <h2 className="text-[17px] font-semibold tracking-[-0.025em] text-[#24272B]">
-                    Pareto de tempo de parada
-                  </h2>
-=======
             <section className="mt-5 overflow-hidden rounded-[24px] border border-[#E5E7E9] bg-white">
               <div className="flex flex-col gap-3 border-b border-[#ECEDEF] px-6 py-5 sm:flex-row sm:items-center sm:justify-between">
                 <div className="flex items-start gap-4">
                   <div className="flex h-8 min-w-8 items-center justify-center rounded-full bg-[#E41E2B] px-2 text-[10px] font-bold text-white">
                     01
                   </div>
->>>>>>> origin/marques
 
                   <div>
                     <h2 className="text-[18px] font-semibold tracking-[-0.03em] text-[#24272B]">
@@ -4547,25 +4520,12 @@ export function ReliabilityPage({
               </div>
             </section>
 
-<<<<<<< HEAD
-            {/* =============================================
-                JACK-KNIFE
-            ============================================== */}
-
-            <section className="mt-6 overflow-hidden rounded-[24px] border border-[#E5E7E9] bg-white transition-colors">
-              <div className="flex items-center justify-between border-b border-[#ECEDEF] px-6 py-5">
-                <div>
-                  <h2 className="text-[17px] font-semibold tracking-[-0.025em] text-[#24272B]">
-                    Jack-Knife
-                  </h2>
-=======
             <section className="mt-6 overflow-hidden rounded-[24px] border border-[#E5E7E9] bg-white">
               <div className="flex items-center justify-between gap-6 border-b border-[#ECEDEF] px-6 py-5">
                 <div className="flex items-start gap-4">
                   <div className="flex h-8 min-w-8 items-center justify-center rounded-full bg-[#25282C] px-2 text-[10px] font-bold text-white">
                     03
                   </div>
->>>>>>> origin/marques
 
                   <div>
                     <h2 className="text-[18px] font-semibold tracking-[-0.03em] text-[#24272B]">
@@ -4618,23 +4578,6 @@ export function ReliabilityPage({
             </section>
           </>
         )}
-
-        {/* =============================================
-            GRÁFICOS COMPLEMENTARES
-
-            Compartilham os filtros acima e carregam os
-            próprios dados, para não atrasar o Pareto e o
-            Jack-Knife.
-        ============================================== */}
-
-        <ComplementaryCharts
-          city={unit.city}
-          startDate={startDate}
-          endDate={endDate}
-          line={line}
-          equipment={equipment}
-          onLineChange={setLine}
-        />
       </div>
 
       <ReportGeneratorModal
