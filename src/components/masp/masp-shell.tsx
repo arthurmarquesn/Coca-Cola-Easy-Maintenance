@@ -10,6 +10,10 @@ import {
   UnitFilter,
 } from "@/components/units/unit-filter";
 
+import {
+  ThemeSwitcher,
+} from "@/components/theme/theme-switcher";
+
 
 export function MaspShell({
   userName,
@@ -30,8 +34,8 @@ export function MaspShell({
     React.ReactNode;
 }) {
   return (
-    <main className="min-h-screen bg-[#F7F7F6]">
-      <header className="border-b border-black/[0.05] bg-white">
+    <main className="min-h-screen bg-surface-elevated">
+      <header className="border-b border-border-theme/[0.05] bg-surface">
         <div className="mx-auto flex min-h-[76px] w-full max-w-[1380px] items-center justify-between gap-4 px-6 py-2 sm:px-8 lg:px-12">
           <Link
             href="/dashboard"
@@ -52,17 +56,21 @@ export function MaspShell({
               fallbackLabel="Unidades"
             />
 
-            <div className="hidden h-8 w-px bg-black/[0.07] sm:block" />
+            <div className="hidden h-8 w-px bg-border-theme sm:block" />
 
             <div className="hidden text-right md:block">
-              <p className="text-[13px] font-medium text-[#25272A]">
+              <p className="text-[13px] font-medium text-text-primary">
                 {userName}
               </p>
 
-              <p className="mt-0.5 text-[10px] text-[#999DA2]">
+              <p className="mt-0.5 text-[10px] text-text-secondary">
                 MASP local
               </p>
             </div>
+
+            <div className="hidden h-8 w-px bg-border-theme sm:block" />
+
+            <ThemeSwitcher />
           </div>
         </div>
       </header>
@@ -72,7 +80,7 @@ export function MaspShell({
           href={
             backHref
           }
-          className="inline-flex items-center gap-2 text-[12px] font-medium text-[#81868C] transition-colors hover:text-[#282B2F]"
+          className="inline-flex items-center gap-2 text-[12px] font-medium text-text-secondary transition-colors hover:text-text-primary"
         >
           <ArrowLeft
             size={15}
@@ -89,11 +97,11 @@ export function MaspShell({
               Método de análise e solução de problemas
             </div>
 
-            <h1 className="mt-3 text-[34px] font-semibold tracking-[-0.045em] text-[#191B1E] sm:text-[42px]">
+            <h1 className="mt-3 text-[34px] font-semibold tracking-[-0.045em] text-text-primary sm:text-[42px]">
               {title}
             </h1>
 
-            <p className="mt-3 max-w-[720px] text-[14px] leading-7 text-[#7D8288]">
+            <p className="mt-3 max-w-[720px] text-[14px] leading-7 text-text-secondary">
               {description}
             </p>
           </div>

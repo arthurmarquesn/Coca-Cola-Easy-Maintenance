@@ -16,6 +16,10 @@ import {
   type ReviewAction,
 } from "@/app/api/review/route";
 
+import {
+  getUnitSelection,
+} from "@/lib/unit-selection";
+
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
@@ -35,6 +39,18 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(
       { success: false, error: "Não autenticado." },
       { status: 401 },
+    );
+  }
+
+  const unitSelection = await getUnitSelection({
+    userId: session.userId,
+    defaultUnitId: session.unitId,
+  });
+
+  if (unitSelection.selectedUnitIds.length === 0) {
+    return NextResponse.json(
+      { success: false, error: "Nenhuma unidade válida está selecionada." },
+      { status: 403 },
     );
   }
 
@@ -111,7 +127,7 @@ export async function POST(request: NextRequest) {
       try {
         const result = await applyReview(connection, {
           suggestionId,
-          unitId: session.unitId,
+          unitIds: unitSelection.selectedUnitIds,
           userId: session.userId,
           action: action as ReviewAction,
           correctedComponent,

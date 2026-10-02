@@ -22,6 +22,10 @@ import {
   useState,
 } from "react";
 
+import {
+  ThemeSwitcher,
+} from "@/components/theme/theme-switcher";
+
 
 /* ============================================================
    TIPOS
@@ -335,16 +339,16 @@ function MetricCard({
     string;
 }) {
   return (
-    <div className="rounded-[22px] border border-[#E5E7E9] bg-white p-5">
-      <p className="text-[10px] font-medium uppercase tracking-[0.09em] text-[#9A9FA5]">
+    <div className="rounded-[22px] border border-border-theme bg-surface p-5">
+      <p className="text-[10px] font-medium uppercase tracking-[0.09em] text-text-secondary">
         {label}
       </p>
 
-      <p className="mt-3 text-[30px] font-semibold tracking-[-0.05em] text-[#222529]">
+      <p className="mt-3 text-[30px] font-semibold tracking-[-0.05em] text-text-primary">
         {value}
       </p>
 
-      <p className="mt-2 text-[11px] leading-5 text-[#989DA3]">
+      <p className="mt-2 text-[11px] leading-5 text-text-secondary">
         {description}
       </p>
     </div>
@@ -369,7 +373,7 @@ function ExposureCard({
     ExposureData;
 }) {
   return (
-    <div className="rounded-[22px] border border-[#E5E7E9] bg-white p-5">
+    <div className="rounded-[22px] border border-border-theme bg-surface p-5">
       <div className="flex items-start justify-between gap-5">
         <div>
           <span
@@ -380,7 +384,7 @@ function ExposureCard({
             {criticality}
           </span>
 
-          <p className="mt-4 text-[13px] font-semibold text-[#33373B]">
+          <p className="mt-4 text-[13px] font-semibold text-text-primary">
             {classDescription(
               criticality,
             )}
@@ -388,25 +392,25 @@ function ExposureCard({
         </div>
 
         <div className="text-right">
-          <p className="text-[22px] font-semibold tracking-[-0.04em] text-[#292C30]">
+          <p className="text-[22px] font-semibold tracking-[-0.04em] text-text-primary">
             {formatNumber(
               matrixAssets,
             )}
           </p>
 
-          <p className="mt-1 text-[9px] uppercase tracking-[0.08em] text-[#A0A4A9]">
+          <p className="mt-1 text-[9px] uppercase tracking-[0.08em] text-text-secondary">
             na matriz
           </p>
         </div>
       </div>
 
-      <div className="mt-6 grid grid-cols-3 gap-3 border-t border-[#ECEDEF] pt-5">
+      <div className="mt-6 grid grid-cols-3 gap-3 border-t border-border-theme pt-5">
         <div>
-          <p className="text-[9px] uppercase tracking-[0.07em] text-[#9A9FA5]">
+          <p className="text-[9px] uppercase tracking-[0.07em] text-text-secondary">
             Afetados
           </p>
 
-          <p className="mt-2 text-[17px] font-semibold text-[#34383C]">
+          <p className="mt-2 text-[17px] font-semibold text-text-primary">
             {formatNumber(
               data
                 .affectedEquipments,
@@ -415,11 +419,11 @@ function ExposureCard({
         </div>
 
         <div>
-          <p className="text-[9px] uppercase tracking-[0.07em] text-[#9A9FA5]">
+          <p className="text-[9px] uppercase tracking-[0.07em] text-text-secondary">
             Falhas
           </p>
 
-          <p className="mt-2 text-[17px] font-semibold text-[#34383C]">
+          <p className="mt-2 text-[17px] font-semibold text-text-primary">
             {formatNumber(
               data.occurrences,
             )}
@@ -427,11 +431,11 @@ function ExposureCard({
         </div>
 
         <div>
-          <p className="text-[9px] uppercase tracking-[0.07em] text-[#9A9FA5]">
+          <p className="text-[9px] uppercase tracking-[0.07em] text-text-secondary">
             Downtime
           </p>
 
-          <p className="mt-2 text-[17px] font-semibold text-[#34383C]">
+          <p className="mt-2 text-[17px] font-semibold text-text-primary">
             {formatNumber(
               data
                 .downtimeMinutes,
@@ -439,7 +443,7 @@ function ExposureCard({
             )}
           </p>
 
-          <p className="mt-0.5 text-[9px] text-[#A0A4A9]">
+          <p className="mt-0.5 text-[9px] text-text-secondary">
             min
           </p>
         </div>
@@ -716,8 +720,8 @@ export function EquipmentCriticalityPage({
     !data
   ) {
     return (
-      <main className="flex min-h-screen items-center justify-center bg-[#F7F7F6]">
-        <div className="flex items-center gap-3 text-[13px] text-[#777C82]">
+      <main className="flex min-h-screen items-center justify-center bg-surface-elevated">
+        <div className="flex items-center gap-3 text-[13px] text-text-secondary">
           <LoaderCircle
             size={18}
             className="animate-spin text-[#E41E2B]"
@@ -735,8 +739,8 @@ export function EquipmentCriticalityPage({
   ======================================================== */
 
   return (
-    <main className="min-h-screen bg-[#F7F7F6]">
-      <header className="border-b border-black/[0.05] bg-white">
+    <main className="min-h-screen bg-surface-elevated">
+      <header className="border-b border-border-theme/[0.05] bg-surface">
         <div className="mx-auto flex h-[76px] w-full max-w-[1380px] items-center justify-between px-6 sm:px-8 lg:px-12">
           <Link
             href="/dashboard"
@@ -752,23 +756,27 @@ export function EquipmentCriticalityPage({
           </Link>
 
           <div className="hidden text-right sm:block">
-            <p className="text-[13px] font-medium text-[#25272A]">
+            <p className="text-[13px] font-medium text-text-primary">
               {userName}
             </p>
 
             {data?.unit.city && (
-              <p className="mt-0.5 text-[11px] text-[#999DA2]">
+              <p className="mt-0.5 text-[11px] text-text-secondary">
                 {data.unit.city}
               </p>
             )}
           </div>
+
+          <div className="hidden h-8 w-px bg-border-theme sm:block" />
+
+          <ThemeSwitcher />
         </div>
       </header>
 
       <section className="mx-auto w-full max-w-[1380px] px-6 pb-20 pt-10 sm:px-8 lg:px-12">
         <Link
           href="/dashboard"
-          className="inline-flex items-center gap-2 text-[12px] font-medium text-[#81868C] transition-colors hover:text-[#282B2F]"
+          className="inline-flex items-center gap-2 text-[12px] font-medium text-text-secondary transition-colors hover:text-text-primary"
         >
           <ArrowLeft
             size={15}
@@ -779,11 +787,11 @@ export function EquipmentCriticalityPage({
 
         <div className="mt-9 flex flex-col justify-between gap-6 lg:flex-row lg:items-end">
           <div>
-            <h1 className="text-[34px] font-semibold tracking-[-0.045em] text-[#191B1E] sm:text-[40px]">
+            <h1 className="text-[34px] font-semibold tracking-[-0.045em] text-text-primary sm:text-[40px]">
               Análise de criticidade
             </h1>
 
-            <p className="mt-3 max-w-[720px] text-[14px] leading-7 text-[#7D8288]">
+            <p className="mt-3 max-w-[720px] text-[14px] leading-7 text-text-secondary">
               Cruze a criticidade oficial dos ativos com falhas,
               downtime e exposição operacional.
             </p>
@@ -840,20 +848,20 @@ export function EquipmentCriticalityPage({
             STATUS DA FONTE
         =================================================== */}
 
-        <div className="mt-8 flex flex-col gap-3 rounded-[18px] border border-[#E3E5E7] bg-white px-5 py-4 sm:flex-row sm:items-center sm:justify-between">
+        <div className="mt-8 flex flex-col gap-3 rounded-[18px] border border-border-theme bg-surface px-5 py-4 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-[11px] bg-[#F5F5F4] text-[#555A60]">
+            <div className="flex h-10 w-10 items-center justify-center rounded-[11px] bg-surface-elevated text-text-primary">
               <Database
                 size={18}
               />
             </div>
 
             <div>
-              <p className="text-[11px] font-semibold text-[#3A3E43]">
+              <p className="text-[11px] font-semibold text-text-primary">
                 Matriz oficial
               </p>
 
-              <p className="mt-1 text-[10px] text-[#979CA2]">
+              <p className="mt-1 text-[10px] text-text-secondary">
                 {data
                   ?.matrix
                   .plantName
@@ -864,11 +872,11 @@ export function EquipmentCriticalityPage({
           </div>
 
           <div className="text-left sm:text-right">
-            <p className="text-[9px] uppercase tracking-[0.08em] text-[#A0A4A9]">
+            <p className="text-[9px] uppercase tracking-[0.08em] text-text-secondary">
               Última sincronização
             </p>
 
-            <p className="mt-1 text-[11px] font-medium text-[#60656B]">
+            <p className="mt-1 text-[11px] font-medium text-text-primary">
               {formatDateTime(
                 data
                   ?.matrix
@@ -910,41 +918,41 @@ export function EquipmentCriticalityPage({
         =================================================== */}
 
         {syncResult && (
-          <div className="mt-5 rounded-[18px] border border-[#E3E5E7] bg-white p-5">
+          <div className="mt-5 rounded-[18px] border border-border-theme bg-surface p-5">
             <div className="flex items-center gap-3">
               <FileSpreadsheet
                 size={18}
-                className="text-[#60656B]"
+                className="text-text-primary"
               />
 
               <div>
-                <p className="text-[12px] font-semibold text-[#34383C]">
+                <p className="text-[12px] font-semibold text-text-primary">
                   Sincronização concluída
                 </p>
 
-                <p className="mt-1 text-[10px] text-[#999DA2]">
+                <p className="mt-1 text-[10px] text-text-secondary">
                   {syncResult.fileName}
                 </p>
               </div>
             </div>
 
-            <div className="mt-5 grid gap-4 border-t border-[#ECEDEF] pt-5 sm:grid-cols-2 lg:grid-cols-5">
+            <div className="mt-5 grid gap-4 border-t border-border-theme pt-5 sm:grid-cols-2 lg:grid-cols-5">
               <div>
-                <p className="text-[9px] uppercase tracking-[0.08em] text-[#9A9FA5]">
+                <p className="text-[9px] uppercase tracking-[0.08em] text-text-secondary">
                   Planta
                 </p>
 
-                <p className="mt-2 text-[13px] font-semibold text-[#3A3E43]">
+                <p className="mt-2 text-[13px] font-semibold text-text-primary">
                   {syncResult.plantName}
                 </p>
               </div>
 
               <div>
-                <p className="text-[9px] uppercase tracking-[0.08em] text-[#9A9FA5]">
+                <p className="text-[9px] uppercase tracking-[0.08em] text-text-secondary">
                   Ativos
                 </p>
 
-                <p className="mt-2 text-[13px] font-semibold text-[#3A3E43]">
+                <p className="mt-2 text-[13px] font-semibold text-text-primary">
                   {formatNumber(
                     syncResult
                       .matrixAssets,
@@ -953,11 +961,11 @@ export function EquipmentCriticalityPage({
               </div>
 
               <div>
-                <p className="text-[9px] uppercase tracking-[0.08em] text-[#9A9FA5]">
+                <p className="text-[9px] uppercase tracking-[0.08em] text-text-secondary">
                   Cobertura
                 </p>
 
-                <p className="mt-2 text-[13px] font-semibold text-[#3A3E43]">
+                <p className="mt-2 text-[13px] font-semibold text-text-primary">
                   {formatPercentage(
                     syncResult
                       .matchedPercentage,
@@ -966,11 +974,11 @@ export function EquipmentCriticalityPage({
               </div>
 
               <div>
-                <p className="text-[9px] uppercase tracking-[0.08em] text-[#9A9FA5]">
+                <p className="text-[9px] uppercase tracking-[0.08em] text-text-secondary">
                   Não localizados
                 </p>
 
-                <p className="mt-2 text-[13px] font-semibold text-[#3A3E43]">
+                <p className="mt-2 text-[13px] font-semibold text-text-primary">
                   {formatNumber(
                     syncResult
                       .notFoundEquipmentNames,
@@ -979,11 +987,11 @@ export function EquipmentCriticalityPage({
               </div>
 
               <div>
-                <p className="text-[9px] uppercase tracking-[0.08em] text-[#9A9FA5]">
+                <p className="text-[9px] uppercase tracking-[0.08em] text-text-secondary">
                   Conflitos
                 </p>
 
-                <p className="mt-2 text-[13px] font-semibold text-[#3A3E43]">
+                <p className="mt-2 text-[13px] font-semibold text-text-primary">
                   {formatNumber(
                     syncResult
                       .conflictingEquipmentNames,
@@ -1054,11 +1062,11 @@ export function EquipmentCriticalityPage({
 
             <div className="mt-10">
               <div>
-                <h2 className="text-[17px] font-semibold tracking-[-0.025em] text-[#292C30]">
+                <h2 className="text-[17px] font-semibold tracking-[-0.025em] text-text-primary">
                   Exposição por criticidade
                 </h2>
 
-                <p className="mt-1.5 text-[11px] text-[#969BA1]">
+                <p className="mt-1.5 text-[11px] text-text-secondary">
                   Falhas e downtime ocorridos em cada classe de ativo.
                 </p>
               </div>
@@ -1100,13 +1108,13 @@ export function EquipmentCriticalityPage({
                 TOP A
             =============================================== */}
 
-            <div className="mt-10 overflow-hidden rounded-[22px] border border-[#E5E7E9] bg-white">
-              <div className="border-b border-[#ECEDEF] px-5 py-4">
-                <h2 className="text-[14px] font-semibold text-[#303438]">
+            <div className="mt-10 overflow-hidden rounded-[22px] border border-border-theme bg-surface">
+              <div className="border-b border-border-theme px-5 py-4">
+                <h2 className="text-[14px] font-semibold text-text-primary">
                   Ativos críticos mais afetados
                 </h2>
 
-                <p className="mt-1 text-[10px] text-[#999DA2]">
+                <p className="mt-1 text-[10px] text-text-secondary">
                   Equipamentos classe A ordenados pelo maior tempo de parada.
                 </p>
               </div>
@@ -1116,7 +1124,7 @@ export function EquipmentCriticalityPage({
                 .length ===
               0 ? (
                 <div className="flex min-h-[200px] items-center justify-center px-6 text-center">
-                  <p className="text-[11px] text-[#999DA2]">
+                  <p className="text-[11px] text-text-secondary">
                     Nenhum apontamento com criticidade A identificado.
                   </p>
                 </div>
@@ -1124,20 +1132,20 @@ export function EquipmentCriticalityPage({
                 <div className="overflow-x-auto">
                   <table className="w-full min-w-[760px] border-collapse">
                     <thead>
-                      <tr className="border-b border-[#ECEDEF] bg-[#FAFAF9] text-left">
-                        <th className="px-5 py-3 text-[9px] font-semibold uppercase tracking-[0.08em] text-[#969BA1]">
+                      <tr className="border-b border-border-theme bg-surface-elevated text-left">
+                        <th className="px-5 py-3 text-[9px] font-semibold uppercase tracking-[0.08em] text-text-secondary">
                           Equipamento
                         </th>
 
-                        <th className="px-4 py-3 text-right text-[9px] font-semibold uppercase tracking-[0.08em] text-[#969BA1]">
+                        <th className="px-4 py-3 text-right text-[9px] font-semibold uppercase tracking-[0.08em] text-text-secondary">
                           Falhas
                         </th>
 
-                        <th className="px-4 py-3 text-right text-[9px] font-semibold uppercase tracking-[0.08em] text-[#969BA1]">
+                        <th className="px-4 py-3 text-right text-[9px] font-semibold uppercase tracking-[0.08em] text-text-secondary">
                           Downtime
                         </th>
 
-                        <th className="px-5 py-3 text-right text-[9px] font-semibold uppercase tracking-[0.08em] text-[#969BA1]">
+                        <th className="px-5 py-3 text-right text-[9px] font-semibold uppercase tracking-[0.08em] text-text-secondary">
                           MTTR
                         </th>
                       </tr>
@@ -1156,24 +1164,24 @@ export function EquipmentCriticalityPage({
                                 item
                                   .equipmentId
                               }
-                              className="border-b border-[#F0F1F2] last:border-b-0"
+                              className="border-b border-border-theme last:border-b-0"
                             >
                               <td className="px-5 py-4">
                                 <div className="flex items-center gap-3">
-                                  <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-[9px] bg-[#F5F5F4] text-[10px] font-semibold text-[#777C82]">
+                                  <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-[9px] bg-surface-elevated text-[10px] font-semibold text-text-secondary">
                                     {index +
                                       1}
                                   </span>
 
                                   <div>
-                                    <p className="text-[11px] font-medium text-[#35393E]">
+                                    <p className="text-[11px] font-medium text-text-primary">
                                       {
                                         item
                                           .equipment
                                       }
                                     </p>
 
-                                    <p className="mt-1 text-[9px] text-[#A0A4A9]">
+                                    <p className="mt-1 text-[9px] text-text-secondary">
                                       {
                                         item
                                           .code
@@ -1183,14 +1191,14 @@ export function EquipmentCriticalityPage({
                                 </div>
                               </td>
 
-                              <td className="px-4 py-4 text-right text-[11px] font-medium text-[#555A60]">
+                              <td className="px-4 py-4 text-right text-[11px] font-medium text-text-primary">
                                 {formatNumber(
                                   item
                                     .occurrences,
                                 )}
                               </td>
 
-                              <td className="px-4 py-4 text-right text-[11px] font-medium text-[#555A60]">
+                              <td className="px-4 py-4 text-right text-[11px] font-medium text-text-primary">
                                 {formatNumber(
                                   item
                                     .downtimeMinutes,
@@ -1199,7 +1207,7 @@ export function EquipmentCriticalityPage({
                                 min
                               </td>
 
-                              <td className="px-5 py-4 text-right text-[11px] font-medium text-[#555A60]">
+                              <td className="px-5 py-4 text-right text-[11px] font-medium text-text-primary">
                                 {formatNumber(
                                   item
                                     .mttr,
@@ -1220,19 +1228,19 @@ export function EquipmentCriticalityPage({
                 QUALIDADE DOS DADOS
             =============================================== */}
 
-            <div className="mt-6 rounded-[20px] border border-[#E5E7E9] bg-white p-5">
+            <div className="mt-6 rounded-[20px] border border-border-theme bg-surface p-5">
               <div className="flex items-start gap-3">
                 <Upload
                   size={17}
-                  className="mt-0.5 text-[#8B9096]"
+                  className="mt-0.5 text-text-secondary"
                 />
 
                 <div>
-                  <p className="text-[12px] font-semibold text-[#3A3E43]">
+                  <p className="text-[12px] font-semibold text-text-primary">
                     Cobertura da matriz
                   </p>
 
-                  <p className="mt-2 max-w-[760px] text-[11px] leading-6 text-[#858A90]">
+                  <p className="mt-2 max-w-[760px] text-[11px] leading-6 text-text-secondary">
                     {formatNumber(
                       data.coverage
                         .eventsWithCriticality,
@@ -1251,7 +1259,7 @@ export function EquipmentCriticalityPage({
                     .
                   </p>
 
-                  <p className="mt-1 text-[11px] leading-6 text-[#858A90]">
+                  <p className="mt-1 text-[11px] leading-6 text-text-secondary">
                     Os apontamentos sem correspondência segura permanecem sem
                     criticidade em vez de receberem uma classificação
                     estimada.

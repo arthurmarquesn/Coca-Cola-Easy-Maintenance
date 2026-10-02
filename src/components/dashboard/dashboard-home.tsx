@@ -6,6 +6,7 @@ import Link from "next/link";
 import {
   Activity,
   ArrowRight,
+  ClipboardCheck,
   FileSpreadsheet,
   History,
   LogOut,
@@ -21,6 +22,14 @@ import {
   UnitFilter,
 } from "@/components/units/unit-filter";
 
+import {
+  isAnalystRole,
+} from "@/lib/roles";
+
+import {
+  ThemeSwitcher,
+} from "@/components/theme/theme-switcher";
+
 
 /* =========================================================
    PROPS
@@ -29,6 +38,9 @@ import {
 interface DashboardHomeProps {
   user: {
     name:
+      string;
+
+    role:
       string;
   };
 
@@ -70,6 +82,14 @@ export function DashboardHome({
   const firstName =
     getFirstName(
       user.name,
+    );
+
+
+  /* Gestor apenas consulta: o cadastro de usuários fica
+     oculto para ele, como a API já exige. */
+  const isAnalyst =
+    isAnalystRole(
+      user.role,
     );
 
 
@@ -142,13 +162,13 @@ export function DashboardHome({
   ======================================================= */
 
   return (
-    <main className="min-h-screen bg-[#F7F7F6]">
+    <main className="min-h-screen bg-surface-elevated">
 
       {/* ===================================================
           HEADER
       ==================================================== */}
 
-      <header className="border-b border-black/[0.05] bg-white">
+      <header className="border-b border-border-theme/[0.05] bg-surface">
 
         <div className="mx-auto flex min-h-[76px] w-full max-w-[1280px] items-center justify-between gap-4 px-6 py-2 sm:px-8 lg:px-10">
 
@@ -175,24 +195,28 @@ export function DashboardHome({
             />
 
 
-            <div className="hidden h-8 w-px bg-black/[0.07] sm:block" />
+            <div className="hidden h-8 w-px bg-border-theme sm:block" />
 
 
             <div className="hidden text-right md:block">
 
-              <p className="text-[13px] font-medium text-[#25272A]">
+              <p className="text-[13px] font-medium text-text-primary">
                 {user.name}
               </p>
 
 
-              <p className="mt-0.5 text-[10px] text-[#999DA2]">
+              <p className="mt-0.5 text-[10px] text-text-secondary">
                 Sessão ativa
               </p>
 
             </div>
 
+            <div className="hidden h-8 w-px bg-border-theme sm:block" />
 
-            <div className="h-8 w-px bg-black/[0.07]" />
+            <ThemeSwitcher />
+
+
+            <div className="h-8 w-px bg-border-theme" />
 
 
             <button
@@ -203,7 +227,7 @@ export function DashboardHome({
               disabled={
                 loggingOut
               }
-              className="group flex items-center gap-2 text-[12px] font-medium text-[#777B80] transition-colors hover:text-[#E41E2B] disabled:cursor-not-allowed disabled:opacity-40"
+              className="group flex items-center gap-2 text-[12px] font-medium text-text-secondary transition-colors hover:text-[#E41E2B] disabled:cursor-not-allowed disabled:opacity-40"
             >
 
               <LogOut
@@ -239,13 +263,13 @@ export function DashboardHome({
 
         <section>
 
-          <h1 className="max-w-[760px] text-[38px] font-semibold leading-[1.04] tracking-[-0.045em] text-[#181A1D] sm:text-[48px] lg:text-[54px]">
+          <h1 className="max-w-[760px] text-[38px] font-semibold leading-[1.04] tracking-[-0.045em] text-text-primary sm:text-[48px] lg:text-[54px]">
             Manutenção orientada
             por dados.
           </h1>
 
 
-          <p className="mt-5 max-w-[580px] text-[14px] leading-6 text-[#777B80]">
+          <p className="mt-5 max-w-[580px] text-[14px] leading-6 text-text-secondary">
             Olá, {firstName}. Importe novos apontamentos,
             consulte o histórico ou analise a confiabilidade
             das unidades selecionadas.
@@ -299,7 +323,7 @@ export function DashboardHome({
               </span>
 
 
-              <div className="flex h-11 w-11 items-center justify-center rounded-full bg-white text-[#E41E2B] transition-transform duration-200 group-hover:translate-x-1">
+              <div className="flex h-11 w-11 items-center justify-center rounded-full bg-surface text-[#E41E2B] transition-transform duration-200 group-hover:translate-x-1">
 
                 <ArrowRight
                   size={18}
@@ -318,7 +342,7 @@ export function DashboardHome({
 
           <Link
             href="/dashboard/historico"
-            className="group flex min-h-[330px] flex-col justify-between rounded-[30px] border border-black/[0.07] bg-white p-8 transition-all duration-200 hover:-translate-y-0.5 hover:border-black/[0.12] hover:shadow-[0_16px_40px_rgba(0,0,0,0.045)]"
+            className="group flex min-h-[330px] flex-col justify-between rounded-[30px] border border-border-theme/[0.07] bg-surface p-8 transition-all duration-200 hover:-translate-y-0.5 hover:border-border-theme/[0.12] hover:shadow-[0_16px_40px_rgba(0,0,0,0.045)]"
           >
 
             <div>
@@ -326,16 +350,16 @@ export function DashboardHome({
               <History
                 size={25}
                 strokeWidth={1.7}
-                className="text-[#44484D]"
+                className="text-text-primary"
               />
 
 
-              <h2 className="mt-12 text-[30px] font-semibold leading-[1.08] tracking-[-0.04em] text-[#202225]">
+              <h2 className="mt-12 text-[30px] font-semibold leading-[1.08] tracking-[-0.04em] text-text-primary">
                 Histórico
               </h2>
 
 
-              <p className="mt-4 text-[14px] leading-6 text-[#777B80]">
+              <p className="mt-4 text-[14px] leading-6 text-text-secondary">
                 Consulte falhas, ocorrências e paradas
                 das unidades selecionadas no filtro.
               </p>
@@ -343,16 +367,16 @@ export function DashboardHome({
             </div>
 
 
-            <div className="mt-10 flex items-center justify-between border-t border-[#EEEEEC] pt-6">
+            <div className="mt-10 flex items-center justify-between border-t border-border-theme pt-6">
 
-              <span className="text-[13px] font-semibold text-[#303338]">
+              <span className="text-[13px] font-semibold text-text-primary">
                 Consultar
               </span>
 
 
               <ArrowRight
                 size={18}
-                className="text-[#777C82] transition-transform duration-200 group-hover:translate-x-1"
+                className="text-text-secondary transition-transform duration-200 group-hover:translate-x-1"
               />
 
             </div>
@@ -366,7 +390,7 @@ export function DashboardHome({
 
           <Link
             href="/dashboard/confiabilidade"
-            className="group flex min-h-[330px] flex-col justify-between rounded-[30px] border border-black/[0.07] bg-white p-8 transition-all duration-200 hover:-translate-y-0.5 hover:border-black/[0.12] hover:shadow-[0_16px_40px_rgba(0,0,0,0.045)]"
+            className="group flex min-h-[330px] flex-col justify-between rounded-[30px] border border-border-theme/[0.07] bg-surface p-8 transition-all duration-200 hover:-translate-y-0.5 hover:border-border-theme/[0.12] hover:shadow-[0_16px_40px_rgba(0,0,0,0.045)]"
           >
 
             <div>
@@ -374,16 +398,16 @@ export function DashboardHome({
               <Activity
                 size={25}
                 strokeWidth={1.7}
-                className="text-[#44484D]"
+                className="text-text-primary"
               />
 
 
-              <h2 className="mt-12 text-[30px] font-semibold leading-[1.08] tracking-[-0.04em] text-[#202225]">
+              <h2 className="mt-12 text-[30px] font-semibold leading-[1.08] tracking-[-0.04em] text-text-primary">
                 Confiabilidade
               </h2>
 
 
-              <p className="mt-4 text-[14px] leading-6 text-[#777B80]">
+              <p className="mt-4 text-[14px] leading-6 text-text-secondary">
                 Compare perdas, recorrência e impacto
                 entre as unidades selecionadas.
               </p>
@@ -391,16 +415,16 @@ export function DashboardHome({
             </div>
 
 
-            <div className="mt-10 flex items-center justify-between border-t border-[#EEEEEC] pt-6">
+            <div className="mt-10 flex items-center justify-between border-t border-border-theme pt-6">
 
-              <span className="text-[13px] font-semibold text-[#303338]">
+              <span className="text-[13px] font-semibold text-text-primary">
                 Analisar
               </span>
 
 
               <ArrowRight
                 size={18}
-                className="text-[#777C82] transition-transform duration-200 group-hover:translate-x-1"
+                className="text-text-secondary transition-transform duration-200 group-hover:translate-x-1"
               />
 
             </div>
@@ -414,7 +438,7 @@ export function DashboardHome({
 
           <Link
             href="/dashboard/masp"
-            className="group flex min-h-[330px] flex-col justify-between rounded-[30px] border border-black/[0.07] bg-white p-8 transition-all duration-200 hover:-translate-y-0.5 hover:border-black/[0.12] hover:shadow-[0_16px_40px_rgba(0,0,0,0.045)]"
+            className="group flex min-h-[330px] flex-col justify-between rounded-[30px] border border-border-theme/[0.07] bg-surface p-8 transition-all duration-200 hover:-translate-y-0.5 hover:border-border-theme/[0.12] hover:shadow-[0_16px_40px_rgba(0,0,0,0.045)]"
           >
 
             <div>
@@ -422,16 +446,16 @@ export function DashboardHome({
               <Waypoints
                 size={25}
                 strokeWidth={1.7}
-                className="text-[#44484D]"
+                className="text-text-primary"
               />
 
 
-              <h2 className="mt-12 text-[30px] font-semibold leading-[1.08] tracking-[-0.04em] text-[#202225]">
+              <h2 className="mt-12 text-[30px] font-semibold leading-[1.08] tracking-[-0.04em] text-text-primary">
                 MASP
               </h2>
 
 
-              <p className="mt-4 text-[14px] leading-6 text-[#777B80]">
+              <p className="mt-4 text-[14px] leading-6 text-text-secondary">
                 Investigue problemas, valide causas e acompanhe
                 ações com dados locais.
               </p>
@@ -439,21 +463,69 @@ export function DashboardHome({
             </div>
 
 
-            <div className="mt-10 flex items-center justify-between border-t border-[#EEEEEC] pt-6">
+            <div className="mt-10 flex items-center justify-between border-t border-border-theme pt-6">
 
-              <span className="text-[13px] font-semibold text-[#303338]">
+              <span className="text-[13px] font-semibold text-text-primary">
                 Abrir análises
               </span>
 
 
               <ArrowRight
                 size={18}
-                className="text-[#777C82] transition-transform duration-200 group-hover:translate-x-1"
+                className="text-text-secondary transition-transform duration-200 group-hover:translate-x-1"
               />
 
             </div>
 
           </Link>
+
+
+        {/* ===============================================
+            VALIDAÇÃO HUMANA
+        ================================================ */}
+
+        <Link
+          href="/dashboard/revisao"
+          className="group flex min-h-[330px] flex-col justify-between rounded-[30px] border border-border-theme/[0.07] bg-surface p-8 transition-all duration-200 hover:-translate-y-0.5 hover:border-border-theme/[0.12] hover:shadow-[0_16px_40px_rgba(0,0,0,0.045)]"
+        >
+
+          <div>
+
+            <ClipboardCheck
+              size={25}
+              strokeWidth={1.7}
+              className="text-text-primary"
+            />
+
+
+            <h2 className="mt-12 text-[30px] font-semibold leading-[1.08] tracking-[-0.04em] text-text-primary">
+              Validação
+            </h2>
+
+
+            <p className="mt-4 text-[14px] leading-6 text-text-secondary">
+              Revise por categoria as classificações sugeridas
+              pela IA e registre o feedback humano.
+            </p>
+
+          </div>
+
+
+          <div className="mt-10 flex items-center justify-between border-t border-border-theme pt-6">
+
+            <span className="text-[13px] font-semibold text-text-primary">
+              Revisar
+            </span>
+
+
+            <ArrowRight
+              size={18}
+              className="text-text-secondary transition-transform duration-200 group-hover:translate-x-1"
+            />
+
+          </div>
+
+        </Link>
 
         </section>
 
@@ -462,49 +534,51 @@ export function DashboardHome({
             ADMINISTRATION
         ================================================== */}
 
-        <section className="mt-5">
+        {isAnalyst && (
+          <section className="mt-5">
 
-          <Link
-            href="/dashboard/usuarios"
-            className="group flex items-center justify-between rounded-[22px] border border-black/[0.07] bg-white px-6 py-5 transition-all duration-200 hover:border-black/[0.12] hover:shadow-[0_10px_30px_rgba(0,0,0,0.035)]"
-          >
+            <Link
+              href="/dashboard/usuarios"
+              className="group flex items-center justify-between rounded-[22px] border border-border-theme/[0.07] bg-surface px-6 py-5 transition-all duration-200 hover:border-border-theme/[0.12] hover:shadow-[0_10px_30px_rgba(0,0,0,0.035)]"
+            >
 
-            <div className="flex items-center gap-4">
+              <div className="flex items-center gap-4">
 
-              <div className="flex h-10 w-10 items-center justify-center rounded-[12px] bg-[#F4F4F3] text-[#555A60]">
+                <div className="flex h-10 w-10 items-center justify-center rounded-[12px] bg-surface-elevated text-text-primary">
 
-                <Users
-                  size={18}
-                  strokeWidth={1.8}
-                />
+                  <Users
+                    size={18}
+                    strokeWidth={1.8}
+                  />
+
+                </div>
+
+
+                <div>
+
+                  <p className="text-[13px] font-semibold text-text-primary">
+                    Usuários
+                  </p>
+
+
+                  <p className="mt-1 text-[10px] text-text-secondary">
+                    Cadastre representantes das unidades.
+                  </p>
+
+                </div>
 
               </div>
 
 
-              <div>
+              <ArrowRight
+                size={17}
+                className="text-text-secondary transition-transform duration-200 group-hover:translate-x-1"
+              />
 
-                <p className="text-[13px] font-semibold text-[#303338]">
-                  Usuários
-                </p>
+            </Link>
 
-
-                <p className="mt-1 text-[10px] text-[#92979D]">
-                  Cadastre representantes das unidades.
-                </p>
-
-              </div>
-
-            </div>
-
-
-            <ArrowRight
-              size={17}
-              className="text-[#8B9096] transition-transform duration-200 group-hover:translate-x-1"
-            />
-
-          </Link>
-
-        </section>
+          </section>
+        )}
 
       </div>
 

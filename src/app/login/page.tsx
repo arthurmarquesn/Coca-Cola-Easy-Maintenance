@@ -162,7 +162,7 @@ export default function LoginPage() {
                 </h1>
               </div>
 
-              <div className="my-8 h-[3px] w-16 rounded-full bg-white" />
+              <div className="my-8 h-[3px] w-16 rounded-full bg-surface" />
 
               <p className="max-w-[470px] text-[17px] font-medium leading-8 text-white/95 xl:text-[18px]">
                 Dados que apoiam uma operação mais eficiente.
@@ -220,7 +220,7 @@ export default function LoginPage() {
                 <div>
                   <label
                     htmlFor="email"
-                    className="mb-2 block text-[13px] font-semibold text-[#323438]"
+                    className="mb-2 block text-[13px] font-semibold text-text-primary"
                   >
                     E-mail corporativo
                   </label>
@@ -229,7 +229,7 @@ export default function LoginPage() {
                     <Mail
                       size={18}
                       strokeWidth={1.8}
-                      className="pointer-events-none absolute left-4 top-1/2 z-10 -translate-y-1/2 text-[#A0A5AC] transition-colors duration-200 group-focus-within:text-[#F40009]"
+                      className="pointer-events-none absolute left-4 top-1/2 z-10 -translate-y-1/2 text-text-secondary transition-colors duration-200 group-focus-within:text-[#F40009]"
                     />
 
                     <input
@@ -248,7 +248,7 @@ export default function LoginPage() {
                         loading ||
                         isLeaving
                       }
-                      className="login-input h-[54px] w-full rounded-[11px] border border-[#DEE1E5] bg-[#F7F8FA] pl-12 pr-4 text-[14px] text-[#232529] outline-none transition-all duration-200 placeholder:text-[#A8ADB4] hover:border-[#CBCFD4] focus:border-[#F40009] focus:bg-white focus:ring-[3px] focus:ring-[rgba(244,0,9,0.08)] disabled:cursor-not-allowed disabled:opacity-70"
+                      className="login-input h-[54px] w-full rounded-[11px] border border-border-theme bg-[#F7F8FA] pl-12 pr-4 text-[14px] text-text-primary outline-none transition-all duration-200 placeholder:text-text-muted hover:border-border-theme focus:border-[#F40009] focus:bg-surface focus:ring-[3px] focus:ring-[rgba(244,0,9,0.08)] disabled:cursor-not-allowed disabled:opacity-70"
                     />
                   </div>
                 </div>
@@ -259,7 +259,7 @@ export default function LoginPage() {
                   <div className="mb-2 flex items-center justify-between gap-4">
                     <label
                       htmlFor="password"
-                      className="text-[13px] font-semibold text-[#323438]"
+                      className="text-[13px] font-semibold text-text-primary"
                     >
                       Senha
                     </label>
@@ -270,7 +270,7 @@ export default function LoginPage() {
                         loading ||
                         isLeaving
                       }
-                      className="text-[12px] font-medium text-[#6F747B] transition-colors duration-200 hover:text-[#F40009] focus-visible:outline-none focus-visible:text-[#F40009] disabled:cursor-not-allowed disabled:opacity-50"
+                      className="text-[12px] font-medium text-text-secondary transition-colors duration-200 hover:text-[#F40009] focus-visible:outline-none focus-visible:text-[#F40009] disabled:cursor-not-allowed disabled:opacity-50"
                     >
                       Esqueci minha senha
                     </button>
@@ -280,7 +280,7 @@ export default function LoginPage() {
                     <LockKeyhole
                       size={18}
                       strokeWidth={1.8}
-                      className="pointer-events-none absolute left-4 top-1/2 z-10 -translate-y-1/2 text-[#A0A5AC] transition-colors duration-200 group-focus-within:text-[#F40009]"
+                      className="pointer-events-none absolute left-4 top-1/2 z-10 -translate-y-1/2 text-text-secondary transition-colors duration-200 group-focus-within:text-[#F40009]"
                     />
 
                     <input
@@ -303,7 +303,7 @@ export default function LoginPage() {
                         loading ||
                         isLeaving
                       }
-                      className="login-input h-[54px] w-full rounded-[11px] border border-[#DEE1E5] bg-[#F7F8FA] pl-12 pr-12 text-[14px] text-[#232529] outline-none transition-all duration-200 placeholder:text-[#A8ADB4] hover:border-[#CBCFD4] focus:border-[#F40009] focus:bg-white focus:ring-[3px] focus:ring-[rgba(244,0,9,0.08)] disabled:cursor-not-allowed disabled:opacity-70"
+                      className="login-input h-[54px] w-full rounded-[11px] border border-border-theme bg-[#F7F8FA] pl-12 pr-12 text-[14px] text-text-primary outline-none transition-all duration-200 placeholder:text-text-muted hover:border-border-theme focus:border-[#F40009] focus:bg-surface focus:ring-[3px] focus:ring-[rgba(244,0,9,0.08)] disabled:cursor-not-allowed disabled:opacity-70"
                     />
 
                     <button
@@ -318,7 +318,7 @@ export default function LoginPage() {
                             !current,
                         )
                       }
-                      className="absolute right-4 top-1/2 flex -translate-y-1/2 items-center justify-center text-[#A0A5AC] transition-colors duration-200 hover:text-text-body focus-visible:outline-none focus-visible:text-[#F40009] disabled:cursor-not-allowed disabled:opacity-50"
+                      className="absolute right-4 top-1/2 flex -translate-y-1/2 items-center justify-center text-text-secondary transition-colors duration-200 hover:text-text-body focus-visible:outline-none focus-visible:text-[#F40009] disabled:cursor-not-allowed disabled:opacity-50"
                       aria-label={
                         showPassword
                           ? "Ocultar senha"
@@ -356,12 +356,12 @@ export default function LoginPage() {
                       loading ||
                       isLeaving
                     }
-                    className="h-[15px] w-[15px] cursor-pointer rounded border-[#CACED4] accent-[#F40009] disabled:cursor-not-allowed"
+                    className="h-[15px] w-[15px] cursor-pointer rounded border-border-theme accent-[#F40009] disabled:cursor-not-allowed"
                   />
 
                   <label
                     htmlFor="remember"
-                    className="cursor-pointer select-none text-[12px] text-[#666B72]"
+                    className="cursor-pointer select-none text-[12px] text-text-secondary"
                   >
                     Manter conectado
                   </label>
@@ -416,8 +416,8 @@ export default function LoginPage() {
 
               {/* Rodapé */}
 
-              <footer className="login-footer mt-9 border-t border-[#E9EBEE] pt-6 text-center">
-                <p className="text-[10px] leading-5 tracking-[0.01em] text-[#979CA3] sm:text-[11px]">
+              <footer className="login-footer mt-9 border-t border-border-theme pt-6 text-center">
+                <p className="text-[10px] leading-5 tracking-[0.01em] text-text-secondary sm:text-[11px]">
                   Uso interno • Acesso restrito a usuários autorizados
                 </p>
               </footer>

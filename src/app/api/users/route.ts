@@ -22,6 +22,10 @@ import {
   getAuthorizedUnits,
 } from "@/lib/unit-selection";
 
+import {
+  isAnalystRole,
+} from "@/lib/roles";
+
 
 export const runtime =
   "nodejs";
@@ -35,8 +39,8 @@ export const dynamic =
 ========================================================= */
 
 type UserRole =
-  | "GESTOR"
-  | "ANALISTA";
+  | "MANAGER"
+  | "MAINTENANCE";
 
 
 interface UserRow
@@ -130,9 +134,9 @@ function isValidRole(
 ): value is UserRole {
   return (
     value ===
-      "GESTOR" ||
+      "MANAGER" ||
     value ===
-      "ANALISTA"
+      "MAINTENANCE"
   );
 }
 
@@ -229,11 +233,12 @@ async function requireAdministrationAccess() {
   }
 
 
+  /* Só o Analista administra usuários. O Gestor apenas
+     consulta os dados, conforme lib/roles.ts. */
   if (
-    session.role !==
-      "GESTOR" &&
-    session.role !==
-      "ANALISTA"
+    !isAnalystRole(
+      session.role,
+    )
   ) {
     return {
       error:

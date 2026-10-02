@@ -1230,8 +1230,8 @@ export async function classifyImportWithAI(
           INSERT IGNORE INTO event_classifications (
             event_id,
             category_id,
-            failure_system_id,
-            failure_mode_id,
+            system_id,
+            mode_id,
             classified_by_user_id,
             source,
             confidence,

@@ -709,8 +709,8 @@ export function ReportGeneratorModal({
         className="absolute inset-0 cursor-default bg-black/30 backdrop-blur-[3px] disabled:cursor-wait"
       />
 
-      <div className="relative flex max-h-[92vh] w-full max-w-[1060px] flex-col overflow-hidden rounded-[26px] border border-black/[0.06] bg-[#F8F8F7] shadow-[0_28px_90px_rgba(0,0,0,0.18)]">
-        <div className="flex items-start justify-between gap-6 border-b border-[#E4E6E8] bg-white px-6 py-5 sm:px-8">
+      <div className="relative flex max-h-[92vh] w-full max-w-[1060px] flex-col overflow-hidden rounded-[26px] border border-border-theme/[0.06] bg-surface-elevated shadow-[0_28px_90px_rgba(0,0,0,0.18)]">
+        <div className="flex items-start justify-between gap-6 border-b border-border-theme bg-surface px-6 py-5 sm:px-8">
           <div>
             <div className="flex items-center gap-2.5">
               <span className="flex h-9 w-9 items-center justify-center rounded-[11px] bg-[#FFF0F1] text-[#E41E2B]">
@@ -720,17 +720,17 @@ export function ReportGeneratorModal({
               </span>
 
               <div>
-                <p className="text-[10px] font-semibold uppercase tracking-[0.11em] text-[#9A9FA5]">
+                <p className="text-[10px] font-semibold uppercase tracking-[0.11em] text-text-secondary">
                   Documento executivo
                 </p>
 
-                <h2 className="mt-0.5 text-[21px] font-semibold tracking-[-0.035em] text-[#202327]">
+                <h2 className="mt-0.5 text-[21px] font-semibold tracking-[-0.035em] text-text-primary">
                   Gerar relatório de manutenção
                 </h2>
               </div>
             </div>
 
-            <p className="mt-3 max-w-[650px] text-[11px] leading-5 text-[#858A90]">
+            <p className="mt-3 max-w-[650px] text-[11px] leading-5 text-text-secondary">
               Defina unidades, período, filtros operacionais e os blocos que devem compor o PDF.
             </p>
           </div>
@@ -743,7 +743,7 @@ export function ReportGeneratorModal({
             disabled={
               generating
             }
-            className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-[#777C82] transition-colors hover:bg-[#F4F4F3] disabled:opacity-40"
+            className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-text-secondary transition-colors hover:bg-surface-hover disabled:opacity-40"
           >
             <X
               size={18}
@@ -754,7 +754,7 @@ export function ReportGeneratorModal({
         <div className="flex-1 overflow-y-auto px-6 py-6 sm:px-8">
           {loadingOptions ? (
             <div className="flex min-h-[360px] items-center justify-center">
-              <div className="flex items-center gap-3 text-[12px] text-[#7C8187]">
+              <div className="flex items-center gap-3 text-[12px] text-text-secondary">
                 <LoaderCircle
                   size={18}
                   className="animate-spin text-[#E41E2B]"
@@ -770,22 +770,22 @@ export function ReportGeneratorModal({
                   <div className="flex items-center gap-2.5">
                     <Building2
                       size={17}
-                      className="text-[#6D7278]"
+                      className="text-text-secondary"
                     />
 
                     <div>
-                      <h3 className="text-[13px] font-semibold text-[#34383D]">
+                      <h3 className="text-[13px] font-semibold text-text-primary">
                         Unidades
                       </h3>
 
-                      <p className="mt-0.5 text-[10px] text-[#959AA0]">
+                      <p className="mt-0.5 text-[10px] text-text-secondary">
                         Apenas unidades vinculadas ao seu usuário podem ser incluídas.
                       </p>
                     </div>
                   </div>
 
                   <div className="flex items-center gap-2">
-                    <span className="rounded-full bg-white px-2.5 py-1 text-[9px] font-semibold text-[#777C82] shadow-sm">
+                    <span className="rounded-full bg-surface px-2.5 py-1 text-[9px] font-semibold text-text-secondary shadow-sm">
                       {selectedUnitIds.length}/{units.length}
                     </span>
 
@@ -826,7 +826,7 @@ export function ReportGeneratorModal({
                             "flex min-h-[72px] items-center gap-3 rounded-[14px] border px-3.5 py-3 text-left transition-colors",
                             checked
                               ? "border-[#E7B5B9] bg-[#FFF9F9]"
-                              : "border-[#E3E5E7] bg-white hover:border-[#D4D7DA]",
+                              : "border-border-theme bg-surface hover:border-border-theme",
                           ].join(
                             " ",
                           )}
@@ -836,7 +836,7 @@ export function ReportGeneratorModal({
                               "flex h-[19px] w-[19px] shrink-0 items-center justify-center rounded-[5px] border",
                               checked
                                 ? "border-[#E41E2B] bg-[#E41E2B] text-white"
-                                : "border-[#C7CBD0] bg-white text-transparent",
+                                : "border-border-theme bg-surface text-transparent",
                             ].join(
                               " ",
                             )}
@@ -848,13 +848,13 @@ export function ReportGeneratorModal({
                           </span>
 
                           <span className="min-w-0">
-                            <span className="block truncate text-[11px] font-semibold text-[#3D4146]">
+                            <span className="block truncate text-[11px] font-semibold text-text-primary">
                               {formatUnitLabel(
                                 availableUnit,
                               )}
                             </span>
 
-                            <span className="mt-0.5 block truncate text-[9px] text-[#999EA4]">
+                            <span className="mt-0.5 block truncate text-[9px] text-text-secondary">
                               {[
                                 availableUnit.code,
                                 availableUnit.sapCode,
@@ -874,19 +874,19 @@ export function ReportGeneratorModal({
                 </div>
               </section>
 
-              <section className="border-t border-[#E3E5E7] pt-6">
+              <section className="border-t border-border-theme pt-6">
                 <div className="flex items-center gap-2.5">
                   <CalendarRange
                     size={17}
-                    className="text-[#6D7278]"
+                    className="text-text-secondary"
                   />
 
                   <div>
-                    <h3 className="text-[13px] font-semibold text-[#34383D]">
+                    <h3 className="text-[13px] font-semibold text-text-primary">
                       Período
                     </h3>
 
-                    <p className="mt-0.5 text-[10px] text-[#959AA0]">
+                    <p className="mt-0.5 text-[10px] text-text-secondary">
                       O recorte de datas será aplicado a todas as métricas do documento.
                     </p>
                   </div>
@@ -894,7 +894,7 @@ export function ReportGeneratorModal({
 
                 <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
                   <label className="block">
-                    <span className="text-[9px] font-semibold uppercase tracking-[0.08em] text-[#959AA0]">
+                    <span className="text-[9px] font-semibold uppercase tracking-[0.08em] text-text-secondary">
                       De
                     </span>
 
@@ -914,12 +914,12 @@ export function ReportGeneratorModal({
                           event.target.value,
                         )
                       }
-                      className="mt-1.5 h-11 w-full rounded-[11px] border border-[#DDE0E3] bg-white px-3 text-[11px] text-[#34383D] outline-none focus:border-[#B9BDC2]"
+                      className="mt-1.5 h-11 w-full rounded-[11px] border border-border-theme bg-surface px-3 text-[11px] text-text-primary outline-none focus:border-border-theme"
                     />
                   </label>
 
                   <label className="block">
-                    <span className="text-[9px] font-semibold uppercase tracking-[0.08em] text-[#959AA0]">
+                    <span className="text-[9px] font-semibold uppercase tracking-[0.08em] text-text-secondary">
                       Até
                     </span>
 
@@ -939,12 +939,12 @@ export function ReportGeneratorModal({
                           event.target.value,
                         )
                       }
-                      className="mt-1.5 h-11 w-full rounded-[11px] border border-[#DDE0E3] bg-white px-3 text-[11px] text-[#34383D] outline-none focus:border-[#B9BDC2]"
+                      className="mt-1.5 h-11 w-full rounded-[11px] border border-border-theme bg-surface px-3 text-[11px] text-text-primary outline-none focus:border-border-theme"
                     />
                   </label>
 
                   <label className="block">
-                    <span className="text-[9px] font-semibold uppercase tracking-[0.08em] text-[#959AA0]">
+                    <span className="text-[9px] font-semibold uppercase tracking-[0.08em] text-text-secondary">
                       Linha
                     </span>
 
@@ -961,7 +961,7 @@ export function ReportGeneratorModal({
 
                         setEquipment("");
                       }}
-                      className="mt-1.5 h-11 w-full rounded-[11px] border border-[#DDE0E3] bg-white px-3 text-[11px] text-[#34383D] outline-none focus:border-[#B9BDC2]"
+                      className="mt-1.5 h-11 w-full rounded-[11px] border border-border-theme bg-surface px-3 text-[11px] text-text-primary outline-none focus:border-border-theme"
                     >
                       <option value="">
                         Todas as linhas
@@ -987,7 +987,7 @@ export function ReportGeneratorModal({
                   </label>
 
                   <label className="block">
-                    <span className="text-[9px] font-semibold uppercase tracking-[0.08em] text-[#959AA0]">
+                    <span className="text-[9px] font-semibold uppercase tracking-[0.08em] text-text-secondary">
                       Equipamento
                     </span>
 
@@ -1002,7 +1002,7 @@ export function ReportGeneratorModal({
                           event.target.value,
                         )
                       }
-                      className="mt-1.5 h-11 w-full rounded-[11px] border border-[#DDE0E3] bg-white px-3 text-[11px] text-[#34383D] outline-none focus:border-[#B9BDC2]"
+                      className="mt-1.5 h-11 w-full rounded-[11px] border border-border-theme bg-surface px-3 text-[11px] text-text-primary outline-none focus:border-border-theme"
                     >
                       <option value="">
                         Todos os equipamentos
@@ -1029,19 +1029,19 @@ export function ReportGeneratorModal({
                 </div>
               </section>
 
-              <section className="border-t border-[#E3E5E7] pt-6">
+              <section className="border-t border-border-theme pt-6">
                 <div className="flex items-center gap-2.5">
                   <SlidersHorizontal
                     size={17}
-                    className="text-[#6D7278]"
+                    className="text-text-secondary"
                   />
 
                   <div>
-                    <h3 className="text-[13px] font-semibold text-[#34383D]">
+                    <h3 className="text-[13px] font-semibold text-text-primary">
                       Conteúdo do PDF
                     </h3>
 
-                    <p className="mt-0.5 text-[10px] text-[#959AA0]">
+                    <p className="mt-0.5 text-[10px] text-text-secondary">
                       Marque os blocos que devem compor a versão executiva do relatório.
                     </p>
                   </div>
@@ -1068,8 +1068,8 @@ export function ReportGeneratorModal({
           )}
         </div>
 
-        <div className="flex flex-col-reverse gap-3 border-t border-[#E4E6E8] bg-white px-6 py-5 sm:flex-row sm:items-center sm:justify-between sm:px-8">
-          <p className="text-[9px] leading-4 text-[#A0A4A9]">
+        <div className="flex flex-col-reverse gap-3 border-t border-border-theme bg-surface px-6 py-5 sm:flex-row sm:items-center sm:justify-between sm:px-8">
+          <p className="text-[9px] leading-4 text-text-secondary">
             O PDF será gerado com os dados disponíveis no banco no momento da emissão.
           </p>
 
@@ -1082,7 +1082,7 @@ export function ReportGeneratorModal({
               disabled={
                 generating
               }
-              className="h-11 rounded-[11px] border border-[#DDE0E3] bg-white px-5 text-[11px] font-semibold text-[#656A70] transition-colors hover:bg-[#F8F8F7] disabled:opacity-40"
+              className="h-11 rounded-[11px] border border-border-theme bg-surface px-5 text-[11px] font-semibold text-text-secondary transition-colors hover:bg-surface-hover disabled:opacity-40"
             >
               Cancelar
             </button>

@@ -31,10 +31,31 @@ function isPortInUse(port, host) {
       resolve(true);
     });
 
+    socket.setTimeout(2000, () => {
+      socket.destroy();
+      resolve(false);
+    });
     socket.once("error", () => resolve(false));
   });
 }
 
+// O lock pertence a este projeto; uma porta ocupada sozinha pode ser outro app.
+async function findRunningNext() {
+  try {
+    const info = JSON.parse(readFileSync(".next/dev/lock", "utf8"));
+    if (!Number.isInteger(info.pid) || info.pid <= 0 ||
+        !Number.isInteger(info.port) || info.port < 1 || info.port > 65535) return null;
+    process.kill(info.pid, 0);
+    const host = ["0.0.0.0", "::"].includes(info.hostname)
+      ? "localhost" : (info.hostname || "localhost");
+    return await isPortInUse(info.port, host) ? info : null;
+  } catch {
+    // Lock ausente ou obsoleto: o Next.js faz a aquisicao normalmente.
+    return null;
+  }
+}
+
+const runningNext = await findRunningNext();
 const env = { ...readEnv(), ...process.env };
 const mlUrl = new URL(env.ML_SERVICE_URL || "http://127.0.0.1:8001");
 const mlPort = Number(mlUrl.port || 8001);
@@ -42,7 +63,7 @@ const mlHost = mlUrl.hostname;
 const children = [];
 
 function run(label, command, args) {
-  const child = spawn(command, args, { stdio: "inherit", shell: false });
+  const child = spawn(command, args, { stdio: "inherit", shell: false, env });
 
   child.on("error", (error) => {
     console.error(`[${label}] não foi possível iniciar: ${error.message}`);
@@ -86,7 +107,10 @@ if (await isPortInUse(mlPort, mlHost)) {
   });
 }
 
-const nextBin = "node_modules/next/dist/bin/next";
-const next = run("next", process.execPath, [nextBin, "dev"]);
-
-next.on("exit", (code) => shutdown(code ?? 0));
+if (runningNext) {
+  console.log(`[next] ja esta rodando em ${runningNext.appUrl}, reaproveitando (PID ${runningNext.pid}).`);
+} else {
+  const nextBin = "node_modules/next/dist/bin/next";
+  const next = run("next", process.execPath, [nextBin, "dev", ...process.argv.slice(2)]);
+  next.on("exit", (code) => shutdown(code ?? 0));
+}

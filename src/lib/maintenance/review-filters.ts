@@ -40,14 +40,34 @@ function isValidDate(value: string): boolean {
 
 export function parseReviewFilters(
   searchParams: URLSearchParams,
-  unitId: number,
+  unitIds: number[],
 ): ParsedReviewFilters {
+  /* Mesma normalização de buildUnitInClause (lib/unit-selection),
+     repetida aqui para este módulo seguir puro — sem depender de
+     next/headers — e continuar testável isoladamente. */
+  const validUnitIds = [
+    ...new Set(
+      unitIds.filter(
+        (unitId) =>
+          Number.isInteger(unitId) && unitId > 0,
+      ),
+    ),
+  ];
+
+  if (validUnitIds.length === 0) {
+    throw new Error(
+      "Nenhuma unidade válida foi selecionada.",
+    );
+  }
+
   const whereParts: string[] = [
-    "me.unit_id = ?",
+    `me.unit_id IN (${validUnitIds
+      .map(() => "?")
+      .join(", ")})`,
     "cs.model_type = 'ML'",
   ];
 
-  const values: unknown[] = [unitId];
+  const values: unknown[] = [...validUnitIds];
 
   const status = (
     searchParams.get("status") ?? ""

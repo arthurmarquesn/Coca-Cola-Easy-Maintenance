@@ -66,12 +66,12 @@ function JackKnifeTooltip({
     .payload as JackKnifeEntry;
 
   return (
-    <div className="rounded-[11px] border border-[#E9EBEE] bg-white px-3.5 py-2.5 text-[12px] shadow-sm">
-      <p className="font-semibold text-[#191919]">
+    <div className="rounded-[11px] border border-border-theme bg-surface px-3.5 py-2.5 text-[12px] shadow-sm">
+      <p className="font-semibold text-text-primary">
         {entry.label}
       </p>
 
-      <p className="mt-1 text-[#7C8087]">
+      <p className="mt-1 text-text-secondary">
         {entry.failureCount} falhas ·{" "}
         {entry.meanTimeToRepair} min (MTTR)
       </p>

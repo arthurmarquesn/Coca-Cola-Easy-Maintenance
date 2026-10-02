@@ -1022,14 +1022,14 @@ export function UnitFilter({
         className={[
           "flex min-w-[185px] items-center gap-3 rounded-[13px] px-3 py-2 text-left transition-colors",
           open
-            ? "bg-[#F5F5F4]"
-            : "hover:bg-[#F5F5F4]",
+            ? "bg-surface-elevated"
+            : "hover:bg-surface-hover",
         ].join(
           " ",
         )}
       >
 
-        <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-[10px] bg-[#F4F4F3] text-[#73787E]">
+        <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-[10px] bg-surface-elevated text-text-secondary">
 
           {loading ? (
             <LoaderCircle
@@ -1048,12 +1048,12 @@ export function UnitFilter({
 
         <div className="min-w-0 flex-1">
 
-          <p className="text-[9px] font-medium uppercase tracking-[0.08em] text-[#A0A4A9]">
+          <p className="text-[9px] font-medium uppercase tracking-[0.08em] text-text-secondary">
             Filtro de unidades
           </p>
 
 
-          <p className="mt-0.5 max-w-[170px] truncate text-[11px] font-semibold text-[#50555B]">
+          <p className="mt-0.5 max-w-[170px] truncate text-[11px] font-semibold text-text-primary">
             {label}
           </p>
 
@@ -1064,7 +1064,7 @@ export function UnitFilter({
           size={14}
           strokeWidth={1.8}
           className={[
-            "shrink-0 text-[#9A9EA3] transition-transform duration-200",
+            "shrink-0 text-text-secondary transition-transform duration-200",
             open
               ? "rotate-180"
               : "",
@@ -1083,25 +1083,25 @@ export function UnitFilter({
       {open && (
         <div
           role="menu"
-          className="absolute right-0 top-full z-[100] mt-3 w-[360px] overflow-hidden rounded-[20px] border border-black/[0.08] bg-white shadow-[0_20px_60px_rgba(0,0,0,0.14)]"
+          className="absolute right-0 top-full z-[100] mt-3 w-[360px] overflow-hidden rounded-[20px] border border-border-theme/[0.08] bg-surface shadow-[0_20px_60px_rgba(0,0,0,0.14)]"
         >
 
           {/* ===============================================
               HEADER
           ================================================ */}
 
-          <div className="border-b border-[#ECEDEF] px-5 py-4">
+          <div className="border-b border-border-theme px-5 py-4">
 
             <div className="flex items-start justify-between gap-4">
 
               <div>
 
-                <p className="text-[13px] font-semibold text-[#292D31]">
+                <p className="text-[13px] font-semibold text-text-primary">
                   Filtrar unidades
                 </p>
 
 
-                <p className="mt-1 text-[10px] leading-4 text-[#94999F]">
+                <p className="mt-1 text-[10px] leading-4 text-text-secondary">
                   Escolha uma ou mais unidades para
                   compor as análises.
                 </p>
@@ -1112,7 +1112,7 @@ export function UnitFilter({
               {!loading &&
                 units.length >
                   0 && (
-                  <span className="shrink-0 rounded-full bg-[#F3F4F4] px-2.5 py-1 text-[9px] font-semibold text-[#73787E]">
+                  <span className="shrink-0 rounded-full bg-surface-elevated px-2.5 py-1 text-[9px] font-semibold text-text-secondary">
                     {draftUnitIds.length}/
                     {units.length}
                   </span>
@@ -1136,7 +1136,7 @@ export function UnitFilter({
               />
 
 
-              <p className="mt-3 text-[11px] text-[#8D9298]">
+              <p className="mt-3 text-[11px] text-text-secondary">
                 Carregando unidades...
               </p>
 
@@ -1171,7 +1171,7 @@ export function UnitFilter({
                   onClick={() =>
                     void loadUnits()
                   }
-                  className="mt-4 inline-flex h-10 w-full items-center justify-center gap-2 rounded-[10px] border border-[#DFE2E4] text-[11px] font-semibold text-[#62676D] transition-colors hover:bg-[#F7F7F6]"
+                  className="mt-4 inline-flex h-10 w-full items-center justify-center gap-2 rounded-[10px] border border-border-theme text-[11px] font-semibold text-text-primary transition-colors hover:bg-surface-hover"
                 >
 
                   <RefreshCw
@@ -1195,7 +1195,7 @@ export function UnitFilter({
             units.length >
               0 && (
               <>
-                <div className="flex items-center justify-between border-b border-[#ECEDEF] px-5 py-3">
+                <div className="flex items-center justify-between border-b border-border-theme px-5 py-3">
 
                   <button
                     type="button"
@@ -1216,7 +1216,7 @@ export function UnitFilter({
                     onClick={
                       selectMyUnit
                     }
-                    className="text-[10px] font-medium text-[#777C82] transition-colors hover:text-[#35393D]"
+                    className="text-[10px] font-medium text-text-secondary transition-colors hover:text-text-primary"
                   >
                     Minha unidade
                   </button>
@@ -1251,7 +1251,7 @@ export function UnitFilter({
                               unit.id,
                             )
                           }
-                          className="flex w-full items-center gap-3 rounded-[13px] px-3 py-3 text-left transition-colors hover:bg-[#F7F7F6]"
+                          className="flex w-full items-center gap-3 rounded-[13px] px-3 py-3 text-left transition-colors hover:bg-surface-hover"
                         >
 
                           {/* CHECKBOX */}
@@ -1261,7 +1261,7 @@ export function UnitFilter({
                               "flex h-[19px] w-[19px] shrink-0 items-center justify-center rounded-[5px] border transition-colors",
                               checked
                                 ? "border-[#E41E2B] bg-[#E41E2B] text-white"
-                                : "border-[#C8CCD0] bg-white text-transparent",
+                                : "border-border-theme bg-surface text-transparent",
                             ].join(
                               " ",
                             )}
@@ -1281,7 +1281,7 @@ export function UnitFilter({
 
                             <div className="flex items-center gap-2">
 
-                              <p className="truncate text-[11px] font-semibold text-[#44484D]">
+                              <p className="truncate text-[11px] font-semibold text-text-primary">
                                 {getUnitLabel(
                                   unit,
                                 )}
@@ -1289,7 +1289,7 @@ export function UnitFilter({
 
 
                               {unit.isDefault && (
-                                <span className="shrink-0 rounded-full bg-[#F1F2F2] px-2 py-0.5 text-[8px] font-semibold uppercase tracking-[0.03em] text-[#898E94]">
+                                <span className="shrink-0 rounded-full bg-surface-elevated px-2 py-0.5 text-[8px] font-semibold uppercase tracking-[0.03em] text-text-secondary">
                                   Minha unidade
                                 </span>
                               )}
@@ -1297,7 +1297,7 @@ export function UnitFilter({
                             </div>
 
 
-                            <p className="mt-1 truncate text-[9px] text-[#A0A4A9]">
+                            <p className="mt-1 truncate text-[9px] text-text-secondary">
                               {getUnitDescription(
                                 unit,
                               )}
@@ -1332,9 +1332,9 @@ export function UnitFilter({
                     FOOTER
                 ============================================ */}
 
-                <div className="flex items-center justify-between border-t border-[#ECEDEF] bg-[#FAFAF9] px-4 py-3">
+                <div className="flex items-center justify-between border-t border-border-theme bg-surface-elevated px-4 py-3">
 
-                  <p className="pl-1 text-[9px] text-[#9A9FA5]">
+                  <p className="pl-1 text-[9px] text-text-secondary">
                     {draftUnitIds.length ===
                     1
                       ? "1 unidade selecionada"
@@ -1352,7 +1352,7 @@ export function UnitFilter({
                       disabled={
                         saving
                       }
-                      className="rounded-[9px] px-4 py-2 text-[10px] font-semibold text-[#74797F] transition-colors hover:bg-[#EEEEED] disabled:opacity-40"
+                      className="rounded-[9px] px-4 py-2 text-[10px] font-semibold text-text-secondary transition-colors hover:bg-surface-hover disabled:opacity-40"
                     >
                       Cancelar
                     </button>

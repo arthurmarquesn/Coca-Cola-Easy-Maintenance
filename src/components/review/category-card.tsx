@@ -15,10 +15,10 @@ interface CategoryCardProps {
 }
 
 function confidenceColor(value: number | null): string {
-  if (value === null) return "#A0A4A9";
-  if (value >= 0.85) return "#238636";
-  if (value >= 0.7) return "#B8860B";
-  return "#C92A32";
+  if (value === null) return "var(--text-muted)";
+  if (value >= 0.85) return "var(--success)";
+  if (value >= 0.7) return "var(--warning)";
+  return "var(--error)";
 }
 
 export function CategoryCard({ category, href }: CategoryCardProps) {
@@ -27,7 +27,7 @@ export function CategoryCard({ category, href }: CategoryCardProps) {
   return (
     <Link
       href={href}
-      className="group flex flex-col justify-between rounded-[18px] border border-border-theme bg-surface p-5 transition-all duration-200 hover:-translate-y-0.5 hover:border-[#D5D8DC] hover:shadow-[0_12px_30px_rgba(0,0,0,0.05)]"
+      className="group flex flex-col justify-between rounded-[18px] border border-border-theme bg-surface p-5 transition-all duration-200 hover:-translate-y-0.5 hover:border-border-theme hover:shadow-[0_12px_30px_rgba(0,0,0,0.05)]"
     >
       <div>
         <div className="flex items-start justify-between gap-3">
@@ -38,7 +38,7 @@ export function CategoryCard({ category, href }: CategoryCardProps) {
           {hasLowConfidence && (
             <span
               title={`${category.lowConfidencePending} pendente(s) com baixa confiança`}
-              className="flex shrink-0 items-center gap-1 rounded-full bg-[#FFF3F3] px-2 py-1 text-[10px] font-semibold text-[#C92A32]"
+              className="flex shrink-0 items-center gap-1 rounded-full bg-error/10 px-2 py-1 text-[10px] font-semibold text-error"
             >
               <AlertTriangle size={11} strokeWidth={2.2} />
               {category.lowConfidencePending}
@@ -48,30 +48,30 @@ export function CategoryCard({ category, href }: CategoryCardProps) {
 
         <p className="mt-3 text-[26px] font-semibold tracking-[-0.02em] text-text-title">
           {category.total}
-          <span className="ml-1.5 text-[12px] font-medium text-[#9A9EA3]">
+          <span className="ml-1.5 text-[12px] font-medium text-text-secondary">
             ocorrência(s)
           </span>
         </p>
 
-        <div className="mt-3 flex items-center gap-4 text-[11.5px] text-[#7C8087]">
+        <div className="mt-3 flex items-center gap-4 text-[11.5px] text-text-secondary">
           <span>
-            <strong className="font-semibold text-[#3B7C46]">
+            <strong className="font-semibold text-success">
               {category.validated}
             </strong>{" "}
             validada(s)
           </span>
 
           <span>
-            <strong className="font-semibold text-[#C92A32]">
+            <strong className="font-semibold text-error">
               {category.pending}
             </strong>{" "}
             pendente(s)
           </span>
         </div>
 
-        <div className="mt-3 h-[5px] overflow-hidden rounded-full bg-[#ECEEEF]">
+        <div className="mt-3 h-[5px] overflow-hidden rounded-full bg-surface-hover">
           <div
-            className="h-full rounded-full bg-[#238636] transition-all duration-300"
+            className="h-full rounded-full bg-success transition-all duration-300"
             style={{ width: `${Math.min(category.percentValidated, 100)}%` }}
           />
         </div>
@@ -90,7 +90,7 @@ export function CategoryCard({ category, href }: CategoryCardProps) {
 
         <ArrowRight
           size={16}
-          className="text-[#B3B6BB] transition-transform duration-200 group-hover:translate-x-1 group-hover:text-[#F40009]"
+          className="text-text-secondary transition-transform duration-200 group-hover:translate-x-1 group-hover:text-[#F40009]"
         />
       </div>
     </Link>

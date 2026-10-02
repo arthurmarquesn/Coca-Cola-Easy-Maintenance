@@ -48,8 +48,8 @@ interface UserRow
     string;
 
   role:
-    | "ANALISTA"
-    | "GESTOR";
+    | "MAINTENANCE"
+    | "MANAGER";
 
   active: number;
 }

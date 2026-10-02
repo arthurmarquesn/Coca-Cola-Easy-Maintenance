@@ -577,14 +577,14 @@ export function IshikawaBoard({
   }
 
   return (
-    <section className="overflow-hidden rounded-[22px] border border-[#E3E5E7] bg-[#FCFCFB]">
-      <div className="flex flex-col gap-4 border-b border-[#E6E8EA] px-5 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-7">
+    <section className="overflow-hidden rounded-[22px] border border-border-theme bg-surface-elevated">
+      <div className="flex flex-col gap-4 border-b border-border-theme px-5 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-7">
         <div>
-          <p className="text-[10px] font-semibold uppercase tracking-[0.1em] text-[#8A8F95]">
+          <p className="text-[10px] font-semibold uppercase tracking-[0.1em] text-text-secondary">
             Diagrama de causa e efeito
           </p>
 
-          <p className="mt-1 text-[12px] text-[#5C6167]">
+          <p className="mt-1 text-[12px] text-text-primary">
             Hipóteses organizadas pelos 6M
           </p>
         </div>
@@ -597,7 +597,7 @@ export function IshikawaBoard({
           onClick={() =>
             void exportPng()
           }
-          className="inline-flex h-10 items-center justify-center gap-2 self-start rounded-[11px] border border-[#D8DBDE] bg-white px-4 text-[11px] font-semibold text-[#44494E] hover:border-[#C6C9CD] hover:bg-[#F7F7F6] disabled:opacity-60 sm:self-auto"
+          className="inline-flex h-10 items-center justify-center gap-2 self-start rounded-[11px] border border-border-theme bg-surface px-4 text-[11px] font-semibold text-text-primary hover:border-border-theme hover:bg-surface-hover disabled:opacity-60 sm:self-auto"
         >
           {exporting ? (
             <LoaderCircle
@@ -1033,24 +1033,24 @@ export function IshikawaBoard({
                 key={
                   category
                 }
-                className="group rounded-[15px] border border-[#E2E4E6] bg-white"
+                className="group rounded-[15px] border border-border-theme bg-surface"
               >
                 <summary className="flex cursor-pointer list-none items-center justify-between gap-3 px-4 py-3.5">
-                  <span className="text-[11px] font-semibold text-[#3F4449]">
+                  <span className="text-[11px] font-semibold text-text-primary">
                     {LABELS[
                       category
                     ]}
                   </span>
 
-                  <span className="rounded-full bg-[#F1F1EF] px-2.5 py-1 text-[9px] font-semibold text-[#777C82]">
+                  <span className="rounded-full bg-surface-elevated px-2.5 py-1 text-[9px] font-semibold text-text-secondary">
                     {items.length}
                   </span>
                 </summary>
 
-                <div className="space-y-2 border-t border-[#ECEDEF] p-3">
+                <div className="space-y-2 border-t border-border-theme p-3">
                   {items.length ===
                     0 ? (
-                    <p className="py-3 text-center text-[10px] text-[#9A9FA5]">
+                    <p className="py-3 text-center text-[10px] text-text-secondary">
                       Sem hipóteses
                     </p>
                   ) : (
@@ -1068,7 +1068,7 @@ export function IshikawaBoard({
                               item,
                             )
                           }
-                          className="w-full rounded-[11px] bg-[#F8F8F7] px-3 py-2.5 text-left hover:bg-[#FFF3F4]"
+                          className="w-full rounded-[11px] bg-surface-elevated px-3 py-2.5 text-left hover:bg-[#FFF3F4]"
                         >
                           <span className="flex items-start gap-2">
                             <span
@@ -1081,12 +1081,12 @@ export function IshikawaBoard({
                               }}
                             />
 
-                            <span className="text-[11px] font-medium leading-5 text-[#44494E]">
+                            <span className="text-[11px] font-medium leading-5 text-text-primary">
                               {item.description}
                             </span>
                           </span>
 
-                          <span className="mt-1 block pl-4 text-[8px] font-semibold uppercase tracking-[0.06em] text-[#989DA3]">
+                          <span className="mt-1 block pl-4 text-[8px] font-semibold uppercase tracking-[0.06em] text-text-secondary">
                             {sourceLabel(
                               item.source,
                             )}

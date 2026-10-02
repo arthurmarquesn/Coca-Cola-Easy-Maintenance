@@ -347,9 +347,9 @@ export async function PATCH(
           SET
             category_id = NULL,
 
-            failure_system_id = NULL,
+            system_id = NULL,
 
-            failure_mode_id = NULL,
+            mode_id = NULL,
 
             classified_by_user_id = ?,
 
@@ -439,8 +439,8 @@ export async function PATCH(
             INSERT INTO event_classifications (
               event_id,
               category_id,
-              failure_system_id,
-              failure_mode_id,
+              system_id,
+              mode_id,
               classified_by_user_id,
               source,
               confidence,

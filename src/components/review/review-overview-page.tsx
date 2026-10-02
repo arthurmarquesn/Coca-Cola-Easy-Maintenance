@@ -181,7 +181,7 @@ export function ReviewOverviewPage({ user, unit }: ReviewOverviewPageProps) {
   }, [categories, sort]);
 
   return (
-    <main className="min-h-screen bg-background-primary transition-colors">
+    <main className="min-h-screen bg-surface-elevated transition-colors">
       <AppHeader userName={user.name} city={unit.city} />
 
       <section className="mx-auto w-full max-w-[1380px] px-6 pb-24 pt-12 sm:px-8 lg:px-12 lg:pt-16">
@@ -206,14 +206,14 @@ export function ReviewOverviewPage({ user, unit }: ReviewOverviewPageProps) {
         </div>
 
         <div className="mt-9 grid grid-cols-2 gap-3 sm:grid-cols-4">
-          <div className="rounded-[14px] border border-[#E9EBEE] bg-background-primary transition-colors px-4 py-3.5">
+          <div className="rounded-[14px] border border-border-theme bg-surface transition-colors px-4 py-3.5">
             <p className="mt-4 text-[14px] leading-6 text-text-body">Total</p>
             <p className="mt-1 text-[22px] font-semibold text-text-title">
               {totals.total}
             </p>
           </div>
 
-          <div className="rounded-[14px] border border-[#F8C6C8] bg-surface px-4 py-3.5 transition-colors">
+          <div className="rounded-[14px] border border-border-theme bg-surface px-4 py-3.5 transition-colors">
             <p className="mt-4 text-[14px] leading-6 text-text-body">
               Pendentes
             </p>
@@ -226,7 +226,7 @@ export function ReviewOverviewPage({ user, unit }: ReviewOverviewPageProps) {
             <p className="mt-4 text-[14px] leading-6 text-text-body">
               Validadas
             </p>
-            <p className="mt-1 text-[22px] font-semibold text-[#238636]">
+            <p className="mt-1 text-[22px] font-semibold text-success">
               {totals.validated}
             </p>
           </div>
@@ -235,7 +235,7 @@ export function ReviewOverviewPage({ user, unit }: ReviewOverviewPageProps) {
             <p className="mt-4 text-[14px] leading-6 text-text-body">
               Baixa confiança
             </p>
-            <p className="mt-1 text-[22px] font-semibold text-[#B8860B]">
+            <p className="mt-1 text-[22px] font-semibold text-warning">
               {totals.lowConfidencePending}
             </p>
           </div>
@@ -250,17 +250,17 @@ export function ReviewOverviewPage({ user, unit }: ReviewOverviewPageProps) {
         </div>
 
         <div className="mt-7 flex items-center justify-between">
-          <h2 className="text-[13px] font-semibold text-[#4A4F55]">
+          <h2 className="text-[13px] font-semibold text-text-primary">
             Categorias de problema
           </h2>
 
           <div className="flex items-center gap-2">
-            <span className="text-[11px] text-[#9A9EA3]">Ordenar por:</span>
+            <span className="text-[11px] text-text-secondary">Ordenar por:</span>
 
             <select
               value={sort}
               onChange={(event) => setSort(event.target.value as CategorySort)}
-              className="h-8 rounded-[8px] border border-[#DEE1E5] bg-background-primary transition-colors px-2 text-[11.5px] text-[#4A4F55] outline-none focus:border-[#F40009]"
+              className="h-8 rounded-[8px] border border-border-theme bg-surface transition-colors px-2 text-[11.5px] text-text-primary outline-none focus:border-[#F40009]"
             >
               {SORT_OPTIONS.map((option) => (
                 <option key={option.value} value={option.value}>
@@ -272,27 +272,27 @@ export function ReviewOverviewPage({ user, unit }: ReviewOverviewPageProps) {
         </div>
 
         {error && (
-          <div className="mt-5 flex items-start gap-3 rounded-[12px] border border-[#F0D2D4] bg-[#FFF9F9] px-4 py-3">
+          <div className="mt-5 flex items-start gap-3 rounded-[12px] border border-error/25 bg-error/10 px-4 py-3">
             <AlertCircle
               size={17}
-              className="mt-0.5 shrink-0 text-[#C92A32]"
+              className="mt-0.5 shrink-0 text-error"
             />
-            <p className="text-[12px] leading-5 text-[#6F3D40]">{error}</p>
+            <p className="text-[12px] leading-5 text-error">{error}</p>
           </div>
         )}
 
         {loading ? (
-          <div className="mt-10 flex items-center gap-3 text-[13px] text-[#777C82]">
+          <div className="mt-10 flex items-center gap-3 text-[13px] text-text-secondary">
             <LoaderCircle size={18} className="animate-spin text-[#F40009]" />
             Carregando categorias...
           </div>
         ) : sortedCategories.length === 0 ? (
-          <div className="mt-10 rounded-[18px] border border-[#E4E6E8] px-7 py-14 text-center">
-            <h3 className="text-[16px] font-semibold text-[#292C30]">
+          <div className="mt-10 rounded-[18px] border border-border-theme px-7 py-14 text-center">
+            <h3 className="text-[16px] font-semibold text-text-primary">
               Nenhuma ocorrência encontrada
             </h3>
 
-            <p className="mx-auto mt-2 max-w-[420px] text-[13px] leading-6 text-[#858A90]">
+            <p className="mx-auto mt-2 max-w-[420px] text-[13px] leading-6 text-text-secondary">
               Ajuste os filtros ou aguarde novas sugestões geradas pelo
               modelo de IA.
             </p>

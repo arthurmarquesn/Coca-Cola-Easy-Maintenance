@@ -261,7 +261,7 @@ export function ReliabilityMaspDialog({
         className="absolute inset-0 h-full w-full bg-black/30 backdrop-blur-[2px]"
       />
 
-      <section className="relative z-10 w-full max-w-[520px] rounded-[22px] border border-black/[0.06] bg-white p-6 shadow-[0_24px_80px_rgba(0,0,0,0.18)] sm:p-7">
+      <section className="relative z-10 w-full max-w-[520px] rounded-[22px] border border-border-theme/[0.06] bg-surface p-6 shadow-[0_24px_80px_rgba(0,0,0,0.18)] sm:p-7">
         <div className="flex items-start justify-between gap-5">
           <div>
             <p className="text-[10px] font-semibold uppercase tracking-[0.1em] text-[#E41E2B]">
@@ -270,7 +270,7 @@ export function ReliabilityMaspDialog({
 
             <h2
               id="reliability-masp-title"
-              className="mt-2 text-[21px] font-semibold tracking-[-0.03em] text-[#202327]"
+              className="mt-2 text-[21px] font-semibold tracking-[-0.03em] text-text-primary"
             >
               {existing
                 ? "MASP em andamento"
@@ -287,7 +287,7 @@ export function ReliabilityMaspDialog({
             onClick={
               onClose
             }
-            className="flex h-9 w-9 items-center justify-center rounded-full text-[#7E8389] hover:bg-[#F4F4F3] disabled:opacity-50"
+            className="flex h-9 w-9 items-center justify-center rounded-full text-text-secondary hover:bg-surface-hover disabled:opacity-50"
           >
             <X
               size={17}
@@ -297,16 +297,16 @@ export function ReliabilityMaspDialog({
 
         {existing ? (
           <div className="mt-6">
-            <p className="text-[14px] font-medium leading-6 text-[#383C41]">
+            <p className="text-[14px] font-medium leading-6 text-text-primary">
               Já existe um MASP em andamento para este problema.
             </p>
 
-            <div className="mt-4 rounded-[14px] bg-[#F6F6F4] p-4">
-              <p className="text-[12px] font-semibold text-[#303438]">
+            <div className="mt-4 rounded-[14px] bg-surface-elevated p-4">
+              <p className="text-[12px] font-semibold text-text-primary">
                 MASP #{existing.id}
               </p>
 
-              <p className="mt-1 text-[11px] leading-5 text-[#7E8389]">
+              <p className="mt-1 text-[11px] leading-5 text-text-secondary">
                 {existing.title}
                 {" · "}
                 {existing.eventCount}{" "}
@@ -343,7 +343,7 @@ export function ReliabilityMaspDialog({
                     true,
                   )
                 }
-                className="flex h-12 items-center justify-center gap-2 rounded-[12px] border border-[#DDE0E3] px-4 text-[12px] font-semibold text-[#4F5459] hover:bg-[#F7F7F6] disabled:opacity-60"
+                className="flex h-12 items-center justify-center gap-2 rounded-[12px] border border-border-theme px-4 text-[12px] font-semibold text-text-primary hover:bg-surface-hover disabled:opacity-60"
               >
                 {submitting && (
                   <LoaderCircle
@@ -358,42 +358,42 @@ export function ReliabilityMaspDialog({
           </div>
         ) : (
           <div className="mt-6">
-            <dl className="overflow-hidden rounded-[16px] border border-[#E5E7E9] bg-[#FAFAF9]">
-              <div className="border-b border-[#E7E9EB] px-4 py-3.5">
-                <dt className="text-[9px] font-semibold uppercase tracking-[0.08em] text-[#9A9FA5]">
+            <dl className="overflow-hidden rounded-[16px] border border-border-theme bg-surface-elevated">
+              <div className="border-b border-border-theme px-4 py-3.5">
+                <dt className="text-[9px] font-semibold uppercase tracking-[0.08em] text-text-secondary">
                   Problema
                 </dt>
-                <dd className="mt-1 text-[13px] font-medium leading-5 text-[#303438]">
+                <dd className="mt-1 text-[13px] font-medium leading-5 text-text-primary">
                   {selection.groupLabel}
                 </dd>
               </div>
 
               {selection.equipmentLabel && (
-                <div className="border-b border-[#E7E9EB] px-4 py-3.5">
-                  <dt className="text-[9px] font-semibold uppercase tracking-[0.08em] text-[#9A9FA5]">
+                <div className="border-b border-border-theme px-4 py-3.5">
+                  <dt className="text-[9px] font-semibold uppercase tracking-[0.08em] text-text-secondary">
                     Equipamento
                   </dt>
-                  <dd className="mt-1 text-[12px] text-[#4F5459]">
+                  <dd className="mt-1 text-[12px] text-text-primary">
                     {selection.equipmentLabel}
                   </dd>
                 </div>
               )}
 
-              <div className="grid grid-cols-2 gap-px bg-[#E7E9EB]">
-                <div className="bg-[#FAFAF9] px-4 py-3.5">
-                  <dt className="text-[9px] font-semibold uppercase tracking-[0.08em] text-[#9A9FA5]">
+              <div className="grid grid-cols-2 gap-px bg-surface-hover">
+                <div className="bg-surface-elevated px-4 py-3.5">
+                  <dt className="text-[9px] font-semibold uppercase tracking-[0.08em] text-text-secondary">
                     Eventos
                   </dt>
-                  <dd className="mt-1 text-[12px] font-medium text-[#303438]">
+                  <dd className="mt-1 text-[12px] font-medium text-text-primary">
                     {selection.occurrences}
                   </dd>
                 </div>
 
-                <div className="bg-[#FAFAF9] px-4 py-3.5">
-                  <dt className="text-[9px] font-semibold uppercase tracking-[0.08em] text-[#9A9FA5]">
+                <div className="bg-surface-elevated px-4 py-3.5">
+                  <dt className="text-[9px] font-semibold uppercase tracking-[0.08em] text-text-secondary">
                     Período
                   </dt>
-                  <dd className="mt-1 text-[11px] font-medium text-[#303438]">
+                  <dd className="mt-1 text-[11px] font-medium text-text-primary">
                     {formatDate(
                       selection.startDate,
                     )}
@@ -406,7 +406,7 @@ export function ReliabilityMaspDialog({
               </div>
             </dl>
 
-            <p className="mt-4 text-[11px] leading-5 text-[#858A90]">
+            <p className="mt-4 text-[11px] leading-5 text-text-secondary">
               O MASP será criado com as ocorrências e os filtros deste ponto. Nenhuma seleção adicional será necessária.
             </p>
 
@@ -419,7 +419,7 @@ export function ReliabilityMaspDialog({
                 onClick={
                   onClose
                 }
-                className="h-11 rounded-[11px] border border-[#DDE0E3] px-5 text-[12px] font-semibold text-[#5E6369] disabled:opacity-60"
+                className="h-11 rounded-[11px] border border-border-theme px-5 text-[12px] font-semibold text-text-primary disabled:opacity-60"
               >
                 Cancelar
               </button>

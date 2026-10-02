@@ -444,7 +444,7 @@ export function MaspCreatePage({
       backHref="/dashboard/masp"
     >
       {loading ? (
-        <div className="flex min-h-[320px] items-center justify-center gap-3 text-[13px] text-[#777C82]">
+        <div className="flex min-h-[320px] items-center justify-center gap-3 text-[13px] text-text-secondary">
           <LoaderCircle
             size={18}
             className="animate-spin text-[#E41E2B]"
@@ -459,16 +459,16 @@ export function MaspCreatePage({
           className="grid gap-5 xl:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)]"
         >
           <div className="space-y-5">
-            <section className="rounded-[22px] border border-[#E4E6E8] bg-white p-6">
-              <h2 className="text-[15px] font-semibold text-[#303438]">
+            <section className="rounded-[22px] border border-border-theme bg-surface p-6">
+              <h2 className="text-[15px] font-semibold text-text-primary">
                 Contexto da análise
               </h2>
-              <p className="mt-2 text-[11px] leading-5 text-[#92979D]">
+              <p className="mt-2 text-[11px] leading-5 text-text-secondary">
                 A unidade é validada no servidor. Equipamentos, linhas e responsáveis são limitados à unidade escolhida.
               </p>
 
               <div className="mt-5 grid gap-4 sm:grid-cols-2">
-                <label className="text-[11px] font-medium text-[#5E6369]">
+                <label className="text-[11px] font-medium text-text-primary">
                   Unidade
                   <select
                     required
@@ -482,7 +482,7 @@ export function MaspCreatePage({
                         event.target.value,
                       )
                     }
-                    className="mt-2 h-11 w-full rounded-[11px] border border-[#E1E3E5] bg-white px-3 text-[12px] outline-none focus:border-[#D58B91]"
+                    className="mt-2 h-11 w-full rounded-[11px] border border-border-theme bg-surface px-3 text-[12px] outline-none focus:border-[#D58B91]"
                   >
                     <option value="">
                       Selecione
@@ -507,7 +507,7 @@ export function MaspCreatePage({
                   </select>
                 </label>
 
-                <label className="text-[11px] font-medium text-[#5E6369]">
+                <label className="text-[11px] font-medium text-text-primary">
                   Equipamento
                   <select
                     value={
@@ -520,7 +520,7 @@ export function MaspCreatePage({
                         event.target.value,
                       )
                     }
-                    className="mt-2 h-11 w-full rounded-[11px] border border-[#E1E3E5] bg-white px-3 text-[12px] outline-none focus:border-[#D58B91]"
+                    className="mt-2 h-11 w-full rounded-[11px] border border-border-theme bg-surface px-3 text-[12px] outline-none focus:border-[#D58B91]"
                   >
                     <option value="">
                       Detectar pelos eventos
@@ -544,7 +544,7 @@ export function MaspCreatePage({
                   </select>
                 </label>
 
-                <label className="text-[11px] font-medium text-[#5E6369]">
+                <label className="text-[11px] font-medium text-text-primary">
                   Linha
                   <select
                     value={
@@ -557,7 +557,7 @@ export function MaspCreatePage({
                         event.target.value,
                       )
                     }
-                    className="mt-2 h-11 w-full rounded-[11px] border border-[#E1E3E5] bg-white px-3 text-[12px] outline-none focus:border-[#D58B91]"
+                    className="mt-2 h-11 w-full rounded-[11px] border border-border-theme bg-surface px-3 text-[12px] outline-none focus:border-[#D58B91]"
                   >
                     <option value="">
                       Detectar pelos eventos
@@ -581,7 +581,7 @@ export function MaspCreatePage({
                   </select>
                 </label>
 
-                <label className="text-[11px] font-medium text-[#5E6369]">
+                <label className="text-[11px] font-medium text-text-primary">
                   Responsável
                   <select
                     value={
@@ -594,7 +594,7 @@ export function MaspCreatePage({
                         event.target.value,
                       )
                     }
-                    className="mt-2 h-11 w-full rounded-[11px] border border-[#E1E3E5] bg-white px-3 text-[12px] outline-none focus:border-[#D58B91]"
+                    className="mt-2 h-11 w-full rounded-[11px] border border-border-theme bg-surface px-3 text-[12px] outline-none focus:border-[#D58B91]"
                   >
                     <option value="">
                       Definir depois
@@ -619,7 +619,7 @@ export function MaspCreatePage({
                 </label>
               </div>
 
-              <label className="mt-4 block text-[11px] font-medium text-[#5E6369]">
+              <label className="mt-4 block text-[11px] font-medium text-text-primary">
                 Título
                 <input
                   value={
@@ -634,11 +634,11 @@ export function MaspCreatePage({
                   }
                   maxLength={180}
                   placeholder="Gerado automaticamente se ficar vazio"
-                  className="mt-2 h-11 w-full rounded-[11px] border border-[#E1E3E5] px-3 text-[12px] outline-none focus:border-[#D58B91]"
+                  className="mt-2 h-11 w-full rounded-[11px] border border-border-theme px-3 text-[12px] outline-none focus:border-[#D58B91]"
                 />
               </label>
 
-              <label className="mt-4 block text-[11px] font-medium text-[#5E6369]">
+              <label className="mt-4 block text-[11px] font-medium text-text-primary">
                 Declaração do problema
                 <textarea
                   value={
@@ -653,7 +653,7 @@ export function MaspCreatePage({
                   }
                   rows={5}
                   placeholder="Se houver eventos selecionados, o sistema monta uma frase apenas com os dados conhecidos."
-                  className="mt-2 w-full rounded-[11px] border border-[#E1E3E5] px-3 py-3 text-[12px] leading-5 outline-none focus:border-[#D58B91]"
+                  className="mt-2 w-full rounded-[11px] border border-border-theme px-3 py-3 text-[12px] leading-5 outline-none focus:border-[#D58B91]"
                 />
               </label>
             </section>
@@ -687,13 +687,13 @@ export function MaspCreatePage({
             </button>
           </div>
 
-          <section className="rounded-[22px] border border-[#E4E6E8] bg-white p-6">
+          <section className="rounded-[22px] border border-border-theme bg-surface p-6">
             <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-start">
               <div>
-                <h2 className="text-[15px] font-semibold text-[#303438]">
+                <h2 className="text-[15px] font-semibold text-text-primary">
                   Ocorrências relacionadas
                 </h2>
-                <p className="mt-2 text-[11px] leading-5 text-[#92979D]">
+                <p className="mt-2 text-[11px] leading-5 text-text-secondary">
                   {selectedEvents.size} selecionada(s). A lista mostra os 300 eventos locais mais recentes.
                 </p>
               </div>
@@ -701,7 +701,7 @@ export function MaspCreatePage({
               <div className="relative">
                 <Search
                   size={14}
-                  className="absolute left-3 top-1/2 -translate-y-1/2 text-[#9A9FA5]"
+                  className="absolute left-3 top-1/2 -translate-y-1/2 text-text-secondary"
                 />
                 <input
                   value={
@@ -715,7 +715,7 @@ export function MaspCreatePage({
                     )
                   }
                   placeholder="Buscar evento"
-                  className="h-10 w-full rounded-[10px] border border-[#E1E3E5] pl-9 pr-3 text-[11px] outline-none sm:w-[220px]"
+                  className="h-10 w-full rounded-[10px] border border-border-theme pl-9 pr-3 text-[11px] outline-none sm:w-[220px]"
                 />
               </div>
             </div>
@@ -741,10 +741,10 @@ export function MaspCreatePage({
                           event.id,
                         )
                       }
-                      className={`w-full rounded-[14px] border p-4 text-left transition-colors ${selected ? "border-[#E5A6AC] bg-[#FFF7F7]" : "border-[#E8E9EB] hover:bg-[#FAFAF9]"}`}
+                      className={`w-full rounded-[14px] border p-4 text-left transition-colors ${selected ? "border-[#E5A6AC] bg-[#FFF7F7]" : "border-border-theme hover:bg-surface-hover"}`}
                     >
                       <div className="flex items-start gap-3">
-                        <span className={`mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-[6px] border ${selected ? "border-[#E41E2B] bg-[#E41E2B] text-white" : "border-[#D7DADD]"}`}>
+                        <span className={`mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-[6px] border ${selected ? "border-[#E41E2B] bg-[#E41E2B] text-white" : "border-border-theme"}`}>
                           {selected && (
                             <Check
                               size={12}
@@ -753,7 +753,7 @@ export function MaspCreatePage({
                         </span>
 
                         <div className="min-w-0 flex-1">
-                          <div className="flex flex-wrap items-center gap-2 text-[9px] font-medium text-[#969BA1]">
+                          <div className="flex flex-wrap items-center gap-2 text-[9px] font-medium text-text-secondary">
                             <span>
                               #{event.id}
                             </span>
@@ -779,11 +779,11 @@ export function MaspCreatePage({
                               )} min
                             </span>
                           </div>
-                          <p className="mt-2 text-[11px] font-semibold text-[#3A3E43]">
+                          <p className="mt-2 text-[11px] font-semibold text-text-primary">
                             {event.equipment_name ??
                               "Equipamento não informado"}
                           </p>
-                          <p className="mt-1 line-clamp-2 text-[10px] leading-5 text-[#7F848A]">
+                          <p className="mt-1 line-clamp-2 text-[10px] leading-5 text-text-secondary">
                             {event.observation ??
                               "Sem observação"}
                           </p>
@@ -796,7 +796,7 @@ export function MaspCreatePage({
 
               {visibleEvents.length ===
                 0 && (
-                <div className="rounded-[14px] border border-dashed border-[#DADDE0] px-5 py-12 text-center text-[11px] text-[#969BA1]">
+                <div className="rounded-[14px] border border-dashed border-border-theme px-5 py-12 text-center text-[11px] text-text-secondary">
                   Selecione uma unidade ou ajuste a busca.
                 </div>
               )}

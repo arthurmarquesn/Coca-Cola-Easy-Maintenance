@@ -43,6 +43,14 @@ import {
   type FailureOriginSummary,
 } from "@/components/reliability/failure-origin-analysis";
 
+import {
+  ComplementaryCharts,
+} from "@/components/charts/complementary-charts";
+
+import {
+  ThemeSwitcher,
+} from "@/components/theme/theme-switcher";
+
 interface ReliabilityPageProps {
   user: {
     name: string;
@@ -1508,16 +1516,16 @@ function MetricCell({
   suffix?: string;
 }) {
   return (
-    <div className="bg-white p-4">
-      <p className="text-[10px] font-medium uppercase tracking-[0.08em] text-[#9A9FA5]">
+    <div className="bg-surface p-4">
+      <p className="text-[10px] font-medium uppercase tracking-[0.08em] text-text-secondary">
         {label}
       </p>
 
-      <p className="mt-2 text-[25px] font-semibold tracking-[-0.04em] text-[#202327]">
+      <p className="mt-2 text-[25px] font-semibold tracking-[-0.04em] text-text-primary">
         {value}
 
         {suffix && (
-          <span className="ml-1 text-[12px] font-medium tracking-normal text-[#94999F]">
+          <span className="ml-1 text-[12px] font-medium tracking-normal text-text-secondary">
             {suffix}
           </span>
         )}
@@ -1548,16 +1556,16 @@ function ProgressMetric({
     <div className="mt-7">
       <div className="flex items-end justify-between gap-4">
         <div>
-          <p className="text-[11px] font-medium text-[#70757B]">
+          <p className="text-[11px] font-medium text-text-secondary">
             {title}
           </p>
 
-          <p className="mt-1 text-[12px] text-[#9A9FA5]">
+          <p className="mt-1 text-[12px] text-text-secondary">
             {description}
           </p>
         </div>
 
-        <p className="text-[21px] font-semibold tracking-[-0.04em] text-[#25282C]">
+        <p className="text-[21px] font-semibold tracking-[-0.04em] text-text-primary">
           {formatNumber(
             safeValue,
             1,
@@ -1566,7 +1574,7 @@ function ProgressMetric({
         </p>
       </div>
 
-      <div className="mt-3 h-2 overflow-hidden rounded-full bg-[#F0F1F2]">
+      <div className="mt-3 h-2 overflow-hidden rounded-full bg-surface-elevated">
         <div
           className="h-full rounded-full bg-[#E41E2B]"
           style={{
@@ -1593,18 +1601,18 @@ function LimitComparison({
   return (
     <div>
       <div className="flex items-center justify-between gap-4">
-        <span className="text-[11px] text-[#7D8288]">
+        <span className="text-[11px] text-text-secondary">
           {label}
         </span>
 
-        <span className="text-[11px] font-medium text-[#373B3F]">
+        <span className="text-[11px] font-medium text-text-primary">
           {current}
           {" / "}
           {limit}
         </span>
       </div>
 
-      <p className="mt-1 text-[10px] text-[#A0A4A9]">
+      <p className="mt-1 text-[10px] text-text-secondary">
         {difference}
       </p>
     </div>
@@ -1719,7 +1727,7 @@ function ReliabilityDetailDrawer({
 
     content = (
       <>
-        <div className="mt-7 grid grid-cols-2 gap-px overflow-hidden rounded-[18px] border border-[#E6E8EA] bg-[#E6E8EA]">
+        <div className="mt-7 grid grid-cols-2 gap-px overflow-hidden rounded-[18px] border border-border-theme bg-surface-hover">
           <MetricCell
             label="Ranking"
             value={
@@ -1774,16 +1782,16 @@ function ReliabilityDetailDrawer({
         <div className="mt-7">
           <div className="flex items-end justify-between gap-4">
             <div>
-              <p className="text-[11px] font-medium text-[#70757B]">
+              <p className="text-[11px] font-medium text-text-secondary">
                 Percentual acumulado
               </p>
 
-              <p className="mt-1 text-[12px] text-[#9A9FA5]">
+              <p className="mt-1 text-[12px] text-text-secondary">
                 Posição dentro da curva de Pareto
               </p>
             </div>
 
-            <p className="text-[21px] font-semibold tracking-[-0.04em] text-[#25282C]">
+            <p className="text-[21px] font-semibold tracking-[-0.04em] text-text-primary">
               {formatNumber(
                 item
                   .cumulativePercentage,
@@ -1793,7 +1801,7 @@ function ReliabilityDetailDrawer({
             </p>
           </div>
 
-          <div className="relative mt-3 h-2 overflow-hidden rounded-full bg-[#F0F1F2]">
+          <div className="relative mt-3 h-2 overflow-hidden rounded-full bg-surface-elevated">
             <div
               className="h-full rounded-full bg-[#2C3034]"
               style={{
@@ -1812,21 +1820,21 @@ function ReliabilityDetailDrawer({
           </div>
         </div>
 
-        <div className="mt-7 rounded-[16px] bg-[#F7F7F6] p-4">
+        <div className="mt-7 rounded-[16px] bg-surface-elevated p-4">
           <div className="flex gap-3">
             <Target
               size={17}
-              className="mt-0.5 shrink-0 text-[#6F747A]"
+              className="mt-0.5 shrink-0 text-text-secondary"
             />
 
             <div>
-              <p className="text-[12px] font-semibold text-[#303438]">
+              <p className="text-[12px] font-semibold text-text-primary">
                 {priority
                   ? "Dentro da faixa prioritária do Pareto"
                   : "Após a faixa de 80%"}
               </p>
 
-              <p className="mt-1.5 text-[11px] leading-5 text-[#858A90]">
+              <p className="mt-1.5 text-[11px] leading-5 text-text-secondary">
                 {crossesEighty
                   ? "Este é o item que ultrapassa o limite acumulado de 80%."
                   : priority
@@ -1884,14 +1892,14 @@ function ReliabilityDetailDrawer({
             )}
           </div>
 
-          <p className="mt-3 text-[12px] leading-5 text-[#858A90]">
+          <p className="mt-3 text-[12px] leading-5 text-text-secondary">
             {quadrantDescription(
               item.quadrant,
             )}
           </p>
         </div>
 
-        <div className="mt-7 grid grid-cols-2 gap-px overflow-hidden rounded-[18px] border border-[#E6E8EA] bg-[#E6E8EA]">
+        <div className="mt-7 grid grid-cols-2 gap-px overflow-hidden rounded-[18px] border border-border-theme bg-surface-hover">
           <MetricCell
             label="Nº de falhas"
             value={
@@ -1928,8 +1936,8 @@ function ReliabilityDetailDrawer({
           </div>
         </div>
 
-        <div className="mt-7 border-t border-[#ECEDEF] pt-6">
-          <p className="text-[11px] font-semibold text-[#45494E]">
+        <div className="mt-7 border-t border-border-theme pt-6">
+          <p className="text-[11px] font-semibold text-text-primary">
             Posição em relação aos limites
           </p>
 
@@ -2014,17 +2022,17 @@ function ReliabilityDetailDrawer({
         className="absolute inset-0 h-full w-full cursor-default bg-black/20 backdrop-blur-[2px]"
       />
 
-      <aside className="absolute bottom-0 right-0 top-0 flex w-full max-w-[460px] flex-col border-l border-black/[0.06] bg-white shadow-[-18px_0_50px_rgba(0,0,0,0.08)]">
-        <div className="flex items-start justify-between gap-5 border-b border-[#ECEDEF] px-6 py-5">
+      <aside className="absolute bottom-0 right-0 top-0 flex w-full max-w-[460px] flex-col border-l border-border-theme/[0.06] bg-surface shadow-[-18px_0_50px_rgba(0,0,0,0.08)]">
+        <div className="flex items-start justify-between gap-5 border-b border-border-theme px-6 py-5">
           <div>
-            <p className="text-[10px] font-medium uppercase tracking-[0.09em] text-[#9A9FA5]">
+            <p className="text-[10px] font-medium uppercase tracking-[0.09em] text-text-secondary">
               {selected.type ===
               "PARETO"
                 ? "Detalhe do Pareto"
                 : "Detalhe do Jack-Knife"}
             </p>
 
-            <p className="mt-1 text-[11px] text-[#A0A4A9]">
+            <p className="mt-1 text-[11px] text-text-secondary">
               {isEquipmentLevel
                 ? "Equipamento"
                 : "Modo de falha"}
@@ -2036,7 +2044,7 @@ function ReliabilityDetailDrawer({
             onClick={
               onClose
             }
-            className="flex h-10 w-10 items-center justify-center rounded-full text-[#777C82] hover:bg-[#F4F4F3]"
+            className="flex h-10 w-10 items-center justify-center rounded-full text-text-secondary hover:bg-surface-hover"
           >
             <X
               size={18}
@@ -2045,14 +2053,14 @@ function ReliabilityDetailDrawer({
         </div>
 
         <div className="flex-1 overflow-y-auto px-6 py-6">
-          <h3 className="text-[22px] font-semibold leading-[1.25] tracking-[-0.035em] text-[#202327]">
+          <h3 className="text-[22px] font-semibold leading-[1.25] tracking-[-0.035em] text-text-primary">
             {title}
           </h3>
 
           {equipment &&
             analysisLevel ===
               "FAILURE_MODE" && (
-              <div className="mt-3 flex items-center gap-2 text-[11px] text-[#92979D]">
+              <div className="mt-3 flex items-center gap-2 text-[11px] text-text-secondary">
                 <Search
                   size={13}
                 />
@@ -2064,7 +2072,7 @@ function ReliabilityDetailDrawer({
           {content}
         </div>
 
-        <div className="space-y-3 border-t border-[#ECEDEF] px-6 py-5">
+        <div className="space-y-3 border-t border-border-theme px-6 py-5">
           <button
             type="button"
             onClick={
@@ -2094,7 +2102,7 @@ function ReliabilityDetailDrawer({
                   title,
                 )
               }
-              className="flex h-12 w-full items-center justify-center gap-2 rounded-[12px] border border-[#DDE0E3] text-[12px] font-semibold text-[#4F5459] hover:bg-[#F7F7F6]"
+              className="flex h-12 w-full items-center justify-center gap-2 rounded-[12px] border border-border-theme text-[12px] font-semibold text-text-primary hover:bg-surface-hover"
             >
               <Search
                 size={15}
@@ -2108,7 +2116,7 @@ function ReliabilityDetailDrawer({
               onClick={
                 onBackToEquipments
               }
-              className="flex h-12 w-full items-center justify-center gap-2 rounded-[12px] border border-[#DDE0E3] text-[12px] font-semibold text-[#4F5459]"
+              className="flex h-12 w-full items-center justify-center gap-2 rounded-[12px] border border-border-theme text-[12px] font-semibold text-text-primary"
             >
               <ArrowLeft
                 size={15}
@@ -2219,7 +2227,7 @@ function ParetoChart({
     0
   ) {
     return (
-      <div className="flex min-h-[420px] items-center justify-center text-[13px] text-[#93989E]">
+      <div className="flex min-h-[420px] items-center justify-center text-[13px] text-text-secondary">
         Não há dados para o período selecionado.
       </div>
     );
@@ -2882,9 +2890,9 @@ function ParetoChart({
         </text>
       </svg>
 
-      <div className="mt-2 flex flex-col gap-3 border-t border-[#ECEDEF] px-2 pt-4 sm:flex-row sm:items-center sm:justify-between">
+      <div className="mt-2 flex flex-col gap-3 border-t border-border-theme px-2 pt-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <p className="text-[11px] font-medium text-[#555A60]">
+          <p className="text-[11px] font-medium text-text-primary">
             Exibindo{" "}
             {startIndex + 1}
             –
@@ -2892,7 +2900,7 @@ function ParetoChart({
             {items.length} categorias
           </p>
 
-          <p className="mt-0.5 text-[10px] text-[#9A9FA5]">
+          <p className="mt-0.5 text-[10px] text-text-secondary">
             Ordenação global por tempo de parada · acumulado preservado entre páginas
           </p>
         </div>
@@ -2909,7 +2917,7 @@ function ParetoChart({
                 safePage ===
                 0
               }
-              className="inline-flex h-9 items-center gap-1.5 rounded-[10px] border border-[#E0E2E4] bg-white px-3 text-[11px] font-medium text-[#555A60] transition hover:bg-[#F7F7F6] disabled:cursor-not-allowed disabled:opacity-35"
+              className="inline-flex h-9 items-center gap-1.5 rounded-[10px] border border-border-theme bg-surface px-3 text-[11px] font-medium text-text-primary transition hover:bg-surface-hover disabled:cursor-not-allowed disabled:opacity-35"
               aria-label="Página anterior do Pareto"
             >
               <ChevronLeft
@@ -2919,7 +2927,7 @@ function ParetoChart({
               Anterior
             </button>
 
-            <span className="min-w-[64px] text-center text-[11px] font-semibold text-[#555A60]">
+            <span className="min-w-[64px] text-center text-[11px] font-semibold text-text-primary">
               {safePage + 1}
               {" / "}
               {totalPages}
@@ -2935,7 +2943,7 @@ function ParetoChart({
                 totalPages -
                   1
               }
-              className="inline-flex h-9 items-center gap-1.5 rounded-[10px] border border-[#E0E2E4] bg-white px-3 text-[11px] font-medium text-[#555A60] transition hover:bg-[#F7F7F6] disabled:cursor-not-allowed disabled:opacity-35"
+              className="inline-flex h-9 items-center gap-1.5 rounded-[10px] border border-border-theme bg-surface px-3 text-[11px] font-medium text-text-primary transition hover:bg-surface-hover disabled:cursor-not-allowed disabled:opacity-35"
               aria-label="Próxima página do Pareto"
             >
               Próximo
@@ -2987,7 +2995,7 @@ function JackKnifeChart({
     0
   ) {
     return (
-      <div className="flex min-h-[430px] items-center justify-center text-[13px] text-[#93989E]">
+      <div className="flex min-h-[430px] items-center justify-center text-[13px] text-text-secondary">
         Nenhuma ocorrência foi encontrada para o recorte selecionado.
       </div>
     );
@@ -4118,8 +4126,8 @@ export function ReliabilityPage({
     [];
 
   return (
-    <main className="min-h-screen bg-[#F7F7F6]">
-      <header className="border-b border-black/[0.05] bg-white">
+    <main className="min-h-screen bg-surface-elevated">
+      <header className="border-b border-border-theme/[0.05] bg-surface">
         <div className="mx-auto flex h-[76px] w-full max-w-[1380px] items-center justify-between px-6 sm:px-8 lg:px-12">
           <Link
             href="/dashboard"
@@ -4148,17 +4156,21 @@ export function ReliabilityPage({
               }
             />
 
-            <div className="hidden h-8 w-px bg-black/[0.07] sm:block" />
+            <div className="hidden h-8 w-px bg-border-theme sm:block" />
 
             <div className="hidden text-right sm:block">
-              <p className="text-[13px] font-medium text-[#25272A]">
+              <p className="text-[13px] font-medium text-text-primary">
                 {user.name}
               </p>
 
-              <p className="mt-0.5 text-[10px] text-[#999DA2]">
+              <p className="mt-0.5 text-[10px] text-text-secondary">
                 Análise de confiabilidade
               </p>
             </div>
+
+            <div className="hidden h-8 w-px bg-border-theme sm:block" />
+
+            <ThemeSwitcher />
           </div>
         </div>
       </header>
@@ -4166,7 +4178,7 @@ export function ReliabilityPage({
       <div className="mx-auto w-full max-w-[1380px] px-6 pb-20 pt-10 sm:px-8 lg:px-12">
         <Link
           href="/dashboard"
-          className="inline-flex items-center gap-2 text-[12px] font-medium text-[#81868C] transition-colors hover:text-[#282B2F]"
+          className="inline-flex items-center gap-2 text-[12px] font-medium text-text-secondary transition-colors hover:text-text-primary"
         >
           <ArrowLeft
             size={
@@ -4179,12 +4191,12 @@ export function ReliabilityPage({
 
         <div className="mt-9 flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
           <div>
-            <h1 className="text-[34px] font-semibold tracking-[-0.045em] text-[#191B1E] sm:text-[40px]">
+            <h1 className="text-[34px] font-semibold tracking-[-0.045em] text-text-primary sm:text-[40px]">
               Confiabilidade
             </h1>
 
-            <div className="mt-4 inline-flex items-center rounded-full bg-[#F0F0EF] px-3 py-1.5">
-              <span className="text-[10px] font-medium text-[#747980]">
+            <div className="mt-4 inline-flex items-center rounded-full bg-surface-elevated px-3 py-1.5">
+              <span className="text-[10px] font-medium text-text-secondary">
                 {selectedUnitsLabel}
               </span>
             </div>
@@ -4209,9 +4221,9 @@ export function ReliabilityPage({
           </button>
         </div>
 
-        <section className="mt-8 grid gap-4 border-y border-[#E2E4E6] py-5 md:grid-cols-2 xl:grid-cols-[180px_180px_1fr_1fr_auto]">
+        <section className="mt-8 grid gap-4 border-y border-border-theme py-5 md:grid-cols-2 xl:grid-cols-[180px_180px_1fr_1fr_auto]">
           <label className="block">
-            <span className="text-[10px] font-medium text-[#969BA1]">
+            <span className="text-[10px] font-medium text-text-secondary">
               De
             </span>
 
@@ -4233,12 +4245,12 @@ export function ReliabilityPage({
                     .value,
                 )
               }
-              className="mt-2 h-11 w-full rounded-[10px] border border-[#DDE0E3] bg-white px-3 text-[12px] text-[#303438] outline-none focus:border-[#B9BDC2]"
+              className="mt-2 h-11 w-full rounded-[10px] border border-border-theme bg-surface px-3 text-[12px] text-text-primary outline-none focus:border-border-theme"
             />
           </label>
 
           <label className="block">
-            <span className="text-[10px] font-medium text-[#969BA1]">
+            <span className="text-[10px] font-medium text-text-secondary">
               Até
             </span>
 
@@ -4260,12 +4272,12 @@ export function ReliabilityPage({
                     .value,
                 )
               }
-              className="mt-2 h-11 w-full rounded-[10px] border border-[#DDE0E3] bg-white px-3 text-[12px] text-[#303438] outline-none focus:border-[#B9BDC2]"
+              className="mt-2 h-11 w-full rounded-[10px] border border-border-theme bg-surface px-3 text-[12px] text-text-primary outline-none focus:border-border-theme"
             />
           </label>
 
           <label className="block">
-            <span className="text-[10px] font-medium text-[#969BA1]">
+            <span className="text-[10px] font-medium text-text-secondary">
               Linha
             </span>
 
@@ -4286,7 +4298,7 @@ export function ReliabilityPage({
                   "",
                 );
               }}
-              className="mt-2 h-11 w-full rounded-[10px] border border-[#DDE0E3] bg-white px-3 text-[12px] text-[#303438] outline-none focus:border-[#B9BDC2]"
+              className="mt-2 h-11 w-full rounded-[10px] border border-border-theme bg-surface px-3 text-[12px] text-text-primary outline-none focus:border-border-theme"
             >
               <option value="">
                 Todas as linhas
@@ -4312,7 +4324,7 @@ export function ReliabilityPage({
           </label>
 
           <label className="block">
-            <span className="text-[10px] font-medium text-[#969BA1]">
+            <span className="text-[10px] font-medium text-text-secondary">
               Equipamento
             </span>
 
@@ -4329,7 +4341,7 @@ export function ReliabilityPage({
                     .value,
                 )
               }
-              className="mt-2 h-11 w-full rounded-[10px] border border-[#DDE0E3] bg-white px-3 text-[12px] text-[#303438] outline-none focus:border-[#B9BDC2]"
+              className="mt-2 h-11 w-full rounded-[10px] border border-border-theme bg-surface px-3 text-[12px] text-text-primary outline-none focus:border-border-theme"
             >
               <option value="">
                 Todos os equipamentos
@@ -4360,7 +4372,7 @@ export function ReliabilityPage({
               onClick={
                 resetFilters
               }
-              className="flex h-11 items-center gap-2 px-2 text-[12px] font-medium text-[#777C82] transition-colors hover:text-[#E41E2B]"
+              className="flex h-11 items-center gap-2 px-2 text-[12px] font-medium text-text-secondary transition-colors hover:text-[#E41E2B]"
             >
               <RotateCcw
                 size={
@@ -4374,7 +4386,7 @@ export function ReliabilityPage({
         </section>
 
         {error && (
-          <div className="mt-8 rounded-[14px] border border-[#F0D2D5] bg-[#FFF8F8] px-4 py-3 text-[12px] text-[#BF2C35]">
+          <div className="mt-8 rounded-[14px] border border-[#F0D2D5] bg-surface-elevated px-4 py-3 text-[12px] text-[#BF2C35]">
             {error}
           </div>
         )}
@@ -4394,7 +4406,7 @@ export function ReliabilityPage({
         {data && (
           <>
             <div className="mt-7 flex flex-wrap items-center justify-between gap-3">
-              <p className="text-[12px] text-[#888D93]">
+              <p className="text-[12px] text-text-secondary">
                 {formatNumber(
                   data
                     .summary
@@ -4421,25 +4433,25 @@ export function ReliabilityPage({
               )}
             </div>
 
-            <section className="mt-5 overflow-hidden rounded-[24px] border border-[#E5E7E9] bg-white">
-              <div className="flex flex-col gap-3 border-b border-[#ECEDEF] px-6 py-5 sm:flex-row sm:items-center sm:justify-between">
+            <section className="mt-5 overflow-hidden rounded-[24px] border border-border-theme bg-surface">
+              <div className="flex flex-col gap-3 border-b border-border-theme px-6 py-5 sm:flex-row sm:items-center sm:justify-between">
                 <div className="flex items-start gap-4">
                   <div className="flex h-8 min-w-8 items-center justify-center rounded-full bg-[#E41E2B] px-2 text-[10px] font-bold text-white">
                     01
                   </div>
 
                   <div>
-                    <h2 className="text-[18px] font-semibold tracking-[-0.03em] text-[#24272B]">
+                    <h2 className="text-[18px] font-semibold tracking-[-0.03em] text-text-primary">
                       Origem das falhas
                     </h2>
 
-                    <p className="mt-1 text-[11px] text-[#979CA2]">
+                    <p className="mt-1 text-[11px] text-text-secondary">
                       Operação × manutenção no recorte selecionado
                     </p>
                   </div>
                 </div>
 
-                <p className="text-[10px] font-medium text-[#989DA3]">
+                <p className="text-[10px] font-medium text-text-secondary">
                   {formatNumber(
                     data
                       .failureOrigin
@@ -4474,26 +4486,26 @@ export function ReliabilityPage({
               </div>
             </section>
 
-            <section className="mt-6 overflow-hidden rounded-[24px] border border-[#E5E7E9] bg-white">
-              <div className="flex items-center justify-between gap-6 border-b border-[#ECEDEF] px-6 py-5">
+            <section className="mt-6 overflow-hidden rounded-[24px] border border-border-theme bg-surface">
+              <div className="flex items-center justify-between gap-6 border-b border-border-theme px-6 py-5">
                 <div className="flex items-start gap-4">
                   <div className="flex h-8 min-w-8 items-center justify-center rounded-full bg-[#25282C] px-2 text-[10px] font-bold text-white">
                     02
                   </div>
 
                   <div>
-                    <h2 className="text-[18px] font-semibold tracking-[-0.03em] text-[#24272B]">
+                    <h2 className="text-[18px] font-semibold tracking-[-0.03em] text-text-primary">
                       Pareto de tempo de parada
                     </h2>
 
-                    <p className="mt-1 text-[11px] text-[#979CA2]">
+                    <p className="mt-1 text-[11px] text-text-secondary">
                       Tempo de parada + percentual acumulado · por{" "}
                       {analysisLabel}
                     </p>
                   </div>
                 </div>
 
-                <p className="hidden text-[10px] text-[#A1A5AA] sm:block">
+                <p className="hidden text-[10px] text-text-secondary sm:block">
                   Clique em uma barra ou ponto para detalhar
                 </p>
               </div>
@@ -4520,26 +4532,26 @@ export function ReliabilityPage({
               </div>
             </section>
 
-            <section className="mt-6 overflow-hidden rounded-[24px] border border-[#E5E7E9] bg-white">
-              <div className="flex items-center justify-between gap-6 border-b border-[#ECEDEF] px-6 py-5">
+            <section className="mt-6 overflow-hidden rounded-[24px] border border-border-theme bg-surface">
+              <div className="flex items-center justify-between gap-6 border-b border-border-theme px-6 py-5">
                 <div className="flex items-start gap-4">
                   <div className="flex h-8 min-w-8 items-center justify-center rounded-full bg-[#25282C] px-2 text-[10px] font-bold text-white">
                     03
                   </div>
 
                   <div>
-                    <h2 className="text-[18px] font-semibold tracking-[-0.03em] text-[#24272B]">
+                    <h2 className="text-[18px] font-semibold tracking-[-0.03em] text-text-primary">
                       Jack-Knife
                     </h2>
 
-                    <p className="mt-1 text-[11px] text-[#979CA2]">
+                    <p className="mt-1 text-[11px] text-text-secondary">
                       Nº de falhas × MTTR · por{" "}
                       {analysisLabel}
                     </p>
                   </div>
                 </div>
 
-                <p className="hidden text-[10px] text-[#A1A5AA] sm:block">
+                <p className="hidden text-[10px] text-text-secondary sm:block">
                   Clique em um ponto para detalhar
                 </p>
               </div>
@@ -4578,6 +4590,23 @@ export function ReliabilityPage({
             </section>
           </>
         )}
+
+        {/* =============================================
+            GRÁFICOS COMPLEMENTARES
+
+            Compartilham os filtros acima e carregam os
+            próprios dados, para não atrasar o Pareto e o
+            Jack-Knife.
+        ============================================== */}
+
+        <ComplementaryCharts
+          city={unit.city}
+          startDate={startDate}
+          endDate={endDate}
+          line={line}
+          equipment={equipment}
+          onLineChange={setLine}
+        />
       </div>
 
       <ReportGeneratorModal

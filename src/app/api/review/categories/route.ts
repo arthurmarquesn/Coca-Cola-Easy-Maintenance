@@ -24,6 +24,10 @@ import {
   parseReviewFilters,
 } from "@/lib/maintenance/review-filters";
 
+import {
+  getUnitSelection,
+} from "@/lib/unit-selection";
+
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
@@ -58,10 +62,22 @@ export async function GET(request: NextRequest) {
     );
   }
 
+  const unitSelection = await getUnitSelection({
+    userId: session.userId,
+    defaultUnitId: session.unitId,
+  });
+
+  if (unitSelection.selectedUnitIds.length === 0) {
+    return NextResponse.json(
+      { success: false, error: "Nenhuma unidade válida está selecionada." },
+      { status: 403 },
+    );
+  }
+
   try {
     const { whereSql, values } = parseReviewFilters(
       request.nextUrl.searchParams,
-      session.unitId,
+      unitSelection.selectedUnitIds,
     );
 
     const categorySql = buildProblemCategoryCaseSql();

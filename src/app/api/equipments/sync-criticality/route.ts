@@ -544,11 +544,9 @@ function canSynchronize(
 
   return (
     normalized ===
-      "ANALISTA" ||
+      "MAINTENANCE" ||
     normalized ===
-      "ADMIN" ||
-    normalized ===
-      "MAINTENANCE"
+      "ADMIN"
   );
 }
 

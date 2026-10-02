@@ -447,7 +447,7 @@ export function ReviewCategoryPage({
   );
 
   return (
-    <main className="min-h-screen bg-background-primary transition-colors">
+    <main className="min-h-screen bg-surface-elevated transition-colors">
       <AppHeader userName={user.name} city={unit.city} />
 
       <section className="mx-auto w-full max-w-[1440px] px-6 pb-28 pt-12 sm:px-8 lg:px-12 lg:pt-16">
@@ -472,9 +472,9 @@ export function ReviewCategoryPage({
             </p>
           </div>
 
-          <div className="h-[5px] w-full max-w-[220px] overflow-hidden rounded-full bg-[#ECEEEF]">
+          <div className="h-[5px] w-full max-w-[220px] overflow-hidden rounded-full bg-surface-hover">
             <div
-              className="h-full rounded-full bg-[#238636] transition-all duration-300"
+              className="h-full rounded-full bg-success transition-all duration-300"
               style={{ width: `${Math.min(progress, 100)}%` }}
             />
           </div>
@@ -505,7 +505,7 @@ export function ReviewCategoryPage({
             <select
               value={sort}
               onChange={(event) => setSort(event.target.value as SortValue)}
-              className="h-8 rounded-[8px] border border-border-theme bg-background-primary transition-colors px-2 text-[11.5px] text-text-primary outline-none focus:border-[#F40009]"
+              className="h-8 rounded-[8px] border border-border-theme bg-surface transition-colors px-2 text-[11.5px] text-text-primary outline-none focus:border-[#F40009]"
             >
               {SORT_OPTIONS.map((option) => (
                 <option key={option.value} value={option.value}>
@@ -537,7 +537,7 @@ export function ReviewCategoryPage({
                 type="button"
                 disabled={bulkBusy}
                 onClick={() => setBulkCorrectOpen(true)}
-                className="inline-flex items-center gap-1.5 rounded-[8px] border border-border-theme bg-background-primary transition-colors px-3.5 py-2 text-[11.5px] font-semibold text-text-primary transition-colors hover:bg-[#F5F5F5] disabled:opacity-50"
+                className="inline-flex items-center gap-1.5 rounded-[8px] border border-border-theme bg-surface transition-colors px-3.5 py-2 text-[11.5px] font-semibold text-text-primary transition-colors hover:bg-surface-hover disabled:opacity-50"
               >
                 <Pencil size={13} />
                 Reclassificar selecionadas
@@ -547,7 +547,7 @@ export function ReviewCategoryPage({
                 type="button"
                 disabled={bulkBusy}
                 onClick={() => void runBulkAction("REJECT")}
-                className="inline-flex items-center gap-1.5 rounded-[8px] border border-border-theme bg-background-primary transition-colors px-3.5 py-2 text-[11.5px] font-semibold text-[#C92A32] transition-colors hover:bg-surface-hover disabled:opacity-50"
+                className="inline-flex items-center gap-1.5 rounded-[8px] border border-border-theme bg-surface transition-colors px-3.5 py-2 text-[11.5px] font-semibold text-error transition-colors hover:bg-surface-hover disabled:opacity-50"
               >
                 <X size={13} />
                 Rejeitar selecionadas
@@ -572,7 +572,7 @@ export function ReviewCategoryPage({
               value={bulkCorrectComponent}
               onChange={(event) => setBulkCorrectComponent(event.target.value)}
               placeholder="Componente correto (ex.: rolamento do motor)"
-              className="h-10 w-full flex-1 rounded-[8px] border border-border-theme bg-background-primary transition-colors px-3 text-[12.5px] outline-none focus:border-[#F40009]"
+              className="h-10 w-full flex-1 rounded-[8px] border border-border-theme bg-surface transition-colors px-3 text-[12.5px] outline-none focus:border-[#F40009]"
             />
 
             <div className="flex gap-2">
@@ -600,16 +600,16 @@ export function ReviewCategoryPage({
         )}
 
         {error && (
-          <div className="mt-5 flex items-start gap-3 rounded-[12px] border border-[#F0D2D4] bg-[#FFF9F9] px-4 py-3">
+          <div className="mt-5 flex items-start gap-3 rounded-[12px] border border-error/25 bg-error/10 px-4 py-3">
             <AlertCircle
               size={17}
-              className="mt-0.5 shrink-0 text-[#C92A32]"
+              className="mt-0.5 shrink-0 text-error"
             />
-            <p className="text-[12px] leading-5 text-[#6F3D40]">{error}</p>
+            <p className="text-[12px] leading-5 text-error">{error}</p>
           </div>
         )}
 
-        <div className="mt-5 overflow-x-auto rounded-[14px] border border-border-theme">
+        <div className="mt-5 overflow-x-auto rounded-[14px] border border-border-theme bg-surface">
           <table className="w-full min-w-[1080px] border-collapse text-left text-[12.5px]">
             <thead>
               <tr className="border-b border-border-theme bg-surface-elevated transition-colors text-[10.5px] font-semibold uppercase tracking-wide text-text-secondary">
@@ -695,7 +695,7 @@ export function ReviewCategoryPage({
                               onClick={() =>
                                 void reviewOne(item.suggestionId, "CONFIRM")
                               }
-                              className="flex h-8 w-8 items-center justify-center rounded-[8px] border border-border-theme text-[#238636] transition-colors hover:bg-surface-hover disabled:opacity-40"
+                              className="flex h-8 w-8 items-center justify-center rounded-[8px] border border-border-theme text-success transition-colors hover:bg-surface-hover disabled:opacity-40"
                             >
                               <Check size={14} />
                             </button>
@@ -705,7 +705,7 @@ export function ReviewCategoryPage({
                               disabled={busy}
                               title="Corrigir"
                               onClick={() => startEditing(item)}
-                              className="flex h-8 w-8 items-center justify-center rounded-[8px] border border-border-theme text-[#2E5AAC] transition-colors hover:bg-surface-hover disabled:opacity-40"
+                              className="flex h-8 w-8 items-center justify-center rounded-[8px] border border-border-theme text-chart-neutral transition-colors hover:bg-surface-hover disabled:opacity-40"
                             >
                               <Pencil size={14} />
                             </button>
@@ -715,7 +715,7 @@ export function ReviewCategoryPage({
                               disabled={busy}
                               title="Rejeitar"
                               onClick={() => handleReject(item)}
-                              className="flex h-8 w-8 items-center justify-center rounded-[8px] border border-border-theme text-[#C92A32] transition-colors hover:bg-surface-hover disabled:opacity-40"
+                              className="flex h-8 w-8 items-center justify-center rounded-[8px] border border-border-theme text-error transition-colors hover:bg-surface-hover disabled:opacity-40"
                             >
                               <X size={14} />
                             </button>
@@ -740,7 +740,7 @@ export function ReviewCategoryPage({
                                 setEditComponent(event.target.value)
                               }
                               placeholder="Componente correto"
-                              className="h-10 w-full flex-1 rounded-[8px] border border-border-theme bg-background-primary transition-colors px-3 text-[12.5px] outline-none focus:border-[#F40009]"
+                              className="h-10 w-full flex-1 rounded-[8px] border border-border-theme bg-surface transition-colors px-3 text-[12.5px] outline-none focus:border-[#F40009]"
                             />
 
                             <input
@@ -750,7 +750,7 @@ export function ReviewCategoryPage({
                                 setEditNote(event.target.value)
                               }
                               placeholder="Observação (opcional)"
-                              className="h-10 w-full flex-1 rounded-[8px] border border-border-theme bg-background-primary transition-colors px-3 text-[12.5px] outline-none focus:border-[#F40009]"
+                              className="h-10 w-full flex-1 rounded-[8px] border border-border-theme bg-surface transition-colors px-3 text-[12.5px] outline-none focus:border-[#F40009]"
                             />
 
                             <div className="flex shrink-0 gap-2">

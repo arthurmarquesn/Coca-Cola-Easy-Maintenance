@@ -8,23 +8,23 @@ const STATUS_META: Record<
 > = {
   PENDENTE_REVISAO: {
     label: "Pendente",
-    bg: "#FFF7E6",
-    color: "#B8860B",
+    bg: "color-mix(in srgb, var(--warning) 10%, transparent)",
+    color: "var(--warning)",
   },
   CONFIRMADA: {
     label: "Validada",
-    bg: "#F0F9F1",
-    color: "#238636",
+    bg: "color-mix(in srgb, var(--success) 10%, transparent)",
+    color: "var(--success)",
   },
   CORRIGIDA: {
     label: "Corrigida",
-    bg: "#EEF3FF",
-    color: "#2E5AAC",
+    bg: "color-mix(in srgb, var(--chart-neutral) 10%, transparent)",
+    color: "var(--chart-neutral)",
   },
   DESCARTADA: {
     label: "Rejeitada",
-    bg: "#F3F3F4",
-    color: "#6B6F75",
+    bg: "var(--surface-elevated)",
+    color: "var(--text-secondary)",
   },
 };
 
@@ -42,9 +42,9 @@ export function StatusBadge({ status }: StatusBadgeProps) {
 }
 
 export function confidenceColor(value: number): string {
-  if (value >= 0.85) return "#238636";
-  if (value >= 0.7) return "#B8860B";
-  return "#C92A32";
+  if (value >= 0.85) return "var(--success)";
+  if (value >= 0.7) return "var(--warning)";
+  return "var(--error)";
 }
 
 export function ConfidenceBadge({ value }: { value: number }) {
@@ -54,7 +54,7 @@ export function ConfidenceBadge({ value }: { value: number }) {
   return (
     <span
       className="inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[10.5px] font-semibold"
-      style={{ backgroundColor: `${color}1A`, color }}
+      style={{ backgroundColor: `color-mix(in srgb, ${color} 10%, transparent)`, color }}
     >
       {percent}%
     </span>

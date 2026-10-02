@@ -32,8 +32,8 @@ type Criticality =
   | "C";
 
 type UserRole =
-  | "GESTOR"
-  | "ANALISTA";
+  | "MANAGER"
+  | "MAINTENANCE";
 
 interface UserRoleRow
   extends RowDataPacket {
@@ -633,7 +633,7 @@ export async function GET() {
 
         canEditCriticality:
           role ===
-          "ANALISTA",
+          "MAINTENANCE",
       },
 
       summary: {
@@ -807,7 +807,7 @@ export async function PATCH(
 
     if (
       role !==
-      "ANALISTA"
+      "MAINTENANCE"
     ) {
       return NextResponse.json(
         {

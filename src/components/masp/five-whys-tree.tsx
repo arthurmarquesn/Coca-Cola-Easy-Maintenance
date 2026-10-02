@@ -48,19 +48,19 @@ function TreeNode({
     );
 
   return (
-    <div className="relative pl-5 before:absolute before:bottom-0 before:left-1 before:top-0 before:w-px before:bg-[#DEE0E2]">
-      <div className={`relative rounded-[15px] border p-4 before:absolute before:-left-4 before:top-6 before:h-px before:w-4 before:bg-[#DEE0E2] ${node.status === "DISCARDED" ? "border-[#E6E7E8] bg-[#F6F6F5] opacity-60" : "border-[#DFE1E3] bg-white"}`}>
+    <div className="relative pl-5 before:absolute before:bottom-0 before:left-1 before:top-0 before:w-px before:bg-surface-hover">
+      <div className={`relative rounded-[15px] border p-4 before:absolute before:-left-4 before:top-6 before:h-px before:w-4 before:bg-surface-hover ${node.status === "DISCARDED" ? "border-border-theme bg-surface-elevated opacity-60" : "border-border-theme bg-surface"}`}>
         <div className="flex items-start justify-between gap-4">
           <div>
             <p className="text-[9px] font-semibold uppercase tracking-[0.1em] text-[#E41E2B]">
               Por quê {node.depth}
             </p>
-            <p className="mt-2 text-[12px] leading-5 text-[#41464B]">
+            <p className="mt-2 text-[12px] leading-5 text-text-primary">
               {node.answer}
             </p>
           </div>
 
-          <span className="rounded-full bg-[#F2F2F0] px-2 py-1 text-[8px] font-semibold text-[#7B8086]">
+          <span className="rounded-full bg-surface-elevated px-2 py-1 text-[8px] font-semibold text-text-secondary">
             {node.status ===
               "ACTIVE"
               ? "Ativo"
@@ -70,7 +70,7 @@ function TreeNode({
 
         {node.status ===
           "ACTIVE" && (
-          <div className="mt-4 flex flex-wrap gap-2 border-t border-[#ECEDEF] pt-3">
+          <div className="mt-4 flex flex-wrap gap-2 border-t border-border-theme pt-3">
             <button
               type="button"
               onClick={() =>
@@ -78,7 +78,7 @@ function TreeNode({
                   node.id,
                 )
               }
-              className="inline-flex items-center gap-1.5 text-[9px] font-semibold text-[#5F646A] hover:text-[#C92834]"
+              className="inline-flex items-center gap-1.5 text-[9px] font-semibold text-text-primary hover:text-[#C92834]"
             >
               <CirclePlus
                 size={12}
@@ -92,7 +92,7 @@ function TreeNode({
                   node,
                 )
               }
-              className="inline-flex items-center gap-1.5 text-[9px] font-semibold text-[#5F646A] hover:text-[#C92834]"
+              className="inline-flex items-center gap-1.5 text-[9px] font-semibold text-text-primary hover:text-[#C92834]"
             >
               <GitBranch
                 size={12}
@@ -106,7 +106,7 @@ function TreeNode({
                   node.id,
                 )
               }
-              className="inline-flex items-center gap-1.5 text-[9px] font-semibold text-[#8A8F95] hover:text-[#C92834]"
+              className="inline-flex items-center gap-1.5 text-[9px] font-semibold text-text-secondary hover:text-[#C92834]"
             >
               <Trash2
                 size={12}
@@ -183,7 +183,7 @@ export function FiveWhysTree({
     0
   ) {
     return (
-      <div className="rounded-[16px] border border-dashed border-[#DADDE0] px-5 py-12 text-center text-[11px] text-[#969BA1]">
+      <div className="rounded-[16px] border border-dashed border-border-theme px-5 py-12 text-center text-[11px] text-text-secondary">
         Crie o primeiro porquê para iniciar a cadeia causal.
       </div>
     );

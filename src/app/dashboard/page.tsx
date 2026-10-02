@@ -111,6 +111,9 @@ export default async function DashboardPage() {
       user={{
         name:
           session.name,
+
+        role:
+          session.role,
       }}
 
       unit={{

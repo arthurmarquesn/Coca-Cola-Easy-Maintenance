@@ -314,38 +314,38 @@ function FailureOriginOverview({
             <div className="flex items-center gap-2.5">
               <span className="h-2.5 w-2.5 rounded-full bg-[#E41E2B]" />
 
-              <p className="text-[11px] font-semibold uppercase tracking-[0.13em] text-[#555A60]">
+              <p className="text-[11px] font-semibold uppercase tracking-[0.13em] text-text-primary">
                 Operação
               </p>
             </div>
 
-            <span className="text-[10px] font-medium text-[#A0A4A9] transition group-hover:text-[#E41E2B]">
+            <span className="text-[10px] font-medium text-text-secondary transition group-hover:text-[#E41E2B]">
               Ver ocorrências →
             </span>
           </div>
 
           <div className="mt-7">
-            <p className="text-[52px] font-semibold leading-none tracking-[-0.065em] text-[#202225] sm:text-[62px]">
+            <p className="text-[52px] font-semibold leading-none tracking-[-0.065em] text-text-primary sm:text-[62px]">
               {formatNumber(
                 operationPercentage,
                 1,
               )}
 
-              <span className="ml-1 text-[24px] font-medium tracking-[-0.03em] text-[#A0A4A9]">
+              <span className="ml-1 text-[24px] font-medium tracking-[-0.03em] text-text-secondary">
                 %
               </span>
             </p>
 
             <div className="mt-4 flex items-center gap-3">
-              <p className="text-[15px] font-semibold text-[#33373B]">
+              <p className="text-[15px] font-semibold text-text-primary">
                 {formatNumber(
                   data.operation,
                 )}
               </p>
 
-              <span className="h-3 w-px bg-[#DADDE0]" />
+              <span className="h-3 w-px bg-surface-hover" />
 
-              <p className="text-[11px] text-[#92979D]">
+              <p className="text-[11px] text-text-secondary">
                 ocorrências
               </p>
             </div>
@@ -357,9 +357,9 @@ function FailureOriginOverview({
         ================================================== */}
 
         <div className="relative hidden items-center justify-center lg:flex">
-          <div className="absolute bottom-3 top-3 w-px bg-[#ECEDEF]" />
+          <div className="absolute bottom-3 top-3 w-px bg-surface-hover" />
 
-          <div className="relative z-10 flex h-11 w-11 items-center justify-center rounded-full border border-[#E5E7E9] bg-white text-[9px] font-semibold uppercase tracking-[0.11em] text-[#9A9FA5]">
+          <div className="relative z-10 flex h-11 w-11 items-center justify-center rounded-full border border-border-theme bg-surface text-[9px] font-semibold uppercase tracking-[0.11em] text-text-secondary">
             vs
           </div>
         </div>
@@ -375,44 +375,44 @@ function FailureOriginOverview({
               "MANUTENCAO",
             )
           }
-          className="group mt-5 flex min-h-[170px] flex-col justify-between rounded-[18px] border-t border-[#ECEDEF] py-6 text-left outline-none transition hover:bg-[#F7F7F6] focus-visible:ring-2 focus-visible:ring-black/10 lg:mt-0 lg:border-l-0 lg:border-t-0 lg:pl-10 lg:py-3 lg:text-right"
+          className="group mt-5 flex min-h-[170px] flex-col justify-between rounded-[18px] border-t border-border-theme py-6 text-left outline-none transition hover:bg-surface-hover focus-visible:ring-2 focus-visible:ring-black/10 lg:mt-0 lg:border-l-0 lg:border-t-0 lg:pl-10 lg:py-3 lg:text-right"
         >
           <div className="flex items-center justify-between gap-3 lg:flex-row-reverse">
             <div className="flex items-center gap-2.5 lg:flex-row-reverse">
               <span className="h-2.5 w-2.5 rounded-full bg-[#2F3337]" />
 
-              <p className="text-[11px] font-semibold uppercase tracking-[0.13em] text-[#555A60]">
+              <p className="text-[11px] font-semibold uppercase tracking-[0.13em] text-text-primary">
                 Manutenção
               </p>
             </div>
 
-            <span className="text-[10px] font-medium text-[#A0A4A9] transition group-hover:text-[#33373B]">
+            <span className="text-[10px] font-medium text-text-secondary transition group-hover:text-text-primary">
               Ver ocorrências →
             </span>
           </div>
 
           <div className="mt-7">
-            <p className="text-[52px] font-semibold leading-none tracking-[-0.065em] text-[#202225] sm:text-[62px]">
+            <p className="text-[52px] font-semibold leading-none tracking-[-0.065em] text-text-primary sm:text-[62px]">
               {formatNumber(
                 maintenancePercentage,
                 1,
               )}
 
-              <span className="ml-1 text-[24px] font-medium tracking-[-0.03em] text-[#A0A4A9]">
+              <span className="ml-1 text-[24px] font-medium tracking-[-0.03em] text-text-secondary">
                 %
               </span>
             </p>
 
             <div className="mt-4 flex items-center gap-3 lg:justify-end">
-              <p className="text-[15px] font-semibold text-[#33373B]">
+              <p className="text-[15px] font-semibold text-text-primary">
                 {formatNumber(
                   data.maintenance,
                 )}
               </p>
 
-              <span className="h-3 w-px bg-[#DADDE0]" />
+              <span className="h-3 w-px bg-surface-hover" />
 
-              <p className="text-[11px] text-[#92979D]">
+              <p className="text-[11px] text-text-secondary">
                 ocorrências
               </p>
             </div>
@@ -425,7 +425,7 @@ function FailureOriginOverview({
       ==================================================== */}
 
       <div className="mt-6">
-        <div className="relative flex h-[18px] overflow-hidden rounded-full bg-[#ECEDEF]">
+        <div className="relative flex h-[18px] overflow-hidden rounded-full bg-surface-hover">
           {data.classified > 0 ? (
             <>
               <button
@@ -459,16 +459,16 @@ function FailureOriginOverview({
               />
             </>
           ) : (
-            <div className="h-full w-full bg-[#ECEDEF]" />
+            <div className="h-full w-full bg-surface-hover" />
           )}
         </div>
 
         <div className="mt-2.5 flex items-center justify-between gap-5">
-          <p className="text-[10px] font-medium text-[#A1A5AA]">
+          <p className="text-[10px] font-medium text-text-secondary">
             Operação
           </p>
 
-          <p className="text-[10px] font-medium text-[#A1A5AA]">
+          <p className="text-[10px] font-medium text-text-secondary">
             Manutenção
           </p>
         </div>
@@ -478,24 +478,24 @@ function FailureOriginOverview({
           LEITURA
       ==================================================== */}
 
-      <div className="mt-6 grid gap-px overflow-hidden rounded-[16px] border border-[#E8EAEC] bg-[#E8EAEC] sm:grid-cols-3">
-        <div className="bg-[#FAFAF9] px-5 py-4">
-          <p className="text-[9px] font-semibold uppercase tracking-[0.11em] text-[#9A9FA5]">
+      <div className="mt-6 grid gap-px overflow-hidden rounded-[16px] border border-border-theme bg-surface-hover sm:grid-cols-3">
+        <div className="bg-surface-elevated px-5 py-4">
+          <p className="text-[9px] font-semibold uppercase tracking-[0.11em] text-text-secondary">
             Origem predominante
           </p>
 
-          <p className="mt-2 text-[14px] font-semibold text-[#33373B]">
+          <p className="mt-2 text-[14px] font-semibold text-text-primary">
             {dominantOrigin ??
               "Sem classificação"}
           </p>
         </div>
 
-        <div className="bg-[#FAFAF9] px-5 py-4">
-          <p className="text-[9px] font-semibold uppercase tracking-[0.11em] text-[#9A9FA5]">
+        <div className="bg-surface-elevated px-5 py-4">
+          <p className="text-[9px] font-semibold uppercase tracking-[0.11em] text-text-secondary">
             Diferença
           </p>
 
-          <p className="mt-2 text-[14px] font-semibold text-[#33373B]">
+          <p className="mt-2 text-[14px] font-semibold text-text-primary">
             {data.classified > 0
               ? `${formatNumber(
                   difference,
@@ -505,17 +505,17 @@ function FailureOriginOverview({
           </p>
         </div>
 
-        <div className="bg-[#FAFAF9] px-5 py-4">
-          <p className="text-[9px] font-semibold uppercase tracking-[0.11em] text-[#9A9FA5]">
+        <div className="bg-surface-elevated px-5 py-4">
+          <p className="text-[9px] font-semibold uppercase tracking-[0.11em] text-text-secondary">
             Classificadas
           </p>
 
-          <p className="mt-2 text-[14px] font-semibold text-[#33373B]">
+          <p className="mt-2 text-[14px] font-semibold text-text-primary">
             {formatNumber(
               data.classified,
             )}
 
-            <span className="ml-1 text-[10px] font-normal text-[#989DA3]">
+            <span className="ml-1 text-[10px] font-normal text-text-secondary">
               de{" "}
               {formatNumber(
                 data.total,
@@ -529,14 +529,14 @@ function FailureOriginOverview({
           COBERTURA
       ==================================================== */}
 
-      <div className="mt-5 flex flex-col gap-4 border-t border-[#ECEDEF] pt-5 sm:flex-row sm:items-center sm:justify-between">
+      <div className="mt-5 flex flex-col gap-4 border-t border-border-theme pt-5 sm:flex-row sm:items-center sm:justify-between">
         <div className="min-w-0 flex-1">
           <div className="flex items-center justify-between gap-4">
-            <p className="text-[10px] font-medium text-[#777C82]">
+            <p className="text-[10px] font-medium text-text-secondary">
               Cobertura da classificação
             </p>
 
-            <p className="text-[11px] font-semibold text-[#45494E]">
+            <p className="text-[11px] font-semibold text-text-primary">
               {formatNumber(
                 coveragePercentage,
                 1,
@@ -545,7 +545,7 @@ function FailureOriginOverview({
             </p>
           </div>
 
-          <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-[#ECEDEF]">
+          <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-surface-hover">
             <div
               className="h-full rounded-full bg-[#B5B9BE]"
               style={{
@@ -564,7 +564,7 @@ function FailureOriginOverview({
                 "NAO_CLASSIFICADO",
               )
             }
-            className="shrink-0 rounded-full border border-[#E2E4E6] bg-white px-3 py-2 text-[10px] font-medium text-[#686D73] transition hover:border-[#CACDD0] hover:bg-[#F7F7F6]"
+            className="shrink-0 rounded-full border border-border-theme bg-surface px-3 py-2 text-[10px] font-medium text-text-secondary transition hover:border-border-theme hover:bg-surface-hover"
           >
             {formatNumber(
               data.unclassified,
@@ -572,7 +572,7 @@ function FailureOriginOverview({
             aguardando classificação →
           </button>
         ) : (
-          <p className="shrink-0 text-[10px] text-[#969BA1]">
+          <p className="shrink-0 text-[10px] text-text-secondary">
             Todas as ocorrências foram classificadas
           </p>
         )}
@@ -1257,23 +1257,23 @@ function FailureOriginReviewDrawer({
           DRAWER
       ==================================================== */}
 
-      <aside className="absolute bottom-0 right-0 top-0 flex w-full max-w-[620px] flex-col border-l border-black/[0.06] bg-white shadow-[-18px_0_50px_rgba(0,0,0,0.08)]">
+      <aside className="absolute bottom-0 right-0 top-0 flex w-full max-w-[620px] flex-col border-l border-border-theme/[0.06] bg-surface shadow-[-18px_0_50px_rgba(0,0,0,0.08)]">
         {/* HEADER */}
 
-        <div className="border-b border-[#ECEDEF] px-5 py-5 sm:px-6">
+        <div className="border-b border-border-theme px-5 py-5 sm:px-6">
           <div className="flex items-start justify-between gap-4">
             <div>
-              <p className="text-[10px] font-semibold uppercase tracking-[0.11em] text-[#9A9FA5]">
+              <p className="text-[10px] font-semibold uppercase tracking-[0.11em] text-text-secondary">
                 Origem das falhas
               </p>
 
-              <h3 className="mt-1.5 text-[22px] font-semibold tracking-[-0.035em] text-[#202327]">
+              <h3 className="mt-1.5 text-[22px] font-semibold tracking-[-0.035em] text-text-primary">
                 {failureOriginLabel(
                   origin,
                 )}
               </h3>
 
-              <p className="mt-1 text-[11px] text-[#969BA1]">
+              <p className="mt-1 text-[11px] text-text-secondary">
                 {formatNumber(
                   pagination.total,
                 )}{" "}
@@ -1292,7 +1292,7 @@ function FailureOriginReviewDrawer({
               onClick={
                 onClose
               }
-              className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-[#777C82] transition hover:bg-[#F4F4F3]"
+              className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-text-secondary transition hover:bg-surface-hover"
             >
               <X
                 size={18}
@@ -1321,7 +1321,7 @@ function FailureOriginReviewDrawer({
             <div className="relative flex-1">
               <Search
                 size={14}
-                className="absolute left-3 top-1/2 -translate-y-1/2 text-[#A0A4A9]"
+                className="absolute left-3 top-1/2 -translate-y-1/2 text-text-secondary"
               />
 
               <input
@@ -1336,7 +1336,7 @@ function FailureOriginReviewDrawer({
                   )
                 }
                 placeholder="Buscar equipamento, linha ou descrição"
-                className="h-10 w-full rounded-[11px] border border-[#DFE1E3] bg-[#FAFAF9] pl-9 pr-3 text-[11px] text-[#34383C] outline-none transition focus:border-[#BFC3C7] focus:bg-white"
+                className="h-10 w-full rounded-[11px] border border-border-theme bg-surface-elevated pl-9 pr-3 text-[11px] text-text-primary outline-none transition focus:border-border-theme focus:bg-surface"
               />
             </div>
 
@@ -1372,14 +1372,14 @@ function FailureOriginReviewDrawer({
             <div className="flex min-h-[260px] flex-col items-center justify-center text-center">
               <CheckCircle2
                 size={28}
-                className="text-[#A8ADB2]"
+                className="text-text-secondary"
               />
 
-              <p className="mt-4 text-[13px] font-semibold text-[#555A60]">
+              <p className="mt-4 text-[13px] font-semibold text-text-primary">
                 Nenhuma ocorrência encontrada
               </p>
 
-              <p className="mt-1 max-w-[300px] text-[11px] leading-5 text-[#9A9FA5]">
+              <p className="mt-1 max-w-[300px] text-[11px] leading-5 text-text-secondary">
                 Não há registros para essa origem com os filtros atuais.
               </p>
             </div>
@@ -1410,7 +1410,7 @@ function FailureOriginReviewDrawer({
                       key={
                         item.id
                       }
-                      className="rounded-[16px] border border-[#E7E9EB] bg-white p-4 transition hover:border-[#D4D7DA]"
+                      className="rounded-[16px] border border-border-theme bg-surface p-4 transition hover:border-border-theme"
                     >
                       <div className="flex items-start justify-between gap-4">
                         <div className="min-w-0">
@@ -1422,8 +1422,8 @@ function FailureOriginReviewDrawer({
                                   ? "bg-[#FFF0F1] text-[#C92832]"
                                   : effective ===
                                       "MANUTENCAO"
-                                    ? "bg-[#EFF0F1] text-[#42474C]"
-                                    : "bg-[#F4F4F3] text-[#858A90]"
+                                    ? "bg-surface-elevated text-text-primary"
+                                    : "bg-surface-elevated text-text-secondary"
                               }`}
                             >
                               {effective
@@ -1440,12 +1440,12 @@ function FailureOriginReviewDrawer({
                             )}
                           </div>
 
-                          <p className="mt-3 text-[12px] font-semibold leading-5 text-[#303438]">
+                          <p className="mt-3 text-[12px] font-semibold leading-5 text-text-primary">
                             {item.equipment?.trim() ||
                               "Equipamento não informado"}
                           </p>
 
-                          <p className="mt-1 text-[11px] leading-5 text-[#7E8389]">
+                          <p className="mt-1 text-[11px] leading-5 text-text-secondary">
                             {description}
                           </p>
                         </div>
@@ -1458,7 +1458,7 @@ function FailureOriginReviewDrawer({
                                 item,
                               )
                             }
-                            className="inline-flex h-9 shrink-0 items-center gap-1.5 rounded-[10px] border border-[#DFE1E3] px-3 text-[10px] font-semibold text-[#555A60] transition hover:border-[#C9CDD0] hover:bg-[#F7F7F6]"
+                            className="inline-flex h-9 shrink-0 items-center gap-1.5 rounded-[10px] border border-border-theme px-3 text-[10px] font-semibold text-text-primary transition hover:border-border-theme hover:bg-surface-hover"
                           >
                             <Pencil
                               size={13}
@@ -1469,13 +1469,13 @@ function FailureOriginReviewDrawer({
                         )}
                       </div>
 
-                      <div className="mt-4 grid gap-3 border-t border-[#F0F1F2] pt-3 sm:grid-cols-3">
+                      <div className="mt-4 grid gap-3 border-t border-border-theme pt-3 sm:grid-cols-3">
                         <div>
-                          <p className="text-[9px] uppercase tracking-[0.08em] text-[#A1A5AA]">
+                          <p className="text-[9px] uppercase tracking-[0.08em] text-text-secondary">
                             Data
                           </p>
 
-                          <p className="mt-1 text-[10px] font-medium text-[#555A60]">
+                          <p className="mt-1 text-[10px] font-medium text-text-primary">
                             {formatEventDate(
                               item.eventDate,
                             )}
@@ -1483,22 +1483,22 @@ function FailureOriginReviewDrawer({
                         </div>
 
                         <div>
-                          <p className="text-[9px] uppercase tracking-[0.08em] text-[#A1A5AA]">
+                          <p className="text-[9px] uppercase tracking-[0.08em] text-text-secondary">
                             Linha
                           </p>
 
-                          <p className="mt-1 truncate text-[10px] font-medium text-[#555A60]">
+                          <p className="mt-1 truncate text-[10px] font-medium text-text-primary">
                             {item.line?.trim() ||
                               "Não informada"}
                           </p>
                         </div>
 
                         <div>
-                          <p className="text-[9px] uppercase tracking-[0.08em] text-[#A1A5AA]">
+                          <p className="text-[9px] uppercase tracking-[0.08em] text-text-secondary">
                             Parada
                           </p>
 
-                          <p className="mt-1 text-[10px] font-medium text-[#555A60]">
+                          <p className="mt-1 text-[10px] font-medium text-text-primary">
                             {formatNumber(
                               item.downtimeMinutes,
                               1,
@@ -1509,7 +1509,7 @@ function FailureOriginReviewDrawer({
                       </div>
 
                       {editable && (
-                        <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-1 border-t border-[#F0F1F2] pt-3 text-[9px] text-[#999DA2]">
+                        <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-1 border-t border-border-theme pt-3 text-[9px] text-text-secondary">
                           <span>
                             Previsão:{" "}
                             {item.prediction.origin
@@ -1546,9 +1546,9 @@ function FailureOriginReviewDrawer({
             PAGINAÇÃO
         ================================================== */}
 
-        <div className="border-t border-[#ECEDEF] bg-white px-5 py-4 sm:px-6">
+        <div className="border-t border-border-theme bg-surface px-5 py-4 sm:px-6">
           <div className="flex items-center justify-between gap-3">
-            <p className="text-[10px] text-[#969BA1]">
+            <p className="text-[10px] text-text-secondary">
               Página{" "}
               {pagination.page}
               {" de "}
@@ -1575,7 +1575,7 @@ function FailureOriginReviewDrawer({
                   pagination.page <=
                     1
                 }
-                className="flex h-9 w-9 items-center justify-center rounded-[10px] border border-[#DFE1E3] text-[#686D73] transition hover:bg-[#F7F7F6] disabled:cursor-not-allowed disabled:opacity-35"
+                className="flex h-9 w-9 items-center justify-center rounded-[10px] border border-border-theme text-text-secondary transition hover:bg-surface-hover disabled:cursor-not-allowed disabled:opacity-35"
                 aria-label="Página anterior"
               >
                 <ChevronLeft
@@ -1602,7 +1602,7 @@ function FailureOriginReviewDrawer({
                   pagination.page >=
                     pagination.totalPages
                 }
-                className="flex h-9 w-9 items-center justify-center rounded-[10px] border border-[#DFE1E3] text-[#686D73] transition hover:bg-[#F7F7F6] disabled:cursor-not-allowed disabled:opacity-35"
+                className="flex h-9 w-9 items-center justify-center rounded-[10px] border border-border-theme text-text-secondary transition hover:bg-surface-hover disabled:cursor-not-allowed disabled:opacity-35"
                 aria-label="Próxima página"
               >
                 <ChevronRight
@@ -1620,14 +1620,14 @@ function FailureOriginReviewDrawer({
 
       {editing && (
         <div className="absolute inset-0 z-20 flex items-end justify-center bg-black/20 p-4 sm:items-center">
-          <div className="w-full max-w-[470px] rounded-[22px] border border-black/[0.06] bg-white p-5 shadow-2xl sm:p-6">
+          <div className="w-full max-w-[470px] rounded-[22px] border border-border-theme/[0.06] bg-surface p-5 shadow-2xl sm:p-6">
             <div className="flex items-start justify-between gap-4">
               <div>
-                <p className="text-[10px] font-semibold uppercase tracking-[0.1em] text-[#9A9FA5]">
+                <p className="text-[10px] font-semibold uppercase tracking-[0.1em] text-text-secondary">
                   Revisão manual
                 </p>
 
-                <h4 className="mt-1 text-[19px] font-semibold tracking-[-0.03em] text-[#25282C]">
+                <h4 className="mt-1 text-[19px] font-semibold tracking-[-0.03em] text-text-primary">
                   Origem da ocorrência
                 </h4>
               </div>
@@ -1642,7 +1642,7 @@ function FailureOriginReviewDrawer({
                 disabled={
                   saving
                 }
-                className="flex h-9 w-9 items-center justify-center rounded-full text-[#777C82] transition hover:bg-[#F4F4F3] disabled:opacity-50"
+                className="flex h-9 w-9 items-center justify-center rounded-full text-text-secondary transition hover:bg-surface-hover disabled:opacity-50"
               >
                 <X
                   size={17}
@@ -1652,13 +1652,13 @@ function FailureOriginReviewDrawer({
 
             {/* PREVISÃO */}
 
-            <div className="mt-5 rounded-[14px] bg-[#F7F7F6] p-4">
-              <p className="text-[9px] font-semibold uppercase tracking-[0.08em] text-[#9A9FA5]">
+            <div className="mt-5 rounded-[14px] bg-surface-elevated p-4">
+              <p className="text-[9px] font-semibold uppercase tracking-[0.08em] text-text-secondary">
                 Previsão original do modelo
               </p>
 
               <div className="mt-2 flex flex-wrap items-center gap-2">
-                <p className="text-[12px] font-semibold text-[#45494E]">
+                <p className="text-[12px] font-semibold text-text-primary">
                   {editing.prediction.origin
                     ? failureOriginLabel(
                         editing.prediction.origin,
@@ -1670,7 +1670,7 @@ function FailureOriginReviewDrawer({
                   editing.prediction
                     .confidence,
                 ) && (
-                  <span className="rounded-full bg-white px-2 py-1 text-[9px] font-medium text-[#84898F]">
+                  <span className="rounded-full bg-surface px-2 py-1 text-[9px] font-medium text-text-secondary">
                     {confidenceText(
                       editing.prediction
                         .confidence,
@@ -1680,7 +1680,7 @@ function FailureOriginReviewDrawer({
                 )}
               </div>
 
-              <p className="mt-3 line-clamp-3 text-[10px] leading-5 text-[#8B9096]">
+              <p className="mt-3 line-clamp-3 text-[10px] leading-5 text-text-secondary">
                 {editing.observation?.trim() ||
                   editing.stopKey?.trim() ||
                   editing.stopSubkey?.trim() ||
@@ -1691,7 +1691,7 @@ function FailureOriginReviewDrawer({
             {/* NOVA ORIGEM */}
 
             <div className="mt-5">
-              <p className="text-[10px] font-semibold text-[#555A60]">
+              <p className="text-[10px] font-semibold text-text-primary">
                 Classificação validada
               </p>
 
@@ -1710,10 +1710,10 @@ function FailureOriginReviewDrawer({
                     editOrigin ===
                     "OPERACAO"
                       ? "border-[#E41E2B] bg-[#FFF7F7] shadow-[0_0_0_1px_rgba(228,30,43,0.05)]"
-                      : "border-[#E1E3E5] bg-white hover:bg-[#FAFAF9]"
+                      : "border-border-theme bg-surface hover:bg-surface-hover"
                   }`}
                 >
-                  <span className="block text-[10px] font-semibold uppercase tracking-[0.09em] text-[#9A9FA5]">
+                  <span className="block text-[10px] font-semibold uppercase tracking-[0.09em] text-text-secondary">
                     Origem
                   </span>
 
@@ -1722,7 +1722,7 @@ function FailureOriginReviewDrawer({
                       editOrigin ===
                       "OPERACAO"
                         ? "text-[#C92832]"
-                        : "text-[#45494E]"
+                        : "text-text-primary"
                     }`}
                   >
                     Operação
@@ -1742,11 +1742,11 @@ function FailureOriginReviewDrawer({
                   className={`rounded-[14px] border px-4 py-4 text-left transition ${
                     editOrigin ===
                     "MANUTENCAO"
-                      ? "border-[#393D41] bg-[#F7F7F6] shadow-[0_0_0_1px_rgba(0,0,0,0.03)]"
-                      : "border-[#E1E3E5] bg-white hover:bg-[#FAFAF9]"
+                      ? "border-[#393D41] bg-surface-elevated shadow-[0_0_0_1px_rgba(0,0,0,0.03)]"
+                      : "border-border-theme bg-surface hover:bg-surface-hover"
                   }`}
                 >
-                  <span className="block text-[10px] font-semibold uppercase tracking-[0.09em] text-[#9A9FA5]">
+                  <span className="block text-[10px] font-semibold uppercase tracking-[0.09em] text-text-secondary">
                     Origem
                   </span>
 
@@ -1754,8 +1754,8 @@ function FailureOriginReviewDrawer({
                     className={`mt-2 block text-[13px] font-semibold ${
                       editOrigin ===
                       "MANUTENCAO"
-                        ? "text-[#303438]"
-                        : "text-[#45494E]"
+                        ? "text-text-primary"
+                        : "text-text-primary"
                     }`}
                   >
                     Manutenção
@@ -1767,7 +1767,7 @@ function FailureOriginReviewDrawer({
             {/* OBSERVAÇÃO */}
 
             <label className="mt-5 block">
-              <span className="text-[10px] font-semibold text-[#555A60]">
+              <span className="text-[10px] font-semibold text-text-primary">
                 Observação da revisão
               </span>
 
@@ -1790,10 +1790,10 @@ function FailureOriginReviewDrawer({
                 }
                 rows={3}
                 placeholder="Opcional. Ex.: parada causada por ajuste incorreto de operação."
-                className="mt-2 w-full resize-none rounded-[12px] border border-[#DFE1E3] bg-white px-3 py-3 text-[11px] leading-5 text-[#34383C] outline-none transition focus:border-[#BFC3C7] disabled:bg-[#F7F7F6]"
+                className="mt-2 w-full resize-none rounded-[12px] border border-border-theme bg-surface px-3 py-3 text-[11px] leading-5 text-text-primary outline-none transition focus:border-border-theme disabled:bg-surface-elevated"
               />
 
-              <span className="mt-1 block text-right text-[9px] text-[#A1A5AA]">
+              <span className="mt-1 block text-right text-[9px] text-text-secondary">
                 {editNote.length}/500
               </span>
             </label>
@@ -1811,7 +1811,7 @@ function FailureOriginReviewDrawer({
                     disabled={
                       saving
                     }
-                    className="inline-flex h-11 items-center justify-center gap-2 rounded-[11px] px-3 text-[10px] font-semibold text-[#777C82] transition hover:bg-[#F5F5F4] disabled:opacity-50"
+                    className="inline-flex h-11 items-center justify-center gap-2 rounded-[11px] px-3 text-[10px] font-semibold text-text-secondary transition hover:bg-surface-hover disabled:opacity-50"
                   >
                     <Undo2
                       size={14}
@@ -1833,7 +1833,7 @@ function FailureOriginReviewDrawer({
                   disabled={
                     saving
                   }
-                  className="h-11 rounded-[11px] border border-[#DFE1E3] px-4 text-[10px] font-semibold text-[#686D73] transition hover:bg-[#F7F7F6] disabled:opacity-50"
+                  className="h-11 rounded-[11px] border border-border-theme px-4 text-[10px] font-semibold text-text-secondary transition hover:bg-surface-hover disabled:opacity-50"
                 >
                   Cancelar
                 </button>

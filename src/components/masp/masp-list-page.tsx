@@ -79,7 +79,7 @@ function statusClass(
     status ===
     "CANCELLED"
   ) {
-    return "bg-[#F1F1EF] text-[#777B80]";
+    return "bg-surface-elevated text-text-secondary";
   }
 
   if (
@@ -292,7 +292,7 @@ export function MaspListPage({
         </Link>
       }
     >
-      <div className="grid gap-3 rounded-[20px] border border-[#E4E6E8] bg-white p-4 sm:grid-cols-2 lg:grid-cols-[220px_1fr_auto]">
+      <div className="grid gap-3 rounded-[20px] border border-border-theme bg-surface p-4 sm:grid-cols-2 lg:grid-cols-[220px_1fr_auto]">
         <select
           value={
             status
@@ -304,7 +304,7 @@ export function MaspListPage({
               event.target.value,
             )
           }
-          className="h-11 rounded-[11px] border border-[#E2E4E6] bg-white px-3 text-[12px] text-[#4F5459] outline-none focus:border-[#D58B91]"
+          className="h-11 rounded-[11px] border border-border-theme bg-surface px-3 text-[12px] text-text-primary outline-none focus:border-[#D58B91]"
         >
           <option value="">
             Todos os status
@@ -341,7 +341,7 @@ export function MaspListPage({
               event.target.value,
             )
           }
-          className="h-11 rounded-[11px] border border-[#E2E4E6] bg-white px-3 text-[12px] text-[#4F5459] outline-none focus:border-[#D58B91]"
+          className="h-11 rounded-[11px] border border-border-theme bg-surface px-3 text-[12px] text-text-primary outline-none focus:border-[#D58B91]"
         >
           <option value="">
             Todos os equipamentos
@@ -369,7 +369,7 @@ export function MaspListPage({
           onClick={() =>
             void load()
           }
-          className="h-11 rounded-[11px] border border-[#E2E4E6] px-5 text-[12px] font-semibold text-[#555A60] hover:bg-[#F7F7F6]"
+          className="h-11 rounded-[11px] border border-border-theme px-5 text-[12px] font-semibold text-text-primary hover:bg-surface-hover"
         >
           Aplicar filtros
         </button>
@@ -382,7 +382,7 @@ export function MaspListPage({
       )}
 
       {loading ? (
-        <div className="flex min-h-[280px] items-center justify-center gap-3 text-[13px] text-[#777C82]">
+        <div className="flex min-h-[280px] items-center justify-center gap-3 text-[13px] text-text-secondary">
           <LoaderCircle
             size={18}
             className="animate-spin text-[#E41E2B]"
@@ -391,24 +391,24 @@ export function MaspListPage({
         </div>
       ) : items.length ===
         0 ? (
-        <div className="mt-5 flex min-h-[300px] flex-col items-center justify-center rounded-[24px] border border-dashed border-[#DADDE0] bg-white px-6 text-center">
+        <div className="mt-5 flex min-h-[300px] flex-col items-center justify-center rounded-[24px] border border-dashed border-border-theme bg-surface px-6 text-center">
           <ClipboardCheck
             size={28}
-            className="text-[#A1A5AA]"
+            className="text-text-secondary"
           />
-          <h2 className="mt-4 text-[16px] font-semibold text-[#303438]">
+          <h2 className="mt-4 text-[16px] font-semibold text-text-primary">
             Nenhum MASP encontrado
           </h2>
-          <p className="mt-2 max-w-[420px] text-[12px] leading-6 text-[#8B9096]">
+          <p className="mt-2 max-w-[420px] text-[12px] leading-6 text-text-secondary">
             Inicie uma análise manual ou selecione eventos reais para gerar a declaração do problema.
           </p>
         </div>
       ) : (
-        <div className="mt-5 overflow-hidden rounded-[22px] border border-[#E4E6E8] bg-white">
+        <div className="mt-5 overflow-hidden rounded-[22px] border border-border-theme bg-surface">
           <div className="overflow-x-auto">
             <table className="w-full min-w-[900px] border-collapse">
               <thead>
-                <tr className="border-b border-[#ECEDEF] bg-[#FAFAF9] text-left">
+                <tr className="border-b border-border-theme bg-surface-elevated text-left">
                   {[
                     "ID",
                     "Análise",
@@ -426,7 +426,7 @@ export function MaspListPage({
                         key={
                           label
                         }
-                        className="px-4 py-3 text-[9px] font-semibold uppercase tracking-[0.08em] text-[#969BA1] first:pl-5 last:pr-5"
+                        className="px-4 py-3 text-[9px] font-semibold uppercase tracking-[0.08em] text-text-secondary first:pl-5 last:pr-5"
                       >
                         {label}
                       </th>
@@ -443,23 +443,23 @@ export function MaspListPage({
                       key={
                         item.id
                       }
-                      className="border-b border-[#F0F1F2] last:border-b-0"
+                      className="border-b border-border-theme last:border-b-0"
                     >
-                      <td className="px-5 py-4 text-[11px] font-semibold text-[#7A7F85]">
+                      <td className="px-5 py-4 text-[11px] font-semibold text-text-secondary">
                         #{item.id}
                       </td>
                       <td className="px-4 py-4">
-                        <p className="max-w-[280px] text-[12px] font-semibold text-[#34383C]">
+                        <p className="max-w-[280px] text-[12px] font-semibold text-text-primary">
                           {item.title}
                         </p>
-                        <p className="mt-1 text-[9px] text-[#9A9FA5]">
+                        <p className="mt-1 text-[9px] text-text-secondary">
                           {item.event_count} evento(s)
                         </p>
                       </td>
-                      <td className="px-4 py-4 text-[11px] text-[#62676D]">
+                      <td className="px-4 py-4 text-[11px] text-text-primary">
                         {item.unit_name}
                       </td>
-                      <td className="px-4 py-4 text-[11px] text-[#62676D]">
+                      <td className="px-4 py-4 text-[11px] text-text-primary">
                         {item.equipment_name ??
                           "Não definido"}
                       </td>
@@ -469,11 +469,11 @@ export function MaspListPage({
                             item.status}
                         </span>
                       </td>
-                      <td className="px-4 py-4 text-[11px] text-[#62676D]">
+                      <td className="px-4 py-4 text-[11px] text-text-primary">
                         {item.owner_name ??
                           "Sem responsável"}
                       </td>
-                      <td className="px-4 py-4 text-[10px] text-[#858A90]">
+                      <td className="px-4 py-4 text-[10px] text-text-secondary">
                         {new Intl.DateTimeFormat(
                           "pt-BR",
                           {
@@ -491,7 +491,7 @@ export function MaspListPage({
                       <td className="px-5 py-4 text-right">
                         <Link
                           href={`/dashboard/masp/${item.id}`}
-                          className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-[#E2E4E6] text-[#73787E] hover:border-[#D7A7AB] hover:text-[#C92834]"
+                          className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-border-theme text-text-secondary hover:border-[#D7A7AB] hover:text-[#C92834]"
                           aria-label={`Abrir MASP ${item.id}`}
                         >
                           <ArrowRight

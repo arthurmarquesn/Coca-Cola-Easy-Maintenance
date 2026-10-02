@@ -1125,7 +1125,7 @@ export async function GET(
 
       editable:
         session.role ===
-        "ANALISTA",
+        "MAINTENANCE",
 
       filter: {
         origin:
@@ -1194,12 +1194,12 @@ export async function GET(
 /* =========================================================
    PATCH
 
-   ANALISTA:
+   MAINTENANCE:
    - cria revisão;
    - altera revisão;
    - remove revisão.
 
-   GESTOR:
+   MANAGER:
    - somente leitura.
 ========================================================= */
 
@@ -1232,7 +1232,7 @@ export async function PATCH(
 
   if (
     session.role !==
-    "ANALISTA"
+    "MAINTENANCE"
   ) {
     return NextResponse.json(
       {

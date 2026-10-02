@@ -290,10 +290,10 @@ Record<MaspCategory, string> = {
 };
 
 const inputClass =
-  "h-11 w-full rounded-[11px] border border-[#E1E3E5] bg-white px-3 text-[12px] text-[#44494F] outline-none focus:border-[#D58B91]";
+  "h-11 w-full rounded-[11px] border border-border-theme bg-surface px-3 text-[12px] text-text-primary outline-none focus:border-[#D58B91]";
 
 const textareaClass =
-  "w-full rounded-[11px] border border-[#E1E3E5] bg-white px-3 py-3 text-[12px] leading-5 text-[#44494F] outline-none focus:border-[#D58B91]";
+  "w-full rounded-[11px] border border-border-theme bg-surface px-3 py-3 text-[12px] leading-5 text-text-primary outline-none focus:border-[#D58B91]";
 
 function MethodCard({
   title,
@@ -306,12 +306,12 @@ function MethodCard({
     React.ReactNode;
 }) {
   return (
-    <section className="rounded-[22px] border border-[#E4E6E8] bg-white p-5 sm:p-6">
-      <h2 className="text-[15px] font-semibold text-[#303438]">
+    <section className="rounded-[22px] border border-border-theme bg-surface p-5 sm:p-6">
+      <h2 className="text-[15px] font-semibold text-text-primary">
         {title}
       </h2>
       {description && (
-        <p className="mt-2 text-[11px] leading-5 text-[#92979D]">
+        <p className="mt-2 text-[11px] leading-5 text-text-secondary">
           {description}
         </p>
       )}
@@ -855,8 +855,8 @@ export function MaspDetailPage({
     !data
   ) {
     return (
-      <main className="flex min-h-screen items-center justify-center bg-[#F7F7F6]">
-        <div className="flex items-center gap-3 text-[13px] text-[#777C82]">
+      <main className="flex min-h-screen items-center justify-center bg-surface-elevated">
+        <div className="flex items-center gap-3 text-[13px] text-text-secondary">
           <LoaderCircle
             size={18}
             className="animate-spin text-[#E41E2B]"
@@ -932,7 +932,7 @@ export function MaspDetailPage({
         </div>
       }
     >
-      <div className="overflow-x-auto rounded-[18px] border border-[#E4E6E8] bg-white p-2">
+      <div className="overflow-x-auto rounded-[18px] border border-border-theme bg-surface p-2">
         <div className="flex min-w-[800px] gap-1">
           {TABS.map(
             (
@@ -949,9 +949,9 @@ export function MaspDetailPage({
                     index,
                   )
                 }
-                className={`flex flex-1 items-center gap-2 rounded-[12px] px-3 py-3 text-left text-[10px] font-semibold transition-colors ${activeTab === index ? "bg-[#E41E2B] text-white" : "text-[#71767C] hover:bg-[#F5F5F4]"}`}
+                className={`flex flex-1 items-center gap-2 rounded-[12px] px-3 py-3 text-left text-[10px] font-semibold transition-colors ${activeTab === index ? "bg-[#E41E2B] text-white" : "text-text-secondary hover:bg-surface-hover"}`}
               >
-                <span className={`flex h-5 w-5 items-center justify-center rounded-full text-[9px] ${activeTab === index ? "bg-white/20" : "bg-[#ECEDEB]"}`}>
+                <span className={`flex h-5 w-5 items-center justify-center rounded-full text-[9px] ${activeTab === index ? "bg-surface/20" : "bg-surface-hover"}`}>
                   {index +
                     1}
                 </span>
@@ -1024,12 +1024,12 @@ export function MaspDetailPage({
                     key={
                       label
                     }
-                    className="rounded-[18px] border border-[#E4E6E8] bg-white p-5"
+                    className="rounded-[18px] border border-border-theme bg-surface p-5"
                   >
-                    <p className="text-[9px] font-semibold uppercase tracking-[0.09em] text-[#969BA1]">
+                    <p className="text-[9px] font-semibold uppercase tracking-[0.09em] text-text-secondary">
                       {label}
                     </p>
-                    <p className="mt-3 text-[19px] font-semibold tracking-[-0.03em] text-[#34383C]">
+                    <p className="mt-3 text-[19px] font-semibold tracking-[-0.03em] text-text-primary">
                       {value}
                     </p>
                   </div>
@@ -1146,12 +1146,12 @@ export function MaspDetailPage({
                         key={
                           label
                         }
-                        className="flex justify-between gap-4 border-b border-[#EEEFEF] pb-3 last:border-0"
+                        className="flex justify-between gap-4 border-b border-border-theme pb-3 last:border-0"
                       >
-                        <dt className="text-[#8B9096]">
+                        <dt className="text-text-secondary">
                           {label}
                         </dt>
-                        <dd className="text-right font-medium text-[#44494F]">
+                        <dd className="text-right font-medium text-text-primary">
                           {value ||
                             "Não identificado"}
                         </dd>
@@ -1229,10 +1229,10 @@ export function MaspDetailPage({
                       key={
                         item.id
                       }
-                      className="flex items-start justify-between gap-4 rounded-[13px] border border-[#E8E9EB] p-4"
+                      className="flex items-start justify-between gap-4 rounded-[13px] border border-border-theme p-4"
                     >
                       <div>
-                        <p className="text-[10px] font-semibold text-[#40454A]">
+                        <p className="text-[10px] font-semibold text-text-primary">
                           #{item.id} · {String(
                             item.event_date,
                           ).slice(
@@ -1241,7 +1241,7 @@ export function MaspDetailPage({
                           )} · {item.equipment_name ??
                             "Sem equipamento"}
                         </p>
-                        <p className="mt-2 text-[10px] leading-5 text-[#858A90]">
+                        <p className="mt-2 text-[10px] leading-5 text-text-secondary">
                           {item.observation ??
                             "Sem observação"}
                         </p>
@@ -1260,7 +1260,7 @@ export function MaspDetailPage({
                                 undefined,
                             )
                           }
-                          className="text-[#9A9FA5] hover:text-[#C92834]"
+                          className="text-text-secondary hover:text-[#C92834]"
                           aria-label={`Remover evento ${item.id}`}
                         >
                           <Trash2
@@ -1411,7 +1411,7 @@ export function MaspDetailPage({
                   )}
                 </form>
 
-                <div className="mt-5 space-y-2 border-t border-[#ECEDEF] pt-5">
+                <div className="mt-5 space-y-2 border-t border-border-theme pt-5">
                   {data.hypotheses.map(
                     (
                       item,
@@ -1421,16 +1421,16 @@ export function MaspDetailPage({
                           item.id
                         }
                         id={`hypothesis-${item.id}`}
-                        className={`rounded-[13px] border p-4 transition-colors ${selectedHypothesisId === item.id ? "border-[#E41E2B] bg-[#FFF7F7]" : "border-[#E7E8EA]"}`}
+                        className={`rounded-[13px] border p-4 transition-colors ${selectedHypothesisId === item.id ? "border-[#E41E2B] bg-[#FFF7F7]" : "border-border-theme"}`}
                       >
-                        <p className="text-[11px] font-medium leading-5 text-[#41464B]">
+                        <p className="text-[11px] font-medium leading-5 text-text-primary">
                           {item.description}
                         </p>
                         <div className="mt-3 flex flex-wrap items-center gap-2">
-                          <span className="rounded-full bg-[#F2F2F0] px-2 py-1 text-[8px] font-semibold text-[#777C82]">
+                          <span className="rounded-full bg-surface-elevated px-2 py-1 text-[8px] font-semibold text-text-secondary">
                             {CATEGORY_LABELS[item.category]}
                           </span>
-                          <span className="text-[8px] uppercase tracking-[0.06em] text-[#999DA2]">
+                          <span className="text-[8px] uppercase tracking-[0.06em] text-text-secondary">
                             {item.source} · {item.support_count} apoio(s)
                           </span>
                           {!terminal && (
@@ -1455,7 +1455,7 @@ export function MaspDetailPage({
                                       undefined,
                                   )
                                 }
-                                className="ml-auto h-8 rounded-[8px] border border-[#E1E3E5] px-2 text-[9px]"
+                                className="ml-auto h-8 rounded-[8px] border border-border-theme px-2 text-[9px]"
                               >
                                 <option value="OPEN">
                                   Aberta
@@ -1483,7 +1483,7 @@ export function MaspDetailPage({
                                       undefined,
                                   )
                                 }
-                                className="text-[#9A9FA5] hover:text-[#C92834]"
+                                className="text-text-secondary hover:text-[#C92834]"
                               >
                                 <Trash2
                                   size={14}
@@ -1509,13 +1509,13 @@ export function MaspDetailPage({
                     ) => (
                       <div
                         key={`${suggestion.category}:${suggestion.description}`}
-                        className="rounded-[13px] border border-[#E7E8EA] bg-[#FCFCFB] p-4"
+                        className="rounded-[13px] border border-border-theme bg-surface-elevated p-4"
                       >
-                        <p className="text-[11px] font-medium leading-5 text-[#41464B]">
+                        <p className="text-[11px] font-medium leading-5 text-text-primary">
                           {suggestion.description}
                         </p>
                         <div className="mt-3 flex items-center justify-between gap-3">
-                          <span className="text-[8px] uppercase tracking-[0.06em] text-[#999DA2]">
+                          <span className="text-[8px] uppercase tracking-[0.06em] text-text-secondary">
                             {CATEGORY_LABELS[suggestion.category]} · {suggestion.supportCount} ocorrência(s)
                           </span>
                           {!terminal && (
@@ -1543,7 +1543,7 @@ export function MaspDetailPage({
                   )}
                   {suggestions.length ===
                     0 && (
-                    <p className="rounded-[13px] border border-dashed border-[#DADDE0] px-4 py-10 text-center text-[10px] text-[#969BA1]">
+                    <p className="rounded-[13px] border border-dashed border-border-theme px-4 py-10 text-center text-[10px] text-text-secondary">
                       Nenhum padrão 6M recorrente atingiu suporte mínimo no histórico local.
                     </p>
                   )}
@@ -1898,9 +1898,9 @@ export function MaspDetailPage({
                         key={
                           cause.id
                         }
-                        className={`rounded-[14px] border p-4 ${cause.status === "CONFIRMED" ? "border-[#BCD9C2] bg-[#F7FBF7]" : "border-[#E5E7E9]"}`}
+                        className={`rounded-[14px] border p-4 ${cause.status === "CONFIRMED" ? "border-[#BCD9C2] bg-[#F7FBF7]" : "border-border-theme"}`}
                       >
-                        <p className="text-[9px] font-semibold uppercase tracking-[0.08em] text-[#7E8389]">
+                        <p className="text-[9px] font-semibold uppercase tracking-[0.08em] text-text-secondary">
                           {cause.status ===
                             "CONFIRMED"
                             ? "Causa raiz confirmada"
@@ -1909,18 +1909,18 @@ export function MaspDetailPage({
                               ? "Causa rejeitada"
                               : "Causa raiz proposta"}
                         </p>
-                        <p className="mt-2 text-[12px] font-medium leading-5 text-[#3E4348]">
+                        <p className="mt-2 text-[12px] font-medium leading-5 text-text-primary">
                           {cause.description}
                         </p>
                         {cause.evidence_summary && (
-                          <p className="mt-2 text-[10px] leading-5 text-[#777C82]">
+                          <p className="mt-2 text-[10px] leading-5 text-text-secondary">
                             Evidência: {cause.evidence_summary}
                           </p>
                         )}
                         {!terminal &&
                           cause.status ===
                             "PROPOSED" && (
-                          <div className="mt-3 flex gap-3 border-t border-[#E5E7E9] pt-3">
+                          <div className="mt-3 flex gap-3 border-t border-border-theme pt-3">
                             <button
                               type="button"
                               onClick={() =>
@@ -2096,7 +2096,7 @@ export function MaspDetailPage({
                 )}
               </form>
 
-              <div className="mt-5 space-y-2 border-t border-[#ECEDEF] pt-5">
+              <div className="mt-5 space-y-2 border-t border-border-theme pt-5">
                 {data.evidence.map(
                   (
                     item,
@@ -2105,12 +2105,12 @@ export function MaspDetailPage({
                       key={
                         item.id
                       }
-                      className="rounded-[13px] border border-[#E7E8EA] p-4"
+                      className="rounded-[13px] border border-border-theme p-4"
                     >
                       <span className="text-[8px] font-semibold uppercase tracking-[0.08em] text-[#E41E2B]">
                         {item.type}
                       </span>
-                      <p className="mt-2 text-[11px] leading-5 text-[#4B5056]">
+                      <p className="mt-2 text-[11px] leading-5 text-text-primary">
                         {item.description}
                       </p>
                     </div>
@@ -2322,39 +2322,39 @@ export function MaspDetailPage({
                       key={
                         action.id
                       }
-                      className="rounded-[15px] border border-[#E5E7E9] p-4"
+                      className="rounded-[15px] border border-border-theme p-4"
                     >
                       <div className="flex items-start justify-between gap-4">
                         <div>
                           <p className="text-[9px] font-semibold uppercase tracking-[0.08em] text-[#E41E2B]">
                             What
                           </p>
-                          <p className="mt-2 text-[12px] font-semibold leading-5 text-[#3E4348]">
+                          <p className="mt-2 text-[12px] font-semibold leading-5 text-text-primary">
                             {action.what}
                           </p>
                         </div>
-                        <span className="rounded-full bg-[#F2F2F0] px-2.5 py-1 text-[8px] font-semibold text-[#73787E]">
+                        <span className="rounded-full bg-surface-elevated px-2.5 py-1 text-[8px] font-semibold text-text-secondary">
                           {action.status}
                         </span>
                       </div>
-                      <div className="mt-4 grid gap-3 border-t border-[#ECEDEF] pt-4 text-[10px] text-[#71767C] sm:grid-cols-2">
+                      <div className="mt-4 grid gap-3 border-t border-border-theme pt-4 text-[10px] text-text-secondary sm:grid-cols-2">
                         <p>
-                          <strong className="text-[#4B5056]">Why:</strong> {action.why ?? "—"}
+                          <strong className="text-text-primary">Why:</strong> {action.why ?? "—"}
                         </p>
                         <p>
-                          <strong className="text-[#4B5056]">Where:</strong> {action.where_text ?? "—"}
+                          <strong className="text-text-primary">Where:</strong> {action.where_text ?? "—"}
                         </p>
                         <p>
-                          <strong className="text-[#4B5056]">When:</strong> {action.when_date ? String(action.when_date).slice(0, 10) : "—"}
+                          <strong className="text-text-primary">When:</strong> {action.when_date ? String(action.when_date).slice(0, 10) : "—"}
                         </p>
                         <p>
-                          <strong className="text-[#4B5056]">Who:</strong> {action.who_user_name ?? action.who_text ?? "—"}
+                          <strong className="text-text-primary">Who:</strong> {action.who_user_name ?? action.who_text ?? "—"}
                         </p>
                         <p>
-                          <strong className="text-[#4B5056]">How:</strong> {action.how_text ?? "—"}
+                          <strong className="text-text-primary">How:</strong> {action.how_text ?? "—"}
                         </p>
                         <p>
-                          <strong className="text-[#4B5056]">How much:</strong> {action.how_much_text ?? "Opcional"}
+                          <strong className="text-text-primary">How much:</strong> {action.how_much_text ?? "Opcional"}
                         </p>
                       </div>
                       {!terminal && (
@@ -2379,7 +2379,7 @@ export function MaspDetailPage({
                                   undefined,
                               )
                             }
-                            className="h-8 rounded-[8px] border border-[#E1E3E5] px-2 text-[9px]"
+                            className="h-8 rounded-[8px] border border-border-theme px-2 text-[9px]"
                           >
                             <option value="PLANNED">
                               Planejada
@@ -2407,7 +2407,7 @@ export function MaspDetailPage({
                                   undefined,
                               )
                             }
-                            className="text-[#9A9FA5] hover:text-[#C92834]"
+                            className="text-text-secondary hover:text-[#C92834]"
                           >
                             <Trash2
                               size={14}
@@ -2448,7 +2448,7 @@ export function MaspDetailPage({
                 className="space-y-3"
               >
                 <div className="grid grid-cols-2 gap-3">
-                  <label className="text-[9px] font-semibold uppercase tracking-[0.07em] text-[#858A90]">
+                  <label className="text-[9px] font-semibold uppercase tracking-[0.07em] text-text-secondary">
                     Início antes
                     <input
                       type="date"
@@ -2471,7 +2471,7 @@ export function MaspDetailPage({
                       className={`mt-2 ${inputClass}`}
                     />
                   </label>
-                  <label className="text-[9px] font-semibold uppercase tracking-[0.07em] text-[#858A90]">
+                  <label className="text-[9px] font-semibold uppercase tracking-[0.07em] text-text-secondary">
                     Fim antes
                     <input
                       type="date"
@@ -2494,7 +2494,7 @@ export function MaspDetailPage({
                       className={`mt-2 ${inputClass}`}
                     />
                   </label>
-                  <label className="text-[9px] font-semibold uppercase tracking-[0.07em] text-[#858A90]">
+                  <label className="text-[9px] font-semibold uppercase tracking-[0.07em] text-text-secondary">
                     Início após
                     <input
                       required
@@ -2518,7 +2518,7 @@ export function MaspDetailPage({
                       className={`mt-2 ${inputClass}`}
                     />
                   </label>
-                  <label className="text-[9px] font-semibold uppercase tracking-[0.07em] text-[#858A90]">
+                  <label className="text-[9px] font-semibold uppercase tracking-[0.07em] text-text-secondary">
                     Fim após
                     <input
                       type="date"
@@ -2613,7 +2613,7 @@ export function MaspDetailPage({
                         key={
                           verification.id
                         }
-                        className="rounded-[16px] border border-[#E5E7E9] p-5"
+                        className="rounded-[16px] border border-border-theme p-5"
                       >
                         {Boolean(
                           verification
@@ -2624,22 +2624,22 @@ export function MaspDetailPage({
                           </p>
                         )}
                         <div className="grid grid-cols-2 gap-4">
-                          <div className="rounded-[13px] bg-[#F6F6F5] p-4">
-                            <p className="text-[9px] font-semibold uppercase tracking-[0.08em] text-[#858A90]">
+                          <div className="rounded-[13px] bg-surface-elevated p-4">
+                            <p className="text-[9px] font-semibold uppercase tracking-[0.08em] text-text-secondary">
                               Antes
                             </p>
-                            <p className="mt-3 text-[20px] font-semibold text-[#3A3E43]">
+                            <p className="mt-3 text-[20px] font-semibold text-text-primary">
                               {metric(
                                 beforeCount,
                               )} ocorrências
                             </p>
-                            <p className="mt-2 text-[10px] text-[#777C82]">
+                            <p className="mt-2 text-[10px] text-text-secondary">
                               {metric(
                                 beforeDowntime,
                                 " min downtime",
                               )}
                             </p>
-                            <p className="mt-1 text-[10px] text-[#777C82]">
+                            <p className="mt-1 text-[10px] text-text-secondary">
                               {metric(
                                 beforeCount > 0
                                   ? beforeDowntime /
@@ -2653,18 +2653,18 @@ export function MaspDetailPage({
                             <p className="text-[9px] font-semibold uppercase tracking-[0.08em] text-[#568060]">
                               Após
                             </p>
-                            <p className="mt-3 text-[20px] font-semibold text-[#3A3E43]">
+                            <p className="mt-3 text-[20px] font-semibold text-text-primary">
                               {metric(
                                 afterCount,
                               )} ocorrências
                             </p>
-                            <p className="mt-2 text-[10px] text-[#667B6B]">
+                            <p className="mt-2 text-[10px] text-text-secondary">
                               {metric(
                                 afterDowntime,
                                 " min downtime",
                               )}
                             </p>
-                            <p className="mt-1 text-[10px] text-[#667B6B]">
+                            <p className="mt-1 text-[10px] text-text-secondary">
                               {metric(
                                 afterCount > 0
                                   ? afterDowntime /
@@ -2682,7 +2682,7 @@ export function MaspDetailPage({
 
                 {data.verifications.length ===
                   0 && (
-                  <div className="rounded-[15px] border border-dashed border-[#DADDE0] px-5 py-12 text-center text-[11px] text-[#969BA1]">
+                  <div className="rounded-[15px] border border-dashed border-border-theme px-5 py-12 text-center text-[11px] text-text-secondary">
                     Nenhuma verificação registrada.
                   </div>
                 )}

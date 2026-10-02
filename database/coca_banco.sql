@@ -1,55 +1,67 @@
--- =========================================================
--- COCA-COLA EASY MAINTENANCE
--- BANCO DE DADOS UNIFICADO -- MySQL 8.x
---
--- Arquivo único e completo. Substitui e consolida:
---   - database/schema.sql                      (base)
---   - database/coca_banco.sql                  (export do banco real)
---   - migrations/001_remove_admin_role.sql
---   - migrations/20260917_01_equipment_criticality.sql
---   - migrations/20260920_create_masp_module.sql
---
--- 28 tabelas, criadas em ordem de dependência (as FKs são
--- válidas mesmo com FOREIGN_KEY_CHECKS ligado).
---
--- Idempotente: usa CREATE ... IF NOT EXISTS e não apaga
--- nada. Para recriar o banco do zero, descomente o bloco
--- RESET abaixo -- ele APAGA TODOS OS DADOS.
--- =========================================================
+-- MySQL Workbench Forward Engineering
 
-SET @OLD_SQL_MODE=@@SQL_MODE;
-SET SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
-
-
--- =========================================================
--- 0. RESET (OPCIONAL)
--- ATENÇÃO: APAGA TODOS OS DADOS EXISTENTES.
--- Descomente as duas linhas apenas se for esse o objetivo.
--- =========================================================
-
--- DROP DATABASE IF EXISTS coca_cola_maintenance;
-
-
--- =========================================================
--- 1. CRIAÇÃO DO BANCO
--- =========================================================
-
-CREATE DATABASE IF NOT EXISTS coca_cola_maintenance
-  CHARACTER SET utf8mb4
-  COLLATE utf8mb4_unicode_ci;
-
-USE coca_cola_maintenance;
-
-
--- =========================================================
--- 2. UNIDADES, USUÁRIOS E VÍNCULOS
--- =========================================================
+SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
+SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
+SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
 
 -- -----------------------------------------------------
--- Tabela `units`
+-- Schema mydb
+-- -----------------------------------------------------
+-- -----------------------------------------------------
+-- Schema coca_cola_maintenance
+-- -----------------------------------------------------
+
+-- -----------------------------------------------------
+-- Schema coca_cola_maintenance
+-- -----------------------------------------------------
+CREATE SCHEMA IF NOT EXISTS `coca_cola_maintenance` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ;
+USE `coca_cola_maintenance` ;
+
+-- -----------------------------------------------------
+-- Table `coca_cola_maintenance`.`failure_categories`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `coca_cola_maintenance`.`failure_categories` (
+  `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(150) NOT NULL,
+  `description` TEXT NULL DEFAULT NULL,
+  `active` TINYINT(1) NOT NULL DEFAULT '1',
+  `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `uq_failure_categories_name` (`name` ASC) VISIBLE,
+  INDEX `idx_failure_categories_active` (`active` ASC) VISIBLE)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_unicode_ci;
+
+
+-- -----------------------------------------------------
+-- Table `coca_cola_maintenance`.`users`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `coca_cola_maintenance`.`users` (
+  `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(150) NOT NULL,
+  `email` VARCHAR(191) NOT NULL,
+  `password_hash` VARCHAR(255) NOT NULL,
+  `role` ENUM('GESTOR', 'ANALISTA') NOT NULL DEFAULT 'ANALISTA',
+  `active` TINYINT(1) NOT NULL DEFAULT '1',
+  `last_login_at` DATETIME NULL DEFAULT NULL,
+  `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `uq_users_email` (`email` ASC) VISIBLE,
+  INDEX `idx_users_role` (`role` ASC) VISIBLE,
+  INDEX `idx_users_active` (`active` ASC) VISIBLE)
+ENGINE = InnoDB
+AUTO_INCREMENT = 5
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_unicode_ci;
+
+
+-- -----------------------------------------------------
+-- Table `coca_cola_maintenance`.`units`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `coca_cola_maintenance`.`units` (
-
   `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
   `code` VARCHAR(20) NOT NULL,
   `sap_code` VARCHAR(50) NULL DEFAULT NULL,
@@ -65,112 +77,15 @@ CREATE TABLE IF NOT EXISTS `coca_cola_maintenance`.`units` (
   UNIQUE INDEX `uq_units_sap_code` (`sap_code` ASC) VISIBLE,
   INDEX `idx_units_active` (`active` ASC) VISIBLE)
 ENGINE = InnoDB
+AUTO_INCREMENT = 13
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_unicode_ci;
 
--- -----------------------------------------------------
--- Tabela `users`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `coca_cola_maintenance`.`users` (
-  `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `unit_id` BIGINT UNSIGNED NOT NULL,
-  `name` VARCHAR(150) NOT NULL,
-  `email` VARCHAR(191) NOT NULL,
-  `password_hash` VARCHAR(255) NOT NULL,
-  `role` ENUM('MAINTENANCE', 'MANAGER') NOT NULL DEFAULT 'MANAGER',
-  `active` TINYINT(1) NOT NULL DEFAULT '1',
-  `last_login_at` DATETIME NULL DEFAULT NULL,
-  `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`),
-  UNIQUE INDEX `uq_users_email` (`email` ASC) VISIBLE,
-  INDEX `idx_users_unit_id` (`unit_id` ASC) VISIBLE,
-  INDEX `idx_users_role` (`role` ASC) VISIBLE,
-  INDEX `idx_users_active` (`active` ASC) VISIBLE,
-  CONSTRAINT `fk_users_unit`
-    FOREIGN KEY (`unit_id`)
-    REFERENCES `coca_cola_maintenance`.`units` (`id`)
-    ON DELETE RESTRICT
-    ON UPDATE CASCADE)
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb4
-COLLATE = utf8mb4_unicode_ci;
 
 -- -----------------------------------------------------
--- Tabela `user_units`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `coca_cola_maintenance`.`user_units` (
-
-  `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `user_id` BIGINT UNSIGNED NOT NULL,
-  `unit_id` BIGINT UNSIGNED NOT NULL,
-  `is_default` TINYINT(1) NOT NULL DEFAULT '0',
-  `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`),
-  UNIQUE INDEX `uq_user_units` (`user_id` ASC, `unit_id` ASC) VISIBLE,
-  INDEX `idx_user_units_user` (`user_id` ASC) VISIBLE,
-  INDEX `idx_user_units_unit` (`unit_id` ASC) VISIBLE,
-  INDEX `idx_user_units_default` (`is_default` ASC) VISIBLE,
-  CONSTRAINT `fk_user_units_unit`
-    FOREIGN KEY (`unit_id`)
-    REFERENCES `coca_cola_maintenance`.`units` (`id`)
-    ON DELETE RESTRICT
-    ON UPDATE CASCADE,
-  CONSTRAINT `fk_user_units_user`
-    FOREIGN KEY (`user_id`)
-    REFERENCES `coca_cola_maintenance`.`users` (`id`)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE)
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb4
-COLLATE = utf8mb4_unicode_ci;
-
--- =========================================================
--- 3. IMPORTAÇÕES E LINHAS BRUTAS
--- =========================================================
-
--- -----------------------------------------------------
--- Tabela `imports`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `coca_cola_maintenance`.`imports` (
-
-  `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `unit_id` BIGINT UNSIGNED NOT NULL,
-  `file_name` VARCHAR(255) NOT NULL,
-  `original_file_name` VARCHAR(255) NULL DEFAULT NULL,
-  `file_hash` VARCHAR(128) NULL DEFAULT NULL,
-  `source_system` VARCHAR(80) NOT NULL DEFAULT 'SAP',
-  `status` VARCHAR(50) NOT NULL DEFAULT 'PENDENTE',
-  `total_rows` INT UNSIGNED NOT NULL DEFAULT '0',
-  `processed_rows` INT UNSIGNED NOT NULL DEFAULT '0',
-  `error_rows` INT UNSIGNED NOT NULL DEFAULT '0',
-  `error_message` TEXT NULL DEFAULT NULL,
-  `imported_at` DATETIME NULL DEFAULT NULL,
-  `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`),
-  INDEX `idx_imports_unit` (`unit_id` ASC) VISIBLE,
-  INDEX `idx_imports_status` (`status` ASC) VISIBLE,
-  INDEX `idx_imports_file_hash` (`file_hash` ASC) VISIBLE,
-  INDEX `idx_imports_created_at` (`created_at` ASC) VISIBLE,
-  CONSTRAINT `fk_imports_unit`
-    FOREIGN KEY (`unit_id`)
-    REFERENCES `coca_cola_maintenance`.`units` (`id`)
-    ON DELETE RESTRICT
-    ON UPDATE CASCADE)
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb4
-COLLATE = utf8mb4_unicode_ci;
-
--- =========================================================
--- 4. LINHAS DE PRODUÇÃO, EQUIPAMENTOS E MATERIAIS
--- =========================================================
-
--- -----------------------------------------------------
--- Tabela `production_lines`
+-- Table `coca_cola_maintenance`.`production_lines`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `coca_cola_maintenance`.`production_lines` (
-
   `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
   `unit_id` BIGINT UNSIGNED NOT NULL,
   `code` VARCHAR(50) NOT NULL,
@@ -192,11 +107,11 @@ ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_unicode_ci;
 
+
 -- -----------------------------------------------------
--- Tabela `equipments`
+-- Table `coca_cola_maintenance`.`equipments`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `coca_cola_maintenance`.`equipments` (
-
   `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
   `unit_id` BIGINT UNSIGNED NOT NULL,
   `production_line_id` BIGINT UNSIGNED NULL DEFAULT NULL,
@@ -233,80 +148,49 @@ CREATE TABLE IF NOT EXISTS `coca_cola_maintenance`.`equipments` (
     ON DELETE RESTRICT
     ON UPDATE CASCADE)
 ENGINE = InnoDB
+AUTO_INCREMENT = 1511
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_unicode_ci;
 
--- -----------------------------------------------------
--- Tabela `equipment_aliases`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `coca_cola_maintenance`.`equipment_aliases` (
-
-  `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `equipment_id` BIGINT UNSIGNED NOT NULL,
-  `alias` VARCHAR(255) NOT NULL,
-  `normalized_alias` VARCHAR(255) NULL DEFAULT NULL,
-  `source_system` VARCHAR(80) NULL DEFAULT NULL,
-  `active` TINYINT(1) NOT NULL DEFAULT '1',
-  `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`),
-  UNIQUE INDEX `uq_equipment_alias` (`equipment_id` ASC, `alias` ASC) VISIBLE,
-  INDEX `idx_equipment_alias_equipment` (`equipment_id` ASC) VISIBLE,
-  INDEX `idx_equipment_alias_normalized` (`normalized_alias` ASC) VISIBLE,
-  CONSTRAINT `fk_equipment_alias_equipment`
-    FOREIGN KEY (`equipment_id`)
-    REFERENCES `coca_cola_maintenance`.`equipments` (`id`)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE)
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb4
-COLLATE = utf8mb4_unicode_ci;
 
 -- -----------------------------------------------------
--- Tabela `equipment_criticality_matrix`
+-- Table `coca_cola_maintenance`.`imports`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `coca_cola_maintenance`.`equipment_criticality_matrix` (
-
+CREATE TABLE IF NOT EXISTS `coca_cola_maintenance`.`imports` (
   `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
   `unit_id` BIGINT UNSIGNED NOT NULL,
-  `last_import_id` BIGINT UNSIGNED NULL DEFAULT NULL,
-  `plant_name` VARCHAR(150) NOT NULL,
-  `technical_location` VARCHAR(255) NULL DEFAULT NULL,
-  `parent_equipment` VARCHAR(255) NULL DEFAULT NULL,
-  `tag` VARCHAR(100) NOT NULL,
-  `equipment_name` VARCHAR(255) NOT NULL,
-  `normalized_equipment_name` VARCHAR(255) NOT NULL,
-  `criticality` ENUM('A', 'B', 'C') NOT NULL,
-  `source_sheet` VARCHAR(100) NOT NULL DEFAULT 'Criticidade ABC',
-  `active` TINYINT(1) NOT NULL DEFAULT '1',
+  `file_name` VARCHAR(255) NOT NULL,
+  `original_file_name` VARCHAR(255) NULL DEFAULT NULL,
+  `file_hash` VARCHAR(128) NULL DEFAULT NULL,
+  `source_system` VARCHAR(80) NOT NULL DEFAULT 'SAP',
+  `status` VARCHAR(50) NOT NULL DEFAULT 'PENDENTE',
+  `total_rows` INT UNSIGNED NOT NULL DEFAULT '0',
+  `processed_rows` INT UNSIGNED NOT NULL DEFAULT '0',
+  `error_rows` INT UNSIGNED NOT NULL DEFAULT '0',
+  `error_message` TEXT NULL DEFAULT NULL,
+  `imported_at` DATETIME NULL DEFAULT NULL,
   `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
-  UNIQUE INDEX `uq_equipment_criticality_matrix_unit_tag` (`unit_id` ASC, `tag` ASC) VISIBLE,
-  INDEX `idx_equipment_criticality_matrix_unit` (`unit_id` ASC) VISIBLE,
-  INDEX `idx_equipment_criticality_matrix_criticality` (`unit_id` ASC, `criticality` ASC) VISIBLE,
-  INDEX `idx_equipment_criticality_matrix_name` (`unit_id` ASC, `normalized_equipment_name` ASC) VISIBLE,
-  INDEX `idx_equipment_criticality_matrix_active` (`unit_id` ASC, `active` ASC) VISIBLE,
-  INDEX `idx_equipment_criticality_matrix_import` (`last_import_id` ASC) VISIBLE,
-  CONSTRAINT `fk_equipment_criticality_matrix_import`
-    FOREIGN KEY (`last_import_id`)
-    REFERENCES `coca_cola_maintenance`.`imports` (`id`)
-    ON DELETE SET NULL
-    ON UPDATE CASCADE,
-  CONSTRAINT `fk_equipment_criticality_matrix_unit`
+  INDEX `idx_imports_unit` (`unit_id` ASC) VISIBLE,
+  INDEX `idx_imports_status` (`status` ASC) VISIBLE,
+  INDEX `idx_imports_file_hash` (`file_hash` ASC) VISIBLE,
+  INDEX `idx_imports_created_at` (`created_at` ASC) VISIBLE,
+  CONSTRAINT `fk_imports_unit`
     FOREIGN KEY (`unit_id`)
     REFERENCES `coca_cola_maintenance`.`units` (`id`)
-    ON DELETE CASCADE
+    ON DELETE RESTRICT
     ON UPDATE CASCADE)
 ENGINE = InnoDB
+AUTO_INCREMENT = 6
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_unicode_ci;
 
+
 -- -----------------------------------------------------
--- Tabela `materials`
+-- Table `coca_cola_maintenance`.`materials`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `coca_cola_maintenance`.`materials` (
-
   `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
   `unit_id` BIGINT UNSIGNED NOT NULL,
   `code` VARCHAR(100) NOT NULL,
@@ -328,11 +212,11 @@ ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_unicode_ci;
 
+
 -- -----------------------------------------------------
--- Tabela `raw_import_rows`
+-- Table `coca_cola_maintenance`.`raw_import_rows`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `coca_cola_maintenance`.`raw_import_rows` (
-
   `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
   `import_id` BIGINT UNSIGNED NOT NULL,
   `source_row_number` INT UNSIGNED NOT NULL,
@@ -354,92 +238,15 @@ CREATE TABLE IF NOT EXISTS `coca_cola_maintenance`.`raw_import_rows` (
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB
+AUTO_INCREMENT = 193461
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_unicode_ci;
 
--- =========================================================
--- 5. TAXONOMIA DE FALHAS
--- =========================================================
 
 -- -----------------------------------------------------
--- Tabela `failure_categories`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `coca_cola_maintenance`.`failure_categories` (
-
-  `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR(150) NOT NULL,
-  `description` TEXT NULL DEFAULT NULL,
-  `active` TINYINT(1) NOT NULL DEFAULT '1',
-  `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`),
-  UNIQUE INDEX `uq_failure_categories_name` (`name` ASC) VISIBLE,
-  INDEX `idx_failure_categories_active` (`active` ASC) VISIBLE)
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb4
-COLLATE = utf8mb4_unicode_ci;
-
--- -----------------------------------------------------
--- Tabela `failure_systems`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `coca_cola_maintenance`.`failure_systems` (
-
-  `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `category_id` BIGINT UNSIGNED NOT NULL,
-  `name` VARCHAR(180) NOT NULL,
-  `description` TEXT NULL DEFAULT NULL,
-  `active` TINYINT(1) NOT NULL DEFAULT '1',
-  `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`),
-  UNIQUE INDEX `uq_failure_system` (`category_id` ASC, `name` ASC) VISIBLE,
-  INDEX `idx_failure_system_category` (`category_id` ASC) VISIBLE,
-  INDEX `idx_failure_system_active` (`active` ASC) VISIBLE,
-  CONSTRAINT `fk_failure_systems_category`
-    FOREIGN KEY (`category_id`)
-    REFERENCES `coca_cola_maintenance`.`failure_categories` (`id`)
-    ON DELETE RESTRICT
-    ON UPDATE CASCADE)
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb4
-COLLATE = utf8mb4_unicode_ci;
-
--- -----------------------------------------------------
--- Tabela `failure_modes`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `coca_cola_maintenance`.`failure_modes` (
-
-  `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `system_id` BIGINT UNSIGNED NULL DEFAULT NULL,
-  `code` VARCHAR(120) NULL DEFAULT NULL,
-  `name` VARCHAR(200) NOT NULL,
-  `description` TEXT NULL DEFAULT NULL,
-  `active` TINYINT(1) NOT NULL DEFAULT '1',
-  `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`),
-  UNIQUE INDEX `uq_failure_mode` (`system_id` ASC, `name` ASC) VISIBLE,
-  INDEX `idx_failure_modes_system` (`system_id` ASC) VISIBLE,
-  INDEX `idx_failure_modes_code` (`code` ASC) VISIBLE,
-  INDEX `idx_failure_modes_active` (`active` ASC) VISIBLE,
-  CONSTRAINT `fk_failure_modes_system`
-    FOREIGN KEY (`system_id`)
-    REFERENCES `coca_cola_maintenance`.`failure_systems` (`id`)
-    ON DELETE RESTRICT
-    ON UPDATE CASCADE)
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb4
-COLLATE = utf8mb4_unicode_ci;
-
--- =========================================================
--- 6. EVENTOS DE MANUTENÇÃO
--- =========================================================
-
--- -----------------------------------------------------
--- Tabela `maintenance_events`
+-- Table `coca_cola_maintenance`.`maintenance_events`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `coca_cola_maintenance`.`maintenance_events` (
-
   `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
   `unit_id` BIGINT UNSIGNED NOT NULL,
   `import_id` BIGINT UNSIGNED NOT NULL,
@@ -488,14 +295,6 @@ CREATE TABLE IF NOT EXISTS `coca_cola_maintenance`.`maintenance_events` (
   INDEX `idx_events_source_line_name` (`source_line_name` ASC) VISIBLE,
   INDEX `idx_events_source_equipment_name` (`source_equipment_name` ASC) VISIBLE,
   INDEX `idx_events_downtime` (`downtime_minutes` ASC) VISIBLE,
-  CONSTRAINT `chk_events_efficiency_loss`
-    CHECK (`process_efficiency_loss` IS NULL OR `process_efficiency_loss` >= 0),
-  CONSTRAINT `chk_events_produced_cases`
-    CHECK (`produced_cases` IS NULL OR `produced_cases` >= 0),
-  CONSTRAINT `chk_events_total_minutes`
-    CHECK (`total_minutes` IS NULL OR `total_minutes` >= 0),
-  CONSTRAINT `chk_events_downtime`
-    CHECK (`downtime_minutes` IS NULL OR `downtime_minutes` >= 0),
   CONSTRAINT `fk_events_equipment`
     FOREIGN KEY (`equipment_id`)
     REFERENCES `coca_cola_maintenance`.`equipments` (`id`)
@@ -527,18 +326,67 @@ CREATE TABLE IF NOT EXISTS `coca_cola_maintenance`.`maintenance_events` (
     ON DELETE RESTRICT
     ON UPDATE CASCADE)
 ENGINE = InnoDB
+AUTO_INCREMENT = 193461
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_unicode_ci;
 
--- =========================================================
--- 7. CLASSIFICAÇÃO, AUDITORIA E SUGESTÕES (ML)
--- =========================================================
 
 -- -----------------------------------------------------
--- Tabela `event_classifications`
+-- Table `coca_cola_maintenance`.`failure_systems`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `coca_cola_maintenance`.`failure_systems` (
+  `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `category_id` BIGINT UNSIGNED NOT NULL,
+  `name` VARCHAR(180) NOT NULL,
+  `description` TEXT NULL DEFAULT NULL,
+  `active` TINYINT(1) NOT NULL DEFAULT '1',
+  `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `uq_failure_system` (`category_id` ASC, `name` ASC) VISIBLE,
+  INDEX `idx_failure_system_category` (`category_id` ASC) VISIBLE,
+  INDEX `idx_failure_system_active` (`active` ASC) VISIBLE,
+  CONSTRAINT `fk_failure_systems_category`
+    FOREIGN KEY (`category_id`)
+    REFERENCES `coca_cola_maintenance`.`failure_categories` (`id`)
+    ON DELETE RESTRICT
+    ON UPDATE CASCADE)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_unicode_ci;
+
+
+-- -----------------------------------------------------
+-- Table `coca_cola_maintenance`.`failure_modes`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `coca_cola_maintenance`.`failure_modes` (
+  `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `system_id` BIGINT UNSIGNED NULL DEFAULT NULL,
+  `code` VARCHAR(120) NULL DEFAULT NULL,
+  `name` VARCHAR(200) NOT NULL,
+  `description` TEXT NULL DEFAULT NULL,
+  `active` TINYINT(1) NOT NULL DEFAULT '1',
+  `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `uq_failure_mode` (`system_id` ASC, `name` ASC) VISIBLE,
+  INDEX `idx_failure_modes_system` (`system_id` ASC) VISIBLE,
+  INDEX `idx_failure_modes_code` (`code` ASC) VISIBLE,
+  INDEX `idx_failure_modes_active` (`active` ASC) VISIBLE,
+  CONSTRAINT `fk_failure_modes_system`
+    FOREIGN KEY (`system_id`)
+    REFERENCES `coca_cola_maintenance`.`failure_systems` (`id`)
+    ON DELETE RESTRICT
+    ON UPDATE CASCADE)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_unicode_ci;
+
+
+-- -----------------------------------------------------
+-- Table `coca_cola_maintenance`.`event_classifications`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `coca_cola_maintenance`.`event_classifications` (
-
   `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
   `event_id` BIGINT UNSIGNED NOT NULL,
   `category_id` BIGINT UNSIGNED NULL DEFAULT NULL,
@@ -561,8 +409,6 @@ CREATE TABLE IF NOT EXISTS `coca_cola_maintenance`.`event_classifications` (
   INDEX `idx_classification_status` (`status` ASC) VISIBLE,
   INDEX `idx_classification_source` (`source` ASC) VISIBLE,
   INDEX `idx_classification_user` (`classified_by_user_id` ASC) VISIBLE,
-  CONSTRAINT `chk_classification_confidence`
-    CHECK (`confidence` IS NULL OR (`confidence` >= 0 AND `confidence` <= 1)),
   CONSTRAINT `fk_classification_category`
     FOREIGN KEY (`category_id`)
     REFERENCES `coca_cola_maintenance`.`failure_categories` (`id`)
@@ -589,14 +435,15 @@ CREATE TABLE IF NOT EXISTS `coca_cola_maintenance`.`event_classifications` (
     ON DELETE SET NULL
     ON UPDATE CASCADE)
 ENGINE = InnoDB
+AUTO_INCREMENT = 2049
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_unicode_ci;
 
+
 -- -----------------------------------------------------
--- Tabela `classification_audit`
+-- Table `coca_cola_maintenance`.`classification_audit`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `coca_cola_maintenance`.`classification_audit` (
-
   `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
   `classification_id` BIGINT UNSIGNED NOT NULL,
   `user_id` BIGINT UNSIGNED NULL DEFAULT NULL,
@@ -663,11 +510,11 @@ ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_unicode_ci;
 
+
 -- -----------------------------------------------------
--- Tabela `classification_suggestions`
+-- Table `coca_cola_maintenance`.`classification_suggestions`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `coca_cola_maintenance`.`classification_suggestions` (
-
   `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
   `event_id` BIGINT UNSIGNED NOT NULL,
   `model_type` ENUM('ML') NOT NULL DEFAULT 'ML',
@@ -707,18 +554,83 @@ CREATE TABLE IF NOT EXISTS `coca_cola_maintenance`.`classification_suggestions` 
     REFERENCES `coca_cola_maintenance`.`users` (`id`)
     ON DELETE SET NULL)
 ENGINE = InnoDB
+AUTO_INCREMENT = 197339
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_unicode_ci;
 
--- =========================================================
--- 8. ORIGEM DA FALHA (MANUTENÇÃO x OPERAÇÃO)
--- =========================================================
 
 -- -----------------------------------------------------
--- Tabela `event_failure_origin_predictions`
+-- Table `coca_cola_maintenance`.`equipment_aliases`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `coca_cola_maintenance`.`equipment_aliases` (
+  `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `equipment_id` BIGINT UNSIGNED NOT NULL,
+  `alias` VARCHAR(255) NOT NULL,
+  `normalized_alias` VARCHAR(255) NULL DEFAULT NULL,
+  `source_system` VARCHAR(80) NULL DEFAULT NULL,
+  `active` TINYINT(1) NOT NULL DEFAULT '1',
+  `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `uq_equipment_alias` (`equipment_id` ASC, `alias` ASC) VISIBLE,
+  INDEX `idx_equipment_alias_equipment` (`equipment_id` ASC) VISIBLE,
+  INDEX `idx_equipment_alias_normalized` (`normalized_alias` ASC) VISIBLE,
+  CONSTRAINT `fk_equipment_alias_equipment`
+    FOREIGN KEY (`equipment_id`)
+    REFERENCES `coca_cola_maintenance`.`equipments` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+ENGINE = InnoDB
+AUTO_INCREMENT = 5758
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_unicode_ci;
+
+
+-- -----------------------------------------------------
+-- Table `coca_cola_maintenance`.`equipment_criticality_matrix`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `coca_cola_maintenance`.`equipment_criticality_matrix` (
+  `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `unit_id` BIGINT UNSIGNED NOT NULL,
+  `last_import_id` BIGINT UNSIGNED NULL DEFAULT NULL,
+  `plant_name` VARCHAR(150) NOT NULL,
+  `technical_location` VARCHAR(255) NULL DEFAULT NULL,
+  `parent_equipment` VARCHAR(255) NULL DEFAULT NULL,
+  `tag` VARCHAR(100) NOT NULL,
+  `equipment_name` VARCHAR(255) NOT NULL,
+  `normalized_equipment_name` VARCHAR(255) NOT NULL,
+  `criticality` ENUM('A', 'B', 'C') NOT NULL,
+  `source_sheet` VARCHAR(100) NOT NULL DEFAULT 'Criticidade ABC',
+  `active` TINYINT(1) NOT NULL DEFAULT '1',
+  `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `uq_equipment_criticality_matrix_unit_tag` (`unit_id` ASC, `tag` ASC) VISIBLE,
+  INDEX `idx_equipment_criticality_matrix_unit` (`unit_id` ASC) VISIBLE,
+  INDEX `idx_equipment_criticality_matrix_criticality` (`unit_id` ASC, `criticality` ASC) VISIBLE,
+  INDEX `idx_equipment_criticality_matrix_name` (`unit_id` ASC, `normalized_equipment_name` ASC) VISIBLE,
+  INDEX `idx_equipment_criticality_matrix_active` (`unit_id` ASC, `active` ASC) VISIBLE,
+  INDEX `idx_equipment_criticality_matrix_import` (`last_import_id` ASC) VISIBLE,
+  CONSTRAINT `fk_equipment_criticality_matrix_import`
+    FOREIGN KEY (`last_import_id`)
+    REFERENCES `coca_cola_maintenance`.`imports` (`id`)
+    ON DELETE SET NULL
+    ON UPDATE CASCADE,
+  CONSTRAINT `fk_equipment_criticality_matrix_unit`
+    FOREIGN KEY (`unit_id`)
+    REFERENCES `coca_cola_maintenance`.`units` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+ENGINE = InnoDB
+AUTO_INCREMENT = 15646
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_unicode_ci;
+
+
+-- -----------------------------------------------------
+-- Table `coca_cola_maintenance`.`event_failure_origin_predictions`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `coca_cola_maintenance`.`event_failure_origin_predictions` (
-
   `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
   `event_id` BIGINT UNSIGNED NOT NULL,
   `failure_origin` ENUM('MANUTENCAO', 'OPERACAO') NOT NULL,
@@ -736,14 +648,46 @@ CREATE TABLE IF NOT EXISTS `coca_cola_maintenance`.`event_failure_origin_predict
     REFERENCES `coca_cola_maintenance`.`maintenance_events` (`id`)
     ON DELETE CASCADE)
 ENGINE = InnoDB
+AUTO_INCREMENT = 93861
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_unicode_ci;
 
+
 -- -----------------------------------------------------
--- Tabela `event_failure_origin_reviews`
+-- Table `coca_cola_maintenance`.`event_failure_origin_review_audit`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `coca_cola_maintenance`.`event_failure_origin_review_audit` (
+  `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `event_id` BIGINT UNSIGNED NOT NULL,
+  `user_id` BIGINT UNSIGNED NULL DEFAULT NULL,
+  `previous_origin` ENUM('OPERACAO', 'MANUTENCAO') NULL DEFAULT NULL,
+  `new_origin` ENUM('OPERACAO', 'MANUTENCAO') NULL DEFAULT NULL,
+  `action` ENUM('CRIACAO', 'ALTERACAO', 'REMOCAO') NOT NULL,
+  `notes` VARCHAR(500) NULL DEFAULT NULL,
+  `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  INDEX `idx_failure_origin_audit_event` (`event_id` ASC) VISIBLE,
+  INDEX `idx_failure_origin_audit_user` (`user_id` ASC) VISIBLE,
+  INDEX `idx_failure_origin_audit_date` (`created_at` ASC) VISIBLE,
+  CONSTRAINT `fk_failure_origin_audit_event`
+    FOREIGN KEY (`event_id`)
+    REFERENCES `coca_cola_maintenance`.`maintenance_events` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `fk_failure_origin_audit_user`
+    FOREIGN KEY (`user_id`)
+    REFERENCES `coca_cola_maintenance`.`users` (`id`)
+    ON DELETE SET NULL
+    ON UPDATE CASCADE)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_unicode_ci;
+
+
+-- -----------------------------------------------------
+-- Table `coca_cola_maintenance`.`event_failure_origin_reviews`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `coca_cola_maintenance`.`event_failure_origin_reviews` (
-
   `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
   `event_id` BIGINT UNSIGNED NOT NULL,
   `manual_origin` ENUM('OPERACAO', 'MANUTENCAO') NOT NULL,
@@ -771,46 +715,11 @@ ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_unicode_ci;
 
--- -----------------------------------------------------
--- Tabela `event_failure_origin_review_audit`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `coca_cola_maintenance`.`event_failure_origin_review_audit` (
-
-  `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `event_id` BIGINT UNSIGNED NOT NULL,
-  `user_id` BIGINT UNSIGNED NULL DEFAULT NULL,
-  `previous_origin` ENUM('OPERACAO', 'MANUTENCAO') NULL DEFAULT NULL,
-  `new_origin` ENUM('OPERACAO', 'MANUTENCAO') NULL DEFAULT NULL,
-  `action` ENUM('CRIACAO', 'ALTERACAO', 'REMOCAO') NOT NULL,
-  `notes` VARCHAR(500) NULL DEFAULT NULL,
-  `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`),
-  INDEX `idx_failure_origin_audit_event` (`event_id` ASC) VISIBLE,
-  INDEX `idx_failure_origin_audit_user` (`user_id` ASC) VISIBLE,
-  INDEX `idx_failure_origin_audit_date` (`created_at` ASC) VISIBLE,
-  CONSTRAINT `fk_failure_origin_audit_event`
-    FOREIGN KEY (`event_id`)
-    REFERENCES `coca_cola_maintenance`.`maintenance_events` (`id`)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE,
-  CONSTRAINT `fk_failure_origin_audit_user`
-    FOREIGN KEY (`user_id`)
-    REFERENCES `coca_cola_maintenance`.`users` (`id`)
-    ON DELETE SET NULL
-    ON UPDATE CASCADE)
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb4
-COLLATE = utf8mb4_unicode_ci;
-
--- =========================================================
--- 9. MÓDULO MASP
--- =========================================================
 
 -- -----------------------------------------------------
--- Tabela `masp_analyses`
+-- Table `coca_cola_maintenance`.`masp_analyses`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `coca_cola_maintenance`.`masp_analyses` (
-
   `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
   `unit_id` BIGINT UNSIGNED NOT NULL,
   `production_line_id` BIGINT UNSIGNED NULL DEFAULT NULL,
@@ -863,74 +772,15 @@ CREATE TABLE IF NOT EXISTS `coca_cola_maintenance`.`masp_analyses` (
     ON DELETE RESTRICT
     ON UPDATE CASCADE)
 ENGINE = InnoDB
+AUTO_INCREMENT = 19
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_unicode_ci;
 
--- -----------------------------------------------------
--- Tabela `masp_events`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `coca_cola_maintenance`.`masp_events` (
-
-  `masp_id` BIGINT UNSIGNED NOT NULL,
-  `event_id` BIGINT UNSIGNED NOT NULL,
-  `relation_type` ENUM('SOURCE', 'EVIDENCE', 'RECURRENCE') NOT NULL DEFAULT 'SOURCE',
-  `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`masp_id`, `event_id`),
-  INDEX `idx_masp_events_event` (`event_id` ASC) VISIBLE,
-  INDEX `idx_masp_events_relation` (`relation_type` ASC) VISIBLE,
-  CONSTRAINT `fk_masp_events_event`
-    FOREIGN KEY (`event_id`)
-    REFERENCES `coca_cola_maintenance`.`maintenance_events` (`id`)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE,
-  CONSTRAINT `fk_masp_events_masp`
-    FOREIGN KEY (`masp_id`)
-    REFERENCES `coca_cola_maintenance`.`masp_analyses` (`id`)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE)
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb4
-COLLATE = utf8mb4_unicode_ci;
 
 -- -----------------------------------------------------
--- Tabela `masp_hypotheses`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `coca_cola_maintenance`.`masp_hypotheses` (
-
-  `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `masp_id` BIGINT UNSIGNED NOT NULL,
-  `category` ENUM('MAQUINA', 'METODO', 'MAO_DE_OBRA', 'MATERIAL', 'MEDICAO', 'MEIO_AMBIENTE') NOT NULL,
-  `description` TEXT NOT NULL,
-  `status` ENUM('OPEN', 'PROBABLE', 'DISCARDED', 'CONFIRMED') NOT NULL DEFAULT 'OPEN',
-  `source` ENUM('ANALYST', 'HISTORY', 'RULE') NOT NULL DEFAULT 'ANALYST',
-  `support_count` INT UNSIGNED NOT NULL DEFAULT '0',
-  `created_by` BIGINT UNSIGNED NOT NULL,
-  `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`),
-  INDEX `idx_masp_hypotheses_masp` (`masp_id` ASC) VISIBLE,
-  INDEX `idx_masp_hypotheses_category` (`category` ASC) VISIBLE,
-  INDEX `idx_masp_hypotheses_status` (`status` ASC) VISIBLE,
-  INDEX `fk_masp_hypotheses_created_by` (`created_by` ASC) VISIBLE,
-  CONSTRAINT `fk_masp_hypotheses_created_by`
-    FOREIGN KEY (`created_by`)
-    REFERENCES `coca_cola_maintenance`.`users` (`id`)
-    ON DELETE RESTRICT
-    ON UPDATE CASCADE,
-  CONSTRAINT `fk_masp_hypotheses_masp`
-    FOREIGN KEY (`masp_id`)
-    REFERENCES `coca_cola_maintenance`.`masp_analyses` (`id`)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE)
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb4
-COLLATE = utf8mb4_unicode_ci;
-
--- -----------------------------------------------------
--- Tabela `masp_five_whys`
+-- Table `coca_cola_maintenance`.`masp_five_whys`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `coca_cola_maintenance`.`masp_five_whys` (
-
   `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
   `masp_id` BIGINT UNSIGNED NOT NULL,
   `parent_id` BIGINT UNSIGNED NULL DEFAULT NULL,
@@ -961,14 +811,50 @@ CREATE TABLE IF NOT EXISTS `coca_cola_maintenance`.`masp_five_whys` (
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB
+AUTO_INCREMENT = 5
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_unicode_ci;
 
+
 -- -----------------------------------------------------
--- Tabela `masp_root_causes`
+-- Table `coca_cola_maintenance`.`masp_hypotheses`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `coca_cola_maintenance`.`masp_hypotheses` (
+  `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `masp_id` BIGINT UNSIGNED NOT NULL,
+  `category` ENUM('MAQUINA', 'METODO', 'MAO_DE_OBRA', 'MATERIAL', 'MEDICAO', 'MEIO_AMBIENTE') NOT NULL,
+  `description` TEXT NOT NULL,
+  `status` ENUM('OPEN', 'PROBABLE', 'DISCARDED', 'CONFIRMED') NOT NULL DEFAULT 'OPEN',
+  `source` ENUM('ANALYST', 'HISTORY', 'RULE') NOT NULL DEFAULT 'ANALYST',
+  `support_count` INT UNSIGNED NOT NULL DEFAULT '0',
+  `created_by` BIGINT UNSIGNED NOT NULL,
+  `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  INDEX `idx_masp_hypotheses_masp` (`masp_id` ASC) VISIBLE,
+  INDEX `idx_masp_hypotheses_category` (`category` ASC) VISIBLE,
+  INDEX `idx_masp_hypotheses_status` (`status` ASC) VISIBLE,
+  INDEX `fk_masp_hypotheses_created_by` (`created_by` ASC) VISIBLE,
+  CONSTRAINT `fk_masp_hypotheses_created_by`
+    FOREIGN KEY (`created_by`)
+    REFERENCES `coca_cola_maintenance`.`users` (`id`)
+    ON DELETE RESTRICT
+    ON UPDATE CASCADE,
+  CONSTRAINT `fk_masp_hypotheses_masp`
+    FOREIGN KEY (`masp_id`)
+    REFERENCES `coca_cola_maintenance`.`masp_analyses` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+ENGINE = InnoDB
+AUTO_INCREMENT = 26
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_unicode_ci;
+
+
+-- -----------------------------------------------------
+-- Table `coca_cola_maintenance`.`masp_root_causes`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `coca_cola_maintenance`.`masp_root_causes` (
-
   `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
   `masp_id` BIGINT UNSIGNED NOT NULL,
   `hypothesis_id` BIGINT UNSIGNED NULL DEFAULT NULL,
@@ -1007,64 +893,15 @@ CREATE TABLE IF NOT EXISTS `coca_cola_maintenance`.`masp_root_causes` (
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB
+AUTO_INCREMENT = 3
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_unicode_ci;
 
--- -----------------------------------------------------
--- Tabela `masp_evidence`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `coca_cola_maintenance`.`masp_evidence` (
-
-  `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `masp_id` BIGINT UNSIGNED NOT NULL,
-  `hypothesis_id` BIGINT UNSIGNED NULL DEFAULT NULL,
-  `five_why_id` BIGINT UNSIGNED NULL DEFAULT NULL,
-  `event_id` BIGINT UNSIGNED NULL DEFAULT NULL,
-  `type` ENUM('EVENT', 'TEXT', 'MEASUREMENT', 'DOCUMENT') NOT NULL,
-  `description` TEXT NOT NULL,
-  `attachment_path` VARCHAR(500) NULL DEFAULT NULL,
-  `created_by` BIGINT UNSIGNED NOT NULL,
-  `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`),
-  INDEX `idx_masp_evidence_masp` (`masp_id` ASC) VISIBLE,
-  INDEX `idx_masp_evidence_hypothesis` (`hypothesis_id` ASC) VISIBLE,
-  INDEX `idx_masp_evidence_five_why` (`five_why_id` ASC) VISIBLE,
-  INDEX `idx_masp_evidence_event` (`event_id` ASC) VISIBLE,
-  INDEX `fk_masp_evidence_created_by` (`created_by` ASC) VISIBLE,
-  CONSTRAINT `fk_masp_evidence_created_by`
-    FOREIGN KEY (`created_by`)
-    REFERENCES `coca_cola_maintenance`.`users` (`id`)
-    ON DELETE RESTRICT
-    ON UPDATE CASCADE,
-  CONSTRAINT `fk_masp_evidence_event`
-    FOREIGN KEY (`event_id`)
-    REFERENCES `coca_cola_maintenance`.`maintenance_events` (`id`)
-    ON DELETE SET NULL
-    ON UPDATE CASCADE,
-  CONSTRAINT `fk_masp_evidence_five_why`
-    FOREIGN KEY (`five_why_id`)
-    REFERENCES `coca_cola_maintenance`.`masp_five_whys` (`id`)
-    ON DELETE SET NULL
-    ON UPDATE CASCADE,
-  CONSTRAINT `fk_masp_evidence_hypothesis`
-    FOREIGN KEY (`hypothesis_id`)
-    REFERENCES `coca_cola_maintenance`.`masp_hypotheses` (`id`)
-    ON DELETE SET NULL
-    ON UPDATE CASCADE,
-  CONSTRAINT `fk_masp_evidence_masp`
-    FOREIGN KEY (`masp_id`)
-    REFERENCES `coca_cola_maintenance`.`masp_analyses` (`id`)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE)
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb4
-COLLATE = utf8mb4_unicode_ci;
 
 -- -----------------------------------------------------
--- Tabela `masp_actions`
+-- Table `coca_cola_maintenance`.`masp_actions`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `coca_cola_maintenance`.`masp_actions` (
-
   `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
   `masp_id` BIGINT UNSIGNED NOT NULL,
   `root_cause_id` BIGINT UNSIGNED NULL DEFAULT NULL,
@@ -1109,14 +946,92 @@ CREATE TABLE IF NOT EXISTS `coca_cola_maintenance`.`masp_actions` (
     ON DELETE SET NULL
     ON UPDATE CASCADE)
 ENGINE = InnoDB
+AUTO_INCREMENT = 3
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_unicode_ci;
 
+
 -- -----------------------------------------------------
--- Tabela `masp_verifications`
+-- Table `coca_cola_maintenance`.`masp_events`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `coca_cola_maintenance`.`masp_events` (
+  `masp_id` BIGINT UNSIGNED NOT NULL,
+  `event_id` BIGINT UNSIGNED NOT NULL,
+  `relation_type` ENUM('SOURCE', 'EVIDENCE', 'RECURRENCE') NOT NULL DEFAULT 'SOURCE',
+  `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`masp_id`, `event_id`),
+  INDEX `idx_masp_events_event` (`event_id` ASC) VISIBLE,
+  INDEX `idx_masp_events_relation` (`relation_type` ASC) VISIBLE,
+  CONSTRAINT `fk_masp_events_event`
+    FOREIGN KEY (`event_id`)
+    REFERENCES `coca_cola_maintenance`.`maintenance_events` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `fk_masp_events_masp`
+    FOREIGN KEY (`masp_id`)
+    REFERENCES `coca_cola_maintenance`.`masp_analyses` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_unicode_ci;
+
+
+-- -----------------------------------------------------
+-- Table `coca_cola_maintenance`.`masp_evidence`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `coca_cola_maintenance`.`masp_evidence` (
+  `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `masp_id` BIGINT UNSIGNED NOT NULL,
+  `hypothesis_id` BIGINT UNSIGNED NULL DEFAULT NULL,
+  `five_why_id` BIGINT UNSIGNED NULL DEFAULT NULL,
+  `event_id` BIGINT UNSIGNED NULL DEFAULT NULL,
+  `type` ENUM('EVENT', 'TEXT', 'MEASUREMENT', 'DOCUMENT') NOT NULL,
+  `description` TEXT NOT NULL,
+  `attachment_path` VARCHAR(500) NULL DEFAULT NULL,
+  `created_by` BIGINT UNSIGNED NOT NULL,
+  `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  INDEX `idx_masp_evidence_masp` (`masp_id` ASC) VISIBLE,
+  INDEX `idx_masp_evidence_hypothesis` (`hypothesis_id` ASC) VISIBLE,
+  INDEX `idx_masp_evidence_five_why` (`five_why_id` ASC) VISIBLE,
+  INDEX `idx_masp_evidence_event` (`event_id` ASC) VISIBLE,
+  INDEX `fk_masp_evidence_created_by` (`created_by` ASC) VISIBLE,
+  CONSTRAINT `fk_masp_evidence_created_by`
+    FOREIGN KEY (`created_by`)
+    REFERENCES `coca_cola_maintenance`.`users` (`id`)
+    ON DELETE RESTRICT
+    ON UPDATE CASCADE,
+  CONSTRAINT `fk_masp_evidence_event`
+    FOREIGN KEY (`event_id`)
+    REFERENCES `coca_cola_maintenance`.`maintenance_events` (`id`)
+    ON DELETE SET NULL
+    ON UPDATE CASCADE,
+  CONSTRAINT `fk_masp_evidence_five_why`
+    FOREIGN KEY (`five_why_id`)
+    REFERENCES `coca_cola_maintenance`.`masp_five_whys` (`id`)
+    ON DELETE SET NULL
+    ON UPDATE CASCADE,
+  CONSTRAINT `fk_masp_evidence_hypothesis`
+    FOREIGN KEY (`hypothesis_id`)
+    REFERENCES `coca_cola_maintenance`.`masp_hypotheses` (`id`)
+    ON DELETE SET NULL
+    ON UPDATE CASCADE,
+  CONSTRAINT `fk_masp_evidence_masp`
+    FOREIGN KEY (`masp_id`)
+    REFERENCES `coca_cola_maintenance`.`masp_analyses` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+ENGINE = InnoDB
+AUTO_INCREMENT = 3
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_unicode_ci;
+
+
+-- -----------------------------------------------------
+-- Table `coca_cola_maintenance`.`masp_verifications`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `coca_cola_maintenance`.`masp_verifications` (
-
   `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
   `masp_id` BIGINT UNSIGNED NOT NULL,
   `baseline_start` DATE NULL DEFAULT NULL,
@@ -1147,73 +1062,41 @@ CREATE TABLE IF NOT EXISTS `coca_cola_maintenance`.`masp_verifications` (
     ON DELETE RESTRICT
     ON UPDATE CASCADE)
 ENGINE = InnoDB
+AUTO_INCREMENT = 4
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_unicode_ci;
 
 
--- =========================================================
--- 10. DADOS INICIAIS
--- =========================================================
-
--- Unidade padrão.
-
-INSERT INTO units (code, name, city, state, country)
-VALUES ('BAAK', 'Marília', 'Marília', 'São Paulo', 'Brasil')
-ON DUPLICATE KEY UPDATE
-    name    = VALUES(name),
-    city    = VALUES(city),
-    state   = VALUES(state),
-    country = VALUES(country);
-
-
--- Usuário analista inicial.
---
---   Login: teste@email.com
---   Senha: teste123
---
--- password_hash PRECISA ser um hash bcrypt, nunca a senha
--- em texto puro -- o login (src/app/api/auth/login/route.ts)
--- usa bcrypt.compare() contra este valor.
-
-INSERT INTO users (unit_id, name, email, password_hash, role, active)
-VALUES (
-    (SELECT id FROM units WHERE code = 'BAAK'),
-    'teste',
-    'teste@email.com',
-    '$2b$10$siuikaQ90Q1UrXzbc1Qgj.mZ7LmMPAjIoT5DAhnxHGoDuTdRlbmuq',
-    'MAINTENANCE',
-    TRUE
-)
-ON DUPLICATE KEY UPDATE
-    password_hash = VALUES(password_hash),
-    role          = VALUES(role),
-    active        = VALUES(active);
-
-
--- Vínculo usuário x unidade (a aplicação lê as unidades
--- do usuário por user_units, não por users.unit_id).
-
-INSERT INTO user_units (user_id, unit_id, is_default)
-SELECT u.id, u.unit_id, TRUE
-FROM users u
-WHERE u.email = 'teste@email.com'
-ON DUPLICATE KEY UPDATE
-    is_default = VALUES(is_default);
-
-
--- =========================================================
--- 11. VALIDAÇÃO
--- =========================================================
-
-SELECT VERSION() AS mysql_version;
-
-SELECT COUNT(*) AS total_tabelas
-FROM information_schema.tables
-WHERE table_schema = 'coca_cola_maintenance';
-
-SELECT * FROM units;
-
-SELECT role, COUNT(*) AS total FROM users GROUP BY role;
+-- -----------------------------------------------------
+-- Table `coca_cola_maintenance`.`user_units`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `coca_cola_maintenance`.`user_units` (
+  `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `user_id` BIGINT UNSIGNED NOT NULL,
+  `unit_id` BIGINT UNSIGNED NOT NULL,
+  `is_default` TINYINT(1) NOT NULL DEFAULT '0',
+  `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `uq_user_units` (`user_id` ASC, `unit_id` ASC) VISIBLE,
+  INDEX `idx_user_units_user` (`user_id` ASC) VISIBLE,
+  INDEX `idx_user_units_unit` (`unit_id` ASC) VISIBLE,
+  INDEX `idx_user_units_default` (`is_default` ASC) VISIBLE,
+  CONSTRAINT `fk_user_units_unit`
+    FOREIGN KEY (`unit_id`)
+    REFERENCES `coca_cola_maintenance`.`units` (`id`)
+    ON DELETE RESTRICT
+    ON UPDATE CASCADE,
+  CONSTRAINT `fk_user_units_user`
+    FOREIGN KEY (`user_id`)
+    REFERENCES `coca_cola_maintenance`.`users` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+ENGINE = InnoDB
+AUTO_INCREMENT = 20
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_unicode_ci;
 
 
 SET SQL_MODE=@OLD_SQL_MODE;
+SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
+SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;

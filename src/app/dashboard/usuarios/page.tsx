@@ -10,14 +10,18 @@ import {
   getSession,
 } from "@/lib/session";
 
+import {
+  isAnalystRole,
+} from "@/lib/roles";
+
 
 /* =========================================================
    TYPES
 ========================================================= */
 
 type UserRole =
-  | "GESTOR"
-  | "ANALISTA";
+  | "MANAGER"
+  | "MAINTENANCE";
 
 
 /* =========================================================
@@ -30,9 +34,9 @@ function isUserRole(
 ): value is UserRole {
   return (
     value ===
-      "GESTOR" ||
+      "MANAGER" ||
     value ===
-      "ANALISTA"
+      "MAINTENANCE"
   );
 }
 
@@ -71,6 +75,24 @@ export default async function UsersPageRoute() {
 
   if (
     !isUserRole(
+      session.role,
+    )
+  ) {
+    redirect(
+      "/dashboard",
+    );
+  }
+
+
+  /* =======================================================
+     PERMISSÃO
+
+     Apenas o Analista administra usuários; o Gestor volta
+     para o dashboard. A API aplica a mesma regra.
+  ======================================================= */
+
+  if (
+    !isAnalystRole(
       session.role,
     )
   ) {

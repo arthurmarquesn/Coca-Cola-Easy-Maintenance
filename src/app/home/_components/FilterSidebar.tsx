@@ -98,7 +98,7 @@ function SidebarSelect({
         onChange={(event) =>
           onChange(event.target.value)
         }
-        className="h-[46px] w-full appearance-none rounded-[11px] border border-border-theme bg-surface-elevated bg-[right_1rem_center] bg-no-repeat px-4 text-[13px] text-text-primary outline-none transition-colors duration-200 hover:border-[#CBCFD4] focus:border-[#F40009] focus:bg-surface focus:ring-[3px] focus:ring-[rgba(244,0,9,0.08)]"
+        className="h-[46px] w-full appearance-none rounded-[11px] border border-border-theme bg-surface-elevated bg-[right_1rem_center] bg-no-repeat px-4 text-[13px] text-text-primary outline-none transition-colors duration-200 hover:border-border-theme focus:border-[#F40009] focus:bg-surface focus:ring-[3px] focus:ring-[rgba(244,0,9,0.08)]"
       >
         {options.map((option) => (
           <option
@@ -111,7 +111,7 @@ function SidebarSelect({
       </select>
 
       {helperText && (
-        <p className="mt-1.5 text-[11px] text-[#9BA0A7]">
+        <p className="mt-1.5 text-[11px] text-text-secondary">
           {helperText}
         </p>
       )}
@@ -163,13 +163,13 @@ function SidebarSearchableSelect({
         onBlur={() =>
           setTimeout(() => setOpen(false), 120)
         }
-        className="h-[46px] w-full rounded-[11px] border border-border-theme bg-surface-elevated px-4 text-[13px] text-text-primary outline-none transition-colors duration-200 hover:border-[#CBCFD4] focus:border-[#F40009] focus:bg-surface focus:ring-[3px] focus:ring-[rgba(244,0,9,0.08)]"
+        className="h-[46px] w-full rounded-[11px] border border-border-theme bg-surface-elevated px-4 text-[13px] text-text-primary outline-none transition-colors duration-200 hover:border-border-theme focus:border-[#F40009] focus:bg-surface focus:ring-[3px] focus:ring-[rgba(244,0,9,0.08)]"
       />
 
       {open && (
         <div className="absolute z-10 mt-1 max-h-[220px] w-full overflow-y-auto rounded-[11px] border border-border-theme bg-surface p-1.5 shadow-lg">
           {filteredOptions.length === 0 && (
-            <p className="px-3 py-2 text-[12px] text-[#9BA0A7]">
+            <p className="px-3 py-2 text-[12px] text-text-secondary">
               Nenhum resultado
             </p>
           )}
@@ -255,7 +255,7 @@ export function FilterSidebar({
                 onChange={() =>
                   onAnalysisTypeChange(option.value)
                 }
-                className="h-[15px] w-[15px] cursor-pointer border-[#CACED4] accent-[#F40009]"
+                className="h-[15px] w-[15px] cursor-pointer border-border-theme accent-[#F40009]"
               />
 
               {option.label}
@@ -279,7 +279,7 @@ export function FilterSidebar({
         {period === "custom" && (
           <div className="mt-3 grid grid-cols-2 gap-2.5">
             <div>
-              <p className="mb-1 text-[11px] text-[#9BA0A7]">
+              <p className="mb-1 text-[11px] text-text-secondary">
                 Data inicial
               </p>
 
@@ -293,12 +293,12 @@ export function FilterSidebar({
                     event.target.value,
                   )
                 }
-                className="h-[42px] w-full rounded-[11px] border border-border-theme bg-surface-elevated px-3 text-[13px] text-text-primary outline-none transition-colors duration-200 hover:border-[#CBCFD4] focus:border-[#F40009] focus:bg-surface focus:ring-[3px] focus:ring-[rgba(244,0,9,0.08)]"
+                className="h-[42px] w-full rounded-[11px] border border-border-theme bg-surface-elevated px-3 text-[13px] text-text-primary outline-none transition-colors duration-200 hover:border-border-theme focus:border-[#F40009] focus:bg-surface focus:ring-[3px] focus:ring-[rgba(244,0,9,0.08)]"
               />
             </div>
 
             <div>
-              <p className="mb-1 text-[11px] text-[#9BA0A7]">
+              <p className="mb-1 text-[11px] text-text-secondary">
                 Data final
               </p>
 
@@ -310,7 +310,7 @@ export function FilterSidebar({
                 onChange={(event) =>
                   onCustomToChange(event.target.value)
                 }
-                className="h-[42px] w-full rounded-[11px] border border-border-theme bg-surface-elevated px-3 text-[13px] text-text-primary outline-none transition-colors duration-200 hover:border-[#CBCFD4] focus:border-[#F40009] focus:bg-surface focus:ring-[3px] focus:ring-[rgba(244,0,9,0.08)]"
+                className="h-[42px] w-full rounded-[11px] border border-border-theme bg-surface-elevated px-3 text-[13px] text-text-primary outline-none transition-colors duration-200 hover:border-border-theme focus:border-[#F40009] focus:bg-surface focus:ring-[3px] focus:ring-[rgba(244,0,9,0.08)]"
               />
             </div>
           </div>
@@ -349,7 +349,7 @@ export function FilterSidebar({
                 onChange={() =>
                   onTurnoChange(option.value)
                 }
-                className="h-[15px] w-[15px] cursor-pointer border-[#CACED4] accent-[#F40009]"
+                className="h-[15px] w-[15px] cursor-pointer border-border-theme accent-[#F40009]"
               />
 
               {option.label}
@@ -392,10 +392,10 @@ export function FilterSidebar({
           onChange={(event) =>
             onTopNChange(Number(event.target.value))
           }
-          className="h-[6px] w-full cursor-pointer appearance-none rounded-full bg-[#E9EBEE] accent-[#F40009]"
+          className="h-[6px] w-full cursor-pointer appearance-none rounded-full bg-surface-hover accent-[#F40009]"
         />
 
-        <div className="mt-1.5 flex justify-between text-[11px] text-[#9BA0A7]">
+        <div className="mt-1.5 flex justify-between text-[11px] text-text-secondary">
           <span>{TOP_N_MIN}</span>
           <span>{TOP_N_MAX}</span>
         </div>

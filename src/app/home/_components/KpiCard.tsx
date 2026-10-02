@@ -17,7 +17,7 @@ export function KpiCard({
           : "border-border-theme"
       }`}
     >
-      <p className="text-[12px] font-medium text-[#7C8087]">
+      <p className="text-[12px] font-medium text-text-secondary">
         {label}
       </p>
 

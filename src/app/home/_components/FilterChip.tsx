@@ -20,7 +20,7 @@ export function FilterChip({
       <X
         size={13}
         strokeWidth={2}
-        className="text-[#A0A5AC] transition-colors duration-200 group-hover:text-[#F40009]"
+        className="text-text-secondary transition-colors duration-200 group-hover:text-[#F40009]"
       />
     </button>
   );

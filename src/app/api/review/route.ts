@@ -26,6 +26,11 @@ import {
   parseReviewFilters,
 } from "@/lib/maintenance/review-filters";
 
+import {
+  buildUnitInClause,
+  getUnitSelection,
+} from "@/lib/unit-selection";
+
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
@@ -301,6 +306,18 @@ export async function GET(request: NextRequest) {
     );
   }
 
+  const unitSelection = await getUnitSelection({
+    userId: session.userId,
+    defaultUnitId: session.unitId,
+  });
+
+  if (unitSelection.selectedUnitIds.length === 0) {
+    return NextResponse.json(
+      { error: "Nenhuma unidade válida está selecionada." },
+      { status: 403 },
+    );
+  }
+
   const searchParams = request.nextUrl.searchParams;
 
   const page = normalizeLimit(searchParams.get("page"), 1, 100000);
@@ -313,7 +330,7 @@ export async function GET(request: NextRequest) {
   try {
     const { whereSql, values } = parseReviewFilters(
       searchParams,
-      session.unitId,
+      unitSelection.selectedUnitIds,
     );
 
     const categoryFilterClause = category
@@ -530,6 +547,18 @@ export async function PATCH(request: NextRequest) {
     );
   }
 
+  const unitSelection = await getUnitSelection({
+    userId: session.userId,
+    defaultUnitId: session.unitId,
+  });
+
+  if (unitSelection.selectedUnitIds.length === 0) {
+    return NextResponse.json(
+      { error: "Nenhuma unidade válida está selecionada." },
+      { status: 403 },
+    );
+  }
+
   let body: ReviewBody;
 
   try {
@@ -570,7 +599,7 @@ export async function PATCH(request: NextRequest) {
   try {
     const result = await applyReview(connection, {
       suggestionId,
-      unitId: session.unitId,
+      unitIds: unitSelection.selectedUnitIds,
       userId: session.userId,
       action: action as ReviewAction,
       correctedComponent:
@@ -630,13 +659,17 @@ export async function applyReview(
   connection: Awaited<ReturnType<typeof getConnection>>,
   params: {
     suggestionId: number;
-    unitId: number;
+    unitIds: number[];
     userId: number;
     action: ReviewAction;
     correctedComponent: string;
     note: string;
   },
 ): Promise<ApplyReviewResult> {
+  /* Validado antes de abrir a transação: buildUnitInClause
+     lança se nenhuma unidade válida for informada. */
+  const unitFilter = buildUnitInClause(params.unitIds);
+
   await connection.beginTransaction();
 
   try {
@@ -659,12 +692,12 @@ export async function applyReview(
             ON me.id = cs.event_id
 
         WHERE cs.id = ?
-            AND me.unit_id = ?
+            AND me.unit_id IN (${unitFilter.placeholders})
 
         LIMIT 1
         FOR UPDATE
       `,
-      [params.suggestionId, params.unitId],
+      [params.suggestionId, ...unitFilter.values],
     );
 
     const suggestion = rows[0];

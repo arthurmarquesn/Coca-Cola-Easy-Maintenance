@@ -23,14 +23,18 @@ import {
   useState,
 } from "react";
 
+import {
+  ThemeSwitcher,
+} from "@/components/theme/theme-switcher";
+
 
 /* =========================================================
    TYPES
 ========================================================= */
 
 type UserRole =
-  | "GESTOR"
-  | "ANALISTA";
+  | "MANAGER"
+  | "MAINTENANCE";
 
 
 interface UnitItem {
@@ -153,7 +157,7 @@ function roleLabel(
     UserRole,
 ): string {
   return role ===
-    "GESTOR"
+    "MANAGER"
     ? "Gestor"
     : "Analista";
 }
@@ -321,7 +325,7 @@ export function UsersPage({
     useState<
       UserRole
     >(
-      "ANALISTA",
+      "MAINTENANCE",
     );
 
 
@@ -499,7 +503,7 @@ export function UsersPage({
 
 
     setRole(
-      "ANALISTA",
+      "MAINTENANCE",
     );
 
 
@@ -665,13 +669,13 @@ export function UsersPage({
   ======================================================= */
 
   return (
-    <main className="min-h-screen bg-[#F7F7F6]">
+    <main className="min-h-screen bg-surface-elevated">
 
       {/* ===================================================
           HEADER
       ==================================================== */}
 
-      <header className="border-b border-black/[0.05] bg-white">
+      <header className="border-b border-border-theme/[0.05] bg-surface">
 
         <div className="mx-auto flex min-h-[76px] w-full max-w-[1280px] items-center justify-between gap-6 px-6 py-2 sm:px-8 lg:px-10">
 
@@ -691,18 +695,22 @@ export function UsersPage({
 
           <div className="hidden text-right sm:block">
 
-            <p className="text-[13px] font-medium text-[#25272A]">
+            <p className="text-[13px] font-medium text-text-primary">
               {user.name}
             </p>
 
 
-            <p className="mt-0.5 text-[10px] text-[#A0A4A9]">
+            <p className="mt-0.5 text-[10px] text-text-secondary">
               {roleLabel(
                 user.role,
               )} · Administração de usuários
             </p>
 
           </div>
+
+          <div className="hidden h-8 w-px bg-border-theme sm:block" />
+
+          <ThemeSwitcher />
 
         </div>
 
@@ -717,7 +725,7 @@ export function UsersPage({
 
         <Link
           href="/dashboard"
-          className="inline-flex items-center gap-2 text-[12px] font-medium text-[#81868C] transition-colors hover:text-[#282B2F]"
+          className="inline-flex items-center gap-2 text-[12px] font-medium text-text-secondary transition-colors hover:text-text-primary"
         >
 
           <ArrowLeft
@@ -749,12 +757,12 @@ export function UsersPage({
 
             <div>
 
-              <h1 className="text-[34px] font-semibold tracking-[-0.045em] text-[#191B1E] sm:text-[40px]">
+              <h1 className="text-[34px] font-semibold tracking-[-0.045em] text-text-primary sm:text-[40px]">
                 Usuários
               </h1>
 
 
-              <p className="mt-2 max-w-[680px] text-[13px] leading-6 text-[#7D8288]">
+              <p className="mt-2 max-w-[680px] text-[13px] leading-6 text-text-secondary">
                 Cadastre os representantes das unidades.
                 Cada usuário possui uma unidade principal,
                 mas pode consultar os dados de todas as
@@ -778,7 +786,7 @@ export function UsersPage({
               CREATE USER
           ================================================== */}
 
-          <section className="rounded-[26px] border border-black/[0.07] bg-white p-6 sm:p-7">
+          <section className="rounded-[26px] border border-border-theme/[0.07] bg-surface p-6 sm:p-7">
 
             <div className="flex items-center gap-3">
 
@@ -789,7 +797,7 @@ export function UsersPage({
               />
 
 
-              <h2 className="text-[17px] font-semibold tracking-[-0.02em] text-[#25282C]">
+              <h2 className="text-[17px] font-semibold tracking-[-0.02em] text-text-primary">
                 Novo usuário
               </h2>
 
@@ -809,7 +817,7 @@ export function UsersPage({
 
               <div>
 
-                <label className="text-[11px] font-medium text-[#70757B]">
+                <label className="text-[11px] font-medium text-text-secondary">
                   Nome completo
                 </label>
 
@@ -829,7 +837,7 @@ export function UsersPage({
                   required
                   maxLength={150}
                   placeholder="Nome do colaborador"
-                  className="mt-2 h-12 w-full rounded-[12px] border border-[#DDE0E3] bg-white px-3.5 text-[13px] text-[#303438] outline-none transition-colors placeholder:text-[#B0B4B8] focus:border-[#BABFC5]"
+                  className="mt-2 h-12 w-full rounded-[12px] border border-border-theme bg-surface px-3.5 text-[13px] text-text-primary outline-none transition-colors placeholder:text-text-muted focus:border-border-theme"
                 />
 
               </div>
@@ -841,7 +849,7 @@ export function UsersPage({
 
               <div className="mt-5">
 
-                <label className="text-[11px] font-medium text-[#70757B]">
+                <label className="text-[11px] font-medium text-text-secondary">
                   E-mail
                 </label>
 
@@ -863,7 +871,7 @@ export function UsersPage({
                   maxLength={191}
                   autoComplete="email"
                   placeholder="nome@empresa.com"
-                  className="mt-2 h-12 w-full rounded-[12px] border border-[#DDE0E3] bg-white px-3.5 text-[13px] text-[#303438] outline-none transition-colors placeholder:text-[#B0B4B8] focus:border-[#BABFC5]"
+                  className="mt-2 h-12 w-full rounded-[12px] border border-border-theme bg-surface px-3.5 text-[13px] text-text-primary outline-none transition-colors placeholder:text-text-muted focus:border-border-theme"
                 />
 
               </div>
@@ -875,7 +883,7 @@ export function UsersPage({
 
               <div className="mt-5">
 
-                <label className="text-[11px] font-medium text-[#70757B]">
+                <label className="text-[11px] font-medium text-text-secondary">
                   Perfil
                 </label>
 
@@ -893,22 +901,22 @@ export function UsersPage({
                         UserRole,
                     )
                   }
-                  className="mt-2 h-12 w-full rounded-[12px] border border-[#DDE0E3] bg-white px-3.5 text-[13px] text-[#303438] outline-none transition-colors focus:border-[#BABFC5]"
+                  className="mt-2 h-12 w-full rounded-[12px] border border-border-theme bg-surface px-3.5 text-[13px] text-text-primary outline-none transition-colors focus:border-border-theme"
                 >
 
-                  <option value="ANALISTA">
+                  <option value="MAINTENANCE">
                     Analista
                   </option>
 
 
-                  <option value="GESTOR">
+                  <option value="MANAGER">
                     Gestor
                   </option>
 
                 </select>
 
 
-                <p className="mt-2 text-[10px] leading-4 text-[#9A9FA5]">
+                <p className="mt-2 text-[10px] leading-4 text-text-secondary">
                   O perfil define as responsabilidades
                   do usuário dentro da aplicação.
                 </p>
@@ -924,7 +932,7 @@ export function UsersPage({
 
                 <div>
 
-                  <label className="text-[11px] font-medium text-[#70757B]">
+                  <label className="text-[11px] font-medium text-text-secondary">
                     Senha
                   </label>
 
@@ -947,7 +955,7 @@ export function UsersPage({
                     maxLength={72}
                     autoComplete="new-password"
                     placeholder="Mínimo de 8 caracteres"
-                    className="mt-2 h-12 w-full rounded-[12px] border border-[#DDE0E3] bg-white px-3.5 text-[13px] text-[#303438] outline-none transition-colors placeholder:text-[#B0B4B8] focus:border-[#BABFC5]"
+                    className="mt-2 h-12 w-full rounded-[12px] border border-border-theme bg-surface px-3.5 text-[13px] text-text-primary outline-none transition-colors placeholder:text-text-muted focus:border-border-theme"
                   />
 
                 </div>
@@ -955,7 +963,7 @@ export function UsersPage({
 
                 <div>
 
-                  <label className="text-[11px] font-medium text-[#70757B]">
+                  <label className="text-[11px] font-medium text-text-secondary">
                     Confirmar senha
                   </label>
 
@@ -978,7 +986,7 @@ export function UsersPage({
                     maxLength={72}
                     autoComplete="new-password"
                     placeholder="Repita a senha"
-                    className="mt-2 h-12 w-full rounded-[12px] border border-[#DDE0E3] bg-white px-3.5 text-[13px] text-[#303438] outline-none transition-colors placeholder:text-[#B0B4B8] focus:border-[#BABFC5]"
+                    className="mt-2 h-12 w-full rounded-[12px] border border-border-theme bg-surface px-3.5 text-[13px] text-text-primary outline-none transition-colors placeholder:text-text-muted focus:border-border-theme"
                   />
 
                 </div>
@@ -990,11 +998,11 @@ export function UsersPage({
                   REPRESENTATIVE UNIT
               ============================================== */}
 
-              <div className="mt-7 border-t border-[#ECEDEF] pt-6">
+              <div className="mt-7 border-t border-border-theme pt-6">
 
                 <div className="flex items-center gap-3">
 
-                  <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-[11px] bg-[#F4F4F3] text-[#666B70]">
+                  <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-[11px] bg-surface-elevated text-text-secondary">
 
                     <Building2
                       size={17}
@@ -1006,12 +1014,12 @@ export function UsersPage({
 
                   <div>
 
-                    <p className="text-[12px] font-semibold text-[#34383D]">
+                    <p className="text-[12px] font-semibold text-text-primary">
                       Unidade representada
                     </p>
 
 
-                    <p className="mt-0.5 text-[10px] text-[#989DA3]">
+                    <p className="mt-0.5 text-[10px] text-text-secondary">
                       Unidade principal deste usuário.
                     </p>
 
@@ -1057,7 +1065,7 @@ export function UsersPage({
                     units.length ===
                       0
                   }
-                  className="mt-4 h-12 w-full rounded-[12px] border border-[#DDE0E3] bg-white px-3.5 text-[13px] text-[#303438] outline-none transition-colors focus:border-[#BABFC5] disabled:cursor-not-allowed disabled:bg-[#F7F7F6] disabled:text-[#9A9FA5]"
+                  className="mt-4 h-12 w-full rounded-[12px] border border-border-theme bg-surface px-3.5 text-[13px] text-text-primary outline-none transition-colors focus:border-border-theme disabled:cursor-not-allowed disabled:bg-surface-elevated disabled:text-text-secondary"
                 >
 
                   <option value="">
@@ -1106,11 +1114,11 @@ export function UsersPage({
                   GLOBAL ACCESS INFORMATION
               ============================================== */}
 
-              <div className="mt-5 rounded-[16px] border border-[#E7E9EA] bg-[#F8F8F7] p-4">
+              <div className="mt-5 rounded-[16px] border border-border-theme bg-surface-elevated p-4">
 
                 <div className="flex items-start gap-3">
 
-                  <div className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-[10px] bg-white text-[#73787D] shadow-[0_1px_2px_rgba(0,0,0,0.04)]">
+                  <div className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-[10px] bg-surface text-text-secondary shadow-[0_1px_2px_rgba(0,0,0,0.04)]">
 
                     <Globe2
                       size={15}
@@ -1122,12 +1130,12 @@ export function UsersPage({
 
                   <div>
 
-                    <p className="text-[11px] font-semibold text-[#4D5257]">
+                    <p className="text-[11px] font-semibold text-text-primary">
                       Acesso a todas as unidades
                     </p>
 
 
-                    <p className="mt-1 text-[10px] leading-5 text-[#8B9096]">
+                    <p className="mt-1 text-[10px] leading-5 text-text-secondary">
                       A unidade representada define apenas
                       a unidade principal do usuário.
                       Ele poderá consultar e comparar dados
@@ -1147,7 +1155,7 @@ export function UsersPage({
               ============================================== */}
 
               {error && (
-                <div className="mt-5 rounded-[12px] border border-[#F0D2D4] bg-[#FFF8F8] px-4 py-3">
+                <div className="mt-5 rounded-[12px] border border-[#F0D2D4] bg-surface-elevated px-4 py-3">
 
                   <p className="text-[11px] leading-5 text-[#A5484D]">
                     {error}
@@ -1158,7 +1166,7 @@ export function UsersPage({
 
 
               {success && (
-                <div className="mt-5 rounded-[12px] border border-[#D7E9DA] bg-[#F7FBF7] px-4 py-3">
+                <div className="mt-5 rounded-[12px] border border-[#D7E9DA] bg-surface-elevated px-4 py-3">
 
                   <p className="text-[11px] leading-5 text-[#3E7650]">
                     {success}
@@ -1210,25 +1218,25 @@ export function UsersPage({
               USERS LIST
           ================================================== */}
 
-          <section className="min-w-0 overflow-hidden rounded-[26px] border border-black/[0.07] bg-white">
+          <section className="min-w-0 overflow-hidden rounded-[26px] border border-border-theme/[0.07] bg-surface">
 
-            <div className="flex items-start justify-between gap-5 border-b border-[#ECEDEF] px-6 py-6 sm:px-7">
+            <div className="flex items-start justify-between gap-5 border-b border-border-theme px-6 py-6 sm:px-7">
 
               <div>
 
-                <h2 className="text-[17px] font-semibold tracking-[-0.02em] text-[#25282C]">
+                <h2 className="text-[17px] font-semibold tracking-[-0.02em] text-text-primary">
                   Usuários cadastrados
                 </h2>
 
 
-                <p className="mt-1 text-[11px] text-[#969BA1]">
+                <p className="mt-1 text-[11px] text-text-secondary">
                   Representantes cadastrados no sistema.
                 </p>
 
               </div>
 
 
-              <span className="rounded-full bg-[#F4F4F3] px-3 py-1.5 text-[10px] font-semibold text-[#74797F]">
+              <span className="rounded-full bg-surface-elevated px-3 py-1.5 text-[10px] font-semibold text-text-secondary">
                 {users.length}
               </span>
 
@@ -1259,16 +1267,16 @@ export function UsersPage({
                 <Users
                   size={24}
                   strokeWidth={1.6}
-                  className="text-[#B0B4B8]"
+                  className="text-text-secondary"
                 />
 
 
-                <p className="mt-4 text-[13px] font-medium text-[#555A60]">
+                <p className="mt-4 text-[13px] font-medium text-text-primary">
                   Nenhum usuário encontrado
                 </p>
 
 
-                <p className="mt-1 max-w-[280px] text-[10px] leading-5 text-[#9A9FA5]">
+                <p className="mt-1 max-w-[280px] text-[10px] leading-5 text-text-secondary">
                   Cadastre o primeiro representante
                   utilizando o formulário ao lado.
                 </p>
@@ -1279,7 +1287,7 @@ export function UsersPage({
                  USERS
               ============================================== */
 
-              <div className="divide-y divide-[#EEF0F1]">
+              <div className="divide-y divide-border-theme">
 
                 {users.map(
                   (
@@ -1302,13 +1310,13 @@ export function UsersPage({
 
                           <div className="flex flex-wrap items-center gap-2">
 
-                            <p className="truncate text-[13px] font-semibold text-[#33373B]">
+                            <p className="truncate text-[13px] font-semibold text-text-primary">
                               {item.name}
                             </p>
 
 
                             {!item.active && (
-                              <span className="rounded-full bg-[#F1F1F1] px-2 py-0.5 text-[8px] font-semibold uppercase text-[#8D9297]">
+                              <span className="rounded-full bg-surface-elevated px-2 py-0.5 text-[8px] font-semibold uppercase text-text-secondary">
                                 Inativo
                               </span>
                             )}
@@ -1316,7 +1324,7 @@ export function UsersPage({
                           </div>
 
 
-                          <p className="mt-1 truncate text-[11px] text-[#8F949A]">
+                          <p className="mt-1 truncate text-[11px] text-text-secondary">
                             {item.email}
                           </p>
 
@@ -1327,8 +1335,8 @@ export function UsersPage({
                           className={[
                             "inline-flex w-fit items-center gap-1.5 rounded-full px-2.5 py-1 text-[9px] font-semibold",
                             item.role ===
-                              "GESTOR"
-                              ? "bg-[#F2F3F3] text-[#555B61]"
+                              "MANAGER"
+                              ? "bg-surface-elevated text-text-primary"
                               : "bg-[#FDEBEC] text-[#C72B34]",
                           ].join(
                             " ",
@@ -1355,24 +1363,24 @@ export function UsersPage({
 
                       <div className="mt-4">
 
-                        <p className="text-[9px] font-medium uppercase tracking-[0.07em] text-[#A0A4AA]">
+                        <p className="text-[9px] font-medium uppercase tracking-[0.07em] text-text-secondary">
                           Unidade representada
                         </p>
 
 
                         {item.representativeUnit ? (
-                          <div className="mt-2 inline-flex max-w-full items-center gap-2 rounded-[11px] border border-[#E4E6E8] bg-[#FAFAFA] px-3 py-2">
+                          <div className="mt-2 inline-flex max-w-full items-center gap-2 rounded-[11px] border border-border-theme bg-surface-elevated px-3 py-2">
 
                             <Building2
                               size={13}
                               strokeWidth={1.8}
-                              className="shrink-0 text-[#858A90]"
+                              className="shrink-0 text-text-secondary"
                             />
 
 
                             <div className="min-w-0">
 
-                              <p className="truncate text-[10px] font-semibold text-[#5D6268]">
+                              <p className="truncate text-[10px] font-semibold text-text-primary">
                                 {unitLabel(
                                   item.representativeUnit,
                                 )}
@@ -1382,7 +1390,7 @@ export function UsersPage({
                               {unitDescription(
                                 item.representativeUnit,
                               ) && (
-                                <p className="mt-0.5 truncate text-[8px] text-[#A0A4A9]">
+                                <p className="mt-0.5 truncate text-[8px] text-text-secondary">
                                   {unitDescription(
                                     item.representativeUnit,
                                   )}
@@ -1393,7 +1401,7 @@ export function UsersPage({
 
                           </div>
                         ) : (
-                          <p className="mt-2 text-[10px] text-[#A0A4A9]">
+                          <p className="mt-2 text-[10px] text-text-secondary">
                             Nenhuma unidade representada.
                           </p>
                         )}
@@ -1405,7 +1413,7 @@ export function UsersPage({
                           ACCESS
                       ====================================== */}
 
-                      <div className="mt-4 flex items-center gap-2 text-[9px] text-[#8C9197]">
+                      <div className="mt-4 flex items-center gap-2 text-[9px] text-text-secondary">
 
                         <Globe2
                           size={11}
@@ -1424,9 +1432,9 @@ export function UsersPage({
                           LAST LOGIN
                       ====================================== */}
 
-                      <div className="mt-4 border-t border-[#F0F1F2] pt-3">
+                      <div className="mt-4 border-t border-border-theme pt-3">
 
-                        <p className="text-[9px] text-[#A1A5AA]">
+                        <p className="text-[9px] text-text-secondary">
                           Último acesso:{" "}
                           {formatDateTime(
                             item.lastLoginAt,
