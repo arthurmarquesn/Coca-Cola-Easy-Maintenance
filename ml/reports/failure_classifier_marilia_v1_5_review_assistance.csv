@@ -1,0 +1,2 @@
+﻿split,automated_rows,auto_precision,auto_coverage,review_rows,review_top3_accuracy,review_top5_accuracy,guardrail_blocked_rows
+TEST,88,1.0,0.1260745,610,0.8852459,0.9147541,12

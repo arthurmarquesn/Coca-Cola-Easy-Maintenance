@@ -1,3 +1,5 @@
+// FILE: src/lib/ml/client.ts
+
 /* =========================================================
    TYPES - DECISÃO
 ========================================================= */
@@ -6,23 +8,19 @@ export type MlDecisionSource =
   | "ML"
   | "RULE";
 
-
 export type MlAutomationStatus =
   | "HIGH_CONFIDENCE"
   | "REVIEW_REQUIRED"
   | "RULE_HIGH_CONFIDENCE";
 
-
 export type MlFailureOrigin =
   | "MANUTENCAO"
   | "OPERACAO";
-
 
 export type MlFailureOriginConfidenceLevel =
   | "LOW"
   | "MEDIUM"
   | "HIGH";
-
 
 export interface MlRankedPrediction {
   failedComponentCode:
@@ -48,7 +46,6 @@ export interface MlRankedPrediction {
   decisionScore:
     number | null;
 }
-
 
 /* =========================================================
    TYPES - PREDIÇÃO
@@ -141,7 +138,6 @@ export interface MlPrediction {
     string;
 }
 
-
 /* =========================================================
    TYPES - INPUT
 ========================================================= */
@@ -166,20 +162,17 @@ export interface MlPredictionInput {
     string | null;
 }
 
-
 export interface MlBatchPredictionInput
   extends MlPredictionInput {
   eventId:
     number;
 }
 
-
 export interface MlBatchPrediction
   extends MlPrediction {
   eventId:
     number;
 }
-
 
 /* =========================================================
    TYPES - HEALTH
@@ -194,27 +187,18 @@ export interface MlHealth {
 
   /*
    * Modelo ML puro.
-   *
-   * Exemplo:
-   * failure_classifier_real_v1_1_eval
    */
   modelVersion:
     string | null;
 
   /*
    * Camada de regras.
-   *
-   * Exemplo:
-   * rules-v1
    */
   rulesVersion:
     string | null;
 
   /*
    * Versão efetiva.
-   *
-   * Exemplo:
-   * rules-v1+ml-failure_classifier_real_v1_1_eval
    */
   classifierVersion:
     string | null;
@@ -226,10 +210,10 @@ export interface MlHealth {
     string | null;
 
   /*
-   * Threshold de alta confiança validado.
+   * Threshold legado de alta confiança.
    *
-   * Atualmente:
-   * ~0.73972126
+   * Mantido apenas para compatibilidade e diagnóstico.
+   * Não autoriza classificação automática.
    */
   highConfidenceThreshold:
     number | null;
@@ -246,7 +230,6 @@ export interface MlHealth {
   originMediumConfidenceThreshold:
     number | null;
 }
-
 
 /* =========================================================
    TYPES - API PYTHON
@@ -265,7 +248,6 @@ interface MlApiRankedPrediction {
   decision_score?:
     number | null;
 }
-
 
 interface MlApiPrediction {
   model_version:
@@ -314,13 +296,11 @@ interface MlApiPrediction {
     string;
 }
 
-
 interface MlApiBatchPrediction
   extends MlApiPrediction {
   event_id:
     number;
 }
-
 
 interface MlApiBatchResponse {
   model_version:
@@ -329,7 +309,6 @@ interface MlApiBatchResponse {
   items:
     MlApiBatchPrediction[];
 }
-
 
 interface MlApiHealth {
   status:
@@ -363,7 +342,6 @@ interface MlApiHealth {
     number | null;
 }
 
-
 /* =========================================================
    SERVICE URL
 ========================================================= */
@@ -375,7 +353,6 @@ string {
       .ML_SERVICE_URL
       ?.trim();
 
-
   if (
     !value
   ) {
@@ -384,13 +361,11 @@ string {
     );
   }
 
-
   return value.replace(
     /\/+$/,
     "",
   );
 }
-
 
 /* =========================================================
    HELPERS
@@ -406,7 +381,6 @@ function cleanString(
     : "";
 }
 
-
 function normalizeConfidence(
   value:
     unknown,
@@ -416,7 +390,6 @@ function normalizeConfidence(
       value,
     );
 
-
   if (
     !Number.isFinite(
       parsed,
@@ -424,7 +397,6 @@ function normalizeConfidence(
   ) {
     return 0;
   }
-
 
   return Math.max(
     0,
@@ -434,7 +406,6 @@ function normalizeConfidence(
     ),
   );
 }
-
 
 function nullableFiniteNumber(
   value:
@@ -451,12 +422,10 @@ function nullableFiniteNumber(
     return null;
   }
 
-
   const parsed =
     Number(
       value,
     );
-
 
   return Number.isFinite(
     parsed,
@@ -464,7 +433,6 @@ function nullableFiniteNumber(
     ? parsed
     : null;
 }
-
 
 function normalizeDecisionSource(
   value:
@@ -475,14 +443,12 @@ function normalizeDecisionSource(
       value,
     ).toUpperCase();
 
-
   if (
     normalized ===
       "ML"
   ) {
     return "ML";
   }
-
 
   if (
     normalized ===
@@ -491,10 +457,8 @@ function normalizeDecisionSource(
     return "RULE";
   }
 
-
   return null;
 }
-
 
 function normalizeAutomationStatus(
   value:
@@ -505,14 +469,12 @@ function normalizeAutomationStatus(
       value,
     ).toUpperCase();
 
-
   if (
     normalized ===
       "HIGH_CONFIDENCE"
   ) {
     return "HIGH_CONFIDENCE";
   }
-
 
   if (
     normalized ===
@@ -521,7 +483,6 @@ function normalizeAutomationStatus(
     return "REVIEW_REQUIRED";
   }
 
-
   if (
     normalized ===
       "RULE_HIGH_CONFIDENCE"
@@ -529,10 +490,8 @@ function normalizeAutomationStatus(
     return "RULE_HIGH_CONFIDENCE";
   }
 
-
   return null;
 }
-
 
 function normalizeFailureOrigin(
   value:
@@ -543,7 +502,6 @@ function normalizeFailureOrigin(
       value,
     );
 
-
   if (
     normalized ===
       "MANUTENCAO" ||
@@ -553,12 +511,10 @@ function normalizeFailureOrigin(
     return normalized;
   }
 
-
   throw new Error(
     "O serviço de classificação não informou failure_origin válido.",
   );
 }
-
 
 function normalizeFailureOriginConfidenceLevel(
   value:
@@ -568,7 +524,6 @@ function normalizeFailureOriginConfidenceLevel(
     cleanString(
       value,
     );
-
 
   if (
     normalized ===
@@ -581,12 +536,10 @@ function normalizeFailureOriginConfidenceLevel(
     return normalized;
   }
 
-
   throw new Error(
     "O serviço de classificação não informou failure_origin_confidence_level válido.",
   );
 }
-
 
 function normalizeFailureOriginConfidence(
   value:
@@ -608,10 +561,8 @@ function normalizeFailureOriginConfidence(
     );
   }
 
-
   return value;
 }
-
 
 /* =========================================================
    MAP PREDICTION
@@ -630,19 +581,16 @@ function mapPrediction(
       data.model_version,
     );
 
-
   const failedComponentCode =
     cleanString(
       data
         .failed_component_code,
     );
 
-
   const failureMode =
     cleanString(
       data.failure_mode,
     );
-
 
   if (
     !modelVersion
@@ -652,7 +600,6 @@ function mapPrediction(
     );
   }
 
-
   if (
     !failedComponentCode
   ) {
@@ -661,7 +608,6 @@ function mapPrediction(
     );
   }
 
-
   if (
     !failureMode
   ) {
@@ -669,7 +615,6 @@ function mapPrediction(
       "O serviço de classificação não informou failure_mode.",
     );
   }
-
 
   /* -------------------------------------------------------
      METADADOS DA DECISÃO
@@ -680,7 +625,6 @@ function mapPrediction(
       data.decision_source,
     );
 
-
   if (
     !decisionSource
   ) {
@@ -689,12 +633,10 @@ function mapPrediction(
     );
   }
 
-
   const automationStatus =
     normalizeAutomationStatus(
       data.automation_status,
     );
-
 
   if (
     !automationStatus
@@ -704,12 +646,10 @@ function mapPrediction(
     );
   }
 
-
   const confidenceType =
     cleanString(
       data.confidence_type,
     );
-
 
   if (
     !confidenceType
@@ -718,7 +658,6 @@ function mapPrediction(
       "O serviço de classificação não informou confidence_type.",
     );
   }
-
 
   if (
     typeof data
@@ -730,22 +669,22 @@ function mapPrediction(
     );
   }
 
-
   const decisionMargin =
     nullableFiniteNumber(
       data.decision_margin,
     );
-
 
   const automationThreshold =
     nullableFiniteNumber(
       data.automation_threshold,
     );
 
-
   /*
-   * Para uma previsão realmente produzida pelo
-   * LinearSVC, margem e threshold são obrigatórios.
+   * Para uma previsão realmente produzida pelo ML,
+   * margem e threshold continuam obrigatórios.
+   *
+   * Eles são usados para auditoria/diagnóstico e não
+   * autorizam classificação automática.
    */
   if (
     decisionSource ===
@@ -760,7 +699,6 @@ function mapPrediction(
       );
     }
 
-
     if (
       automationThreshold ===
       null
@@ -771,33 +709,36 @@ function mapPrediction(
     }
   }
 
-
   /*
-   * Consistência básica entre origem e status.
+   * =======================================================
+   * POLÍTICA HUMAN-IN-THE-LOOP
+   * =======================================================
+   *
+   * Toda decisão do Ursus, seja RULE ou ML,
+   * deve obrigatoriamente passar por revisão humana.
+   *
+   * HIGH_CONFIDENCE e RULE_HIGH_CONFIDENCE continuam no
+   * tipo apenas por compatibilidade histórica com registros
+   * já persistidos, mas não são aceitos como resposta do
+   * runtime atual.
    */
   if (
-    decisionSource ===
-      "RULE" &&
     automationStatus !==
-      "RULE_HIGH_CONFIDENCE"
+      "REVIEW_REQUIRED"
   ) {
     throw new Error(
-      "Uma decisão RULE deve possuir automation_status RULE_HIGH_CONFIDENCE.",
+      "Toda decisão do Ursus deve possuir automation_status REVIEW_REQUIRED.",
     );
   }
-
 
   if (
-    decisionSource ===
-      "ML" &&
-    automationStatus ===
-      "RULE_HIGH_CONFIDENCE"
+    data.review_required !==
+      true
   ) {
     throw new Error(
-      "Uma decisão ML não pode possuir automation_status RULE_HIGH_CONFIDENCE.",
+      "Toda decisão do Ursus deve possuir review_required=true.",
     );
   }
-
 
   /* -------------------------------------------------------
      ORIGEM DA FALHA
@@ -808,13 +749,11 @@ function mapPrediction(
       data.failure_origin,
     );
 
-
   const failureOriginConfidence =
     normalizeFailureOriginConfidence(
       data
         .failure_origin_confidence,
     );
-
 
   const failureOriginConfidenceLevel =
     normalizeFailureOriginConfidenceLevel(
@@ -822,13 +761,11 @@ function mapPrediction(
         .failure_origin_confidence_level,
     );
 
-
   const failureOriginModelVersion =
     cleanString(
       data
         .failure_origin_model_version,
     );
-
 
   if (
     !failureOriginModelVersion
@@ -837,7 +774,6 @@ function mapPrediction(
       "O serviço de classificação não informou failure_origin_model_version.",
     );
   }
-
 
   /* -------------------------------------------------------
      TOP PREDICTIONS
@@ -894,7 +830,6 @@ function mapPrediction(
           )
       : [];
 
-
   /* -------------------------------------------------------
      RESULTADO
   ------------------------------------------------------- */
@@ -936,7 +871,6 @@ function mapPrediction(
   };
 }
 
-
 /* =========================================================
    HEALTH
 ========================================================= */
@@ -952,7 +886,6 @@ Promise<MlHealth> {
             "no-store",
         },
       );
-
 
     if (
       !response.ok
@@ -993,42 +926,35 @@ Promise<MlHealth> {
       };
     }
 
-
     const data =
       (
         await response.json()
       ) as MlApiHealth;
-
 
     const status =
       cleanString(
         data.status,
       );
 
-
     const modelVersion =
       cleanString(
         data.model_version,
       );
-
 
     const rulesVersion =
       cleanString(
         data.rules_version,
       );
 
-
     const classifierVersion =
       cleanString(
         data.classifier_version,
       );
 
-
     const confidenceType =
       cleanString(
         data.confidence_type,
       );
-
 
     const highConfidenceThreshold =
       nullableFiniteNumber(
@@ -1036,13 +962,11 @@ Promise<MlHealth> {
           .high_confidence_threshold,
       );
 
-
     const originModelVersion =
       cleanString(
         data
           .origin_model_version,
       );
-
 
     const originConfidenceType =
       cleanString(
@@ -1050,20 +974,17 @@ Promise<MlHealth> {
           .origin_confidence_type,
       );
 
-
     const originHighConfidenceThreshold =
       nullableFiniteNumber(
         data
           .origin_high_confidence_threshold,
       );
 
-
     const originMediumConfidenceThreshold =
       nullableFiniteNumber(
         data
           .origin_medium_confidence_threshold,
       );
-
 
     return {
       available:
@@ -1142,7 +1063,6 @@ Promise<MlHealth> {
   }
 }
 
-
 /* =========================================================
    PREDICT - INDIVIDUAL
 ========================================================= */
@@ -1194,31 +1114,26 @@ export async function predictFailure(
       },
     );
 
-
   if (
     !response.ok
   ) {
     const text =
       await response.text();
 
-
     throw new Error(
       `Serviço de classificação respondeu ${response.status}: ${text}`,
     );
   }
-
 
   const data =
     (
       await response.json()
     ) as MlApiPrediction;
 
-
   return mapPrediction(
     data,
   );
 }
-
 
 /* =========================================================
    PREDICT - BATCH
@@ -1237,10 +1152,8 @@ export async function predictFailuresBatch(
     return [];
   }
 
-
   /*
-   * O FastAPI aceita no máximo
-   * 500 itens por batch.
+   * O FastAPI aceita no máximo 500 itens por batch.
    */
   if (
     items.length >
@@ -1250,7 +1163,6 @@ export async function predictFailuresBatch(
       "O serviço de classificação aceita no máximo 500 eventos por lote.",
     );
   }
-
 
   const response =
     await fetch(
@@ -1305,25 +1217,21 @@ export async function predictFailuresBatch(
       },
     );
 
-
   if (
     !response.ok
   ) {
     const text =
       await response.text();
 
-
     throw new Error(
       `Serviço de classificação em lote respondeu ${response.status}: ${text}`,
     );
   }
 
-
   const data =
     (
       await response.json()
     ) as MlApiBatchResponse;
-
 
   if (
     !Array.isArray(
@@ -1335,10 +1243,8 @@ export async function predictFailuresBatch(
     );
   }
 
-
   /*
-   * N enviados deve ser igual a
-   * N recebidos.
+   * N enviados deve ser igual a N recebidos.
    */
   if (
     data.items.length !==
@@ -1352,7 +1258,6 @@ export async function predictFailuresBatch(
       `para ${items.length} evento(s).`,
     );
   }
-
 
   const mapped:
     MlBatchPrediction[] =
@@ -1371,7 +1276,6 @@ export async function predictFailuresBatch(
       }),
     );
 
-
   /* -------------------------------------------------------
      VALIDAR EVENT IDs
   ------------------------------------------------------- */
@@ -1386,7 +1290,6 @@ export async function predictFailuresBatch(
       ),
     );
 
-
   const returnedIds =
     new Set(
       mapped.map(
@@ -1396,7 +1299,6 @@ export async function predictFailuresBatch(
           item.eventId,
       ),
     );
-
 
   if (
     expectedIds.size !==
@@ -1417,10 +1319,6 @@ export async function predictFailuresBatch(
     );
   }
 
-
-  /*
-   * Também rejeitamos IDs inválidos.
-   */
   if (
     mapped.some(
       (
@@ -1438,6 +1336,6 @@ export async function predictFailuresBatch(
     );
   }
 
-
   return mapped;
 }
+

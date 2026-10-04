@@ -1,0 +1,45 @@
+{
+  "taxonomy_version": "canonical-taxonomy-v2",
+  "source_dataset": "C:\\Users\\arthu\\Coca\\Coca-Cola-Easy-Maintenance\\ml\\data\\human\\marilia\\prepared\\marilia_human_v1.csv",
+  "reference_split": "C:\\Users\\arthu\\Coca\\Coca-Cola-Easy-Maintenance\\ml\\reports\\failure_classifier_marilia_v1_3_split.csv",
+  "split_preserved_from_v1_3": true,
+  "leakage": {
+    "train_validation": 0,
+    "train_test": 0,
+    "validation_test": 0
+  },
+  "rows": 4455,
+  "unique_observations": 3672,
+  "automatic_mappings": 16,
+  "review_candidates": 271,
+  "before": {
+    "classes": 437,
+    "singletons": 164,
+    "classes_le_3": 262,
+    "classes_le_5": 299,
+    "classes_le_10": 347,
+    "mean_support": 10.194508,
+    "median_support": 2.0
+  },
+  "after": {
+    "classes": 421,
+    "singletons": 147,
+    "classes_le_3": 244,
+    "classes_le_5": 283,
+    "classes_le_10": 331,
+    "mean_support": 10.581948,
+    "median_support": 2.0
+  },
+  "delta": {
+    "classes": -16.0,
+    "singletons": -17.0,
+    "classes_le_3": -18.0,
+    "classes_le_5": -16.0,
+    "classes_le_10": -16.0,
+    "mean_support": 0.38744,
+    "median_support": 0.0
+  },
+  "families": 71,
+  "other_unknown_classes": 156,
+  "ambiguous_relations_not_applied": true
+}

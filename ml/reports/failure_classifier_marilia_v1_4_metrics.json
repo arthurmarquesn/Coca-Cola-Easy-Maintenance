@@ -1,0 +1,867 @@
+{
+  "model_version": "failure_classifier_marilia_v1_4_candidate",
+  "dataset_version": "marilia-human-v1-canonical-taxonomy-v2",
+  "taxonomy": {
+    "taxonomy_version": "canonical-taxonomy-v2",
+    "source_dataset": "C:\\Users\\arthu\\Coca\\Coca-Cola-Easy-Maintenance\\ml\\data\\human\\marilia\\prepared\\marilia_human_v1.csv",
+    "reference_split": "C:\\Users\\arthu\\Coca\\Coca-Cola-Easy-Maintenance\\ml\\reports\\failure_classifier_marilia_v1_3_split.csv",
+    "split_preserved_from_v1_3": true,
+    "leakage": {
+      "train_validation": 0,
+      "train_test": 0,
+      "validation_test": 0
+    },
+    "rows": 4455,
+    "unique_observations": 3672,
+    "automatic_mappings": 16,
+    "review_candidates": 271,
+    "before": {
+      "classes": 437,
+      "singletons": 164,
+      "classes_le_3": 262,
+      "classes_le_5": 299,
+      "classes_le_10": 347,
+      "mean_support": 10.194508,
+      "median_support": 2.0
+    },
+    "after": {
+      "classes": 421,
+      "singletons": 147,
+      "classes_le_3": 244,
+      "classes_le_5": 283,
+      "classes_le_10": 331,
+      "mean_support": 10.581948,
+      "median_support": 2.0
+    },
+    "delta": {
+      "classes": -16.0,
+      "singletons": -17.0,
+      "classes_le_3": -18.0,
+      "classes_le_5": -16.0,
+      "classes_le_10": -16.0,
+      "mean_support": 0.38744,
+      "median_support": 0.0
+    },
+    "families": 71,
+    "other_unknown_classes": 156,
+    "ambiguous_relations_not_applied": true
+  },
+  "evaluation_integrity": {
+    "split_preserved_from_v1_3": true,
+    "winner_selected_on": "VALIDATION",
+    "test_used_for_taxonomy_model_or_reranker_selection": false,
+    "test_evaluations": 1,
+    "zero_leakage": true,
+    "prototypes_built_from": "TRAIN_only"
+  },
+  "winner": {
+    "architecture": "v1.4_hierarchical_hard_family_gate",
+    "validation_accuracy": 0.73430657,
+    "validation_macro_f1": 0.54082099,
+    "validation_weighted_f1": 0.70784851,
+    "validation_top3_accuracy": 0.82043796,
+    "validation_hc_97_precision": 0.9787234,
+    "validation_hc_97_coverage": 0.06861314,
+    "classes_with_nonzero_recall": 152,
+    "complexity_rank": 3,
+    "parameters": {
+      "base": "v1.4_flat_word_12_char_35_c1.5_cwbalanced",
+      "family_classifier_C": 1.0,
+      "families": 71
+    }
+  },
+  "validation": {
+    "accuracy": 0.73430657,
+    "macro_f1": 0.54082099,
+    "weighted_f1": 0.70784851,
+    "top3_accuracy": 0.82043796
+  },
+  "architectures_validation": {
+    "v1.3_baseline_remapped": {
+      "accuracy": 0.7270073,
+      "macro_f1": 0.53171606,
+      "weighted_f1": 0.70628452,
+      "top3_accuracy": 0.8540146
+    },
+    "v1.4_flat_word_12_char_36_c1.5_cwbalanced": {
+      "accuracy": 0.72554745,
+      "macro_f1": 0.5317477,
+      "weighted_f1": 0.70506787,
+      "top3_accuracy": 0.85547445
+    },
+    "v1.4_flat_word_12_char_36_c1.0_cwbalanced": {
+      "accuracy": 0.71824818,
+      "macro_f1": 0.53229328,
+      "weighted_f1": 0.69979059,
+      "top3_accuracy": 0.8540146
+    },
+    "v1.4_flat_word_12_char_36_c2.0_cwbalanced": {
+      "accuracy": 0.72846715,
+      "macro_f1": 0.5368958,
+      "weighted_f1": 0.70794505,
+      "top3_accuracy": 0.85547445
+    },
+    "v1.4_flat_word_12_char_36_c1.5_cwnone": {
+      "accuracy": 0.71970803,
+      "macro_f1": 0.5243383,
+      "weighted_f1": 0.68900668,
+      "top3_accuracy": 0.84087591
+    },
+    "v1.4_flat_word_12_char_35_c1.5_cwbalanced": {
+      "accuracy": 0.72846715,
+      "macro_f1": 0.53831643,
+      "weighted_f1": 0.70778629,
+      "top3_accuracy": 0.8540146
+    },
+    "v1.4_hierarchical_hard_family_gate": {
+      "accuracy": 0.73430657,
+      "macro_f1": 0.54082099,
+      "weighted_f1": 0.70784851,
+      "top3_accuracy": 0.82043796
+    },
+    "v1.4_reranked_top3_alpha_0.1": {
+      "accuracy": 0.72554745,
+      "macro_f1": 0.53345154,
+      "weighted_f1": 0.70620634,
+      "top3_accuracy": 0.8540146
+    },
+    "v1.4_reranked_top3_alpha_0.2": {
+      "accuracy": 0.72554745,
+      "macro_f1": 0.53406062,
+      "weighted_f1": 0.706915,
+      "top3_accuracy": 0.8540146
+    },
+    "v1.4_reranked_top3_alpha_0.3": {
+      "accuracy": 0.72262774,
+      "macro_f1": 0.53321028,
+      "weighted_f1": 0.70569846,
+      "top3_accuracy": 0.8540146
+    },
+    "v1.4_reranked_top3_alpha_0.4": {
+      "accuracy": 0.72262774,
+      "macro_f1": 0.53321028,
+      "weighted_f1": 0.70569846,
+      "top3_accuracy": 0.8540146
+    },
+    "v1.4_reranked_top3_alpha_0.5": {
+      "accuracy": 0.71970803,
+      "macro_f1": 0.53401484,
+      "weighted_f1": 0.70392871,
+      "top3_accuracy": 0.8540146
+    },
+    "v1.4_reranked_top3_alpha_0.6": {
+      "accuracy": 0.70364964,
+      "macro_f1": 0.52462004,
+      "weighted_f1": 0.68951921,
+      "top3_accuracy": 0.8540146
+    },
+    "v1.4_reranked_top3_alpha_0.7": {
+      "accuracy": 0.69927007,
+      "macro_f1": 0.52427209,
+      "weighted_f1": 0.68703142,
+      "top3_accuracy": 0.8540146
+    },
+    "v1.4_reranked_top3_alpha_0.8": {
+      "accuracy": 0.69051095,
+      "macro_f1": 0.51798625,
+      "weighted_f1": 0.68370356,
+      "top3_accuracy": 0.8540146
+    },
+    "v1.4_reranked_top3_alpha_0.9": {
+      "accuracy": 0.65255474,
+      "macro_f1": 0.48898959,
+      "weighted_f1": 0.64859607,
+      "top3_accuracy": 0.8540146
+    }
+  },
+  "thresholds_selected_on_validation": {
+    "90": {
+      "threshold": 0.75525316,
+      "selected": 410,
+      "total": 685,
+      "coverage": 0.59854015,
+      "precision": 0.9
+    },
+    "95": {
+      "threshold": 1000.510218,
+      "selected": 57,
+      "total": 685,
+      "coverage": 0.08321168,
+      "precision": 0.96491228
+    },
+    "97": {
+      "threshold": 1000.7427419,
+      "selected": 47,
+      "total": 685,
+      "coverage": 0.06861314,
+      "precision": 0.9787234
+    },
+    "99": {
+      "threshold": 1001.04633289,
+      "selected": 41,
+      "total": 685,
+      "coverage": 0.05985401,
+      "precision": 1.0
+    }
+  },
+  "operational_threshold_target": "97",
+  "operational_threshold_validation": {
+    "threshold": 1000.7427419,
+    "selected": 47,
+    "total": 685,
+    "coverage": 0.06861314,
+    "precision": 0.9787234
+  },
+  "test": {
+    "accuracy": 0.747851,
+    "macro_f1": 0.54750979,
+    "weighted_f1": 0.7252257,
+    "top3_accuracy": 0.84097421
+  },
+  "thresholds_applied_to_test": {
+    "90": {
+      "threshold": 0.75525316,
+      "automated": 439,
+      "review": 259,
+      "total": 698,
+      "coverage": 0.62893983,
+      "correct": 389,
+      "precision": 0.88610478,
+      "blocked_by_guardrail": 12
+    },
+    "95": {
+      "threshold": 1000.510218,
+      "automated": 76,
+      "review": 622,
+      "total": 698,
+      "coverage": 0.10888252,
+      "correct": 71,
+      "precision": 0.93421053,
+      "blocked_by_guardrail": 12
+    },
+    "97": {
+      "threshold": 1000.7427419,
+      "automated": 66,
+      "review": 632,
+      "total": 698,
+      "coverage": 0.09455587,
+      "correct": 66,
+      "precision": 1.0,
+      "blocked_by_guardrail": 12
+    },
+    "99": {
+      "threshold": 1001.04633289,
+      "automated": 44,
+      "review": 654,
+      "total": 698,
+      "coverage": 0.06303725,
+      "correct": 44,
+      "precision": 1.0,
+      "blocked_by_guardrail": 12
+    }
+  },
+  "high_confidence_test": {
+    "threshold": 1000.7427419,
+    "automated": 66,
+    "review": 632,
+    "total": 698,
+    "coverage": 0.09455587,
+    "correct": 66,
+    "precision": 1.0,
+    "blocked_by_guardrail": 12
+  },
+  "rarity_analysis": [
+    {
+      "analysis_type": "bucket",
+      "segment": "1",
+      "rows": 57,
+      "classes": 53,
+      "accuracy": 0.4385964912280701,
+      "macro_f1": 0.2683982683982683
+    },
+    {
+      "analysis_type": "bucket",
+      "segment": "2-3",
+      "rows": 39,
+      "classes": 31,
+      "accuracy": 0.6666666666666666,
+      "macro_f1": 0.4090909090909091
+    },
+    {
+      "analysis_type": "bucket",
+      "segment": "4-5",
+      "rows": 21,
+      "classes": 20,
+      "accuracy": 0.8571428571428571,
+      "macro_f1": 0.7391304347826086
+    },
+    {
+      "analysis_type": "bucket",
+      "segment": "6-10",
+      "rows": 89,
+      "classes": 49,
+      "accuracy": 0.5617977528089888,
+      "macro_f1": 0.3977168949771689
+    },
+    {
+      "analysis_type": "bucket",
+      "segment": "11-20",
+      "rows": 106,
+      "classes": 31,
+      "accuracy": 0.7641509433962265,
+      "macro_f1": 0.538664035976466
+    },
+    {
+      "analysis_type": "bucket",
+      "segment": ">20",
+      "rows": 386,
+      "classes": 33,
+      "accuracy": 0.8341968911917098,
+      "macro_f1": 0.513169933248892
+    },
+    {
+      "analysis_type": "minimum_support",
+      "segment": ">=5",
+      "rows": 591,
+      "classes": 123,
+      "accuracy": 0.7800338409475466,
+      "macro_f1": 0.5834147871541433
+    },
+    {
+      "analysis_type": "minimum_support",
+      "segment": ">=10",
+      "rows": 505,
+      "classes": 69,
+      "accuracy": 0.8118811881188119,
+      "macro_f1": 0.5845759810273732
+    },
+    {
+      "analysis_type": "minimum_support",
+      "segment": ">=20",
+      "rows": 393,
+      "classes": 35,
+      "accuracy": 0.8295165394402035,
+      "macro_f1": 0.5005498209741159
+    }
+  ],
+  "generic_specific_confusions": [
+    {
+      "direction": "GENERIC_TO_SPECIFIC",
+      "expected": "SEM MODO DE FALHA IDENTIFICADO",
+      "predicted": "FALHA DE ENVOLVIMENTO",
+      "count": 3,
+      "expected_support": 69,
+      "predicted_support": 50,
+      "potential_taxonomy_overlap": "NO_RECORDED_RELATION",
+      "example_observations": "FALHA NO ENVOLVIMENTO DE PACOTES || FALHA NO ENVOLVIMENTO DE PACOTES || FALHA NO ENVOLVIMENTO DE PACOTES"
+    },
+    {
+      "direction": "SPECIFIC_TO_GENERIC",
+      "expected": "TRAVAMENTO DE ROBO",
+      "predicted": "FALHA DE ROBO",
+      "count": 2,
+      "expected_support": 7,
+      "predicted_support": 23,
+      "potential_taxonomy_overlap": "NO_RECORDED_RELATION",
+      "example_observations": "ROBO COM TREPIDAÇÃO/TRAVANDO CAPACIDADE DE PRODUÇÃO REDUZIDA DO ROBO.DEVIDO A QUEDA DE PACOTES (4 VEZES SEGUIDA) || ROBO COM TREPIDAÇÃO/TRAVANDO CAPACIDADE DE PRODUÇÃO REDUZIDA DO ROBO.DEVIDO A QUEDA DE PACOTES (4 VEZES SEGUIDA)"
+    },
+    {
+      "direction": "SPECIFIC_TO_GENERIC",
+      "expected": "CURTO CIRCUITO",
+      "predicted": "FALHA DE SENSOR",
+      "count": 1,
+      "expected_support": 9,
+      "predicted_support": 283,
+      "potential_taxonomy_overlap": "NO_RECORDED_RELATION",
+      "example_observations": "SENSOR ENVOLVEDORA EM CURTO"
+    },
+    {
+      "direction": "SPECIFIC_TO_GENERIC",
+      "expected": "DESALINHAMENTO MECANICO",
+      "predicted": "SEM MODO DE FALHA IDENTIFICADO",
+      "count": 1,
+      "expected_support": 7,
+      "predicted_support": 69,
+      "potential_taxonomy_overlap": "NO_RECORDED_RELATION",
+      "example_observations": "AJUSTE DE PARAMETRO DA CENTRAGEM ESQUERDA FORA DE POSIÇÃO"
+    },
+    {
+      "direction": "SPECIFIC_TO_GENERIC",
+      "expected": "DESARME DE MOTOR",
+      "predicted": "FALHA DE MOTOR",
+      "count": 1,
+      "expected_support": 19,
+      "predicted_support": 49,
+      "potential_taxonomy_overlap": "NO_RECORDED_RELATION",
+      "example_observations": "FALHA MOTOR 325 DESARMADO"
+    },
+    {
+      "direction": "SPECIFIC_TO_GENERIC",
+      "expected": "ENTUPIMENTO",
+      "predicted": "QUEBRA DE COMPONENTE",
+      "count": 1,
+      "expected_support": 1,
+      "predicted_support": 18,
+      "potential_taxonomy_overlap": "NO_RECORDED_RELATION",
+      "example_observations": "BICO DO GÁS 1 OBSTRUIDO"
+    },
+    {
+      "direction": "SPECIFIC_TO_GENERIC",
+      "expected": "ESCAPE DE ESTEIRA",
+      "predicted": "FALHA DE ESTEIRA",
+      "count": 1,
+      "expected_support": 73,
+      "predicted_support": 26,
+      "potential_taxonomy_overlap": "NO_RECORDED_RELATION",
+      "example_observations": "ESTEIRA DO TRENSPORTE DE CAIXAS DA CURVA DE ENTRADA DA PALETIZADORA SAINDO FORA DE POSIÇÃO"
+    },
+    {
+      "direction": "SPECIFIC_TO_GENERIC",
+      "expected": "FALHA DE ALIMENTACAO DE GARRAFAS",
+      "predicted": "FALHA DE SENSOR",
+      "count": 1,
+      "expected_support": 6,
+      "predicted_support": 283,
+      "potential_taxonomy_overlap": "NO_RECORDED_RELATION",
+      "example_observations": "PROBLEMA NO SENSORES ,FALTANDO GARRAFAS PARA A ENTRADA DA ENCHEDORA."
+    },
+    {
+      "direction": "SPECIFIC_TO_GENERIC",
+      "expected": "FALHA DE CALIBRACAO",
+      "predicted": "SEM MODO DE FALHA IDENTIFICADO",
+      "count": 1,
+      "expected_support": 1,
+      "predicted_support": 69,
+      "potential_taxonomy_overlap": "NO_RECORDED_RELATION",
+      "example_observations": "FALHA NA CALIBRAÇÃO"
+    },
+    {
+      "direction": "SPECIFIC_TO_GENERIC",
+      "expected": "FALHA DE ELO DE ESTEIRA",
+      "predicted": "FALHA DE ESTEIRA",
+      "count": 1,
+      "expected_support": 6,
+      "predicted_support": 26,
+      "potential_taxonomy_overlap": "GENERIC_SPECIFIC",
+      "example_observations": "ALTERAÇÃO DE PARÂMETROS DE VELOCIDADE DA ESTEIRA E PINO DE SEPARAÇÃO"
+    },
+    {
+      "direction": "GENERIC_TO_SPECIFIC",
+      "expected": "FALHA DE ENCHIMENTO",
+      "predicted": "ENROSCO DE GARRAFAS",
+      "count": 1,
+      "expected_support": 95,
+      "predicted_support": 29,
+      "potential_taxonomy_overlap": "NO_RECORDED_RELATION",
+      "example_observations": "AJUSTE DO EXPULSADOR, ASSIM QUE DETECTADO GARRAFA COM NÍVEL BAIXO, ELE ABAIXAVA EXPULSAVA GARRAFA PORÉM BATIA NA GARRAFA DA FRENTE E CAUSAVA CRASH"
+    },
+    {
+      "direction": "GENERIC_TO_SPECIFIC",
+      "expected": "FALHA DE ENCHIMENTO",
+      "predicted": "FALHA DE VALVULA DE ENCHIMENTO",
+      "count": 1,
+      "expected_support": 95,
+      "predicted_support": 120,
+      "potential_taxonomy_overlap": "GENERIC_SPECIFIC",
+      "example_observations": "FALHAS DE ENCHIMENTO NAS PARTIDAS DA ENCHEDORA"
+    },
+    {
+      "direction": "GENERIC_TO_SPECIFIC",
+      "expected": "FALHA DE ENCHIMENTO",
+      "predicted": "GARRAFAS TORTAS NA SAIDA DO RINSER",
+      "count": 1,
+      "expected_support": 95,
+      "predicted_support": 1,
+      "potential_taxonomy_overlap": "NO_RECORDED_RELATION",
+      "example_observations": "RINSER ENTREGANDO GARRAFAS TORTAS GERANDO ENROSCO NA ET RELA DE TRANSFERÊNCIA,OCASIONANDO ENCHIMENTO DA CABEÇA"
+    },
+    {
+      "direction": "GENERIC_TO_SPECIFIC",
+      "expected": "FALHA DE ESTEIRA",
+      "predicted": "ESCAPE DE ESTEIRA",
+      "count": 1,
+      "expected_support": 26,
+      "predicted_support": 73,
+      "potential_taxonomy_overlap": "NO_RECORDED_RELATION",
+      "example_observations": "FALHA DE ACUMULO ESTEIRA EMBORRACHADA ENTRADA DEVIDER"
+    },
+    {
+      "direction": "GENERIC_TO_SPECIFIC",
+      "expected": "FALHA DE ESTEIRA",
+      "predicted": "PATINAGEM DE ESTEIRA",
+      "count": 1,
+      "expected_support": 26,
+      "predicted_support": 14,
+      "potential_taxonomy_overlap": "NO_RECORDED_RELATION",
+      "example_observations": "LONA DESLIZANDO"
+    },
+    {
+      "direction": "GENERIC_TO_SPECIFIC",
+      "expected": "FALHA DE ESTEIRA",
+      "predicted": "QUEBRA DE ESTEIRA",
+      "count": 1,
+      "expected_support": 26,
+      "predicted_support": 63,
+      "potential_taxonomy_overlap": "NO_RECORDED_RELATION",
+      "example_observations": "ESTEIRA DO FORNO PAROU"
+    },
+    {
+      "direction": "GENERIC_TO_SPECIFIC",
+      "expected": "FALHA DE ESTEIRA",
+      "predicted": "QUEDA DE GARRAFAS",
+      "count": 1,
+      "expected_support": 26,
+      "predicted_support": 63,
+      "potential_taxonomy_overlap": "NO_RECORDED_RELATION",
+      "example_observations": "QUEDA DE GARRAFA NO TRANS, TAPETE DE SAIDA"
+    },
+    {
+      "direction": "SPECIFIC_TO_GENERIC",
+      "expected": "FALHA DE LEITURA DA GARRAFA TESTE",
+      "predicted": "SEM MODO DE FALHA IDENTIFICADO",
+      "count": 1,
+      "expected_support": 1,
+      "predicted_support": 69,
+      "potential_taxonomy_overlap": "NO_RECORDED_RELATION",
+      "example_observations": "FALHA NA GARRAFA TESTE NUMERO 13 ( 30008862120 NOTA 13375889 )"
+    },
+    {
+      "direction": "SPECIFIC_TO_GENERIC",
+      "expected": "FALHA DE REJEICAO",
+      "predicted": "FALHA DE ENCHIMENTO",
+      "count": 1,
+      "expected_support": 69,
+      "predicted_support": 95,
+      "potential_taxonomy_overlap": "NO_RECORDED_RELATION",
+      "example_observations": "EXESSO DE REJEITOS DE LATAS BOAS (30008821889)"
+    },
+    {
+      "direction": "GENERIC_TO_SPECIFIC",
+      "expected": "FALHA DE SENSOR",
+      "predicted": "FALHA DE COMUNICACAO",
+      "count": 1,
+      "expected_support": 283,
+      "predicted_support": 52,
+      "potential_taxonomy_overlap": "NO_RECORDED_RELATION",
+      "example_observations": "FALHA COMUNICAÇÃO NA SAIDA DA LAVADORA ORDEM: 30008427069"
+    },
+    {
+      "direction": "GENERIC_TO_SPECIFIC",
+      "expected": "FALHA DE SENSOR",
+      "predicted": "FALHA DE REJEICAO",
+      "count": 1,
+      "expected_support": 283,
+      "predicted_support": 69,
+      "potential_taxonomy_overlap": "NO_RECORDED_RELATION",
+      "example_observations": "REJEITO ESTOURANDO LATAS E SUJANDO SENSORES (30008369764)"
+    },
+    {
+      "direction": "GENERIC_TO_SPECIFIC",
+      "expected": "FALHA DE VALVULA",
+      "predicted": "FALHA DE SINCRONISMO",
+      "count": 1,
+      "expected_support": 40,
+      "predicted_support": 40,
+      "potential_taxonomy_overlap": "NO_RECORDED_RELATION",
+      "example_observations": "GARRAFA ENTRANDO TORTA E CAINDO NAS VALVULAS, REALIZADO SINCRONISMO E PONTO ZERO"
+    },
+    {
+      "direction": "SPECIFIC_TO_GENERIC",
+      "expected": "FALHA DO COLOCADOR DE CARTAO",
+      "predicted": "FALHA DE ROBO",
+      "count": 1,
+      "expected_support": 1,
+      "predicted_support": 23,
+      "potential_taxonomy_overlap": "NO_RECORDED_RELATION",
+      "example_observations": "ROBO SOLTOU CARTÃO NO MEIO DO TRAJETO, CAIU NA FRENTE DA BARREIRA, MAQUINA SE PERDEU NOS CICLOS AUTOMATICOS"
+    },
+    {
+      "direction": "SPECIFIC_TO_GENERIC",
+      "expected": "FALHA NO SISTEMA DE CORTE",
+      "predicted": "FALHA DE TRANSPORTE",
+      "count": 1,
+      "expected_support": 2,
+      "predicted_support": 12,
+      "potential_taxonomy_overlap": "NO_RECORDED_RELATION",
+      "example_observations": "FALHA NO RECUO DO PISTAÕ DO TRANSPORTE DE TAMPA DA CSW"
+    },
+    {
+      "direction": "GENERIC_TO_SPECIFIC",
+      "expected": "QUEBRA DE COMPONENTE",
+      "predicted": "FALHA DE PORTA DE SEGURANCA",
+      "count": 1,
+      "expected_support": 18,
+      "predicted_support": 10,
+      "potential_taxonomy_overlap": "NO_RECORDED_RELATION",
+      "example_observations": "CABO ROMPIDO NA PORTA DE ENTRADA DA DESPALETIZADORA, NAO ACIONANDO A LIBERAÇÃO DE PALETES"
+    },
+    {
+      "direction": "GENERIC_TO_SPECIFIC",
+      "expected": "QUEBRA DE COMPONENTE",
+      "predicted": "VAZAMENTO",
+      "count": 1,
+      "expected_support": 18,
+      "predicted_support": 1,
+      "potential_taxonomy_overlap": "NO_RECORDED_RELATION",
+      "example_observations": "ROMPEU O REPARO DE ENTRADA DE AGUA PARA TANQUES DE SODA ORDEM: 30008322194"
+    },
+    {
+      "direction": "GENERIC_TO_SPECIFIC",
+      "expected": "SEM MODO DE FALHA IDENTIFICADO",
+      "predicted": "FALHA DE CABECOTE",
+      "count": 1,
+      "expected_support": 69,
+      "predicted_support": 1,
+      "potential_taxonomy_overlap": "NO_RECORDED_RELATION",
+      "example_observations": "AJUSTE NO CABEÇOTE"
+    },
+    {
+      "direction": "GENERIC_TO_SPECIFIC",
+      "expected": "SEM MODO DE FALHA IDENTIFICADO",
+      "predicted": "FALHA NO DOSADOR DE NITROGENIO",
+      "count": 1,
+      "expected_support": 69,
+      "predicted_support": 5,
+      "potential_taxonomy_overlap": "NO_RECORDED_RELATION",
+      "example_observations": "AJUSTE NA POSIÇÃO DO DOSADOR DE NITROGENIO"
+    },
+    {
+      "direction": "GENERIC_TO_SPECIFIC",
+      "expected": "SEM MODO DE FALHA IDENTIFICADO",
+      "predicted": "QUEDA DE GARRAFAS",
+      "count": 1,
+      "expected_support": 69,
+      "predicted_support": 63,
+      "potential_taxonomy_overlap": "NO_RECORDED_RELATION",
+      "example_observations": "AJUSTE POS SETUP DA REGUA ULTRASSONICA, GARRAFAS TOMBANDO E PRENDENDO NA REGUA"
+    },
+    {
+      "direction": "GENERIC_TO_SPECIFIC",
+      "expected": "SEM MODO DE FALHA IDENTIFICADO",
+      "predicted": "TRAVAMENTO DE VALVULA",
+      "count": 1,
+      "expected_support": 69,
+      "predicted_support": 13,
+      "potential_taxonomy_overlap": "NO_RECORDED_RELATION",
+      "example_observations": "VALVULA DO AR PREVIO"
+    }
+  ],
+  "top_20_confusions": [
+    {
+      "expected": "FALHA DE MAGAZINE",
+      "predicted": "FALHA DE ELEVADOR",
+      "count": 11,
+      "expected_support": 53,
+      "predicted_support": 26,
+      "potential_taxonomy_overlap": "NO_RECORDED_RELATION",
+      "example_observations": "MAGAZINE DE PALETE QUEBRADO ,TIRANDO OS PALETE EM MANUAL, GERANDO FALHA NO ELEVADOR..ORDEM (30008425473) || MAGAZINE DE PALETE QUEBRADO ,TIRANDO OS PALETE EM MANUAL, GERANDO FALHA NO ELEVADOR..ORDEM (30008425473) || MAGAZINE DE PALETE QUEBRADO ,TIRANDO OS PALETE EM MANUAL, GERANDO FALHA NO ELEVADOR..ORDEM (30008425473)"
+    },
+    {
+      "expected": "ENROSCO DE ROTULOS",
+      "predicted": "FALHA DE ROTULAGEM",
+      "count": 3,
+      "expected_support": 10,
+      "predicted_support": 12,
+      "potential_taxonomy_overlap": "NO_RECORDED_RELATION",
+      "example_observations": "ENROSCO DE ROTULO,FALHA NA APLICAÇÃO DO ROTULO || ENROSCO DE ROTULO,FALHA NA APLICAÇÃO DO ROTULO || ENROSCO DE ROTULO,FALHA NA APLICAÇÃO DO ROTULO"
+    },
+    {
+      "expected": "FALHA DE ACUMULO NO TRANSPORTE",
+      "predicted": "FALHA DE SINCRONISMO",
+      "count": 3,
+      "expected_support": 8,
+      "predicted_support": 40,
+      "potential_taxonomy_overlap": "NO_RECORDED_RELATION",
+      "example_observations": "SENSORES DE ACUMULO DO TRANSPORTE FORA DE SINCRONISMO COM ENCHEDORA NÃO PARANDO NO MOMENTO CORRETO 30008299301 || SENSORES DE ACUMULO DO TRANSPORTE FORA DE SINCRONISMO COM ENCHEDORA NÃO PARANDO NO MOMENTO CORRETO 30008299301 || SENSORES DE ACUMULO DO TRANSPORTE FORA DE SINCRONISMO COM ENCHEDORA NÃO PARANDO NO MOMENTO CORRETO 30008299301"
+    },
+    {
+      "expected": "SEM MODO DE FALHA IDENTIFICADO",
+      "predicted": "FALHA DE ENVOLVIMENTO",
+      "count": 3,
+      "expected_support": 69,
+      "predicted_support": 50,
+      "potential_taxonomy_overlap": "NO_RECORDED_RELATION",
+      "example_observations": "FALHA NO ENVOLVIMENTO DE PACOTES || FALHA NO ENVOLVIMENTO DE PACOTES || FALHA NO ENVOLVIMENTO DE PACOTES"
+    },
+    {
+      "expected": "ENROSCO DE LATAS",
+      "predicted": "DESARME DE EQUIPAMENTO",
+      "count": 2,
+      "expected_support": 18,
+      "predicted_support": 2,
+      "potential_taxonomy_overlap": "NO_RECORDED_RELATION",
+      "example_observations": "LATAS TOMBANDO NA SAIDA DO SOPRADOR ÁPOS ALINHADOR 30008310615 || LATAS TOMBANDO NA SAIDA DO SOPRADOR ÁPOS ALINHADOR 30008310615"
+    },
+    {
+      "expected": "FALHA DE ALIMENTACAO DE TAMPAS",
+      "predicted": "FALHA DE VIBRADOR",
+      "count": 2,
+      "expected_support": 16,
+      "predicted_support": 7,
+      "potential_taxonomy_overlap": "NO_RECORDED_RELATION",
+      "example_observations": "FALTA DE TAMPA NA TOLVA / VIBRADOR EM FALHA || FALTA DE TAMPA NA TOLVA/ VIBRADOR EM FALHA"
+    },
+    {
+      "expected": "FALHA DE COMUNICACAO",
+      "predicted": "QUEIMA DA PLACA DEVICENET",
+      "count": 2,
+      "expected_support": 52,
+      "predicted_support": 1,
+      "potential_taxonomy_overlap": "NO_RECORDED_RELATION",
+      "example_observations": "QUEIMA DA PLACA ELETRÔNICA DE REDE. 30008275571 || QUEIMA DA PLACA ELETRÔNICA DE REDE. 30008275571"
+    },
+    {
+      "expected": "FALHA DE ELO DE ESTEIRA",
+      "predicted": "QUEBRA DE ESTEIRA",
+      "count": 2,
+      "expected_support": 6,
+      "predicted_support": 63,
+      "potential_taxonomy_overlap": "NO_RECORDED_RELATION",
+      "example_observations": "AJUSTE DE VELOCIDADE DA ESTEIRA DO TAPETE DE SAÍDA ORDEM 30008479760 || AJUSTE DE VELOCIDADE DA ESTEIRA DO TAPETE DE SAÍDA ORDEM 30008479760"
+    },
+    {
+      "expected": "FALHA DE ROTULAGEM",
+      "predicted": "ENROSCO DE ROTULOS",
+      "count": 2,
+      "expected_support": 12,
+      "predicted_support": 10,
+      "potential_taxonomy_overlap": "NO_RECORDED_RELATION",
+      "example_observations": "FALHA NA TROCA DE ROTULOS PARA ESPONJA TROCA DE HASTE 30008367061 || FALHA NA TROCA DE ROTULOS PARA ESPONJA TROCA DE HASTE 30008367061"
+    },
+    {
+      "expected": "FALHA DE TRACAO GUIAMENTO DE FILME",
+      "predicted": "FALHA DE CORTE DE FILME",
+      "count": 2,
+      "expected_support": 10,
+      "predicted_support": 41,
+      "potential_taxonomy_overlap": "NO_RECORDED_RELATION",
+      "example_observations": "FILME NÃO ESTAVA SENDO PUXADO PARA O ROLO EMBORRACHADO , NOTA 30008478927 || FILME NÃO ESTAVA SENDO PUXADO PARA O ROLO EMBORRACHADO , NOTA 30008478927"
+    },
+    {
+      "expected": "PATINS FORA DE POSICAO",
+      "predicted": "QUEDA DE PACOTES",
+      "count": 2,
+      "expected_support": 6,
+      "predicted_support": 2,
+      "potential_taxonomy_overlap": "NO_RECORDED_RELATION",
+      "example_observations": "PATIM FORA DA GUIA OCASIONANDO FALHA NO DIRECIONAMENTO DOS PACOTES. (13085183) || PATIM FORA DA GUIA OCASIONANDO FALHA NO DIRECIONAMENTO DOS PACOTES. (13085183)"
+    },
+    {
+      "expected": "QUEBRA DE COMPONENTE",
+      "predicted": "FALHA DE SENSOR",
+      "count": 2,
+      "expected_support": 18,
+      "predicted_support": 283,
+      "potential_taxonomy_overlap": "NO_RECORDED_RELATION",
+      "example_observations": "CABO DOS SENSORES DE SEGURANÇA ROMPIDO || CABO DOS SENSORES DE SEGURANÇA ROMPIDO"
+    },
+    {
+      "expected": "QUEDA DE LATAS",
+      "predicted": "DEFORMACAO DESALINHAMENTO DE GUIA",
+      "count": 2,
+      "expected_support": 22,
+      "predicted_support": 8,
+      "potential_taxonomy_overlap": "NO_RECORDED_RELATION",
+      "example_observations": "FALTA DE GUIA CAUSANDO QUEDA DE LATA, FOI COLOCADO UM GUIA PROVISÓRIA PORÉM MÓVEL || FALTA DE GUIA CAUSANDO QUEDA DE LATA, FOI COLOCADO UM GUIA PROVISÓRIA PORÉM MÓVEL"
+    },
+    {
+      "expected": "QUEDA DE LATAS",
+      "predicted": "ROMPIMENTO DE FILME",
+      "count": 2,
+      "expected_support": 22,
+      "predicted_support": 19,
+      "potential_taxonomy_overlap": "NO_RECORDED_RELATION",
+      "example_observations": "FALHA DE ENVOLVIMENTO E QUEDA DE LATAS 30008320911 || FALHA DE ENVOLVIMENTO E QUEDA DE LATAS 30008320911"
+    },
+    {
+      "expected": "SEM MODO DE FALHA IDENTIFICADO",
+      "predicted": "FALHA DE ENCHIMENTO",
+      "count": 2,
+      "expected_support": 69,
+      "predicted_support": 95,
+      "potential_taxonomy_overlap": "NO_RECORDED_RELATION",
+      "example_observations": "AR PREVIO ACIONANDO 41 E 42 E ENCHENDO A CABEÇA SEMPRE QUE TEM ALGUMA PARADA DE LINHA, AJUSTE NIVEL DO RECIPIENTE 30008163048 || AJUSTE DE PARAMETROS ESTAVA EXPULSANDO LATAS COM NIVEL BOM (30008701534)"
+    },
+    {
+      "expected": "TRAVAMENTO DE ROBO",
+      "predicted": "FALHA DE ROBO",
+      "count": 2,
+      "expected_support": 7,
+      "predicted_support": 23,
+      "potential_taxonomy_overlap": "NO_RECORDED_RELATION",
+      "example_observations": "ROBO COM TREPIDAÇÃO/TRAVANDO CAPACIDADE DE PRODUÇÃO REDUZIDA DO ROBO.DEVIDO A QUEDA DE PACOTES (4 VEZES SEGUIDA) || ROBO COM TREPIDAÇÃO/TRAVANDO CAPACIDADE DE PRODUÇÃO REDUZIDA DO ROBO.DEVIDO A QUEDA DE PACOTES (4 VEZES SEGUIDA)"
+    },
+    {
+      "expected": "AMASSAMENTO DE LATAS",
+      "predicted": "ENROSCO DE TAMPAS",
+      "count": 1,
+      "expected_support": 9,
+      "predicted_support": 44,
+      "potential_taxonomy_overlap": "NO_RECORDED_RELATION",
+      "example_observations": "TAMPA METALICA AMASSANDO DENTRO DO ARROLHADOR E CAUSANDO PARADA"
+    },
+    {
+      "expected": "ATUACAO QUEIMA DE FUSIVEL",
+      "predicted": "FALHA DE BARREIRA",
+      "count": 1,
+      "expected_support": 1,
+      "predicted_support": 31,
+      "potential_taxonomy_overlap": "NO_RECORDED_RELATION",
+      "example_observations": "QUEIMA DO FUSÌVEL DA BARREIRA"
+    },
+    {
+      "expected": "COLAPSO DE LATAS",
+      "predicted": "AMASSAMENTO DE LATAS",
+      "count": 1,
+      "expected_support": 6,
+      "predicted_support": 9,
+      "potential_taxonomy_overlap": "NO_RECORDED_RELATION",
+      "example_observations": "VELOCIDADE ABAIXO DA NOMINAL DEVIDO COPALSO DAS LATAS"
+    },
+    {
+      "expected": "CRASH DE GARRAFAS",
+      "predicted": "FALHA DE REJEICAO",
+      "count": 1,
+      "expected_support": 6,
+      "predicted_support": 69,
+      "potential_taxonomy_overlap": "NO_RECORDED_RELATION",
+      "example_observations": "EXCESSO DE FALÇO REJEITO,EXPULSANDO GARRAFAS BOAS,CAUSANDO CRASH DE GARRAFAS"
+    }
+  ],
+  "errors": 176,
+  "comparison": {
+    "v1.2_published_different_split": {
+      "accuracy": 0.696925,
+      "macro_f1": 0.517034,
+      "weighted_f1": 0.674261,
+      "top3_accuracy": 0.847731
+    },
+    "v1.3_same_split_original_taxonomy": {
+      "accuracy": 0.70773639,
+      "macro_f1": 0.50923875,
+      "weighted_f1": 0.6900942,
+      "top3_accuracy": 0.87679083
+    },
+    "v1.4_same_split_canonical_taxonomy": {
+      "accuracy": 0.747851,
+      "macro_f1": 0.54750979,
+      "weighted_f1": 0.7252257,
+      "top3_accuracy": 0.84097421
+    }
+  },
+  "artifact": {
+    "evaluation": "C:\\Users\\arthu\\Coca\\Coca-Cola-Easy-Maintenance\\ml\\models\\failure_classifier_marilia_v1_4_candidate_eval.joblib",
+    "operational": "C:\\Users\\arthu\\Coca\\Coca-Cola-Easy-Maintenance\\ml\\models\\failure_classifier_marilia_v1_4_candidate.joblib",
+    "size_bytes": 151794642,
+    "validation": {
+      "loaded": true,
+      "predict": "FALHA DE SENSOR",
+      "decision_shape": [
+        1,
+        421
+      ],
+      "classes": 421
+    }
+  },
+  "target_accuracy_gt_90": false
+}

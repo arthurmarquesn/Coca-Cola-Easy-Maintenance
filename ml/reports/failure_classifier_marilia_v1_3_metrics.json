@@ -1,0 +1,259 @@
+{
+  "model_version": "failure_classifier_marilia_v1_3_candidate",
+  "dataset_version": "marilia-human-v1",
+  "evaluation_integrity": {
+    "winner_selected_on": "VALIDATION",
+    "test_used_for_selection_or_tuning": false,
+    "test_evaluations": 1,
+    "zero_group_leakage": true,
+    "external_holdout_used_for_training": false
+  },
+  "dataset": {
+    "rows": {
+      "train": 3072,
+      "validation": 685,
+      "test": 698
+    },
+    "unique_observations": 3672,
+    "classes": 437,
+    "external_overlap_rows_removed_at_training": 0,
+    "leakage": {
+      "train_validation": 0,
+      "train_test": 0,
+      "validation_test": 0
+    },
+    "groups": {
+      "train": 2527,
+      "validation": 574,
+      "test": 571
+    },
+    "classes_in_train": 437
+  },
+  "feature_comparison": {
+    "model_a": "observation_only",
+    "model_b": "not_available_no_context_columns_in_source",
+    "context_fields_found": []
+  },
+  "winner": {
+    "feature_set": "observation_only",
+    "vectorizer_config": "word_12_char_36",
+    "algorithm": "LinearSVC",
+    "class_weight": "balanced",
+    "feature_count": 44735,
+    "validation_accuracy": 0.72408759,
+    "validation_macro_f1": 0.52264567,
+    "validation_weighted_f1": 0.70462654,
+    "validation_top3_accuracy": 0.8540146
+  },
+  "winner_parameters": {
+    "vectorizer": {
+      "name": "word_12_char_36",
+      "word_ngram": [
+        1,
+        2
+      ],
+      "char_ngram": [
+        3,
+        6
+      ],
+      "min_df": 1,
+      "max_df": 1.0,
+      "sublinear_tf": true,
+      "word_max_features": 50000,
+      "char_max_features": 75000
+    },
+    "classifier": {
+      "algorithm": "LinearSVC",
+      "C": 1.5,
+      "class_weight": "balanced",
+      "random_state": 42
+    }
+  },
+  "validation": {
+    "accuracy": 0.72408759,
+    "macro_f1": 0.52264567,
+    "weighted_f1": 0.70462654,
+    "top3_accuracy": 0.8540146
+  },
+  "thresholds_selected_on_validation": {
+    "90": {
+      "threshold": 0.51699732,
+      "selected": 355,
+      "total": 685,
+      "coverage": 0.51824818,
+      "precision": 0.90140845
+    },
+    "95": {
+      "threshold": 0.61562641,
+      "selected": 304,
+      "total": 685,
+      "coverage": 0.44379562,
+      "precision": 0.95065789
+    },
+    "97": {
+      "threshold": 0.91333852,
+      "selected": 212,
+      "total": 685,
+      "coverage": 0.30948905,
+      "precision": 0.97169811
+    },
+    "99": {
+      "threshold": 1.15050647,
+      "selected": 145,
+      "total": 685,
+      "coverage": 0.21167883,
+      "precision": 0.99310345
+    }
+  },
+  "operational_threshold_target": "97",
+  "operational_threshold_validation": {
+    "threshold": 0.91333852,
+    "selected": 212,
+    "total": 685,
+    "coverage": 0.30948905,
+    "precision": 0.97169811
+  },
+  "test": {
+    "accuracy": 0.70773639,
+    "macro_f1": 0.50923875,
+    "weighted_f1": 0.6900942,
+    "top3_accuracy": 0.87679083
+  },
+  "thresholds_applied_to_test": {
+    "90": {
+      "threshold": 0.51699732,
+      "automated": 351,
+      "review": 347,
+      "total": 698,
+      "coverage": 0.50286533,
+      "correct": 317,
+      "precision": 0.9031339,
+      "blocked_by_guardrail": 14
+    },
+    "95": {
+      "threshold": 0.61562641,
+      "automated": 308,
+      "review": 390,
+      "total": 698,
+      "coverage": 0.44126074,
+      "correct": 289,
+      "precision": 0.93831169,
+      "blocked_by_guardrail": 14
+    },
+    "97": {
+      "threshold": 0.91333852,
+      "automated": 205,
+      "review": 493,
+      "total": 698,
+      "coverage": 0.29369628,
+      "correct": 199,
+      "precision": 0.97073171,
+      "blocked_by_guardrail": 14
+    },
+    "99": {
+      "threshold": 1.15050647,
+      "automated": 140,
+      "review": 558,
+      "total": 698,
+      "coverage": 0.20057307,
+      "correct": 139,
+      "precision": 0.99285714,
+      "blocked_by_guardrail": 14
+    }
+  },
+  "high_confidence_test": {
+    "threshold": 0.91333852,
+    "automated": 205,
+    "review": 493,
+    "total": 698,
+    "coverage": 0.29369628,
+    "correct": 199,
+    "precision": 0.97073171,
+    "blocked_by_guardrail": 14
+  },
+  "top_10_confusions": [
+    {
+      "expected": "FALHA DE ENCHIMENTO",
+      "predicted": "FALHA DE VALVULA DE ENCHIMENTO",
+      "count": 14
+    },
+    {
+      "expected": "FALHA DE MAGAZINE",
+      "predicted": "FALHA DE ELEVADOR",
+      "count": 11
+    },
+    {
+      "expected": "FALHA DE PINCA",
+      "predicted": "QUEBRA DE ESTEIRA",
+      "count": 4
+    },
+    {
+      "expected": "ENROSCO DE ROTULOS",
+      "predicted": "FALHA DE ROTULAGEM",
+      "count": 3
+    },
+    {
+      "expected": "FALHA DE ACUMULO NO TRANSPORTE",
+      "predicted": "FALHA DE SINCRONISMO",
+      "count": 3
+    },
+    {
+      "expected": "SEM MODO DE FALHA IDENTIFICADO",
+      "predicted": "FALHA DE ENVOLVIMENTO",
+      "count": 3
+    },
+    {
+      "expected": "ENROSCO DE LATAS",
+      "predicted": "DESARME DE EQUIPAMENTO",
+      "count": 2
+    },
+    {
+      "expected": "FALHA DE ALIMENTACAO DE TAMPAS",
+      "predicted": "FALHA DE VIBRADOR",
+      "count": 2
+    },
+    {
+      "expected": "FALHA DE COMUNICACAO",
+      "predicted": "QUEIMA DA PLACA DEVICENET",
+      "count": 2
+    },
+    {
+      "expected": "FALHA DE ELO DE ESTEIRA",
+      "predicted": "QUEBRA DE ESTEIRA",
+      "count": 2
+    }
+  ],
+  "errors": {
+    "count": 204,
+    "classes_responsible": {
+      "FALHA DE ENCHIMENTO": 17,
+      "FALHA DE MAGAZINE": 11,
+      "FALHA DE INSPECAO": 8,
+      "SEM MODO DE FALHA IDENTIFICADO": 7,
+      "FALHA DE PINCA": 6,
+      "QUEDA DE LATAS": 5,
+      "ESCAPE DE ESTEIRA": 4,
+      "ENROSCO DE ROTULOS": 4,
+      "FALHA DE ESTEIRA": 4,
+      "ENROSCO DE LATAS": 4,
+      "FALHA DE SENSOR": 3,
+      "FALHA DE ENVOLVIMENTO": 3,
+      "FALHA DE ACUMULO NO TRANSPORTE": 3,
+      "QUEBRA DE COMPONENTE": 3,
+      "FALHA DE FORMACAO DE CAMADA": 3,
+      "FALHA DE REJEICAO": 3,
+      "FALHA DE ELO DE ESTEIRA": 3,
+      "ENROSCO DE GARRAFAS": 3,
+      "TRAVAMENTO DE ROBO": 2,
+      "FALHA DE FILTRO": 2
+    }
+  },
+  "artifacts": {
+    "evaluation": "C:\\Users\\arthu\\Coca\\Coca-Cola-Easy-Maintenance\\ml\\models\\failure_classifier_marilia_v1_3_candidate_eval.joblib",
+    "operational_candidate": "C:\\Users\\arthu\\Coca\\Coca-Cola-Easy-Maintenance\\ml\\models\\failure_classifier_marilia_v1_3_candidate.joblib",
+    "operational_candidate_size_bytes": 176329974,
+    "joblib_load_verified": true,
+    "app_contract_verified": true
+  },
+  "target_accuracy_gt_90": false
+}

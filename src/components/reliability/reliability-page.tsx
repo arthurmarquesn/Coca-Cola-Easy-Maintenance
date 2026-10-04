@@ -4,13 +4,21 @@ import Image from "next/image";
 import Link from "next/link";
 
 import {
+  AnalysisFullscreen,
+  type AnalysisFocus,
+  type AnalysisLayout,
+  type AnalysisOrder,
+} from "@/components/reliability/analysis-fullscreen";
+
+import {
   ArrowLeft,
   ChevronLeft,
   ChevronRight,
   ClipboardPlus,
   FileDown,
+  History,
   LoaderCircle,
-  RotateCcw,
+  Maximize2,
   Search,
   Target,
   X,
@@ -38,10 +46,21 @@ import {
   type ReliabilityMaspSelection,
 } from "@/components/reliability/reliability-masp-dialog";
 
-import {
-  FailureOriginAnalysis,
-  type FailureOriginSummary,
+import type {
+  FailureOriginSummary,
 } from "@/components/reliability/failure-origin-analysis";
+
+import {
+  ReliabilityToolbar,
+} from "@/components/reliability/reliability-toolbar";
+
+import {
+  useReliabilityFilters,
+} from "@/components/reliability/reiliability-filters-provider";
+
+import {
+  EquipmentDna as EquipmentHistory,
+} from "@/components/reliability/equipment-dna";
 
 interface ReliabilityPageProps {
   user: {
@@ -111,13 +130,11 @@ interface ReliabilityData {
     groups: number;
   };
 
-  failureOrigin:
-    FailureOriginSummary;
+  failureOrigin: FailureOriginSummary;
 
   pareto: ParetoItem[];
 
-  jackKnife:
-    JackKnifeItem[];
+  jackKnife: JackKnifeItem[];
 
   jackKnifeLimits: {
     frequency: number;
@@ -157,19 +174,21 @@ interface ReliabilityDetailDrawerProps {
   frequencyLimit: number;
   mttrLimit: number;
 
-  onClose:
-    () => void;
+  onClose: () => void;
 
-  onDrillDownEquipment:
-    (
-      equipmentName: string,
-    ) => void;
+  onDrillDownEquipment: (
+    equipmentName: string,
+  ) => void;
 
   onBackToEquipments:
     () => void;
 
   onStartMasp:
     () => void;
+
+  onOpenEquipmentHistory: (
+    equipmentName: string,
+  ) => void;
 }
 
 interface RawParetoItem {
@@ -414,8 +433,7 @@ function normalizeReliabilityUnit(
 }
 
 function getUnitLabel(
-  unit:
-    ReliabilityUnit,
+  unit: ReliabilityUnit,
 ): string {
   return (
     unit.city?.trim() ||
@@ -433,57 +451,6 @@ function normalizeLabelKey(
     .toLocaleLowerCase(
       "pt-BR",
     );
-}
-
-function dateToInput(
-  date: Date,
-): string {
-  const year =
-    date.getFullYear();
-
-  const month =
-    String(
-      date.getMonth() +
-        1,
-    ).padStart(
-      2,
-      "0",
-    );
-
-  const day =
-    String(
-      date.getDate(),
-    ).padStart(
-      2,
-      "0",
-    );
-
-  return `${year}-${month}-${day}`;
-}
-
-function defaultDateRange() {
-  const end =
-    new Date();
-
-  const start =
-    new Date();
-
-  start.setDate(
-    start.getDate() -
-      29,
-  );
-
-  return {
-    start:
-      dateToInput(
-        start,
-      ),
-
-    end:
-      dateToInput(
-        end,
-      ),
-  };
 }
 
 function formatNumber(
@@ -533,10 +500,8 @@ function truncate(
 function calculateQuadrant(
   frequency: number,
   mttr: number,
-  frequencyLimit:
-    number,
-  mttrLimit:
-    number,
+  frequencyLimit: number,
+  mttrLimit: number,
 ): Quadrant {
   const highFrequency =
     frequency >=
@@ -571,8 +536,7 @@ function calculateQuadrant(
 }
 
 function quadrantColor(
-  quadrant:
-    Quadrant,
+  quadrant: Quadrant,
 ) {
   switch (
     quadrant
@@ -581,21 +545,20 @@ function quadrantColor(
       return "#E41E2B";
 
     case "CRITICA":
-      return "#E3A52F";
+      return "#B4232C";
 
     case "CRONICA":
-      return "#4E9ED7";
+      return "#34383D";
 
     case "BAIXA_RELEVANCIA":
 
     default:
-      return "#62A96B";
+      return "#9AA0A6";
   }
 }
 
 function quadrantLabel(
-  quadrant:
-    Quadrant,
+  quadrant: Quadrant,
 ): string {
   switch (
     quadrant
@@ -617,8 +580,7 @@ function quadrantLabel(
 }
 
 function quadrantDescription(
-  quadrant:
-    Quadrant,
+  quadrant: Quadrant,
 ): string {
   switch (
     quadrant
@@ -659,10 +621,10 @@ function normalizeReliabilityData(
     typeof raw ===
       "object"
       ? raw as
-          Record<
-            string,
-            unknown
-          >
+        Record<
+          string,
+          unknown
+        >
       : {};
 
   const filtersRaw =
@@ -671,10 +633,10 @@ function normalizeReliabilityData(
       "object"
       ? source
           .filters as
-            Record<
-              string,
-              unknown
-            >
+        Record<
+          string,
+          unknown
+        >
       : {};
 
   const selectedUnitIds =
@@ -733,10 +695,10 @@ function normalizeReliabilityData(
       "object"
       ? filtersRaw
           .options as
-            Record<
-              string,
-              unknown
-            >
+        Record<
+          string,
+          unknown
+        >
       : {};
 
   const summaryRaw =
@@ -745,10 +707,10 @@ function normalizeReliabilityData(
       "object"
       ? source
           .summary as
-            Record<
-              string,
-              unknown
-            >
+        Record<
+          string,
+          unknown
+        >
       : {};
 
   const failureOriginRaw =
@@ -757,10 +719,10 @@ function normalizeReliabilityData(
       "object"
       ? source
           .failureOrigin as
-            Record<
-              string,
-              unknown
-            >
+        Record<
+          string,
+          unknown
+        >
       : {};
 
   const limitsRaw =
@@ -771,10 +733,10 @@ function normalizeReliabilityData(
       "object"
       ? source
           .jackKnifeLimits as
-            Record<
-              string,
-              unknown
-            >
+        Record<
+          string,
+          unknown
+        >
       : {};
 
   const paretoRaw =
@@ -799,7 +761,7 @@ function normalizeReliabilityData(
               ? rawItem
               : {}
           ) as
-            RawParetoItem;
+          RawParetoItem;
 
         return {
           label:
@@ -877,12 +839,12 @@ function normalizeReliabilityData(
 
   if (
     jackRaw.length >
-    0
+      0
   ) {
     for (
       let index = 0;
       index <
-      jackRaw.length;
+        jackRaw.length;
       index += 1
     ) {
       const rawItem =
@@ -898,7 +860,7 @@ function normalizeReliabilityData(
             ? rawItem
             : {}
         ) as
-          RawJackKnifeItem;
+        RawJackKnifeItem;
 
       const label =
         safeLabel(
@@ -1097,7 +1059,7 @@ function normalizeReliabilityData(
     ) {
       if (
         item.occurrences <=
-        0
+          0
       ) {
         continue;
       }
@@ -1437,8 +1399,8 @@ function activateWithKeyboard(
     ReactKeyboardEvent<
       SVGGElement
     >,
-  action:
-    () => void,
+
+  action: () => void,
 ) {
   if (
     event.key ===
@@ -1463,7 +1425,7 @@ function ChartTooltip({
 
   return (
     <div
-      className="pointer-events-none absolute z-20 min-w-[180px] rounded-[12px] bg-[#202225] px-3.5 py-3 text-white shadow-xl"
+      className="pointer-events-none absolute z-20 min-w-[190px] overflow-hidden rounded-[16px] border border-white/[0.08] bg-[#202327] px-4 py-3.5 text-white shadow-[0_16px_40px_rgba(20,22,25,0.18)]"
       style={{
         left:
           tooltip.x +
@@ -1484,9 +1446,7 @@ function ChartTooltip({
             line,
           ) => (
             <p
-              key={
-                line
-              }
+              key={line}
               className="text-[11px] text-white/70"
             >
               {line}
@@ -1621,6 +1581,7 @@ function ReliabilityDetailDrawer({
   onDrillDownEquipment,
   onBackToEquipments,
   onStartMasp,
+  onOpenEquipmentHistory,
 }: ReliabilityDetailDrawerProps) {
   useEffect(() => {
     if (!selected) {
@@ -1628,12 +1589,11 @@ function ReliabilityDetailDrawer({
     }
 
     function handleKeyDown(
-      event:
-        KeyboardEvent,
+      event: KeyboardEvent,
     ) {
       if (
         event.key ===
-        "Escape"
+          "Escape"
       ) {
         onClose();
       }
@@ -1673,10 +1633,18 @@ function ReliabilityDetailDrawer({
 
   const isEquipmentLevel =
     analysisLevel ===
-    "EQUIPMENT";
+      "EQUIPMENT";
 
   const title =
     selected.item.label;
+
+  const historyEquipmentName =
+    isEquipmentLevel
+      ? title ===
+        "Equipamento não informado"
+        ? ""
+        : title.trim()
+      : equipment.trim();
 
   const selectedOccurrences =
     selected.type ===
@@ -1691,7 +1659,7 @@ function ReliabilityDetailDrawer({
 
   if (
     selected.type ===
-    "PARETO"
+      "PARETO"
   ) {
     const item =
       selected.item;
@@ -1723,10 +1691,8 @@ function ReliabilityDetailDrawer({
           <MetricCell
             label="Ranking"
             value={
-              `#${
-                selected.index +
-                1
-              }`
+              `#${selected.index +
+              1}`
             }
           />
 
@@ -1798,17 +1764,15 @@ function ReliabilityDetailDrawer({
               className="h-full rounded-full bg-[#2C3034]"
               style={{
                 width:
-                  `${
-                    Math.min(
-                      100,
-                      item
-                        .cumulativePercentage,
-                    )
-                  }%`,
+                  `${Math.min(
+                    100,
+                    item
+                      .cumulativePercentage,
+                  )}%`,
               }}
             />
 
-            <div className="absolute bottom-0 left-[80%] top-0 w-px bg-[#C79B21]" />
+            <div className="absolute bottom-0 left-[80%] top-0 w-px bg-[#E41E2B]" />
           </div>
         </div>
 
@@ -1862,11 +1826,9 @@ function ReliabilityDetailDrawer({
                 ),
 
               backgroundColor:
-                `${
-                  quadrantColor(
-                    item.quadrant,
-                  )
-                }12`,
+                `${quadrantColor(
+                  item.quadrant,
+                )}12`,
             }}
           >
             <span
@@ -2001,7 +1963,7 @@ function ReliabilityDetailDrawer({
 
   return (
     <div
-      className="fixed inset-0 z-50"
+      className="fixed inset-0 z-[120]"
       role="dialog"
       aria-modal="true"
     >
@@ -2019,7 +1981,7 @@ function ReliabilityDetailDrawer({
           <div>
             <p className="text-[10px] font-medium uppercase tracking-[0.09em] text-[#9A9FA5]">
               {selected.type ===
-              "PARETO"
+                "PARETO"
                 ? "Detalhe do Pareto"
                 : "Detalhe do Jack-Knife"}
             </p>
@@ -2086,6 +2048,24 @@ function ReliabilityDetailDrawer({
               : "ocorrências"}
           </button>
 
+          {historyEquipmentName && (
+            <button
+              type="button"
+              onClick={() =>
+                onOpenEquipmentHistory(
+                  historyEquipmentName,
+                )
+              }
+              className="flex h-12 w-full items-center justify-center gap-2 rounded-[12px] border border-[#DDE0E3] bg-white text-[12px] font-semibold text-[#3F4449] hover:bg-[#F7F7F6]"
+            >
+              <History
+                size={16}
+              />
+
+              Histórico do Equipamento
+            </button>
+          )}
+
           {isEquipmentLevel ? (
             <button
               type="button"
@@ -2130,16 +2110,12 @@ function ParetoChart({
   items,
   onSelect,
 }: {
-  items:
-    ParetoItem[];
+  items: ParetoItem[];
 
-  onSelect:
-    (
-      item:
-        ParetoItem,
-      index:
-        number,
-    ) => void;
+  onSelect: (
+    item: ParetoItem,
+    index: number,
+  ) => void;
 }) {
   const [
     tooltip,
@@ -2150,12 +2126,18 @@ function ParetoChart({
     >(null);
 
   const [
+    hoveredGlobalIndex,
+    setHoveredGlobalIndex,
+  ] =
+    useState<
+      number | null
+    >(null);
+
+  const [
     page,
     setPage,
   ] =
-    useState(
-      0,
-    );
+    useState(0);
 
   const totalPages =
     Math.max(
@@ -2169,8 +2151,7 @@ function ParetoChart({
   const safePage =
     Math.min(
       page,
-      totalPages -
-        1,
+      totalPages - 1,
     );
 
   const startIndex =
@@ -2194,11 +2175,13 @@ function ParetoChart({
     const timeoutId =
       window.setTimeout(
         () => {
-          setPage(
-            0,
-          );
+          setPage(0);
 
           setTooltip(
+            null,
+          );
+
+          setHoveredGlobalIndex(
             null,
           );
         },
@@ -2215,11 +2198,10 @@ function ParetoChart({
   ]);
 
   if (
-    items.length ===
-    0
+    items.length === 0
   ) {
     return (
-      <div className="flex min-h-[420px] items-center justify-center text-[13px] text-[#93989E]">
+      <div className="flex min-h-[430px] items-center justify-center rounded-[24px] border border-dashed border-black/[0.07] bg-[#FAFAF9] text-[12px] text-[#93989E]">
         Não há dados para o período selecionado.
       </div>
     );
@@ -2279,6 +2261,33 @@ function ParetoChart({
       slotWidth *
         0.68,
     );
+
+  const topItem =
+    items[0] ??
+    null;
+
+  const eightyIndex =
+    items.findIndex(
+      (
+        item,
+      ) =>
+        item.cumulativePercentage >=
+        80,
+    );
+
+  const contributorsTo80 =
+    eightyIndex >= 0
+      ? eightyIndex + 1
+      : items.length;
+
+  const vitalShare =
+    items.length > 0
+      ? (
+          contributorsTo80 /
+          items.length
+        ) *
+        100
+      : 0;
 
   function yForMinutes(
     minutes: number,
@@ -2342,11 +2351,9 @@ function ParetoChart({
           point,
           index,
         ) =>
-          `${
-            index === 0
-              ? "M"
-              : "L"
-          } ${point.x} ${point.y}`,
+          `${index === 0
+            ? "M"
+            : "L"} ${point.x} ${point.y}`,
       )
       .join(
         " ",
@@ -2376,6 +2383,18 @@ function ParetoChart({
       80,
     );
 
+  const paretoAnimationKey =
+    visibleItems
+      .map(
+        (
+          item,
+        ) =>
+          `${item.label}:${item.downtimeMinutes}:${item.cumulativePercentage}`,
+      )
+      .join(
+        "|",
+      );
+
   function goToPreviousPage() {
     setPage(
       (
@@ -2388,6 +2407,10 @@ function ParetoChart({
     );
 
     setTooltip(
+      null,
+    );
+
+    setHoveredGlobalIndex(
       null,
     );
   }
@@ -2406,485 +2429,760 @@ function ParetoChart({
     setTooltip(
       null,
     );
+
+    setHoveredGlobalIndex(
+      null,
+    );
   }
 
   return (
-    <div
-      className="relative overflow-hidden"
-      onMouseLeave={() =>
-        setTooltip(
-          null,
-        )
-      }
-    >
-      <ChartTooltip
-        tooltip={
-          tooltip
-        }
-      />
+    <div>
+      
 
-      <svg
-        viewBox={
-          `0 0 ${width} ${height}`
-        }
-        className="h-auto w-full"
-        role="img"
-        aria-label={
-          `Pareto do tempo de parada. Exibindo itens ${
-            startIndex + 1
-          } a ${endIndex} de ${items.length}.`
-        }
-        onMouseMove={(
-          event,
-        ) => {
-          if (
-            !tooltip
-          ) {
-            return;
-          }
-
-          const rect =
-            event
-              .currentTarget
-              .getBoundingClientRect();
-
+      <div
+        className="relative overflow-hidden rounded-[24px] border border-black/[0.045] bg-[#FCFCFB] px-2 pb-1 pt-2 sm:px-3"
+        onMouseLeave={() => {
           setTooltip(
-            (
-              current,
-            ) =>
-              current
-                ? {
-                    ...current,
+            null,
+          );
 
-                    x:
-                      event.clientX -
-                      rect.left,
-
-                    y:
-                      event.clientY -
-                      rect.top,
-                  }
-                : null,
+          setHoveredGlobalIndex(
+            null,
           );
         }}
       >
-        {minuteFractions.map(
-          (
-            fraction,
+        <ChartTooltip
+          tooltip={
+            tooltip
+          }
+        />
+
+        <svg
+          viewBox={`0 0 ${width} ${height}`}
+          className="h-auto w-full"
+          role="img"
+          aria-label={`Pareto do tempo de parada. Exibindo itens ${startIndex + 1} a ${endIndex} de ${items.length}.`}
+          onMouseMove={(
+            event,
           ) => {
-            const minutes =
-              axisMaximum *
-              fraction;
+            if (
+              !tooltip
+            ) {
+              return;
+            }
 
-            const y =
-              yForMinutes(
-                minutes,
+            const rect =
+              event
+                .currentTarget
+                .getBoundingClientRect();
+
+            setTooltip(
+              (
+                current,
+              ) =>
+                current
+                  ? {
+                      ...current,
+
+                      x:
+                        event.clientX -
+                        rect.left,
+
+                      y:
+                        event.clientY -
+                        rect.top,
+                    }
+                  : null,
+            );
+          }}
+        >
+          <defs>
+            <linearGradient
+              id="pareto-vital-gradient"
+              x1="0"
+              y1="0"
+              x2="0"
+              y2="1"
+            >
+              <stop
+                offset="0%"
+                stopColor="#E41E2B"
+              />
+
+              <stop
+                offset="100%"
+                stopColor="#C81723"
+              />
+            </linearGradient>
+
+            <filter
+              id="pareto-red-glow"
+              x="-100%"
+              y="-100%"
+              width="300%"
+              height="300%"
+            >
+              <feDropShadow
+                dx="0"
+                dy="3"
+                stdDeviation="4"
+                floodColor="#E41E2B"
+                floodOpacity="0.18"
+              />
+            </filter>
+          </defs>
+
+          {minuteFractions.map(
+            (
+              fraction,
+            ) => {
+              const minutes =
+                axisMaximum *
+                fraction;
+
+              const y =
+                yForMinutes(
+                  minutes,
+                );
+
+              return (
+                <g
+                  key={
+                    fraction
+                  }
+                >
+                  <line
+                    x1={
+                      left
+                    }
+                    x2={
+                      width -
+                      right
+                    }
+                    y1={
+                      y
+                    }
+                    y2={
+                      y
+                    }
+                    stroke="#ECEEEF"
+                  />
+
+                  <text
+                    x={
+                      left -
+                      14
+                    }
+                    y={
+                      y +
+                      4
+                    }
+                    textAnchor="end"
+                    fontSize="10"
+                    fill="#92979D"
+                  >
+                    {formatNumber(
+                      minutes,
+                    )}
+                  </text>
+                </g>
               );
+            },
+          )}
 
-            return (
-              <g
-                key={
-                  fraction
-                }
-              >
-                <line
-                  x1={
-                    left
-                  }
-                  x2={
-                    width -
-                    right
-                  }
-                  y1={
-                    y
-                  }
-                  y2={
-                    y
-                  }
-                  stroke="#ECEDEF"
-                />
+          {percentageTicks.map(
+            (
+              percentage,
+            ) => {
+              const y =
+                yForPercentage(
+                  percentage,
+                );
 
+              return (
                 <text
+                  key={
+                    percentage
+                  }
                   x={
-                    left -
+                    width -
+                    right +
                     14
                   }
                   y={
                     y +
                     4
                   }
-                  textAnchor="end"
-                  fontSize="11"
-                  fill="#92979D"
+                  fontSize="10"
+                  fontWeight={
+                    percentage ===
+                      80
+                      ? "700"
+                      : "400"
+                  }
+                  fill={
+                    percentage ===
+                      80
+                      ? "#C91D28"
+                      : "#92979D"
+                  }
                 >
-                  {formatNumber(
-                    minutes,
-                  )}
+                  {percentage}%
                 </text>
-              </g>
-            );
-          },
-        )}
-
-        {percentageTicks.map(
-          (
-            percentage,
-          ) => {
-            const y =
-              yForPercentage(
-                percentage,
               );
+            },
+          )}
 
-            return (
-              <text
-                key={
-                  percentage
-                }
-                x={
-                  width -
-                  right +
-                  14
-                }
-                y={
-                  y +
-                  4
-                }
-                fontSize="11"
-                fill={
-                  percentage ===
-                  80
-                    ? "#A68424"
-                    : "#92979D"
-                }
-              >
-                {percentage}%
-              </text>
-            );
-          },
-        )}
+          <line
+            x1={
+              left
+            }
+            x2={
+              width -
+              right
+            }
+            y1={
+              eightyY
+            }
+            y2={
+              eightyY
+            }
+            stroke="#E41E2B"
+            strokeWidth="1.6"
+            strokeDasharray="8 7"
+            opacity="0.78"
+          />
 
-        <line
-          x1={
-            left
-          }
-          x2={
-            width -
-            right
-          }
-          y1={
-            eightyY
-          }
-          y2={
-            eightyY
-          }
-          stroke="#C79B21"
-          strokeWidth="2"
-          strokeDasharray="9 7"
-        />
+          <g>
+            <rect
+              x={
+                width -
+                right -
+                74
+              }
+              y={
+                eightyY -
+                25
+              }
+              width="62"
+              height="19"
+              rx="9.5"
+              fill="#FFF0F1"
+            />
 
-        {visibleItems.map(
-          (
-            item,
-            localIndex,
-          ) => {
-            const globalIndex =
-              startIndex +
-              localIndex;
+            <text
+              x={
+                width -
+                right -
+                43
+              }
+              y={
+                eightyY -
+                12
+              }
+              textAnchor="middle"
+              fontSize="9"
+              fontWeight="700"
+              fill="#C91D28"
+            >
+              LIMITE 80%
+            </text>
+          </g>
 
-            const x =
-              left +
-              slotWidth *
-                localIndex +
-              (
-                slotWidth -
+          {visibleItems.map(
+            (
+              item,
+              localIndex,
+            ) => {
+              const globalIndex =
+                startIndex +
+                localIndex;
+
+              const x =
+                left +
+                slotWidth *
+                  localIndex +
+                (
+                  slotWidth -
                   barWidth
-              ) /
-                2;
+                ) /
+                  2;
 
-            const y =
-              yForMinutes(
-                item
-                  .downtimeMinutes,
-              );
-
-            const heightValue =
-              top +
-              plotHeight -
-              y;
-
-            const centerX =
-              x +
-              barWidth /
-                2;
-
-            const open =
-              () =>
-                onSelect(
-                  item,
-                  globalIndex,
+              const y =
+                yForMinutes(
+                  item
+                    .downtimeMinutes,
                 );
 
-            return (
-              <g
-                key={
-                  `${item.label}-${globalIndex}`
-                }
-                className="cursor-pointer"
-                role="button"
-                tabIndex={0}
-                onClick={
-                  open
-                }
-                onKeyDown={(
-                  event,
-                ) =>
-                  activateWithKeyboard(
-                    event,
-                    open,
-                  )
-                }
-                onMouseEnter={() =>
-                  setTooltip({
-                    x:
-                      centerX,
+              const heightValue =
+                top +
+                plotHeight -
+                y;
 
-                    y,
+              const centerX =
+                x +
+                barWidth /
+                  2;
 
-                    title:
-                      item.label,
+              const belongsToVitalFew =
+                globalIndex <
+                contributorsTo80;
 
-                    lines: [
-                      `#${globalIndex + 1} no ranking`,
+              const active =
+                hoveredGlobalIndex ===
+                globalIndex;
 
-                      `${formatNumber(
-                        item
-                          .downtimeMinutes,
-                        1,
-                      )} min de parada`,
+              const dimmed =
+                hoveredGlobalIndex !==
+                  null &&
+                !active;
 
-                      `${formatNumber(
-                        item
-                          .occurrences,
-                      )} ocorrências`,
-
-                      `${formatNumber(
-                        item.percentage,
-                        1,
-                      )}% do total`,
-
-                      `${formatNumber(
-                        item
-                          .cumulativePercentage,
-                        1,
-                      )}% acumulado`,
-                    ],
-                  })
-                }
-              >
-                <rect
-                  x={
-                    x
-                  }
-                  y={
-                    y
-                  }
-                  width={
-                    barWidth
-                  }
-                  height={
-                    heightValue
-                  }
-                  rx="3"
-                  fill="#E41E2B"
-                />
-
-                <text
-                  x={
-                    centerX
-                  }
-                  y={
-                    Math.max(
-                      top +
-                        12,
-                      y -
-                        9,
-                    )
-                  }
-                  textAnchor="middle"
-                  fontSize="10"
-                  fontWeight="600"
-                  fill="#5E6369"
-                  className="pointer-events-none"
-                >
-                  {formatNumber(
-                    item
-                      .downtimeMinutes,
-                  )}
-                </text>
-
-                <text
-                  x={
-                    centerX
-                  }
-                  y={
-                    top +
-                    plotHeight +
-                    24
-                  }
-                  textAnchor="end"
-                  transform={
-                    `rotate(-38 ${centerX} ${
-                      top +
-                      plotHeight +
-                      24
-                    })`
-                  }
-                  fontSize="10"
-                  fill="#70757B"
-                  className="pointer-events-none"
-                >
-                  {truncate(
-                    item.label,
-                    24,
-                  )}
-                </text>
-              </g>
-            );
-          },
-        )}
-
-        <path
-          d={
-            cumulativePath
-          }
-          fill="none"
-          stroke="#24272B"
-          strokeWidth="3"
-          strokeLinejoin="round"
-          strokeLinecap="round"
-          pointerEvents="none"
-        />
-
-        {points.map(
-          (
-            point,
-            localIndex,
-          ) => {
-            const item =
-              visibleItems[
-                localIndex
-              ];
-
-            const globalIndex =
-              startIndex +
-              localIndex;
-
-            return (
-              <g
-                key={
-                  globalIndex
-                }
-                className="cursor-pointer"
-                onClick={() =>
+              const open =
+                () =>
                   onSelect(
                     item,
                     globalIndex,
-                  )
-                }
-              >
-                <circle
-                  cx={
-                    point.x
+                  );
+
+              const begin =
+                `${Math.min(
+                  localIndex *
+                    0.035,
+                  0.28,
+                )}s`;
+
+              return (
+                <g
+                  key={`${paretoAnimationKey}-${item.label}-${globalIndex}`}
+                  className="cursor-pointer"
+                  role="button"
+                  tabIndex={0}
+                  opacity={
+                    dimmed
+                      ? 0.42
+                      : 1
                   }
-                  cy={
-                    point.y
+                  onClick={
+                    open
                   }
-                  r="13"
-                  fill="transparent"
-                />
-
-                <circle
-                  cx={
-                    point.x
+                  onKeyDown={(
+                    event,
+                  ) =>
+                    activateWithKeyboard(
+                      event,
+                      open,
+                    )
                   }
-                  cy={
-                    point.y
+                  onMouseEnter={() => {
+                    setHoveredGlobalIndex(
+                      globalIndex,
+                    );
+
+                    setTooltip({
+                      x:
+                        centerX,
+
+                      y,
+
+                      title:
+                        item.label,
+
+                      lines: [
+                        `#${globalIndex + 1} no ranking`,
+
+                        `${formatNumber(
+                          item
+                            .downtimeMinutes,
+                          1,
+                        )} min de parada`,
+
+                        `${formatNumber(
+                          item
+                            .occurrences,
+                        )} ocorrências`,
+
+                        `${formatNumber(
+                          item.percentage,
+                          1,
+                        )}% do total`,
+
+                        `${formatNumber(
+                          item
+                            .cumulativePercentage,
+                          1,
+                        )}% acumulado`,
+                      ],
+                    });
+                  }}
+                >
+                  <rect
+                    x={
+                      x
+                    }
+                    y={
+                      y
+                    }
+                    width={
+                      barWidth
+                    }
+                    height={
+                      heightValue
+                    }
+                    rx="7"
+                    fill={
+                      belongsToVitalFew
+                        ? "url(#pareto-vital-gradient)"
+                        : "#34383D"
+                    }
+                    filter={
+                      active &&
+                      belongsToVitalFew
+                        ? "url(#pareto-red-glow)"
+                        : undefined
+                    }
+                  >
+                    <animate
+                      attributeName="y"
+                      from={
+                        top +
+                        plotHeight
+                      }
+                      to={
+                        y
+                      }
+                      dur="0.58s"
+                      begin={
+                        begin
+                      }
+                      fill="freeze"
+                    />
+
+                    <animate
+                      attributeName="height"
+                      from="0"
+                      to={
+                        heightValue
+                      }
+                      dur="0.58s"
+                      begin={
+                        begin
+                      }
+                      fill="freeze"
+                    />
+
+                    <animate
+                      attributeName="opacity"
+                      from="0"
+                      to="1"
+                      dur="0.34s"
+                      begin={
+                        begin
+                      }
+                      fill="freeze"
+                    />
+                  </rect>
+
+                  {active && (
+                    <rect
+                      x={
+                        x -
+                        4
+                      }
+                      y={
+                        Math.max(
+                          top,
+                          y -
+                            4,
+                        )
+                      }
+                      width={
+                        barWidth +
+                        8
+                      }
+                      height={
+                        heightValue +
+                        4
+                      }
+                      rx="10"
+                      fill="none"
+                      stroke={
+                        belongsToVitalFew
+                          ? "#E41E2B"
+                          : "#202327"
+                      }
+                      strokeWidth="1.5"
+                      opacity="0.22"
+                    />
+                  )}
+
+                  <text
+                    x={
+                      centerX
+                    }
+                    y={
+                      Math.max(
+                        top +
+                          12,
+                        y -
+                          9,
+                      )
+                    }
+                    textAnchor="middle"
+                    fontSize="10"
+                    fontWeight="700"
+                    fill={
+                      active
+                        ? belongsToVitalFew
+                          ? "#C81723"
+                          : "#202327"
+                        : "#62676D"
+                    }
+                    className="pointer-events-none"
+                  >
+                    {formatNumber(
+                      item
+                        .downtimeMinutes,
+                    )}
+                  </text>
+
+                  <text
+                    x={
+                      centerX
+                    }
+                    y={
+                      top +
+                      plotHeight +
+                      24
+                    }
+                    textAnchor="end"
+                    transform={`rotate(-38 ${centerX} ${
+                      top +
+                      plotHeight +
+                      24
+                    })`}
+                    fontSize="10"
+                    fontWeight={
+                      active
+                        ? "700"
+                        : "400"
+                    }
+                    fill={
+                      active
+                        ? "#202327"
+                        : "#70757B"
+                    }
+                    className="pointer-events-none"
+                  >
+                    {truncate(
+                      item.label,
+                      24,
+                    )}
+                  </text>
+                </g>
+              );
+            },
+          )}
+
+          <path
+            key={`pareto-line-${paretoAnimationKey}`}
+            d={
+              cumulativePath
+            }
+            fill="none"
+            stroke="#202327"
+            strokeWidth="3.2"
+            strokeLinejoin="round"
+            strokeLinecap="round"
+            pointerEvents="none"
+            pathLength={1}
+            strokeDasharray="1"
+            strokeDashoffset="0"
+          >
+            <animate
+              attributeName="stroke-dashoffset"
+              from="1"
+              to="0"
+              dur="0.82s"
+              begin="0.18s"
+              fill="freeze"
+            />
+
+            <animate
+              attributeName="opacity"
+              from="0"
+              to="1"
+              dur="0.38s"
+              begin="0.12s"
+              fill="freeze"
+            />
+          </path>
+
+          {points.map(
+            (
+              point,
+              localIndex,
+            ) => {
+              const item =
+                visibleItems[
+                  localIndex
+                ];
+
+              const globalIndex =
+                startIndex +
+                localIndex;
+
+              const active =
+                hoveredGlobalIndex ===
+                globalIndex;
+
+              return (
+                <g
+                  key={`pareto-point-${paretoAnimationKey}-${globalIndex}`}
+                  className="cursor-pointer"
+                  onMouseEnter={() =>
+                    setHoveredGlobalIndex(
+                      globalIndex,
+                    )
                   }
-                  r="4.5"
-                  fill="#24272B"
-                  stroke="white"
-                  strokeWidth="1.5"
-                  className="pointer-events-none"
-                />
-              </g>
-            );
-          },
-        )}
+                  onClick={() =>
+                    onSelect(
+                      item,
+                      globalIndex,
+                    )
+                  }
+                >
+                  <circle
+                    cx={
+                      point.x
+                    }
+                    cy={
+                      point.y
+                    }
+                    r="14"
+                    fill="transparent"
+                  />
 
-        <line
-          x1={
-            left
-          }
-          x2={
-            left
-          }
-          y1={
-            top
-          }
-          y2={
-            top +
-            plotHeight
-          }
-          stroke="#AEB2B7"
-        />
+                  {active && (
+                    <circle
+                      cx={
+                        point.x
+                      }
+                      cy={
+                        point.y
+                      }
+                      r="8"
+                      fill="#E41E2B"
+                      opacity="0.10"
+                    />
+                  )}
 
-        <line
-          x1={
-            left
-          }
-          x2={
-            width -
-            right
-          }
-          y1={
-            top +
-            plotHeight
-          }
-          y2={
-            top +
-            plotHeight
-          }
-          stroke="#AEB2B7"
-        />
+                  <circle
+                    cx={
+                      point.x
+                    }
+                    cy={
+                      point.y
+                    }
+                    r={
+                      active
+                        ? 5.5
+                        : 4.3
+                    }
+                    fill={
+                      active
+                        ? "#E41E2B"
+                        : "#202327"
+                    }
+                    stroke="white"
+                    strokeWidth="1.7"
+                    className="pointer-events-none"
+                  >
+                    <animate
+                      attributeName="opacity"
+                      from="0"
+                      to="1"
+                      dur="0.32s"
+                      begin={`${0.34 +
+                      Math.min(
+                        localIndex *
+                          0.025,
+                        0.2,
+                      )}s`}
+                      fill="freeze"
+                    />
+                  </circle>
+                </g>
+              );
+            },
+          )}
 
-        <text
-          x={
-            left
-          }
-          y="24"
-          fontSize="11"
-          fill="#777C82"
-        >
-          Tempo de parada (min)
-        </text>
+          <line
+            x1={
+              left
+            }
+            x2={
+              left
+            }
+            y1={
+              top
+            }
+            y2={
+              top +
+              plotHeight
+            }
+            stroke="#B7BBC0"
+          />
 
-        <text
-          x={
-            width -
-            right
-          }
-          y="24"
-          textAnchor="end"
-          fontSize="11"
-          fill="#777C82"
-        >
-          Percentual acumulado
-        </text>
-      </svg>
+          <line
+            x1={
+              left
+            }
+            x2={
+              width -
+              right
+            }
+            y1={
+              top +
+              plotHeight
+            }
+            y2={
+              top +
+              plotHeight
+            }
+            stroke="#B7BBC0"
+          />
 
-      <div className="mt-2 flex flex-col gap-3 border-t border-[#ECEDEF] px-2 pt-4 sm:flex-row sm:items-center sm:justify-between">
+          <text
+            x={
+              left
+            }
+            y="24"
+            fontSize="10"
+            fontWeight="600"
+            fill="#777C82"
+          >
+            Tempo de parada (min)
+          </text>
+
+          <text
+            x={
+              width -
+              right
+            }
+            y="24"
+            textAnchor="end"
+            fontSize="10"
+            fontWeight="600"
+            fill="#777C82"
+          >
+            Percentual acumulado
+          </text>
+        </svg>
+      </div>
+
+      <div className="mt-4 flex flex-col gap-3 px-1 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <p className="text-[11px] font-medium text-[#555A60]">
+          <p className="text-[10px] font-semibold text-[#555A60]">
             Exibindo{" "}
             {startIndex + 1}
             –
@@ -2892,60 +3190,58 @@ function ParetoChart({
             {items.length} categorias
           </p>
 
-          <p className="mt-0.5 text-[10px] text-[#9A9FA5]">
-            Ordenação global por tempo de parada · acumulado preservado entre páginas
+          <p className="mt-1 text-[9px] text-[#9A9FA5]">
+            Vermelho = categorias que formam a faixa vital até 80% · grafite = cauda do Pareto
           </p>
         </div>
 
         {totalPages >
           1 && (
-          <div className="flex items-center gap-2">
-            <button
-              type="button"
-              onClick={
-                goToPreviousPage
-              }
-              disabled={
-                safePage ===
-                0
-              }
-              className="inline-flex h-9 items-center gap-1.5 rounded-[10px] border border-[#E0E2E4] bg-white px-3 text-[11px] font-medium text-[#555A60] transition hover:bg-[#F7F7F6] disabled:cursor-not-allowed disabled:opacity-35"
-              aria-label="Página anterior do Pareto"
-            >
-              <ChevronLeft
-                size={14}
-              />
+            <div className="inline-flex items-center rounded-full bg-[#F1F1F0] p-1">
+              <button
+                type="button"
+                onClick={
+                  goToPreviousPage
+                }
+                disabled={
+                  safePage ===
+                  0
+                }
+                className="inline-flex h-8 items-center gap-1 rounded-full px-3 text-[9px] font-semibold text-[#62676D] transition hover:bg-white hover:text-[#202327] disabled:cursor-not-allowed disabled:opacity-30"
+              >
+                <ChevronLeft
+                  size={13}
+                />
 
-              Anterior
-            </button>
+                Anterior
+              </button>
 
-            <span className="min-w-[64px] text-center text-[11px] font-semibold text-[#555A60]">
-              {safePage + 1}
-              {" / "}
-              {totalPages}
-            </span>
+              <span className="min-w-[58px] text-center text-[9px] font-bold text-[#3A3E43]">
+                {safePage + 1}
+                {" / "}
+                {totalPages}
+              </span>
 
-            <button
-              type="button"
-              onClick={
-                goToNextPage
-              }
-              disabled={
-                safePage >=
-                totalPages -
-                  1
-              }
-              className="inline-flex h-9 items-center gap-1.5 rounded-[10px] border border-[#E0E2E4] bg-white px-3 text-[11px] font-medium text-[#555A60] transition hover:bg-[#F7F7F6] disabled:cursor-not-allowed disabled:opacity-35"
-              aria-label="Próxima página do Pareto"
-            >
-              Próximo
+              <button
+                type="button"
+                onClick={
+                  goToNextPage
+                }
+                disabled={
+                  safePage >=
+                  totalPages -
+                    1
+                }
+                className="inline-flex h-8 items-center gap-1 rounded-full px-3 text-[9px] font-semibold text-[#62676D] transition hover:bg-white hover:text-[#202327] disabled:cursor-not-allowed disabled:opacity-30"
+              >
+                Próximo
 
-              <ChevronRight
-                size={14}
-              />
-            </button>
-          </div>
-        )}
+                <ChevronRight
+                  size={13}
+                />
+              </button>
+            </div>
+          )}
       </div>
     </div>
   );
@@ -2957,22 +3253,14 @@ function JackKnifeChart({
   mttrLimit,
   onSelect,
 }: {
-  items:
-    JackKnifeItem[];
+  items: JackKnifeItem[];
+  frequencyLimit: number;
+  mttrLimit: number;
 
-  frequencyLimit:
-    number;
-
-  mttrLimit:
-    number;
-
-  onSelect:
-    (
-      item:
-        JackKnifeItem,
-      index:
-        number,
-    ) => void;
+  onSelect: (
+    item: JackKnifeItem,
+    index: number,
+  ) => void;
 }) {
   const [
     tooltip,
@@ -2982,34 +3270,42 @@ function JackKnifeChart({
       TooltipState | null
     >(null);
 
+  const [
+    hoveredIndex,
+    setHoveredIndex,
+  ] =
+    useState<
+      number | null
+    >(null);
+
   if (
     items.length ===
-    0
+      0
   ) {
     return (
-      <div className="flex min-h-[430px] items-center justify-center text-[13px] text-[#93989E]">
+      <div className="flex min-h-[520px] items-center justify-center rounded-[24px] border border-dashed border-black/[0.07] bg-[#FAFAF9] text-[12px] text-[#93989E]">
         Nenhuma ocorrência foi encontrada para o recorte selecionado.
       </div>
     );
   }
 
   const width =
-    1100;
+    1180;
 
   const height =
-    500;
+    620;
 
   const left =
-    86;
+    92;
 
   const right =
-    44;
+    52;
 
   const top =
-    46;
+    54;
 
   const bottom =
-    78;
+    88;
 
   const plotWidth =
     width -
@@ -3072,6 +3368,20 @@ function JackKnifeChart({
       minY,
     );
 
+  const maximumDowntime =
+    Math.max(
+      ...items.map(
+        (
+          item,
+        ) =>
+          Math.max(
+            0,
+            item.downtimeMinutes,
+          ),
+      ),
+      1,
+    );
+
   const maxX =
     Math.max(
       10,
@@ -3115,8 +3425,7 @@ function JackKnifeChart({
     );
 
   function xFor(
-    frequency:
-      number,
+    frequency: number,
   ) {
     const safe =
       Math.max(
@@ -3143,8 +3452,7 @@ function JackKnifeChart({
   }
 
   function yFor(
-    mttr:
-      number,
+    mttr: number,
   ) {
     const safe =
       Math.max(
@@ -3171,6 +3479,28 @@ function JackKnifeChart({
     );
   }
 
+  function radiusFor(
+    downtimeMinutes: number,
+  ) {
+    const ratio =
+      Math.min(
+        1,
+        Math.max(
+          0,
+          downtimeMinutes /
+            maximumDowntime,
+        ),
+      );
+
+    return (
+      4.8 +
+      Math.sqrt(
+        ratio,
+      ) *
+        4.2
+    );
+  }
+
   const dividerX =
     xFor(
       safeFrequencyLimit,
@@ -3186,9 +3516,12 @@ function JackKnifeChart({
     [];
 
   for (
-    let tick = 1;
-    tick <= maxX;
-    tick *= 10
+    let tick =
+      1;
+    tick <=
+      maxX;
+    tick *=
+      10
   ) {
     xTicks.push(
       tick,
@@ -3200,10 +3533,13 @@ function JackKnifeChart({
     [];
 
   for (
-    let exponent = -1;
-    10 ** exponent <=
+    let exponent =
+      -1;
+    10 **
+      exponent <=
       maxY;
-    exponent += 1
+    exponent +=
+      1
   ) {
     yTicks.push(
       10 **
@@ -3211,545 +3547,1079 @@ function JackKnifeChart({
     );
   }
 
+  const frequencyGroups =
+    new Map<
+      string,
+      number[]
+    >();
+
+  items.forEach(
+    (
+      item,
+      index,
+    ) => {
+      const key =
+        item.frequency.toFixed(
+          6,
+        );
+
+      const indexes =
+        frequencyGroups.get(
+          key,
+        ) ?? [];
+
+      indexes.push(
+        index,
+      );
+
+      frequencyGroups.set(
+        key,
+        indexes,
+      );
+    },
+  );
+
+  function xForItem(
+    item: JackKnifeItem,
+    index: number,
+  ) {
+    const baseX =
+      xFor(
+        item.frequency,
+      );
+
+    const indexes =
+      frequencyGroups.get(
+        item.frequency.toFixed(
+          6,
+        ),
+      ) ?? [
+        index,
+      ];
+
+    if (
+      indexes.length <=
+        1
+    ) {
+      return baseX;
+    }
+
+    const position =
+      indexes.indexOf(
+        index,
+      );
+
+    const center =
+      (
+        indexes.length -
+        1
+      ) /
+      2;
+
+    const offset =
+      Math.max(
+        -8,
+        Math.min(
+          8,
+          (
+            position -
+            center
+          ) *
+            2.25,
+        ),
+      );
+
+    return Math.max(
+      left +
+        2,
+      Math.min(
+        width -
+          right -
+          2,
+        baseX +
+          offset,
+      ),
+    );
+  }
+
+  const animationKey =
+    items
+      .map(
+        (
+          item,
+        ) =>
+          `${item.label}:${item.frequency}:${item.mttr}:${item.downtimeMinutes}`,
+      )
+      .join(
+        "|",
+      );
+
   return (
-    <div
-      className="relative overflow-hidden"
-      onMouseLeave={() =>
-        setTooltip(
-          null,
-        )
-      }
-    >
-      <ChartTooltip
-        tooltip={
-          tooltip
-        }
-      />
+    <div>
+      <div className="mb-4 flex flex-col gap-3 px-1 sm:flex-row sm:items-end sm:justify-between">
+        <div>
+          <p className="text-[9px] font-semibold uppercase tracking-[0.12em] text-[#A0A5AA]">
+            Matriz de criticidade
+          </p>
 
-      <svg
-        viewBox={
-          `0 0 ${width} ${height}`
-        }
-        className="h-auto w-full"
-        role="img"
-        aria-label="Jack-Knife de frequência por MTTR"
-        onMouseMove={(
-          event,
-        ) => {
-          if (
-            !tooltip
-          ) {
-            return;
-          }
+          <p className="mt-1 text-[11px] text-[#747A80]">
+            Frequência × MTTR. O tamanho do ponto representa o tempo total de parada.
+          </p>
+        </div>
 
-          const rect =
-            event
-              .currentTarget
-              .getBoundingClientRect();
+        <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-[8px] font-medium text-[#92979D]">
+          <span className="flex items-center gap-1.5">
+            <span className="h-2.5 w-2.5 rounded-full bg-[#E41E2B]" />
+            Crítico-crônico
+          </span>
 
+          <span className="flex items-center gap-1.5">
+            <span className="h-2.5 w-2.5 rounded-full bg-[#B4232C]" />
+            Crítico
+          </span>
+
+          <span className="flex items-center gap-1.5">
+            <span className="h-2.5 w-2.5 rounded-full bg-[#34383D]" />
+            Crônico
+          </span>
+
+          <span className="flex items-center gap-1.5">
+            <span className="h-2.5 w-2.5 rounded-full bg-[#A0A5AA]" />
+            Conforto
+          </span>
+        </div>
+      </div>
+
+      <div
+        className="relative overflow-hidden rounded-[26px] border border-black/[0.05] bg-white"
+        onMouseLeave={() => {
           setTooltip(
-            (
-              current,
-            ) =>
-              current
-                ? {
-                    ...current,
+            null,
+          );
 
-                    x:
-                      event.clientX -
-                      rect.left,
-
-                    y:
-                      event.clientY -
-                      rect.top,
-                  }
-                : null,
+          setHoveredIndex(
+            null,
           );
         }}
       >
-        {xTicks.map(
-          (
-            tick,
-          ) => {
-            const x =
-              xFor(
-                tick,
-              );
-
-            return (
-              <g
-                key={
-                  `x-${tick}`
-                }
-              >
-                <line
-                  x1={
-                    x
-                  }
-                  x2={
-                    x
-                  }
-                  y1={
-                    top
-                  }
-                  y2={
-                    top +
-                    plotHeight
-                  }
-                  stroke="#EFF0F1"
-                />
-
-                <text
-                  x={
-                    x
-                  }
-                  y={
-                    top +
-                    plotHeight +
-                    22
-                  }
-                  textAnchor="middle"
-                  fontSize="10"
-                  fill="#92979D"
-                >
-                  {formatNumber(
-                    tick,
-                  )}
-                </text>
-              </g>
-            );
-          },
-        )}
-
-        {yTicks.map(
-          (
-            tick,
-          ) => {
-            const y =
-              yFor(
-                tick,
-              );
-
-            return (
-              <g
-                key={
-                  `y-${tick}`
-                }
-              >
-                <line
-                  x1={
-                    left
-                  }
-                  x2={
-                    width -
-                    right
-                  }
-                  y1={
-                    y
-                  }
-                  y2={
-                    y
-                  }
-                  stroke="#EFF0F1"
-                />
-
-                <text
-                  x={
-                    left -
-                    12
-                  }
-                  y={
-                    y +
-                    4
-                  }
-                  textAnchor="end"
-                  fontSize="10"
-                  fill="#92979D"
-                >
-                  {formatNumber(
-                    tick,
-                    tick < 1
-                      ? 1
-                      : 0,
-                  )}
-                </text>
-              </g>
-            );
-          },
-        )}
-
-        <line
-          x1={
-            dividerX
+        <ChartTooltip
+          tooltip={
+            tooltip
           }
-          x2={
-            dividerX
-          }
-          y1={
-            top
-          }
-          y2={
-            top +
-            plotHeight
-          }
-          stroke="#33373B"
-          strokeWidth="2"
         />
 
-        <line
-          x1={
-            left
-          }
-          x2={
-            width -
-            right
-          }
-          y1={
-            dividerY
-          }
-          y2={
-            dividerY
-          }
-          stroke="#33373B"
-          strokeWidth="2"
-        />
-
-        <text
-          x={
-            left +
-            14
-          }
-          y={
-            top +
-            22
-          }
-          fontSize="12"
-          fontWeight="600"
-          fill="#4C5055"
-        >
-          Crítico
-        </text>
-
-        <text
-          x={
-            width -
-            right -
-            14
-          }
-          y={
-            top +
-            22
-          }
-          textAnchor="end"
-          fontSize="12"
-          fontWeight="600"
-          fill="#B72831"
-        >
-          Crítico-crônico
-        </text>
-
-        <text
-          x={
-            left +
-            14
-          }
-          y={
-            top +
-            plotHeight -
-            14
-          }
-          fontSize="12"
-          fontWeight="600"
-          fill="#6D747A"
-        >
-          Conforto
-        </text>
-
-        <text
-          x={
-            width -
-            right -
-            14
-          }
-          y={
-            top +
-            plotHeight -
-            14
-          }
-          textAnchor="end"
-          fontSize="12"
-          fontWeight="600"
-          fill="#6D747A"
-        >
-          Crônico
-        </text>
-
-        {items.map(
-          (
-            item,
-            index,
+        <svg
+          viewBox={`0 0 ${width} ${height}`}
+          className="block h-auto w-full"
+          role="img"
+          aria-label="Jack-Knife de frequência por MTTR"
+          onMouseMove={(
+            event,
           ) => {
-            const x =
-              xFor(
-                item.frequency,
-              );
+            if (
+              !tooltip
+            ) {
+              return;
+            }
 
-            const y =
-              yFor(
-                item.mttr,
-              );
+            const rect =
+              event
+                .currentTarget
+                .getBoundingClientRect();
 
-            const open =
-              () =>
-                onSelect(
+            setTooltip(
+              (
+                current,
+              ) =>
+                current
+                  ? {
+                      ...current,
+
+                      x:
+                        event.clientX -
+                        rect.left,
+
+                      y:
+                        event.clientY -
+                        rect.top,
+                    }
+                  : null,
+            );
+          }}
+        >
+          <g
+            key={`quadrants-${animationKey}`}
+          >
+            <rect
+              x={
+                left
+              }
+              y={
+                top
+              }
+              width={
+                Math.max(
+                  0,
+                  dividerX -
+                    left,
+                )
+              }
+              height={
+                Math.max(
+                  0,
+                  dividerY -
+                    top,
+                )
+              }
+              fill="#FCF8F8"
+            >
+              <animate
+                attributeName="opacity"
+                from="0"
+                to="1"
+                dur="0.42s"
+                fill="freeze"
+              />
+            </rect>
+
+            <rect
+              x={
+                dividerX
+              }
+              y={
+                top
+              }
+              width={
+                Math.max(
+                  0,
+                  width -
+                    right -
+                    dividerX,
+                )
+              }
+              height={
+                Math.max(
+                  0,
+                  dividerY -
+                    top,
+                )
+              }
+              fill="#FFF5F5"
+            >
+              <animate
+                attributeName="opacity"
+                from="0"
+                to="1"
+                dur="0.48s"
+                fill="freeze"
+              />
+            </rect>
+
+            <rect
+              x={
+                left
+              }
+              y={
+                dividerY
+              }
+              width={
+                Math.max(
+                  0,
+                  dividerX -
+                    left,
+                )
+              }
+              height={
+                Math.max(
+                  0,
+                  top +
+                    plotHeight -
+                    dividerY,
+                )
+              }
+              fill="#FFFFFF"
+            >
+              <animate
+                attributeName="opacity"
+                from="0"
+                to="1"
+                dur="0.42s"
+                fill="freeze"
+              />
+            </rect>
+
+            <rect
+              x={
+                dividerX
+              }
+              y={
+                dividerY
+              }
+              width={
+                Math.max(
+                  0,
+                  width -
+                    right -
+                    dividerX,
+                )
+              }
+              height={
+                Math.max(
+                  0,
+                  top +
+                    plotHeight -
+                    dividerY,
+                )
+              }
+              fill="#F8F8F7"
+            >
+              <animate
+                attributeName="opacity"
+                from="0"
+                to="1"
+                dur="0.48s"
+                fill="freeze"
+              />
+            </rect>
+          </g>
+
+          {xTicks.map(
+            (
+              tick,
+            ) => {
+              const x =
+                xFor(
+                  tick,
+                );
+
+              return (
+                <g
+                  key={`x-${tick}`}
+                >
+                  <line
+                    x1={
+                      x
+                    }
+                    x2={
+                      x
+                    }
+                    y1={
+                      top
+                    }
+                    y2={
+                      top +
+                      plotHeight
+                    }
+                    stroke="#E9EBEC"
+                    strokeWidth="1"
+                  />
+
+                  <text
+                    x={
+                      x
+                    }
+                    y={
+                      top +
+                      plotHeight +
+                      27
+                    }
+                    textAnchor="middle"
+                    fontSize="10"
+                    fill="#92979D"
+                  >
+                    {formatNumber(
+                      tick,
+                    )}
+                  </text>
+                </g>
+              );
+            },
+          )}
+
+          {yTicks.map(
+            (
+              tick,
+            ) => {
+              const y =
+                yFor(
+                  tick,
+                );
+
+              return (
+                <g
+                  key={`y-${tick}`}
+                >
+                  <line
+                    x1={
+                      left
+                    }
+                    x2={
+                      width -
+                      right
+                    }
+                    y1={
+                      y
+                    }
+                    y2={
+                      y
+                    }
+                    stroke="#E9EBEC"
+                    strokeWidth="1"
+                  />
+
+                  <text
+                    x={
+                      left -
+                      14
+                    }
+                    y={
+                      y +
+                      4
+                    }
+                    textAnchor="end"
+                    fontSize="10"
+                    fill="#92979D"
+                  >
+                    {formatNumber(
+                      tick,
+                      tick <
+                        1
+                        ? 1
+                        : 0,
+                    )}
+                  </text>
+                </g>
+              );
+            },
+          )}
+
+          <line
+            x1={
+              dividerX
+            }
+            x2={
+              dividerX
+            }
+            y1={
+              top
+            }
+            y2={
+              top +
+              plotHeight
+            }
+            stroke="#202327"
+            strokeWidth="1.5"
+            strokeDasharray="7 7"
+            opacity="0.62"
+          />
+
+          <line
+            x1={
+              left
+            }
+            x2={
+              width -
+              right
+            }
+            y1={
+              dividerY
+            }
+            y2={
+              dividerY
+            }
+            stroke="#202327"
+            strokeWidth="1.5"
+            strokeDasharray="7 7"
+            opacity="0.62"
+          />
+
+          <g
+            pointerEvents="none"
+          >
+            <text
+              x={
+                left +
+                22
+              }
+              y={
+                top +
+                32
+              }
+              fontSize="11"
+              fontWeight="700"
+              fill="#7E3D43"
+              letterSpacing="1.2"
+            >
+              CRÍTICO
+            </text>
+
+            <text
+              x={
+                left +
+                22
+              }
+              y={
+                top +
+                51
+              }
+              fontSize="9"
+              fill="#A28E90"
+            >
+              Alto MTTR
+            </text>
+
+            <text
+              x={
+                dividerX +
+                22
+              }
+              y={
+                top +
+                32
+              }
+              fontSize="11"
+              fontWeight="800"
+              fill="#C91D28"
+              letterSpacing="1.2"
+            >
+              CRÍTICO-CRÔNICO
+            </text>
+
+            <text
+              x={
+                dividerX +
+                22
+              }
+              y={
+                top +
+                51
+              }
+              fontSize="9"
+              fill="#B88D91"
+            >
+              Alta frequência · alto MTTR
+            </text>
+
+            <text
+              x={
+                left +
+                22
+              }
+              y={
+                dividerY +
+                32
+              }
+              fontSize="11"
+              fontWeight="700"
+              fill="#7F858B"
+              letterSpacing="1.2"
+            >
+              CONFORTO
+            </text>
+
+            <text
+              x={
+                left +
+                22
+              }
+              y={
+                dividerY +
+                51
+              }
+              fontSize="9"
+              fill="#A0A5AA"
+            >
+              Abaixo dos limites
+            </text>
+
+            <text
+              x={
+                dividerX +
+                22
+              }
+              y={
+                dividerY +
+                32
+              }
+              fontSize="11"
+              fontWeight="700"
+              fill="#4E5358"
+              letterSpacing="1.2"
+            >
+              CRÔNICO
+            </text>
+
+            <text
+              x={
+                dividerX +
+                22
+              }
+              y={
+                dividerY +
+                51
+              }
+              fontSize="9"
+              fill="#8F9499"
+            >
+              Alta frequência
+            </text>
+          </g>
+
+          {items.map(
+            (
+              item,
+              index,
+            ) => {
+              const x =
+                xForItem(
                   item,
                   index,
                 );
 
-            return (
-              <g
-                key={
-                  `${item.label}-${index}`
-                }
-                className="group cursor-pointer"
-                role="button"
-                tabIndex={0}
-                onClick={
-                  open
-                }
-                onKeyDown={(
-                  event,
-                ) =>
-                  activateWithKeyboard(
+              const y =
+                yFor(
+                  item.mttr,
+                );
+
+              const active =
+                hoveredIndex ===
+                  index;
+
+              const pointColor =
+                quadrantColor(
+                  item.quadrant,
+                );
+
+              const radius =
+                radiusFor(
+                  item.downtimeMinutes,
+                );
+
+              const open =
+                () =>
+                  onSelect(
+                    item,
+                    index,
+                  );
+
+              const begin =
+                `${Math.min(
+                  index *
+                    0.008,
+                  0.28,
+                )}s`;
+
+              return (
+                <g
+                  key={`${animationKey}-${item.label}-${index}`}
+                  className="cursor-pointer outline-none"
+                  role="button"
+                  tabIndex={0}
+                  onClick={
+                    open
+                  }
+                  onKeyDown={(
                     event,
-                    open,
-                  )
-                }
-                onMouseEnter={() =>
-                  setTooltip({
-                    x,
-                    y,
-
-                    title:
-                      item.label,
-
-                    lines: [
-                      `Falhas: ${formatNumber(
-                        item.frequency,
-                        1,
-                      )}`,
-
-                      `MTTR: ${formatNumber(
-                        item.mttr,
-                        1,
-                      )} min`,
-
-                      `Tempo total: ${formatNumber(
-                        item
-                          .downtimeMinutes,
-                        1,
-                      )} min`,
-                    ],
-                  })
-                }
-              >
-                <circle
-                  cx={
-                    x
-                  }
-                  cy={
-                    y
-                  }
-                  r="18"
-                  fill="transparent"
-                />
-
-                <circle
-                  cx={
-                    x
-                  }
-                  cy={
-                    y
-                  }
-                  r="8"
-                  fill={
-                    quadrantColor(
-                      item.quadrant,
+                  ) =>
+                    activateWithKeyboard(
+                      event,
+                      open,
                     )
                   }
-                  stroke="white"
-                  strokeWidth="2"
-                  className="pointer-events-none transition-transform group-hover:scale-125"
-                  style={{
-                    transformOrigin:
-                      `${x}px ${y}px`,
+                  onMouseEnter={() => {
+                    setHoveredIndex(
+                      index,
+                    );
+
+                    setTooltip({
+                      x,
+                      y,
+
+                      title:
+                        item.label,
+
+                      lines: [
+                        quadrantLabel(
+                          item.quadrant,
+                        ),
+
+                        `Falhas: ${formatNumber(
+                          item.frequency,
+                          1,
+                        )}`,
+
+                        `MTTR: ${formatNumber(
+                          item.mttr,
+                          1,
+                        )} min`,
+
+                        `Parada total: ${formatNumber(
+                          item.downtimeMinutes,
+                          1,
+                        )} min`,
+                      ],
+                    });
                   }}
-                />
+                  onFocus={() => {
+                    setHoveredIndex(
+                      index,
+                    );
 
-                {items.length <=
-                  18 && (
-                  <text
-                    x={
-                      x +
-                      11
+                    setTooltip({
+                      x,
+                      y,
+
+                      title:
+                        item.label,
+
+                      lines: [
+                        quadrantLabel(
+                          item.quadrant,
+                        ),
+
+                        `Falhas: ${formatNumber(
+                          item.frequency,
+                          1,
+                        )}`,
+
+                        `MTTR: ${formatNumber(
+                          item.mttr,
+                          1,
+                        )} min`,
+
+                        `Parada total: ${formatNumber(
+                          item.downtimeMinutes,
+                          1,
+                        )} min`,
+                      ],
+                    });
+                  }}
+                  onBlur={() => {
+                    setHoveredIndex(
+                      null,
+                    );
+
+                    setTooltip(
+                      null,
+                    );
+                  }}
+                >
+                  <circle
+                    cx={
+                      x
                     }
-                    y={
-                      y -
-                      8
+                    cy={
+                      y
                     }
-                    fontSize="9"
-                    fill="#777C82"
-                    className="pointer-events-none"
+                    r={
+                      Math.max(
+                        18,
+                        radius +
+                          8,
+                      )
+                    }
+                    fill="transparent"
+                  />
+
+                  {active && (
+                    <circle
+                      cx={
+                        x
+                      }
+                      cy={
+                        y
+                      }
+                      r={
+                        radius +
+                        5
+                      }
+                      fill="none"
+                      stroke={
+                        pointColor
+                      }
+                      strokeWidth="1.5"
+                      opacity="0.22"
+                    />
+                  )}
+
+                  <circle
+                    cx={
+                      x
+                    }
+                    cy={
+                      y
+                    }
+                    r={
+                      radius
+                    }
+                    fill={
+                      pointColor
+                    }
+                    fillOpacity={
+                      active
+                        ? 1
+                        : 0.82
+                    }
+                    stroke="#FFFFFF"
+                    strokeWidth={
+                      active
+                        ? 3
+                        : 1.8
+                    }
                   >
-                    {index +
-                      1}
-                  </text>
-                )}
-              </g>
-            );
-          },
-        )}
+                    <animate
+                      attributeName="r"
+                      from="0"
+                      to={
+                        radius
+                      }
+                      dur="0.45s"
+                      begin={
+                        begin
+                      }
+                      fill="freeze"
+                    />
 
-        <line
-          x1={
-            left
-          }
-          x2={
-            left
-          }
-          y1={
-            top
-          }
-          y2={
-            top +
-            plotHeight
-          }
-          stroke="#B9BDC2"
-        />
+                    <animate
+                      attributeName="opacity"
+                      from="0"
+                      to="1"
+                      dur="0.38s"
+                      begin={
+                        begin
+                      }
+                      fill="freeze"
+                    />
+                  </circle>
 
-        <line
-          x1={
-            left
-          }
-          x2={
-            width -
-            right
-          }
-          y1={
-            top +
-            plotHeight
-          }
-          y2={
-            top +
-            plotHeight
-          }
-          stroke="#B9BDC2"
-        />
+                  {active && (
+                    <g
+                      pointerEvents="none"
+                    >
+                      <rect
+                        x={
+                          Math.min(
+                            width -
+                              right -
+                              226,
+                            x +
+                              radius +
+                              10,
+                          )
+                        }
+                        y={
+                          Math.max(
+                            top +
+                              8,
+                            y -
+                              19,
+                          )
+                        }
+                        width="216"
+                        height="38"
+                        rx="11"
+                        fill="#FFFFFF"
+                        stroke="#E5E7E9"
+                      />
 
-        <text
-          x={
-            left
-          }
-          y="22"
-          fontSize="11"
-          fill="#777C82"
-        >
-          MTTR (min)
-        </text>
+                      <text
+                        x={
+                          Math.min(
+                            width -
+                              right -
+                              214,
+                            x +
+                              radius +
+                              22,
+                          )
+                        }
+                        y={
+                          Math.max(
+                            top +
+                              31,
+                            y +
+                              4,
+                          )
+                        }
+                        fontSize="9.5"
+                        fontWeight="700"
+                        fill="#303438"
+                      >
+                        {truncate(
+                          item.label,
+                          29,
+                        )}
+                      </text>
+                    </g>
+                  )}
+                </g>
+              );
+            },
+          )}
 
-        <text
-          x={
-            width -
-            right
-          }
-          y={
-            height -
-            18
-          }
-          textAnchor="end"
-          fontSize="11"
-          fill="#777C82"
-        >
-          Nº de falhas
-        </text>
-
-        <g>
-          <rect
-            x={
-              dividerX -
-              20
+          <line
+            x1={
+              left
             }
-            y={
+            x2={
+              left
+            }
+            y1={
+              top
+            }
+            y2={
               top +
-              plotHeight +
-              28
+              plotHeight
             }
-            width="40"
-            height="19"
-            rx="5"
-            fill="#FFF4F4"
-            stroke="#F0BFC3"
+            stroke="#B9BDC2"
+          />
+
+          <line
+            x1={
+              left
+            }
+            x2={
+              width -
+              right
+            }
+            y1={
+              top +
+              plotHeight
+            }
+            y2={
+              top +
+              plotHeight
+            }
+            stroke="#B9BDC2"
           />
 
           <text
             x={
-              dividerX
+              left
             }
-            y={
-              top +
-              plotHeight +
-              41
-            }
-            textAnchor="middle"
+            y="25"
             fontSize="10"
-            fontWeight="600"
-            fill="#B72831"
+            fontWeight="700"
+            fill="#666C72"
           >
-            {formatNumber(
-              safeFrequencyLimit,
-              1,
-            )}
+            MTTR (min)
           </text>
-        </g>
-
-        <g>
-          <rect
-            x={
-              left -
-              58
-            }
-            y={
-              dividerY -
-              10
-            }
-            width="48"
-            height="19"
-            rx="5"
-            fill="#FFF4F4"
-            stroke="#F0BFC3"
-          />
 
           <text
             x={
-              left -
-              34
+              width -
+              right
             }
             y={
-              dividerY +
-              3
+              height -
+              23
             }
-            textAnchor="middle"
+            textAnchor="end"
             fontSize="10"
-            fontWeight="600"
-            fill="#B72831"
+            fontWeight="700"
+            fill="#666C72"
           >
-            {formatNumber(
-              safeMttrLimit,
-              1,
-            )}
+            Nº de falhas
           </text>
-        </g>
-      </svg>
+
+          <g
+            pointerEvents="none"
+          >
+            <rect
+              x={
+                dividerX -
+                29
+              }
+              y={
+                top +
+                plotHeight +
+                34
+              }
+              width="58"
+              height="22"
+              rx="11"
+              fill="#FFFFFF"
+              stroke="#E4E6E8"
+            />
+
+            <text
+              x={
+                dividerX
+              }
+              y={
+                top +
+                plotHeight +
+                49
+              }
+              textAnchor="middle"
+              fontSize="9"
+              fontWeight="700"
+              fill="#555B61"
+            >
+              {formatNumber(
+                safeFrequencyLimit,
+                1,
+              )}
+            </text>
+
+            <rect
+              x={
+                left -
+                69
+              }
+              y={
+                dividerY -
+                11
+              }
+              width="56"
+              height="22"
+              rx="11"
+              fill="#FFFFFF"
+              stroke="#E4E6E8"
+            />
+
+            <text
+              x={
+                left -
+                41
+              }
+              y={
+                dividerY +
+                4
+              }
+              textAnchor="middle"
+              fontSize="9"
+              fontWeight="700"
+              fill="#555B61"
+            >
+              {formatNumber(
+                safeMttrLimit,
+                1,
+              )}
+            </text>
+          </g>
+        </svg>
+      </div>
+
+      <div className="mt-4 flex flex-col gap-2 px-1 text-[9px] text-[#969BA1] sm:flex-row sm:items-center sm:justify-between">
+        <p>
+          Escalas logarítmicas preservam a leitura entre valores de ordens diferentes. Pontos com a mesma frequência recebem apenas um microdeslocamento visual para evitar sobreposição.
+        </p>
+
+        <p className="font-medium text-[#666C72]">
+          Limites:{" "}
+          {formatNumber(
+            safeFrequencyLimit,
+            1,
+          )}{" "}
+          falhas ·{" "}
+          {formatNumber(
+            safeMttrLimit,
+            1,
+          )}{" "}
+          min MTTR
+        </p>
+      </div>
     </div>
   );
 }
@@ -3758,40 +4628,19 @@ export function ReliabilityPage({
   user,
   unit,
 }: ReliabilityPageProps) {
-  const initialRange =
-    useMemo(
-      () =>
-        defaultDateRange(),
-      [],
-    );
-
-  const [
+  const {
     startDate,
-    setStartDate,
-  ] =
-    useState(
-      initialRange.start,
-    );
-
-  const [
     endDate,
-    setEndDate,
-  ] =
-    useState(
-      initialRange.end,
-    );
-
-  const [
     line,
-    setLine,
-  ] =
-    useState("");
-
-  const [
     equipment,
+    setStartDate,
+    setEndDate,
+    setLine,
     setEquipment,
-  ] =
-    useState("");
+    resetFilters,
+    clearAssetFilters,
+  } =
+    useReliabilityFilters();
 
   const [
     data,
@@ -3839,6 +4688,49 @@ export function ReliabilityPage({
       ReliabilityMaspSelection | null
     >(null);
 
+  const [
+    equipmentHistorySelection,
+    setEquipmentHistorySelection,
+  ] =
+    useState<{
+      equipmentName: string;
+      lineName: string | null;
+    } | null>(
+      null,
+    );
+
+  const [
+    analysisFullscreen,
+    setAnalysisFullscreen,
+  ] =
+    useState(
+      false,
+    );
+
+  const [
+    analysisLayout,
+    setAnalysisLayout,
+  ] =
+    useState<AnalysisLayout>(
+      "SIDE_BY_SIDE",
+    );
+
+  const [
+    analysisOrder,
+    setAnalysisOrder,
+  ] =
+    useState<AnalysisOrder>(
+      "PARETO_FIRST",
+    );
+
+  const [
+    analysisFocus,
+    setAnalysisFocus,
+  ] =
+    useState<AnalysisFocus>(
+      "BOTH",
+    );
+
   const closeDetail =
     useCallback(
       () => {
@@ -3852,8 +4744,7 @@ export function ReliabilityPage({
   const loadData =
     useCallback(
       async (
-        signal?:
-          AbortSignal,
+        signal?: AbortSignal,
       ) => {
         setLoading(
           true,
@@ -3928,7 +4819,7 @@ export function ReliabilityPage({
           ) {
             throw new Error(
               raw?.message ??
-              "Não foi possível carregar os dados.",
+                "Não foi possível carregar os dados.",
             );
           }
 
@@ -4013,20 +4904,14 @@ export function ReliabilityPage({
           line ||
           equipment
         ) {
-          setLine(
-            "",
-          );
-
-          setEquipment(
-            "",
-          );
-
+          clearAssetFilters();
           return;
         }
 
         await loadData();
       },
       [
+        clearAssetFilters,
         loadData,
         line,
         equipment,
@@ -4044,7 +4929,7 @@ export function ReliabilityPage({
 
         if (
           selectedUnits.length ===
-          0
+            0
         ) {
           return (
             unit.city ??
@@ -4054,7 +4939,7 @@ export function ReliabilityPage({
 
         if (
           selectedUnits.length ===
-          1
+            1
         ) {
           return getUnitLabel(
             selectedUnits[
@@ -4071,37 +4956,19 @@ export function ReliabilityPage({
       ],
     );
 
-  function resetFilters() {
-    const range =
-      defaultDateRange();
+  const handleResetFilters =
+    useCallback(
+      () => {
+        setSelectedPoint(
+          null,
+        );
 
-    setStartDate(
-      range.start,
+        resetFilters();
+      },
+      [
+        resetFilters,
+      ],
     );
-
-    setEndDate(
-      range.end,
-    );
-
-    setLine(
-      "",
-    );
-
-    setEquipment(
-      "",
-    );
-
-    setSelectedPoint(
-      null,
-    );
-  }
-
-  const analysisLabel =
-    data
-      ?.analysisLevel ===
-    "FAILURE_MODE"
-      ? "falha"
-      : "equipamento";
 
   const lines =
     data
@@ -4127,12 +4994,8 @@ export function ReliabilityPage({
             <Image
               src="/logo.webp"
               alt="Coca-Cola FEMSA"
-              width={
-                180
-              }
-              height={
-                64
-              }
+              width={180}
+              height={64}
               priority
               className="h-auto max-h-[42px] w-auto object-contain"
             />
@@ -4163,31 +5026,31 @@ export function ReliabilityPage({
         </div>
       </header>
 
-      <div className="mx-auto w-full max-w-[1380px] px-6 pb-20 pt-10 sm:px-8 lg:px-12">
+      <div className="mx-auto w-full max-w-[1380px] px-6 pb-16 pt-7 sm:px-8 lg:px-12">
         <Link
           href="/dashboard"
           className="inline-flex items-center gap-2 text-[12px] font-medium text-[#81868C] transition-colors hover:text-[#282B2F]"
         >
           <ArrowLeft
-            size={
-              15
-            }
+            size={15}
           />
 
           Voltar
         </Link>
 
-        <div className="mt-9 flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
+        <div className="mt-6 flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
           <div>
-            <h1 className="text-[34px] font-semibold tracking-[-0.045em] text-[#191B1E] sm:text-[40px]">
+            <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-[#A2A6AB]">
+              Engenharia de confiabilidade
+            </p>
+
+            <h1 className="mt-2 text-[34px] font-semibold tracking-[-0.045em] text-[#191B1E] sm:text-[40px]">
               Confiabilidade
             </h1>
 
-            <div className="mt-4 inline-flex items-center rounded-full bg-[#F0F0EF] px-3 py-1.5">
-              <span className="text-[10px] font-medium text-[#747980]">
-                {selectedUnitsLabel}
-              </span>
-            </div>
+            <p className="mt-2 max-w-[620px] text-[13px] leading-6 text-[#8D9298]">
+              Análise de falhas e desempenho dos ativos.
+            </p>
           </div>
 
           <button
@@ -4197,181 +5060,110 @@ export function ReliabilityPage({
                 true,
               )
             }
-            className="inline-flex h-11 items-center justify-center gap-2 self-start rounded-[12px] bg-[#E41E2B] px-5 text-[11px] font-semibold text-white shadow-[0_8px_22px_rgba(228,30,43,0.15)] transition-colors hover:bg-[#CF1824] sm:self-auto"
+            className="inline-flex h-11 items-center justify-center gap-2 self-start rounded-[12px] bg-[#E41E2B] px-5 text-[11px] font-semibold text-white shadow-[0_8px_22px_rgba(228,30,43,0.15)] transition-all duration-200 hover:-translate-y-px hover:bg-[#CF1824] hover:shadow-[0_12px_28px_rgba(228,30,43,0.20)] active:translate-y-0 sm:self-auto"
           >
             <FileDown
-              size={
-                15
-              }
+              size={15}
             />
 
             Gerar relatório
           </button>
         </div>
 
-        <section className="mt-8 grid gap-4 border-y border-[#E2E4E6] py-5 md:grid-cols-2 xl:grid-cols-[180px_180px_1fr_1fr_auto]">
-          <label className="block">
-            <span className="text-[10px] font-medium text-[#969BA1]">
-              De
-            </span>
-
-            <input
-              type="date"
-              value={
-                startDate
-              }
-              max={
-                endDate ||
-                undefined
-              }
-              onChange={(
-                event,
-              ) =>
-                setStartDate(
-                  event
-                    .target
-                    .value,
-                )
-              }
-              className="mt-2 h-11 w-full rounded-[10px] border border-[#DDE0E3] bg-white px-3 text-[12px] text-[#303438] outline-none focus:border-[#B9BDC2]"
-            />
-          </label>
-
-          <label className="block">
-            <span className="text-[10px] font-medium text-[#969BA1]">
-              Até
-            </span>
-
-            <input
-              type="date"
-              value={
-                endDate
-              }
-              min={
-                startDate ||
-                undefined
-              }
-              onChange={(
-                event,
-              ) =>
-                setEndDate(
-                  event
-                    .target
-                    .value,
-                )
-              }
-              className="mt-2 h-11 w-full rounded-[10px] border border-[#DDE0E3] bg-white px-3 text-[12px] text-[#303438] outline-none focus:border-[#B9BDC2]"
-            />
-          </label>
-
-          <label className="block">
-            <span className="text-[10px] font-medium text-[#969BA1]">
-              Linha
-            </span>
-
-            <select
-              value={
-                line
-              }
-              onChange={(
-                event,
-              ) => {
-                setLine(
-                  event
-                    .target
-                    .value,
-                );
-
-                setEquipment(
-                  "",
-                );
-              }}
-              className="mt-2 h-11 w-full rounded-[10px] border border-[#DDE0E3] bg-white px-3 text-[12px] text-[#303438] outline-none focus:border-[#B9BDC2]"
+        <nav
+          aria-label="Navegação da confiabilidade"
+          className="mt-6 overflow-x-auto border-b border-black/[0.055]"
+        >
+          <div className="flex min-w-max items-center gap-7">
+            <Link
+              href="/dashboard/confiabilidade"
+              aria-current="page"
+              className="relative pb-3 text-[11px] font-semibold text-[#202327]"
             >
-              <option value="">
-                Todas as linhas
-              </option>
+              Visão geral
 
-              {lines.map(
-                (
-                  option,
-                ) => (
-                  <option
-                    key={
-                      option
-                    }
-                    value={
-                      option
-                    }
-                  >
-                    {option}
-                  </option>
-                ),
-              )}
-            </select>
-          </label>
+              <span className="absolute inset-x-0 bottom-0 h-[2px] rounded-full bg-[#E41E2B]" />
+            </Link>
 
-          <label className="block">
-            <span className="text-[10px] font-medium text-[#969BA1]">
-              Equipamento
-            </span>
-
-            <select
-              value={
-                equipment
-              }
-              onChange={(
-                event,
-              ) =>
-                setEquipment(
-                  event
-                    .target
-                    .value,
-                )
-              }
-              className="mt-2 h-11 w-full rounded-[10px] border border-[#DDE0E3] bg-white px-3 text-[12px] text-[#303438] outline-none focus:border-[#B9BDC2]"
+            <Link
+              href="/dashboard/confiabilidade/origens"
+              className="pb-3 text-[11px] font-medium text-[#92979D] transition-colors hover:text-[#34383D]"
             >
-              <option value="">
-                Todos os equipamentos
-              </option>
+              Origens
+            </Link>
 
-              {equipments.map(
-                (
-                  option,
-                ) => (
-                  <option
-                    key={
-                      option
-                    }
-                    value={
-                      option
-                    }
-                  >
-                    {option}
-                  </option>
-                ),
-              )}
-            </select>
-          </label>
-
-          <div className="flex items-end">
-            <button
-              type="button"
-              onClick={
-                resetFilters
-              }
-              className="flex h-11 items-center gap-2 px-2 text-[12px] font-medium text-[#777C82] transition-colors hover:text-[#E41E2B]"
+            <Link
+              href="/dashboard/confiabilidade/evolucao"
+              className="pb-3 text-[11px] font-medium text-[#92979D] transition-colors hover:text-[#34383D]"
             >
-              <RotateCcw
-                size={
-                  15
-                }
-              />
+              Evolução
+            </Link>
 
-              Limpar
-            </button>
+            <Link
+              href="/dashboard/confiabilidade/falhas"
+              className="pb-3 text-[11px] font-medium text-[#92979D] transition-colors hover:text-[#34383D]"
+            >
+              Falhas recorrentes
+            </Link>
+
+            <Link
+              href="/dashboard/confiabilidade/linhas"
+              className="pb-3 text-[11px] font-medium text-[#92979D] transition-colors hover:text-[#34383D]"
+            >
+              Linhas
+            </Link>
           </div>
-        </section>
+        </nav>
+
+        {data && (
+          <ReliabilityToolbar
+            selectedUnitsLabel={
+              selectedUnitsLabel
+            }
+            startDate={
+              startDate
+            }
+            endDate={
+              endDate
+            }
+            line={
+              line
+            }
+            equipment={
+              equipment
+            }
+            lines={
+              lines
+            }
+            equipments={
+              equipments
+            }
+            events={
+              data.summary.events
+            }
+            downtimeMinutes={
+              data.summary.downtimeMinutes
+            }
+            loading={
+              loading
+            }
+            onStartDateChange={
+              setStartDate
+            }
+            onEndDateChange={
+              setEndDate
+            }
+            onLineChange={
+              setLine
+            }
+            onEquipmentChange={
+              setEquipment
+            }
+            onResetFilters={
+              handleResetFilters
+            }
+          />
+        )}
 
         {error && (
           <div className="mt-8 rounded-[14px] border border-[#F0D2D5] bg-[#FFF8F8] px-4 py-3 text-[12px] text-[#BF2C35]">
@@ -4381,124 +5173,73 @@ export function ReliabilityPage({
 
         {loading &&
           !data && (
-          <div className="flex min-h-[420px] items-center justify-center">
-            <LoaderCircle
-              size={
-                22
-              }
-              className="animate-spin text-[#E41E2B]"
-            />
-          </div>
-        )}
+            <div className="flex min-h-[420px] items-center justify-center">
+              <LoaderCircle
+                size={22}
+                className="animate-spin text-[#E41E2B]"
+              />
+            </div>
+          )}
 
         {data && (
           <>
-            <div className="mt-7 flex flex-wrap items-center justify-between gap-3">
-              <p className="text-[12px] text-[#888D93]">
-                {formatNumber(
-                  data
-                    .summary
-                    .events,
-                )}{" "}
-                ocorrências
-                {" · "}
-                {formatNumber(
-                  data
-                    .summary
-                    .downtimeMinutes,
-                  1,
-                )}{" "}
-                min de parada
-              </p>
+            <section
+              id="reliability-pareto"
+              className="scroll-mt-[110px] relative mt-5 overflow-hidden rounded-[28px] border border-black/[0.045] bg-white shadow-[0_14px_44px_rgba(28,31,34,0.035)]"
+            >
+              <div className="pointer-events-none absolute -right-24 -top-28 h-64 w-64 rounded-full bg-[#E41E2B]/[0.04] blur-3xl" />
 
-              {loading && (
-                <LoaderCircle
-                  size={
-                    16
-                  }
-                  className="animate-spin text-[#E41E2B]"
-                />
-              )}
-            </div>
-
-            <section className="mt-5 overflow-hidden rounded-[24px] border border-[#E5E7E9] bg-white">
-              <div className="flex flex-col gap-3 border-b border-[#ECEDEF] px-6 py-5 sm:flex-row sm:items-center sm:justify-between">
-                <div className="flex items-start gap-4">
-                  <div className="flex h-8 min-w-8 items-center justify-center rounded-full bg-[#E41E2B] px-2 text-[10px] font-bold text-white">
+              <div className="flex flex-col gap-3 border-b border-black/[0.05] px-5 py-3.5 sm:flex-row sm:items-center sm:justify-between sm:px-6">
+                <div className="flex items-center gap-3">
+                  <div className="relative flex h-7 min-w-7 items-center justify-center rounded-full bg-[#202327] px-2 text-[9px] font-bold text-white shadow-[0_4px_12px_rgba(32,35,39,0.10)]">
                     01
+
+                    <span className="absolute -bottom-[2px] left-1/2 h-[2px] w-3 -translate-x-1/2 rounded-full bg-[#E41E2B]" />
                   </div>
 
-                  <div>
-                    <h2 className="text-[18px] font-semibold tracking-[-0.03em] text-[#24272B]">
-                      Origem das falhas
-                    </h2>
-
-                    <p className="mt-1 text-[11px] text-[#979CA2]">
-                      Operação × manutenção no recorte selecionado
-                    </p>
-                  </div>
+                  <h2 className="text-[16px] font-semibold tracking-[-0.035em] text-[#202327]">
+                    Pareto
+                  </h2>
                 </div>
 
-                <p className="text-[10px] font-medium text-[#989DA3]">
-                  {formatNumber(
-                    data
-                      .failureOrigin
-                      .classified,
-                  )}{" "}
-                  ocorrências classificadas
-                </p>
-              </div>
+                <div className="flex shrink-0 flex-wrap items-center gap-3">
+                  <div className="flex items-center gap-4 text-[9px] font-medium text-[#858A90]">
+                    <span className="flex items-center gap-1.5">
+                      <span className="h-2 w-2 rounded-full bg-[#E41E2B]" />
 
-              <div className="px-6 py-5 sm:px-8 sm:py-6">
-                <FailureOriginAnalysis
-                  data={
-                    data
-                      .failureOrigin
-                  }
-                  startDate={
-                    startDate
-                  }
-                  endDate={
-                    endDate
-                  }
-                  line={
-                    line
-                  }
-                  equipment={
-                    equipment
-                  }
-                  onChanged={
-                    loadData
-                  }
-                />
-              </div>
-            </section>
+                      Faixa vital
+                    </span>
 
-            <section className="mt-6 overflow-hidden rounded-[24px] border border-[#E5E7E9] bg-white">
-              <div className="flex items-center justify-between gap-6 border-b border-[#ECEDEF] px-6 py-5">
-                <div className="flex items-start gap-4">
-                  <div className="flex h-8 min-w-8 items-center justify-center rounded-full bg-[#25282C] px-2 text-[10px] font-bold text-white">
-                    02
+                    <span className="flex items-center gap-1.5">
+                      <span className="h-[2px] w-5 rounded-full bg-[#202327]" />
+
+                      Acumulado
+                    </span>
                   </div>
 
-                  <div>
-                    <h2 className="text-[18px] font-semibold tracking-[-0.03em] text-[#24272B]">
-                      Pareto de tempo de parada
-                    </h2>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setAnalysisFocus(
+                        "PARETO",
+                      );
 
-                    <p className="mt-1 text-[11px] text-[#979CA2]">
-                      Tempo de parada + percentual acumulado · por{" "}
-                      {analysisLabel}
-                    </p>
-                  </div>
+                      setAnalysisFullscreen(
+                        true,
+                      );
+                    }}
+                    className="inline-flex h-8 items-center gap-2 rounded-[10px] border border-black/[0.06] bg-[#FAFAF9] px-3 text-[9px] font-semibold text-[#656A70] transition hover:bg-[#F1F1F0] hover:text-[#202327]"
+                  >
+                    <Maximize2
+                      size={12}
+                    />
+
+                    Expandir
+                  </button>
                 </div>
-
-                <p className="hidden text-[10px] text-[#A1A5AA] sm:block">
-                  Clique em uma barra ou ponto para detalhar
-                </p>
               </div>
 
-              <div className="p-4 sm:p-6">
+              <div className="relative p-4 sm:p-5 sm:px-6 sm:pb-6">
                 <ParetoChart
                   items={
                     data.pareto
@@ -4520,31 +5261,45 @@ export function ReliabilityPage({
               </div>
             </section>
 
-            <section className="mt-6 overflow-hidden rounded-[24px] border border-[#E5E7E9] bg-white">
-              <div className="flex items-center justify-between gap-6 border-b border-[#ECEDEF] px-6 py-5">
-                <div className="flex items-start gap-4">
-                  <div className="flex h-8 min-w-8 items-center justify-center rounded-full bg-[#25282C] px-2 text-[10px] font-bold text-white">
-                    03
+            <section
+              id="reliability-jackknife"
+              className="scroll-mt-[110px] relative mt-5 overflow-hidden rounded-[28px] border border-black/[0.045] bg-white shadow-[0_14px_44px_rgba(28,31,34,0.035)]"
+            >
+              <div className="flex flex-col gap-3 border-b border-black/[0.05] px-5 py-3.5 sm:flex-row sm:items-center sm:justify-between sm:px-6">
+                <div className="flex items-center gap-3">
+                  <div className="relative flex h-7 min-w-7 items-center justify-center rounded-full bg-[#202327] px-2 text-[9px] font-bold text-white shadow-[0_4px_12px_rgba(32,35,39,0.10)]">
+                    02
+
+                    <span className="absolute -bottom-[2px] left-1/2 h-[2px] w-3 -translate-x-1/2 rounded-full bg-[#E41E2B]" />
                   </div>
 
-                  <div>
-                    <h2 className="text-[18px] font-semibold tracking-[-0.03em] text-[#24272B]">
-                      Jack-Knife
-                    </h2>
-
-                    <p className="mt-1 text-[11px] text-[#979CA2]">
-                      Nº de falhas × MTTR · por{" "}
-                      {analysisLabel}
-                    </p>
-                  </div>
+                  <h2 className="text-[16px] font-semibold tracking-[-0.035em] text-[#202327]">
+                    Jack-Knife
+                  </h2>
                 </div>
 
-                <p className="hidden text-[10px] text-[#A1A5AA] sm:block">
-                  Clique em um ponto para detalhar
-                </p>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setAnalysisFocus(
+                      "JACK_KNIFE",
+                    );
+
+                    setAnalysisFullscreen(
+                      true,
+                    );
+                  }}
+                  className="inline-flex h-8 shrink-0 items-center gap-2 self-start rounded-[10px] border border-black/[0.06] bg-[#FAFAF9] px-3 text-[9px] font-semibold text-[#656A70] transition hover:bg-[#F1F1F0] hover:text-[#202327] sm:self-auto"
+                >
+                  <Maximize2
+                    size={12}
+                  />
+
+                  Expandir
+                </button>
               </div>
 
-              <div className="p-4 sm:p-6">
+              <div className="relative p-4 sm:p-5 sm:px-6 sm:pb-6">
                 <JackKnifeChart
                   items={
                     data
@@ -4579,6 +5334,87 @@ export function ReliabilityPage({
           </>
         )}
       </div>
+
+      {data && (
+        <AnalysisFullscreen
+          open={
+            analysisFullscreen
+          }
+          layout={
+            analysisLayout
+          }
+          order={
+            analysisOrder
+          }
+          focus={
+            analysisFocus
+          }
+          onLayoutChange={
+            setAnalysisLayout
+          }
+          onOrderChange={
+            setAnalysisOrder
+          }
+          onFocusChange={
+            setAnalysisFocus
+          }
+          onClose={() =>
+            setAnalysisFullscreen(
+              false,
+            )
+          }
+          pareto={
+            <ParetoChart
+              items={
+                data.pareto
+              }
+              onSelect={(
+                item,
+                index,
+              ) => {
+                setSelectedPoint({
+                  type:
+                    "PARETO",
+
+                  item,
+
+                  index,
+                });
+              }}
+            />
+          }
+          jackKnife={
+            <JackKnifeChart
+              items={
+                data.jackKnife
+              }
+              frequencyLimit={
+                data
+                  .jackKnifeLimits
+                  .frequency
+              }
+              mttrLimit={
+                data
+                  .jackKnifeLimits
+                  .mttr
+              }
+              onSelect={(
+                item,
+                index,
+              ) => {
+                setSelectedPoint({
+                  type:
+                    "JACK_KNIFE",
+
+                  item,
+
+                  index,
+                });
+              }}
+            />
+          }
+        />
+      )}
 
       <ReportGeneratorModal
         open={
@@ -4678,7 +5514,7 @@ export function ReliabilityPage({
               "FAILURE_MODE"
               ? equipment
               : groupLabel ===
-                  "Equipamento não informado"
+                "Equipamento não informado"
                 ? ""
                 : groupLabel;
 
@@ -4702,6 +5538,50 @@ export function ReliabilityPage({
             equipmentLabel,
           });
         }}
+        onOpenEquipmentHistory={(
+          equipmentName,
+        ) => {
+          setSelectedPoint(
+            null,
+          );
+
+          setEquipmentHistorySelection({
+            equipmentName,
+
+            lineName:
+              line ||
+              null,
+          });
+        }}
+      />
+
+      <EquipmentHistory
+        open={
+          Boolean(
+            equipmentHistorySelection,
+          )
+        }
+        equipment={
+          equipmentHistorySelection
+            ?.equipmentName ??
+          ""
+        }
+        startDate={
+          startDate
+        }
+        endDate={
+          endDate
+        }
+        line={
+          equipmentHistorySelection
+            ?.lineName ??
+          null
+        }
+        onClose={() =>
+          setEquipmentHistorySelection(
+            null,
+          )
+        }
       />
 
       {maspSelection && (

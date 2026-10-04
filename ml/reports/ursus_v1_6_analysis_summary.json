@@ -1,0 +1,129 @@
+{
+  "analysis_version": "ursus-v1.6-data-diagnosis-v1",
+  "seed": 42,
+  "top_n": 500,
+  "no_training_performed": true,
+  "model_modified": false,
+  "test_usage": "retrospective frozen v1.3/v1.4/v1.5 reports and frozen v1.5 inference only; no fitting or rule selection",
+  "dataset": {
+    "rows": 4455,
+    "classes": 421,
+    "families": 71
+  },
+  "support_total": {
+    "singletons": 147,
+    "le_3": 244,
+    "le_5": 283,
+    "le_10": 331,
+    "le_20": 375,
+    "gt_20": 46,
+    "missing_to_10": 2389,
+    "missing_to_20": 5914
+  },
+  "priority_score_formula": {
+    "operational_frequency_from_observed_total_support": 0.15,
+    "low_support": 0.15,
+    "test_error_rate_frozen_v1_5": 0.15,
+    "persistent_confusion": 0.1,
+    "semantic_proximity_inverse_separation": 0.1,
+    "macro_f1_class_impact": 0.1,
+    "priority_family": 0.1,
+    "low_model_margin": 0.05,
+    "possible_label_discrepancy": 0.05,
+    "automation_opportunity_frequency_x_low_margin": 0.05
+  },
+  "operational_criticality_weight": "ABSENT_FROM_DATASET_NOT_INVENTED",
+  "active_learning_score_formula": {
+    "uncertainty": 0.3,
+    "rarity": 0.2,
+    "persistent_confusion": 0.2,
+    "representativeness": 0.15,
+    "disagreement": 0.1,
+    "dynamic_diversity_adjustment": 0.05
+  },
+  "possible_label_noise_rows": 14,
+  "persistent_confusion_pairs": 143,
+  "taxonomy_review_pairs": 225,
+  "other_unknown_classes": 156,
+  "support_6_10_anomaly": {
+    "support_4_5": {
+      "classes": 23,
+      "mean_test_accuracy": 0.65217391,
+      "mean_intra_similarity": 0.76150765,
+      "mean_textual_diversity_proxy": 0.23849235,
+      "mean_nearest_other_similarity": 0.35234925,
+      "mean_separation_margin": 0.40915839,
+      "generic_label_share": 0.30434783,
+      "families": 11,
+      "other_unknown_share": 0.52173913,
+      "persistent_confusion_classes": 5
+    },
+    "support_6_10": {
+      "classes": 49,
+      "mean_test_accuracy": 0.57993197,
+      "mean_intra_similarity": 0.62609441,
+      "mean_textual_diversity_proxy": 0.37390559,
+      "mean_nearest_other_similarity": 0.38365498,
+      "mean_separation_margin": 0.24243943,
+      "generic_label_share": 0.26530612,
+      "families": 29,
+      "other_unknown_share": 0.26530612,
+      "persistent_confusion_classes": 29
+    }
+  },
+  "queue_coverage": [
+    {
+      "queue": "TOP100",
+      "rows": 100,
+      "families_represented": 35,
+      "classes_represented": 82,
+      "singletons": 4,
+      "classes_le_3_rows": 51,
+      "classes_le_10_rows": 85,
+      "classes_le_3_represented": 43,
+      "classes_le_10_represented": 72,
+      "persistent_confusions_covered": 51,
+      "possible_label_noise_rows": 3,
+      "family_distribution": "{\"ATUADOR\": 1, \"CAIXA\": 3, \"CAMERA\": 1, \"CARBONATACAO\": 1, \"CARTAO\": 3, \"CORRENTE\": 1, \"EIXO\": 1, \"ELETRICO\": 3, \"ENCHIMENTO\": 5, \"ENGRENAGEM\": 2, \"ESTEIRA\": 6, \"FILME\": 1, \"FILTRO\": 1, \"GARRAFA\": 1, \"GUIA\": 3, \"LATA\": 3, \"MAGAZINE\": 1, \"MANGUEIRA\": 5, \"OTHER_UNKNOWN\": 32, \"PACOTE\": 2, \"PALETE\": 2, \"PATINS\": 1, \"PERSIANA\": 2, \"PINCA\": 1, \"PNEUMATICO\": 2, \"REJEICAO\": 2, \"ROBO\": 2, \"ROLAMENTO\": 1, \"ROTULO\": 1, \"SEGMENTO\": 1, \"SENSOR\": 2, \"SUPORTE\": 1, \"TRANSPORTE\": 1, \"TUBULACAO\": 1, \"VALVULA\": 4}"
+    },
+    {
+      "queue": "TOP250",
+      "rows": 250,
+      "families_represented": 53,
+      "classes_represented": 198,
+      "singletons": 59,
+      "classes_le_3_rows": 145,
+      "classes_le_10_rows": 211,
+      "classes_le_3_represented": 123,
+      "classes_le_10_represented": 170,
+      "persistent_confusions_covered": 82,
+      "possible_label_noise_rows": 4,
+      "family_distribution": "{\"ATUADOR\": 2, \"AUTOMACAO\": 1, \"BOMBA\": 1, \"CABECOTE\": 2, \"CAIXA\": 5, \"CAMADA\": 2, \"CAMERA\": 1, \"CARBONATACAO\": 3, \"CARTAO\": 6, \"COMUNICACAO\": 1, \"CORREIA\": 2, \"CORRENTE\": 4, \"DOSAGEM\": 1, \"EIXO\": 3, \"ELETRICO\": 5, \"ENCHIMENTO\": 9, \"ENCODER\": 1, \"ENGRENAGEM\": 2, \"ENVOLVIMENTO\": 1, \"ESTEIRA\": 14, \"FILME\": 2, \"FILTRO\": 1, \"GARRAFA\": 11, \"GUIA\": 7, \"INSPECAO\": 1, \"LATA\": 6, \"MAGAZINE\": 1, \"MANGUEIRA\": 8, \"MESA\": 2, \"OTHER_UNKNOWN\": 70, \"PACOTE\": 6, \"PALETE\": 4, \"PATINS\": 4, \"PEGADOR\": 2, \"PERSIANA\": 4, \"PINCA\": 2, \"PNEUMATICO\": 2, \"RECRAVACAO\": 1, \"REJEICAO\": 5, \"ROBO\": 6, \"ROLAMENTO\": 1, \"ROLETE\": 2, \"ROTULO\": 4, \"SEGMENTO\": 2, \"SEGURANCA\": 1, \"SENSOR\": 4, \"STOPPER\": 1, \"SUPORTE\": 1, \"TAMPA\": 6, \"TEMPERATURA\": 1, \"TRANSPORTE\": 6, \"TUBULACAO\": 1, \"VALVULA\": 9}"
+    },
+    {
+      "queue": "TOP500",
+      "rows": 500,
+      "families_represented": 60,
+      "classes_represented": 359,
+      "singletons": 147,
+      "classes_le_3_rows": 303,
+      "classes_le_10_rows": 411,
+      "classes_le_3_represented": 242,
+      "classes_le_10_represented": 309,
+      "persistent_confusions_covered": 109,
+      "possible_label_noise_rows": 5,
+      "family_distribution": "{\"ATUADOR\": 6, \"AUTOMACAO\": 2, \"BOMBA\": 2, \"CABECOTE\": 4, \"CAIXA\": 9, \"CAMADA\": 3, \"CAMERA\": 2, \"CARBONATACAO\": 4, \"CARTAO\": 7, \"CILINDRO\": 1, \"COMUNICACAO\": 3, \"CORREIA\": 4, \"CORRENTE\": 10, \"DOSAGEM\": 3, \"EIXO\": 3, \"ELETRICO\": 11, \"ELEVADOR\": 2, \"ENCHIMENTO\": 17, \"ENCODER\": 1, \"ENGRENAGEM\": 2, \"ENVOLVIMENTO\": 3, \"ESTEIRA\": 18, \"FILME\": 4, \"FILTRO\": 1, \"FLUXIMETRO\": 1, \"GARRAFA\": 25, \"GUIA\": 10, \"IMPRESSAO\": 1, \"INSPECAO\": 2, \"INVERSOR\": 1, \"LATA\": 15, \"MAGAZINE\": 1, \"MANGUEIRA\": 18, \"MESA\": 5, \"MOTOR\": 1, \"OTHER_UNKNOWN\": 177, \"PACOTE\": 10, \"PALETE\": 14, \"PATINS\": 5, \"PEGADOR\": 2, \"PERSIANA\": 4, \"PINCA\": 4, \"PNEUMATICO\": 3, \"PRESSOSTATO\": 1, \"RECRAVACAO\": 1, \"REJEICAO\": 5, \"ROBO\": 7, \"ROLAMENTO\": 1, \"ROLETE\": 3, \"ROTULO\": 7, \"SEGMENTO\": 3, \"SEGURANCA\": 2, \"SENSOR\": 4, \"STOPPER\": 2, \"SUPORTE\": 3, \"TAMPA\": 14, \"TEMPERATURA\": 1, \"TRANSPORTE\": 9, \"TUBULACAO\": 3, \"VALVULA\": 13}"
+    }
+  ],
+  "protected_hashes_before": {
+    "dataset": "9ad6fe9c03fc77bf6096efff7aaae6512455469c321a0b83ae4e33962dfe44bc",
+    "taxonomy": "b8d2ede739e5d44059d1a930c1b8232fd35b9976d489317ce56fb375f7ae2695",
+    "model": "3bcdd63139a3ddefb1b3b328c2ac135f97bb1547664a940603aade586380b413"
+  },
+  "protected_hashes_after": {
+    "dataset": "9ad6fe9c03fc77bf6096efff7aaae6512455469c321a0b83ae4e33962dfe44bc",
+    "taxonomy": "b8d2ede739e5d44059d1a930c1b8232fd35b9976d489317ce56fb375f7ae2695",
+    "model": "3bcdd63139a3ddefb1b3b328c2ac135f97bb1547664a940603aade586380b413"
+  },
+  "protected_files_unchanged": true
+}

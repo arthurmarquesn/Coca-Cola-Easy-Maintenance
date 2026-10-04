@@ -1,0 +1,1163 @@
+{
+  "result": "PASS",
+  "experiment_version": "ursus-reranker-v1.6-experimental",
+  "created_at": "2026-10-04T00:00:00-03:00",
+  "product_principle": "TOP-3 suggestions require mandatory human validation",
+  "validation_baseline": {
+    "candidate": "BASELINE_V15",
+    "validation_top1": 0.74160584,
+    "validation_top2": 0.84379562,
+    "validation_top3": 0.89781022,
+    "validation_top5": 0.91824818,
+    "validation_top10": 0.92846715,
+    "validation_mrr": 0.81901553,
+    "brought_into_top3": 32,
+    "expelled_from_top3": 2,
+    "net_top3_gain": 30,
+    "average_rank_movement": 0.16058394,
+    "positive_movements": 66,
+    "negative_movements": 20,
+    "neutral_movements": 599,
+    "complexity_rank": 1,
+    "parameters": "{\"C\": 0.1, \"candidate_n\": 10, \"features\": [\"flat_score\", \"normalized_flat_score\", \"family_score\", \"centroid_similarity\", \"max_neighbor_similarity\", \"mean_top3_neighbor_similarity\", \"log_class_support\", \"top1_gap\", \"token_overlap\", \"root_overlap\", \"char_overlap\", \"label_cosine\", \"component_present\", \"mechanism_present\"], \"source\": \"C:\\\\Users\\\\arthu\\\\Coca\\\\Coca-Cola-Easy-Maintenance\\\\ml\\\\models\\\\failure_classifier_marilia_v1_5_candidate_eval.joblib\", \"training\": \"existing_v1.5_5_fold_OOF_TRAIN_only\"}",
+    "top1_guardrail_floor": 0.72160584,
+    "eligible_top1_guardrail": true,
+    "selected": false
+  },
+  "validation_winner": {
+    "candidate": "SUPPORT_CAPPED",
+    "validation_top1": 0.74014599,
+    "validation_top2": 0.84671533,
+    "validation_top3": 0.90072993,
+    "validation_top5": 0.91824818,
+    "validation_top10": 0.92846715,
+    "validation_mrr": 0.81884116,
+    "brought_into_top3": 34,
+    "expelled_from_top3": 2,
+    "net_top3_gain": 32,
+    "average_rank_movement": 0.15912409,
+    "positive_movements": 64,
+    "negative_movements": 19,
+    "neutral_movements": 602,
+    "complexity_rank": 2,
+    "parameters": "{\"C\": 0.1, \"candidate_n\": 10, \"feature_config\": {\"family_cap\": null, \"include_relative_top3\": false, \"support_cap\": 2.8903717579}, \"features\": [\"flat_score\", \"normalized_flat_score\", \"family_score\", \"centroid_similarity\", \"max_neighbor_similarity\", \"mean_top3_neighbor_similarity\", \"log_class_support\", \"top1_gap\", \"token_overlap\", \"root_overlap\", \"char_overlap\", \"label_cosine\", \"component_present\", \"mechanism_present\"], \"name\": \"SUPPORT_CAPPED\", \"ranker\": \"LogisticRegression\", \"training\": \"5_fold_OOF_TRAIN_only\"}",
+    "top1_guardrail_floor": 0.72160584,
+    "eligible_top1_guardrail": true,
+    "selected": true
+  },
+  "winner_configuration": {
+    "name": "SUPPORT_CAPPED",
+    "C": 0.1,
+    "candidate_n": 10,
+    "features": [
+      "flat_score",
+      "normalized_flat_score",
+      "family_score",
+      "centroid_similarity",
+      "max_neighbor_similarity",
+      "mean_top3_neighbor_similarity",
+      "log_class_support",
+      "top1_gap",
+      "token_overlap",
+      "root_overlap",
+      "char_overlap",
+      "label_cosine",
+      "component_present",
+      "mechanism_present"
+    ],
+    "feature_config": {
+      "family_cap": null,
+      "support_cap": 2.8903717579,
+      "include_relative_top3": false
+    },
+    "ranker": "LogisticRegression",
+    "training": "5_fold_OOF_TRAIN_only"
+  },
+  "flat_validation": {
+    "top1": 0.72846715,
+    "top2": 0.81751825,
+    "top3": 0.8540146,
+    "top5": 0.90218978,
+    "top10": 0.92846715,
+    "mrr": 0.80192307
+  },
+  "ablation_findings": [
+    {
+      "candidate": "WITHOUT_FAMILY_SCORE",
+      "validation_top1": 0.74452555,
+      "validation_top2": 0.86277372,
+      "validation_top3": 0.8919708,
+      "validation_top5": 0.91970803,
+      "validation_top10": 0.92846715,
+      "validation_mrr": 0.82314715,
+      "brought_into_top3": 28,
+      "expelled_from_top3": 2,
+      "net_top3_gain": 26,
+      "average_rank_movement": 0.1810219,
+      "positive_movements": 75,
+      "negative_movements": 18,
+      "neutral_movements": 592,
+      "complexity_rank": 2,
+      "parameters": "{\"C\": 0.1, \"candidate_n\": 10, \"feature_config\": {\"family_cap\": null, \"include_relative_top3\": false, \"support_cap\": null}, \"features\": [\"flat_score\", \"normalized_flat_score\", \"centroid_similarity\", \"max_neighbor_similarity\", \"mean_top3_neighbor_similarity\", \"log_class_support\", \"top1_gap\", \"token_overlap\", \"root_overlap\", \"char_overlap\", \"label_cosine\", \"component_present\", \"mechanism_present\"], \"name\": \"WITHOUT_FAMILY_SCORE\", \"ranker\": \"LogisticRegression\", \"training\": \"5_fold_OOF_TRAIN_only\"}"
+    },
+    {
+      "candidate": "WITHOUT_LOG_CLASS_SUPPORT",
+      "validation_top1": 0.73430657,
+      "validation_top2": 0.87153285,
+      "validation_top3": 0.90656934,
+      "validation_top5": 0.91970803,
+      "validation_top10": 0.92846715,
+      "validation_mrr": 0.82077141,
+      "brought_into_top3": 36,
+      "expelled_from_top3": 0,
+      "net_top3_gain": 36,
+      "average_rank_movement": 0.19124088,
+      "positive_movements": 77,
+      "negative_movements": 24,
+      "neutral_movements": 584,
+      "complexity_rank": 2,
+      "parameters": "{\"C\": 0.1, \"candidate_n\": 10, \"feature_config\": {\"family_cap\": null, \"include_relative_top3\": false, \"support_cap\": null}, \"features\": [\"flat_score\", \"normalized_flat_score\", \"family_score\", \"centroid_similarity\", \"max_neighbor_similarity\", \"mean_top3_neighbor_similarity\", \"top1_gap\", \"token_overlap\", \"root_overlap\", \"char_overlap\", \"label_cosine\", \"component_present\", \"mechanism_present\"], \"name\": \"WITHOUT_LOG_CLASS_SUPPORT\", \"ranker\": \"LogisticRegression\", \"training\": \"5_fold_OOF_TRAIN_only\"}"
+    },
+    {
+      "candidate": "WITHOUT_FAMILY_AND_SUPPORT",
+      "validation_top1": 0.7270073,
+      "validation_top2": 0.87153285,
+      "validation_top3": 0.90364964,
+      "validation_top5": 0.92116788,
+      "validation_top10": 0.92846715,
+      "validation_mrr": 0.81699838,
+      "brought_into_top3": 34,
+      "expelled_from_top3": 0,
+      "net_top3_gain": 34,
+      "average_rank_movement": 0.18248175,
+      "positive_movements": 75,
+      "negative_movements": 25,
+      "neutral_movements": 585,
+      "complexity_rank": 2,
+      "parameters": "{\"C\": 0.1, \"candidate_n\": 10, \"feature_config\": {\"family_cap\": null, \"include_relative_top3\": false, \"support_cap\": null}, \"features\": [\"flat_score\", \"normalized_flat_score\", \"centroid_similarity\", \"max_neighbor_similarity\", \"mean_top3_neighbor_similarity\", \"top1_gap\", \"token_overlap\", \"root_overlap\", \"char_overlap\", \"label_cosine\", \"component_present\", \"mechanism_present\"], \"name\": \"WITHOUT_FAMILY_AND_SUPPORT\", \"ranker\": \"LogisticRegression\", \"training\": \"5_fold_OOF_TRAIN_only\"}"
+    },
+    {
+      "candidate": "FLAT_ONLY",
+      "validation_top1": 0.72846715,
+      "validation_top2": 0.81751825,
+      "validation_top3": 0.8540146,
+      "validation_top5": 0.90218978,
+      "validation_top10": 0.92846715,
+      "validation_mrr": 0.80192307,
+      "brought_into_top3": 0,
+      "expelled_from_top3": 0,
+      "net_top3_gain": 0,
+      "average_rank_movement": 0.0,
+      "positive_movements": 0,
+      "negative_movements": 0,
+      "neutral_movements": 685,
+      "complexity_rank": 2,
+      "parameters": "{\"C\": 0.1, \"candidate_n\": 10, \"feature_config\": {\"family_cap\": null, \"include_relative_top3\": false, \"support_cap\": null}, \"features\": [\"flat_score\", \"normalized_flat_score\", \"top1_gap\"], \"name\": \"FLAT_ONLY\", \"ranker\": \"LogisticRegression\", \"training\": \"5_fold_OOF_TRAIN_only\"}"
+    },
+    {
+      "candidate": "FLAT_PLUS_SEMANTICS",
+      "validation_top1": 0.7270073,
+      "validation_top2": 0.87153285,
+      "validation_top3": 0.90364964,
+      "validation_top5": 0.92116788,
+      "validation_top10": 0.92846715,
+      "validation_mrr": 0.81699838,
+      "brought_into_top3": 34,
+      "expelled_from_top3": 0,
+      "net_top3_gain": 34,
+      "average_rank_movement": 0.18248175,
+      "positive_movements": 75,
+      "negative_movements": 25,
+      "neutral_movements": 585,
+      "complexity_rank": 2,
+      "parameters": "{\"C\": 0.1, \"candidate_n\": 10, \"feature_config\": {\"family_cap\": null, \"include_relative_top3\": false, \"support_cap\": null}, \"features\": [\"flat_score\", \"normalized_flat_score\", \"top1_gap\", \"centroid_similarity\", \"max_neighbor_similarity\", \"mean_top3_neighbor_similarity\", \"token_overlap\", \"root_overlap\", \"char_overlap\", \"label_cosine\", \"component_present\", \"mechanism_present\"], \"name\": \"FLAT_PLUS_SEMANTICS\", \"ranker\": \"LogisticRegression\", \"training\": \"5_fold_OOF_TRAIN_only\"}"
+    },
+    {
+      "candidate": "FLAT_PLUS_FAMILY",
+      "validation_top1": 0.73138686,
+      "validation_top2": 0.82335766,
+      "validation_top3": 0.86861314,
+      "validation_top5": 0.90510949,
+      "validation_top10": 0.92846715,
+      "validation_mrr": 0.80623312,
+      "brought_into_top3": 10,
+      "expelled_from_top3": 0,
+      "net_top3_gain": 10,
+      "average_rank_movement": 0.04087591,
+      "positive_movements": 31,
+      "negative_movements": 17,
+      "neutral_movements": 637,
+      "complexity_rank": 2,
+      "parameters": "{\"C\": 0.1, \"candidate_n\": 10, \"feature_config\": {\"family_cap\": null, \"include_relative_top3\": false, \"support_cap\": null}, \"features\": [\"flat_score\", \"normalized_flat_score\", \"top1_gap\", \"family_score\"], \"name\": \"FLAT_PLUS_FAMILY\", \"ranker\": \"LogisticRegression\", \"training\": \"5_fold_OOF_TRAIN_only\"}"
+    },
+    {
+      "candidate": "FLAT_PLUS_SUPPORT",
+      "validation_top1": 0.71970803,
+      "validation_top2": 0.80875912,
+      "validation_top3": 0.84525547,
+      "validation_top5": 0.88905109,
+      "validation_top10": 0.92846715,
+      "validation_mrr": 0.79424088,
+      "brought_into_top3": 9,
+      "expelled_from_top3": 15,
+      "net_top3_gain": -6,
+      "average_rank_movement": -0.04671533,
+      "positive_movements": 29,
+      "negative_movements": 57,
+      "neutral_movements": 599,
+      "complexity_rank": 2,
+      "parameters": "{\"C\": 0.1, \"candidate_n\": 10, \"feature_config\": {\"family_cap\": null, \"include_relative_top3\": false, \"support_cap\": null}, \"features\": [\"flat_score\", \"normalized_flat_score\", \"top1_gap\", \"log_class_support\"], \"name\": \"FLAT_PLUS_SUPPORT\", \"ranker\": \"LogisticRegression\", \"training\": \"5_fold_OOF_TRAIN_only\"}"
+    }
+  ],
+  "winner_feature_importance": [
+    {
+      "feature": "flat_score",
+      "coefficient": 3.3817017491,
+      "absolute_coefficient": 3.3817017491
+    },
+    {
+      "feature": "family_score",
+      "coefficient": 2.2720552848,
+      "absolute_coefficient": 2.2720552848
+    },
+    {
+      "feature": "mean_top3_neighbor_similarity",
+      "coefficient": -1.866244099,
+      "absolute_coefficient": 1.866244099
+    },
+    {
+      "feature": "centroid_similarity",
+      "coefficient": 1.8655120651,
+      "absolute_coefficient": 1.8655120651
+    },
+    {
+      "feature": "root_overlap",
+      "coefficient": 1.8227735347,
+      "absolute_coefficient": 1.8227735347
+    },
+    {
+      "feature": "top1_gap",
+      "coefficient": -1.6944015355,
+      "absolute_coefficient": 1.6944015355
+    },
+    {
+      "feature": "label_cosine",
+      "coefficient": 1.594974891,
+      "absolute_coefficient": 1.594974891
+    },
+    {
+      "feature": "token_overlap",
+      "coefficient": -0.9107140628,
+      "absolute_coefficient": 0.9107140628
+    },
+    {
+      "feature": "log_class_support",
+      "coefficient": 0.7246521115,
+      "absolute_coefficient": 0.7246521115
+    },
+    {
+      "feature": "max_neighbor_similarity",
+      "coefficient": -0.6341216775,
+      "absolute_coefficient": 0.6341216775
+    },
+    {
+      "feature": "component_present",
+      "coefficient": 0.4981721195,
+      "absolute_coefficient": 0.4981721195
+    },
+    {
+      "feature": "normalized_flat_score",
+      "coefficient": 0.3773225242,
+      "absolute_coefficient": 0.3773225242
+    },
+    {
+      "feature": "char_overlap",
+      "coefficient": -0.186176628,
+      "absolute_coefficient": 0.186176628
+    },
+    {
+      "feature": "mechanism_present",
+      "coefficient": 0.0306164063,
+      "absolute_coefficient": 0.0306164063
+    }
+  ],
+  "validation_support_segments": [
+    {
+      "candidate": "SUPPORT_CAPPED",
+      "segment_type": "TRAIN_SUPPORT",
+      "segment": "1",
+      "rows": 76,
+      "recall_at_3": 0.73684211,
+      "recall_at_5": 0.82894737,
+      "mrr": 0.59957423,
+      "priority_family": false
+    },
+    {
+      "candidate": "SUPPORT_CAPPED",
+      "segment_type": "TRAIN_SUPPORT",
+      "segment": "11-20",
+      "rows": 103,
+      "recall_at_3": 0.9223301,
+      "recall_at_5": 0.9223301,
+      "mrr": 0.85335926,
+      "priority_family": false
+    },
+    {
+      "candidate": "SUPPORT_CAPPED",
+      "segment_type": "TRAIN_SUPPORT",
+      "segment": "2-3",
+      "rows": 35,
+      "recall_at_3": 0.8,
+      "recall_at_5": 0.85714286,
+      "mrr": 0.59595856,
+      "priority_family": false
+    },
+    {
+      "candidate": "SUPPORT_CAPPED",
+      "segment_type": "TRAIN_SUPPORT",
+      "segment": "4-5",
+      "rows": 25,
+      "recall_at_3": 0.92,
+      "recall_at_5": 0.96,
+      "mrr": 0.9069697,
+      "priority_family": false
+    },
+    {
+      "candidate": "SUPPORT_CAPPED",
+      "segment_type": "TRAIN_SUPPORT",
+      "segment": "6-10",
+      "rows": 82,
+      "recall_at_3": 0.87804878,
+      "recall_at_5": 0.87804878,
+      "mrr": 0.73181294,
+      "priority_family": false
+    },
+    {
+      "candidate": "SUPPORT_CAPPED",
+      "segment_type": "TRAIN_SUPPORT",
+      "segment": ">20",
+      "rows": 364,
+      "recall_at_3": 0.94230769,
+      "recall_at_5": 0.9478022,
+      "mrr": 0.88983817,
+      "priority_family": false
+    }
+  ],
+  "validation_family_segments": [
+    {
+      "candidate": "SUPPORT_CAPPED",
+      "segment_type": "FAMILY",
+      "segment": "ATUADOR",
+      "rows": 4,
+      "recall_at_3": 1.0,
+      "recall_at_5": 1.0,
+      "mrr": 0.83333333,
+      "priority_family": false
+    },
+    {
+      "candidate": "SUPPORT_CAPPED",
+      "segment_type": "FAMILY",
+      "segment": "AUTOMACAO",
+      "rows": 5,
+      "recall_at_3": 0.6,
+      "recall_at_5": 0.6,
+      "mrr": 0.42568493,
+      "priority_family": false
+    },
+    {
+      "candidate": "SUPPORT_CAPPED",
+      "segment_type": "FAMILY",
+      "segment": "BANDEJA",
+      "rows": 1,
+      "recall_at_3": 1.0,
+      "recall_at_5": 1.0,
+      "mrr": 1.0,
+      "priority_family": false
+    },
+    {
+      "candidate": "SUPPORT_CAPPED",
+      "segment_type": "FAMILY",
+      "segment": "BARREIRA",
+      "rows": 5,
+      "recall_at_3": 1.0,
+      "recall_at_5": 1.0,
+      "mrr": 1.0,
+      "priority_family": false
+    },
+    {
+      "candidate": "SUPPORT_CAPPED",
+      "segment_type": "FAMILY",
+      "segment": "BOBINA",
+      "rows": 1,
+      "recall_at_3": 1.0,
+      "recall_at_5": 1.0,
+      "mrr": 0.5,
+      "priority_family": false
+    },
+    {
+      "candidate": "SUPPORT_CAPPED",
+      "segment_type": "FAMILY",
+      "segment": "BOMBA",
+      "rows": 3,
+      "recall_at_3": 1.0,
+      "recall_at_5": 1.0,
+      "mrr": 1.0,
+      "priority_family": false
+    },
+    {
+      "candidate": "SUPPORT_CAPPED",
+      "segment_type": "FAMILY",
+      "segment": "CABECOTE",
+      "rows": 3,
+      "recall_at_3": 0.66666667,
+      "recall_at_5": 0.66666667,
+      "mrr": 0.67567568,
+      "priority_family": false
+    },
+    {
+      "candidate": "SUPPORT_CAPPED",
+      "segment_type": "FAMILY",
+      "segment": "CAIXA",
+      "rows": 2,
+      "recall_at_3": 1.0,
+      "recall_at_5": 1.0,
+      "mrr": 0.75,
+      "priority_family": false
+    },
+    {
+      "candidate": "SUPPORT_CAPPED",
+      "segment_type": "FAMILY",
+      "segment": "CAMADA",
+      "rows": 11,
+      "recall_at_3": 0.90909091,
+      "recall_at_5": 1.0,
+      "mrr": 0.92727273,
+      "priority_family": false
+    },
+    {
+      "candidate": "SUPPORT_CAPPED",
+      "segment_type": "FAMILY",
+      "segment": "CAMERA",
+      "rows": 1,
+      "recall_at_3": 1.0,
+      "recall_at_5": 1.0,
+      "mrr": 0.5,
+      "priority_family": false
+    },
+    {
+      "candidate": "SUPPORT_CAPPED",
+      "segment_type": "FAMILY",
+      "segment": "CARBONATACAO",
+      "rows": 2,
+      "recall_at_3": 1.0,
+      "recall_at_5": 1.0,
+      "mrr": 0.66666667,
+      "priority_family": false
+    },
+    {
+      "candidate": "SUPPORT_CAPPED",
+      "segment_type": "FAMILY",
+      "segment": "CARTAO",
+      "rows": 18,
+      "recall_at_3": 1.0,
+      "recall_at_5": 1.0,
+      "mrr": 0.57407407,
+      "priority_family": true
+    },
+    {
+      "candidate": "SUPPORT_CAPPED",
+      "segment_type": "FAMILY",
+      "segment": "COMUNICACAO",
+      "rows": 9,
+      "recall_at_3": 1.0,
+      "recall_at_5": 1.0,
+      "mrr": 1.0,
+      "priority_family": false
+    },
+    {
+      "candidate": "SUPPORT_CAPPED",
+      "segment_type": "FAMILY",
+      "segment": "CORREIA",
+      "rows": 6,
+      "recall_at_3": 0.66666667,
+      "recall_at_5": 0.83333333,
+      "mrr": 0.71354167,
+      "priority_family": false
+    },
+    {
+      "candidate": "SUPPORT_CAPPED",
+      "segment_type": "FAMILY",
+      "segment": "CORRENTE",
+      "rows": 3,
+      "recall_at_3": 1.0,
+      "recall_at_5": 1.0,
+      "mrr": 0.83333333,
+      "priority_family": false
+    },
+    {
+      "candidate": "SUPPORT_CAPPED",
+      "segment_type": "FAMILY",
+      "segment": "DESCAPSULAMENTO",
+      "rows": 3,
+      "recall_at_3": 0.66666667,
+      "recall_at_5": 0.66666667,
+      "mrr": 0.7037037,
+      "priority_family": false
+    },
+    {
+      "candidate": "SUPPORT_CAPPED",
+      "segment_type": "FAMILY",
+      "segment": "DOSAGEM",
+      "rows": 1,
+      "recall_at_3": 1.0,
+      "recall_at_5": 1.0,
+      "mrr": 1.0,
+      "priority_family": false
+    },
+    {
+      "candidate": "SUPPORT_CAPPED",
+      "segment_type": "FAMILY",
+      "segment": "EIXO",
+      "rows": 3,
+      "recall_at_3": 1.0,
+      "recall_at_5": 1.0,
+      "mrr": 1.0,
+      "priority_family": false
+    },
+    {
+      "candidate": "SUPPORT_CAPPED",
+      "segment_type": "FAMILY",
+      "segment": "ELETRICO",
+      "rows": 3,
+      "recall_at_3": 0.66666667,
+      "recall_at_5": 0.66666667,
+      "mrr": 0.6969697,
+      "priority_family": false
+    },
+    {
+      "candidate": "SUPPORT_CAPPED",
+      "segment_type": "FAMILY",
+      "segment": "ELEVADOR",
+      "rows": 4,
+      "recall_at_3": 1.0,
+      "recall_at_5": 1.0,
+      "mrr": 0.875,
+      "priority_family": false
+    },
+    {
+      "candidate": "SUPPORT_CAPPED",
+      "segment_type": "FAMILY",
+      "segment": "ENCHIMENTO",
+      "rows": 19,
+      "recall_at_3": 0.84210526,
+      "recall_at_5": 0.84210526,
+      "mrr": 0.66728013,
+      "priority_family": false
+    },
+    {
+      "candidate": "SUPPORT_CAPPED",
+      "segment_type": "FAMILY",
+      "segment": "ENCODER",
+      "rows": 2,
+      "recall_at_3": 1.0,
+      "recall_at_5": 1.0,
+      "mrr": 0.66666667,
+      "priority_family": false
+    },
+    {
+      "candidate": "SUPPORT_CAPPED",
+      "segment_type": "FAMILY",
+      "segment": "ENGRENAGEM",
+      "rows": 2,
+      "recall_at_3": 1.0,
+      "recall_at_5": 1.0,
+      "mrr": 0.66666667,
+      "priority_family": false
+    },
+    {
+      "candidate": "SUPPORT_CAPPED",
+      "segment_type": "FAMILY",
+      "segment": "ENVOLVIMENTO",
+      "rows": 9,
+      "recall_at_3": 0.55555556,
+      "recall_at_5": 0.55555556,
+      "mrr": 0.5104471,
+      "priority_family": false
+    },
+    {
+      "candidate": "SUPPORT_CAPPED",
+      "segment_type": "FAMILY",
+      "segment": "ESTEIRA",
+      "rows": 48,
+      "recall_at_3": 0.95833333,
+      "recall_at_5": 0.95833333,
+      "mrr": 0.88030849,
+      "priority_family": true
+    },
+    {
+      "candidate": "SUPPORT_CAPPED",
+      "segment_type": "FAMILY",
+      "segment": "FILME",
+      "rows": 23,
+      "recall_at_3": 1.0,
+      "recall_at_5": 1.0,
+      "mrr": 0.95652174,
+      "priority_family": false
+    },
+    {
+      "candidate": "SUPPORT_CAPPED",
+      "segment_type": "FAMILY",
+      "segment": "FILTRO",
+      "rows": 1,
+      "recall_at_3": 1.0,
+      "recall_at_5": 1.0,
+      "mrr": 1.0,
+      "priority_family": false
+    },
+    {
+      "candidate": "SUPPORT_CAPPED",
+      "segment_type": "FAMILY",
+      "segment": "FLUXIMETRO",
+      "rows": 1,
+      "recall_at_3": 1.0,
+      "recall_at_5": 1.0,
+      "mrr": 1.0,
+      "priority_family": false
+    },
+    {
+      "candidate": "SUPPORT_CAPPED",
+      "segment_type": "FAMILY",
+      "segment": "GARRAFA",
+      "rows": 34,
+      "recall_at_3": 0.94117647,
+      "recall_at_5": 0.94117647,
+      "mrr": 0.89774717,
+      "priority_family": false
+    },
+    {
+      "candidate": "SUPPORT_CAPPED",
+      "segment_type": "FAMILY",
+      "segment": "GUIA",
+      "rows": 8,
+      "recall_at_3": 0.5,
+      "recall_at_5": 0.625,
+      "mrr": 0.42392644,
+      "priority_family": false
+    },
+    {
+      "candidate": "SUPPORT_CAPPED",
+      "segment_type": "FAMILY",
+      "segment": "IHM",
+      "rows": 3,
+      "recall_at_3": 1.0,
+      "recall_at_5": 1.0,
+      "mrr": 0.83333333,
+      "priority_family": false
+    },
+    {
+      "candidate": "SUPPORT_CAPPED",
+      "segment_type": "FAMILY",
+      "segment": "IMPRESSAO",
+      "rows": 8,
+      "recall_at_3": 1.0,
+      "recall_at_5": 1.0,
+      "mrr": 0.9375,
+      "priority_family": false
+    },
+    {
+      "candidate": "SUPPORT_CAPPED",
+      "segment_type": "FAMILY",
+      "segment": "INSPECAO",
+      "rows": 14,
+      "recall_at_3": 0.78571429,
+      "recall_at_5": 0.85714286,
+      "mrr": 0.62983193,
+      "priority_family": false
+    },
+    {
+      "candidate": "SUPPORT_CAPPED",
+      "segment_type": "FAMILY",
+      "segment": "INVERSOR",
+      "rows": 14,
+      "recall_at_3": 1.0,
+      "recall_at_5": 1.0,
+      "mrr": 0.96428571,
+      "priority_family": false
+    },
+    {
+      "candidate": "SUPPORT_CAPPED",
+      "segment_type": "FAMILY",
+      "segment": "LATA",
+      "rows": 23,
+      "recall_at_3": 0.91304348,
+      "recall_at_5": 0.91304348,
+      "mrr": 0.79543926,
+      "priority_family": true
+    },
+    {
+      "candidate": "SUPPORT_CAPPED",
+      "segment_type": "FAMILY",
+      "segment": "MAGAZINE",
+      "rows": 6,
+      "recall_at_3": 1.0,
+      "recall_at_5": 1.0,
+      "mrr": 1.0,
+      "priority_family": false
+    },
+    {
+      "candidate": "SUPPORT_CAPPED",
+      "segment_type": "FAMILY",
+      "segment": "MANGUEIRA",
+      "rows": 6,
+      "recall_at_3": 0.33333333,
+      "recall_at_5": 0.5,
+      "mrr": 0.40295345,
+      "priority_family": true
+    },
+    {
+      "candidate": "SUPPORT_CAPPED",
+      "segment_type": "FAMILY",
+      "segment": "MESA",
+      "rows": 1,
+      "recall_at_3": 1.0,
+      "recall_at_5": 1.0,
+      "mrr": 1.0,
+      "priority_family": false
+    },
+    {
+      "candidate": "SUPPORT_CAPPED",
+      "segment_type": "FAMILY",
+      "segment": "MOTOR",
+      "rows": 15,
+      "recall_at_3": 1.0,
+      "recall_at_5": 1.0,
+      "mrr": 1.0,
+      "priority_family": false
+    },
+    {
+      "candidate": "SUPPORT_CAPPED",
+      "segment_type": "FAMILY",
+      "segment": "OTHER_UNKNOWN",
+      "rows": 96,
+      "recall_at_3": 0.72916667,
+      "recall_at_5": 0.79166667,
+      "mrr": 0.63435236,
+      "priority_family": true
+    },
+    {
+      "candidate": "SUPPORT_CAPPED",
+      "segment_type": "FAMILY",
+      "segment": "PACOTE",
+      "rows": 18,
+      "recall_at_3": 1.0,
+      "recall_at_5": 1.0,
+      "mrr": 0.94444444,
+      "priority_family": false
+    },
+    {
+      "candidate": "SUPPORT_CAPPED",
+      "segment_type": "FAMILY",
+      "segment": "PALETE",
+      "rows": 2,
+      "recall_at_3": 0.5,
+      "recall_at_5": 0.5,
+      "mrr": 0.54545455,
+      "priority_family": false
+    },
+    {
+      "candidate": "SUPPORT_CAPPED",
+      "segment_type": "FAMILY",
+      "segment": "PATINS",
+      "rows": 3,
+      "recall_at_3": 1.0,
+      "recall_at_5": 1.0,
+      "mrr": 0.66666667,
+      "priority_family": false
+    },
+    {
+      "candidate": "SUPPORT_CAPPED",
+      "segment_type": "FAMILY",
+      "segment": "PEGADOR",
+      "rows": 4,
+      "recall_at_3": 0.75,
+      "recall_at_5": 0.75,
+      "mrr": 0.75088028,
+      "priority_family": false
+    },
+    {
+      "candidate": "SUPPORT_CAPPED",
+      "segment_type": "FAMILY",
+      "segment": "PERSIANA",
+      "rows": 2,
+      "recall_at_3": 1.0,
+      "recall_at_5": 1.0,
+      "mrr": 1.0,
+      "priority_family": false
+    },
+    {
+      "candidate": "SUPPORT_CAPPED",
+      "segment_type": "FAMILY",
+      "segment": "PINCA",
+      "rows": 13,
+      "recall_at_3": 1.0,
+      "recall_at_5": 1.0,
+      "mrr": 0.96153846,
+      "priority_family": false
+    },
+    {
+      "candidate": "SUPPORT_CAPPED",
+      "segment_type": "FAMILY",
+      "segment": "PNEUMATICO",
+      "rows": 2,
+      "recall_at_3": 0.5,
+      "recall_at_5": 0.5,
+      "mrr": 0.2,
+      "priority_family": false
+    },
+    {
+      "candidate": "SUPPORT_CAPPED",
+      "segment_type": "FAMILY",
+      "segment": "PRESSOSTATO",
+      "rows": 1,
+      "recall_at_3": 1.0,
+      "recall_at_5": 1.0,
+      "mrr": 1.0,
+      "priority_family": false
+    },
+    {
+      "candidate": "SUPPORT_CAPPED",
+      "segment_type": "FAMILY",
+      "segment": "PROCESSO",
+      "rows": 3,
+      "recall_at_3": 1.0,
+      "recall_at_5": 1.0,
+      "mrr": 1.0,
+      "priority_family": false
+    },
+    {
+      "candidate": "SUPPORT_CAPPED",
+      "segment_type": "FAMILY",
+      "segment": "RECRAVACAO",
+      "rows": 7,
+      "recall_at_3": 1.0,
+      "recall_at_5": 1.0,
+      "mrr": 1.0,
+      "priority_family": false
+    },
+    {
+      "candidate": "SUPPORT_CAPPED",
+      "segment_type": "FAMILY",
+      "segment": "REDUTOR",
+      "rows": 1,
+      "recall_at_3": 1.0,
+      "recall_at_5": 1.0,
+      "mrr": 1.0,
+      "priority_family": false
+    },
+    {
+      "candidate": "SUPPORT_CAPPED",
+      "segment_type": "FAMILY",
+      "segment": "REJEICAO",
+      "rows": 14,
+      "recall_at_3": 1.0,
+      "recall_at_5": 1.0,
+      "mrr": 0.86904762,
+      "priority_family": false
+    },
+    {
+      "candidate": "SUPPORT_CAPPED",
+      "segment_type": "FAMILY",
+      "segment": "ROBO",
+      "rows": 9,
+      "recall_at_3": 1.0,
+      "recall_at_5": 1.0,
+      "mrr": 0.77777778,
+      "priority_family": false
+    },
+    {
+      "candidate": "SUPPORT_CAPPED",
+      "segment_type": "FAMILY",
+      "segment": "ROLAMENTO",
+      "rows": 2,
+      "recall_at_3": 1.0,
+      "recall_at_5": 1.0,
+      "mrr": 1.0,
+      "priority_family": false
+    },
+    {
+      "candidate": "SUPPORT_CAPPED",
+      "segment_type": "FAMILY",
+      "segment": "ROLETE",
+      "rows": 8,
+      "recall_at_3": 1.0,
+      "recall_at_5": 1.0,
+      "mrr": 0.9375,
+      "priority_family": false
+    },
+    {
+      "candidate": "SUPPORT_CAPPED",
+      "segment_type": "FAMILY",
+      "segment": "ROTULO",
+      "rows": 6,
+      "recall_at_3": 1.0,
+      "recall_at_5": 1.0,
+      "mrr": 0.91666667,
+      "priority_family": false
+    },
+    {
+      "candidate": "SUPPORT_CAPPED",
+      "segment_type": "FAMILY",
+      "segment": "SEGMENTO",
+      "rows": 6,
+      "recall_at_3": 0.83333333,
+      "recall_at_5": 0.83333333,
+      "mrr": 0.83419244,
+      "priority_family": false
+    },
+    {
+      "candidate": "SUPPORT_CAPPED",
+      "segment_type": "FAMILY",
+      "segment": "SEGURANCA",
+      "rows": 2,
+      "recall_at_3": 1.0,
+      "recall_at_5": 1.0,
+      "mrr": 0.75,
+      "priority_family": false
+    },
+    {
+      "candidate": "SUPPORT_CAPPED",
+      "segment_type": "FAMILY",
+      "segment": "SENSOR",
+      "rows": 56,
+      "recall_at_3": 0.98214286,
+      "recall_at_5": 0.98214286,
+      "mrr": 0.97420635,
+      "priority_family": false
+    },
+    {
+      "candidate": "SUPPORT_CAPPED",
+      "segment_type": "FAMILY",
+      "segment": "SERVO_MOTOR",
+      "rows": 4,
+      "recall_at_3": 1.0,
+      "recall_at_5": 1.0,
+      "mrr": 1.0,
+      "priority_family": false
+    },
+    {
+      "candidate": "SUPPORT_CAPPED",
+      "segment_type": "FAMILY",
+      "segment": "SINCRONISMO",
+      "rows": 8,
+      "recall_at_3": 0.875,
+      "recall_at_5": 0.875,
+      "mrr": 0.79761905,
+      "priority_family": false
+    },
+    {
+      "candidate": "SUPPORT_CAPPED",
+      "segment_type": "FAMILY",
+      "segment": "STOPPER",
+      "rows": 3,
+      "recall_at_3": 1.0,
+      "recall_at_5": 1.0,
+      "mrr": 1.0,
+      "priority_family": false
+    },
+    {
+      "candidate": "SUPPORT_CAPPED",
+      "segment_type": "FAMILY",
+      "segment": "SUPORTE",
+      "rows": 1,
+      "recall_at_3": 1.0,
+      "recall_at_5": 1.0,
+      "mrr": 1.0,
+      "priority_family": false
+    },
+    {
+      "candidate": "SUPPORT_CAPPED",
+      "segment_type": "FAMILY",
+      "segment": "TAMPA",
+      "rows": 16,
+      "recall_at_3": 1.0,
+      "recall_at_5": 1.0,
+      "mrr": 0.96875,
+      "priority_family": false
+    },
+    {
+      "candidate": "SUPPORT_CAPPED",
+      "segment_type": "FAMILY",
+      "segment": "TEMPERATURA",
+      "rows": 6,
+      "recall_at_3": 0.83333333,
+      "recall_at_5": 1.0,
+      "mrr": 0.875,
+      "priority_family": false
+    },
+    {
+      "candidate": "SUPPORT_CAPPED",
+      "segment_type": "FAMILY",
+      "segment": "TRANSPORTE",
+      "rows": 14,
+      "recall_at_3": 0.85714286,
+      "recall_at_5": 0.85714286,
+      "mrr": 0.75035813,
+      "priority_family": true
+    },
+    {
+      "candidate": "SUPPORT_CAPPED",
+      "segment_type": "FAMILY",
+      "segment": "TUBULACAO",
+      "rows": 4,
+      "recall_at_3": 1.0,
+      "recall_at_5": 1.0,
+      "mrr": 1.0,
+      "priority_family": false
+    },
+    {
+      "candidate": "SUPPORT_CAPPED",
+      "segment_type": "FAMILY",
+      "segment": "VALVULA",
+      "rows": 45,
+      "recall_at_3": 0.97777778,
+      "recall_at_5": 0.97777778,
+      "mrr": 0.84828365,
+      "priority_family": true
+    },
+    {
+      "candidate": "SUPPORT_CAPPED",
+      "segment_type": "FAMILY",
+      "segment": "VENTOSA",
+      "rows": 3,
+      "recall_at_3": 1.0,
+      "recall_at_5": 1.0,
+      "mrr": 0.83333333,
+      "priority_family": false
+    },
+    {
+      "candidate": "SUPPORT_CAPPED",
+      "segment_type": "FAMILY",
+      "segment": "VIBRADOR",
+      "rows": 1,
+      "recall_at_3": 1.0,
+      "recall_at_5": 1.0,
+      "mrr": 1.0,
+      "priority_family": false
+    }
+  ],
+  "validation_known_vs_other_unknown": [
+    {
+      "candidate": "SUPPORT_CAPPED",
+      "segment_type": "KNOWN_VS_OTHER_UNKNOWN",
+      "segment": "KNOWN",
+      "rows": 589,
+      "recall_at_3": 0.9286927,
+      "recall_at_5": 0.93887946,
+      "mrr": 0.84891064,
+      "priority_family": false
+    },
+    {
+      "candidate": "SUPPORT_CAPPED",
+      "segment_type": "KNOWN_VS_OTHER_UNKNOWN",
+      "segment": "OTHER_UNKNOWN",
+      "rows": 96,
+      "recall_at_3": 0.72916667,
+      "recall_at_5": 0.79166667,
+      "mrr": 0.63435236,
+      "priority_family": true
+    }
+  ],
+  "final_test": {
+    "top1": 0.74498567,
+    "top2": 0.86246418,
+    "top3": 0.90401146,
+    "top5": 0.92550143,
+    "top10": 0.94412607,
+    "mrr": 0.82620833,
+    "flat_top3": 0.88108883,
+    "brought_into_top3": 24,
+    "expelled_from_top3": 8,
+    "net_top3_gain": 16,
+    "test_rows": 698
+  },
+  "target_top3_gt_90": "PASS",
+  "protocol_integrity": {
+    "test_used_for_selection": false,
+    "test_materialized_after_winner_lock": true,
+    "test_evaluations": 1,
+    "candidate_selection_splits": [
+      "TRAIN",
+      "VALIDATION"
+    ],
+    "oof_audit": {
+      "folds": 5,
+      "train_rows": 3072,
+      "evaluated_oof_rows": 3072,
+      "candidate_rows": 30720,
+      "positive_candidate_rows": 2597,
+      "grouping": "deterministic_hash_by_observation_norm",
+      "self_row_excluded": true,
+      "validation_or_test_used": false
+    },
+    "zero_train_validation_group_leakage": true,
+    "model_locked_before_test": true,
+    "model_sha256_before_test": "58f4010bae724e29b7eae34b0bd370b608db3f706f5b7fe9e8a501eb3664b85b",
+    "model_sha256_after_test": "58f4010bae724e29b7eae34b0bd370b608db3f706f5b7fe9e8a501eb3664b85b",
+    "lock_config_sha256_before_test": "fd20bc5ed7e8fb8842b31d7393230c9ba7955ee85c5d88e674553e238f95852e",
+    "lock_config_sha256_after_test": "fd20bc5ed7e8fb8842b31d7393230c9ba7955ee85c5d88e674553e238f95852e",
+    "protected_hashes_before": {
+      "C:\\Users\\arthu\\Coca\\Coca-Cola-Easy-Maintenance\\ml\\data\\human\\marilia\\prepared\\marilia_human_v2_canonical.csv": "9ad6fe9c03fc77bf6096efff7aaae6512455469c321a0b83ae4e33962dfe44bc",
+      "C:\\Users\\arthu\\Coca\\Coca-Cola-Easy-Maintenance\\ml\\data\\human\\marilia\\taxonomy\\canonical_taxonomy_v2.csv": "b8d2ede739e5d44059d1a930c1b8232fd35b9976d489317ce56fb375f7ae2695",
+      "C:\\Users\\arthu\\Coca\\Coca-Cola-Easy-Maintenance\\ml\\models\\failure_classifier_marilia_v1_5_candidate_eval.joblib": "3bcdd63139a3ddefb1b3b328c2ac135f97bb1547664a940603aade586380b413",
+      "C:\\Users\\arthu\\Coca\\Coca-Cola-Easy-Maintenance\\ml\\taxonomy\\canonical_failure_modes.csv": "3684220f4e21ed20ab4edeb7d5d510f087af379ffda85e5e8d358a4c801eb92b",
+      "C:\\Users\\arthu\\Coca\\Coca-Cola-Easy-Maintenance\\ml\\taxonomy\\failure_mode_aliases.csv": "3707c5be226505ed85c5af46485a24d85578d63d839c290bbd8c2f328307b18c",
+      "C:\\Users\\arthu\\Coca\\Coca-Cola-Easy-Maintenance\\ml\\taxonomy\\taxonomy_review_decisions.csv": "b11515142c3b3fc7deca02f2b27b4efb6ced47085936839b9b4d63b093355956",
+      "C:\\Users\\arthu\\Coca\\Coca-Cola-Easy-Maintenance\\ml\\models\\failure_classifier_real_v1_2_eval.joblib": "34189a2b5a7bf99f441262b46805f89e84ae49ba252b55fe069e07adc5b0e829",
+      "C:\\Users\\arthu\\Coca\\Coca-Cola-Easy-Maintenance\\ml\\models\\failure_classifier_marilia_v1_3_candidate.joblib": "eca38bc48e55a9b2c0ae46883fa272c66c711fd49f544c849fe9c689d469bb52",
+      "C:\\Users\\arthu\\Coca\\Coca-Cola-Easy-Maintenance\\ml\\models\\failure_classifier_marilia_v1_3_candidate_eval.joblib": "b8efd62fd534bdb8a7bcc13effc019c27aa8933e58305e4a4ea3e76ddb3323ad",
+      "C:\\Users\\arthu\\Coca\\Coca-Cola-Easy-Maintenance\\ml\\models\\failure_classifier_marilia_v1_4_candidate.joblib": "411df64f97e4da000071006a77013245a77680f54e7cdf7d5218cee79e22bd17",
+      "C:\\Users\\arthu\\Coca\\Coca-Cola-Easy-Maintenance\\ml\\models\\failure_classifier_marilia_v1_4_candidate_eval.joblib": "dc177ec8c82019bde442d09b458a0075446e367bdece3e90ee9bfd142cf8f307",
+      "C:\\Users\\arthu\\Coca\\Coca-Cola-Easy-Maintenance\\ml\\models\\failure_classifier_marilia_v1_5_candidate.joblib": "471e78f81124969c22e86ac6c6edf8fa7b71164e7b0bc51bcba5dcc26d91f11b"
+    },
+    "protected_hashes_after": {
+      "C:\\Users\\arthu\\Coca\\Coca-Cola-Easy-Maintenance\\ml\\data\\human\\marilia\\prepared\\marilia_human_v2_canonical.csv": "9ad6fe9c03fc77bf6096efff7aaae6512455469c321a0b83ae4e33962dfe44bc",
+      "C:\\Users\\arthu\\Coca\\Coca-Cola-Easy-Maintenance\\ml\\data\\human\\marilia\\taxonomy\\canonical_taxonomy_v2.csv": "b8d2ede739e5d44059d1a930c1b8232fd35b9976d489317ce56fb375f7ae2695",
+      "C:\\Users\\arthu\\Coca\\Coca-Cola-Easy-Maintenance\\ml\\models\\failure_classifier_marilia_v1_5_candidate_eval.joblib": "3bcdd63139a3ddefb1b3b328c2ac135f97bb1547664a940603aade586380b413",
+      "C:\\Users\\arthu\\Coca\\Coca-Cola-Easy-Maintenance\\ml\\taxonomy\\canonical_failure_modes.csv": "3684220f4e21ed20ab4edeb7d5d510f087af379ffda85e5e8d358a4c801eb92b",
+      "C:\\Users\\arthu\\Coca\\Coca-Cola-Easy-Maintenance\\ml\\taxonomy\\failure_mode_aliases.csv": "3707c5be226505ed85c5af46485a24d85578d63d839c290bbd8c2f328307b18c",
+      "C:\\Users\\arthu\\Coca\\Coca-Cola-Easy-Maintenance\\ml\\taxonomy\\taxonomy_review_decisions.csv": "b11515142c3b3fc7deca02f2b27b4efb6ced47085936839b9b4d63b093355956",
+      "C:\\Users\\arthu\\Coca\\Coca-Cola-Easy-Maintenance\\ml\\models\\failure_classifier_real_v1_2_eval.joblib": "34189a2b5a7bf99f441262b46805f89e84ae49ba252b55fe069e07adc5b0e829",
+      "C:\\Users\\arthu\\Coca\\Coca-Cola-Easy-Maintenance\\ml\\models\\failure_classifier_marilia_v1_3_candidate.joblib": "eca38bc48e55a9b2c0ae46883fa272c66c711fd49f544c849fe9c689d469bb52",
+      "C:\\Users\\arthu\\Coca\\Coca-Cola-Easy-Maintenance\\ml\\models\\failure_classifier_marilia_v1_3_candidate_eval.joblib": "b8efd62fd534bdb8a7bcc13effc019c27aa8933e58305e4a4ea3e76ddb3323ad",
+      "C:\\Users\\arthu\\Coca\\Coca-Cola-Easy-Maintenance\\ml\\models\\failure_classifier_marilia_v1_4_candidate.joblib": "411df64f97e4da000071006a77013245a77680f54e7cdf7d5218cee79e22bd17",
+      "C:\\Users\\arthu\\Coca\\Coca-Cola-Easy-Maintenance\\ml\\models\\failure_classifier_marilia_v1_4_candidate_eval.joblib": "dc177ec8c82019bde442d09b458a0075446e367bdece3e90ee9bfd142cf8f307",
+      "C:\\Users\\arthu\\Coca\\Coca-Cola-Easy-Maintenance\\ml\\models\\failure_classifier_marilia_v1_5_candidate.joblib": "471e78f81124969c22e86ac6c6edf8fa7b71164e7b0bc51bcba5dcc26d91f11b"
+    },
+    "protected_files_unchanged": true,
+    "protocol_events": [
+      "DEVELOPMENT_SPLITS_MATERIALIZED_WITHOUT_TEST",
+      "OOF_TRAIN_ONLY_FEATURES_BUILT",
+      "EXPERIMENTAL_RANKERS_TRAINED_FROM_OOF_TRAIN_ONLY",
+      "VALIDATION_CANDIDATES_EVALUATED",
+      "WINNER_SELECTED_ON_VALIDATION_ONLY",
+      "VALIDATION_ABLATIONS_COMPLETED",
+      "WINNER_CONFIG_AND_MODEL_LOCKED_BEFORE_TEST",
+      "TEST_MATERIALIZED_AFTER_LOCK",
+      "TEST_EVALUATED_EXACTLY_ONCE"
+    ],
+    "no_production_activation": true,
+    "existing_joblibs_overwritten": false
+  },
+  "artifacts": {
+    "experimental_model": "C:\\Users\\arthu\\Coca\\Coca-Cola-Easy-Maintenance\\ml\\models\\ursus_reranker_v16_experimental_locked.joblib",
+    "locked_config": "C:\\Users\\arthu\\Coca\\Coca-Cola-Easy-Maintenance\\ml\\reports\\ursus_reranker_v16_locked_config.json",
+    "reports": [
+      "ursus_reranker_v16_validation_candidates.csv",
+      "ursus_reranker_v16_ablation.csv",
+      "ursus_reranker_v16_movements.csv",
+      "ursus_reranker_v16_segments.csv",
+      "ursus_reranker_v16_validation_summary.json",
+      "ursus_reranker_v16_validation_summary.md"
+    ]
+  }
+}

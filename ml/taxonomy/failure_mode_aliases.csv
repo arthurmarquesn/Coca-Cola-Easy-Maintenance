@@ -1,0 +1,17 @@
+﻿alias,canonical_id,reason,approved_by,approved_at,taxonomy_version
+ALIMENTACAO TAMPAS FALHA,FM000082,Same mechanism and object; only word order and prepositions differ. TRAIN observation centroid cosine=0.1894,legacy_safe_mapping_v2,,canonical-taxonomy-v3-candidate
+DEFORMACAO DO CABECOTE,FM000018,Only the article/preposition differs. TRAIN observation centroid cosine=0.0859,legacy_safe_mapping_v2,,canonical-taxonomy-v3-candidate
+DESALINHAMENTO DO CENTRADOR,FM000029,Only the article/preposition differs. TRAIN observation centroid cosine=0.0888,legacy_safe_mapping_v2,,canonical-taxonomy-v3-candidate
+DESARME TRANSPORTE,FM000046,Only a preposition is omitted. TRAIN observation centroid cosine=0.1047,legacy_safe_mapping_v2,,canonical-taxonomy-v3-candidate
+ENRROSCO DE GARRAFA,FM000056,Clear spelling error plus singular/plural variation of the same event. TRAIN observation centroid cosine=0.1708,legacy_safe_mapping_v2,,canonical-taxonomy-v3-candidate
+ESPUMAMENTO DA BEBIDA,FM000068,Only the article/preposition differs. TRAIN observation centroid cosine=0.3012,legacy_safe_mapping_v2,,canonical-taxonomy-v3-candidate
+FALHA DA PINCA,FM000194,Only the article/preposition differs. TRAIN observation centroid cosine=0.2270,legacy_safe_mapping_v2,,canonical-taxonomy-v3-candidate
+FALHA DE BOTAO DE RESET,FM000299,Same button and reset failure; only function words differ. TRAIN observation centroid cosine=0.1702,legacy_safe_mapping_v2,,canonical-taxonomy-v3-candidate
+FALHA INVERSOR,FM000167,Only a preposition is omitted. TRAIN observation centroid cosine=0.3958,legacy_safe_mapping_v2,,canonical-taxonomy-v3-candidate
+FALHA NA FORMACAO DE CAMADA,FM000160,Only the preposition differs. TRAIN observation centroid cosine=0.3413,legacy_safe_mapping_v2,,canonical-taxonomy-v3-candidate
+FALHA NA VALVULA,FM000257,Same generic valve failure; only the preposition differs. TRAIN observation centroid cosine=0.2698,legacy_safe_mapping_v2,,canonical-taxonomy-v3-candidate
+FALHA NO TROCADOR DE CALOR,FM000318,Same heat-exchanger failure; only function words differ. TRAIN observation centroid cosine=0.5323,legacy_safe_mapping_v2,,canonical-taxonomy-v3-candidate
+FALHA VALVULA DE ENCHIMENTO,FM000259,Only a preposition is omitted. TRAIN observation centroid cosine=0.0524,legacy_safe_mapping_v2,,canonical-taxonomy-v3-candidate
+QUEBRA DA ESTEIRA,FM000351,Same break mechanism and conveyor component. TRAIN observation centroid cosine=0.3595,legacy_safe_mapping_v2,,canonical-taxonomy-v3-candidate
+ROBO COM FALHA,FM000221,Same generic robot failure with inverted word order. TRAIN observation centroid cosine=0.1909,legacy_safe_mapping_v2,,canonical-taxonomy-v3-candidate
+TRAVAMENTO ELEVADOR,FM000390,Only a preposition is omitted. TRAIN observation centroid cosine=0.0816,legacy_safe_mapping_v2,,canonical-taxonomy-v3-candidate

@@ -1,0 +1,1007 @@
+{
+  "model_version": "failure_classifier_marilia_v1_5_candidate",
+  "dataset_version": "marilia-human-v1-canonical-taxonomy-v2",
+  "evaluation_integrity": {
+    "split_preserved_from_v1_3": true,
+    "split_rows": {
+      "TRAIN": 3072,
+      "VALIDATION": 685,
+      "TEST": 698
+    },
+    "zero_group_leakage": true,
+    "winner_selected_on": "VALIDATION",
+    "test_used_for_selection_or_tuning": false,
+    "test_evaluations": 2,
+    "test_evaluation_retry_reason": "The frozen evaluation was repeated unchanged after a reporting-only sparse-matrix scalar conversion failed downstream; TEST did not influence selection, parameters, taxonomy, or threshold.",
+    "reranker_training": {
+      "folds": 5,
+      "train_rows": 3072,
+      "evaluated_oof_rows": 3072,
+      "candidate_rows": 30720,
+      "positive_candidate_rows": 2597,
+      "grouping": "deterministic_hash_by_observation_norm",
+      "self_row_excluded": true,
+      "validation_or_test_used": false
+    }
+  },
+  "taxonomy": {
+    "classes": 421,
+    "singletons": 147,
+    "classes_le_3": 244,
+    "classes_le_5": 283,
+    "classes_le_10": 331,
+    "mean_support": 10.581948,
+    "median_support": 2.0
+  },
+  "winner": {
+    "architecture": "v1.5_reranker_oof_top10_c0.1",
+    "validation_accuracy": 0.74160584,
+    "validation_macro_f1": 0.56956952,
+    "validation_weighted_f1": 0.71204861,
+    "validation_top3_accuracy": 0.89781022,
+    "validation_top5_accuracy": 0.91824818,
+    "validation_hc_97_precision": 0.97115385,
+    "validation_hc_97_coverage": 0.15182482,
+    "validation_hc_97_rows": 104,
+    "validation_review_rows": 581,
+    "validation_review_top3_accuracy": 0.88296041,
+    "validation_review_top5_accuracy": 0.9070568,
+    "complexity_rank": 3,
+    "parameters": {
+      "base": "v1.5_flat_canonical",
+      "candidate_n": 10,
+      "ranker": "LogisticRegression",
+      "C": 0.1,
+      "class_weight": "balanced",
+      "features": [
+        "flat_score",
+        "normalized_flat_score",
+        "family_score",
+        "centroid_similarity",
+        "max_neighbor_similarity",
+        "mean_top3_neighbor_similarity",
+        "log_class_support",
+        "top1_gap",
+        "token_overlap",
+        "root_overlap",
+        "char_overlap",
+        "label_cosine",
+        "component_present",
+        "mechanism_present"
+      ],
+      "training": "5_fold_OOF_TRAIN_only"
+    }
+  },
+  "validation": {
+    "accuracy": 0.74160584,
+    "macro_f1": 0.56956952,
+    "weighted_f1": 0.71204861,
+    "top3_accuracy": 0.89781022,
+    "top5_accuracy": 0.91824818
+  },
+  "thresholds_selected_on_validation": {
+    "90": {
+      "threshold": 0.4529864,
+      "selected": 368,
+      "total": 685,
+      "coverage": 0.53722628,
+      "precision": 0.90217391
+    },
+    "95": {
+      "threshold": 0.60083721,
+      "selected": 241,
+      "total": 685,
+      "coverage": 0.35182482,
+      "precision": 0.95020747
+    },
+    "97": {
+      "threshold": 0.75496555,
+      "selected": 104,
+      "total": 685,
+      "coverage": 0.15182482,
+      "precision": 0.97115385
+    },
+    "99": null
+  },
+  "operational_threshold_target": "97",
+  "operational_threshold_validation": {
+    "threshold": 0.75496555,
+    "selected": 104,
+    "total": 685,
+    "coverage": 0.15182482,
+    "precision": 0.97115385
+  },
+  "test": {
+    "accuracy": 0.75501433,
+    "macro_f1": 0.54527921,
+    "weighted_f1": 0.72364177,
+    "top3_accuracy": 0.89971347,
+    "top5_accuracy": 0.92550143
+  },
+  "thresholds_applied_to_test": {
+    "90": {
+      "threshold": 0.4529864,
+      "automated": 366,
+      "review": 332,
+      "total": 698,
+      "coverage": 0.5243553,
+      "correct": 340,
+      "precision": 0.92896175,
+      "blocked_by_guardrail": 12
+    },
+    "95": {
+      "threshold": 0.60083721,
+      "automated": 244,
+      "review": 454,
+      "total": 698,
+      "coverage": 0.3495702,
+      "correct": 230,
+      "precision": 0.94262295,
+      "blocked_by_guardrail": 12
+    },
+    "97": {
+      "threshold": 0.75496555,
+      "automated": 88,
+      "review": 610,
+      "total": 698,
+      "coverage": 0.1260745,
+      "correct": 88,
+      "precision": 1.0,
+      "blocked_by_guardrail": 12
+    },
+    "99": null
+  },
+  "high_confidence_test": {
+    "threshold": 0.75496555,
+    "automated": 88,
+    "review": 610,
+    "total": 698,
+    "coverage": 0.1260745,
+    "correct": 88,
+    "precision": 1.0,
+    "blocked_by_guardrail": 12
+  },
+  "review_assistance_test": {
+    "automated_rows": 88,
+    "auto_precision": 1.0,
+    "auto_coverage": 0.1260745,
+    "review_rows": 610,
+    "review_top3_accuracy": 0.8852459,
+    "review_top5_accuracy": 0.9147541,
+    "guardrail_blocked_rows": 12
+  },
+  "top_20_confusions": [
+    {
+      "expected": "ENROSCO DE ROTULOS",
+      "predicted": "FALHA DE ROTULAGEM",
+      "count": 3,
+      "expected_support": 10,
+      "predicted_support": 12,
+      "family_expected": "ROTULO",
+      "family_predicted": "ROTULO"
+    },
+    {
+      "expected": "FALHA DE ACUMULO NO TRANSPORTE",
+      "predicted": "FALHA DE SINCRONISMO",
+      "count": 3,
+      "expected_support": 8,
+      "predicted_support": 40,
+      "family_expected": "TRANSPORTE",
+      "family_predicted": "SINCRONISMO"
+    },
+    {
+      "expected": "SEM MODO DE FALHA IDENTIFICADO",
+      "predicted": "FALHA DE ENVOLVIMENTO",
+      "count": 3,
+      "expected_support": 69,
+      "predicted_support": 50,
+      "family_expected": "OTHER_UNKNOWN",
+      "family_predicted": "ENVOLVIMENTO"
+    },
+    {
+      "expected": "ENROSCO DE LATAS",
+      "predicted": "DESARME DE EQUIPAMENTO",
+      "count": 2,
+      "expected_support": 18,
+      "predicted_support": 2,
+      "family_expected": "LATA",
+      "family_predicted": "OTHER_UNKNOWN"
+    },
+    {
+      "expected": "ESCAPE DE ESTEIRA",
+      "predicted": "FALHA DE ESTEIRA",
+      "count": 2,
+      "expected_support": 73,
+      "predicted_support": 26,
+      "family_expected": "ESTEIRA",
+      "family_predicted": "ESTEIRA"
+    },
+    {
+      "expected": "FALHA DE ALIMENTACAO DE TAMPAS",
+      "predicted": "FALHA DE VIBRADOR",
+      "count": 2,
+      "expected_support": 16,
+      "predicted_support": 7,
+      "family_expected": "TAMPA",
+      "family_predicted": "VIBRADOR"
+    },
+    {
+      "expected": "FALHA DE COMUNICACAO",
+      "predicted": "QUEIMA DA PLACA DEVICENET",
+      "count": 2,
+      "expected_support": 52,
+      "predicted_support": 1,
+      "family_expected": "COMUNICACAO",
+      "family_predicted": "COMUNICACAO"
+    },
+    {
+      "expected": "FALHA DE ELO DE ESTEIRA",
+      "predicted": "QUEBRA DE ESTEIRA",
+      "count": 2,
+      "expected_support": 6,
+      "predicted_support": 63,
+      "family_expected": "ESTEIRA",
+      "family_predicted": "ESTEIRA"
+    },
+    {
+      "expected": "FALHA DE FILTRO",
+      "predicted": "FALHA DE VEDACAO DA VALVULA",
+      "count": 2,
+      "expected_support": 1,
+      "predicted_support": 4,
+      "family_expected": "FILTRO",
+      "family_predicted": "VALVULA"
+    },
+    {
+      "expected": "FALHA DE INSPECAO",
+      "predicted": "ENROSCO DE LATAS",
+      "count": 2,
+      "expected_support": 71,
+      "predicted_support": 18,
+      "family_expected": "INSPECAO",
+      "family_predicted": "LATA"
+    },
+    {
+      "expected": "FALHA DE INSPECAO",
+      "predicted": "FALHA DE SENSOR",
+      "count": 2,
+      "expected_support": 71,
+      "predicted_support": 283,
+      "family_expected": "INSPECAO",
+      "family_predicted": "SENSOR"
+    },
+    {
+      "expected": "FALHA DE ROTULAGEM",
+      "predicted": "ENROSCO DE ROTULOS",
+      "count": 2,
+      "expected_support": 12,
+      "predicted_support": 10,
+      "family_expected": "ROTULO",
+      "family_predicted": "ROTULO"
+    },
+    {
+      "expected": "FALHA DE TRACAO GUIAMENTO DE FILME",
+      "predicted": "ROMPIMENTO DE FILME",
+      "count": 2,
+      "expected_support": 10,
+      "predicted_support": 19,
+      "family_expected": "FILME",
+      "family_predicted": "FILME"
+    },
+    {
+      "expected": "FALHA ELETRONICA DA VALVULA",
+      "predicted": "FALHA DE VALVULA",
+      "count": 2,
+      "expected_support": 1,
+      "predicted_support": 40,
+      "family_expected": "VALVULA",
+      "family_predicted": "VALVULA"
+    },
+    {
+      "expected": "FALHA NA TROCA DE PALETE DE CARTAO",
+      "predicted": "FALHA NA TROCA DE PALETE DE FOLHA SEPARADORA",
+      "count": 2,
+      "expected_support": 14,
+      "predicted_support": 4,
+      "family_expected": "CARTAO",
+      "family_predicted": "PALETE"
+    },
+    {
+      "expected": "PATINS FORA DE POSICAO",
+      "predicted": "QUEDA DE PACOTES",
+      "count": 2,
+      "expected_support": 6,
+      "predicted_support": 2,
+      "family_expected": "PATINS",
+      "family_predicted": "PACOTE"
+    },
+    {
+      "expected": "QUEBRA DE COMPONENTE",
+      "predicted": "FALHA DE SENSOR",
+      "count": 2,
+      "expected_support": 18,
+      "predicted_support": 283,
+      "family_expected": "OTHER_UNKNOWN",
+      "family_predicted": "SENSOR"
+    },
+    {
+      "expected": "QUEDA DE LATAS",
+      "predicted": "FALHA DE GUIA",
+      "count": 2,
+      "expected_support": 22,
+      "predicted_support": 13,
+      "family_expected": "LATA",
+      "family_predicted": "GUIA"
+    },
+    {
+      "expected": "QUEDA DE LATAS",
+      "predicted": "ROMPIMENTO DE FILME",
+      "count": 2,
+      "expected_support": 22,
+      "predicted_support": 19,
+      "family_expected": "LATA",
+      "family_predicted": "FILME"
+    },
+    {
+      "expected": "TRAVAMENTO DE ROBO",
+      "predicted": "FALHA DE ROBO",
+      "count": 2,
+      "expected_support": 7,
+      "predicted_support": 23,
+      "family_expected": "ROBO",
+      "family_predicted": "ROBO"
+    }
+  ],
+  "rarity_analysis": [
+    {
+      "segment": "1",
+      "rows": 57,
+      "classes": 53,
+      "accuracy": 0.38596491228070173,
+      "macro_f1": 0.2489451476793249
+    },
+    {
+      "segment": "2-3",
+      "rows": 39,
+      "classes": 31,
+      "accuracy": 0.6923076923076923,
+      "macro_f1": 0.4523809523809524
+    },
+    {
+      "segment": "4-5",
+      "rows": 21,
+      "classes": 20,
+      "accuracy": 0.7619047619047619,
+      "macro_f1": 0.6
+    },
+    {
+      "segment": "6-10",
+      "rows": 89,
+      "classes": 49,
+      "accuracy": 0.550561797752809,
+      "macro_f1": 0.39391171993911717
+    },
+    {
+      "segment": "11-20",
+      "rows": 106,
+      "classes": 31,
+      "accuracy": 0.7358490566037735,
+      "macro_f1": 0.5003512181815082
+    },
+    {
+      "segment": ">20",
+      "rows": 386,
+      "classes": 33,
+      "accuracy": 0.8678756476683938,
+      "macro_f1": 0.5659991292659257
+    }
+  ],
+  "family_analysis": [
+    {
+      "family": "OTHER_UNKNOWN",
+      "support": 83,
+      "classes": 53,
+      "accuracy": 0.5783132530120482,
+      "macro_f1": 0.4271235521235521
+    },
+    {
+      "family": "SENSOR",
+      "support": 58,
+      "classes": 1,
+      "accuracy": 0.9827586206896551,
+      "macro_f1": 0.4956521739130435
+    },
+    {
+      "family": "VALVULA",
+      "support": 44,
+      "classes": 10,
+      "accuracy": 0.8181818181818182,
+      "macro_f1": 0.4365754812563324
+    },
+    {
+      "family": "ESTEIRA",
+      "support": 40,
+      "classes": 8,
+      "accuracy": 0.675,
+      "macro_f1": 0.3600984764028242
+    },
+    {
+      "family": "ENCHIMENTO",
+      "support": 32,
+      "classes": 2,
+      "accuracy": 0.875,
+      "macro_f1": 0.15819209039548024
+    },
+    {
+      "family": "GARRAFA",
+      "support": 28,
+      "classes": 9,
+      "accuracy": 0.75,
+      "macro_f1": 0.45940170940170943
+    },
+    {
+      "family": "TRANSPORTE",
+      "support": 23,
+      "classes": 6,
+      "accuracy": 0.6521739130434783,
+      "macro_f1": 0.31945773524720894
+    },
+    {
+      "family": "FILME",
+      "support": 20,
+      "classes": 4,
+      "accuracy": 0.8,
+      "macro_f1": 0.4174603174603175
+    },
+    {
+      "family": "PACOTE",
+      "support": 20,
+      "classes": 7,
+      "accuracy": 0.9,
+      "macro_f1": 0.6206896551724138
+    },
+    {
+      "family": "TAMPA",
+      "support": 19,
+      "classes": 6,
+      "accuracy": 0.8421052631578947,
+      "macro_f1": 0.6833333333333333
+    },
+    {
+      "family": "INVERSOR",
+      "support": 18,
+      "classes": 1,
+      "accuracy": 1.0,
+      "macro_f1": 1.0
+    },
+    {
+      "family": "LATA",
+      "support": 17,
+      "classes": 8,
+      "accuracy": 0.23529411764705882,
+      "macro_f1": 0.1638655462184874
+    },
+    {
+      "family": "MAGAZINE",
+      "support": 17,
+      "classes": 1,
+      "accuracy": 1.0,
+      "macro_f1": 1.0
+    },
+    {
+      "family": "MOTOR",
+      "support": 14,
+      "classes": 2,
+      "accuracy": 0.9285714285714286,
+      "macro_f1": 0.9181286549707601
+    },
+    {
+      "family": "IMPRESSAO",
+      "support": 13,
+      "classes": 1,
+      "accuracy": 0.9230769230769231,
+      "macro_f1": 0.48
+    },
+    {
+      "family": "INSPECAO",
+      "support": 13,
+      "classes": 1,
+      "accuracy": 0.6153846153846154,
+      "macro_f1": 0.19047619047619047
+    },
+    {
+      "family": "REJEICAO",
+      "support": 12,
+      "classes": 2,
+      "accuracy": 0.6666666666666666,
+      "macro_f1": 0.16842105263157894
+    },
+    {
+      "family": "CAMADA",
+      "support": 11,
+      "classes": 4,
+      "accuracy": 0.6363636363636364,
+      "macro_f1": 0.34090909090909094
+    },
+    {
+      "family": "PINCA",
+      "support": 11,
+      "classes": 2,
+      "accuracy": 0.8181818181818182,
+      "macro_f1": 0.23684210526315788
+    },
+    {
+      "family": "ENVOLVIMENTO",
+      "support": 10,
+      "classes": 2,
+      "accuracy": 0.7,
+      "macro_f1": 0.3666666666666667
+    },
+    {
+      "family": "SINCRONISMO",
+      "support": 10,
+      "classes": 1,
+      "accuracy": 1.0,
+      "macro_f1": 1.0
+    },
+    {
+      "family": "CARTAO",
+      "support": 8,
+      "classes": 4,
+      "accuracy": 0.375,
+      "macro_f1": 0.20000000000000004
+    },
+    {
+      "family": "COMUNICACAO",
+      "support": 8,
+      "classes": 1,
+      "accuracy": 0.75,
+      "macro_f1": 0.42857142857142855
+    },
+    {
+      "family": "ENGRENAGEM",
+      "support": 8,
+      "classes": 3,
+      "accuracy": 0.875,
+      "macro_f1": 0.5555555555555555
+    },
+    {
+      "family": "ROLETE",
+      "support": 8,
+      "classes": 2,
+      "accuracy": 0.875,
+      "macro_f1": 0.7948717948717949
+    },
+    {
+      "family": "ROTULO",
+      "support": 8,
+      "classes": 2,
+      "accuracy": 0.25,
+      "macro_f1": 0.14814814814814814
+    },
+    {
+      "family": "SEGMENTO",
+      "support": 8,
+      "classes": 1,
+      "accuracy": 1.0,
+      "macro_f1": 1.0
+    },
+    {
+      "family": "GUIA",
+      "support": 7,
+      "classes": 4,
+      "accuracy": 0.42857142857142855,
+      "macro_f1": 0.3444444444444444
+    },
+    {
+      "family": "ROBO",
+      "support": 7,
+      "classes": 3,
+      "accuracy": 0.7142857142857143,
+      "macro_f1": 0.5833333333333334
+    },
+    {
+      "family": "CORREIA",
+      "support": 6,
+      "classes": 3,
+      "accuracy": 0.5,
+      "macro_f1": 0.3
+    },
+    {
+      "family": "MANGUEIRA",
+      "support": 6,
+      "classes": 6,
+      "accuracy": 0.3333333333333333,
+      "macro_f1": 0.1875
+    },
+    {
+      "family": "TEMPERATURA",
+      "support": 6,
+      "classes": 2,
+      "accuracy": 1.0,
+      "macro_f1": 1.0
+    },
+    {
+      "family": "ATUADOR",
+      "support": 5,
+      "classes": 3,
+      "accuracy": 0.6,
+      "macro_f1": 0.4444444444444444
+    },
+    {
+      "family": "AUTOMACAO",
+      "support": 5,
+      "classes": 2,
+      "accuracy": 0.8,
+      "macro_f1": 0.6
+    },
+    {
+      "family": "BARREIRA",
+      "support": 5,
+      "classes": 1,
+      "accuracy": 1.0,
+      "macro_f1": 1.0
+    },
+    {
+      "family": "CAIXA",
+      "support": 5,
+      "classes": 4,
+      "accuracy": 0.4,
+      "macro_f1": 0.13333333333333333
+    },
+    {
+      "family": "PALETE",
+      "support": 5,
+      "classes": 5,
+      "accuracy": 0.6,
+      "macro_f1": 0.42857142857142855
+    },
+    {
+      "family": "RECRAVACAO",
+      "support": 5,
+      "classes": 1,
+      "accuracy": 1.0,
+      "macro_f1": 1.0
+    },
+    {
+      "family": "BANDEJA",
+      "support": 4,
+      "classes": 1,
+      "accuracy": 1.0,
+      "macro_f1": 1.0
+    },
+    {
+      "family": "CORRENTE",
+      "support": 4,
+      "classes": 4,
+      "accuracy": 0.5,
+      "macro_f1": 0.3333333333333333
+    },
+    {
+      "family": "PATINS",
+      "support": 4,
+      "classes": 2,
+      "accuracy": 0.5,
+      "macro_f1": 0.3333333333333333
+    },
+    {
+      "family": "PEGADOR",
+      "support": 4,
+      "classes": 1,
+      "accuracy": 0.75,
+      "macro_f1": 0.42857142857142855
+    },
+    {
+      "family": "PROCESSO",
+      "support": 4,
+      "classes": 1,
+      "accuracy": 1.0,
+      "macro_f1": 1.0
+    },
+    {
+      "family": "SERVO_MOTOR",
+      "support": 4,
+      "classes": 1,
+      "accuracy": 1.0,
+      "macro_f1": 1.0
+    },
+    {
+      "family": "VENTOSA",
+      "support": 4,
+      "classes": 1,
+      "accuracy": 1.0,
+      "macro_f1": 1.0
+    },
+    {
+      "family": "BOMBA",
+      "support": 3,
+      "classes": 1,
+      "accuracy": 1.0,
+      "macro_f1": 1.0
+    },
+    {
+      "family": "DESCAPSULAMENTO",
+      "support": 3,
+      "classes": 1,
+      "accuracy": 1.0,
+      "macro_f1": 1.0
+    },
+    {
+      "family": "EIXO",
+      "support": 3,
+      "classes": 2,
+      "accuracy": 0.6666666666666666,
+      "macro_f1": 0.4
+    },
+    {
+      "family": "ELETRICO",
+      "support": 3,
+      "classes": 3,
+      "accuracy": 0.0,
+      "macro_f1": 0.0
+    },
+    {
+      "family": "ELEVADOR",
+      "support": 3,
+      "classes": 1,
+      "accuracy": 1.0,
+      "macro_f1": 1.0
+    },
+    {
+      "family": "IHM",
+      "support": 3,
+      "classes": 1,
+      "accuracy": 1.0,
+      "macro_f1": 1.0
+    },
+    {
+      "family": "MESA",
+      "support": 3,
+      "classes": 2,
+      "accuracy": 1.0,
+      "macro_f1": 1.0
+    },
+    {
+      "family": "SEGURANCA",
+      "support": 3,
+      "classes": 1,
+      "accuracy": 1.0,
+      "macro_f1": 1.0
+    },
+    {
+      "family": "BOBINA",
+      "support": 2,
+      "classes": 1,
+      "accuracy": 1.0,
+      "macro_f1": 1.0
+    },
+    {
+      "family": "CARBONATACAO",
+      "support": 2,
+      "classes": 1,
+      "accuracy": 0.0,
+      "macro_f1": 0.0
+    },
+    {
+      "family": "ENCODER",
+      "support": 2,
+      "classes": 1,
+      "accuracy": 1.0,
+      "macro_f1": 1.0
+    },
+    {
+      "family": "FILTRO",
+      "support": 2,
+      "classes": 1,
+      "accuracy": 0.0,
+      "macro_f1": 0.0
+    },
+    {
+      "family": "FLUXIMETRO",
+      "support": 2,
+      "classes": 1,
+      "accuracy": 1.0,
+      "macro_f1": 1.0
+    },
+    {
+      "family": "REDUTOR",
+      "support": 2,
+      "classes": 1,
+      "accuracy": 1.0,
+      "macro_f1": 1.0
+    },
+    {
+      "family": "ROLAMENTO",
+      "support": 2,
+      "classes": 1,
+      "accuracy": 0.5,
+      "macro_f1": 0.3333333333333333
+    },
+    {
+      "family": "CAMERA",
+      "support": 1,
+      "classes": 1,
+      "accuracy": 0.0,
+      "macro_f1": 0.0
+    },
+    {
+      "family": "CILINDRO",
+      "support": 1,
+      "classes": 1,
+      "accuracy": 1.0,
+      "macro_f1": 1.0
+    },
+    {
+      "family": "DOSAGEM",
+      "support": 1,
+      "classes": 1,
+      "accuracy": 1.0,
+      "macro_f1": 1.0
+    },
+    {
+      "family": "PERSIANA",
+      "support": 1,
+      "classes": 1,
+      "accuracy": 0.0,
+      "macro_f1": 0.0
+    },
+    {
+      "family": "PNEUMATICO",
+      "support": 1,
+      "classes": 1,
+      "accuracy": 1.0,
+      "macro_f1": 1.0
+    },
+    {
+      "family": "PRESSOSTATO",
+      "support": 1,
+      "classes": 1,
+      "accuracy": 1.0,
+      "macro_f1": 1.0
+    },
+    {
+      "family": "SUPORTE",
+      "support": 1,
+      "classes": 1,
+      "accuracy": 1.0,
+      "macro_f1": 1.0
+    },
+    {
+      "family": "TUBULACAO",
+      "support": 1,
+      "classes": 1,
+      "accuracy": 0.0,
+      "macro_f1": 0.0
+    },
+    {
+      "family": "VIBRADOR",
+      "support": 1,
+      "classes": 1,
+      "accuracy": 1.0,
+      "macro_f1": 1.0
+    }
+  ],
+  "ablation": [
+    {
+      "stage": "flat_baseline_v1_3_remapped",
+      "validation_accuracy": 0.7270073,
+      "validation_macro_f1": 0.53171606,
+      "validation_top3_accuracy": 0.8540146
+    },
+    {
+      "stage": "canonical_taxonomy_flat",
+      "validation_accuracy": 0.72846715,
+      "validation_macro_f1": 0.53831643,
+      "validation_top3_accuracy": 0.8540146
+    },
+    {
+      "stage": "family_soft_score",
+      "validation_accuracy": 0.73722628,
+      "validation_macro_f1": 0.5604224,
+      "validation_top3_accuracy": 0.86423358
+    },
+    {
+      "stage": "prototype_similarity",
+      "validation_accuracy": 0.72846715,
+      "validation_macro_f1": 0.54462566,
+      "validation_top3_accuracy": 0.87737226
+    },
+    {
+      "stage": "label_overlap",
+      "validation_accuracy": 0.72992701,
+      "validation_macro_f1": 0.55734281,
+      "validation_top3_accuracy": 0.8919708
+    },
+    {
+      "stage": "reranker_selected",
+      "validation_accuracy": 0.74160584,
+      "validation_macro_f1": 0.56956952,
+      "validation_top3_accuracy": 0.89781022
+    }
+  ],
+  "comparison": {
+    "v1.2_published_different_split": {
+      "accuracy": 0.696925,
+      "macro_f1": 0.517034,
+      "weighted_f1": 0.674261,
+      "top3_accuracy": 0.847731,
+      "top5_accuracy": null,
+      "high_confidence": {
+        "threshold": 0.72849883,
+        "automated": 258,
+        "review": 425,
+        "total": 683,
+        "coverage": 0.377745,
+        "precision": 0.965116
+      }
+    },
+    "v1.3_same_split_original_taxonomy": {
+      "accuracy": 0.70773639,
+      "macro_f1": 0.50923875,
+      "weighted_f1": 0.6900942,
+      "top3_accuracy": 0.87679083,
+      "top5_accuracy": 0.90830946,
+      "high_confidence": {
+        "threshold": 0.91333852,
+        "automated": 205,
+        "review": 493,
+        "total": 698,
+        "coverage": 0.29369628,
+        "correct": 199,
+        "precision": 0.97073171,
+        "blocked_by_guardrail": 14
+      }
+    },
+    "v1.4_same_split_canonical_taxonomy": {
+      "accuracy": 0.747851,
+      "macro_f1": 0.54750979,
+      "weighted_f1": 0.7252257,
+      "top3_accuracy": 0.84097421,
+      "top5_accuracy": 0.87106017,
+      "high_confidence": {
+        "threshold": 1000.7427419,
+        "automated": 66,
+        "review": 632,
+        "total": 698,
+        "coverage": 0.09455587,
+        "correct": 66,
+        "precision": 1.0,
+        "blocked_by_guardrail": 12
+      }
+    },
+    "v1.5_same_split_canonical_taxonomy": {
+      "accuracy": 0.75501433,
+      "macro_f1": 0.54527921,
+      "weighted_f1": 0.72364177,
+      "top3_accuracy": 0.89971347,
+      "top5_accuracy": 0.92550143,
+      "high_confidence": {
+        "threshold": 0.75496555,
+        "automated": 88,
+        "review": 610,
+        "total": 698,
+        "coverage": 0.1260745,
+        "correct": 88,
+        "precision": 1.0,
+        "blocked_by_guardrail": 12
+      }
+    }
+  },
+  "errors": 171,
+  "artifacts": {
+    "evaluation": "C:\\Users\\arthu\\Coca\\Coca-Cola-Easy-Maintenance\\ml\\models\\failure_classifier_marilia_v1_5_candidate_eval.joblib",
+    "operational_candidate": "C:\\Users\\arthu\\Coca\\Coca-Cola-Easy-Maintenance\\ml\\models\\failure_classifier_marilia_v1_5_candidate.joblib",
+    "operational_size_bytes": 155372944,
+    "validation": {
+      "loaded": true,
+      "prediction": "FALHA DE SENSOR",
+      "decision_shape": [
+        1,
+        421
+      ],
+      "classes": 421
+    }
+  },
+  "target_accuracy_ge_90": false,
+  "v1_5_better_than_v1_4": false
+}
