@@ -2,34 +2,8 @@
 
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
 import { FormEvent, useEffect, useState, useSyncExternalStore } from "react";
 import { preload } from "react-dom";
-=======
-=======
->>>>>>> origin/marques
-=======
->>>>>>> origin/marques
-=======
->>>>>>> origin/marques
-import {
-  FormEvent,
-  useEffect,
-  useState,
-} from "react";
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
->>>>>>> origin/marques
-=======
->>>>>>> origin/marques
-=======
->>>>>>> origin/marques
-=======
->>>>>>> origin/marques
 
 import {
   ArrowRight,
@@ -52,39 +26,10 @@ const WAVE_PATH_1 =
 const WAVE_PATH_2 =
   "M0 174 C155 240 308 116 465 157 C615 197 725 240 850 170 V270 H0 Z";
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-const LOGIN_TRANSITION_DURATION =
-  1800;
-=======
-const LOGIN_TRANSITION_DURATION =
-  1800;
-=======
-const LOGIN_TRANSITION_DURATION =
-  1800;
-=======
-const LOGIN_TRANSITION_DURATION =
-  1800;
-
-const DASHBOARD_PRODUCT_TRANSITION_KEY =
-  "play-dashboard-product-transition";
->>>>>>> origin/marques
-
-const DASHBOARD_PRODUCT_TRANSITION_KEY =
-  "play-dashboard-product-transition";
->>>>>>> origin/marques
-
-const DASHBOARD_PRODUCT_TRANSITION_KEY =
-  "play-dashboard-product-transition";
->>>>>>> origin/marques
 
 const DASHBOARD_PRODUCT_TRANSITION_KEY =
   "play-dashboard-product-transition";
 
->>>>>>> origin/marques
 interface LoginResponse {
   success: boolean;
   message?: string;
@@ -93,20 +38,12 @@ interface LoginResponse {
 const subscribeHydration = () => () => {};
 
 export default function LoginPage() {
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
   const router = useRouter();
   const startLoginTransition = useLoginTransition();
 
   preload(LOGIN_TRANSITION_BOTTLE_SRC, {
     as: "image",
   });
-=======
-  const router =
-    useRouter();
->>>>>>> origin/marques
 
   const [
     email,
@@ -114,7 +51,9 @@ export default function LoginPage() {
   ] =
     useState("");
 
-<<<<<<< HEAD
+  const [password, setPassword] = useState("");
+  const [remember, setRemember] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [isLeaving, setIsLeaving] = useState(false);
@@ -123,124 +62,6 @@ export default function LoginPage() {
   useEffect(() => {
     router.prefetch("/dashboard");
   }, [router]);
-=======
-  const [
-    password,
-    setPassword,
-  ] =
-    useState("");
-
-=======
-  const router =
-    useRouter();
-
-  const [
-    email,
-    setEmail,
-  ] =
-    useState("");
-
-  const [
-    password,
-    setPassword,
-  ] =
-    useState("");
-
->>>>>>> origin/marques
-=======
-  const router =
-    useRouter();
-
-  const [
-    email,
-    setEmail,
-  ] =
-    useState("");
-
-  const [
-    password,
-    setPassword,
-  ] =
-    useState("");
-
->>>>>>> origin/marques
-=======
-  const router =
-    useRouter();
-
-  const [
-    email,
-    setEmail,
-  ] =
-    useState("");
-
-  const [
-    password,
-    setPassword,
-  ] =
-    useState("");
-
->>>>>>> origin/marques
-  const [
-    remember,
-    setRemember,
-  ] =
-    useState(false);
-
-  const [
-    showPassword,
-    setShowPassword,
-  ] =
-    useState(false);
-
-  const [
-    loading,
-    setLoading,
-  ] =
-    useState(false);
-
-  const [
-    error,
-    setError,
-  ] =
-    useState("");
-
-  const [
-    isLeaving,
-    setIsLeaving,
-  ] =
-    useState(false);
-
-  const [
-    isHydrated,
-    setIsHydrated,
-  ] =
-    useState(false);
-
-  useEffect(
-    () => {
-      setIsHydrated(
-        true,
-      );
-
-      router.prefetch(
-        "/dashboard",
-      );
-    },
-    [
-      router,
-    ],
-  );
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
->>>>>>> origin/marques
-=======
->>>>>>> origin/marques
-=======
->>>>>>> origin/marques
-=======
->>>>>>> origin/marques
 
   async function handleSubmit(
     event:
@@ -308,19 +129,6 @@ export default function LoginPage() {
         return;
       }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-      setIsLeaving(true);
-      startLoginTransition("/dashboard");
-=======
-=======
->>>>>>> origin/marques
-=======
->>>>>>> origin/marques
-=======
->>>>>>> origin/marques
       /*
        * Marca que o próximo acesso ao dashboard
        * veio de um login bem-sucedido.
@@ -346,30 +154,7 @@ export default function LoginPage() {
         true,
       );
 
-      await new Promise<void>(
-        (
-          resolve,
-        ) => {
-          window.setTimeout(
-            resolve,
-            LOGIN_TRANSITION_DURATION,
-          );
-        },
-      );
-
-      router.replace(
-        "/dashboard",
-      );
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
->>>>>>> origin/marques
-=======
->>>>>>> origin/marques
-=======
->>>>>>> origin/marques
-=======
->>>>>>> origin/marques
+      startLoginTransition("/dashboard");
     } catch {
       setError(
         "Não foi possível conectar ao servidor.",
@@ -407,24 +192,8 @@ export default function LoginPage() {
               aria-hidden="true"
             >
               <path
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
                 d={BRAND_CURVE_PATH}
                 className="fill-background-secondary transition-colors"
-=======
-=======
->>>>>>> origin/marques
-=======
->>>>>>> origin/marques
-=======
->>>>>>> origin/marques
-                d={
-                  CURVE_PATH
-                }
-                fill="#ffffff"
->>>>>>> origin/marques
               />
             </svg>
 

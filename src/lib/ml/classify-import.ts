@@ -637,24 +637,12 @@ Promise<ClassifyImportMlResult> {
       classifierVersionFromHealth,
     );
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
 
   /*
    * Evento com classificação oficial (APROVADA/CORRIGIDA,
    * de qualquer origem) não recebe nova sugestão: ela não
    * poderia ser revisada.
    */
-=======
->>>>>>> origin/marques
-=======
->>>>>>> origin/marques
-=======
->>>>>>> origin/marques
-=======
->>>>>>> origin/marques
   const componentClassificationNeededCondition =
     canFilterByClassifierVersion
       ? `
@@ -1143,16 +1131,7 @@ Promise<ClassifyImportMlResult> {
 
       const insertConnection =
         await getConnection();
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
       let batchInserted = 0;
-=======
->>>>>>> origin/marques
-=======
->>>>>>> origin/marques
-=======
->>>>>>> origin/marques
 
       try {
         await insertConnection
@@ -1284,21 +1263,8 @@ Promise<ClassifyImportMlResult> {
                 values,
               );
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
 
           batchInserted =
-=======
-=======
->>>>>>> origin/marques
-=======
->>>>>>> origin/marques
-=======
->>>>>>> origin/marques
-          inserted +=
->>>>>>> origin/marques
             insertResult
               .affectedRows;
         }
@@ -1446,16 +1412,7 @@ Promise<ClassifyImportMlResult> {
 
         await insertConnection
           .commit();
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
         inserted += batchInserted;
-=======
->>>>>>> origin/marques
-=======
->>>>>>> origin/marques
-=======
->>>>>>> origin/marques
 
         originProcessed +=
           predictions.length;

@@ -852,6 +852,8 @@ export function ImportDataPage({
     result?.ignoredRows ??
     0;
 
+  const duplicateCount = result?.skippedDuplicateRows ?? 0;
+
   const mlEligibleCount =
     mlResult?.eligible ??
     0;
@@ -1089,11 +1091,10 @@ export function ImportDataPage({
       const controller =
         new AbortController();
 
-      void loadImports(
-        controller.signal,
-      );
+      const task = setTimeout(() => { void loadImports(controller.signal); }, 0);
 
       return () => {
+        clearTimeout(task);
         controller.abort();
       };
     },
@@ -1497,55 +1498,14 @@ export function ImportDataPage({
         setDetailLoading(
           true,
         );
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
 
         setDetailError(
           "",
         );
 
-<<<<<<< HEAD
-  const duplicateCount =
-    result?.skippedDuplicateRows ??
-    0;
-=======
->>>>>>> origin/marques
-=======
->>>>>>> origin/marques
-=======
->>>>>>> origin/marques
-
-        setDetailError(
-          "",
-        );
-
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-  const mlEligibleCount =
-    mlResult?.eligible ??
-    0;
-=======
         setDeleteConfirm(
           false,
         );
->>>>>>> origin/marques
-=======
-        setDeleteConfirm(
-          false,
-        );
->>>>>>> origin/marques
-=======
-        setDeleteConfirm(
-          false,
-        );
->>>>>>> origin/marques
-=======
-        setDeleteConfirm(
-          false,
-        );
->>>>>>> origin/marques
 
         setActionMessage(
           "",
@@ -1854,78 +1814,12 @@ export function ImportDataPage({
   ======================================================= */
 
   return (
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-    <main className="min-h-screen bg-background-primary transition-colors">
-
-=======
     <main className="min-h-screen bg-[#F7F7F6]">
->>>>>>> origin/marques
-=======
-    <main className="min-h-screen bg-[#F7F7F6]">
->>>>>>> origin/marques
-=======
-    <main className="min-h-screen bg-[#F7F7F6]">
->>>>>>> origin/marques
-=======
-    <main className="min-h-screen bg-[#F7F7F6]">
->>>>>>> origin/marques
       {/* ===================================================
           HEADER
       ==================================================== */}
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
       <AppHeader userName={user.name} city={unit.city} />
-=======
-=======
->>>>>>> origin/marques
-=======
->>>>>>> origin/marques
-=======
->>>>>>> origin/marques
-      <header className="border-b border-black/[0.05] bg-white">
-        <div className="mx-auto flex h-[76px] w-full max-w-[1380px] items-center justify-between px-6 sm:px-8 lg:px-12">
-          <Link
-            href="/dashboard"
-          >
-            <Image
-              src="/logo.webp"
-              alt="Coca-Cola FEMSA"
-              width={180}
-              height={64}
-              priority
-              className="h-auto max-h-[42px] w-auto object-contain"
-            />
-          </Link>
-
-          <div className="hidden text-right sm:block">
-            <p className="text-[13px] font-medium text-[#25272A]">
-              {user.name}
-            </p>
-
-            {unit.city && (
-              <p className="mt-0.5 text-[10px] text-[#999DA2]">
-                {unit.city}
-              </p>
-            )}
-          </div>
-        </div>
-      </header>
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
->>>>>>> origin/marques
-=======
->>>>>>> origin/marques
-=======
->>>>>>> origin/marques
-=======
->>>>>>> origin/marques
 
       {/* ===================================================
           CONTEÚDO
@@ -1943,36 +1837,6 @@ export function ImportDataPage({
           Voltar
         </Link>
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-
-        <div className="mt-10">
-
-          <h1 className="text-text-title">
-            Importar dados
-          </h1>
-
-
-          <p className="mt-4 text-[14px] leading-6 text-text-body">
-            Importe os apontamentos de manutenção.
-            Após o armazenamento, o Modelo ML analisa
-            automaticamente as ocorrências e prepara as
-            sugestões para revisão humana.
-          </p>
-
-        </div>
-
-
-=======
->>>>>>> origin/marques
-=======
->>>>>>> origin/marques
-=======
->>>>>>> origin/marques
-=======
->>>>>>> origin/marques
         {/* =================================================
             CABEÇALHO
         ================================================== */}
@@ -2008,248 +1872,34 @@ export function ImportDataPage({
                 clearFile();
               }
             }}
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-            className={`mt-10 flex min-h-[300px] cursor-pointer flex-col items-center justify-center rounded-[18px] border border-dashed px-8 text-center outline-none transition-all duration-200 ${
-              dragging
-                ? "border-[#F40009] bg-surface-elevated"
-                : "border-border-theme bg-surface-elevated hover:border-border-theme"
-            }`}
-=======
             className="inline-flex h-10 items-center justify-center gap-2 self-start rounded-[11px] bg-[#E41E2B] px-4 text-[10px] font-semibold text-white transition hover:bg-[#C91824] sm:self-auto"
->>>>>>> origin/marques
-=======
-            className="inline-flex h-10 items-center justify-center gap-2 self-start rounded-[11px] bg-[#E41E2B] px-4 text-[10px] font-semibold text-white transition hover:bg-[#C91824] sm:self-auto"
->>>>>>> origin/marques
-=======
-            className="inline-flex h-10 items-center justify-center gap-2 self-start rounded-[11px] bg-[#E41E2B] px-4 text-[10px] font-semibold text-white transition hover:bg-[#C91824] sm:self-auto"
->>>>>>> origin/marques
-=======
-            className="inline-flex h-10 items-center justify-center gap-2 self-start rounded-[11px] bg-[#E41E2B] px-4 text-[10px] font-semibold text-white transition hover:bg-[#C91824] sm:self-auto"
->>>>>>> origin/marques
           >
             <Upload
               size={14}
             />
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-            <div className="flex h-12 w-12 items-center justify-center rounded-[12px] bg-background-primary transition-colors text-text-primary shadow-[0_2px_10px_rgba(0,0,0,0.05)]">
-
-              <Upload
-                size={21}
-                strokeWidth={1.8}
-              />
-
-            </div>
-
-
-            <h2 className="mt-6 text-[16px] font-semibold text-text-primary">
-              Arraste a planilha aqui
-            </h2>
-
-
-            <p className="mt-4 text-[14px] leading-6 text-text-body">
-              ou clique para selecionar
-            </p>
-
-
-            <p className="mt-5 text-[11px] text-text-secondary">
-              .xlsx ou .xlsm
-            </p>
-
-          </div>
-        )}
-
-
-        <input
-          ref={inputRef}
-          type="file"
-          accept=".xlsx,.xlsm"
-          onChange={
-            handleFileChange
-          }
-          className="hidden"
-        />
-
-=======
-=======
->>>>>>> origin/marques
-=======
->>>>>>> origin/marques
-=======
->>>>>>> origin/marques
             {uploadExpanded
               ? "Fechar importação"
               : "Nova importação"}
           </button>
         </div>
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
->>>>>>> origin/marques
-=======
->>>>>>> origin/marques
-=======
->>>>>>> origin/marques
-=======
->>>>>>> origin/marques
 
         {/* =================================================
             NOVA IMPORTAÇÃO
         ================================================== */}
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-        {file && (
-          <div className="mt-10">
-
-            <div className="flex items-center justify-between rounded-[16px] border border-border-theme px-5 py-4">
-
-              <div className="flex min-w-0 items-center gap-4">
-
-                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-[10px] bg-surface-elevated text-text-primary">
-
-                  <FileSpreadsheet
-                    size={20}
-                    strokeWidth={1.8}
-                  />
-
-                </div>
-
-
-                <div className="min-w-0">
-
-                  <p className="truncate text-[13px] font-medium text-text-primary">
-                    {file.name}
-                  </p>
-
-
-                  <p className="mt-1 text-[11px] text-text-body">
-                    {formatFileSize(
-                      file.size,
-                    )}
-                  </p>
-
-                </div>
-
-              </div>
-
-
-              {![
-                "validating",
-                "processing",
-              ].includes(
-                status,
-              ) && (
-                <button
-                  type="button"
-                  onClick={
-                    clearFile
-                  }
-                  className="ml-4 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg text-text-secondary transition-colors hover:bg-surface-hover hover:text-text-primary"
-                  aria-label="Remover arquivo"
-                >
-                  <X
-                    size={17}
-                    strokeWidth={1.8}
-                  />
-                </button>
-              )}
-=======
-=======
->>>>>>> origin/marques
-=======
->>>>>>> origin/marques
-=======
->>>>>>> origin/marques
         {uploadExpanded && (
           <section className="mt-6 overflow-hidden rounded-[24px] border border-black/[0.05] bg-white shadow-[0_12px_38px_rgba(28,31,34,0.025)]">
             <div className="border-b border-black/[0.05] px-5 py-4 sm:px-6">
               <h2 className="text-[14px] font-semibold tracking-[-0.025em] text-[#202327]">
                 Nova importação
               </h2>
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
->>>>>>> origin/marques
-=======
->>>>>>> origin/marques
-=======
->>>>>>> origin/marques
-=======
->>>>>>> origin/marques
 
               <p className="mt-1 text-[9px] text-[#9A9FA5]">
                 Preview, processamento e análise ML no mesmo fluxo.
               </p>
             </div>
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-
-            {/* =============================================
-                VALIDANDO
-            ============================================== */}
-
-            {status ===
-              "validating" && (
-              <div className="flex items-center gap-3 py-8">
-
-                <LoaderCircle
-                  size={18}
-                  className="animate-spin text-[#F40009]"
-                />
-
-
-                <p className="text-[13px] text-text-secondary">
-                  Verificando estrutura da planilha...
-                </p>
-
-              </div>
-            )}
-
-
-            {/* =============================================
-                PRONTA
-            ============================================== */}
-
-            {status ===
-              "ready" &&
-              preview && (
-                <div className="mt-8">
-
-                  <div className="flex items-start gap-3">
-
-                    <Check
-                      size={18}
-                      strokeWidth={2}
-                      className="mt-0.5 text-[#238636]"
-                    />
-
-
-                    <div>
-
-                      <p className="text-[14px] font-medium text-text-primary">
-                        Planilha pronta para processamento
-                      </p>
-
-
-                      <p className="mt-1 text-[12px] text-text-secondary">
-                        A estrutura necessária foi identificada corretamente.
-                      </p>
-
-                    </div>
-
-=======
             <div className="px-5 py-5 sm:px-6">
               {!file && (
                 <div
@@ -2293,237 +1943,15 @@ export function ImportDataPage({
                     <Upload
                       size={19}
                     />
->>>>>>> origin/marques
-=======
-            <div className="px-5 py-5 sm:px-6">
-              {!file && (
-                <div
-                  role="button"
-                  tabIndex={0}
-                  onDragOver={
-                    handleDragOver
-                  }
-                  onDragLeave={
-                    handleDragLeave
-                  }
-                  onDrop={
-                    handleDrop
-                  }
-                  onClick={() =>
-                    inputRef
-                      .current
-                      ?.click()
-                  }
-                  onKeyDown={(
-                    event,
-                  ) => {
-                    if (
-                      event.key ===
-                        "Enter" ||
-                      event.key ===
-                        " "
-                    ) {
-                      inputRef
-                        .current
-                        ?.click();
-                    }
-                  }}
-                  className={`flex min-h-[220px] cursor-pointer flex-col items-center justify-center rounded-[18px] border border-dashed px-8 text-center outline-none transition ${
-                    dragging
-                      ? "border-[#E41E2B] bg-[#FFF8F8]"
-                      : "border-[#D5D7DA] bg-[#FAFAF9] hover:border-[#B9BDC1]"
-                  }`}
-                >
-                  <div className="flex h-11 w-11 items-center justify-center rounded-[11px] bg-white text-[#4B5055] shadow-sm">
-                    <Upload
-                      size={19}
-                    />
->>>>>>> origin/marques
-=======
-            <div className="px-5 py-5 sm:px-6">
-              {!file && (
-                <div
-                  role="button"
-                  tabIndex={0}
-                  onDragOver={
-                    handleDragOver
-                  }
-                  onDragLeave={
-                    handleDragLeave
-                  }
-                  onDrop={
-                    handleDrop
-                  }
-                  onClick={() =>
-                    inputRef
-                      .current
-                      ?.click()
-                  }
-                  onKeyDown={(
-                    event,
-                  ) => {
-                    if (
-                      event.key ===
-                        "Enter" ||
-                      event.key ===
-                        " "
-                    ) {
-                      inputRef
-                        .current
-                        ?.click();
-                    }
-                  }}
-                  className={`flex min-h-[220px] cursor-pointer flex-col items-center justify-center rounded-[18px] border border-dashed px-8 text-center outline-none transition ${
-                    dragging
-                      ? "border-[#E41E2B] bg-[#FFF8F8]"
-                      : "border-[#D5D7DA] bg-[#FAFAF9] hover:border-[#B9BDC1]"
-                  }`}
-                >
-                  <div className="flex h-11 w-11 items-center justify-center rounded-[11px] bg-white text-[#4B5055] shadow-sm">
-                    <Upload
-                      size={19}
-                    />
->>>>>>> origin/marques
-=======
-            <div className="px-5 py-5 sm:px-6">
-              {!file && (
-                <div
-                  role="button"
-                  tabIndex={0}
-                  onDragOver={
-                    handleDragOver
-                  }
-                  onDragLeave={
-                    handleDragLeave
-                  }
-                  onDrop={
-                    handleDrop
-                  }
-                  onClick={() =>
-                    inputRef
-                      .current
-                      ?.click()
-                  }
-                  onKeyDown={(
-                    event,
-                  ) => {
-                    if (
-                      event.key ===
-                        "Enter" ||
-                      event.key ===
-                        " "
-                    ) {
-                      inputRef
-                        .current
-                        ?.click();
-                    }
-                  }}
-                  className={`flex min-h-[220px] cursor-pointer flex-col items-center justify-center rounded-[18px] border border-dashed px-8 text-center outline-none transition ${
-                    dragging
-                      ? "border-[#E41E2B] bg-[#FFF8F8]"
-                      : "border-[#D5D7DA] bg-[#FAFAF9] hover:border-[#B9BDC1]"
-                  }`}
-                >
-                  <div className="flex h-11 w-11 items-center justify-center rounded-[11px] bg-white text-[#4B5055] shadow-sm">
-                    <Upload
-                      size={19}
-                    />
->>>>>>> origin/marques
                   </div>
 
                   <p className="mt-5 text-[13px] font-semibold text-[#32363A]">
                     Arraste a planilha aqui
                   </p>
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-                  <div className="mt-7 grid border-y border-border-theme py-6 sm:grid-cols-3">
-
-                    <div>
-
-                      <p className="text-[11px] text-text-secondary">
-                        Registros
-                      </p>
-
-
-                      <p className="mt-1.5 text-[17px] font-medium text-text-primary">
-                        {formatNumber(
-                          preview.totalRows,
-                        )}
-                      </p>
-
-                    </div>
-
-
-                    <div className="border-t border-border-theme py-4 sm:border-l sm:border-t-0 sm:px-6 sm:py-0">
-
-                      <p className="text-[11px] text-text-secondary">
-                        Aba identificada
-                      </p>
-
-
-                      <p className="mt-1.5 truncate text-[14px] font-medium text-text-primary">
-                        {preview.sheetName}
-                      </p>
-
-                    </div>
-
-
-                    <div className="border-t border-border-theme pt-4 sm:border-l sm:border-t-0 sm:pl-6 sm:pt-0">
-
-                      <p className="text-[11px] text-text-secondary">
-                        Colunas
-                      </p>
-
-
-                      <p className="mt-1.5 text-[17px] font-medium text-text-primary">
-                        {
-                          preview
-                            .expectedColumns
-                            .length
-                        }
-                      </p>
-
-                    </div>
-
-                  </div>
-
-
-                  <div className="mt-8 flex justify-end">
-
-                    <button
-                      type="button"
-                      onClick={() =>
-                        void processFile()
-                      }
-                      className="rounded-[10px] bg-[#F40009] px-6 py-3 text-[13px] font-semibold text-white transition-colors hover:bg-[#D90008]"
-                    >
-                      Processar dados
-                    </button>
-
-                  </div>
-=======
                   <p className="mt-1 text-[10px] text-[#979CA2]">
                     ou clique para selecionar
                   </p>
->>>>>>> origin/marques
-=======
-                  <p className="mt-1 text-[10px] text-[#979CA2]">
-                    ou clique para selecionar
-                  </p>
->>>>>>> origin/marques
-=======
-                  <p className="mt-1 text-[10px] text-[#979CA2]">
-                    ou clique para selecionar
-                  </p>
->>>>>>> origin/marques
-=======
-                  <p className="mt-1 text-[10px] text-[#979CA2]">
-                    ou clique para selecionar
-                  </p>
->>>>>>> origin/marques
 
                   <p className="mt-4 text-[9px] text-[#A4A8AD]">
                     .xlsx ou .xlsm
@@ -2553,207 +1981,6 @@ export function ImportDataPage({
                         />
                       </div>
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-            {status ===
-              "processing" && (
-              <div className="py-10">
-
-                <div className="flex items-start gap-3">
-
-                  <LoaderCircle
-                    size={19}
-                    className="mt-0.5 animate-spin text-[#F40009]"
-                  />
-
-
-                  <div>
-
-                    <p className="text-[14px] font-medium text-text-primary">
-                      Importando e analisando dados
-                    </p>
-
-
-                    <p className="mt-1 max-w-[590px] text-[12px] leading-6 text-text-secondary">
-                      Os apontamentos estão sendo armazenados.
-                      Em seguida, as ocorrências elegíveis são
-                      analisadas automaticamente pelo Modelo ML.
-                    </p>
-
-                  </div>
-
-                </div>
-
-
-                <div className="mt-7 overflow-hidden rounded-full bg-surface-hover">
-
-                  <div className="h-[5px] w-1/2 animate-pulse rounded-full bg-[#F40009]" />
-
-                </div>
-
-
-                <p className="mt-4 text-[11px] leading-5 text-text-secondary">
-                  A classificação gerada pelo modelo não é
-                  considerada oficial até a revisão humana.
-                </p>
-
-              </div>
-            )}
-
-
-            {/* =============================================
-                CONCLUÍDO
-            ============================================== */}
-
-            {status ===
-              "completed" &&
-              result && (
-                <div className="mt-8">
-
-                  <div className="flex items-start gap-3">
-
-                    <Check
-                      size={19}
-                      strokeWidth={2}
-                      className="mt-0.5 shrink-0 text-[#238636]"
-                    />
-
-
-                    <div>
-
-                      <p className="text-[14px] font-medium text-text-primary">
-                        Importação concluída
-                      </p>
-
-
-                      <p className="mt-1 text-[12px] leading-6 text-text-secondary">
-                        {mlCompleted
-                          ? "Os registros foram armazenados e as sugestões do Modelo ML estão prontas para revisão."
-                          : "Os registros foram armazenados com sucesso."}
-                      </p>
-
-                    </div>
-
-                  </div>
-
-
-                  {/* =========================================
-                      RESUMO PRINCIPAL
-                  ========================================== */}
-
-                  <div className="mt-7 grid border-y border-border-theme py-6 sm:grid-cols-3">
-
-                    <div>
-
-                      <p className="text-[11px] text-text-secondary">
-                        Importados
-                      </p>
-
-
-                      <p className="mt-1.5 text-[20px] font-medium text-text-primary">
-                        {formatNumber(
-                          importedCount,
-                        )}
-                      </p>
-
-
-                      {ignoredCount >
-                        0 && (
-                        <p className="mt-1 text-[10px] text-text-secondary">
-                          {formatNumber(
-                            ignoredCount,
-                          )}{" "}
-                          ignorado(s)
-=======
-                      <div className="min-w-0">
-                        <p className="truncate text-[11px] font-semibold text-[#33373B]">
-                          {file.name}
->>>>>>> origin/marques
-                        </p>
-
-<<<<<<< HEAD
-                      {duplicateCount >
-                        0 && (
-                        <p className="mt-1 text-[10px] text-text-secondary">
-                          {formatNumber(
-                            duplicateCount,
-                          )}{" "}
-                          já importado(s) antes
-=======
-                      <div className="min-w-0">
-                        <p className="truncate text-[11px] font-semibold text-[#33373B]">
-                          {file.name}
->>>>>>> origin/marques
-                        </p>
-
-<<<<<<< HEAD
-                    </div>
-
-
-                    <div className="border-t border-border-theme py-4 sm:border-l sm:border-t-0 sm:px-6 sm:py-0">
-
-                      <p className="text-[11px] text-text-secondary">
-                        Analisados pelo ML
-                      </p>
-
-
-                      <p className="mt-1.5 text-[20px] font-medium text-text-primary">
-                        {formatNumber(
-                          mlProcessedCount,
-                        )}
-                      </p>
-
-
-                      {mlAvailable && (
-                        <p className="mt-1 text-[10px] text-text-secondary">
-                          de{" "}
-                          {formatNumber(
-                            mlEligibleCount,
-                          )}{" "}
-                          elegíveis
-                        </p>
-                      )}
-
-                    </div>
-
-
-                    <div className="border-t border-border-theme pt-4 sm:border-l sm:border-t-0 sm:pl-6 sm:pt-0">
-
-                      <p className="text-[11px] text-text-secondary">
-                        Aguardando revisão
-                      </p>
-
-
-                      <p className="mt-1.5 text-[20px] font-medium text-text-primary">
-                        {formatNumber(
-                          suggestionsCount,
-                        )}
-                      </p>
-
-
-                      <p className="mt-1 text-[10px] text-text-secondary">
-                        sugestões geradas
-                      </p>
-
-=======
-                        <p className="mt-0.5 text-[8px] text-[#9CA1A6]">
-                          {formatFileSize(
-                            file.size,
-                          )}
-                        </p>
-                      </div>
->>>>>>> origin/marques
-=======
-                        <p className="mt-0.5 text-[8px] text-[#9CA1A6]">
-                          {formatFileSize(
-                            file.size,
-                          )}
-                        </p>
-                      </div>
->>>>>>> origin/marques
-=======
                       <div className="min-w-0">
                         <p className="truncate text-[11px] font-semibold text-[#33373B]">
                           {file.name}
@@ -2765,20 +1992,6 @@ export function ImportDataPage({
                           )}
                         </p>
                       </div>
->>>>>>> origin/marques
-=======
-                      <div className="min-w-0">
-                        <p className="truncate text-[11px] font-semibold text-[#33373B]">
-                          {file.name}
-                        </p>
-
-                        <p className="mt-0.5 text-[8px] text-[#9CA1A6]">
-                          {formatFileSize(
-                            file.size,
-                          )}
-                        </p>
-                      </div>
->>>>>>> origin/marques
                     </div>
 
                     {![
@@ -2815,44 +2028,6 @@ export function ImportDataPage({
                     </div>
                   )}
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-                  {mlResult && (
-                    <div className="mt-6 rounded-[14px] bg-surface-elevated px-5 py-4">
-
-                      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-
-                        <div>
-
-                          <p className="text-[11px] font-medium text-text-secondary">
-                            Modelo ML
-                          </p>
-
-
-                          <p className="mt-1 text-[12px] font-medium text-text-primary">
-                            {mlResult.modelVersion ??
-                              "Indisponível"}
-                          </p>
-=======
-                  {status ===
-                    "ready" &&
-                    preview && (
-                      <div className="mt-5">
-                        <div className="flex items-start gap-3">
-                          <Check
-                            size={17}
-                            className="mt-0.5 text-[#456A57]"
-                          />
-
-                          <div>
-                            <p className="text-[12px] font-semibold text-[#303438]">
-                              Planilha pronta para processamento
-                            </p>
->>>>>>> origin/marques
-
-=======
                   {status ===
                     "ready" &&
                     preview && (
@@ -2868,41 +2043,6 @@ export function ImportDataPage({
                               Planilha pronta para processamento
                             </p>
 
->>>>>>> origin/marques
-=======
-                  {status ===
-                    "ready" &&
-                    preview && (
-                      <div className="mt-5">
-                        <div className="flex items-start gap-3">
-                          <Check
-                            size={17}
-                            className="mt-0.5 text-[#456A57]"
-                          />
-
-                          <div>
-                            <p className="text-[12px] font-semibold text-[#303438]">
-                              Planilha pronta para processamento
-                            </p>
-
->>>>>>> origin/marques
-=======
-                  {status ===
-                    "ready" &&
-                    preview && (
-                      <div className="mt-5">
-                        <div className="flex items-start gap-3">
-                          <Check
-                            size={17}
-                            className="mt-0.5 text-[#456A57]"
-                          />
-
-                          <div>
-                            <p className="text-[12px] font-semibold text-[#303438]">
-                              Planilha pronta para processamento
-                            </p>
-
->>>>>>> origin/marques
                             <p className="mt-1 text-[9px] text-[#8F949A]">
                               A estrutura necessária foi identificada corretamente.
                             </p>
@@ -2922,19 +2062,6 @@ export function ImportDataPage({
                             </p>
                           </div>
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-                          <p className="text-[11px] text-text-secondary">
-                            Status
-=======
-=======
->>>>>>> origin/marques
-=======
->>>>>>> origin/marques
-=======
->>>>>>> origin/marques
                           <div className="px-4 py-4">
                             <p className="text-[8px] uppercase tracking-[0.08em] text-[#A0A5AA]">
                               Aba
@@ -2982,16 +2109,6 @@ export function ImportDataPage({
                         <div>
                           <p className="text-[12px] font-semibold text-[#303438]">
                             Importando e analisando dados
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
->>>>>>> origin/marques
-=======
->>>>>>> origin/marques
-=======
->>>>>>> origin/marques
-=======
->>>>>>> origin/marques
                           </p>
 
                           <p className="mt-1 text-[9px] leading-5 text-[#8E9399]">
@@ -3021,18 +2138,6 @@ export function ImportDataPage({
                               Importação concluída
                             </p>
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-                            <p className="text-[12px] font-medium text-text-body">
-=======
-=======
->>>>>>> origin/marques
-=======
->>>>>>> origin/marques
-=======
->>>>>>> origin/marques
                             <p className="mt-1 text-[9px] text-[#8F949A]">
                               {mlCompleted
                                 ? "Os dados foram armazenados e o modelo concluiu a análise."
@@ -3053,6 +2158,11 @@ export function ImportDataPage({
                               )}
                             </p>
 
+                            {duplicateCount > 0 && (
+                              <p className="mt-1 text-[10px] text-text-secondary">
+                                {formatNumber(duplicateCount)} j{String.fromCharCode(225)} importado(s) antes
+                              </p>
+                            )}
                             {ignoredCount >
                               0 && (
                               <p className="mt-1 text-[8px] text-[#A0A5AA]">
@@ -3113,16 +2223,6 @@ export function ImportDataPage({
                             </div>
 
                             <p className="text-[9px] font-medium text-[#777C82]">
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
->>>>>>> origin/marques
-=======
->>>>>>> origin/marques
-=======
->>>>>>> origin/marques
-=======
->>>>>>> origin/marques
                               {mlCompleted
                                 ? "Concluído"
                                 : mlResult.status ===
@@ -3156,26 +2256,6 @@ export function ImportDataPage({
                           </div>
                         )}
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-                      {mlFailedCount >
-                        0 && (
-                        <p className="mt-4 border-t border-border-theme transition-colors pt-4 text-[11px] text-text-secondary">
-                          {formatNumber(
-                            mlFailedCount,
-                          )}{" "}
-                          apontamento(s) apresentaram erro durante a análise.
-                        </p>
-                      )}
-=======
-=======
->>>>>>> origin/marques
-=======
->>>>>>> origin/marques
-=======
->>>>>>> origin/marques
                         <div className="mt-5 flex flex-wrap items-center justify-between gap-3">
                           <button
                             type="button"
@@ -3186,16 +2266,6 @@ export function ImportDataPage({
                           >
                             Importar outro arquivo
                           </button>
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
->>>>>>> origin/marques
-=======
->>>>>>> origin/marques
-=======
->>>>>>> origin/marques
-=======
->>>>>>> origin/marques
 
                           <div className="flex gap-2">
                             <Link
@@ -3205,146 +2275,6 @@ export function ImportDataPage({
                               Ver histórico
                             </Link>
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-
-                  {/* =========================================
-                      AVISO
-                  ========================================== */}
-
-                  {warning && (
-                    <div className="mt-5 flex items-start gap-3 rounded-[12px] border border-[#F0D7D9] bg-[#FFF8F8] px-4 py-3">
-
-                      <AlertCircle
-                        size={17}
-                        className="mt-0.5 shrink-0 text-[#D1242F]"
-                      />
-
-
-                      <p className="text-[12px] leading-6 text-text-secondary">
-                        {warning}
-                      </p>
-
-                    </div>
-                  )}
-
-
-                  {/* =========================================
-                      REGRA DA REVISÃO
-                  ========================================== */}
-
-                  {suggestionsCount >
-                    0 && (
-                    <div className="mt-6">
-
-                      <p className="mt-4 text-[14px] leading-6 text-text-body">
-                        As sugestões do Modelo ML ainda não são
-                        classificações oficiais. Cada ocorrência
-                        precisa ser confirmada ou corrigida por um
-                        responsável.
-                      </p>
-
-                    </div>
-                  )}
-
-
-                  {/* =========================================
-                      AÇÕES
-                  ========================================== */}
-
-                  <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-
-                    <button
-                      type="button"
-                      onClick={
-                        clearFile
-                      }
-                      className="text-left text-[12px] font-medium text-text-secondary transition-colors hover:text-text-primary"
-                    >
-                      Importar outro arquivo
-                    </button>
-
-
-                    <div className="flex flex-col gap-3 sm:flex-row">
-
-                      <Link
-                        href="/dashboard/historico"
-                        className="rounded-[10px] border border-border-theme bg-background-primary transition-colors px-6 py-3 text-center text-[13px] font-semibold text-text-primary transition-colors hover:border-border-theme hover:bg-surface-elevated transition-colors"
-                      >
-                        Ver histórico
-                      </Link>
-
-
-                      {suggestionsCount >
-                        0 && (
-                        <Link
-                          href="/dashboard/revisao"
-                          className="rounded-[10px] bg-[#F40009] px-6 py-3 text-center text-[13px] font-semibold text-white transition-colors hover:bg-[#D90008]"
-                        >
-                          Revisar classificações
-                        </Link>
-                      )}
-
-                    </div>
-
-                  </div>
-
-                </div>
-              )}
-
-
-            {/* =============================================
-                INVÁLIDO
-            ============================================== */}
-
-            {status ===
-              "invalid" &&
-              preview && (
-                <div className="mt-8 flex items-start gap-3 border-t border-border-theme pt-7">
-
-                  <AlertCircle
-                    size={18}
-                    className="mt-0.5 text-[#D1242F]"
-                  />
-
-
-                  <div>
-
-                    <p className="text-[14px] font-medium text-text-primary">
-                      Estrutura incompatível
-                    </p>
-
-
-                    <p className="mt-1 text-[12px] text-text-secondary">
-                      A planilha não contém todas as colunas necessárias.
-                    </p>
-
-
-                    {preview
-                      .missingColumns
-                      .length >
-                      0 && (
-                      <div className="mt-4">
-
-                        <p className="text-[11px] font-medium text-text-secondary">
-                          Colunas ausentes
-                        </p>
-
-
-                        <p className="mt-2 text-[11px] leading-6 text-text-secondary">
-                          {preview
-                            .missingColumns
-                            .join(
-                              ", ",
-=======
-=======
->>>>>>> origin/marques
-=======
->>>>>>> origin/marques
-=======
->>>>>>> origin/marques
                             {suggestionsCount >
                               0 && (
                               <Link
@@ -3353,16 +2283,6 @@ export function ImportDataPage({
                               >
                                 Revisar classificações
                               </Link>
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
->>>>>>> origin/marques
-=======
->>>>>>> origin/marques
-=======
->>>>>>> origin/marques
-=======
->>>>>>> origin/marques
                             )}
                           </div>
                         </div>
@@ -3871,47 +2791,11 @@ export function ImportDataPage({
                 </div>
               )}
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-            {/* =============================================
-                ERRO
-            ============================================== */}
-
-            {status ===
-              "error" && (
-                <div className="mt-8 border-t border-border-theme pt-7">
-
-                  <div className="flex items-start gap-3">
-
-                    <AlertCircle
-                      size={18}
-                      className="mt-0.5 shrink-0 text-[#D1242F]"
-                    />
-
-=======
-=======
->>>>>>> origin/marques
-=======
->>>>>>> origin/marques
-=======
->>>>>>> origin/marques
               {actionMessage && (
                 <div className="mb-5 rounded-[12px] border border-[#DCE9E1] bg-[#F6FAF7] px-4 py-3 text-[9px] leading-5 text-[#456A57]">
                   {actionMessage}
                 </div>
               )}
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
->>>>>>> origin/marques
-=======
->>>>>>> origin/marques
-=======
->>>>>>> origin/marques
-=======
->>>>>>> origin/marques
 
               {selectedImport &&
                 !detailLoading && (
@@ -3922,25 +2806,6 @@ export function ImportDataPage({
                           selectedImport.fileName}
                       </h2>
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-                      <p className="text-[14px] font-medium text-text-primary">
-                        Não foi possível concluir o processamento
-                      </p>
-
-
-                      <p className="mt-1 text-[12px] leading-6 text-text-secondary">
-                        {error}
-                      </p>
-=======
-=======
->>>>>>> origin/marques
-=======
->>>>>>> origin/marques
-=======
->>>>>>> origin/marques
                       <div className="mt-3 flex flex-wrap items-center gap-2">
                         <span
                           className={`rounded-full px-2.5 py-1 text-[8px] font-semibold ${statusClasses(
@@ -3951,16 +2816,6 @@ export function ImportDataPage({
                             selectedImport.status,
                           )}
                         </span>
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
->>>>>>> origin/marques
-=======
->>>>>>> origin/marques
-=======
->>>>>>> origin/marques
-=======
->>>>>>> origin/marques
 
                         <span className="text-[8px] text-[#A0A5AA]">
                           {formatDateTime(
@@ -4301,34 +3156,12 @@ export function ImportDataPage({
                         classifyingId !==
                           null
                       }
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-                      className="text-[12px] font-medium text-text-secondary transition-colors hover:text-text-primary"
-=======
-=======
->>>>>>> origin/marques
-=======
->>>>>>> origin/marques
-=======
->>>>>>> origin/marques
                       onClick={() =>
                         void classifyImport(
                           selectedImport.id,
                         )
                       }
                       className="inline-flex h-10 items-center justify-center gap-2 rounded-[9px] bg-[#202327] px-4 text-[9px] font-semibold text-white transition hover:bg-[#111315] disabled:opacity-40"
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
->>>>>>> origin/marques
-=======
->>>>>>> origin/marques
-=======
->>>>>>> origin/marques
-=======
->>>>>>> origin/marques
                     >
                       {classifyingId ===
                       selectedImport.id ? (

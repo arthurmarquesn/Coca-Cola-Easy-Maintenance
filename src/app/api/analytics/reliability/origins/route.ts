@@ -22,24 +22,12 @@ import {
   getUnitSelection,
 } from "@/lib/unit-selection";
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
 import {
   FAILURE_ORIGIN_JOINS,
   containsLikePattern,
 } from "@/lib/analytics/sql";
 
 
-=======
->>>>>>> origin/marques
-=======
->>>>>>> origin/marques
-=======
->>>>>>> origin/marques
-=======
->>>>>>> origin/marques
 export const runtime =
   "nodejs";
 
@@ -1714,17 +1702,7 @@ export async function GET(
       );
 
       const like =
-<<<<<<< HEAD
         containsLikePattern(search);
-=======
-        `%${search}%`;
-<<<<<<< HEAD
-<<<<<<< HEAD
->>>>>>> origin/marques
-=======
->>>>>>> origin/marques
-=======
->>>>>>> origin/marques
 
       resultValues.push(
         like,
@@ -1986,15 +1964,6 @@ export async function GET(
       editable:
         session.role ===
         "MAINTENANCE",
-
-      view:
-        "EVENTS",
-
-      view:
-        "EVENTS",
-
-      view:
-        "EVENTS",
 
       view:
         "EVENTS",

@@ -7,23 +7,7 @@ import { useRouter } from "next/navigation";
 import {
   Activity,
   ArrowRight,
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
   ClipboardCheck,
-=======
-  Bot,
->>>>>>> origin/marques
-=======
-  Bot,
->>>>>>> origin/marques
-=======
-  Bot,
->>>>>>> origin/marques
-=======
-  Bot,
->>>>>>> origin/marques
   FileSpreadsheet,
   History,
   LogOut,
@@ -39,10 +23,6 @@ import {
   useState,
 } from "react";
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
 import {
   UnitFilter,
 } from "@/components/units/unit-filter";
@@ -55,18 +35,6 @@ import {
   ThemeSwitcher,
 } from "@/components/theme/theme-switcher";
 
-=======
-import { UnitFilter } from "@/components/units/unit-filter";
->>>>>>> origin/marques
-=======
-import { UnitFilter } from "@/components/units/unit-filter";
->>>>>>> origin/marques
-=======
-import { UnitFilter } from "@/components/units/unit-filter";
->>>>>>> origin/marques
-=======
-import { UnitFilter } from "@/components/units/unit-filter";
->>>>>>> origin/marques
 
 /* =========================================================
    PROPS
@@ -74,27 +42,11 @@ import { UnitFilter } from "@/components/units/unit-filter";
 
 interface DashboardHomeProps {
   user: {
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
     name:
       string;
 
     role:
       string;
-=======
-    name: string;
->>>>>>> origin/marques
-=======
-    name: string;
->>>>>>> origin/marques
-=======
-    name: string;
->>>>>>> origin/marques
-=======
-    name: string;
->>>>>>> origin/marques
   };
 
   unit: {
@@ -676,21 +628,12 @@ export function DashboardHome({
 }: DashboardHomeProps) {
   const firstName =
     getFirstName(user.name);
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> origin/marques
-=======
->>>>>>> origin/marques
 
   const [loggingOut, setLoggingOut] =
     useState(false);
 
   const [ready, setReady] =
     useState(false);
-<<<<<<< HEAD
-<<<<<<< HEAD
 
   /* Gestor apenas consulta: o cadastro de usuários fica
      oculto para ele, como a API já exige. */
@@ -698,14 +641,7 @@ export function DashboardHome({
     isAnalystRole(
       user.role,
     );
-=======
->>>>>>> origin/marques
 
-  const [loggingOut, setLoggingOut] =
-    useState(false);
-
-  const [ready, setReady] =
-    useState(false);
 
   const router = useRouter();
   const [
@@ -714,28 +650,6 @@ export function DashboardHome({
   ] = useState(false);
 
   const [
-<<<<<<< HEAD
-=======
-=======
-
-  const [
->>>>>>> origin/marques
-=======
-
-  const [
->>>>>>> origin/marques
-    showEntryIntro,
-    setShowEntryIntro,
-  ] = useState(false);
-
-  const [
-<<<<<<< HEAD
-<<<<<<< HEAD
->>>>>>> origin/marques
-=======
->>>>>>> origin/marques
-=======
->>>>>>> origin/marques
     introDecisionMade,
     setIntroDecisionMade,
   ] = useState(false);
@@ -762,6 +676,7 @@ export function DashboardHome({
         INTRO_STORAGE_KEY,
       ) === "true";
 
+    const frame = window.requestAnimationFrame(() => {
     if (
       !prefersReducedMotion &&
       !alreadyPlayed
@@ -770,6 +685,8 @@ export function DashboardHome({
     }
 
     setIntroDecisionMade(true);
+    });
+    return () => window.cancelAnimationFrame(frame);
   }, []);
 
   const modules: ModuleCardData[] =
@@ -837,6 +754,14 @@ export function DashboardHome({
         },
 
         {
+          href: "/dashboard/revisao",
+          title: "Revisar classifica\u00e7\u00f5es",
+          description: "Consulte e revise as sugest\u00f5es de classifica\u00e7\u00e3o das ocorr\u00eancias.",
+          action: "Abrir revis\u00e3o",
+          variant: "white",
+          icon: <ClipboardCheck size={20} strokeWidth={1.7} />,
+        },
+        {
           href: "/dashboard/ursus",
           title: "Ursus",
           description:
@@ -875,32 +800,12 @@ export function DashboardHome({
         );
       }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
 
       router.replace("/login");
       router.refresh();
     } catch (
       error
     ) {
-=======
-      window.location.href = "/login";
-    } catch (error) {
->>>>>>> origin/marques
-=======
-      window.location.href = "/login";
-    } catch (error) {
->>>>>>> origin/marques
-=======
-      window.location.href = "/login";
-    } catch (error) {
->>>>>>> origin/marques
-=======
-      window.location.href = "/login";
-    } catch (error) {
->>>>>>> origin/marques
       console.error(
         "Erro ao sair:",
         error,
@@ -920,32 +825,6 @@ export function DashboardHome({
   }
 
   return (
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-    <main className="min-h-screen bg-surface-elevated">
-
-      {/* ===================================================
-          HEADER
-      ==================================================== */}
-
-      <header className="border-b border-border-theme/[0.05] bg-surface">
-
-        <div className="mx-auto flex min-h-[76px] w-full max-w-[1280px] items-center justify-between gap-4 px-6 py-2 sm:px-8 lg:px-10">
-=======
-    <main className="relative min-h-screen overflow-hidden bg-[#F7F7F6]">
-      {introDecisionMade &&
-        showEntryIntro && (
-          <ProductEntryIntro
-            onFinish={handleFinishIntro}
-          />
-        )}
-
-      <CocaBackground />
->>>>>>> origin/marques
-
-=======
     <main className="relative min-h-screen overflow-hidden bg-[#F7F7F6]">
       {introDecisionMade &&
         showEntryIntro && (
@@ -956,31 +835,6 @@ export function DashboardHome({
 
       <CocaBackground />
 
->>>>>>> origin/marques
-=======
-    <main className="relative min-h-screen overflow-hidden bg-[#F7F7F6]">
-      {introDecisionMade &&
-        showEntryIntro && (
-          <ProductEntryIntro
-            onFinish={handleFinishIntro}
-          />
-        )}
-
-      <CocaBackground />
-
->>>>>>> origin/marques
-=======
-    <main className="relative min-h-screen overflow-hidden bg-[#F7F7F6]">
-      {introDecisionMade &&
-        showEntryIntro && (
-          <ProductEntryIntro
-            onFinish={handleFinishIntro}
-          />
-        )}
-
-      <CocaBackground />
-
->>>>>>> origin/marques
       <header className="relative z-40 border-b border-black/[0.045] bg-white/[0.88] shadow-[0_1px_0_rgba(0,0,0,0.01)] backdrop-blur-xl">
         <div className="mx-auto flex min-h-[72px] w-full max-w-[1320px] items-center justify-between gap-4 px-6 py-2 sm:px-8 lg:px-10">
           <Image
@@ -1001,18 +855,7 @@ export function DashboardHome({
 
             <div className="mx-1 hidden h-7 w-px bg-black/[0.06] lg:block" />
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-            <div className="hidden h-8 w-px bg-border-theme sm:block" />
-=======
-=======
->>>>>>> origin/marques
-=======
->>>>>>> origin/marques
-=======
->>>>>>> origin/marques
+            {isAnalyst && (
             <Link
               href="/dashboard/usuarios"
               className="group flex h-9 items-center gap-2 rounded-[11px] px-2.5 text-[11px] font-medium text-[#676D73] transition-all duration-200 hover:bg-[#F2F2F1] hover:text-[#23272B]"
@@ -1022,36 +865,15 @@ export function DashboardHome({
                 strokeWidth={1.8}
                 className="transition-transform duration-300 group-hover:scale-[1.07]"
               />
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
->>>>>>> origin/marques
-=======
->>>>>>> origin/marques
-=======
->>>>>>> origin/marques
-=======
->>>>>>> origin/marques
 
               <span className="hidden xl:inline">
                 Usuários
               </span>
             </Link>
+            )}
 
             <div className="mx-1 hidden h-7 w-px bg-black/[0.06] md:block" />
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-              <p className="text-[13px] font-medium text-text-primary">
-                {user.name}
-              </p>
-
-
-              <p className="mt-0.5 text-[10px] text-text-secondary">
-                Sessão ativa
-=======
             <div className="hidden min-w-0 text-right md:block">
               <p className="max-w-[145px] truncate text-[11px] font-semibold text-[#292D31]">
                 {user.name}
@@ -1059,90 +881,24 @@ export function DashboardHome({
 
               <p className="mt-[1px] text-[9px] text-[#A1A5AA]">
                 {unit.city || "Unidade"}
->>>>>>> origin/marques
               </p>
             </div>
 
-<<<<<<< HEAD
             <div className="hidden h-8 w-px bg-border-theme sm:block" />
 
             <ThemeSwitcher />
 
-=======
-            <div className="hidden min-w-0 text-right md:block">
-              <p className="max-w-[145px] truncate text-[11px] font-semibold text-[#292D31]">
-                {user.name}
-              </p>
-
-              <p className="mt-[1px] text-[9px] text-[#A1A5AA]">
-                {unit.city || "Unidade"}
-              </p>
-            </div>
-
-            <div className="mx-1 h-7 w-px bg-black/[0.06]" />
->>>>>>> origin/marques
 
             <div className="h-8 w-px bg-border-theme" />
 
-=======
-            <div className="mx-1 h-7 w-px bg-black/[0.06]" />
->>>>>>> origin/marques
-=======
-            <div className="hidden min-w-0 text-right md:block">
-              <p className="max-w-[145px] truncate text-[11px] font-semibold text-[#292D31]">
-                {user.name}
-              </p>
-
-              <p className="mt-[1px] text-[9px] text-[#A1A5AA]">
-                {unit.city || "Unidade"}
-              </p>
-            </div>
-
-            <div className="mx-1 h-7 w-px bg-black/[0.06]" />
->>>>>>> origin/marques
-=======
-            <div className="hidden min-w-0 text-right md:block">
-              <p className="max-w-[145px] truncate text-[11px] font-semibold text-[#292D31]">
-                {user.name}
-              </p>
-
-              <p className="mt-[1px] text-[9px] text-[#A1A5AA]">
-                {unit.city || "Unidade"}
-              </p>
-            </div>
-
-            <div className="mx-1 h-7 w-px bg-black/[0.06]" />
->>>>>>> origin/marques
 
             <button
               type="button"
               onClick={() =>
                 void handleLogout()
               }
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-              disabled={
-                loggingOut
-              }
-              className="group flex items-center gap-2 text-[12px] font-medium text-text-secondary transition-colors hover:text-[#E41E2B] disabled:cursor-not-allowed disabled:opacity-40"
-=======
               disabled={loggingOut}
               className="group flex h-9 items-center gap-2 rounded-[11px] px-2.5 text-[11px] font-medium text-[#777D83] transition-all duration-200 hover:bg-[#FFF1F2] hover:text-[#E41E2B] disabled:cursor-not-allowed disabled:opacity-40"
->>>>>>> origin/marques
-=======
-              disabled={loggingOut}
-              className="group flex h-9 items-center gap-2 rounded-[11px] px-2.5 text-[11px] font-medium text-[#777D83] transition-all duration-200 hover:bg-[#FFF1F2] hover:text-[#E41E2B] disabled:cursor-not-allowed disabled:opacity-40"
->>>>>>> origin/marques
-=======
-              disabled={loggingOut}
-              className="group flex h-9 items-center gap-2 rounded-[11px] px-2.5 text-[11px] font-medium text-[#777D83] transition-all duration-200 hover:bg-[#FFF1F2] hover:text-[#E41E2B] disabled:cursor-not-allowed disabled:opacity-40"
->>>>>>> origin/marques
-=======
-              disabled={loggingOut}
-              className="group flex h-9 items-center gap-2 rounded-[11px] px-2.5 text-[11px] font-medium text-[#777D83] transition-all duration-200 hover:bg-[#FFF1F2] hover:text-[#E41E2B] disabled:cursor-not-allowed disabled:opacity-40"
->>>>>>> origin/marques
             >
               <LogOut
                 size={15}
@@ -1187,7 +943,7 @@ export function DashboardHome({
 
         <section className="mt-11">
           <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-5">
-            {modules.map(
+            {modules.filter((module) => isAnalyst || module.href !== "/dashboard/importar").map(
               (
                 module,
                 index,
@@ -1203,344 +959,6 @@ export function DashboardHome({
           </div>
         </section>
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-        {/* =================================================
-            HERO
-        ================================================== */}
-
-        <section>
-
-          <h1 className="max-w-[760px] text-[38px] font-semibold leading-[1.04] tracking-[-0.045em] text-text-primary sm:text-[48px] lg:text-[54px]">
-            Manutenção orientada
-            por dados.
-          </h1>
-
-
-          <p className="mt-5 max-w-[580px] text-[14px] leading-6 text-text-secondary">
-            Olá, {firstName}. Importe novos apontamentos,
-            consulte o histórico ou analise a confiabilidade
-            das unidades selecionadas.
-          </p>
-
-        </section>
-
-
-        {/* =================================================
-            MAIN CARDS
-        ================================================== */}
-
-        <section
-          className={`mt-14 grid gap-5 lg:grid-cols-2 ${
-            /* Analista: 5 cards (com Importar); Gestor: 4. */
-            isAnalyst
-              ? "xl:grid-cols-5"
-              : "xl:grid-cols-4"
-          }`}
-        >
-
-          {/* ===============================================
-              IMPORT
-              Gestor apenas consulta; a API recusa a importação.
-          ================================================ */}
-
-          {isAnalyst && (
-          <Link
-            href="/dashboard/importar"
-            className="group flex min-h-[330px] flex-col justify-between rounded-[30px] bg-[#E41E2B] p-8 text-white transition-colors duration-200 hover:bg-[#CF1925]"
-          >
-
-            <div>
-
-              <FileSpreadsheet
-                size={25}
-                strokeWidth={1.7}
-                className="text-white/80"
-              />
-
-
-              <h2 className="mt-12 text-[30px] font-semibold leading-[1.08] tracking-[-0.04em]">
-                Importar
-                apontamentos
-              </h2>
-
-
-              <p className="mt-4 text-[14px] leading-6 text-white/70">
-                Adicione uma nova planilha à unidade
-                operacional representada pelo usuário.
-              </p>
-
-            </div>
-
-
-            <div className="mt-10 flex items-center justify-between">
-
-              <span className="text-[13px] font-semibold">
-                Importar planilha
-              </span>
-
-
-              <div className="flex h-11 w-11 items-center justify-center rounded-full bg-surface text-[#E41E2B] transition-transform duration-200 group-hover:translate-x-1">
-
-                <ArrowRight
-                  size={18}
-                />
-
-              </div>
-
-            </div>
-
-          </Link>
-          )}
-
-
-          {/* ===============================================
-              HISTORY
-          ================================================ */}
-
-          <Link
-            href="/dashboard/historico"
-            className="group flex min-h-[330px] flex-col justify-between rounded-[30px] border border-border-theme/[0.07] bg-surface p-8 transition-all duration-200 hover:-translate-y-0.5 hover:border-border-theme/[0.12] hover:shadow-[0_16px_40px_rgba(0,0,0,0.045)]"
-          >
-
-            <div>
-
-              <History
-                size={25}
-                strokeWidth={1.7}
-                className="text-text-primary"
-              />
-
-
-              <h2 className="mt-12 text-[30px] font-semibold leading-[1.08] tracking-[-0.04em] text-text-primary">
-                Histórico
-              </h2>
-
-
-              <p className="mt-4 text-[14px] leading-6 text-text-secondary">
-                Consulte falhas, ocorrências e paradas
-                das unidades selecionadas no filtro.
-              </p>
-
-            </div>
-
-
-            <div className="mt-10 flex items-center justify-between border-t border-border-theme pt-6">
-
-              <span className="text-[13px] font-semibold text-text-primary">
-                Consultar
-              </span>
-
-
-              <ArrowRight
-                size={18}
-                className="text-text-secondary transition-transform duration-200 group-hover:translate-x-1"
-              />
-
-            </div>
-
-          </Link>
-
-
-          {/* ===============================================
-              RELIABILITY
-          ================================================ */}
-
-          <Link
-            href="/dashboard/confiabilidade"
-            className="group flex min-h-[330px] flex-col justify-between rounded-[30px] border border-border-theme/[0.07] bg-surface p-8 transition-all duration-200 hover:-translate-y-0.5 hover:border-border-theme/[0.12] hover:shadow-[0_16px_40px_rgba(0,0,0,0.045)]"
-          >
-
-            <div>
-
-              <Activity
-                size={25}
-                strokeWidth={1.7}
-                className="text-text-primary"
-              />
-
-
-              <h2 className="mt-12 text-[30px] font-semibold leading-[1.08] tracking-[-0.04em] text-text-primary">
-                Confiabilidade
-              </h2>
-
-
-              <p className="mt-4 text-[14px] leading-6 text-text-secondary">
-                Compare perdas, recorrência e impacto
-                entre as unidades selecionadas.
-              </p>
-
-            </div>
-
-
-            <div className="mt-10 flex items-center justify-between border-t border-border-theme pt-6">
-
-              <span className="text-[13px] font-semibold text-text-primary">
-                Analisar
-              </span>
-
-
-              <ArrowRight
-                size={18}
-                className="text-text-secondary transition-transform duration-200 group-hover:translate-x-1"
-              />
-
-            </div>
-
-          </Link>
-
-
-          {/* ===============================================
-              MASP
-          ================================================ */}
-
-          <Link
-            href="/dashboard/masp"
-            className="group flex min-h-[330px] flex-col justify-between rounded-[30px] border border-border-theme/[0.07] bg-surface p-8 transition-all duration-200 hover:-translate-y-0.5 hover:border-border-theme/[0.12] hover:shadow-[0_16px_40px_rgba(0,0,0,0.045)]"
-          >
-
-            <div>
-
-              <Waypoints
-                size={25}
-                strokeWidth={1.7}
-                className="text-text-primary"
-              />
-
-
-              <h2 className="mt-12 text-[30px] font-semibold leading-[1.08] tracking-[-0.04em] text-text-primary">
-                MASP
-              </h2>
-
-
-              <p className="mt-4 text-[14px] leading-6 text-text-secondary">
-                Investigue problemas, valide causas e acompanhe
-                ações com dados locais.
-              </p>
-
-            </div>
-
-
-            <div className="mt-10 flex items-center justify-between border-t border-border-theme pt-6">
-
-              <span className="text-[13px] font-semibold text-text-primary">
-                Abrir análises
-              </span>
-
-
-              <ArrowRight
-                size={18}
-                className="text-text-secondary transition-transform duration-200 group-hover:translate-x-1"
-              />
-
-            </div>
-
-          </Link>
-
-
-        {/* ===============================================
-            VALIDAÇÃO HUMANA
-        ================================================ */}
-
-        <Link
-          href="/dashboard/revisao"
-          className="group flex min-h-[330px] flex-col justify-between rounded-[30px] border border-border-theme/[0.07] bg-surface p-8 transition-all duration-200 hover:-translate-y-0.5 hover:border-border-theme/[0.12] hover:shadow-[0_16px_40px_rgba(0,0,0,0.045)]"
-        >
-
-          <div>
-
-            <ClipboardCheck
-              size={25}
-              strokeWidth={1.7}
-              className="text-text-primary"
-            />
-
-
-            <h2 className="mt-12 text-[30px] font-semibold leading-[1.08] tracking-[-0.04em] text-text-primary">
-              Validação
-            </h2>
-
-
-            <p className="mt-4 text-[14px] leading-6 text-text-secondary">
-              Revise por categoria as classificações sugeridas
-              pela IA e registre o feedback humano.
-            </p>
-
-          </div>
-
-
-          <div className="mt-10 flex items-center justify-between border-t border-border-theme pt-6">
-
-            <span className="text-[13px] font-semibold text-text-primary">
-              Revisar
-            </span>
-
-
-            <ArrowRight
-              size={18}
-              className="text-text-secondary transition-transform duration-200 group-hover:translate-x-1"
-            />
-
-          </div>
-
-        </Link>
-
-        </section>
-
-
-        {/* =================================================
-            ADMINISTRATION
-        ================================================== */}
-
-        {isAnalyst && (
-          <section className="mt-5">
-
-            <Link
-              href="/dashboard/usuarios"
-              className="group flex items-center justify-between rounded-[22px] border border-border-theme/[0.07] bg-surface px-6 py-5 transition-all duration-200 hover:border-border-theme/[0.12] hover:shadow-[0_10px_30px_rgba(0,0,0,0.035)]"
-            >
-
-              <div className="flex items-center gap-4">
-
-                <div className="flex h-10 w-10 items-center justify-center rounded-[12px] bg-surface-elevated text-text-primary">
-
-                  <Users
-                    size={18}
-                    strokeWidth={1.8}
-                  />
-
-                </div>
-
-
-                <div>
-
-                  <p className="text-[13px] font-semibold text-text-primary">
-                    Usuários
-                  </p>
-
-
-                  <p className="mt-1 text-[10px] text-text-secondary">
-                    Cadastre representantes das unidades.
-                  </p>
-
-                </div>
-
-              </div>
-
-
-              <ArrowRight
-                size={17}
-                className="text-text-secondary transition-transform duration-200 group-hover:translate-x-1"
-              />
-
-            </Link>
-
-          </section>
-        )}
-
-=======
         <footer
           className={[
             "mt-7 flex items-center justify-between border-t border-black/[0.045] pt-4",
@@ -1554,51 +972,6 @@ export function DashboardHome({
             Coca-Cola FEMSA
           </p>
 
-=======
-        <footer
-          className={[
-            "mt-7 flex items-center justify-between border-t border-black/[0.045] pt-4",
-            "transition-all delay-500 duration-700",
-            ready
-              ? "translate-y-0 opacity-100"
-              : "translate-y-2 opacity-0",
-          ].join(" ")}
-        >
-          <p className="text-[8px] uppercase tracking-[0.14em] text-[#A5A9AD]">
-            Coca-Cola FEMSA
-          </p>
-
->>>>>>> origin/marques
-=======
-        <footer
-          className={[
-            "mt-7 flex items-center justify-between border-t border-black/[0.045] pt-4",
-            "transition-all delay-500 duration-700",
-            ready
-              ? "translate-y-0 opacity-100"
-              : "translate-y-2 opacity-0",
-          ].join(" ")}
-        >
-          <p className="text-[8px] uppercase tracking-[0.14em] text-[#A5A9AD]">
-            Coca-Cola FEMSA
-          </p>
-
->>>>>>> origin/marques
-=======
-        <footer
-          className={[
-            "mt-7 flex items-center justify-between border-t border-black/[0.045] pt-4",
-            "transition-all delay-500 duration-700",
-            ready
-              ? "translate-y-0 opacity-100"
-              : "translate-y-2 opacity-0",
-          ].join(" ")}
-        >
-          <p className="text-[8px] uppercase tracking-[0.14em] text-[#A5A9AD]">
-            Coca-Cola FEMSA
-          </p>
-
->>>>>>> origin/marques
           <div className="flex items-center gap-2">
             <span className="h-[4px] w-[4px] rounded-full bg-[#E41E2B]" />
 
@@ -1607,16 +980,6 @@ export function DashboardHome({
             </span>
           </div>
         </footer>
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
->>>>>>> origin/marques
-=======
->>>>>>> origin/marques
-=======
->>>>>>> origin/marques
-=======
->>>>>>> origin/marques
       </div>
 
       <style>
