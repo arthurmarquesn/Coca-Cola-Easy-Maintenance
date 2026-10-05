@@ -54,6 +54,7 @@ import {
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
   ComplementaryCharts,
 } from "@/components/charts/complementary-charts";
 
@@ -61,6 +62,8 @@ import {
   ThemeSwitcher,
 } from "@/components/theme/theme-switcher";
 =======
+=======
+>>>>>>> origin/marques
 =======
 >>>>>>> origin/marques
 =======
@@ -77,6 +80,9 @@ import {
 } from "@/components/reliability/equipment-dna";
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+>>>>>>> origin/marques
+=======
 >>>>>>> origin/marques
 =======
 >>>>>>> origin/marques
@@ -2129,6 +2135,24 @@ function ReliabilityDetailDrawer({
             </button>
           )}
 
+          {historyEquipmentName && (
+            <button
+              type="button"
+              onClick={() =>
+                onOpenEquipmentHistory(
+                  historyEquipmentName,
+                )
+              }
+              className="flex h-12 w-full items-center justify-center gap-2 rounded-[12px] border border-[#DDE0E3] bg-white text-[12px] font-semibold text-[#3F4449] hover:bg-[#F7F7F6]"
+            >
+              <History
+                size={16}
+              />
+
+              Histórico do Equipamento
+            </button>
+          )}
+
           {isEquipmentLevel ? (
             <button
               type="button"
@@ -2267,7 +2291,11 @@ function ParetoChart({
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
       <div className="flex min-h-[420px] items-center justify-center text-[13px] text-text-secondary">
+=======
+      <div className="flex min-h-[430px] items-center justify-center rounded-[24px] border border-dashed border-black/[0.07] bg-[#FAFAF9] text-[12px] text-[#93989E]">
+>>>>>>> origin/marques
 =======
       <div className="flex min-h-[430px] items-center justify-center rounded-[24px] border border-dashed border-black/[0.07] bg-[#FAFAF9] text-[12px] text-[#93989E]">
 >>>>>>> origin/marques
@@ -2668,6 +2696,7 @@ function ParetoChart({
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
             return (
               <g
                 key={
@@ -2695,6 +2724,8 @@ function ParetoChart({
 >>>>>>> origin/marques
 =======
 >>>>>>> origin/marques
+=======
+>>>>>>> origin/marques
           {percentageTicks.map(
             (
               percentage,
@@ -2705,6 +2736,9 @@ function ParetoChart({
                 );
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+>>>>>>> origin/marques
+=======
 >>>>>>> origin/marques
 =======
 >>>>>>> origin/marques
@@ -2852,6 +2886,7 @@ function ParetoChart({
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
                       `${formatNumber(
                         item
                           .occurrences,
@@ -2988,6 +3023,10 @@ function ParetoChart({
               const open =
                 () =>
 >>>>>>> origin/marques
+=======
+              const open =
+                () =>
+>>>>>>> origin/marques
                   onSelect(
                     item,
                     globalIndex,
@@ -3010,6 +3049,7 @@ function ParetoChart({
                     dimmed
                       ? 0.42
                       : 1
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
                   }
@@ -4199,6 +4239,430 @@ function ParetoChart({
         <div>
           <p className="text-[10px] font-semibold text-[#555A60]">
 >>>>>>> origin/marques
+=======
+                  }
+                  onClick={
+                    open
+                  }
+                  onKeyDown={(
+                    event,
+                  ) =>
+                    activateWithKeyboard(
+                      event,
+                      open,
+                    )
+                  }
+                  onMouseEnter={() => {
+                    setHoveredGlobalIndex(
+                      globalIndex,
+                    );
+
+                    setTooltip({
+                      x:
+                        centerX,
+
+                      y,
+
+                      title:
+                        item.label,
+
+                      lines: [
+                        `#${globalIndex + 1} no ranking`,
+
+                        `${formatNumber(
+                          item
+                            .downtimeMinutes,
+                          1,
+                        )} min de parada`,
+
+                        `${formatNumber(
+                          item
+                            .occurrences,
+                        )} ocorrências`,
+
+                        `${formatNumber(
+                          item.percentage,
+                          1,
+                        )}% do total`,
+
+                        `${formatNumber(
+                          item
+                            .cumulativePercentage,
+                          1,
+                        )}% acumulado`,
+                      ],
+                    });
+                  }}
+                >
+                  <rect
+                    x={
+                      x
+                    }
+                    y={
+                      y
+                    }
+                    width={
+                      barWidth
+                    }
+                    height={
+                      heightValue
+                    }
+                    rx="7"
+                    fill={
+                      belongsToVitalFew
+                        ? "url(#pareto-vital-gradient)"
+                        : "#34383D"
+                    }
+                    filter={
+                      active &&
+                      belongsToVitalFew
+                        ? "url(#pareto-red-glow)"
+                        : undefined
+                    }
+                  >
+                    <animate
+                      attributeName="y"
+                      from={
+                        top +
+                        plotHeight
+                      }
+                      to={
+                        y
+                      }
+                      dur="0.58s"
+                      begin={
+                        begin
+                      }
+                      fill="freeze"
+                    />
+
+                    <animate
+                      attributeName="height"
+                      from="0"
+                      to={
+                        heightValue
+                      }
+                      dur="0.58s"
+                      begin={
+                        begin
+                      }
+                      fill="freeze"
+                    />
+
+                    <animate
+                      attributeName="opacity"
+                      from="0"
+                      to="1"
+                      dur="0.34s"
+                      begin={
+                        begin
+                      }
+                      fill="freeze"
+                    />
+                  </rect>
+
+                  {active && (
+                    <rect
+                      x={
+                        x -
+                        4
+                      }
+                      y={
+                        Math.max(
+                          top,
+                          y -
+                            4,
+                        )
+                      }
+                      width={
+                        barWidth +
+                        8
+                      }
+                      height={
+                        heightValue +
+                        4
+                      }
+                      rx="10"
+                      fill="none"
+                      stroke={
+                        belongsToVitalFew
+                          ? "#E41E2B"
+                          : "#202327"
+                      }
+                      strokeWidth="1.5"
+                      opacity="0.22"
+                    />
+                  )}
+
+                  <text
+                    x={
+                      centerX
+                    }
+                    y={
+                      Math.max(
+                        top +
+                          12,
+                        y -
+                          9,
+                      )
+                    }
+                    textAnchor="middle"
+                    fontSize="10"
+                    fontWeight="700"
+                    fill={
+                      active
+                        ? belongsToVitalFew
+                          ? "#C81723"
+                          : "#202327"
+                        : "#62676D"
+                    }
+                    className="pointer-events-none"
+                  >
+                    {formatNumber(
+                      item
+                        .downtimeMinutes,
+                    )}
+                  </text>
+
+                  <text
+                    x={
+                      centerX
+                    }
+                    y={
+                      top +
+                      plotHeight +
+                      24
+                    }
+                    textAnchor="end"
+                    transform={`rotate(-38 ${centerX} ${
+                      top +
+                      plotHeight +
+                      24
+                    })`}
+                    fontSize="10"
+                    fontWeight={
+                      active
+                        ? "700"
+                        : "400"
+                    }
+                    fill={
+                      active
+                        ? "#202327"
+                        : "#70757B"
+                    }
+                    className="pointer-events-none"
+                  >
+                    {truncate(
+                      item.label,
+                      24,
+                    )}
+                  </text>
+                </g>
+              );
+            },
+          )}
+
+          <path
+            key={`pareto-line-${paretoAnimationKey}`}
+            d={
+              cumulativePath
+            }
+            fill="none"
+            stroke="#202327"
+            strokeWidth="3.2"
+            strokeLinejoin="round"
+            strokeLinecap="round"
+            pointerEvents="none"
+            pathLength={1}
+            strokeDasharray="1"
+            strokeDashoffset="0"
+          >
+            <animate
+              attributeName="stroke-dashoffset"
+              from="1"
+              to="0"
+              dur="0.82s"
+              begin="0.18s"
+              fill="freeze"
+            />
+
+            <animate
+              attributeName="opacity"
+              from="0"
+              to="1"
+              dur="0.38s"
+              begin="0.12s"
+              fill="freeze"
+            />
+          </path>
+
+          {points.map(
+            (
+              point,
+              localIndex,
+            ) => {
+              const item =
+                visibleItems[
+                  localIndex
+                ];
+
+              const globalIndex =
+                startIndex +
+                localIndex;
+
+              const active =
+                hoveredGlobalIndex ===
+                globalIndex;
+
+              return (
+                <g
+                  key={`pareto-point-${paretoAnimationKey}-${globalIndex}`}
+                  className="cursor-pointer"
+                  onMouseEnter={() =>
+                    setHoveredGlobalIndex(
+                      globalIndex,
+                    )
+                  }
+                  onClick={() =>
+                    onSelect(
+                      item,
+                      globalIndex,
+                    )
+                  }
+                >
+                  <circle
+                    cx={
+                      point.x
+                    }
+                    cy={
+                      point.y
+                    }
+                    r="14"
+                    fill="transparent"
+                  />
+
+                  {active && (
+                    <circle
+                      cx={
+                        point.x
+                      }
+                      cy={
+                        point.y
+                      }
+                      r="8"
+                      fill="#E41E2B"
+                      opacity="0.10"
+                    />
+                  )}
+
+                  <circle
+                    cx={
+                      point.x
+                    }
+                    cy={
+                      point.y
+                    }
+                    r={
+                      active
+                        ? 5.5
+                        : 4.3
+                    }
+                    fill={
+                      active
+                        ? "#E41E2B"
+                        : "#202327"
+                    }
+                    stroke="white"
+                    strokeWidth="1.7"
+                    className="pointer-events-none"
+                  >
+                    <animate
+                      attributeName="opacity"
+                      from="0"
+                      to="1"
+                      dur="0.32s"
+                      begin={`${0.34 +
+                      Math.min(
+                        localIndex *
+                          0.025,
+                        0.2,
+                      )}s`}
+                      fill="freeze"
+                    />
+                  </circle>
+                </g>
+              );
+            },
+          )}
+
+          <line
+            x1={
+              left
+            }
+            x2={
+              left
+            }
+            y1={
+              top
+            }
+            y2={
+              top +
+              plotHeight
+            }
+            stroke="#B7BBC0"
+          />
+
+          <line
+            x1={
+              left
+            }
+            x2={
+              width -
+              right
+            }
+            y1={
+              top +
+              plotHeight
+            }
+            y2={
+              top +
+              plotHeight
+            }
+            stroke="#B7BBC0"
+          />
+
+          <text
+            x={
+              left
+            }
+            y="24"
+            fontSize="10"
+            fontWeight="600"
+            fill="#777C82"
+          >
+            Tempo de parada (min)
+          </text>
+
+          <text
+            x={
+              width -
+              right
+            }
+            y="24"
+            textAnchor="end"
+            fontSize="10"
+            fontWeight="600"
+            fill="#777C82"
+          >
+            Percentual acumulado
+          </text>
+        </svg>
+      </div>
+
+      <div className="mt-4 flex flex-col gap-3 px-1 sm:flex-row sm:items-center sm:justify-between">
+        <div>
+          <p className="text-[10px] font-semibold text-[#555A60]">
+>>>>>>> origin/marques
             Exibindo{" "}
             {startIndex + 1}
             –
@@ -4206,6 +4670,7 @@ function ParetoChart({
             {items.length} categorias
           </p>
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -4223,11 +4688,16 @@ function ParetoChart({
           <p className="mt-1 text-[9px] text-[#9A9FA5]">
             Vermelho = categorias que formam a faixa vital até 80% · grafite = cauda do Pareto
 >>>>>>> origin/marques
+=======
+          <p className="mt-1 text-[9px] text-[#9A9FA5]">
+            Vermelho = categorias que formam a faixa vital até 80% · grafite = cauda do Pareto
+>>>>>>> origin/marques
           </p>
         </div>
 
         {totalPages >
           1 && (
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -4252,6 +4722,8 @@ function ParetoChart({
 >>>>>>> origin/marques
 =======
 >>>>>>> origin/marques
+=======
+>>>>>>> origin/marques
             <div className="inline-flex items-center rounded-full bg-[#F1F1F0] p-1">
               <button
                 type="button"
@@ -4269,6 +4741,9 @@ function ParetoChart({
                 />
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+>>>>>>> origin/marques
+=======
 >>>>>>> origin/marques
 =======
 >>>>>>> origin/marques
@@ -4278,6 +4753,7 @@ function ParetoChart({
                 Anterior
               </button>
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -4323,6 +4799,28 @@ function ParetoChart({
                 Próximo
 >>>>>>> origin/marques
 
+=======
+              <span className="min-w-[58px] text-center text-[9px] font-bold text-[#3A3E43]">
+                {safePage + 1}
+                {" / "}
+                {totalPages}
+              </span>
+
+              <button
+                type="button"
+                onClick={
+                  goToNextPage
+                }
+                disabled={
+                  safePage >=
+                  totalPages -
+                    1
+                }
+                className="inline-flex h-8 items-center gap-1 rounded-full px-3 text-[9px] font-semibold text-[#62676D] transition hover:bg-white hover:text-[#202327] disabled:cursor-not-allowed disabled:opacity-30"
+              >
+                Próximo
+
+>>>>>>> origin/marques
 =======
               <span className="min-w-[58px] text-center text-[9px] font-bold text-[#3A3E43]">
                 {safePage + 1}
@@ -4417,7 +4915,11 @@ function JackKnifeChart({
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
       <div className="flex min-h-[430px] items-center justify-center text-[13px] text-text-secondary">
+=======
+      <div className="flex min-h-[520px] items-center justify-center rounded-[24px] border border-dashed border-black/[0.07] bg-[#FAFAF9] text-[12px] text-[#93989E]">
+>>>>>>> origin/marques
 =======
       <div className="flex min-h-[520px] items-center justify-center rounded-[24px] border border-dashed border-black/[0.07] bg-[#FAFAF9] text-[12px] text-[#93989E]">
 >>>>>>> origin/marques
@@ -4848,6 +5350,7 @@ function JackKnifeChart({
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
         {xTicks.map(
           (
             tick,
@@ -5092,6 +5595,14 @@ function JackKnifeChart({
         />
 
 >>>>>>> origin/marques
+=======
+        <ChartTooltip
+          tooltip={
+            tooltip
+          }
+        />
+
+>>>>>>> origin/marques
         <svg
           viewBox={`0 0 ${width} ${height}`}
           className="block h-auto w-full"
@@ -5101,6 +5612,9 @@ function JackKnifeChart({
             event,
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+>>>>>>> origin/marques
+=======
 >>>>>>> origin/marques
 =======
 >>>>>>> origin/marques
@@ -6439,6 +6953,7 @@ export function ReliabilityPage({
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
             <h1 className="text-[34px] font-semibold tracking-[-0.045em] text-text-primary sm:text-[40px]">
               Confiabilidade
             </h1>
@@ -6448,6 +6963,19 @@ export function ReliabilityPage({
                 {selectedUnitsLabel}
               </span>
             </div>
+=======
+            <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-[#A2A6AB]">
+              Engenharia de confiabilidade
+            </p>
+
+            <h1 className="mt-2 text-[34px] font-semibold tracking-[-0.045em] text-[#191B1E] sm:text-[40px]">
+              Confiabilidade
+            </h1>
+
+            <p className="mt-2 max-w-[620px] text-[13px] leading-6 text-[#8D9298]">
+              Análise de falhas e desempenho dos ativos.
+            </p>
+>>>>>>> origin/marques
 =======
             <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-[#A2A6AB]">
               Engenharia de confiabilidade
@@ -6506,6 +7034,7 @@ export function ReliabilityPage({
           </button>
         </div>
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -6592,6 +7121,8 @@ export function ReliabilityPage({
 >>>>>>> origin/marques
 =======
 >>>>>>> origin/marques
+=======
+>>>>>>> origin/marques
         <nav
           aria-label="Navegação da confiabilidade"
           className="mt-6 overflow-x-auto border-b border-black/[0.055]"
@@ -6603,6 +7134,9 @@ export function ReliabilityPage({
               className="relative pb-3 text-[11px] font-semibold text-[#202327]"
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+>>>>>>> origin/marques
+=======
 >>>>>>> origin/marques
 =======
 >>>>>>> origin/marques
@@ -6614,6 +7148,7 @@ export function ReliabilityPage({
               <span className="absolute inset-x-0 bottom-0 h-[2px] rounded-full bg-[#E41E2B]" />
             </Link>
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -6651,10 +7186,16 @@ export function ReliabilityPage({
               href="/dashboard/confiabilidade/origens"
               className="pb-3 text-[11px] font-medium text-[#92979D] transition-colors hover:text-[#34383D]"
 >>>>>>> origin/marques
+=======
+            <Link
+              href="/dashboard/confiabilidade/origens"
+              className="pb-3 text-[11px] font-medium text-[#92979D] transition-colors hover:text-[#34383D]"
+>>>>>>> origin/marques
             >
               Origens
             </Link>
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -6684,6 +7225,11 @@ export function ReliabilityPage({
                 resetFilters
               }
               className="flex h-11 items-center gap-2 px-2 text-[12px] font-medium text-text-secondary transition-colors hover:text-[#E41E2B]"
+=======
+            <Link
+              href="/dashboard/confiabilidade/evolucao"
+              className="pb-3 text-[11px] font-medium text-[#92979D] transition-colors hover:text-[#34383D]"
+>>>>>>> origin/marques
 =======
             <Link
               href="/dashboard/confiabilidade/evolucao"
@@ -6790,6 +7336,7 @@ export function ReliabilityPage({
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
             <div className="mt-7 flex flex-wrap items-center justify-between gap-3">
               <p className="text-[12px] text-text-secondary">
                 {formatNumber(
@@ -6855,11 +7402,23 @@ export function ReliabilityPage({
                 <div className="flex items-center gap-3">
                   <div className="relative flex h-7 min-w-7 items-center justify-center rounded-full bg-[#202327] px-2 text-[9px] font-bold text-white shadow-[0_4px_12px_rgba(32,35,39,0.10)]">
 >>>>>>> origin/marques
+=======
+            <section
+              id="reliability-pareto"
+              className="scroll-mt-[110px] relative mt-5 overflow-hidden rounded-[28px] border border-black/[0.045] bg-white shadow-[0_14px_44px_rgba(28,31,34,0.035)]"
+            >
+              <div className="pointer-events-none absolute -right-24 -top-28 h-64 w-64 rounded-full bg-[#E41E2B]/[0.04] blur-3xl" />
+
+              <div className="flex flex-col gap-3 border-b border-black/[0.05] px-5 py-3.5 sm:flex-row sm:items-center sm:justify-between sm:px-6">
+                <div className="flex items-center gap-3">
+                  <div className="relative flex h-7 min-w-7 items-center justify-center rounded-full bg-[#202327] px-2 text-[9px] font-bold text-white shadow-[0_4px_12px_rgba(32,35,39,0.10)]">
+>>>>>>> origin/marques
                     01
 
                     <span className="absolute -bottom-[2px] left-1/2 h-[2px] w-3 -translate-x-1/2 rounded-full bg-[#E41E2B]" />
                   </div>
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -7034,6 +7593,48 @@ export function ReliabilityPage({
                   </button>
                 </div>
 >>>>>>> origin/marques
+=======
+                  <h2 className="text-[16px] font-semibold tracking-[-0.035em] text-[#202327]">
+                    Pareto
+                  </h2>
+                </div>
+
+                <div className="flex shrink-0 flex-wrap items-center gap-3">
+                  <div className="flex items-center gap-4 text-[9px] font-medium text-[#858A90]">
+                    <span className="flex items-center gap-1.5">
+                      <span className="h-2 w-2 rounded-full bg-[#E41E2B]" />
+
+                      Faixa vital
+                    </span>
+
+                    <span className="flex items-center gap-1.5">
+                      <span className="h-[2px] w-5 rounded-full bg-[#202327]" />
+
+                      Acumulado
+                    </span>
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setAnalysisFocus(
+                        "PARETO",
+                      );
+
+                      setAnalysisFullscreen(
+                        true,
+                      );
+                    }}
+                    className="inline-flex h-8 items-center gap-2 rounded-[10px] border border-black/[0.06] bg-[#FAFAF9] px-3 text-[9px] font-semibold text-[#656A70] transition hover:bg-[#F1F1F0] hover:text-[#202327]"
+                  >
+                    <Maximize2
+                      size={12}
+                    />
+
+                    Expandir
+                  </button>
+                </div>
+>>>>>>> origin/marques
               </div>
 
               <div className="relative p-4 sm:p-5 sm:px-6 sm:pb-6">
@@ -7058,6 +7659,7 @@ export function ReliabilityPage({
               </div>
             </section>
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -7139,6 +7741,25 @@ export function ReliabilityPage({
                 </div>
 
 >>>>>>> origin/marques
+=======
+            <section
+              id="reliability-jackknife"
+              className="scroll-mt-[110px] relative mt-5 overflow-hidden rounded-[28px] border border-black/[0.045] bg-white shadow-[0_14px_44px_rgba(28,31,34,0.035)]"
+            >
+              <div className="flex flex-col gap-3 border-b border-black/[0.05] px-5 py-3.5 sm:flex-row sm:items-center sm:justify-between sm:px-6">
+                <div className="flex items-center gap-3">
+                  <div className="relative flex h-7 min-w-7 items-center justify-center rounded-full bg-[#202327] px-2 text-[9px] font-bold text-white shadow-[0_4px_12px_rgba(32,35,39,0.10)]">
+                    02
+
+                    <span className="absolute -bottom-[2px] left-1/2 h-[2px] w-3 -translate-x-1/2 rounded-full bg-[#E41E2B]" />
+                  </div>
+
+                  <h2 className="text-[16px] font-semibold tracking-[-0.035em] text-[#202327]">
+                    Jack-Knife
+                  </h2>
+                </div>
+
+>>>>>>> origin/marques
                 <button
                   type="button"
                   onClick={() => {
@@ -7160,6 +7781,9 @@ export function ReliabilityPage({
                 </button>
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+>>>>>>> origin/marques
+=======
 >>>>>>> origin/marques
 =======
 >>>>>>> origin/marques
@@ -7473,6 +8097,9 @@ export function ReliabilityPage({
         }
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+>>>>>>> origin/marques
+=======
 >>>>>>> origin/marques
 =======
 >>>>>>> origin/marques

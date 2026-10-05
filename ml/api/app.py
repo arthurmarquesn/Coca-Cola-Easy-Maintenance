@@ -8,7 +8,11 @@ from typing import Any, Literal
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 import logging
+=======
+
+>>>>>>> origin/marques
 =======
 
 >>>>>>> origin/marques
@@ -33,7 +37,10 @@ logger = logging.getLogger(__name__)
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 
+=======
+>>>>>>> origin/marques
 =======
 >>>>>>> origin/marques
 =======
