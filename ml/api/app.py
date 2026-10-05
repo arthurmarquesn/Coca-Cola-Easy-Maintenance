@@ -7,7 +7,11 @@ from pathlib import Path
 from typing import Any, Literal
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 import logging
+=======
+
+>>>>>>> origin/marques
 =======
 
 >>>>>>> origin/marques
@@ -28,7 +32,10 @@ from ml.runtime import UrsusRuntime, validate_labels_in_taxonomy
 logger = logging.getLogger(__name__)
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 
+=======
+>>>>>>> origin/marques
 =======
 >>>>>>> origin/marques
 CURRENT_FILE = Path(__file__).resolve()

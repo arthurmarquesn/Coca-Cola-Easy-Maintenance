@@ -4,9 +4,12 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 import { FormEvent, useEffect, useState, useSyncExternalStore } from "react";
 import { preload } from "react-dom";
 =======
+=======
+>>>>>>> origin/marques
 =======
 >>>>>>> origin/marques
 import {
@@ -15,6 +18,9 @@ import {
   useState,
 } from "react";
 <<<<<<< HEAD
+<<<<<<< HEAD
+>>>>>>> origin/marques
+=======
 >>>>>>> origin/marques
 =======
 >>>>>>> origin/marques
@@ -42,12 +48,20 @@ const WAVE_PATH_2 =
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 const LOGIN_TRANSITION_DURATION =
   1800;
 =======
 const LOGIN_TRANSITION_DURATION =
   1800;
+=======
+const LOGIN_TRANSITION_DURATION =
+  1800;
+
+const DASHBOARD_PRODUCT_TRANSITION_KEY =
+  "play-dashboard-product-transition";
+>>>>>>> origin/marques
 
 const DASHBOARD_PRODUCT_TRANSITION_KEY =
   "play-dashboard-product-transition";
@@ -65,6 +79,7 @@ interface LoginResponse {
 const subscribeHydration = () => () => {};
 
 export default function LoginPage() {
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
   const router = useRouter();
@@ -100,6 +115,23 @@ export default function LoginPage() {
   ] =
     useState("");
 
+=======
+  const router =
+    useRouter();
+
+  const [
+    email,
+    setEmail,
+  ] =
+    useState("");
+
+  const [
+    password,
+    setPassword,
+  ] =
+    useState("");
+
+>>>>>>> origin/marques
 =======
   const router =
     useRouter();
@@ -168,6 +200,9 @@ export default function LoginPage() {
     ],
   );
 <<<<<<< HEAD
+<<<<<<< HEAD
+>>>>>>> origin/marques
+=======
 >>>>>>> origin/marques
 =======
 >>>>>>> origin/marques
@@ -240,9 +275,12 @@ export default function LoginPage() {
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
       setIsLeaving(true);
       startLoginTransition("/dashboard");
 =======
+=======
+>>>>>>> origin/marques
 =======
 >>>>>>> origin/marques
       /*
@@ -285,6 +323,9 @@ export default function LoginPage() {
         "/dashboard",
       );
 <<<<<<< HEAD
+<<<<<<< HEAD
+>>>>>>> origin/marques
+=======
 >>>>>>> origin/marques
 =======
 >>>>>>> origin/marques
@@ -327,9 +368,12 @@ export default function LoginPage() {
               <path
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
                 d={BRAND_CURVE_PATH}
                 className="fill-background-secondary transition-colors"
 =======
+=======
+>>>>>>> origin/marques
 =======
 >>>>>>> origin/marques
                 d={

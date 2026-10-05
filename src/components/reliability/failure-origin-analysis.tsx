@@ -294,6 +294,7 @@ function FailureOriginOverview({
   const hasClassified =
     data.classified > 0;
 <<<<<<< HEAD
+<<<<<<< HEAD
 
   return (
     <div>
@@ -360,6 +361,12 @@ function FailureOriginOverview({
     <div>
       <div className="overflow-hidden rounded-[28px] border border-black/[0.045] bg-[#F7F7F6]">
         <div className="grid lg:grid-cols-2">
+=======
+
+  return (
+    <div>
+      <div className="overflow-hidden rounded-[28px] border border-black/[0.045] bg-[#F7F7F6]">
+        <div className="grid lg:grid-cols-2">
           <button
             type="button"
             onClick={() =>
@@ -385,6 +392,85 @@ function FailureOriginOverview({
               </span>
             </div>
 
+            <div className="mt-8 flex items-end justify-between gap-5">
+              <div>
+                <p className="text-[48px] font-semibold leading-none tracking-[-0.065em] text-[#1E2125] sm:text-[58px]">
+                  {formatNumber(
+                    operationPercentage,
+                    1,
+                  )}
+
+                  <span className="ml-1 text-[21px] font-medium tracking-[-0.025em] text-[#9DA2A8]">
+                    %
+                  </span>
+                </p>
+
+                <p className="mt-3 text-[11px] font-medium text-[#8E9399]">
+                  entre as ocorrências classificadas
+                </p>
+              </div>
+
+              <div className="shrink-0 text-right">
+                <p className="text-[20px] font-semibold tracking-[-0.04em] text-[#2B2F33]">
+                  {formatNumber(
+                    data.operation,
+                  )}
+                </p>
+
+                <p className="mt-1 text-[9px] font-medium text-[#A1A5AA]">
+                  ocorrências
+                </p>
+              </div>
+            </div>
+          </button>
+
+>>>>>>> origin/marques
+          <button
+            type="button"
+            onClick={() =>
+              onSelectOrigin(
+<<<<<<< HEAD
+                "OPERACAO",
+              )
+            }
+            className="group relative overflow-hidden border-b border-black/[0.05] px-6 py-6 text-left outline-none transition-all duration-200 hover:bg-white focus-visible:z-10 focus-visible:ring-2 focus-visible:ring-[#E41E2B]/20 sm:px-7 sm:py-7 lg:border-b-0 lg:border-r"
+          >
+            <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[3px] origin-left scale-x-0 bg-[#E41E2B] transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-x-100" />
+
+            <div className="flex items-center justify-between gap-4">
+              <div className="flex items-center gap-2.5">
+                <span className="h-2.5 w-2.5 rounded-full bg-[#E41E2B] shadow-[0_0_0_5px_rgba(228,30,43,0.07)]" />
+
+                <p className="text-[10px] font-semibold uppercase tracking-[0.13em] text-[#5D6268]">
+                  Operação
+                </p>
+              </div>
+
+              <span className="text-[9px] font-semibold text-[#A1A5AA] transition-colors duration-150 group-hover:text-[#C92832]">
+=======
+                "MANUTENCAO",
+              )
+            }
+            className="group relative overflow-hidden px-6 py-6 text-left outline-none transition-all duration-200 hover:bg-white focus-visible:z-10 focus-visible:ring-2 focus-visible:ring-black/10 sm:px-7 sm:py-7 lg:text-right"
+          >
+            <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[3px] origin-right scale-x-0 bg-[#202327] transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-x-100" />
+
+            <div className="flex items-center justify-between gap-4 lg:flex-row-reverse">
+              <div className="flex items-center gap-2.5 lg:flex-row-reverse">
+                <span className="h-2.5 w-2.5 rounded-full bg-[#202327] shadow-[0_0_0_5px_rgba(32,35,39,0.06)]" />
+
+                <p className="text-[10px] font-semibold uppercase tracking-[0.13em] text-[#5D6268]">
+                  Manutenção
+                </p>
+              </div>
+
+              <span className="text-[9px] font-semibold text-[#A1A5AA] transition-colors duration-150 group-hover:text-[#2F3337]">
+>>>>>>> origin/marques
+                Ver ocorrências
+              </span>
+            </div>
+
+<<<<<<< HEAD
             <div className="mt-8 flex items-end justify-between gap-5">
               <div>
                 <p className="text-[48px] font-semibold leading-none tracking-[-0.065em] text-[#1E2125] sm:text-[58px]">
@@ -504,6 +590,8 @@ function FailureOriginOverview({
 
 =======
 >>>>>>> origin/marques
+=======
+>>>>>>> origin/marques
             <div className="mt-8 flex items-end justify-between gap-5 lg:flex-row-reverse">
               <div>
                 <p className="text-[48px] font-semibold leading-none tracking-[-0.065em] text-[#1E2125] sm:text-[58px]">
@@ -543,6 +631,7 @@ function FailureOriginOverview({
               Distribuição das classificadas
             </p>
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
             <div className="mt-4 flex items-center gap-3">
@@ -641,6 +730,14 @@ function FailureOriginOverview({
               ocorrências
             </p>
 >>>>>>> origin/marques
+=======
+            <p className="text-[9px] font-medium text-[#A0A4A9]">
+              {formatNumber(
+                data.classified,
+              )}{" "}
+              ocorrências
+            </p>
+>>>>>>> origin/marques
           </div>
 
           <div className="mt-3 flex h-[10px] overflow-hidden rounded-full bg-[#E7E9EA]">
@@ -661,6 +758,7 @@ function FailureOriginOverview({
                   }}
                 />
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
       <div className="mt-6">
@@ -755,6 +853,8 @@ function FailureOriginOverview({
 =======
 =======
 >>>>>>> origin/marques
+=======
+>>>>>>> origin/marques
                 <button
                   type="button"
                   aria-label="Ver ocorrências de manutenção"
@@ -773,6 +873,7 @@ function FailureOriginOverview({
             ) : (
               <div className="h-full w-full bg-[#E7E9EA]" />
 <<<<<<< HEAD
+<<<<<<< HEAD
 >>>>>>> origin/marques
             )}
           </div>
@@ -784,6 +885,14 @@ function FailureOriginOverview({
                 data.total,
               )}
 =======
+          <div className="mt-2.5 flex items-center justify-between text-[9px] font-medium text-[#9A9FA5]">
+            <span>
+              Operação
+>>>>>>> origin/marques
+=======
+            )}
+          </div>
+
           <div className="mt-2.5 flex items-center justify-between text-[9px] font-medium text-[#9A9FA5]">
             <span>
               Operação
@@ -812,6 +921,7 @@ function FailureOriginOverview({
               Origem predominante
             </p>
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
       <div className="mt-5 flex flex-col gap-4 border-t border-border-theme pt-5 sm:flex-row sm:items-center sm:justify-between">
@@ -958,6 +1068,72 @@ function FailureOriginOverview({
 
           <div className="mt-2.5 h-[5px] overflow-hidden rounded-full bg-[#E4E6E7]">
 >>>>>>> origin/marques
+=======
+            <p className="mt-2 text-[15px] font-semibold tracking-[-0.02em] text-[#303438]">
+              {dominantOrigin ??
+                "Sem classificação"}
+            </p>
+          </div>
+
+          <div className="border-b border-black/[0.045] px-5 py-4 sm:border-b-0 sm:border-r">
+            <p className="text-[9px] font-semibold uppercase tracking-[0.1em] text-[#A1A5AA]">
+              Diferença
+            </p>
+
+            <p className="mt-2 text-[15px] font-semibold tracking-[-0.02em] text-[#303438]">
+              {hasClassified
+                ? `${formatNumber(
+                    difference,
+                    1,
+                  )} p.p.`
+                : "—"}
+            </p>
+          </div>
+
+          <div className="px-5 py-4">
+            <p className="text-[9px] font-semibold uppercase tracking-[0.1em] text-[#A1A5AA]">
+              Cobertura
+            </p>
+
+            <div className="mt-2 flex items-baseline gap-2">
+              <p className="text-[15px] font-semibold tracking-[-0.02em] text-[#303438]">
+                {formatNumber(
+                  coveragePercentage,
+                  1,
+                )}%
+              </p>
+
+              <span className="text-[9px] text-[#9A9FA5]">
+                {formatNumber(
+                  data.classified,
+                )}{" "}
+                de{" "}
+                {formatNumber(
+                  data.total,
+                )}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="mt-4 flex flex-col gap-4 rounded-[22px] bg-[#F7F7F6] px-5 py-4 sm:flex-row sm:items-center sm:justify-between">
+        <div className="min-w-0 flex-1">
+          <div className="flex items-center justify-between gap-4">
+            <p className="text-[10px] font-medium text-[#6F747A]">
+              Cobertura da classificação
+            </p>
+
+            <p className="text-[10px] font-semibold text-[#34383D]">
+              {formatNumber(
+                coveragePercentage,
+                1,
+              )}%
+            </p>
+          </div>
+
+          <div className="mt-2.5 h-[5px] overflow-hidden rounded-full bg-[#E4E6E7]">
+>>>>>>> origin/marques
             <div
               className="h-full rounded-full bg-[#202327] transition-[width] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]"
               style={{
@@ -978,7 +1154,11 @@ function FailureOriginOverview({
             }
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
             className="shrink-0 rounded-full border border-border-theme bg-surface px-3 py-2 text-[10px] font-medium text-text-secondary transition hover:border-border-theme hover:bg-surface-hover"
+=======
+            className="shrink-0 rounded-full bg-[#202327] px-4 py-2.5 text-[10px] font-semibold text-white transition-all duration-180 hover:-translate-y-px hover:bg-[#111315]"
+>>>>>>> origin/marques
 =======
             className="shrink-0 rounded-full bg-[#202327] px-4 py-2.5 text-[10px] font-semibold text-white transition-all duration-180 hover:-translate-y-px hover:bg-[#111315]"
 >>>>>>> origin/marques
@@ -994,8 +1174,11 @@ function FailureOriginOverview({
         ) : (
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
           <p className="shrink-0 text-[10px] text-text-secondary">
 =======
+=======
+>>>>>>> origin/marques
 =======
 >>>>>>> origin/marques
           <div className="flex shrink-0 items-center gap-2 text-[10px] font-medium text-[#777C82]">
@@ -1005,6 +1188,9 @@ function FailureOriginOverview({
             />
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+>>>>>>> origin/marques
+=======
 >>>>>>> origin/marques
 =======
 >>>>>>> origin/marques
@@ -1347,12 +1533,15 @@ function FailureOriginReviewDrawer({
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
   /* =======================================================
      RESET AO ABRIR OUTRA ORIGEM
   ======================================================= */
 
   // The parent's key remounts the drawer for each origin, resetting local state.
 =======
+=======
+>>>>>>> origin/marques
 =======
 >>>>>>> origin/marques
   useEffect(() => {
@@ -1379,6 +1568,9 @@ function FailureOriginReviewDrawer({
     origin,
   ]);
 <<<<<<< HEAD
+<<<<<<< HEAD
+>>>>>>> origin/marques
+=======
 >>>>>>> origin/marques
 =======
 >>>>>>> origin/marques
@@ -1678,6 +1870,7 @@ function FailureOriginReviewDrawer({
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
       {/* ===================================================
           DRAWER
       ==================================================== */}
@@ -1687,6 +1880,8 @@ function FailureOriginReviewDrawer({
 
         <div className="border-b border-border-theme px-5 py-5 sm:px-6">
 =======
+=======
+>>>>>>> origin/marques
 =======
 >>>>>>> origin/marques
       <aside className="absolute bottom-0 right-0 top-0 flex w-full max-w-[620px] flex-col border-l border-black/[0.06] bg-white shadow-[-18px_0_50px_rgba(0,0,0,0.08)]">
@@ -1845,6 +2040,7 @@ function FailureOriginReviewDrawer({
                             <span
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
                               className={`inline-flex rounded-full px-2.5 py-1 text-[9px] font-semibold uppercase tracking-[0.08em] ${
                                 effective ===
                                 "OPERACAO"
@@ -1855,6 +2051,8 @@ function FailureOriginReviewDrawer({
                                     : "bg-surface-elevated text-text-secondary"
                               }`}
 =======
+=======
+>>>>>>> origin/marques
 =======
 >>>>>>> origin/marques
                               className={
@@ -1869,6 +2067,9 @@ function FailureOriginReviewDrawer({
                                 }`
                               }
 <<<<<<< HEAD
+<<<<<<< HEAD
+>>>>>>> origin/marques
+=======
 >>>>>>> origin/marques
 =======
 >>>>>>> origin/marques
@@ -1996,12 +2197,15 @@ function FailureOriginReviewDrawer({
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
         {/* =================================================
             PAGINAÇÃO
         ================================================== */}
 
         <div className="border-t border-border-theme bg-surface px-5 py-4 sm:px-6">
 =======
+=======
+>>>>>>> origin/marques
 =======
 >>>>>>> origin/marques
         <div className="border-t border-[#ECEDEF] bg-white px-5 py-4 sm:px-6">
@@ -2107,11 +2311,14 @@ function FailureOriginReviewDrawer({
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
             {/* PREVISÃO */}
 
             <div className="mt-5 rounded-[14px] bg-surface-elevated p-4">
               <p className="text-[9px] font-semibold uppercase tracking-[0.08em] text-text-secondary">
 =======
+=======
+>>>>>>> origin/marques
 =======
 >>>>>>> origin/marques
             <div className="mt-5 rounded-[14px] bg-[#F7F7F6] p-4">
@@ -2169,6 +2376,7 @@ function FailureOriginReviewDrawer({
                   }
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
                   className={`rounded-[14px] border px-4 py-4 text-left transition ${
                     editOrigin ===
                     "OPERACAO"
@@ -2176,6 +2384,8 @@ function FailureOriginReviewDrawer({
                       : "border-border-theme bg-surface hover:bg-surface-hover"
                   }`}
 =======
+=======
+>>>>>>> origin/marques
 =======
 >>>>>>> origin/marques
                   className={
@@ -2187,6 +2397,9 @@ function FailureOriginReviewDrawer({
                     }`
                   }
 <<<<<<< HEAD
+<<<<<<< HEAD
+>>>>>>> origin/marques
+=======
 >>>>>>> origin/marques
 =======
 >>>>>>> origin/marques
@@ -2198,6 +2411,7 @@ function FailureOriginReviewDrawer({
                   <span
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
                     className={`mt-2 block text-[13px] font-semibold ${
                       editOrigin ===
                       "OPERACAO"
@@ -2205,6 +2419,8 @@ function FailureOriginReviewDrawer({
                         : "text-text-primary"
                     }`}
 =======
+=======
+>>>>>>> origin/marques
 =======
 >>>>>>> origin/marques
                     className={
@@ -2216,6 +2432,9 @@ function FailureOriginReviewDrawer({
                       }`
                     }
 <<<<<<< HEAD
+<<<<<<< HEAD
+>>>>>>> origin/marques
+=======
 >>>>>>> origin/marques
 =======
 >>>>>>> origin/marques
@@ -2236,6 +2455,7 @@ function FailureOriginReviewDrawer({
                   }
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
                   className={`rounded-[14px] border px-4 py-4 text-left transition ${
                     editOrigin ===
                     "MANUTENCAO"
@@ -2243,6 +2463,8 @@ function FailureOriginReviewDrawer({
                       : "border-border-theme bg-surface hover:bg-surface-hover"
                   }`}
 =======
+=======
+>>>>>>> origin/marques
 =======
 >>>>>>> origin/marques
                   className={
@@ -2254,6 +2476,9 @@ function FailureOriginReviewDrawer({
                     }`
                   }
 <<<<<<< HEAD
+<<<<<<< HEAD
+>>>>>>> origin/marques
+=======
 >>>>>>> origin/marques
 =======
 >>>>>>> origin/marques
@@ -2265,6 +2490,7 @@ function FailureOriginReviewDrawer({
                   <span
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
                     className={`mt-2 block text-[13px] font-semibold ${
                       editOrigin ===
                       "MANUTENCAO"
@@ -2272,6 +2498,8 @@ function FailureOriginReviewDrawer({
                         : "text-text-primary"
                     }`}
 =======
+=======
+>>>>>>> origin/marques
 =======
 >>>>>>> origin/marques
                     className={
@@ -2283,6 +2511,9 @@ function FailureOriginReviewDrawer({
                       }`
                     }
 <<<<<<< HEAD
+<<<<<<< HEAD
+>>>>>>> origin/marques
+=======
 >>>>>>> origin/marques
 =======
 >>>>>>> origin/marques

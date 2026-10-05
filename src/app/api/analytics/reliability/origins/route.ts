@@ -24,12 +24,15 @@ import {
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 import {
   FAILURE_ORIGIN_JOINS,
   containsLikePattern,
 } from "@/lib/analytics/sql";
 
 
+=======
+>>>>>>> origin/marques
 =======
 >>>>>>> origin/marques
 =======
@@ -1712,6 +1715,9 @@ export async function GET(
         containsLikePattern(search);
 =======
         `%${search}%`;
+<<<<<<< HEAD
+>>>>>>> origin/marques
+=======
 >>>>>>> origin/marques
 
       resultValues.push(
@@ -1974,6 +1980,9 @@ export async function GET(
       editable:
         session.role ===
         "MAINTENANCE",
+
+      view:
+        "EVENTS",
 
       view:
         "EVENTS",
