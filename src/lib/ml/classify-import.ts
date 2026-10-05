@@ -638,12 +638,15 @@ Promise<ClassifyImportMlResult> {
     );
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 
   /*
    * Evento com classificação oficial (APROVADA/CORRIGIDA,
    * de qualquer origem) não recebe nova sugestão: ela não
    * poderia ser revisada.
    */
+=======
+>>>>>>> origin/marques
 =======
 >>>>>>> origin/marques
   const componentClassificationNeededCondition =
@@ -1134,7 +1137,10 @@ Promise<ClassifyImportMlResult> {
 
       const insertConnection =
         await getConnection();
+<<<<<<< HEAD
       let batchInserted = 0;
+=======
+>>>>>>> origin/marques
 
       try {
         await insertConnection
@@ -1267,9 +1273,12 @@ Promise<ClassifyImportMlResult> {
               );
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 
           batchInserted =
 =======
+=======
+>>>>>>> origin/marques
           inserted +=
 >>>>>>> origin/marques
             insertResult
@@ -1419,7 +1428,10 @@ Promise<ClassifyImportMlResult> {
 
         await insertConnection
           .commit();
+<<<<<<< HEAD
         inserted += batchInserted;
+=======
+>>>>>>> origin/marques
 
         originProcessed +=
           predictions.length;

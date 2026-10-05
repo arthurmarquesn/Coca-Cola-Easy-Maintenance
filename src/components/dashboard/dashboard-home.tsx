@@ -8,7 +8,11 @@ import {
   Activity,
   ArrowRight,
 <<<<<<< HEAD
+<<<<<<< HEAD
   ClipboardCheck,
+=======
+  Bot,
+>>>>>>> origin/marques
 =======
   Bot,
 >>>>>>> origin/marques
@@ -28,6 +32,7 @@ import {
 } from "react";
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 import {
   UnitFilter,
 } from "@/components/units/unit-filter";
@@ -43,6 +48,9 @@ import {
 =======
 import { UnitFilter } from "@/components/units/unit-filter";
 >>>>>>> origin/marques
+=======
+import { UnitFilter } from "@/components/units/unit-filter";
+>>>>>>> origin/marques
 
 /* =========================================================
    PROPS
@@ -51,11 +59,15 @@ import { UnitFilter } from "@/components/units/unit-filter";
 interface DashboardHomeProps {
   user: {
 <<<<<<< HEAD
+<<<<<<< HEAD
     name:
       string;
 
     role:
       string;
+=======
+    name: string;
+>>>>>>> origin/marques
 =======
     name: string;
 >>>>>>> origin/marques
@@ -640,6 +652,7 @@ export function DashboardHome({
 }: DashboardHomeProps) {
   const firstName =
     getFirstName(user.name);
+<<<<<<< HEAD
 
   const [loggingOut, setLoggingOut] =
     useState(false);
@@ -653,7 +666,14 @@ export function DashboardHome({
     isAnalystRole(
       user.role,
     );
+=======
+>>>>>>> origin/marques
 
+  const [loggingOut, setLoggingOut] =
+    useState(false);
+
+  const [ready, setReady] =
+    useState(false);
 
   const router = useRouter();
   const [
@@ -662,6 +682,14 @@ export function DashboardHome({
   ] = useState(false);
 
   const [
+<<<<<<< HEAD
+=======
+    showEntryIntro,
+    setShowEntryIntro,
+  ] = useState(false);
+
+  const [
+>>>>>>> origin/marques
     introDecisionMade,
     setIntroDecisionMade,
   ] = useState(false);
@@ -802,12 +830,17 @@ export function DashboardHome({
       }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 
       router.replace("/login");
       router.refresh();
     } catch (
       error
     ) {
+=======
+      window.location.href = "/login";
+    } catch (error) {
+>>>>>>> origin/marques
 =======
       window.location.href = "/login";
     } catch (error) {
@@ -832,6 +865,7 @@ export function DashboardHome({
 
   return (
 <<<<<<< HEAD
+<<<<<<< HEAD
     <main className="min-h-screen bg-surface-elevated">
 
       {/* ===================================================
@@ -853,6 +887,18 @@ export function DashboardHome({
       <CocaBackground />
 >>>>>>> origin/marques
 
+=======
+    <main className="relative min-h-screen overflow-hidden bg-[#F7F7F6]">
+      {introDecisionMade &&
+        showEntryIntro && (
+          <ProductEntryIntro
+            onFinish={handleFinishIntro}
+          />
+        )}
+
+      <CocaBackground />
+
+>>>>>>> origin/marques
       <header className="relative z-40 border-b border-black/[0.045] bg-white/[0.88] shadow-[0_1px_0_rgba(0,0,0,0.01)] backdrop-blur-xl">
         <div className="mx-auto flex min-h-[72px] w-full max-w-[1320px] items-center justify-between gap-4 px-6 py-2 sm:px-8 lg:px-10">
           <Image
@@ -874,8 +920,11 @@ export function DashboardHome({
             <div className="mx-1 hidden h-7 w-px bg-black/[0.06] lg:block" />
 
 <<<<<<< HEAD
+<<<<<<< HEAD
             <div className="hidden h-8 w-px bg-border-theme sm:block" />
 =======
+=======
+>>>>>>> origin/marques
             <Link
               href="/dashboard/usuarios"
               className="group flex h-9 items-center gap-2 rounded-[11px] px-2.5 text-[11px] font-medium text-[#676D73] transition-all duration-200 hover:bg-[#F2F2F1] hover:text-[#23272B]"
@@ -885,6 +934,9 @@ export function DashboardHome({
                 strokeWidth={1.8}
                 className="transition-transform duration-300 group-hover:scale-[1.07]"
               />
+<<<<<<< HEAD
+>>>>>>> origin/marques
+=======
 >>>>>>> origin/marques
 
               <span className="hidden xl:inline">
@@ -894,6 +946,7 @@ export function DashboardHome({
 
             <div className="mx-1 hidden h-7 w-px bg-black/[0.06] md:block" />
 
+<<<<<<< HEAD
 <<<<<<< HEAD
               <p className="text-[13px] font-medium text-text-primary">
                 {user.name}
@@ -919,6 +972,19 @@ export function DashboardHome({
 
             <ThemeSwitcher />
 
+=======
+            <div className="hidden min-w-0 text-right md:block">
+              <p className="max-w-[145px] truncate text-[11px] font-semibold text-[#292D31]">
+                {user.name}
+              </p>
+
+              <p className="mt-[1px] text-[9px] text-[#A1A5AA]">
+                {unit.city || "Unidade"}
+              </p>
+            </div>
+
+            <div className="mx-1 h-7 w-px bg-black/[0.06]" />
+>>>>>>> origin/marques
 
             <div className="h-8 w-px bg-border-theme" />
 
@@ -932,10 +998,15 @@ export function DashboardHome({
                 void handleLogout()
               }
 <<<<<<< HEAD
+<<<<<<< HEAD
               disabled={
                 loggingOut
               }
               className="group flex items-center gap-2 text-[12px] font-medium text-text-secondary transition-colors hover:text-[#E41E2B] disabled:cursor-not-allowed disabled:opacity-40"
+=======
+              disabled={loggingOut}
+              className="group flex h-9 items-center gap-2 rounded-[11px] px-2.5 text-[11px] font-medium text-[#777D83] transition-all duration-200 hover:bg-[#FFF1F2] hover:text-[#E41E2B] disabled:cursor-not-allowed disabled:opacity-40"
+>>>>>>> origin/marques
 =======
               disabled={loggingOut}
               className="group flex h-9 items-center gap-2 rounded-[11px] px-2.5 text-[11px] font-medium text-[#777D83] transition-all duration-200 hover:bg-[#FFF1F2] hover:text-[#E41E2B] disabled:cursor-not-allowed disabled:opacity-40"
@@ -1000,6 +1071,7 @@ export function DashboardHome({
           </div>
         </section>
 
+<<<<<<< HEAD
 <<<<<<< HEAD
         {/* =================================================
             HERO
@@ -1348,6 +1420,21 @@ export function DashboardHome({
             Coca-Cola FEMSA
           </p>
 
+=======
+        <footer
+          className={[
+            "mt-7 flex items-center justify-between border-t border-black/[0.045] pt-4",
+            "transition-all delay-500 duration-700",
+            ready
+              ? "translate-y-0 opacity-100"
+              : "translate-y-2 opacity-0",
+          ].join(" ")}
+        >
+          <p className="text-[8px] uppercase tracking-[0.14em] text-[#A5A9AD]">
+            Coca-Cola FEMSA
+          </p>
+
+>>>>>>> origin/marques
           <div className="flex items-center gap-2">
             <span className="h-[4px] w-[4px] rounded-full bg-[#E41E2B]" />
 
@@ -1356,6 +1443,9 @@ export function DashboardHome({
             </span>
           </div>
         </footer>
+<<<<<<< HEAD
+>>>>>>> origin/marques
+=======
 >>>>>>> origin/marques
       </div>
 

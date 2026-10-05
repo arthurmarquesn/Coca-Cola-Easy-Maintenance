@@ -3,14 +3,20 @@
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 <<<<<<< HEAD
+<<<<<<< HEAD
 import { FormEvent, useEffect, useState, useSyncExternalStore } from "react";
 import { preload } from "react-dom";
 =======
+=======
+>>>>>>> origin/marques
 import {
   FormEvent,
   useEffect,
   useState,
 } from "react";
+<<<<<<< HEAD
+>>>>>>> origin/marques
+=======
 >>>>>>> origin/marques
 
 import {
@@ -35,9 +41,17 @@ const WAVE_PATH_2 =
   "M0 174 C155 240 308 116 465 157 C615 197 725 240 850 170 V270 H0 Z";
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 const LOGIN_TRANSITION_DURATION =
   1800;
+=======
+const LOGIN_TRANSITION_DURATION =
+  1800;
+
+const DASHBOARD_PRODUCT_TRANSITION_KEY =
+  "play-dashboard-product-transition";
+>>>>>>> origin/marques
 
 const DASHBOARD_PRODUCT_TRANSITION_KEY =
   "play-dashboard-product-transition";
@@ -51,6 +65,7 @@ interface LoginResponse {
 const subscribeHydration = () => () => {};
 
 export default function LoginPage() {
+<<<<<<< HEAD
 <<<<<<< HEAD
   const router = useRouter();
   const startLoginTransition = useLoginTransition();
@@ -85,6 +100,23 @@ export default function LoginPage() {
   ] =
     useState("");
 
+=======
+  const router =
+    useRouter();
+
+  const [
+    email,
+    setEmail,
+  ] =
+    useState("");
+
+  const [
+    password,
+    setPassword,
+  ] =
+    useState("");
+
+>>>>>>> origin/marques
   const [
     remember,
     setRemember,
@@ -135,6 +167,9 @@ export default function LoginPage() {
       router,
     ],
   );
+<<<<<<< HEAD
+>>>>>>> origin/marques
+=======
 >>>>>>> origin/marques
 
   async function handleSubmit(
@@ -204,9 +239,12 @@ export default function LoginPage() {
       }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
       setIsLeaving(true);
       startLoginTransition("/dashboard");
 =======
+=======
+>>>>>>> origin/marques
       /*
        * Marca que o próximo acesso ao dashboard
        * veio de um login bem-sucedido.
@@ -246,6 +284,9 @@ export default function LoginPage() {
       router.replace(
         "/dashboard",
       );
+<<<<<<< HEAD
+>>>>>>> origin/marques
+=======
 >>>>>>> origin/marques
     } catch {
       setError(
@@ -285,9 +326,12 @@ export default function LoginPage() {
             >
               <path
 <<<<<<< HEAD
+<<<<<<< HEAD
                 d={BRAND_CURVE_PATH}
                 className="fill-background-secondary transition-colors"
 =======
+=======
+>>>>>>> origin/marques
                 d={
                   CURVE_PATH
                 }
