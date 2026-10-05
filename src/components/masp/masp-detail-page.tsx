@@ -343,9 +343,12 @@ function metric(
 export function MaspDetailPage({
   userName,
   maspId,
+  canWrite,
 }: {
   userName: string;
   maspId: number;
+  /* Só o Analista edita; o Gestor apenas consulta. */
+  canWrite: boolean;
 }) {
   const [
     data,
@@ -909,7 +912,7 @@ export function MaspDetailPage({
             ] ??
               data.analysis.status}
           </span>
-          {nextStatus && (
+          {canWrite && nextStatus && (
             <button
               type="button"
               disabled={
@@ -982,7 +985,14 @@ export function MaspDetailPage({
         </div>
       )}
 
-      <div className="mt-5">
+      {/* fieldset desabilitado bloqueia todos os campos e
+          botões das etapas para quem só consulta. */}
+      <fieldset
+        disabled={
+          !canWrite
+        }
+        className="m-0 mt-5 min-w-0 border-0 p-0"
+      >
         {activeTab ===
           0 && (
           <div className="space-y-5">
@@ -1421,7 +1431,7 @@ export function MaspDetailPage({
                           item.id
                         }
                         id={`hypothesis-${item.id}`}
-                        className={`rounded-[13px] border p-4 transition-colors ${selectedHypothesisId === item.id ? "border-[#E41E2B] bg-[#FFF7F7]" : "border-border-theme"}`}
+                        className={`rounded-[13px] border p-4 transition-colors ${selectedHypothesisId === item.id ? "border-[#E41E2B] bg-accent-primary/5" : "border-border-theme"}`}
                       >
                         <p className="text-[11px] font-medium leading-5 text-text-primary">
                           {item.description}
@@ -1898,7 +1908,7 @@ export function MaspDetailPage({
                         key={
                           cause.id
                         }
-                        className={`rounded-[14px] border p-4 ${cause.status === "CONFIRMED" ? "border-[#BCD9C2] bg-[#F7FBF7]" : "border-border-theme"}`}
+                        className={`rounded-[14px] border p-4 ${cause.status === "CONFIRMED" ? "border-[#BCD9C2] bg-success/5" : "border-border-theme"}`}
                       >
                         <p className="text-[9px] font-semibold uppercase tracking-[0.08em] text-text-secondary">
                           {cause.status ===
@@ -2690,7 +2700,7 @@ export function MaspDetailPage({
             </MethodCard>
           </div>
         )}
-      </div>
+      </fieldset>
 
       {busy && (
         <div className="fixed bottom-5 right-5 flex items-center gap-2 rounded-full bg-[#25282C] px-4 py-3 text-[10px] font-semibold text-white shadow-lg">

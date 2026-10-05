@@ -61,6 +61,7 @@ interface ChartsPayload {
 }
 
 interface ComplementaryChartsProps {
+  unitSelectionKey: string;
   city: string | null;
   startDate: string;
   endDate: string;
@@ -70,6 +71,7 @@ interface ComplementaryChartsProps {
 }
 
 export function ComplementaryCharts({
+  unitSelectionKey,
   city,
   startDate,
   endDate,
@@ -90,6 +92,7 @@ export function ComplementaryCharts({
   const requestKey = useMemo(
     () =>
       JSON.stringify([
+        unitSelectionKey,
         startDate,
         endDate,
         line,
@@ -97,6 +100,7 @@ export function ComplementaryCharts({
         sort,
       ]),
     [
+      unitSelectionKey,
       startDate,
       endDate,
       line,
@@ -159,12 +163,16 @@ export function ComplementaryCharts({
           { signal },
         );
 
+        /* Erro 500 do servidor pode vir sem JSON; sem este
+           cuidado a tela mostrava "SyntaxError". */
         const payload =
-          (await response.json()) as ChartsPayload;
+          (await response
+            .json()
+            .catch(() => null)) as ChartsPayload | null;
 
-        if (!response.ok || !payload.success) {
+        if (!response.ok || !payload?.success) {
           throw new Error(
-            payload.message ??
+            payload?.message ??
               "Não foi possível carregar os gráficos.",
           );
         }
@@ -278,8 +286,18 @@ export function ComplementaryCharts({
   return (
     <div className="mt-10">
       <div className="flex flex-wrap items-baseline justify-between gap-3">
-        <h2 className="text-[20px] font-semibold tracking-[-0.03em] text-text-primary">
+        <h2 className="flex items-center gap-2 text-[20px] font-semibold tracking-[-0.03em] text-text-primary">
           Análise complementar
+
+          {/* Recarregando com novos filtros: os gráficos
+              abaixo ainda são da consulta anterior. */}
+          {loading && (
+            <LoaderCircle
+              size={15}
+              className="animate-spin text-accent-primary"
+              aria-label="Atualizando gráficos"
+            />
+          )}
         </h2>
 
         <p className="text-[11px] text-text-secondary">

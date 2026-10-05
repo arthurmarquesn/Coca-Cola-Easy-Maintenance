@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 import {
   Activity,
@@ -93,6 +94,7 @@ export function DashboardHome({
     );
 
 
+  const router = useRouter();
   const [
     loggingOut,
     setLoggingOut,
@@ -139,8 +141,8 @@ export function DashboardHome({
       }
 
 
-      window.location.href =
-        "/login";
+      router.replace("/login");
+      router.refresh();
     } catch (
       error
     ) {
@@ -282,12 +284,21 @@ export function DashboardHome({
             MAIN CARDS
         ================================================== */}
 
-        <section className="mt-14 grid gap-5 lg:grid-cols-2 xl:grid-cols-4">
+        <section
+          className={`mt-14 grid gap-5 lg:grid-cols-2 ${
+            /* Analista: 5 cards (com Importar); Gestor: 4. */
+            isAnalyst
+              ? "xl:grid-cols-5"
+              : "xl:grid-cols-4"
+          }`}
+        >
 
           {/* ===============================================
               IMPORT
+              Gestor apenas consulta; a API recusa a importação.
           ================================================ */}
 
+          {isAnalyst && (
           <Link
             href="/dashboard/importar"
             className="group flex min-h-[330px] flex-col justify-between rounded-[30px] bg-[#E41E2B] p-8 text-white transition-colors duration-200 hover:bg-[#CF1925]"
@@ -334,6 +345,7 @@ export function DashboardHome({
             </div>
 
           </Link>
+          )}
 
 
           {/* ===============================================

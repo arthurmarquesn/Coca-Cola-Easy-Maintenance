@@ -3,6 +3,7 @@ from __future__ import annotations
 from contextlib import asynccontextmanager
 from pathlib import Path
 from typing import Any, Literal
+import logging
 import re
 import unicodedata
 
@@ -12,6 +13,8 @@ from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel, Field
 
 from ml.rules import RULES_VERSION, classify_by_rule
+
+logger = logging.getLogger(__name__)
 
 
 # ============================================================
@@ -1339,13 +1342,16 @@ def predict_origin_many(
         )
 
     except Exception as error:
+        # O detalhe fica no log; a resposta chega ao navegador
+        # pelas rotas do Next.
+        logger.exception(
+            "Falha interna na inferência do modelo de origem"
+        )
         raise HTTPException(
             status_code=500,
             detail=(
                 "Falha interna na inferência "
-                "do modelo de origem: "
-                f"{type(error).__name__}: "
-                f"{error}"
+                "do modelo de origem."
             ),
         ) from error
 

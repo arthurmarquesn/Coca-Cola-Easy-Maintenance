@@ -3,6 +3,7 @@ import type { RowDataPacket } from "mysql2";
 
 import { ImportDataPage } from "@/components/imports/import-data-page";
 import { executeRows } from "@/lib/db";
+import { isAnalystRole } from "@/lib/roles";
 import { getSession } from "@/lib/session";
 
 interface UnitRow extends RowDataPacket {
@@ -15,6 +16,11 @@ export default async function ImportPage() {
 
   if (!session) {
     redirect("/login");
+  }
+
+  /* Gestor apenas consulta; a importação é exclusiva do Analista. */
+  if (!isAnalystRole(session.role)) {
+    redirect("/dashboard");
   }
 
   const units = await executeRows<UnitRow[]>(

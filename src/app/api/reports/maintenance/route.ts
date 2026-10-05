@@ -1,3 +1,4 @@
+import { publicErrorMessage } from "@/lib/errors";
 import {
   readFile,
 } from "node:fs/promises";
@@ -24,6 +25,7 @@ import {
 import {
   buildMaintenanceReportData,
   getMaintenanceReportOptions,
+  ReportAccessError,
   type MaintenanceReportMetric,
   type MaintenanceReportRequest,
 } from "@/lib/reports/maintenance-report-data";
@@ -509,15 +511,14 @@ export async function POST(
       error,
     );
 
-    const message =
-      error instanceof
-      Error
-        ? error.message
-        : "Não foi possível gerar o relatório.";
-
     const forbidden =
-      message.includes(
-        "não estão autorizadas",
+      error instanceof
+      ReportAccessError;
+
+    const message =
+      publicErrorMessage(
+        error,
+        "Não foi possível gerar o relatório.",
       );
 
     return NextResponse.json(

@@ -1,3 +1,5 @@
+import { publicErrorMessage } from "@/lib/errors";
+import { getWriteAccessError } from "@/lib/write-access";
 import {
   NextRequest,
   NextResponse,
@@ -156,8 +158,9 @@ export async function POST(
      SESSÃO
   ======================================================= */
 
-  const session =
-    await getSession();
+const session = await getSession();
+  const accessError = getWriteAccessError(session);
+  if (accessError) return accessError;
 
 
   if (!session) {
@@ -189,6 +192,9 @@ export async function POST(
     body =
       (await request.json()) as
         ClassifyBody;
+    if (!body || typeof body !== "object" || Array.isArray(body)) {
+      throw new Error("Invalid request body");
+    }
   } catch {
     return NextResponse.json(
       {
@@ -415,9 +421,10 @@ export async function POST(
         error
       ) {
         const message =
-          error instanceof Error
-            ? error.message
-            : "Erro desconhecido durante a classificação.";
+          publicErrorMessage(
+            error,
+            "Erro desconhecido durante a classificação.",
+          );
 
 
         console.error(
@@ -803,9 +810,10 @@ export async function POST(
           false,
 
         message:
-          error instanceof Error
-            ? error.message
-            : "Não foi possível concluir a classificação automática.",
+          publicErrorMessage(
+            error,
+            "Não foi possível concluir a classificação automática.",
+          ),
       },
       {
         status:

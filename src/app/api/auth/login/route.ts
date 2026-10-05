@@ -1,4 +1,6 @@
 import bcrypt from "bcryptjs";
+import { clearLoginAttempts, consumeLoginAttempt, getTrustedClientIp } from "@/lib/login-throttle";
+import { normalizeSessionRole } from "@/lib/roles";
 
 import {
   NextResponse,
@@ -31,6 +33,11 @@ export const runtime =
 export const dynamic =
   "force-dynamic";
 
+/* Hash válido de uma senha descartável: usuário inexistente
+   leva o mesmo tempo de bcrypt que um usuário real. */
+const DUMMY_PASSWORD_HASH =
+  bcrypt.hashSync("senha-inexistente", 12);
+
 
 /* =========================================================
    TIPOS
@@ -47,9 +54,7 @@ interface UserRow
   password_hash:
     string;
 
-  role:
-    | "MAINTENANCE"
-    | "MANAGER";
+  role: string;
 
   active: number;
 }
@@ -91,9 +96,19 @@ export async function POST(
        BODY
     ===================================================== */
 
-    const body =
-      (await request.json()) as
-        LoginBody;
+    let body: LoginBody;
+    try {
+      const parsed: unknown = await request.json();
+      if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) {
+        throw new Error("Invalid request body");
+      }
+      body = parsed as LoginBody;
+    } catch {
+      return NextResponse.json(
+        { success: false, message: "Corpo da requisição inválido." },
+        { status: 400 },
+      );
+    }
 
     const email =
       typeof body.email ===
@@ -120,7 +135,7 @@ export async function POST(
 
     if (
       !email ||
-      !password
+      !password || email.length > 191 || Buffer.byteLength(password, "utf8") > 72
     ) {
       return NextResponse.json(
         {
@@ -141,6 +156,12 @@ export async function POST(
     /* =====================================================
        USUÁRIO
     ===================================================== */
+
+    const retryAfter = await consumeLoginAttempt(email, getTrustedClientIp(request.headers));
+    if (retryAfter) {
+      return NextResponse.json({ success: false, message: "Muitas tentativas. Aguarde antes de tentar novamente." },
+        { status: 429, headers: { "Retry-After": String(retryAfter) } });
+    }
 
     const users =
       await executeRows<
@@ -183,6 +204,11 @@ export async function POST(
         user.active,
       )
     ) {
+      await bcrypt.compare(
+        password,
+        DUMMY_PASSWORD_HASH,
+      );
+
       return NextResponse.json(
         {
           success:
@@ -226,6 +252,34 @@ export async function POST(
         },
       );
     }
+
+
+    const role =
+      normalizeSessionRole(
+        user.role,
+      );
+
+    if (
+      !role
+    ) {
+      return NextResponse.json(
+        {
+          success:
+            false,
+
+          message:
+            "Seu usuário não possui um perfil de acesso válido.",
+        },
+        {
+          status:
+            403,
+        },
+      );
+    }
+
+    await clearLoginAttempts(
+      email,
+    );
 
 
     /* =====================================================
@@ -329,8 +383,7 @@ export async function POST(
         email:
           user.email,
 
-        role:
-          user.role,
+        role,
       });
 
 
@@ -385,8 +438,7 @@ export async function POST(
             email:
               user.email,
 
-            role:
-              user.role,
+            role,
           },
 
           unit: {

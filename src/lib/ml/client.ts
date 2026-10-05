@@ -948,6 +948,7 @@ Promise<MlHealth> {
       await fetch(
         `${getMlServiceUrl()}/health`,
         {
+          signal: AbortSignal.timeout(5_000),
           cache:
             "no-store",
         },
@@ -1147,6 +1148,20 @@ Promise<MlHealth> {
    PREDICT - INDIVIDUAL
 ========================================================= */
 
+/*
+ * Limites do schema do FastAPI (ml/api/app.py). Um campo
+ * maior faz o /predict-batch recusar o lote inteiro.
+ */
+const MAX_OBSERVATION_LENGTH = 5000;
+const MAX_CONTEXT_LENGTH = 500;
+
+function limitText(
+  value: string | null | undefined,
+  maxLength: number,
+): string {
+  return (value ?? "").trim().slice(0, maxLength);
+}
+
 export async function predictFailure(
   input:
     MlPredictionInput,
@@ -1155,6 +1170,7 @@ export async function predictFailure(
     await fetch(
       `${getMlServiceUrl()}/predict`,
       {
+        signal: AbortSignal.timeout(30_000),
         method:
           "POST",
 
@@ -1166,27 +1182,22 @@ export async function predictFailure(
         body:
           JSON.stringify({
             observation:
-              input.observation,
+              limitText(input.observation, MAX_OBSERVATION_LENGTH),
 
             equipment:
-              input.equipment ??
-              "",
+              limitText(input.equipment, MAX_CONTEXT_LENGTH),
 
             stop_key_1:
-              input.stopKey1 ??
-              "",
+              limitText(input.stopKey1, MAX_CONTEXT_LENGTH),
 
             stop_subkey:
-              input.stopSubkey ??
-              "",
+              limitText(input.stopSubkey, MAX_CONTEXT_LENGTH),
 
             stop_type:
-              input.stopType ??
-              "",
+              limitText(input.stopType, MAX_CONTEXT_LENGTH),
 
             line:
-              input.line ??
-              "",
+              limitText(input.line, MAX_CONTEXT_LENGTH),
           }),
 
         cache:
@@ -1256,6 +1267,7 @@ export async function predictFailuresBatch(
     await fetch(
       `${getMlServiceUrl()}/predict-batch`,
       {
+        signal: AbortSignal.timeout(60_000),
         method:
           "POST",
 
@@ -1275,27 +1287,22 @@ export async function predictFailuresBatch(
                     item.eventId,
 
                   observation:
-                    item.observation,
+                    limitText(item.observation, MAX_OBSERVATION_LENGTH),
 
                   equipment:
-                    item.equipment ??
-                    "",
+                    limitText(item.equipment, MAX_CONTEXT_LENGTH),
 
                   stop_key_1:
-                    item.stopKey1 ??
-                    "",
+                    limitText(item.stopKey1, MAX_CONTEXT_LENGTH),
 
                   stop_subkey:
-                    item.stopSubkey ??
-                    "",
+                    limitText(item.stopSubkey, MAX_CONTEXT_LENGTH),
 
                   stop_type:
-                    item.stopType ??
-                    "",
+                    limitText(item.stopType, MAX_CONTEXT_LENGTH),
 
                   line:
-                    item.line ??
-                    "",
+                    limitText(item.line, MAX_CONTEXT_LENGTH),
                 }),
               ),
           }),

@@ -1,3 +1,5 @@
+import { publicErrorMessage } from "@/lib/errors";
+import { getWriteAccessError } from "@/lib/write-access";
 import {
   NextRequest,
   NextResponse,
@@ -14,7 +16,7 @@ import {
 import {
   applyReview,
   type ReviewAction,
-} from "@/app/api/review/route";
+} from "@/lib/maintenance/apply-review";
 
 import {
   getUnitSelection,
@@ -33,7 +35,9 @@ interface BulkBody {
 }
 
 export async function POST(request: NextRequest) {
-  const session = await getSession();
+const session = await getSession();
+  const accessError = getWriteAccessError(session);
+  if (accessError) return accessError;
 
   if (!session) {
     return NextResponse.json(
@@ -58,6 +62,9 @@ export async function POST(request: NextRequest) {
 
   try {
     body = (await request.json()) as BulkBody;
+    if (!body || typeof body !== "object" || Array.isArray(body)) {
+      throw new Error("Invalid request body");
+    }
   } catch {
     return NextResponse.json(
       { success: false, error: "Corpo da requisição inválido." },
@@ -142,10 +149,10 @@ export async function POST(request: NextRequest) {
       } catch (itemError) {
         failed.push({
           suggestionId,
-          error:
-            itemError instanceof Error
-              ? itemError.message
-              : "Falha ao processar esta ocorrência.",
+          error: publicErrorMessage(
+            itemError,
+            "Falha ao processar esta ocorrência.",
+          ),
         });
       }
     }

@@ -1,3 +1,6 @@
+import { publicErrorMessage } from "@/lib/errors";
+import { getWriteAccessError } from "@/lib/write-access";
+import { MAX_IMPORT_BYTES } from "@/lib/imports/limits";
 import {
   createHash,
 } from "node:crypto";
@@ -25,6 +28,10 @@ import {
 import {
   getSession,
 } from "@/lib/session";
+
+import {
+  isAnalystRole,
+} from "@/lib/roles";
 
 
 export const runtime =
@@ -139,13 +146,6 @@ interface UnitRow
 
   short_name?:
     string | null;
-}
-
-
-interface UserRoleRow
-  extends RowDataPacket {
-  role:
-    string;
 }
 
 
@@ -529,28 +529,6 @@ function formatDatabaseDateTime(
 }
 
 
-function canSynchronize(
-  role:
-    string | null,
-): boolean {
-  if (!role) {
-    return false;
-  }
-
-  const normalized =
-    normalizeText(
-      role,
-    );
-
-  return (
-    normalized ===
-      "MAINTENANCE" ||
-    normalized ===
-      "ADMIN"
-  );
-}
-
-
 function findSheet(
   workbook:
     XLSX.WorkBook,
@@ -652,49 +630,6 @@ function splitIntoBatches<T>(
   }
 
   return result;
-}
-
-
-/* ============================================================
-   PAPEL DO USUÁRIO
-============================================================ */
-
-async function getUserRole(
-  connection:
-    PoolConnection,
-
-  userId:
-    number,
-): Promise<string | null> {
-  const [
-    rows,
-  ] =
-    await connection.query<
-      UserRoleRow[]
-    >(
-      `
-        SELECT
-          role
-
-        FROM
-          users
-
-        WHERE
-          id = ?
-
-          AND active = TRUE
-
-        LIMIT 1
-      `,
-      [
-        userId,
-      ],
-    );
-
-  return (
-    rows[0]?.role ??
-    null
-  );
 }
 
 
@@ -2189,13 +2124,10 @@ export async function GET() {
     await getConnection();
 
   try {
+    /* getSession() já relê o papel no banco e converte o
+       ADMIN legado em Analista. */
     const role =
-      await getUserRole(
-        connection,
-        Number(
-          session.userId,
-        ),
-      );
+      session.role;
 
     const unit =
       await getUnit(
@@ -2508,7 +2440,7 @@ export async function GET() {
         role,
 
         canSync:
-          canSynchronize(
+          isAnalystRole(
             role,
           ),
       },
@@ -2649,10 +2581,10 @@ export async function GET() {
           false,
 
         message:
-          error instanceof
-            Error
-            ? error.message
-            : "Não foi possível carregar a análise de criticidade.",
+          publicErrorMessage(
+            error,
+            "Não foi possível carregar a análise de criticidade.",
+          ),
       },
       {
         status:
@@ -2673,8 +2605,9 @@ export async function POST(
   request:
     NextRequest,
 ) {
-  const session =
-    await getSession();
+const session = await getSession();
+  const accessError = getWriteAccessError(session);
+  if (accessError) return accessError;
 
   if (
     !session
@@ -2771,6 +2704,25 @@ export async function POST(
     );
   }
 
+  if (
+    file.size >
+    MAX_IMPORT_BYTES
+  ) {
+    return NextResponse.json(
+      {
+        success:
+          false,
+
+        message:
+          "O arquivo excede o limite de 50 MB.",
+      },
+      {
+        status:
+          413,
+      },
+    );
+  }
+
   const connection =
     await getConnection();
 
@@ -2778,16 +2730,13 @@ export async function POST(
     false;
 
   try {
+    /* getSession() já relê o papel no banco e converte o
+       ADMIN legado em Analista. */
     const role =
-      await getUserRole(
-        connection,
-        Number(
-          session.userId,
-        ),
-      );
+      session.role;
 
     if (
-      !canSynchronize(
+      !isAnalystRole(
         role,
       )
     ) {
@@ -3016,10 +2965,10 @@ export async function POST(
           false,
 
         message:
-          error instanceof
-            Error
-            ? error.message
-            : "Não foi possível sincronizar a matriz.",
+          publicErrorMessage(
+            error,
+            "Não foi possível sincronizar a matriz.",
+          ),
       },
       {
         status:

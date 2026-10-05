@@ -741,7 +741,7 @@ export function MaspCreatePage({
                           event.id,
                         )
                       }
-                      className={`w-full rounded-[14px] border p-4 text-left transition-colors ${selected ? "border-[#E5A6AC] bg-[#FFF7F7]" : "border-border-theme hover:bg-surface-hover"}`}
+                      className={`w-full rounded-[14px] border p-4 text-left transition-colors ${selected ? "border-[#E5A6AC] bg-accent-primary/5" : "border-border-theme hover:bg-surface-hover"}`}
                     >
                       <div className="flex items-start gap-3">
                         <span className={`mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-[6px] border ${selected ? "border-[#E41E2B] bg-[#E41E2B] text-white" : "border-border-theme"}`}>

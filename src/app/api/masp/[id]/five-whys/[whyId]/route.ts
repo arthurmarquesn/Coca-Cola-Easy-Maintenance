@@ -59,7 +59,7 @@ export async function PATCH(
 
   try {
     const context =
-      await requireMaspContext();
+      await requireMaspContext(true);
     const params =
       await routeContext.params;
     const maspId =
@@ -268,7 +268,7 @@ export async function DELETE(
 
   try {
     const context =
-      await requireMaspContext();
+      await requireMaspContext(true);
     const params =
       await routeContext.params;
     const maspId =

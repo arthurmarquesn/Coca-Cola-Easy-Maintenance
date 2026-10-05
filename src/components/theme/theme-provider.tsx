@@ -1,6 +1,6 @@
 "use client";
 
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, { createContext, useContext, useState } from "react";
 import Cookies from "js-cookie";
 
 type Theme = "dark" | "light";
@@ -34,12 +34,7 @@ export function ThemeProvider({
     }
   };
 
-  // Sync state with HTML class on mount just in case
-  useEffect(() => {
-    const isDark = document.documentElement.classList.contains("dark");
-    if (isDark && theme !== "dark") setTheme("dark");
-    if (!isDark && theme !== "light") setTheme("light");
-  }, []);
+  // initialTheme and the HTML class share the server cookie as their source.
 
   return (
     <ThemeContext.Provider value={{ theme, toggleTheme }}>

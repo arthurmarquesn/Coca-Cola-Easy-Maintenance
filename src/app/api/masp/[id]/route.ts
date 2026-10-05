@@ -128,7 +128,7 @@ export async function PATCH(
 
   try {
     const context =
-      await requireMaspContext();
+      await requireMaspContext(true);
 
     const {
       id,
@@ -350,6 +350,21 @@ export async function PATCH(
       ],
     ] as const;
 
+    /* Datas efetivas após o PATCH, para validar a ordem. */
+    const scopeDates: Record<
+      (typeof dateFields)[number][1],
+      string | null
+    > = {
+      scopeStartDate:
+        nullableDate(
+          masp.scope_start_date,
+        ),
+      scopeEndDate:
+        nullableDate(
+          masp.scope_end_date,
+        ),
+    };
+
     for (
       const [
         column,
@@ -380,6 +395,9 @@ export async function PATCH(
           );
         }
 
+        scopeDates[field] =
+          value;
+
         assignments.push(
           `${column} = ?`,
         );
@@ -387,6 +405,18 @@ export async function PATCH(
           value,
         );
       }
+    }
+
+    if (
+      scopeDates.scopeStartDate &&
+      scopeDates.scopeEndDate &&
+      scopeDates.scopeStartDate >
+        scopeDates.scopeEndDate
+    ) {
+      throw new MaspApiError(
+        400,
+        "A data inicial do escopo não pode ser posterior à data final.",
+      );
     }
 
     const textFields = [
@@ -512,6 +542,75 @@ export async function PATCH(
         );
       }
 
+      /* Cada etapa exige o registro mínimo da anterior. */
+      const stepRequirement: Partial<
+        Record<
+          string,
+          {
+            sql: string;
+            message: string;
+          }
+        >
+      > = {
+        ROOT_CAUSE: {
+          sql: "SELECT COUNT(*) AS total FROM masp_hypotheses WHERE masp_id = ? AND status <> 'DISCARDED'",
+          message:
+            "Registre ao menos uma hipótese antes de avançar para a causa raiz.",
+        },
+        ACTION_PLAN: {
+          sql: "SELECT COUNT(*) AS total FROM masp_root_causes WHERE masp_id = ? AND status = 'CONFIRMED'",
+          message:
+            "Confirme ao menos uma causa raiz antes de avançar para o plano de ação.",
+        },
+        EXECUTION: {
+          sql: "SELECT COUNT(*) AS total FROM masp_actions WHERE masp_id = ? AND status <> 'CANCELLED'",
+          message:
+            "Cadastre ao menos uma ação antes de avançar para a execução.",
+        },
+        VERIFICATION: {
+          sql: "SELECT COUNT(*) AS total FROM masp_actions WHERE masp_id = ? AND status = 'DONE'",
+          message:
+            "Conclua ao menos uma ação antes de avançar para a verificação.",
+        },
+      };
+
+      const requirement =
+        body.status !==
+          masp.status
+          ? stepRequirement[
+              body.status
+            ]
+          : undefined;
+
+      if (
+        requirement
+      ) {
+        const [
+          requirementRows,
+        ] =
+          await connection.query<
+            CountRow[]
+          >(
+            requirement.sql,
+            [
+              maspId,
+            ],
+          );
+
+        if (
+          Number(
+            requirementRows[0]
+              ?.total ??
+              0,
+          ) < 1
+        ) {
+          throw new MaspApiError(
+            400,
+            requirement.message,
+          );
+        }
+      }
+
       if (
         body.status ===
         "CLOSED"
@@ -540,9 +639,17 @@ export async function PATCH(
                       SELECT COUNT(*)
                       FROM masp_verifications
                       WHERE masp_id = ?
-                  ) AS verifications
+                  ) AS verifications,
+                  (
+                      SELECT recurrence_detected
+                      FROM masp_verifications
+                      WHERE masp_id = ?
+                      ORDER BY verified_at DESC, id DESC
+                      LIMIT 1
+                  ) AS latest_recurrence
             `,
             [
+              maspId,
               maspId,
               maspId,
               maspId,
@@ -561,6 +668,10 @@ export async function PATCH(
               verifications:
                 | number
                 | string;
+              latest_recurrence:
+                | number
+                | string
+                | null;
             };
 
         if (
@@ -580,6 +691,19 @@ export async function PATCH(
           throw new MaspApiError(
             400,
             "Para encerrar o MASP, confirme uma causa raiz, conclua uma ação e registre uma verificação.",
+          );
+        }
+
+        if (
+          Number(
+            criteria
+              .latest_recurrence ??
+              0,
+          ) === 1
+        ) {
+          throw new MaspApiError(
+            400,
+            "A última verificação detectou recorrência. Volte para o plano de ação ou registre nova verificação.",
           );
         }
 

@@ -147,7 +147,7 @@ export function ReportMetricSelector({
               className={[
                 "group flex min-h-[112px] items-start gap-3 rounded-[16px] border p-4 text-left transition-all",
                 checked
-                  ? "border-[#E9B5B9] bg-[#FFF9F9] shadow-[0_6px_20px_rgba(228,30,43,0.05)]"
+                  ? "border-[#E9B5B9] bg-accent-primary/5 shadow-[0_6px_20px_rgba(228,30,43,0.05)]"
                   : "border-border-theme bg-surface hover:border-border-theme hover:bg-surface-hover",
               ].join(
                 " ",

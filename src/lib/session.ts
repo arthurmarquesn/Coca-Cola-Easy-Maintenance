@@ -1,6 +1,9 @@
 import {
   cookies,
 } from "next/headers";
+import type { RowDataPacket } from "mysql2/promise";
+import { executeRows } from "@/lib/db";
+import { normalizeSessionRole } from "@/lib/roles";
 
 import {
   SESSION_COOKIE_NAME,
@@ -27,7 +30,24 @@ Promise<
     return null;
   }
 
-  return verifySessionToken(
-    token,
-  );
+  const payload = await verifySessionToken(token);
+  if (!payload) return null;
+
+  // JWT identifies the user; current database state grants access.
+  const [user] = await executeRows<(RowDataPacket & {
+    name: string; email: string; role: string; unit_id: number;
+  })[]>(`
+    SELECT u.name, u.email, u.role, uu.unit_id
+    FROM users u
+    INNER JOIN user_units uu ON uu.user_id = u.id
+    INNER JOIN units un ON un.id = uu.unit_id AND un.active = TRUE
+    WHERE u.id = ? AND u.active = TRUE
+    ORDER BY uu.is_default DESC, uu.unit_id ASC
+    LIMIT 1
+  `, [payload.userId]);
+
+  const role = user ? normalizeSessionRole(user.role) : null;
+  if (!user || !role) return null;
+  return { ...payload, name: user.name, email: user.email,
+    role, unitId: Number(user.unit_id) };
 }

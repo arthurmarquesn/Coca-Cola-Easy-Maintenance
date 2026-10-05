@@ -159,7 +159,12 @@ function filenameFromResponse(
   return "relatorio-manutencao.pdf";
 }
 
-export function ReportGeneratorModal({
+export function ReportGeneratorModal(props: ReportGeneratorModalProps) {
+  if (!props.open) return null;
+  return <ReportGeneratorContent key={`${props.initialStartDate}:${props.initialEndDate}:${props.initialUnitIds?.join(",")}`} {...props} />;
+}
+
+function ReportGeneratorContent({
   open,
   onClose,
   initialStartDate,
@@ -280,23 +285,6 @@ export function ReportGeneratorModal({
     ) {
       return;
     }
-
-    setStartDate(
-      initialStartDate ||
-        fallbackRange.start,
-    );
-
-    setEndDate(
-      initialEndDate ||
-        fallbackRange.end,
-    );
-
-    setLine("");
-    setEquipment("");
-    setMetrics(
-      DEFAULT_METRICS,
-    );
-    setError("");
 
     const controller =
       new AbortController();
@@ -420,9 +408,10 @@ export function ReportGeneratorModal({
       }
     }
 
-    void loadOptions();
+    const task = setTimeout(() => { void loadOptions(); }, 0);
 
     return () => {
+      clearTimeout(task);
       controller.abort();
     };
   }, [
@@ -825,7 +814,7 @@ export function ReportGeneratorModal({
                           className={[
                             "flex min-h-[72px] items-center gap-3 rounded-[14px] border px-3.5 py-3 text-left transition-colors",
                             checked
-                              ? "border-[#E7B5B9] bg-[#FFF9F9]"
+                              ? "border-[#E7B5B9] bg-accent-primary/5"
                               : "border-border-theme bg-surface hover:border-border-theme",
                           ].join(
                             " ",

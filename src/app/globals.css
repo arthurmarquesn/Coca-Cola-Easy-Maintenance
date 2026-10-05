@@ -1,5 +1,8 @@
 @import "tailwindcss";
 
+/* dark: segue o tema escolhido (classe .dark), não o do sistema. */
+@custom-variant dark (&:where(.dark, .dark *));
+
 @theme {
   --color-background-primary: var(--background-primary);
   --color-background-secondary: var(--background-secondary);
@@ -9,8 +12,6 @@
   --color-text-primary: var(--text-primary);
   --color-text-secondary: var(--text-secondary);
   --color-text-muted: var(--text-muted);
-  --color-text-title: var(--text-title);
-  --color-text-body: var(--text-body);
   --color-text-title: var(--text-title);
   --color-text-body: var(--text-body);
   --color-border-subtle: var(--border-subtle);
@@ -35,6 +36,8 @@
 }
 
 :root {
+  color-scheme: light;
+
   --background-primary: #F8F9FA;
   --background-secondary: #FFFFFF;
 
@@ -74,6 +77,9 @@
 }
 
 .dark {
+  /* Datepicker, select nativo e barras de rolagem escuros. */
+  color-scheme: dark;
+
   --background-primary: #111214;
   --background-secondary: #17181B;
 

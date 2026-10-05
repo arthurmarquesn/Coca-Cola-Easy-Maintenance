@@ -18,6 +18,7 @@ import {
 import type {
   MaspStatus,
 } from "@/lib/masp/domain";
+import { isAnalystRole } from "@/lib/roles";
 
 
 export class MaspApiError
@@ -60,9 +61,15 @@ export interface AccessibleMaspRow
     | "MANUTENCAO"
     | "OPERACAO"
     | null;
+  scope_start_date:
+    | string
+    | null;
+  scope_end_date:
+    | string
+    | null;
 }
 
-export async function requireMaspContext():
+export async function requireMaspContext(write = false):
 Promise<MaspRequestContext> {
   const session =
     await getSession();
@@ -74,6 +81,10 @@ Promise<MaspRequestContext> {
       401,
       "Sessão inválida.",
     );
+  }
+
+  if (write && !isAnalystRole(session.role)) {
+    throw new MaspApiError(403, "Somente analistas podem alterar dados.");
   }
 
   const userId =
@@ -214,7 +225,9 @@ export async function requireAccessibleMasp(
             problem_statement,
             recurrence_component_code,
             recurrence_failure_mode,
-            recurrence_failure_origin
+            recurrence_failure_origin,
+            scope_start_date,
+            scope_end_date
         FROM
             masp_analyses
         WHERE
@@ -300,4 +313,3 @@ export function maspErrorResponse(
     },
   );
 }
-

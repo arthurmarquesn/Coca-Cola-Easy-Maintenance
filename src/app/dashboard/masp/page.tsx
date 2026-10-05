@@ -7,6 +7,10 @@ import {
 } from "@/components/masp/masp-list-page";
 
 import {
+  isAnalystRole,
+} from "@/lib/roles";
+
+import {
   getSession,
 } from "@/lib/session";
 
@@ -30,6 +34,11 @@ export default async function MaspPage() {
     <MaspListPage
       userName={
         session.name
+      }
+      canCreate={
+        isAnalystRole(
+          session.role,
+        )
       }
     />
   );

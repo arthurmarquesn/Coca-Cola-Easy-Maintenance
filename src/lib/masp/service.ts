@@ -4,6 +4,10 @@ import type {
 } from "mysql2/promise";
 
 import {
+  classificationNoteField,
+} from "@/lib/analytics/sql";
+
+import {
   MaspApiError,
 } from "@/lib/masp/api";
 
@@ -157,13 +161,16 @@ function eventProjection(
     me.downtime_minutes,
     COALESCE(
         fm.code,
+        ${classificationNoteField("ec", "failedComponentCode")},
         latest_suggestion.failed_component_code
     ) AS component_code,
     COALESCE(
         fm.name,
+        ${classificationNoteField("ec", "failureMode")},
         latest_suggestion.failure_mode
     ) AS failure_mode,
     COALESCE(
+        origin_review.manual_origin,
         ec.failure_origin,
         latest_origin.failure_origin,
         latest_suggestion.failure_origin
@@ -190,6 +197,9 @@ function eventClassificationJoins(): string {
     LEFT JOIN
         failure_modes fm
             ON fm.id = ec.mode_id
+    LEFT JOIN
+        event_failure_origin_reviews origin_review
+            ON origin_review.event_id = me.id
     LEFT JOIN
         classification_suggestions latest_suggestion
             ON latest_suggestion.id = (

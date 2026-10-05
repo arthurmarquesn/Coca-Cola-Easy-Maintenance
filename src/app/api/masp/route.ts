@@ -265,7 +265,7 @@ export async function POST(
 
   try {
     const context =
-      await requireMaspContext();
+      await requireMaspContext(true);
 
     const body =
       await parseJsonBody(
@@ -477,6 +477,18 @@ export async function POST(
         body.scopeEndDate,
       ) ??
       summary.lastOccurrence;
+
+    if (
+      scopeStartDate &&
+      scopeEndDate &&
+      scopeStartDate >
+        scopeEndDate
+    ) {
+      throw new MaspApiError(
+        400,
+        "A data inicial do escopo não pode ser posterior à data final.",
+      );
+    }
 
     const recurrenceOrigin =
       isOneOf(

@@ -26,6 +26,10 @@ import {
   isAnalystRole,
 } from "@/lib/roles";
 
+import {
+  isValidPasswordLength,
+} from "@/lib/user-admin";
+
 
 export const runtime =
   "nodejs";
@@ -295,7 +299,7 @@ export async function GET() {
 
   try {
     /* =====================================================
-       TODAS AS UNIDADES ATIVAS
+       UNIDADES DO ANALISTA
     ===================================================== */
 
     const units =
@@ -304,8 +308,48 @@ export async function GET() {
       );
 
 
+    const unitIds =
+      units.map(
+        (
+          unit,
+        ) =>
+          unit.id,
+      );
+
+
+    if (
+      unitIds.length ===
+      0
+    ) {
+      return NextResponse.json({
+        success:
+          true,
+
+        users:
+          [],
+
+        units:
+          [],
+      });
+    }
+
+
+    const unitPlaceholders =
+      unitIds
+        .map(
+          () =>
+            "?",
+        )
+        .join(
+          ", ",
+        );
+
+
     /* =====================================================
        USERS
+
+       Somente usuários vinculados a alguma unidade
+       do Analista.
     ===================================================== */
 
     const [
@@ -316,30 +360,40 @@ export async function GET() {
       >(
         `
           SELECT
-              id,
+              u.id,
 
-              name,
+              u.name,
 
-              email,
+              u.email,
 
-              role,
+              u.role,
 
-              active,
+              u.active,
 
-              last_login_at,
+              u.last_login_at,
 
-              created_at
+              u.created_at
 
           FROM
-              users
+              users u
+
+          WHERE
+              EXISTS (
+                SELECT 1
+                FROM user_units scope_unit
+                WHERE scope_unit.user_id =
+                      u.id
+                  AND scope_unit.unit_id IN (${unitPlaceholders})
+              )
 
           ORDER BY
-              active DESC,
+              u.active DESC,
 
-              name ASC,
+              u.name ASC,
 
-              id ASC
+              u.id ASC
         `,
+        unitIds,
       );
 
 
@@ -386,6 +440,8 @@ export async function GET() {
               un.active =
                   TRUE
 
+              AND uu.unit_id IN (${unitPlaceholders})
+
           ORDER BY
               uu.user_id ASC,
 
@@ -393,6 +449,7 @@ export async function GET() {
 
               uu.created_at ASC
         `,
+        unitIds,
       );
 
 
@@ -577,6 +634,9 @@ export async function POST(
     body =
       (await request.json()) as
         CreateUserBody;
+    if (!body || typeof body !== "object" || Array.isArray(body)) {
+      throw new Error("Invalid request body");
+    }
   } catch {
     return NextResponse.json(
       {
@@ -687,10 +747,9 @@ export async function POST(
 
 
   if (
-    password.length <
-      8 ||
-    password.length >
-      72
+    !isValidPasswordLength(
+      password,
+    )
   ) {
     return NextResponse.json(
       {
@@ -698,7 +757,7 @@ export async function POST(
           false,
 
         message:
-          "A senha deve possuir entre 8 e 72 caracteres.",
+          "A senha deve possuir entre 8 e 72 caracteres (acentos contam em dobro).",
       },
       {
         status:
@@ -753,7 +812,10 @@ export async function POST(
 
 
   /* =======================================================
-     UNIT EXISTS / ACTIVE
+     UNIDADE DO ANALISTA
+
+     O Analista só cadastra usuários nas próprias
+     unidades.
   ======================================================= */
 
   const activeUnits =
@@ -781,11 +843,11 @@ export async function POST(
           false,
 
         message:
-          "A unidade selecionada não está ativa.",
+          "A unidade selecionada não está disponível para o seu usuário.",
       },
       {
         status:
-          400,
+          403,
       },
     );
   }
@@ -879,6 +941,7 @@ export async function POST(
           INSERT INTO
               users
           (
+              unit_id,
               name,
 
               email,
@@ -895,10 +958,12 @@ export async function POST(
               ?,
               ?,
               ?,
+              ?,
               TRUE
           )
         `,
         [
+          representativeUnitId,
           name,
 
           email,
@@ -919,11 +984,8 @@ export async function POST(
     /* =====================================================
        REPRESENTATIVE UNIT
 
-       Apenas a unidade principal precisa ficar em
-       user_units.
-
-       O acesso às demais unidades é global por regra
-       de negócio.
+       O usuário só acessa as unidades vinculadas em
+       user_units; a unidade representada é a padrão.
     ===================================================== */
 
     await connection.execute<

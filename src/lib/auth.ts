@@ -8,6 +8,13 @@ if (!AUTH_SECRET) {
   );
 }
 
+/* HS256 com segredo curto é quebrável por força bruta. */
+if (AUTH_SECRET.length < 32) {
+  throw new Error(
+    "AUTH_SECRET deve ter pelo menos 32 caracteres. Gere com: openssl rand -hex 32",
+  );
+}
+
 const secretKey = new TextEncoder().encode(AUTH_SECRET);
 
 export const SESSION_COOKIE_NAME = "coca_session";

@@ -1,36 +1,41 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Coca-Cola Easy Maintenance
 
-## Getting Started
+Aplicação de manutenção industrial com Next.js, MySQL e um serviço Python de classificação de falhas. Inclui importação de planilhas, revisão humana, indicadores, relatórios e análises MASP.
 
-First, run the development server:
+## Configuração local
+
+1. Instale as dependências JavaScript com `npm ci`.
+2. Copie `.env.example` para `.env.local` e configure a conexão MySQL. Gere `AUTH_SECRET` (mínimo de 32 caracteres) com `openssl rand -hex 32`.
+3. Para uma instalação nova, execute `database/schema.sql` no MySQL 8. O arquivo cria o banco `coca_cola_maintenance` e não cadastra nenhum usuário. Em bancos existentes, aplique as migrações pendentes em `database/migrations/`: o login exige a tabela `login_attempts` (`20261002_login_attempts.sql`) e `20261004_analytics_indexes.sql` cria os índices usados pelos gráficos.
+4. Configure um ambiente Python e instale `ml/requirements.txt`. Os modelos em `ml/models/` precisam estar disponíveis como arquivos reais, não apenas ponteiros do Git LFS.
+5. Execute `npm run dev` para iniciar Next.js e ML, ou `npm run dev:next` para iniciar apenas a aplicação web.
+
+`GROQ_API_KEY` é opcional para a integração externa de IA. A classificação ML usa `ML_SERVICE_URL`, cujo padrão é `http://127.0.0.1:8001`.
+
+Crie o primeiro Analista com:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+node --env-file=.env.local scripts/create-user.mjs "Nome" "email@empresa.com" "SENHA" "ANALISTA" "BAAK"
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Acesso
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- Cada usuário vê e altera apenas os dados das unidades em que está cadastrado (`user_units`).
+- **Analista**: importa planilhas, revisa classificações, edita MASP e administra os usuários das próprias unidades. Toda unidade mantém ao menos um Analista ativo.
+- **Gestor**: somente consulta.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+`LOGIN_TRUSTED_IP_HEADER` (opcional) ativa o limite de tentativas de login por IP. Use apenas o nome de um header que o proxy reverso sempre sobrescreve, como `x-real-ip`.
 
-## Learn More
+## Verificação
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+npm test
+npm run lint
+npx tsc --noEmit
+python -m unittest discover -s ml/tests -v
+npm run build
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+O build exige as variáveis de banco e autenticação configuradas e acesso ao download da fonte Inter. Para executar em produção, use `npm start` após o build e mantenha MySQL e o serviço ML acessíveis.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+A revisão de código e os limites das verificações desta rodada estão em [AUDIT.md](AUDIT.md).

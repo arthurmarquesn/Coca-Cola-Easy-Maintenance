@@ -96,8 +96,10 @@ function statusClass(
 
 export function MaspListPage({
   userName,
+  canCreate,
 }: {
   userName: string;
+  canCreate: boolean;
 }) {
   const [
     items,
@@ -281,6 +283,7 @@ export function MaspListPage({
       title="Análises MASP"
       description="Conduza problemas reais da ocorrência à verificação, com evidências, causa raiz confirmada e plano 5W2H."
       actions={
+        canCreate && (
         <Link
           href="/dashboard/masp/novo"
           className="inline-flex h-11 items-center justify-center gap-2 rounded-[12px] bg-[#E41E2B] px-5 text-[12px] font-semibold text-white transition-colors hover:bg-[#CB1924]"
@@ -290,6 +293,7 @@ export function MaspListPage({
           />
           Novo MASP
         </Link>
+        )
       }
     >
       <div className="grid gap-3 rounded-[20px] border border-border-theme bg-surface p-4 sm:grid-cols-2 lg:grid-cols-[220px_1fr_auto]">

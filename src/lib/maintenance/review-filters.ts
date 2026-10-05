@@ -1,3 +1,4 @@
+import { containsLikePattern } from "@/lib/analytics/sql";
 import type {
   ExecuteValues,
 } from "mysql2/promise";
@@ -35,7 +36,9 @@ export interface ParsedReviewFilters {
 }
 
 function isValidDate(value: string): boolean {
-  return /^\d{4}-\d{2}-\d{2}$/.test(value);
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) return false;
+  const date = new Date(`${value}T00:00:00.000Z`);
+  return Number.isFinite(date.getTime()) && date.toISOString().slice(0, 10) === value;
 }
 
 export function parseReviewFilters(
@@ -65,6 +68,18 @@ export function parseReviewFilters(
       .map(() => "?")
       .join(", ")})`,
     "cs.model_type = 'ML'",
+    /* Sugestão pendente de evento que já tem classificação
+       oficial não pode mais ser revisada (409); fora da fila
+       e dos totais. */
+    `NOT (
+      cs.status = 'PENDENTE_REVISAO'
+      AND EXISTS (
+        SELECT 1
+        FROM event_classifications official
+        WHERE official.event_id = me.id
+          AND official.status IN ('APROVADA', 'CORRIGIDA')
+      )
+    )`,
   ];
 
   const values: unknown[] = [...validUnitIds];
@@ -133,7 +148,7 @@ export function parseReviewFilters(
     "confidenceMin",
   );
 
-  if (confidenceMinRaw !== null) {
+  if (confidenceMinRaw !== null && confidenceMinRaw.trim() !== "") {
     const parsed = Number(confidenceMinRaw);
 
     if (Number.isFinite(parsed) && parsed > 0) {
@@ -148,7 +163,7 @@ export function parseReviewFilters(
     "confidenceMax",
   );
 
-  if (confidenceMaxRaw !== null) {
+  if (confidenceMaxRaw !== null && confidenceMaxRaw.trim() !== "") {
     const parsed = Number(confidenceMaxRaw);
 
     if (Number.isFinite(parsed) && parsed < 100) {
@@ -177,7 +192,7 @@ export function parseReviewFilters(
       `,
     );
 
-    const like = `%${search}%`;
+    const like = containsLikePattern(search);
 
     values.push(like, like, like, like);
   }

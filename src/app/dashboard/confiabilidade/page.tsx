@@ -3,6 +3,7 @@ import type { RowDataPacket } from "mysql2/promise";
 
 import { ReliabilityPage } from "@/components/reliability/reliability-page";
 import { executeRows } from "@/lib/db";
+import { isAnalystRole } from "@/lib/roles";
 import { getSession } from "@/lib/session";
 
 interface UnitRow extends RowDataPacket {
@@ -49,6 +50,7 @@ export default async function ReliabilityPageRoute() {
         city:
           unit.city,
       }}
+      canWrite={isAnalystRole(session.role)}
     />
   );
 }

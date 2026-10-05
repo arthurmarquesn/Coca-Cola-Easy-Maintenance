@@ -8,6 +8,10 @@ import {
 } from "@/components/masp/masp-detail-page";
 
 import {
+  isAnalystRole,
+} from "@/lib/roles";
+
+import {
   getSession,
 } from "@/lib/session";
 
@@ -56,6 +60,11 @@ export default async function MaspDetailRoute({
     <MaspDetailPage
       userName={
         session.name
+      }
+      canWrite={
+        isAnalystRole(
+          session.role,
+        )
       }
       maspId={
         maspId

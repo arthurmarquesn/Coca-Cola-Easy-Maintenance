@@ -1,5 +1,7 @@
 "use client";
 
+import { useInitialRequest } from "@/lib/use-initial-request";
+
 import Image from "next/image";
 
 import Link from "next/link";
@@ -21,8 +23,8 @@ import type {
 
 import {
   useCallback,
-  useEffect,
   useMemo,
+  useRef,
   useState,
 } from "react";
 
@@ -49,6 +51,9 @@ interface HistoryPageProps {
       | string
       | null;
   };
+
+  /* Só o Analista corrige classificações; o Gestor consulta. */
+  canWrite: boolean;
 }
 
 
@@ -431,6 +436,7 @@ function getUnitLabel(
 export function HistoryPage({
   user,
   unit,
+  canWrite,
 }: HistoryPageProps) {
   const [
     items,
@@ -666,6 +672,12 @@ export function HistoryPage({
      LOAD HISTORY
   ======================================================= */
 
+  const activeRequestRef =
+    useRef<AbortController | null>(
+      null,
+    );
+
+
   const loadHistory =
     useCallback(
       async (
@@ -674,7 +686,27 @@ export function HistoryPage({
 
         searchTerm:
           string,
+        externalSignal?: AbortSignal,
       ) => {
+        /* Busca e paginação rápidas: só a última requisição
+           pode atualizar a tela. */
+        activeRequestRef.current?.abort();
+
+        const controller =
+          new AbortController();
+
+        activeRequestRef.current =
+          controller;
+
+        externalSignal?.addEventListener(
+          "abort",
+          () =>
+            controller.abort(),
+        );
+
+        const signal =
+          controller.signal;
+
         setLoading(
           true,
         );
@@ -714,6 +746,7 @@ export function HistoryPage({
               {
                 cache:
                   "no-store",
+                signal,
               },
             );
 
@@ -722,6 +755,8 @@ export function HistoryPage({
             (await response.json()) as
               HistoryResponse;
 
+
+          if (signal?.aborted) return;
 
           if (
             !response.ok ||
@@ -796,6 +831,7 @@ export function HistoryPage({
         } catch (
           loadError
         ) {
+          if (signal?.aborted) return;
           setError(
             loadError instanceof
               Error
@@ -803,7 +839,7 @@ export function HistoryPage({
               : "Não foi possível carregar o histórico.",
           );
         } finally {
-          setLoading(
+          if (!signal?.aborted) setLoading(
             false,
           );
         }
@@ -816,17 +852,11 @@ export function HistoryPage({
      INITIAL LOAD
   ======================================================= */
 
-  useEffect(
-    () => {
-      void loadHistory(
-        1,
-        "",
-      );
-    },
-    [
-      loadHistory,
-    ],
+  const initialRequest = useCallback(
+    (signal: AbortSignal) => loadHistory (1, "", signal),
+    [loadHistory],
   );
+  useInitialRequest(initialRequest);
 
 
   /* =======================================================
@@ -2178,7 +2208,7 @@ export function HistoryPage({
                   </div>
 
 
-                  {!editing && (
+                  {canWrite && !editing && (
                     <button
                       type="button"
                       onClick={

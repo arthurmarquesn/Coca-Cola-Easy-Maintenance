@@ -1,6 +1,6 @@
 import {
   Document,
-  Image,
+  Image as PdfImage,
   Page,
   StyleSheet,
   Text,
@@ -1018,7 +1018,7 @@ function Header({
       fixed
     >
       {logoDataUri ? (
-        <Image
+        <PdfImage
           src={
             logoDataUri
           }
@@ -1226,7 +1226,7 @@ export function MaintenanceReportPdf({
         />
 
         {logoDataUri ? (
-          <Image
+          <PdfImage
             src={
               logoDataUri
             }

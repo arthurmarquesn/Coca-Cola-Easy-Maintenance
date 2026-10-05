@@ -1,3 +1,4 @@
+import { containsLikePattern } from "@/lib/analytics/sql";
 import {
   NextRequest,
   NextResponse,
@@ -26,6 +27,9 @@ import {
 
 export const runtime =
   "nodejs";
+
+const MAX_EXPORT_ROWS =
+  100_000;
 
 export const dynamic =
   "force-dynamic";
@@ -487,7 +491,7 @@ export async function GET(
 
 
       const like =
-        `%${search}%`;
+        containsLikePattern(search);
 
 
       values = [
@@ -620,9 +624,33 @@ export async function GET(
           ORDER BY
               e.event_date DESC,
               e.id DESC
+
+          LIMIT ${MAX_EXPORT_ROWS + 1}
         `,
         values,
       );
+
+
+    /* Planilha inteira fica em memória: acima do limite,
+       pede um filtro menor em vez de derrubar o servidor. */
+    if (
+      rows.length >
+      MAX_EXPORT_ROWS
+    ) {
+      return NextResponse.json(
+        {
+          success:
+            false,
+
+          message:
+            `A exportação passa de ${MAX_EXPORT_ROWS.toLocaleString("pt-BR")} linhas. Reduza o período ou aplique filtros.`,
+        },
+        {
+          status:
+            413,
+        },
+      );
+    }
 
 
     /* =====================================================

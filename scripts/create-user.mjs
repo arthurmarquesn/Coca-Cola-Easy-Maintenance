@@ -29,8 +29,29 @@ node --env-file=.env.local scripts/create-user.mjs "NOME" "EMAIL" "SENHA" "ROLE"
 
 Exemplo:
 
-node --env-file=.env.local scripts/create-user.mjs "João da Silva" "joao@coca.com" "Joao@2026" "GESTOR" "BAAK"
+node --env-file=.env.local scripts/create-user.mjs "João da Silva" "joao@coca.com" "SenhaForte@2026" "GESTOR" "BAAK"
+
+ROLE: ANALISTA (acesso total) ou GESTOR (somente consulta).
 `);
+
+  process.exit(1);
+}
+
+/* Mesmo limite da API (src/lib/user-admin.ts): bcrypt só
+   considera 72 bytes e o login recusa senhas maiores. */
+const passwordBytes =
+  Buffer.byteLength(
+    password,
+    "utf8",
+  );
+
+if (
+  passwordBytes < 8 ||
+  passwordBytes > 72
+) {
+  console.error(
+    "A senha deve possuir entre 8 e 72 bytes (acentos contam em dobro).",
+  );
 
   process.exit(1);
 }
@@ -38,16 +59,18 @@ node --env-file=.env.local scripts/create-user.mjs "João da Silva" "joao@coca.c
 const allowedRoles = [
   "GESTOR",
   "ANALISTA",
+  "MANAGER",
+  "MAINTENANCE",
 ];
 
-const normalizedRole =
+const roleInput =
   role
     .trim()
     .toUpperCase();
 
 if (
   !allowedRoles.includes(
-    normalizedRole,
+    roleInput,
   )
 ) {
   console.error(
@@ -185,7 +208,7 @@ try {
      A senha em texto puro nunca será enviada ao banco.
   ======================================================= */
 
-  const passwordHash =
+const passwordHash =
     await bcrypt.hash(
       password,
       12,
@@ -202,6 +225,7 @@ try {
       `
         INSERT INTO users
         (
+          unit_id,
           name,
           email,
           password_hash,
@@ -214,14 +238,16 @@ try {
           ?,
           ?,
           ?,
+          ?,
           TRUE
         )
       `,
       [
+        unit.id,
         name.trim(),
         normalizedEmail,
         passwordHash,
-        normalizedRole,
+        ({ GESTOR: "MANAGER", ANALISTA: "MAINTENANCE" }[roleInput] ?? roleInput),
       ],
     );
 
@@ -269,7 +295,7 @@ try {
     `E-mail: ${normalizedEmail}`,
   );
   console.log(
-    `Role: ${normalizedRole}`,
+    `Role: ${roleInput}`,
   );
   console.log(
     `Unidade: ${unit.code}`,

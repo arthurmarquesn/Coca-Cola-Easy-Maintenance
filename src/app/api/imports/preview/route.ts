@@ -1,7 +1,9 @@
+import { getWriteAccessError } from "@/lib/write-access";
 import { NextResponse } from "next/server";
 import * as XLSX from "xlsx";
 
 import { getSession } from "@/lib/session";
+import { normalizeHeader } from "@/lib/imports/headers";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -35,27 +37,6 @@ const REQUIRED_COLUMNS = [
 ] as const;
 
 /* =========================================================
-   NORMALIZAÇÃO
-
-   Permite comparar, por exemplo:
-
-   "Descrição do Material"
-   "DESCRICAO DO MATERIAL"
-   "Descrição   do Material"
-========================================================= */
-
-function normalizeHeader(
-  value: unknown,
-): string {
-  return String(value ?? "")
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, " ")
-    .trim();
-}
-
-/* =========================================================
    EXTENSÃO
 ========================================================= */
 
@@ -86,8 +67,9 @@ export async function POST(
        SESSÃO
     ===================================================== */
 
-    const session =
-      await getSession();
+const session = await getSession();
+  const accessError = getWriteAccessError(session);
+  if (accessError) return accessError;
 
     if (!session) {
       return NextResponse.json(

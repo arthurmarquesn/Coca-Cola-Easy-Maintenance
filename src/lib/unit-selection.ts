@@ -154,15 +154,16 @@ export function parseUnitSelection(
 
 
 /* =========================================================
-   ALL ACTIVE UNITS
+   AUTHORIZED UNITS
 
    Regra atual:
 
-   - todos os usuários autenticados podem consultar
-     todas as unidades ativas;
+   - cada usuário só consulta e altera dados das
+     unidades ativas em que está cadastrado
+     (user_units);
 
-   - user_units serve apenas para identificar
-     a unidade representada pelo usuário.
+   - is_default identifica a unidade representada
+     pelo usuário.
 ========================================================= */
 
 export async function getAuthorizedUnits(
@@ -187,15 +188,12 @@ export async function getAuthorizedUnits(
 
             un.state,
 
-            COALESCE(
-              uu.is_default,
-              FALSE
-            ) AS is_default
+            uu.is_default
 
         FROM
             units un
 
-        LEFT JOIN
+        INNER JOIN
             user_units uu
             ON uu.unit_id =
                un.id
@@ -208,10 +206,7 @@ export async function getAuthorizedUnits(
                 TRUE
 
         ORDER BY
-            COALESCE(
-              uu.is_default,
-              FALSE
-            ) DESC,
+            uu.is_default DESC,
 
             COALESCE(
               un.city,

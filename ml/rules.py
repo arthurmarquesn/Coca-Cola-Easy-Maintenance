@@ -6,7 +6,7 @@ from dataclasses import asdict, dataclass
 from typing import Any, Mapping
 
 
-RULES_VERSION = "rules-v3"
+RULES_VERSION = "rules-v3.1"
 
 
 @dataclass(frozen=True)
@@ -462,57 +462,65 @@ def classify_by_rule(
         ),
     )
 
-    if _contains(
-        occurrence,
+    # O objeto que patina é o que vem logo após o verbo
+    # ("PATINAMENTO DO ROLETE") ou, sem isso, o primeiro
+    # citado ("ROLETE DA ESTEIRA PATINANDO"). Varrer a lista
+    # em ordem fixa trocava o rolete pela esteira.
+    patinamento_match = re.search(
         r"\bPATIN(?:ANDO|AMENTO|A)\b",
-    ):
+        occurrence,
+    )
+
+    if patinamento_match:
+        after_verb = occurrence[patinamento_match.end():]
+
+        positions = []
+
         for (
             token,
             component,
             failure_mode,
             rule_id,
         ) in patinamento_objects:
-            if token in occurrence:
-                return _prediction(
-                    component=component,
-                    failure_mode=failure_mode,
-                    rule_id=rule_id,
-                    evidence=context.observation,
+            right_after = re.match(
+                rf"\s+(?:(?:DE|DA|DO|NA|NO)\s+)?{token}\b",
+                after_verb,
+            )
+
+            if right_after:
+                positions.append(
+                    (-1, component, failure_mode, rule_id)
+                )
+                continue
+
+            token_match = re.search(
+                rf"\b{token}\b",
+                occurrence,
+            )
+
+            if token_match:
+                positions.append(
+                    (token_match.start(), component, failure_mode, rule_id)
                 )
 
+        if positions:
+            _, component, failure_mode, rule_id = min(
+                positions,
+                key=lambda item: item[0],
+            )
+
+            return _prediction(
+                component=component,
+                failure_mode=failure_mode,
+                rule_id=rule_id,
+                evidence=context.observation,
+            )
+
     # ---------------------------------------------------------
-    # 5. QUEBRA DA ESTEIRA
+    # 5. QUEBRA / ROMPIMENTO DE CORRENTE MECÂNICA
     #
-    # Não captura "quebrou rolamento da esteira".
-    # ---------------------------------------------------------
-
-    if (
-        _contains(
-            occurrence,
-            r"\bQUEBRA\s+DA\s+ESTEIRA\b",
-        )
-        or _contains(
-            occurrence,
-            r"\bQUEBROU\s+(?:A\s+)?ESTEIRA\b",
-        )
-        or _contains(
-            occurrence,
-            r"\bESTEIRA\s+QUEBRAD(?:A|O)\b",
-        )
-        or _contains(
-            occurrence,
-            r"\bESTEIRA\b.{0,18}\bQUEBROU\b",
-        )
-    ):
-        return _prediction(
-            component="ESTEIRA",
-            failure_mode="QUEBRA DE ESTEIRA",
-            rule_id="FM_QUEBRA_ESTEIRA",
-            evidence=context.observation,
-        )
-
-    # ---------------------------------------------------------
-    # 6. QUEBRA / ROMPIMENTO DE CORRENTE MECÂNICA
+    # Vem antes da quebra de esteira: "CORRENTE DA ESTEIRA
+    # QUEBRADA" é quebra da corrente, não da esteira.
     #
     # A auditoria da taxonomia confirmou que existe um rótulo
     # canônico humano específico:
@@ -541,6 +549,39 @@ def classify_by_rule(
             component="CORRENTE",
             failure_mode="QUEBRA DE CORRENTE",
             rule_id="FM_QUEBRA_CORRENTE",
+            evidence=context.observation,
+        )
+
+    # ---------------------------------------------------------
+    # 6. QUEBRA DA ESTEIRA
+    #
+    # Não captura "quebrou rolamento da esteira" nem
+    # "esteira 3 quebrou parafuso": depois de QUEBROU só pode
+    # vir o fim da frase.
+    # ---------------------------------------------------------
+
+    if (
+        _contains(
+            occurrence,
+            r"\bQUEBRA\s+DA\s+ESTEIRA\b",
+        )
+        or _contains(
+            occurrence,
+            r"\bQUEBROU\s+(?:A\s+)?ESTEIRA\b",
+        )
+        or _contains(
+            occurrence,
+            r"\bESTEIRA\s+QUEBRAD(?:A|O)\b",
+        )
+        or _contains(
+            occurrence,
+            r"\bESTEIRA\b.{0,18}\bQUEBROU\b\s*(?:$|[.,;:!()\-])",
+        )
+    ):
+        return _prediction(
+            component="ESTEIRA",
+            failure_mode="QUEBRA DE ESTEIRA",
+            rule_id="FM_QUEBRA_ESTEIRA",
             evidence=context.observation,
         )
 

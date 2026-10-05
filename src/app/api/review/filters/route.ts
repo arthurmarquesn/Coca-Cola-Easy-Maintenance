@@ -14,6 +14,11 @@ import {
   getSession,
 } from "@/lib/session";
 
+import {
+  buildUnitInClause,
+  getUnitSelection,
+} from "@/lib/unit-selection";
+
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
@@ -27,8 +32,10 @@ interface ShiftRow extends RowDataPacket {
 
 function distinctNames(
   column: "source_line_name" | "source_equipment_name",
-  unitId: number,
+  unitIds: number[],
 ) {
+  const unitClause = buildUnitInClause(unitIds);
+
   return executeRows<NameRow[]>(
     `
       SELECT DISTINCT
@@ -40,14 +47,14 @@ function distinctNames(
         ON cs.event_id = me.id
 
       WHERE
-        me.unit_id = ?
+        me.unit_id IN (${unitClause.placeholders})
         AND cs.model_type = 'ML'
         AND me.${column} IS NOT NULL
         AND TRIM(me.${column}) <> ''
 
       ORDER BY name ASC
     `,
-    [unitId],
+    unitClause.values,
   );
 }
 
@@ -62,9 +69,26 @@ export async function GET() {
   }
 
   try {
+    /* Mesmas unidades exibidas na tabela de validação. */
+    const { selectedUnitIds } = await getUnitSelection({
+      userId: session.userId,
+      defaultUnitId: session.unitId,
+    });
+
+    if (selectedUnitIds.length === 0) {
+      return NextResponse.json({
+        success: true,
+        lines: [],
+        equipments: [],
+        shifts: [],
+      });
+    }
+
+    const unitClause = buildUnitInClause(selectedUnitIds);
+
     const [lines, equipments, shifts] = await Promise.all([
-      distinctNames("source_line_name", session.unitId),
-      distinctNames("source_equipment_name", session.unitId),
+      distinctNames("source_line_name", selectedUnitIds),
+      distinctNames("source_equipment_name", selectedUnitIds),
 
       executeRows<ShiftRow[]>(
         `
@@ -77,14 +101,14 @@ export async function GET() {
             ON cs.event_id = me.id
 
           WHERE
-            me.unit_id = ?
+            me.unit_id IN (${unitClause.placeholders})
             AND cs.model_type = 'ML'
             AND me.shift IS NOT NULL
             AND me.shift <> ''
 
           ORDER BY me.shift ASC
         `,
-        [session.unitId],
+        unitClause.values,
       ),
     ]);
 

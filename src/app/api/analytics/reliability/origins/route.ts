@@ -22,6 +22,11 @@ import {
   getUnitSelection,
 } from "@/lib/unit-selection";
 
+import {
+  FAILURE_ORIGIN_JOINS,
+  containsLikePattern,
+} from "@/lib/analytics/sql";
+
 
 export const runtime =
   "nodejs";
@@ -290,11 +295,11 @@ function formatDate(
     Date
   ) {
     const year =
-      value.getFullYear();
+      value.getUTCFullYear();
 
     const month =
       String(
-        value.getMonth() +
+        value.getUTCMonth() +
           1,
       ).padStart(
         2,
@@ -303,7 +308,7 @@ function formatDate(
 
     const day =
       String(
-        value.getDate(),
+        value.getUTCDate(),
       ).padStart(
         2,
         "0",
@@ -756,15 +761,7 @@ export async function GET(
           FROM
             maintenance_events e
 
-          LEFT JOIN
-            event_failure_origin_predictions prediction
-              ON prediction.event_id =
-                 e.id
-
-          LEFT JOIN
-            event_failure_origin_reviews review
-              ON review.event_id =
-                 e.id
+          ${FAILURE_ORIGIN_JOINS}
 
           LEFT JOIN
             users reviewer
@@ -851,7 +848,7 @@ export async function GET(
 
 
       const like =
-        `%${search}%`;
+        containsLikePattern(search);
 
 
       resultValues.push(
@@ -1257,6 +1254,9 @@ export async function PATCH(
   try {
     body =
       await request.json();
+    if (!body || typeof body !== "object" || Array.isArray(body)) {
+      throw new Error("Invalid request body");
+    }
   } catch {
     return NextResponse.json(
       {

@@ -1,7 +1,7 @@
 // Sobe o serviço de ML (FastAPI) junto com o Next.js: `npm run dev`.
 // Use `npm run dev:next` para subir apenas o Next.js.
 import { spawn } from "node:child_process";
-import { existsSync, readFileSync } from "node:fs";
+import { existsSync, openSync, readSync, closeSync, readFileSync } from "node:fs";
 import net from "node:net";
 
 function readEnv() {
@@ -89,6 +89,26 @@ if (await isPortInUse(mlPort, mlHost)) {
 } else {
   const python = env.PYTHON || (process.platform === "win32" ? "python" : "python3");
 
+  // Clone sem git-lfs traz arquivos-texto de ~130 bytes no lugar dos modelos.
+  const lfsPointerModels = [
+    "ml/models/failure_classifier_real_v1_2_eval.joblib",
+    "ml/models/failure_origin_classifier_v4_candidate.joblib",
+  ].filter((file) => {
+    if (!existsSync(file)) return false;
+    const buffer = Buffer.alloc(40);
+    const fd = openSync(file, "r");
+    try {
+      readSync(fd, buffer, 0, buffer.length, 0);
+    } finally {
+      closeSync(fd);
+    }
+    return buffer.toString("utf8").startsWith("version https://git-lfs");
+  });
+
+  if (lfsPointerModels.length > 0) {
+    console.warn(`[ml] modelos não baixados do Git LFS: ${lfsPointerModels.join(", ")}. Rode git lfs pull.`);
+  }
+
   console.log(`[ml] iniciando em ${mlHost}:${mlPort}...`);
 
   const ml = run("ml", python, [
@@ -101,7 +121,9 @@ if (await isPortInUse(mlPort, mlHost)) {
     if (code) {
       console.error(
         `[ml] encerrou com código ${code}. O Next.js segue rodando sem o modelo. ` +
-        "Instale as dependências: pip install -r ml/requirements.txt",
+        (lfsPointerModels.length > 0
+          ? `Modelos ainda são ponteiros do Git LFS (${lfsPointerModels.join(", ")}): rode git lfs pull.`
+          : "Instale as dependências: pip install -r ml/requirements.txt"),
       );
     }
   });

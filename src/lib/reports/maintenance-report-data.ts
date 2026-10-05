@@ -6,6 +6,16 @@ import {
   executeRows,
 } from "@/lib/db";
 
+/* Mesma regra de modo de falha dos gráficos: a decisão do
+   revisor (classification_notes) vem antes da sugestão. */
+import {
+  CLASSIFICATION_JOINS,
+  FAILURE_MODE_EXPRESSION,
+} from "@/lib/analytics/sql";
+
+/* Pedido de relatório com unidade fora do acesso do usuário. */
+export class ReportAccessError extends Error {}
+
 export type MaintenanceReportMetric =
   | "SUMMARY"
   | "UNIT_COMPARISON"
@@ -969,7 +979,7 @@ export async function buildMaintenanceReportData({
   if (
     forbiddenIds.length > 0
   ) {
-    throw new Error(
+    throw new ReportAccessError(
       "Uma ou mais unidades selecionadas não estão autorizadas para este usuário.",
     );
   }
@@ -1305,11 +1315,7 @@ lines:
           >(
             `
               SELECT
-                COALESCE(
-                  fm.name,
-                  latest_suggestion.failure_mode,
-                  'Não classificado'
-                ) AS label,
+                ${FAILURE_MODE_EXPRESSION} AS label,
 
                 COUNT(*) AS events,
 
@@ -1322,41 +1328,7 @@ lines:
 
               FROM maintenance_events e
 
-              LEFT JOIN event_classifications ec
-                ON ec.event_id =
-                   e.id
-
-              LEFT JOIN failure_modes fm
-                ON fm.id =
-                   ec.mode_id
-
-              LEFT JOIN (
-                SELECT
-                  cs.event_id,
-                  cs.failure_mode
-
-                FROM classification_suggestions cs
-
-                INNER JOIN (
-                  SELECT
-                    event_id,
-                    MAX(id) AS max_id
-
-                  FROM classification_suggestions
-
-                  WHERE
-                    model_type = 'ML'
-
-                  GROUP BY
-                    event_id
-                ) latest
-
-                  ON latest.max_id =
-                     cs.id
-              ) latest_suggestion
-
-                ON latest_suggestion.event_id =
-                   e.id
+              ${CLASSIFICATION_JOINS}
 
               WHERE
                 ${where.clause}
@@ -1391,10 +1363,7 @@ lines:
                 e.source_line_name,
                 e.source_equipment_name,
 
-                COALESCE(
-                  fm.name,
-                  latest_suggestion.failure_mode
-                ) AS failure_mode,
+                ${FAILURE_MODE_EXPRESSION} AS failure_mode,
 
                 e.observation,
 
@@ -1409,41 +1378,7 @@ lines:
                 ON u.id =
                    e.unit_id
 
-              LEFT JOIN event_classifications ec
-                ON ec.event_id =
-                   e.id
-
-              LEFT JOIN failure_modes fm
-                ON fm.id =
-                   ec.mode_id
-
-              LEFT JOIN (
-                SELECT
-                  cs.event_id,
-                  cs.failure_mode
-
-                FROM classification_suggestions cs
-
-                INNER JOIN (
-                  SELECT
-                    event_id,
-                    MAX(id) AS max_id
-
-                  FROM classification_suggestions
-
-                  WHERE
-                    model_type = 'ML'
-
-                  GROUP BY
-                    event_id
-                ) latest
-
-                  ON latest.max_id =
-                     cs.id
-              ) latest_suggestion
-
-                ON latest_suggestion.event_id =
-                   e.id
+              ${CLASSIFICATION_JOINS}
 
               WHERE
                 ${where.clause}

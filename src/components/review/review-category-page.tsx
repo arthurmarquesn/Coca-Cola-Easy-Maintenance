@@ -19,6 +19,7 @@ import {
   useCallback,
   useEffect,
   useMemo,
+  useRef,
   useState,
 } from "react";
 
@@ -39,6 +40,8 @@ interface ReviewCategoryPageProps {
   unit: { city: string | null };
   categorySlug: string;
   categoryLabel: string;
+  /* Só o Analista revisa; o Gestor apenas consulta. */
+  canWrite: boolean;
   initialFilters?: Partial<ReviewFiltersState>;
 }
 
@@ -111,6 +114,7 @@ export function ReviewCategoryPage({
   unit,
   categorySlug,
   categoryLabel,
+  canWrite,
   initialFilters,
 }: ReviewCategoryPageProps) {
   const [filters, setFilters] = useState<ReviewFiltersState>({
@@ -183,12 +187,17 @@ export function ReviewCategoryPage({
     };
   }, []);
 
+  const activeRequest = useRef<AbortController | null>(null);
+
   const loadItems = useCallback(
     async (
       currentFilters: ReviewFiltersState,
       currentPage: number,
       currentSort: SortValue,
     ) => {
+      activeRequest.current?.abort();
+      const controller = new AbortController();
+      activeRequest.current = controller;
       setLoading(true);
 
       try {
@@ -201,9 +210,11 @@ export function ReviewCategoryPage({
 
         const response = await fetch(`/api/review?${params.toString()}`, {
           cache: "no-store",
+          signal: controller.signal,
         });
 
         const data = (await response.json()) as ItemsResponse;
+        if (controller.signal.aborted) return;
 
         if (!response.ok || !data.success) {
           throw new Error(
@@ -221,13 +232,14 @@ export function ReviewCategoryPage({
         setSelected(new Set());
         setError("");
       } catch (loadError) {
+        if (controller.signal.aborted) return;
         setError(
           loadError instanceof Error
             ? loadError.message
             : "Não foi possível carregar as ocorrências.",
         );
       } finally {
-        setLoading(false);
+        if (!controller.signal.aborted) setLoading(false);
       }
     },
     [categorySlug],
@@ -238,9 +250,11 @@ export function ReviewCategoryPage({
       void loadItems(filters, 1, sort);
     }, 300);
 
-    return () => clearTimeout(timeout);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [filters, sort, categorySlug]);
+    return () => {
+      clearTimeout(timeout);
+      activeRequest.current?.abort();
+    };
+  }, [filters, sort, loadItems]);
 
   function goToPage(nextPage: number) {
     void loadItems(filters, nextPage, sort);
@@ -516,7 +530,7 @@ export function ReviewCategoryPage({
           </div>
         </div>
 
-        {selected.size > 0 && (
+        {canWrite && selected.size > 0 && (
           <div className="sticky top-3 z-10 mt-3 flex flex-wrap items-center justify-between gap-3 rounded-[12px] border border-[#F40009] bg-surface-elevated px-4 py-3">
             <span className="text-[12.5px] font-semibold text-text-primary">
               {selected.size} selecionada(s)
@@ -633,12 +647,14 @@ export function ReviewCategoryPage({
                   <Fragment key={item.suggestionId}>
                     <tr className="border-b border-border-theme align-top outline outline-1 -outline-offset-1 outline-transparent transition-colors hover:outline-text-primary">
                       <td className="px-3 py-3.5">
-                        <input
-                          type="checkbox"
-                          checked={selected.has(item.suggestionId)}
-                          onChange={() => toggleSelect(item.suggestionId)}
-                          className="h-4 w-4 accent-[#F40009]"
-                        />
+                        {canWrite && (
+                          <input
+                            type="checkbox"
+                            checked={selected.has(item.suggestionId)}
+                            onChange={() => toggleSelect(item.suggestionId)}
+                            className="h-4 w-4 accent-[#F40009]"
+                          />
+                        )}
                       </td>
 
                       <td className="px-3 py-3.5 text-text-primary">
@@ -686,7 +702,13 @@ export function ReviewCategoryPage({
                       </td>
 
                       <td className="px-3 py-3.5">
-                        {item.status === "PENDENTE_REVISAO" ? (
+                        {!canWrite ? (
+                          <p className="text-right text-[11px] text-text-secondary">
+                            {item.status === "PENDENTE_REVISAO"
+                              ? "aguardando analista"
+                              : "revisada"}
+                          </p>
+                        ) : item.status === "PENDENTE_REVISAO" ? (
                           <div className="flex justify-end gap-1.5">
                             <button
                               type="button"

@@ -1,5 +1,7 @@
 "use client";
 
+import { useInitialRequest } from "@/lib/use-initial-request";
+
 import Image from "next/image";
 import Link from "next/link";
 
@@ -19,7 +21,6 @@ import type {
 
 import {
   useCallback,
-  useEffect,
   useState,
 } from "react";
 
@@ -346,7 +347,7 @@ export function UsersPage({
 
   const loadUsers =
     useCallback(
-      async () => {
+      async (signal?: AbortSignal) => {
         setLoading(
           true,
         );
@@ -364,6 +365,7 @@ export function UsersPage({
               {
                 cache:
                   "no-store",
+                signal,
               },
             );
 
@@ -372,6 +374,8 @@ export function UsersPage({
             (await response.json()) as
               UsersResponse;
 
+
+          if (signal?.aborted) return;
 
           if (
             !response.ok ||
@@ -451,6 +455,7 @@ export function UsersPage({
         } catch (
           loadError
         ) {
+          if (signal?.aborted) return;
           setError(
             loadError instanceof
               Error
@@ -458,7 +463,7 @@ export function UsersPage({
               : "Não foi possível carregar os usuários.",
           );
         } finally {
-          setLoading(
+          if (!signal?.aborted) setLoading(
             false,
           );
         }
@@ -467,14 +472,7 @@ export function UsersPage({
     );
 
 
-  useEffect(
-    () => {
-      void loadUsers();
-    },
-    [
-      loadUsers,
-    ],
-  );
+  useInitialRequest(loadUsers);
 
 
   /* =======================================================

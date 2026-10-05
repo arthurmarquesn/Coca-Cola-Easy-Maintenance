@@ -59,6 +59,9 @@ interface ReliabilityPageProps {
   unit: {
     city: string | null;
   };
+
+  /* Só o Analista inicia MASP; o Gestor apenas consulta. */
+  canWrite: boolean;
 }
 
 interface ReliabilityUnit {
@@ -176,7 +179,8 @@ interface ReliabilityDetailDrawerProps {
   onBackToEquipments:
     () => void;
 
-  onStartMasp:
+  /* Ausente para quem só consulta (Gestor). */
+  onStartMasp?:
     () => void;
 }
 
@@ -2073,6 +2077,7 @@ function ReliabilityDetailDrawer({
         </div>
 
         <div className="space-y-3 border-t border-border-theme px-6 py-5">
+          {onStartMasp && (
           <button
             type="button"
             onClick={
@@ -2093,6 +2098,7 @@ function ReliabilityDetailDrawer({
               ? "ocorrência"
               : "ocorrências"}
           </button>
+          )}
 
           {isEquipmentLevel ? (
             <button
@@ -2509,7 +2515,7 @@ function ParetoChart({
                   y2={
                     y
                   }
-                  stroke="#ECEDEF"
+                  stroke="var(--chart-grid)"
                 />
 
                 <text
@@ -2766,7 +2772,7 @@ function ParetoChart({
             cumulativePath
           }
           fill="none"
-          stroke="#24272B"
+          stroke="var(--text-primary)"
           strokeWidth="3"
           strokeLinejoin="round"
           strokeLinecap="round"
@@ -2819,7 +2825,7 @@ function ParetoChart({
                     point.y
                   }
                   r="4.5"
-                  fill="#24272B"
+                  fill="var(--text-primary)"
                   stroke="white"
                   strokeWidth="1.5"
                   className="pointer-events-none"
@@ -3304,7 +3310,7 @@ function JackKnifeChart({
                     top +
                     plotHeight
                   }
-                  stroke="#EFF0F1"
+                  stroke="var(--chart-grid)"
                 />
 
                 <text
@@ -3358,7 +3364,7 @@ function JackKnifeChart({
                   y2={
                     y
                   }
-                  stroke="#EFF0F1"
+                  stroke="var(--chart-grid)"
                 />
 
                 <text
@@ -3400,7 +3406,7 @@ function JackKnifeChart({
             top +
             plotHeight
           }
-          stroke="#33373B"
+          stroke="var(--text-secondary)"
           strokeWidth="2"
         />
 
@@ -3418,7 +3424,7 @@ function JackKnifeChart({
           y2={
             dividerY
           }
-          stroke="#33373B"
+          stroke="var(--text-secondary)"
           strokeWidth="2"
         />
 
@@ -3433,7 +3439,7 @@ function JackKnifeChart({
           }
           fontSize="12"
           fontWeight="600"
-          fill="#4C5055"
+          fill="var(--text-secondary)"
         >
           Crítico
         </text>
@@ -3765,6 +3771,7 @@ function JackKnifeChart({
 export function ReliabilityPage({
   user,
   unit,
+  canWrite,
 }: ReliabilityPageProps) {
   const initialRange =
     useMemo(
@@ -4600,6 +4607,7 @@ export function ReliabilityPage({
         ============================================== */}
 
         <ComplementaryCharts
+          unitSelectionKey={(data?.filters.selectedUnitIds ?? []).join(",")}
           city={unit.city}
           startDate={startDate}
           endDate={endDate}
@@ -4679,7 +4687,7 @@ export function ReliabilityPage({
             "",
           );
         }}
-        onStartMasp={() => {
+        onStartMasp={canWrite ? () => {
           if (
             !selectedPoint ||
             !data
@@ -4730,7 +4738,7 @@ export function ReliabilityPage({
 
             equipmentLabel,
           });
-        }}
+        } : undefined}
       />
 
       {maspSelection && (

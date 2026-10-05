@@ -1,3 +1,4 @@
+import { getWriteAccessError } from "@/lib/write-access";
 import {
   NextRequest,
   NextResponse,
@@ -19,6 +20,11 @@ import {
   getMlHealth,
   predictFailure,
 } from "@/lib/ml/client";
+
+import {
+  buildUnitInClause,
+  getUnitSelection,
+} from "@/lib/unit-selection";
 
 
 interface RequestBody {
@@ -69,18 +75,13 @@ function normalizeLimit(
 export async function POST(
   request: NextRequest,
 ) {
-  const session =
-    await getSession();
-
+  const session = await getSession();
+  const accessError = getWriteAccessError(session);
+  if (accessError) return accessError;
   if (!session) {
     return NextResponse.json(
-      {
-        error:
-          "Não autenticado.",
-      },
-      {
-        status: 401,
-      },
+      { error: "Não autenticado." },
+      { status: 401 },
     );
   }
 
@@ -90,6 +91,9 @@ export async function POST(
     body =
       (await request.json()) as
         RequestBody;
+    if (!body || typeof body !== "object" || Array.isArray(body)) {
+      throw new Error("Invalid request body");
+    }
   } catch {
     body = {};
   }
@@ -120,6 +124,29 @@ export async function POST(
   const modelVersion =
     health.modelVersion;
 
+  const { selectedUnitIds } =
+    await getUnitSelection({
+      userId: session.userId,
+      defaultUnitId: session.unitId,
+    });
+
+  if (selectedUnitIds.length === 0) {
+    return NextResponse.json(
+      {
+        error:
+          "Nenhuma unidade válida está selecionada.",
+      },
+      {
+        status: 403,
+      },
+    );
+  }
+
+  const unitClause =
+    buildUnitInClause(
+      selectedUnitIds,
+    );
+
   const connection =
     await getConnection();
 
@@ -141,14 +168,18 @@ export async function POST(
           FROM maintenance_events me
 
           WHERE
-              me.unit_id = ?
+              me.unit_id IN (${unitClause.placeholders})
 
               AND me.observation IS NOT NULL
 
-              AND TRIM(
-                  me.observation
-              ) <> ''
+              AND me.observation REGEXP '[^[:space:]]'
 
+              /* Só eventos que nunca receberam sugestão. Filtrar
+                 pela versão do /health não funcionava: a sugestão
+                 é gravada com a versão do classificador combinado
+                 (RULES+ml-...), então os mesmos eventos voltavam
+                 a cada chamada. Reclassificar após troca de modelo
+                 é papel de /api/imports/classify. */
               AND NOT EXISTS (
                   SELECT 1
                   FROM classification_suggestions cs
@@ -157,8 +188,16 @@ export async function POST(
                       cs.event_id = me.id
 
                       AND cs.model_type = 'ML'
+              )
 
-                      AND cs.model_version = ?
+              AND NOT EXISTS (
+                  SELECT 1
+                  FROM event_classifications ec
+
+                  WHERE
+                      ec.event_id = me.id
+
+                      AND ec.status IN ('APROVADA', 'CORRIGIDA')
               )
 
           ORDER BY
@@ -168,8 +207,7 @@ export async function POST(
           LIMIT ?
         `,
         [
-          session.unitId,
-          modelVersion,
+          ...unitClause.values,
           limit,
         ],
       );
@@ -274,9 +312,7 @@ export async function POST(
             event.id,
 
           error:
-            error instanceof Error
-              ? error.message
-              : "Erro desconhecido.",
+            "Não foi possível classificar o evento.",
         });
 
         console.error(

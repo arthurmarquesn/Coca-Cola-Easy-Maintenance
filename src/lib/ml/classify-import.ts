@@ -657,6 +657,11 @@ Promise<ClassifyImportMlResult> {
     );
 
 
+  /*
+   * Evento com classificação oficial (APROVADA/CORRIGIDA,
+   * de qualquer origem) não recebe nova sugestão: ela não
+   * poderia ser revisada.
+   */
   const componentClassificationNeededCondition =
     canFilterByClassifierVersion
       ? `
@@ -671,9 +676,6 @@ Promise<ClassifyImportMlResult> {
                   WHERE
                       ec.event_id =
                           me.id
-
-                      AND ec.source =
-                          'MANUAL'
 
                       AND ec.status IN (
                           'APROVADA',
@@ -711,9 +713,6 @@ Promise<ClassifyImportMlResult> {
               WHERE
                   ec.event_id =
                       me.id
-
-                  AND ec.source =
-                      'MANUAL'
 
                   AND ec.status IN (
                       'APROVADA',
@@ -798,9 +797,9 @@ Promise<ClassifyImportMlResult> {
                 AND me.observation
                     IS NOT NULL
 
-                AND TRIM(
-                    me.observation
-                ) <> ''
+                -- TRIM só remove espaços: texto só com tab ou
+                -- quebra de linha seria recusado pelo serviço.
+                AND me.observation REGEXP '[^[:space:]]'
 
                 ${eligibilityCondition}
           `,
@@ -911,9 +910,9 @@ Promise<ClassifyImportMlResult> {
                 AND me.observation
                     IS NOT NULL
 
-                AND TRIM(
-                    me.observation
-                ) <> ''
+                -- TRIM só remove espaços: texto só com tab ou
+                -- quebra de linha seria recusado pelo serviço.
+                AND me.observation REGEXP '[^[:space:]]'
 
                 ${eligibilityCondition}
 
@@ -1202,6 +1201,7 @@ Promise<ClassifyImportMlResult> {
 
       const insertConnection =
         await getConnection();
+      let batchInserted = 0;
 
 
       try {
@@ -1340,7 +1340,7 @@ Promise<ClassifyImportMlResult> {
               );
 
 
-          inserted +=
+          batchInserted =
             insertResult
               .affectedRows;
         }
@@ -1496,6 +1496,7 @@ Promise<ClassifyImportMlResult> {
 
         await insertConnection
           .commit();
+        inserted += batchInserted;
 
 
         originProcessed +=

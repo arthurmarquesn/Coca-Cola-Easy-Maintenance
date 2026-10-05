@@ -3,6 +3,7 @@ import type {
 } from "mysql2/promise";
 
 import { executeRows } from "@/lib/db";
+import { buildUnitInClause } from "@/lib/unit-selection";
 
 import {
   buildDateWhere,
@@ -95,14 +96,14 @@ function toDateString(
   }
 
   if (value instanceof Date) {
-    const year = value.getFullYear();
+    const year = value.getUTCFullYear();
 
     const month = String(
-      value.getMonth() + 1,
+      value.getUTCMonth() + 1,
     ).padStart(2, "0");
 
     const day = String(
-      value.getDate(),
+      value.getUTCDate(),
     ).padStart(2, "0");
 
     return `${year}-${month}-${day}`;
@@ -112,7 +113,7 @@ function toDateString(
 }
 
 export async function loadAnalyticsEvents(
-  unitId: number,
+  unitIds: number | number[],
   filters: AnalyticsFilters,
   options: {
     /*
@@ -122,11 +123,11 @@ export async function loadAnalyticsEvents(
     onlyMaintenanceStops?: boolean;
   } = {},
 ): Promise<LoadEventsResult> {
-  const params: Array<string | number> =
-    [unitId];
+  const units = buildUnitInClause(Array.isArray(unitIds) ? unitIds : [unitIds]);
+  const params: Array<string | number> = [...units.values];
 
   const where = [
-    "e.unit_id = ?",
+    `e.unit_id IN (${units.placeholders})`,
     ...buildDateWhere(
       filters.startDate,
       filters.endDate,

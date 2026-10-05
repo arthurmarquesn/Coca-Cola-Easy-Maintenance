@@ -1,3 +1,4 @@
+import { getWriteAccessError } from "@/lib/write-access";
 import {
   NextRequest,
   NextResponse,
@@ -23,8 +24,9 @@ export async function POST(
   request:
     NextRequest,
 ) {
-  const session =
-    await getSession();
+const session = await getSession();
+  const accessError = getWriteAccessError(session);
+  if (accessError) return accessError;
 
   if (!session) {
     return NextResponse.json(
@@ -47,6 +49,9 @@ export async function POST(
     body =
       (await request.json()) as
         RequestBody;
+    if (!body || typeof body !== "object" || Array.isArray(body)) {
+      throw new Error("Invalid request body");
+    }
   } catch {
     return NextResponse.json(
       {

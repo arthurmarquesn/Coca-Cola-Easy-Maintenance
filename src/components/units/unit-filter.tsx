@@ -1,5 +1,7 @@
 "use client";
 
+import { useInitialRequest } from "@/lib/use-initial-request";
+
 import {
   Building2,
   Check,
@@ -252,7 +254,7 @@ export function UnitFilter({
 
   const loadUnits =
     useCallback(
-      async () => {
+      async (signal?: AbortSignal) => {
         setLoading(
           true,
         );
@@ -273,6 +275,7 @@ export function UnitFilter({
 
                 cache:
                   "no-store",
+                signal,
 
                 credentials:
                   "same-origin",
@@ -294,6 +297,8 @@ export function UnitFilter({
             );
           }
 
+
+          if (signal?.aborted) return;
 
           if (
             !response.ok ||
@@ -360,6 +365,7 @@ export function UnitFilter({
         } catch (
           error
         ) {
+          if (signal?.aborted) return;
           console.error(
             "Erro ao carregar filtro de unidades:",
             error,
@@ -388,7 +394,7 @@ export function UnitFilter({
               : "Não foi possível carregar as unidades.",
           );
         } finally {
-          setLoading(
+          if (!signal?.aborted) setLoading(
             false,
           );
         }
@@ -401,14 +407,7 @@ export function UnitFilter({
      INITIAL LOAD
   ======================================================= */
 
-  useEffect(
-    () => {
-      void loadUnits();
-    },
-    [
-      loadUnits,
-    ],
-  );
+  useInitialRequest(loadUnits);
 
 
   /* =======================================================

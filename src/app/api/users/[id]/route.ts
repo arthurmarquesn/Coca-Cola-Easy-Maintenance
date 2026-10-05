@@ -1,7 +1,9 @@
 import { NextResponse } from "next/server";
 
+import type { PoolConnection } from "mysql2/promise";
+
 import {
-  executeQuery,
+  getConnection,
 } from "@/lib/db";
 
 import {
@@ -10,6 +12,11 @@ import {
 } from "@/lib/roles";
 
 import { getSession } from "@/lib/session";
+
+import {
+  findUnitLeftWithoutAnalyst,
+  lockAdministrableTarget,
+} from "@/lib/user-admin";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -32,6 +39,16 @@ function fail(
       status,
     },
   );
+}
+
+async function rollbackQuietly(
+  connection: PoolConnection,
+) {
+  try {
+    await connection.rollback();
+  } catch {
+    // Não sobrescreve o erro original.
+  }
 }
 
 export async function PATCH(
@@ -68,6 +85,9 @@ export async function PATCH(
   try {
     body =
       (await request.json()) as UpdateUserBody;
+    if (!body || typeof body !== "object" || Array.isArray(body)) {
+      throw new Error("Invalid request body");
+    }
   } catch {
     return fail(
       400,
@@ -129,8 +149,46 @@ export async function PATCH(
     );
   }
 
+  const connection = await getConnection();
+
   try {
-    const result = await executeQuery(
+    await connection.beginTransaction();
+
+    const target = await lockAdministrableTarget(
+      connection,
+      session.userId,
+      userId,
+    );
+
+    if (!target.ok) {
+      await connection.rollback();
+      return fail(target.status, target.message);
+    }
+
+    const losesAnalystAccess =
+      target.active &&
+      target.role === "MAINTENANCE" &&
+      (
+        (body.role !== undefined && body.role !== "MAINTENANCE") ||
+        body.active === false
+      );
+
+    if (losesAnalystAccess) {
+      const orphanUnit = await findUnitLeftWithoutAnalyst(
+        connection,
+        userId,
+      );
+
+      if (orphanUnit) {
+        await connection.rollback();
+        return fail(
+          409,
+          `A unidade ${orphanUnit} ficaria sem nenhum Analista ativo.`,
+        );
+      }
+    }
+
+    await connection.execute(
       `
         UPDATE users
         SET ${assignments.join(", ")}
@@ -139,17 +197,14 @@ export async function PATCH(
       [...values, userId],
     );
 
-    if (result.affectedRows === 0) {
-      return fail(
-        404,
-        "Usuário não encontrado.",
-      );
-    }
+    await connection.commit();
 
     return NextResponse.json({
       success: true,
     });
   } catch (error) {
+    await rollbackQuietly(connection);
+
     console.error(
       "Erro ao atualizar usuário:",
       error,
@@ -159,6 +214,8 @@ export async function PATCH(
       500,
       "Não foi possível atualizar o usuário.",
     );
+  } finally {
+    connection.release();
   }
 }
 
@@ -198,8 +255,41 @@ export async function DELETE(
     );
   }
 
+  const connection = await getConnection();
+
   try {
-    const result = await executeQuery(
+    await connection.beginTransaction();
+
+    const target = await lockAdministrableTarget(
+      connection,
+      session.userId,
+      userId,
+    );
+
+    if (!target.ok) {
+      await connection.rollback();
+      return fail(target.status, target.message);
+    }
+
+    if (
+      target.active &&
+      target.role === "MAINTENANCE"
+    ) {
+      const orphanUnit = await findUnitLeftWithoutAnalyst(
+        connection,
+        userId,
+      );
+
+      if (orphanUnit) {
+        await connection.rollback();
+        return fail(
+          409,
+          `A unidade ${orphanUnit} ficaria sem nenhum Analista ativo.`,
+        );
+      }
+    }
+
+    await connection.execute(
       `
         DELETE FROM users
         WHERE id = ?
@@ -207,17 +297,14 @@ export async function DELETE(
       [userId],
     );
 
-    if (result.affectedRows === 0) {
-      return fail(
-        404,
-        "Usuário não encontrado.",
-      );
-    }
+    await connection.commit();
 
     return NextResponse.json({
       success: true,
     });
   } catch (error) {
+    await rollbackQuietly(connection);
+
     if (
       (error as { code?: string }).code ===
       "ER_ROW_IS_REFERENCED_2"
@@ -237,5 +324,7 @@ export async function DELETE(
       500,
       "Não foi possível remover o usuário.",
     );
+  } finally {
+    connection.release();
   }
 }

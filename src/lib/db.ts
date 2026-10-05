@@ -81,6 +81,11 @@ function createPool(): Pool {
     charset: "utf8mb4",
 
     timezone: "Z",
+
+    /* DATE não tem fuso: volta como "YYYY-MM-DD". Como
+       Date, viraria meia-noite UTC e, lido no horário
+       local (BRT), cairia no dia anterior. */
+    dateStrings: ["DATE"],
   });
 }
 

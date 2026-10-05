@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { FormEvent, useEffect, useState } from "react";
+import { FormEvent, useEffect, useState, useSyncExternalStore } from "react";
 import { preload } from "react-dom";
 
 import {
@@ -31,6 +31,8 @@ interface LoginResponse {
   message?: string;
 }
 
+const subscribeHydration = () => () => {};
+
 export default function LoginPage() {
   const router = useRouter();
   const startLoginTransition = useLoginTransition();
@@ -47,10 +49,9 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [isLeaving, setIsLeaving] = useState(false);
-  const [isHydrated, setIsHydrated] = useState(false);
+  const isHydrated = useSyncExternalStore(subscribeHydration, () => true, () => false);
 
   useEffect(() => {
-    setIsHydrated(true);
     router.prefetch("/dashboard");
   }, [router]);
 

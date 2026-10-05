@@ -90,8 +90,12 @@ Record<MaspStatus, readonly MaspStatus[]> = {
     "VERIFICATION",
     "CANCELLED",
   ],
+  /* Recorrência na verificação: volta para corrigir o
+     plano ou a execução. */
   VERIFICATION: [
     "CLOSED",
+    "ACTION_PLAN",
+    "EXECUTION",
     "CANCELLED",
   ],
   CLOSED: [],
@@ -180,9 +184,18 @@ export function nullableDate(
       `${value}T00:00:00Z`,
     );
 
+  /* 2026-02-31 vira 2026-03-03 no Date; o MySQL estrito
+     recusaria o valor original. */
   return Number.isNaN(
     date.getTime(),
-  )
+  ) ||
+    date
+      .toISOString()
+      .slice(
+        0,
+        10,
+      ) !==
+      value
     ? null
     : value;
 }

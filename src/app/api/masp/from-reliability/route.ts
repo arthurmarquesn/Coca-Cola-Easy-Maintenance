@@ -262,7 +262,7 @@ export async function POST(
 
   try {
     const context =
-      await requireMaspContext();
+      await requireMaspContext(true);
 
     const body =
       await parseJsonBody(
@@ -502,6 +502,7 @@ export async function POST(
                 classification_suggestions cs0
             WHERE
                 cs0.model_type = 'ML'
+                AND cs0.status IN ('CONFIRMADA', 'CORRIGIDA')
             GROUP BY
                 cs0.event_id
           ),

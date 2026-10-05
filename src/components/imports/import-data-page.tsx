@@ -81,6 +81,8 @@ interface ImportResult {
 
   importedRows: number;
 
+  skippedDuplicateRows?: number;
+
   ignoredRows: number;
 
   ignoredByUnit: number;
@@ -737,6 +739,11 @@ export function ImportDataPage({
     0;
 
 
+  const duplicateCount =
+    result?.skippedDuplicateRows ??
+    0;
+
+
   const mlEligibleCount =
     mlResult?.eligible ??
     0;
@@ -1208,6 +1215,16 @@ export function ImportDataPage({
                             ignoredCount,
                           )}{" "}
                           ignorado(s)
+                        </p>
+                      )}
+
+                      {duplicateCount >
+                        0 && (
+                        <p className="mt-1 text-[10px] text-text-secondary">
+                          {formatNumber(
+                            duplicateCount,
+                          )}{" "}
+                          já importado(s) antes
                         </p>
                       )}
 

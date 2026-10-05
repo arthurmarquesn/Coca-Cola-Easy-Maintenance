@@ -118,6 +118,9 @@ export async function POST(
     body =
       (await request.json()) as
         SelectionBody;
+    if (!body || typeof body !== "object" || Array.isArray(body)) {
+      throw new Error("Invalid request body");
+    }
   } catch {
     return NextResponse.json(
       {

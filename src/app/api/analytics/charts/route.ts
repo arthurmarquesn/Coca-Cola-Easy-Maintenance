@@ -5,11 +5,7 @@ import {
 
 import { getSession } from "@/lib/session";
 
-import {
-  cacheKey,
-  getCached,
-  setCached,
-} from "@/lib/analytics/cache";
+import { getUnitSelection } from "@/lib/unit-selection";
 
 import { loadAnalyticsEvents } from "@/lib/analytics/events";
 
@@ -115,6 +111,11 @@ export async function GET(
     const endDate =
       searchParams.get("endDate");
 
+    if ((startDate && !isDateValue(startDate)) || (endDate && !isDateValue(endDate)) ||
+        (startDate && endDate && startDate > endDate)) {
+      return NextResponse.json({ success: false, message: "Período inválido." }, { status: 400 });
+    }
+
     const filters: AnalyticsFilters = {
       startDate: isDateValue(startDate)
         ? startDate
@@ -141,25 +142,12 @@ export async function GET(
         ? "occurrences"
         : "downtime";
 
-    const key = cacheKey([
-      "charts-v1",
-      session.unitId,
-      filters.startDate,
-      filters.endDate,
-      filters.line,
-      filters.equipment,
-      sort,
-    ]);
-
-    const cached = getCached(key);
-
-    if (cached) {
-      return NextResponse.json(cached);
-    }
+    const { selectedUnitIds } = await getUnitSelection({ userId: session.userId, defaultUnitId: session.unitId });
+    if (!selectedUnitIds.length) return NextResponse.json({ success: false, message: "Nenhuma unidade selecionada." }, { status: 403 });
 
     const { events, nullDowntimeRows } =
       await loadAnalyticsEvents(
-        session.unitId,
+        selectedUnitIds,
         filters,
         {
           onlyMaintenanceStops: true,
@@ -185,7 +173,7 @@ export async function GET(
 
       previousEvents =
         await loadAnalyticsEvents(
-          session.unitId,
+          selectedUnitIds,
           {
             ...filters,
             startDate:
@@ -228,9 +216,8 @@ export async function GET(
       byLine: buildByLine(events),
     };
 
-    setCached(key, payload);
-
-    return NextResponse.json(payload);
+    // Fresh reads keep reviewed data consistent across server instances.
+    return NextResponse.json(payload, { headers: { "Cache-Control": "private, no-store" } });
   } catch (error) {
     console.error(
       "GET /api/analytics/charts",

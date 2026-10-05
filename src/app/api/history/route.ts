@@ -1,3 +1,4 @@
+import { containsLikePattern } from "@/lib/analytics/sql";
 import {
   NextRequest,
   NextResponse,
@@ -543,7 +544,7 @@ export async function GET(
 
 
       const like =
-        `%${search}%`;
+        containsLikePattern(search);
 
 
       baseValues = [

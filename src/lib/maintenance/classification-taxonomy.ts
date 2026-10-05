@@ -312,6 +312,7 @@ export function buildFailureModeLabel(
   */
   _legacyDetail?: string | null,
 ): string {
+  void _legacyDetail;
   if (
     code ===
     "NAO_IDENTIFICADO"

@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { LogOut } from "lucide-react";
 
@@ -13,6 +14,7 @@ interface AppHeaderProps {
 }
 
 export function AppHeader({ userName, city }: AppHeaderProps) {
+  const router = useRouter();
   const [loggingOut, setLoggingOut] = useState(false);
 
   async function handleLogout() {
@@ -31,7 +33,8 @@ export function AppHeader({ userName, city }: AppHeaderProps) {
         throw new Error("Não foi possível encerrar a sessão.");
       }
 
-      window.location.href = "/login";
+      router.replace("/login");
+      router.refresh();
     } catch (error) {
       console.error("Erro ao sair:", error);
       setLoggingOut(false);

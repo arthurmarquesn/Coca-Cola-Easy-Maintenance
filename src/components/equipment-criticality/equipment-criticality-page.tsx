@@ -1,5 +1,7 @@
 "use client";
 
+import { useInitialRequest } from "@/lib/use-initial-request";
+
 import Image from "next/image";
 import Link from "next/link";
 
@@ -17,7 +19,6 @@ import {
 import {
   ChangeEvent,
   useCallback,
-  useEffect,
   useRef,
   useState,
 } from "react";
@@ -525,7 +526,7 @@ export function EquipmentCriticalityPage({
 
   const loadData =
     useCallback(
-      async () => {
+      async (signal?: AbortSignal) => {
         setLoading(
           true,
         );
@@ -541,6 +542,7 @@ export function EquipmentCriticalityPage({
               {
                 cache:
                   "no-store",
+                signal,
               },
             );
 
@@ -549,6 +551,8 @@ export function EquipmentCriticalityPage({
               await response.json()
             ) as
               CriticalityResponse;
+
+          if (signal?.aborted) return;
 
           if (
             !response.ok ||
@@ -566,6 +570,7 @@ export function EquipmentCriticalityPage({
         } catch (
           loadError
         ) {
+          if (signal?.aborted) return;
           setError(
             loadError instanceof
               Error
@@ -573,7 +578,7 @@ export function EquipmentCriticalityPage({
               : "Não foi possível carregar a análise.",
           );
         } finally {
-          setLoading(
+          if (!signal?.aborted) setLoading(
             false,
           );
         }
@@ -582,14 +587,7 @@ export function EquipmentCriticalityPage({
     );
 
 
-  useEffect(
-    () => {
-      void loadData();
-    },
-    [
-      loadData,
-    ],
-  );
+  useInitialRequest(loadData);
 
 
   /* ========================================================

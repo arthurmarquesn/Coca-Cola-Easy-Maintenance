@@ -57,8 +57,10 @@ DB_USER = get_required_env(
     "DB_USER"
 )
 
-DB_PASSWORD = get_required_env(
-    "DB_PASSWORD"
+# Pode ser vazia (MySQL local sem senha), como em .env.example.
+DB_PASSWORD = os.getenv(
+    "DB_PASSWORD",
+    "",
 )
 
 DB_NAME = get_required_env(

@@ -308,7 +308,7 @@ function FailureOriginOverview({
               "OPERACAO",
             )
           }
-          className="group flex min-h-[170px] flex-col justify-between rounded-[18px] py-3 pr-0 text-left outline-none transition hover:bg-[#FFF8F8] focus-visible:ring-2 focus-visible:ring-[#E41E2B]/30 lg:pr-10"
+          className="group flex min-h-[170px] flex-col justify-between rounded-[18px] py-3 pr-0 text-left outline-none transition hover:bg-accent-primary/5 focus-visible:ring-2 focus-visible:ring-[#E41E2B]/30 lg:pr-10"
         >
           <div className="flex items-center justify-between gap-3">
             <div className="flex items-center gap-2.5">
@@ -917,29 +917,7 @@ function FailureOriginReviewDrawer({
      RESET AO ABRIR OUTRA ORIGEM
   ======================================================= */
 
-  useEffect(() => {
-    if (!origin) {
-      return;
-    }
-
-    setPage(
-      1,
-    );
-
-    setSearch(
-      "",
-    );
-
-    setAppliedSearch(
-      "",
-    );
-
-    setEditing(
-      null,
-    );
-  }, [
-    origin,
-  ]);
+  // The parent's key remounts the drawer for each origin, resetting local state.
 
   /* =======================================================
      FETCH
@@ -953,11 +931,10 @@ function FailureOriginReviewDrawer({
     const controller =
       new AbortController();
 
-    void loadItems(
-      controller.signal,
-    );
+    const task = setTimeout(() => { void loadItems(controller.signal); }, 0);
 
     return () => {
+      clearTimeout(task);
       controller.abort();
     };
   }, [
@@ -1709,7 +1686,7 @@ function FailureOriginReviewDrawer({
                   className={`rounded-[14px] border px-4 py-4 text-left transition ${
                     editOrigin ===
                     "OPERACAO"
-                      ? "border-[#E41E2B] bg-[#FFF7F7] shadow-[0_0_0_1px_rgba(228,30,43,0.05)]"
+                      ? "border-[#E41E2B] bg-accent-primary/5 shadow-[0_0_0_1px_rgba(228,30,43,0.05)]"
                       : "border-border-theme bg-surface hover:bg-surface-hover"
                   }`}
                 >

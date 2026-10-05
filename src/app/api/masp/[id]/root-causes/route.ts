@@ -136,7 +136,7 @@ export async function POST(
 
   try {
     const context =
-      await requireMaspContext();
+      await requireMaspContext(true);
     const {
       id,
     } =
@@ -316,4 +316,3 @@ export async function POST(
       ?.release();
   }
 }
-

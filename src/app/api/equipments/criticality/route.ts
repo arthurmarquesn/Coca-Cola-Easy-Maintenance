@@ -1,3 +1,4 @@
+import { getWriteAccessError } from "@/lib/write-access";
 import {
   NextRequest,
   NextResponse,
@@ -30,15 +31,6 @@ type Criticality =
   | "A"
   | "B"
   | "C";
-
-type UserRole =
-  | "MANAGER"
-  | "MAINTENANCE";
-
-interface UserRoleRow
-  extends RowDataPacket {
-  role: UserRole;
-}
 
 interface EquipmentRow
   extends RowDataPacket {
@@ -243,45 +235,6 @@ function createBucket():
 }
 
 /* =========================================================
-   BUSCA DO PAPEL REAL DO USUÁRIO
-========================================================= */
-
-async function getUserRole(
-  connection:
-    Awaited<
-      ReturnType<
-        typeof getConnection
-      >
-    >,
-
-  userId: number,
-): Promise<UserRole | null> {
-  const [
-    rows,
-  ] =
-    await connection.query<
-      UserRoleRow[]
-    >(
-      `
-        SELECT
-          role
-        FROM users
-        WHERE id = ?
-          AND active = TRUE
-        LIMIT 1
-      `,
-      [
-        userId,
-      ],
-    );
-
-  return (
-    rows[0]?.role ??
-    null
-  );
-}
-
-/* =========================================================
    GET
 ========================================================= */
 
@@ -331,11 +284,10 @@ export async function GET() {
       );
     }
 
+    /* getSession() já relê o papel no banco e converte o
+       ADMIN legado em Analista. */
     const role =
-      await getUserRole(
-        connection,
-        userId,
-      );
+      session.role;
 
     if (!role) {
       return NextResponse.json(
@@ -688,8 +640,9 @@ export async function GET() {
 export async function PATCH(
   request: NextRequest,
 ) {
-  const session =
-    await getSession();
+const session = await getSession();
+  const accessError = getWriteAccessError(session);
+  if (accessError) return accessError;
 
   if (!session) {
     return NextResponse.json(
@@ -713,6 +666,9 @@ export async function PATCH(
       (
         await request.json()
       ) as PatchBody;
+    if (!body || typeof body !== "object" || Array.isArray(body)) {
+      throw new Error("Invalid request body");
+    }
   } catch {
     return NextResponse.json(
       {
@@ -799,11 +755,10 @@ export async function PATCH(
         session.userId,
       );
 
+    /* getSession() já relê o papel no banco e converte o
+       ADMIN legado em Analista. */
     const role =
-      await getUserRole(
-        connection,
-        userId,
-      );
+      session.role;
 
     if (
       role !==

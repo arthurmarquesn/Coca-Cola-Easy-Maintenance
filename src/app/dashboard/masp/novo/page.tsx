@@ -7,6 +7,10 @@ import {
 } from "@/components/masp/masp-create-page";
 
 import {
+  isAnalystRole,
+} from "@/lib/roles";
+
+import {
   getSession,
 } from "@/lib/session";
 
@@ -29,6 +33,17 @@ export default async function NewMaspPage({
   ) {
     redirect(
       "/login",
+    );
+  }
+
+  /* Gestor apenas consulta; a API recusa a criação de MASP. */
+  if (
+    !isAnalystRole(
+      session.role,
+    )
+  ) {
+    redirect(
+      "/dashboard/masp",
     );
   }
 

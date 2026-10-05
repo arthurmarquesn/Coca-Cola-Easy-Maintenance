@@ -4,12 +4,13 @@
 --
 -- Arquivo único e completo. Substitui e consolida:
 --   - database/schema.sql                      (base)
---   - database/coca_banco.sql                  (export do banco real)
 --   - migrations/001_remove_admin_role.sql
 --   - migrations/20260917_01_equipment_criticality.sql
 --   - migrations/20260920_create_masp_module.sql
+--   - migrations/20261002_login_attempts.sql
+--   - migrations/20261004_analytics_indexes.sql
 --
--- 28 tabelas, criadas em ordem de dependência (as FKs são
+-- 29 tabelas, criadas em ordem de dependência (as FKs são
 -- válidas mesmo com FOREIGN_KEY_CHECKS ligado).
 --
 -- Idempotente: usa CREATE ... IF NOT EXISTS e não apaga
@@ -67,6 +68,18 @@ CREATE TABLE IF NOT EXISTS `coca_cola_maintenance`.`units` (
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_unicode_ci;
+
+-- -----------------------------------------------------
+-- Tabela `login_attempts`
+-- Contador de tentativas de login (por conta e, com
+-- LOGIN_TRUSTED_IP_HEADER, por IP). Chaves são hashes.
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `coca_cola_maintenance`.`login_attempts` (
+  `account_key` CHAR(64) NOT NULL PRIMARY KEY,
+  `attempts` INT UNSIGNED NOT NULL DEFAULT 0,
+  `expires_at` DATETIME NOT NULL,
+  INDEX `idx_login_attempts_expiry` (`expires_at`)
+) ENGINE=InnoDB;
 
 -- -----------------------------------------------------
 -- Tabela `users`
@@ -481,6 +494,8 @@ CREATE TABLE IF NOT EXISTS `coca_cola_maintenance`.`maintenance_events` (
   INDEX `idx_events_equipment` (`equipment_id` ASC) VISIBLE,
   INDEX `idx_events_material` (`material_id` ASC) VISIBLE,
   INDEX `idx_events_date` (`event_date` ASC) VISIBLE,
+  INDEX `idx_events_unit_date` (`unit_id` ASC, `event_date` ASC) VISIBLE,
+  INDEX `idx_events_unit_import` (`unit_id` ASC, `import_id` ASC) VISIBLE,
   INDEX `idx_events_shift` (`shift` ASC) VISIBLE,
   INDEX `idx_events_stop_type` (`source_stop_type` ASC) VISIBLE,
   INDEX `idx_events_source_order` (`source_order_number` ASC) VISIBLE,
@@ -692,6 +707,7 @@ CREATE TABLE IF NOT EXISTS `coca_cola_maintenance`.`classification_suggestions` 
   PRIMARY KEY (`id`),
   UNIQUE INDEX `uq_classification_suggestion_event_model` (`event_id` ASC, `model_type` ASC, `model_version` ASC) VISIBLE,
   INDEX `idx_classification_suggestions_event` (`event_id` ASC) VISIBLE,
+  INDEX `idx_classification_suggestions_event_model_status` (`event_id` ASC, `model_type` ASC, `status` ASC) VISIBLE,
   INDEX `idx_classification_suggestions_status` (`status` ASC) VISIBLE,
   INDEX `idx_classification_suggestions_component` (`failed_component_code` ASC) VISIBLE,
   INDEX `idx_classification_suggestions_confidence` (`confidence` ASC) VISIBLE,
@@ -1166,39 +1182,12 @@ ON DUPLICATE KEY UPDATE
     country = VALUES(country);
 
 
--- Usuário analista inicial.
+-- Nenhum usuário é criado aqui: uma senha registrada neste
+-- arquivo vale para todo banco montado a partir dele.
+-- Crie o primeiro Analista com:
 --
---   Login: teste@email.com
---   Senha: teste123
---
--- password_hash PRECISA ser um hash bcrypt, nunca a senha
--- em texto puro -- o login (src/app/api/auth/login/route.ts)
--- usa bcrypt.compare() contra este valor.
-
-INSERT INTO users (unit_id, name, email, password_hash, role, active)
-VALUES (
-    (SELECT id FROM units WHERE code = 'BAAK'),
-    'teste',
-    'teste@email.com',
-    '$2b$10$siuikaQ90Q1UrXzbc1Qgj.mZ7LmMPAjIoT5DAhnxHGoDuTdRlbmuq',
-    'MAINTENANCE',
-    TRUE
-)
-ON DUPLICATE KEY UPDATE
-    password_hash = VALUES(password_hash),
-    role          = VALUES(role),
-    active        = VALUES(active);
-
-
--- Vínculo usuário x unidade (a aplicação lê as unidades
--- do usuário por user_units, não por users.unit_id).
-
-INSERT INTO user_units (user_id, unit_id, is_default)
-SELECT u.id, u.unit_id, TRUE
-FROM users u
-WHERE u.email = 'teste@email.com'
-ON DUPLICATE KEY UPDATE
-    is_default = VALUES(is_default);
+--   node --env-file=.env.local scripts/create-user.mjs \
+--     "Nome" "email@empresa.com" "SENHA" "ANALISTA" "BAAK"
 
 
 -- =========================================================

@@ -20,6 +20,10 @@ import {
 } from "@/lib/session";
 
 import {
+  isAnalystRole,
+} from "@/lib/roles";
+
+import {
   getCategoryLabel,
   isValidCategorySlug,
 } from "@/lib/maintenance/problem-categories";
@@ -79,10 +83,12 @@ export default async function CategoryReviewPageRoute({
       unit={{ city: unit.city }}
       categorySlug={category}
       categoryLabel={getCategoryLabel(category)}
+      canWrite={isAnalystRole(session.role)}
       initialFilters={{
         line: firstValue(resolvedSearchParams.line) ?? "",
         equipment: firstValue(resolvedSearchParams.equipment) ?? "",
         shift: firstValue(resolvedSearchParams.shift) ?? "",
+        status: firstValue(resolvedSearchParams.status) ?? "PENDENTE_REVISAO",
         dateFrom: firstValue(resolvedSearchParams.dateFrom) ?? "",
         dateTo: firstValue(resolvedSearchParams.dateTo) ?? "",
         search: firstValue(resolvedSearchParams.search) ?? "",

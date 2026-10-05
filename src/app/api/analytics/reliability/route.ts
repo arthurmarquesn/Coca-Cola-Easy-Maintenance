@@ -22,7 +22,9 @@ import {
 
 import {
   buildDateWhere,
+  EFFECTIVE_ORIGIN_EXPRESSION,
   FAILURE_MODE_EXPRESSION,
+  FAILURE_ORIGIN_JOINS,
 } from "@/lib/analytics/sql";
 
 
@@ -555,6 +557,7 @@ export async function GET(
 
             WHERE
               cs0.model_type = 'ML'
+              AND cs0.status IN ('CONFIRMADA', 'CORRIGIDA')
 
             GROUP BY
               cs0.event_id
@@ -715,37 +718,7 @@ export async function GET(
       >(
         `
           SELECT
-
-            CASE
-
-              WHEN
-                UPPER(
-                  TRIM(
-                    COALESCE(
-                      fop.failure_origin,
-                      ''
-                    )
-                  )
-                ) = 'OPERACAO'
-              THEN
-                'OPERACAO'
-
-              WHEN
-                UPPER(
-                  TRIM(
-                    COALESCE(
-                      fop.failure_origin,
-                      ''
-                    )
-                  )
-                ) = 'MANUTENCAO'
-              THEN
-                'MANUTENCAO'
-
-              ELSE
-                'NAO_CLASSIFICADO'
-
-            END AS origin,
+            ${EFFECTIVE_ORIGIN_EXPRESSION} AS origin,
 
             COUNT(*)
               AS occurrences
@@ -753,10 +726,7 @@ export async function GET(
           FROM
             maintenance_events e
 
-          LEFT JOIN
-            event_failure_origin_predictions fop
-              ON fop.event_id =
-                 e.id
+          ${FAILURE_ORIGIN_JOINS}
 
           WHERE
             ${where.join(

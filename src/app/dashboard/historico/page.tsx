@@ -16,6 +16,10 @@ import {
   getSession,
 } from "@/lib/session";
 
+import {
+  isAnalystRole,
+} from "@/lib/roles";
+
 interface UnitRow
   extends RowDataPacket {
   city: string | null;
@@ -63,6 +67,7 @@ export default async function HistoryPageRoute() {
         city:
           unit.city,
       }}
+      canWrite={isAnalystRole(session.role)}
     />
   );
 }

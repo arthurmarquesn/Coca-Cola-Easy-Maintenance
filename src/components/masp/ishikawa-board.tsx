@@ -650,7 +650,7 @@ export function IshikawaBoard({
             width="1400"
             height="780"
             rx="24"
-            fill="#FCFCFB"
+            fill="var(--surface)"
           />
 
           <line
@@ -658,7 +658,7 @@ export function IshikawaBoard({
             y1="390"
             x2="1135"
             y2="390"
-            stroke="#4D5359"
+            stroke="var(--text-secondary)"
             strokeWidth="5"
             strokeLinecap="round"
           />
@@ -666,14 +666,14 @@ export function IshikawaBoard({
           <path
             d="M 115 390 L 55 320 M 115 390 L 55 460"
             fill="none"
-            stroke="#8B9096"
+            stroke="var(--text-muted)"
             strokeWidth="4"
             strokeLinecap="round"
           />
 
           <path
             d="M 1135 390 L 1108 374 L 1108 406 Z"
-            fill="#4D5359"
+            fill="var(--text-secondary)"
           />
 
           {BRANCHES.map(
@@ -1068,7 +1068,7 @@ export function IshikawaBoard({
                               item,
                             )
                           }
-                          className="w-full rounded-[11px] bg-surface-elevated px-3 py-2.5 text-left hover:bg-[#FFF3F4]"
+                          className="w-full rounded-[11px] bg-surface-elevated px-3 py-2.5 text-left hover:bg-accent-primary/10"
                         >
                           <span className="flex items-start gap-2">
                             <span

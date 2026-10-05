@@ -1,3 +1,8 @@
+import { getWriteAccessError } from "@/lib/write-access";
+import { acquireImportLock } from "@/lib/imports/lock";
+import { MAX_IMPORT_BYTES, MAX_IMPORT_ROWS } from "@/lib/imports/limits";
+import { canonicalizeRowKeys, normalizeHeader } from "@/lib/imports/headers";
+import { publicErrorMessage } from "@/lib/errors";
 import {
   createHash,
 } from "node:crypto";
@@ -245,13 +250,7 @@ interface ExistingImportRow
 }
 
 
-interface RawRowId
-  extends RowDataPacket {
-  id: number;
 
-  source_row_number:
-    number;
-}
 
 
 interface PreparedRow {
@@ -377,6 +376,13 @@ interface ImportTableConfig {
 
   completedAtColumn:
     string | null;
+}
+
+
+interface RowHashRow
+  extends RowDataPacket {
+  row_hash:
+    string;
 }
 
 
@@ -674,6 +680,26 @@ function limitString(
 // NÚMEROS
 // ============================================================
 
+/*
+ * Colunas com CHECK (>= 0) no banco. Um valor negativo
+ * faria o INSERT falhar e abortar a importação inteira;
+ * fica vazio como qualquer outro valor inválido.
+ */
+function nonNegativeNumber(
+  value: unknown,
+): number | null {
+  const parsed =
+    nullableNumber(
+      value,
+    );
+
+  return parsed !== null &&
+    parsed < 0
+    ? null
+    : parsed;
+}
+
+
 function nullableNumber(
   value: unknown,
 ): number | null {
@@ -781,6 +807,24 @@ function buildDateString(
     month > 12 ||
     day < 1 ||
     day > 31
+  ) {
+    return null;
+  }
+
+  /* 31/02 passaria na faixa acima e o MySQL estrito
+     recusaria o INSERT, abortando a importação. */
+  const daysInMonth =
+    new Date(
+      Date.UTC(
+        year,
+        month,
+        0,
+      ),
+    ).getUTCDate();
+
+  if (
+    day >
+    daysInMonth
   ) {
     return null;
   }
@@ -1859,41 +1903,6 @@ async function updateObject(
 // UNIDADE
 // ============================================================
 
-async function getUnit(
-  connection:
-    PoolConnection,
-
-  unitId:
-    number,
-): Promise<UnitRow> {
-  const [
-    rows,
-  ] =
-    await connection.query<
-      UnitRow[]
-    >(
-      `
-        SELECT *
-        FROM units
-        WHERE id = ?
-        LIMIT 1
-      `,
-      [
-        unitId,
-      ],
-    );
-
-  const unit =
-    rows[0];
-
-  if (!unit) {
-    throw new Error(
-      "Unidade ativa não encontrada.",
-    );
-  }
-
-  return unit;
-}
 
 
 async function getAccessibleUnits(
@@ -1901,9 +1910,6 @@ async function getAccessibleUnits(
     PoolConnection,
 
   userId:
-    number,
-
-  defaultUnitId:
     number,
 ): Promise<UnitRow[]> {
   const [
@@ -1913,36 +1919,25 @@ async function getAccessibleUnits(
       UnitRow[]
     >(
       `
-        SELECT DISTINCT
+        SELECT
           u.*
 
         FROM
           units u
 
-        LEFT JOIN
+        INNER JOIN
           user_units uu
           ON uu.unit_id = u.id
           AND uu.user_id = ?
 
         WHERE
-          (
-            uu.user_id IS NOT NULL
-            OR u.id = ?
-          )
-
-          AND
-          (
-            u.active = TRUE
-            OR u.id = ?
-          )
+          u.active = TRUE
 
         ORDER BY
           u.id ASC
       `,
       [
         userId,
-        defaultUnitId,
-        defaultUnitId,
       ],
     );
 
@@ -2157,7 +2152,7 @@ function sheetScore(
       getSheetHeaders(
         worksheet,
       ).map(
-        normalizeText,
+        normalizeHeader,
       ),
     );
 
@@ -2169,7 +2164,7 @@ function sheetScore(
       score +
       (
         headers.has(
-          normalizeText(
+          normalizeHeader(
             header,
           ),
         )
@@ -2410,7 +2405,7 @@ function prepareRow(
       ),
 
     processEfficiencyLoss:
-      nullableNumber(
+      nonNegativeNumber(
         row[
           HEADERS.processEfficiencyLoss
         ],
@@ -2424,21 +2419,21 @@ function prepareRow(
       ),
 
     producedCases:
-      nullableNumber(
+      nonNegativeNumber(
         row[
           HEADERS.producedCases
         ],
       ),
 
     totalMinutes:
-      nullableNumber(
+      nonNegativeNumber(
         row[
           HEADERS.totalMinutes
         ],
       ),
 
     downtimeMinutes:
-      nullableNumber(
+      nonNegativeNumber(
         row[
           HEADERS.downtimeMinutes
         ],
@@ -2631,9 +2626,6 @@ async function findDuplicateImport(
   config:
     ImportTableConfig,
 
-  unitId:
-    number,
-
   hash:
     string,
 ): Promise<number | null> {
@@ -2656,17 +2648,8 @@ async function findDuplicateImport(
       ];
 
 
-  if (
-    config.unitColumn
-  ) {
-    where.push(
-      `\`${config.unitColumn}\` = ?`,
-    );
-
-    params.push(
-      unitId,
-    );
-  }
+  // Failed legacy attempts with no committed events must be retryable.
+  where.push("EXISTS (SELECT 1 FROM maintenance_events me WHERE me.import_id = imports.id)");
 
 
   const [
@@ -2888,6 +2871,110 @@ async function failImport(
 // ============================================================
 // RAW IMPORT ROWS
 // ============================================================
+
+/*
+ * Linhas idênticas (mesmo hash) já gravadas como evento desta
+ * unidade em importações anteriores. Uma exportação acumulada
+ * (jan, depois jan+fev) reimportaria janeiro inteiro, dobrando
+ * paradas e ocorrências. Repetições dentro do mesmo arquivo
+ * continuam sendo importadas.
+ */
+async function filterPreviouslyImportedRows(
+  connection:
+    PoolConnection,
+
+  config:
+    RawTableConfig,
+
+  unitId:
+    number,
+
+  rows:
+    PreparedRow[],
+): Promise<PreparedRow[]> {
+  if (
+    rows.length ===
+    0
+  ) {
+    return rows;
+  }
+
+  const hashes =
+    rows.map(
+      buildRawRowHash,
+    );
+
+  const existing =
+    new Set<string>();
+
+  for (
+    const batch
+    of splitIntoBatches(
+      [
+        ...new Set(
+          hashes,
+        ),
+      ],
+      DATABASE_BATCH_SIZE,
+    )
+  ) {
+    const [
+      found,
+    ] =
+      await connection.query<
+        RowHashRow[]
+      >(
+        `
+          SELECT DISTINCT
+            r.\`${config.rowHashColumn}\` AS row_hash
+
+          FROM
+            raw_import_rows r
+
+          INNER JOIN
+            maintenance_events me
+            ON me.raw_row_id = r.id
+
+          WHERE
+            me.unit_id = ?
+
+            AND r.\`${config.rowHashColumn}\` IN (
+              ${batch
+                .map(
+                  () => "?",
+                )
+                .join(
+                  ", ",
+                )}
+            )
+        `,
+        [
+          unitId,
+          ...batch,
+        ],
+      );
+
+    for (
+      const row
+      of found
+    ) {
+      existing.add(
+        row.row_hash,
+      );
+    }
+  }
+
+  return rows.filter(
+    (
+      _row,
+      index,
+    ) =>
+      !existing.has(
+        hashes[index],
+      ),
+  );
+}
+
 
 async function insertRawBatch(
   connection:
@@ -5393,8 +5480,9 @@ export async function POST(
   request:
     NextRequest,
 ) {
-  const session =
-    await getSession();
+const session = await getSession();
+  const accessError = getWriteAccessError(session);
+  if (accessError) return accessError;
 
 
   // ----------------------------------------------------------
@@ -5491,6 +5579,10 @@ export async function POST(
     );
   }
 
+
+  if (file.size > MAX_IMPORT_BYTES) {
+    return NextResponse.json({ error: "O arquivo ultrapassa o limite de 50 MB." }, { status: 413 });
+  }
 
   const arrayBuffer =
     await file.arrayBuffer();
@@ -5600,24 +5692,27 @@ export async function POST(
   }
 
 
-  const excelRows =
-    XLSX.utils
-      .sheet_to_json<
-        ExcelRow
-      >(
-        selectedSheet
-          .worksheet,
-        {
-          defval:
-            null,
+  const excelRows: ExcelRow[] =
+    canonicalizeRowKeys(
+      XLSX.utils
+        .sheet_to_json<
+          ExcelRow
+        >(
+          selectedSheet
+            .worksheet,
+          {
+            defval:
+              null,
 
-          raw:
-            true,
+            raw:
+              true,
 
-          blankrows:
-            false,
-        },
-      );
+            blankrows:
+              false,
+          },
+        ),
+      REQUIRED_HEADERS,
+    );
 
 
   if (
@@ -5641,8 +5736,19 @@ export async function POST(
   // CONEXÃO
   // ----------------------------------------------------------
 
-  const connection =
-    await getConnection();
+  if (excelRows.length > MAX_IMPORT_ROWS) {
+    return NextResponse.json({ error: `Limite de ${MAX_IMPORT_ROWS} linhas excedido.` }, { status: 413 });
+  }
+  const connection = await getConnection();
+
+  let unlock: (() => Promise<void>) | null = null;
+  let released = false;
+  const releaseConnection = async () => {
+    if (released) return;
+    released = true;
+    try { if (unlock) await unlock(); }
+    finally { connection.release(); }
+  };
 
 
   let importId:
@@ -5651,6 +5757,13 @@ export async function POST(
 
   let importConfig:
     ImportTableConfig |
+    null =
+      null;
+
+  let importCreateParams:
+    Parameters<
+      typeof createImport
+    >[2] |
     null =
       null;
 
@@ -5685,7 +5798,6 @@ export async function POST(
       await getAccessibleUnits(
         connection,
         session.userId,
-        session.unitId,
       );
 
 
@@ -5809,7 +5921,7 @@ export async function POST(
       preparedRows.length ===
       0
     ) {
-      connection.release();
+      await releaseConnection();
 
       return NextResponse.json(
         {
@@ -5952,11 +6064,12 @@ export async function POST(
     // maintenance_events.unit_id.
     // --------------------------------------------------------
 
+    unlock = await acquireImportLock(connection, fileHash);
+
     const duplicateId =
       await findDuplicateImport(
         connection,
         importConfig,
-        primaryUnitId,
         fileHash,
       );
 
@@ -6129,7 +6242,7 @@ export async function POST(
         duplicateUnitSummaries[0];
 
 
-      connection.release();
+      await releaseConnection();
 
 
       return NextResponse.json(
@@ -6362,29 +6475,33 @@ export async function POST(
     // CRIA IMPORT
     // --------------------------------------------------------
 
+    await connection.beginTransaction();
+
+    importCreateParams = {
+      unitId:
+        primaryUnitId,
+
+      userId:
+        session.userId,
+
+      filename:
+        file.name,
+
+      hash:
+        fileHash,
+
+      sheetName:
+        selectedSheet.name,
+
+      totalRows:
+        excelRows.length,
+    };
+
     importId =
       await createImport(
         connection,
         importConfig,
-        {
-          unitId:
-            primaryUnitId,
-
-          userId:
-            session.userId,
-
-          filename:
-            file.name,
-
-          hash:
-            fileHash,
-
-          sheetName:
-            selectedSheet.name,
-
-          totalRows:
-            excelRows.length,
-        },
+        importCreateParams,
       );
 
 
@@ -6392,11 +6509,10 @@ export async function POST(
     // IMPORTAÇÃO TRANSACIONAL
     // --------------------------------------------------------
 
-    await connection
-      .beginTransaction();
-
-
     let importedRows =
+      0;
+
+    let skippedDuplicateRows =
       0;
 
 
@@ -6485,9 +6601,22 @@ export async function POST(
         );
 
 
+      const freshRows =
+        await filterPreviouslyImportedRows(
+          connection,
+          rawConfig,
+          unitId,
+          unitRows,
+        );
+
+      skippedDuplicateRows +=
+        unitRows.length -
+        freshRows.length;
+
+
       const batches =
         splitIntoBatches(
-          unitRows,
+          freshRows,
           DATABASE_BATCH_SIZE,
         );
 
@@ -6579,10 +6708,6 @@ export async function POST(
     }
 
 
-    await connection
-      .commit();
-
-
     // --------------------------------------------------------
     // MARCA IMPORTAÇÃO COMO CONCLUÍDA
     // --------------------------------------------------------
@@ -6595,12 +6720,14 @@ export async function POST(
       ignoredRows,
     );
 
+    await connection.commit();
+
 
     // --------------------------------------------------------
     // LIBERA CONEXÃO ANTES DO ML
     // --------------------------------------------------------
 
-    connection.release();
+    await releaseConnection();
 
 
     // ========================================================
@@ -6679,9 +6806,10 @@ export async function POST(
         error
       ) {
         const message =
-          error instanceof Error
-            ? error.message
-            : "Erro desconhecido no Modelo ML.";
+          publicErrorMessage(
+            error,
+            "Erro desconhecido no Modelo ML.",
+          );
 
 
         console.error(
@@ -6741,6 +6869,8 @@ export async function POST(
           excelRows.length,
 
         importedRows,
+
+        skippedDuplicateRows,
 
         /*
          * Mantidos também para compatibilidade com componentes
@@ -7004,6 +7134,7 @@ export async function POST(
 
 
     try {
+      if (released) throw error;
       await connection
         .rollback();
     } catch {
@@ -7014,20 +7145,33 @@ export async function POST(
 
 
     /*
-     * Se o registro da importação já existir,
-     * tentamos registrar a falha.
+     * O registro da importação foi criado dentro da
+     * transação desfeita acima. Recria fora dela, já como
+     * falha, para o histórico guardar a tentativa e o erro.
+     * Importação sem eventos não bloqueia nova tentativa
+     * (findDuplicateImport).
      */
     if (
+      !released &&
       importId !==
         null &&
       importConfig !==
+        null &&
+      importCreateParams !==
         null
     ) {
       try {
+        const failedImportId =
+          await createImport(
+            connection,
+            importConfig,
+            importCreateParams,
+          );
+
         await failImport(
           connection,
           importConfig,
-          importId,
+          failedImportId,
           error instanceof Error
             ? error.message
             : "Erro desconhecido durante a importação.",
@@ -7043,7 +7187,7 @@ export async function POST(
     }
 
 
-    connection.release();
+    await releaseConnection();
 
 
     return NextResponse.json(
@@ -7052,14 +7196,17 @@ export async function POST(
           false,
 
         error:
-          error instanceof Error
-            ? error.message
-            : "Não foi possível processar a planilha.",
+          publicErrorMessage(
+            error,
+            "Não foi possível processar a planilha.",
+          ),
       },
       {
         status:
           500,
       },
     );
+  } finally {
+    await releaseConnection();
   }
 }

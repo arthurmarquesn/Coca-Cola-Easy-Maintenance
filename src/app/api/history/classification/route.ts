@@ -1,3 +1,4 @@
+import { getWriteAccessError } from "@/lib/write-access";
 import {
   NextRequest,
   NextResponse,
@@ -15,6 +16,11 @@ import {
 import {
   getSession,
 } from "@/lib/session";
+
+import {
+  buildUnitInClause,
+  getUnitSelection,
+} from "@/lib/unit-selection";
 
 export const runtime =
   "nodejs";
@@ -131,8 +137,9 @@ function normalizeOptionalText(
 export async function PATCH(
   request: NextRequest,
 ) {
-  const session =
-    await getSession();
+const session = await getSession();
+  const accessError = getWriteAccessError(session);
+  if (accessError) return accessError;
 
   if (!session) {
     return NextResponse.json(
@@ -153,6 +160,9 @@ export async function PATCH(
   try {
     body =
       (await request.json()) as RequestBody;
+    if (!body || typeof body !== "object" || Array.isArray(body)) {
+      throw new Error("Invalid request body");
+    }
   } catch {
     return NextResponse.json(
       {
@@ -247,6 +257,32 @@ export async function PATCH(
     );
   }
 
+  /* A tela de histórico lista todas as unidades
+     selecionadas; a edição segue a mesma seleção. */
+  const { selectedUnitIds } =
+    await getUnitSelection({
+      userId: session.userId,
+      defaultUnitId: session.unitId,
+    });
+
+  if (selectedUnitIds.length === 0) {
+    return NextResponse.json(
+      {
+        success: false,
+        message:
+          "Evento não encontrado.",
+      },
+      {
+        status: 404,
+      },
+    );
+  }
+
+  const unitClause =
+    buildUnitInClause(
+      selectedUnitIds,
+    );
+
   const connection =
     await getConnection();
 
@@ -280,7 +316,7 @@ export async function PATCH(
 
           WHERE
             e.id = ?
-            AND e.unit_id = ?
+            AND e.unit_id IN (${unitClause.placeholders})
 
           LIMIT 1
 
@@ -288,7 +324,7 @@ export async function PATCH(
         `,
         [
           eventId,
-          session.unitId,
+          ...unitClause.values,
         ],
       );
 
