@@ -1,0 +1,186 @@
+{
+  "dataset_version": "marilia-human-v1",
+  "source": "C:\\Users\\arthu\\Coca\\Coca-Cola-Easy-Maintenance\\ml\\data\\human\\APONTAMENTOS MARILIA.xlsx",
+  "source_sha256": "87958ce8389f6e4ba58c0c96e455bfc47413a4ae273396a841f4935088f2aa06",
+  "source_sheet": "0",
+  "column_mapping": {
+    "observation": "Observações",
+    "classification_original": "Classificação"
+  },
+  "context_fields_found": [],
+  "raw_rows": 4486,
+  "rows_missing_observation": 6,
+  "rows_missing_classification": 0,
+  "eligible_rows_before_conflicts": 4480,
+  "conflict_observations": 7,
+  "conflict_rows_removed": 25,
+  "external_holdout": null,
+  "external_holdout_unique_observations": 0,
+  "external_overlap_rows_removed": 0,
+  "external_overlap_unique_observations": 0,
+  "usable_rows": 4455,
+  "unique_observations": 3672,
+  "classes": 437,
+  "class_buckets": {
+    "classes_with_1_example": 164,
+    "classes_with_2_examples": 69,
+    "classes_with_3_to_5_examples": 66,
+    "classes_with_6_to_10_examples": 48,
+    "classes_with_over_10_examples": 90
+  },
+  "rare_classes_le_10_rows": 347,
+  "top_30_classes": [
+    {
+      "classification_norm": "FALHA DE SENSOR",
+      "rows": 397,
+      "percentage": 0.08911336
+    },
+    {
+      "classification_norm": "FALHA DE VALVULA DE ENCHIMENTO",
+      "rows": 165,
+      "percentage": 0.03703704
+    },
+    {
+      "classification_norm": "FALHA DE ENCHIMENTO",
+      "rows": 145,
+      "percentage": 0.0325477
+    },
+    {
+      "classification_norm": "ESCAPE DE ESTEIRA",
+      "rows": 108,
+      "percentage": 0.02424242
+    },
+    {
+      "classification_norm": "FALHA DE INVERSOR",
+      "rows": 100,
+      "percentage": 0.02244669
+    },
+    {
+      "classification_norm": "SEM MODO DE FALHA IDENTIFICADO",
+      "rows": 100,
+      "percentage": 0.02244669
+    },
+    {
+      "classification_norm": "FALHA DE INSPECAO",
+      "rows": 98,
+      "percentage": 0.02199776
+    },
+    {
+      "classification_norm": "FALHA DE REJEICAO",
+      "rows": 93,
+      "percentage": 0.02087542
+    },
+    {
+      "classification_norm": "QUEDA DE GARRAFAS",
+      "rows": 88,
+      "percentage": 0.01975309
+    },
+    {
+      "classification_norm": "QUEBRA DE ESTEIRA",
+      "rows": 84,
+      "percentage": 0.01885522
+    },
+    {
+      "classification_norm": "FALHA DE MAGAZINE",
+      "rows": 76,
+      "percentage": 0.01705948
+    },
+    {
+      "classification_norm": "FALHA DE COMUNICACAO",
+      "rows": 69,
+      "percentage": 0.01548822
+    },
+    {
+      "classification_norm": "FALHA DE MOTOR",
+      "rows": 69,
+      "percentage": 0.01548822
+    },
+    {
+      "classification_norm": "FALHA DE ENVOLVIMENTO",
+      "rows": 67,
+      "percentage": 0.01503928
+    },
+    {
+      "classification_norm": "FALHA DE CODIFICACAO",
+      "rows": 66,
+      "percentage": 0.01481481
+    },
+    {
+      "classification_norm": "ENROSCO DE TAMPAS",
+      "rows": 62,
+      "percentage": 0.01391695
+    },
+    {
+      "classification_norm": "FALHA DE PINCA",
+      "rows": 58,
+      "percentage": 0.01301908
+    },
+    {
+      "classification_norm": "FALHA DE SINCRONISMO",
+      "rows": 58,
+      "percentage": 0.01301908
+    },
+    {
+      "classification_norm": "FALHA DE CORTE DE FILME",
+      "rows": 57,
+      "percentage": 0.01279461
+    },
+    {
+      "classification_norm": "FALHA DE VALVULA",
+      "rows": 54,
+      "percentage": 0.01212121
+    },
+    {
+      "classification_norm": "ENROSCO DE PACOTES",
+      "rows": 50,
+      "percentage": 0.01122334
+    },
+    {
+      "classification_norm": "FALHA DE RECRAVACAO",
+      "rows": 46,
+      "percentage": 0.01032548
+    },
+    {
+      "classification_norm": "FALHA DE ROLETES",
+      "rows": 46,
+      "percentage": 0.01032548
+    },
+    {
+      "classification_norm": "TRAVAMENTO DE SEGMENTOS",
+      "rows": 46,
+      "percentage": 0.01032548
+    },
+    {
+      "classification_norm": "ENROSCO DE GARRAFAS",
+      "rows": 45,
+      "percentage": 0.01010101
+    },
+    {
+      "classification_norm": "FALHA DE FORMACAO DE CAMADA",
+      "rows": 44,
+      "percentage": 0.00987654
+    },
+    {
+      "classification_norm": "FALHA DE SOLDA DE FILME",
+      "rows": 43,
+      "percentage": 0.00965208
+    },
+    {
+      "classification_norm": "FALHA DE BARREIRA",
+      "rows": 41,
+      "percentage": 0.00920314
+    },
+    {
+      "classification_norm": "FALHA DE ESTEIRA",
+      "rows": 36,
+      "percentage": 0.00808081
+    },
+    {
+      "classification_norm": "QUEDA DE LATAS",
+      "rows": 34,
+      "percentage": 0.00763187
+    }
+  ],
+  "possible_equivalent_class_pairs_for_review": 28,
+  "prepared_dataset": "C:\\Users\\arthu\\Coca\\Coca-Cola-Easy-Maintenance\\ml\\data\\human\\marilia\\prepared\\marilia_human_v1.csv"
+}

@@ -1,3 +1,6 @@
+
+// FILE: src/lib/ml/classify-import.ts
+
 import type {
   ResultSetHeader,
   RowDataPacket,
@@ -12,16 +15,17 @@ import {
   predictFailuresBatch,
 } from "@/lib/ml/client";
 
-
 /* =========================================================
    TYPES
 ========================================================= */
 
 interface MaintenanceEventRow
   extends RowDataPacket {
-  id: number;
+  id:
+    number;
 
-  observation: string;
+  observation:
+    string;
 
   source_equipment_name:
     string | null;
@@ -39,13 +43,11 @@ interface MaintenanceEventRow
     number | string | boolean;
 }
 
-
 interface CountRow
   extends RowDataPacket {
   total:
     number | string;
 }
-
 
 export interface ClassifyImportMlResult {
   available:
@@ -69,6 +71,12 @@ export interface ClassifyImportMlResult {
   failed:
     number;
 
+  /*
+   * Mantidos por compatibilidade com consumidores antigos.
+   *
+   * Na política atual do Ursus estes valores devem
+   * permanecer em zero.
+   */
   highConfidence:
     number;
 
@@ -96,7 +104,6 @@ export interface ClassifyImportMlResult {
     | "MODEL_OFFLINE";
 }
 
-
 interface ClassifyImportOptions {
   importId:
     number;
@@ -108,14 +115,12 @@ interface ClassifyImportOptions {
     number;
 }
 
-
 type MlHealthResult =
   Awaited<
     ReturnType<
       typeof getMlHealth
     >
   >;
-
 
 interface ExtendedMlHealth {
   classifierVersion?:
@@ -128,17 +133,14 @@ interface ExtendedMlHealth {
     string | null;
 }
 
-
 type DecisionSource =
   | "ML"
   | "RULE";
-
 
 type AutomationStatus =
   | "HIGH_CONFIDENCE"
   | "REVIEW_REQUIRED"
   | "RULE_HIGH_CONFIDENCE";
-
 
 interface PredictionMetadata {
   decisionSource:
@@ -157,13 +159,11 @@ interface PredictionMetadata {
     string | null;
 }
 
-
 type UnknownRecord =
   Record<
     string,
     unknown
   >;
-
 
 /* =========================================================
    CONFIGURAÇÃO
@@ -193,7 +193,6 @@ function normalizeBatchSize(
   );
 }
 
-
 /* =========================================================
    HELPERS
 ========================================================= */
@@ -214,14 +213,13 @@ function asRecord(
   return {};
 }
 
-
 function stringOrNull(
   value:
     unknown,
 ): string | null {
   if (
     typeof value !==
-    "string"
+      "string"
   ) {
     return null;
   }
@@ -234,7 +232,6 @@ function stringOrNull(
     null
   );
 }
-
 
 function finiteNumberOrNull(
   value:
@@ -263,7 +260,6 @@ function finiteNumberOrNull(
     : null;
 }
 
-
 function normalizeMysqlBoolean(
   value:
     number | string | boolean,
@@ -279,7 +275,6 @@ function normalizeMysqlBoolean(
     return true;
   }
 
-
   if (
     value ===
       false ||
@@ -291,12 +286,10 @@ function normalizeMysqlBoolean(
     return false;
   }
 
-
   throw new Error(
     "Valor inválido em needs_component_classification.",
   );
 }
-
 
 function fieldValue(
   record:
@@ -322,7 +315,6 @@ function fieldValue(
     snakeCase
   ];
 }
-
 
 /* =========================================================
    HEALTH / CLASSIFIER VERSION
@@ -358,7 +350,6 @@ function getClassifierVersionFromHealth(
   return snakeCase;
 }
 
-
 function getBaseModelVersion(
   health:
     MlHealthResult,
@@ -385,7 +376,6 @@ function getBaseModelVersion(
   );
 }
 
-
 /* =========================================================
    PREDICTION METADATA
 ========================================================= */
@@ -411,7 +401,6 @@ function normalizeDecisionSource(
   return null;
 }
 
-
 function normalizeAutomationStatus(
   value:
     unknown,
@@ -434,7 +423,6 @@ function normalizeAutomationStatus(
 
   return null;
 }
-
 
 function extractPredictionMetadata(
   prediction:
@@ -499,7 +487,6 @@ function extractPredictionMetadata(
   };
 }
 
-
 /* =========================================================
    MAIN
 ========================================================= */
@@ -516,7 +503,6 @@ Promise<ClassifyImportMlResult> {
 
   const health =
     await getMlHealth();
-
 
   if (
     !health.available
@@ -569,24 +555,20 @@ Promise<ClassifyImportMlResult> {
     };
   }
 
-
   const classifierVersionFromHealth =
     getClassifierVersionFromHealth(
       health,
     );
-
 
   const baseModelVersion =
     getBaseModelVersion(
       health,
     );
 
-
   const originModelVersion =
     stringOrNull(
       health.originModelVersion,
     );
-
 
   if (
     !originModelVersion
@@ -596,18 +578,15 @@ Promise<ClassifyImportMlResult> {
     );
   }
 
-
   let effectiveModelVersion:
     string | null =
       classifierVersionFromHealth ??
       baseModelVersion;
 
-
   const limit =
     normalizeBatchSize(
       batchSize,
     );
-
 
   let eligible =
     0;
@@ -621,13 +600,16 @@ Promise<ClassifyImportMlResult> {
   let failed =
     0;
 
-  let highConfidence =
+  /*
+   * Permanecem zerados na política atual.
+   */
+  const highConfidence =
     0;
 
   let reviewRequired =
     0;
 
-  let ruleHighConfidence =
+  const ruleHighConfidence =
     0;
 
   let originProcessed =
@@ -645,7 +627,6 @@ Promise<ClassifyImportMlResult> {
   let lastEventId =
     0;
 
-
   /*
    * Se o client já expõe classifierVersion,
    * podemos evitar classificar novamente um evento
@@ -656,12 +637,15 @@ Promise<ClassifyImportMlResult> {
       classifierVersionFromHealth,
     );
 
+<<<<<<< HEAD
 
   /*
    * Evento com classificação oficial (APROVADA/CORRIGIDA,
    * de qualquer origem) não recebe nova sugestão: ela não
    * poderia ser revisada.
    */
+=======
+>>>>>>> origin/marques
   const componentClassificationNeededCondition =
     canFilterByClassifierVersion
       ? `
@@ -721,7 +705,6 @@ Promise<ClassifyImportMlResult> {
           )
         `;
 
-
   const eligibilityCondition = `
     AND (
         NOT EXISTS (
@@ -745,7 +728,6 @@ Promise<ClassifyImportMlResult> {
     )
   `;
 
-
   /* =======================================================
      2. TOTAL ELEGÍVEL
   ======================================================= */
@@ -753,7 +735,6 @@ Promise<ClassifyImportMlResult> {
   {
     const connection =
       await getConnection();
-
 
     try {
       const values:
@@ -765,7 +746,6 @@ Promise<ClassifyImportMlResult> {
           originModelVersion,
         ];
 
-
       if (
         canFilterByClassifierVersion &&
         classifierVersionFromHealth
@@ -774,7 +754,6 @@ Promise<ClassifyImportMlResult> {
           classifierVersionFromHealth,
         );
       }
-
 
       const [
         rows,
@@ -806,7 +785,6 @@ Promise<ClassifyImportMlResult> {
           values,
         );
 
-
       eligible =
         Number(
           rows[0]?.total ??
@@ -816,7 +794,6 @@ Promise<ClassifyImportMlResult> {
       connection.release();
     }
   }
-
 
   /* =======================================================
      3. PROCESSAMENTO EM LOTES
@@ -828,18 +805,15 @@ Promise<ClassifyImportMlResult> {
     const connection =
       await getConnection();
 
-
     let events:
       MaintenanceEventRow[] =
         [];
-
 
     try {
       const values:
         Array<
           number | string
         > = [];
-
 
       if (
         canFilterByClassifierVersion &&
@@ -849,7 +823,6 @@ Promise<ClassifyImportMlResult> {
           classifierVersionFromHealth,
         );
       }
-
 
       values.push(
         importId,
@@ -858,7 +831,6 @@ Promise<ClassifyImportMlResult> {
         originModelVersion,
       );
 
-
       if (
         canFilterByClassifierVersion &&
         classifierVersionFromHealth
@@ -868,11 +840,9 @@ Promise<ClassifyImportMlResult> {
         );
       }
 
-
       values.push(
         limit,
       );
-
 
       const [
         rows,
@@ -924,13 +894,11 @@ Promise<ClassifyImportMlResult> {
           values,
         );
 
-
       events =
         rows;
     } finally {
       connection.release();
     }
-
 
     if (
       events.length ===
@@ -939,12 +907,10 @@ Promise<ClassifyImportMlResult> {
       break;
     }
 
-
     lastEventId =
       events[
         events.length - 1
       ].id;
-
 
     /* =====================================================
        4. PREDIÇÃO
@@ -982,11 +948,6 @@ Promise<ClassifyImportMlResult> {
           ),
         );
 
-
-      /*
-       * O serviço precisa devolver uma predição
-       * para cada evento enviado.
-       */
       if (
         predictions.length !==
         events.length
@@ -1000,10 +961,8 @@ Promise<ClassifyImportMlResult> {
         );
       }
 
-
       processed +=
         predictions.length;
-
 
       if (
         predictions.length ===
@@ -1011,7 +970,6 @@ Promise<ClassifyImportMlResult> {
       ) {
         continue;
       }
-
 
       /* ===================================================
          5. VALIDAR VERSÃO
@@ -1021,7 +979,6 @@ Promise<ClassifyImportMlResult> {
         predictions[0]
           .modelVersion
           .trim();
-
 
       if (
         !batchModelVersion
@@ -1033,7 +990,6 @@ Promise<ClassifyImportMlResult> {
         );
       }
 
-
       const hasMixedVersions =
         predictions.some(
           (
@@ -1044,7 +1000,6 @@ Promise<ClassifyImportMlResult> {
               .trim() !==
             batchModelVersion,
         );
-
 
       if (
         hasMixedVersions
@@ -1058,16 +1013,13 @@ Promise<ClassifyImportMlResult> {
         );
       }
 
-
       effectiveModelVersion =
         batchModelVersion;
-
 
       const batchOriginModelVersion =
         predictions[0]
           .failureOriginModelVersion
           .trim();
-
 
       if (
         !batchOriginModelVersion
@@ -1076,7 +1028,6 @@ Promise<ClassifyImportMlResult> {
           "O serviço de classificação não informou failureOriginModelVersion.",
         );
       }
-
 
       const hasMixedOriginVersions =
         predictions.some(
@@ -1089,7 +1040,6 @@ Promise<ClassifyImportMlResult> {
             batchOriginModelVersion,
         );
 
-
       if (
         hasMixedOriginVersions
       ) {
@@ -1097,7 +1047,6 @@ Promise<ClassifyImportMlResult> {
           "O serviço de classificação retornou versões de origem diferentes no mesmo lote.",
         );
       }
-
 
       if (
         batchOriginModelVersion !==
@@ -1107,7 +1056,6 @@ Promise<ClassifyImportMlResult> {
           "A versão de origem retornada nas predições não coincide com originModelVersion do health.",
         );
       }
-
 
       const eventById =
         new Map(
@@ -1121,7 +1069,6 @@ Promise<ClassifyImportMlResult> {
           ),
         );
 
-
       const componentPredictions =
         predictions.filter(
           (
@@ -1132,7 +1079,6 @@ Promise<ClassifyImportMlResult> {
                 prediction.eventId,
               );
 
-
             if (
               !event
             ) {
@@ -1141,14 +1087,12 @@ Promise<ClassifyImportMlResult> {
               );
             }
 
-
             return normalizeMysqlBoolean(
               event
                 .needs_component_classification,
             );
           },
         );
-
 
       /* ===================================================
          5.1 CONTADORES DE DECISÃO
@@ -1163,37 +1107,26 @@ Promise<ClassifyImportMlResult> {
             prediction,
           );
 
-
+        /*
+         * Política atual do Ursus:
+         *
+         * toda sugestão de componente/modo,
+         * seja RULE ou ML, permanece pendente
+         * de revisão humana.
+         */
         if (
           metadata
-            .automationStatus ===
-          "HIGH_CONFIDENCE"
-        ) {
-          highConfidence +=
-            1;
-        }
-
-
-        if (
-          metadata
-            .automationStatus ===
+            .automationStatus !==
           "REVIEW_REQUIRED"
         ) {
-          reviewRequired +=
-            1;
+          throw new Error(
+            "A importação recebeu uma sugestão sem REVIEW_REQUIRED.",
+          );
         }
 
-
-        if (
-          metadata
-            .automationStatus ===
-          "RULE_HIGH_CONFIDENCE"
-        ) {
-          ruleHighConfidence +=
-            1;
-        }
+        reviewRequired +=
+          1;
       }
-
 
       /* ===================================================
          6. PERSISTÊNCIA
@@ -1203,11 +1136,9 @@ Promise<ClassifyImportMlResult> {
         await getConnection();
       let batchInserted = 0;
 
-
       try {
         await insertConnection
           .beginTransaction();
-
 
         /* -------------------------------------------------
            6.1 INSERIR SUGESTÕES
@@ -1241,11 +1172,9 @@ Promise<ClassifyImportMlResult> {
                 ",",
               );
 
-
           const values:
             unknown[] =
               [];
-
 
           for (
             const prediction
@@ -1255,7 +1184,6 @@ Promise<ClassifyImportMlResult> {
               extractPredictionMetadata(
                 prediction,
               );
-
 
             values.push(
               prediction.eventId,
@@ -1293,7 +1221,6 @@ Promise<ClassifyImportMlResult> {
                 .confidenceType,
             );
           }
-
 
           const [
             insertResult,
@@ -1339,12 +1266,15 @@ Promise<ClassifyImportMlResult> {
                 values,
               );
 
+<<<<<<< HEAD
 
           batchInserted =
+=======
+          inserted +=
+>>>>>>> origin/marques
             insertResult
               .affectedRows;
         }
-
 
         /* -------------------------------------------------
            6.2 PERSISTIR ORIGEM DA FALHA
@@ -1366,11 +1296,9 @@ Promise<ClassifyImportMlResult> {
               ",",
             );
 
-
         const originValues:
           unknown[] =
             [];
-
 
         for (
           const prediction
@@ -1392,7 +1320,6 @@ Promise<ClassifyImportMlResult> {
               .failureOriginModelVersion,
           );
         }
-
 
         await insertConnection
           .query<
@@ -1429,9 +1356,8 @@ Promise<ClassifyImportMlResult> {
             originValues,
           );
 
-
         /* -------------------------------------------------
-           6.3 DESCARTAR SUGESTÕES AUTOMÁTICAS ANTIGAS
+           6.3 DESCARTAR SUGESTÕES ANTIGAS
 
            Só descartamos sugestões ainda pendentes.
 
@@ -1446,7 +1372,6 @@ Promise<ClassifyImportMlResult> {
               prediction.eventId,
           );
 
-
         if (
           eventIds.length >
           0
@@ -1459,7 +1384,6 @@ Promise<ClassifyImportMlResult> {
               .join(
                 ",",
               );
-
 
           await insertConnection
             .query<
@@ -1493,15 +1417,12 @@ Promise<ClassifyImportMlResult> {
             );
         }
 
-
         await insertConnection
           .commit();
         inserted += batchInserted;
 
-
         originProcessed +=
           predictions.length;
-
 
         for (
           const prediction
@@ -1516,7 +1437,6 @@ Promise<ClassifyImportMlResult> {
               1;
           }
 
-
           if (
             prediction
               .failureOriginConfidenceLevel ===
@@ -1525,7 +1445,6 @@ Promise<ClassifyImportMlResult> {
             originMediumConfidence +=
               1;
           }
-
 
           if (
             prediction
@@ -1553,14 +1472,12 @@ Promise<ClassifyImportMlResult> {
       failed +=
         events.length;
 
-
       console.error(
         `Falha ao classificar lote da importação ${importId}:`,
         error,
       );
     }
   }
-
 
   /* =======================================================
      7. RESULTADO

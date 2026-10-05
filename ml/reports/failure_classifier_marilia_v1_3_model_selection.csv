@@ -1,0 +1,9 @@
+﻿feature_set,vectorizer_config,algorithm,class_weight,feature_count,validation_accuracy,validation_macro_f1,validation_weighted_f1,validation_top3_accuracy,validation_hc_90_precision,validation_hc_90_coverage,validation_hc_95_precision,validation_hc_95_coverage,validation_hc_97_precision,validation_hc_97_coverage,validation_hc_99_precision,validation_hc_99_coverage,selected,convergence_warnings
+observation_only,word_11_char_35,LinearSVC,None,26000,0.72262774,0.518566,0.69211551,0.84379562,0.91076115,0.55620438,0.95255474,0.4,0.97021277,0.34306569,,,False,
+observation_only,word_11_char_35,LinearSVC,balanced,26000,0.71386861,0.51022034,0.70140202,0.86715328,0.92507205,0.50656934,0.9556314,0.42773723,0.97142857,0.35766423,0.99371069,0.23211679,False,
+observation_only,word_12_char_36,LinearSVC,None,44735,0.71970803,0.51462483,0.68873762,0.84087591,0.91966759,0.5270073,0.95049505,0.44233577,0.97260274,0.31970803,,,False,
+observation_only,word_12_char_36,LinearSVC,balanced,44735,0.72408759,0.52264567,0.70462654,0.8540146,0.90140845,0.51824818,0.95065789,0.44379562,0.97169811,0.30948905,0.99310345,0.21167883,True,
+observation_only,word_12_char_25_regularized,LinearSVC,None,17687,0.72554745,0.51519547,0.69892569,0.86423358,0.90167866,0.60875912,0.9516129,0.45255474,0.97058824,0.34744526,,,False,
+observation_only,word_12_char_25_regularized,LinearSVC,balanced,17687,0.72554745,0.50344218,0.71404776,0.85693431,0.9,0.55474453,0.95019157,0.3810219,0.97073171,0.29927007,0.99363057,0.22919708,False,
+observation_only,word_12_char_36,LogisticRegression,None,44735,0.69343066,0.44943839,0.64115755,0.84087591,0.92331288,0.47591241,0.95471698,0.38686131,0.97206704,0.26131387,,,False,0.0
+observation_only,word_12_char_36,LogisticRegression,balanced,44735,0.65985401,0.4710124,0.64798071,0.8729927,0.90277778,0.42043796,0.96666667,0.13138686,0.97752809,0.12992701,,,False,1.0

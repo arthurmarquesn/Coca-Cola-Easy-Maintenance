@@ -1,0 +1,709 @@
+﻿original_label,suggested_canonical_label,relation_type,similarity_score,frequency_original,frequency_target,confidence,requires_human_review,reason
+ACUMULO TAMPAS BUFFER FALHA,ACUMULO TAMPAS BUFFER FALHA,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping
+AFROUXAMENTO DE PARAFUSO DE FIXACAO,AFROUXAMENTO DE PARAFUSO DE FIXACAO,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping
+ALIMENTACAO TAMPAS FALHA,FALHA DE ALIMENTACAO DE TAMPAS,EXACT_VARIANT,0.666667,1,22,HIGH,False,Same mechanism and object; only word order and prepositions differ. TRAIN observation centroid cosine=0.1894
+ALTERACAO DA VELOCIDADE DO DEVICER,ALTERACAO DA VELOCIDADE DO DEVICER,UNIQUE,1.0,2,2,N/A,False,No high-confidence equivalent was approved. self mapping
+AMASSAMENTO DE LATAS,AMASSAMENTO DE LATAS,UNIQUE,1.0,15,15,N/A,False,No high-confidence equivalent was approved. self mapping
+ATUACAO DO CIRCUITO DE EMERGENCIA,ATUACAO DO CIRCUITO DE EMERGENCIA,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping
+ATUACAO QUEIMA DE FUSIVEL,ATUACAO QUEIMA DE FUSIVEL,UNIQUE,1.0,2,2,N/A,False,No high-confidence equivalent was approved. self mapping
+AUSENCIA DE PARAFUSO DE FIXACAO,AUSENCIA DE PARAFUSO DE FIXACAO,UNIQUE,1.0,2,2,N/A,False,No high-confidence equivalent was approved. self mapping
+BAIXA VELOCIDADE DE ESTEIRA,BAIXA VELOCIDADE DE ESTEIRA,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping
+COLAPSO DE LATAS,COLAPSO DE LATAS,UNIQUE,1.0,9,9,N/A,False,No high-confidence equivalent was approved. self mapping
+COLISAO DO BRACO DE ESTIRAMENTO,COLISAO DO BRACO DE ESTIRAMENTO,UNIQUE,1.0,2,2,N/A,False,No high-confidence equivalent was approved. self mapping
+COLISAO DO EMPURRADOR,COLISAO DO EMPURRADOR,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping
+COLISAO DO ROBO COM PALETE,COLISAO DO ROBO COM PALETE,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping
+CRASH DE GARRAFAS,CRASH DE GARRAFAS,UNIQUE,1.0,10,10,N/A,False,No high-confidence equivalent was approved. self mapping
+CRASH DE LATAS,CRASH DE LATAS,UNIQUE,1.0,4,4,N/A,False,No high-confidence equivalent was approved. self mapping
+CURTO CIRCUITO,CURTO CIRCUITO,UNIQUE,1.0,11,11,N/A,False,No high-confidence equivalent was approved. self mapping
+DANIFICACAO DA BUCHA DE ELEVACAO DO PISTAO,DANIFICACAO DA BUCHA DE ELEVACAO DO PISTAO,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping
+DANIFICACAO DE GARRAFAS,DANIFICACAO DE GARRAFAS,UNIQUE,1.0,5,5,N/A,False,No high-confidence equivalent was approved. self mapping
+DEFORMACAO DE CABECOTE,DEFORMACAO DE CABECOTE,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping
+DEFORMACAO DE EIXO,DEFORMACAO DE EIXO,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping
+DEFORMACAO DE FACA,DEFORMACAO DE FACA,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping
+DEFORMACAO DE HASTE,DEFORMACAO DE HASTE,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping
+DEFORMACAO DE MEXEDOR,DEFORMACAO DE MEXEDOR,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping
+DEFORMACAO DE SUPORTE,DEFORMACAO DE SUPORTE,UNIQUE,1.0,3,3,N/A,False,No high-confidence equivalent was approved. self mapping
+DEFORMACAO DESALINHAMENTO DE GUIA,DEFORMACAO DESALINHAMENTO DE GUIA,UNIQUE,1.0,12,12,N/A,False,No high-confidence equivalent was approved. self mapping
+DEFORMACAO DO CABECOTE,DEFORMACAO DE CABECOTE,EXACT_VARIANT,0.954545,1,1,HIGH,False,Only the article/preposition differs. TRAIN observation centroid cosine=0.0859
+DEGRADACAO DE MANGUEIRA,DEGRADACAO DE MANGUEIRA,UNIQUE,1.0,2,2,N/A,False,No high-confidence equivalent was approved. self mapping
+DESAJUSTE DE GUIA,DESAJUSTE DE GUIA,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping
+DESAJUSTE DE REGUA,DESAJUSTE DE REGUA,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping
+DESALINHAMENTO DE AGREGADO,DESALINHAMENTO DE AGREGADO,UNIQUE,1.0,7,7,N/A,False,No high-confidence equivalent was approved. self mapping
+DESALINHAMENTO DE CENTRADOR,DESALINHAMENTO DE CENTRADOR,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping
+DESALINHAMENTO DE CHAPA,DESALINHAMENTO DE CHAPA,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping
+DESALINHAMENTO DE EIXO,DESALINHAMENTO DE EIXO,UNIQUE,1.0,4,4,N/A,False,No high-confidence equivalent was approved. self mapping
+DESALINHAMENTO DE GUIA,DESALINHAMENTO DE GUIA,UNIQUE,1.0,9,9,N/A,False,No high-confidence equivalent was approved. self mapping
+DESALINHAMENTO DE MASCARA,DESALINHAMENTO DE MASCARA,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping
+DESALINHAMENTO DE PALETE,DESALINHAMENTO DE PALETE,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping
+DESALINHAMENTO DE PILHA DE PALETES,DESALINHAMENTO DE PILHA DE PALETES,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping
+DESALINHAMENTO DO BRACO DE CENTRAGEM,DESALINHAMENTO DO BRACO DE CENTRAGEM,UNIQUE,1.0,2,2,N/A,False,No high-confidence equivalent was approved. self mapping
+DESALINHAMENTO DO CENTRADOR,DESALINHAMENTO DE CENTRADOR,EXACT_VARIANT,0.962963,1,1,HIGH,False,Only the article/preposition differs. TRAIN observation centroid cosine=0.0888
+DESALINHAMENTO MECANICO,DESALINHAMENTO MECANICO,UNIQUE,1.0,11,11,N/A,False,No high-confidence equivalent was approved. self mapping
+DESARME DE BOMBA,DESARME DE BOMBA,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping
+DESARME DE DISJUNTOR,DESARME DE DISJUNTOR,UNIQUE,1.0,3,3,N/A,False,No high-confidence equivalent was approved. self mapping
+DESARME DE EQUIPAMENTO,DESARME DE EQUIPAMENTO,UNIQUE,1.0,4,4,N/A,False,No high-confidence equivalent was approved. self mapping
+DESARME DE ESTEIRA,DESARME DE ESTEIRA,UNIQUE,1.0,3,3,N/A,False,No high-confidence equivalent was approved. self mapping
+DESARME DE MESA,DESARME DE MESA,UNIQUE,1.0,3,3,N/A,False,No high-confidence equivalent was approved. self mapping
+DESARME DE MOTOR,DESARME DE MOTOR,UNIQUE,1.0,28,28,N/A,False,No high-confidence equivalent was approved. self mapping
+DESARME DE PAINEL,DESARME DE PAINEL,UNIQUE,1.0,2,2,N/A,False,No high-confidence equivalent was approved. self mapping
+DESARME DE PAINEL DE COMANDO,DESARME DE PAINEL DE COMANDO,UNIQUE,1.0,2,2,N/A,False,No high-confidence equivalent was approved. self mapping
+DESARME DE TRANSPORTE,DESARME DE TRANSPORTE,UNIQUE,1.0,23,23,N/A,False,No high-confidence equivalent was approved. self mapping
+DESARME PALETIZADORA,DESARME PALETIZADORA,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping
+DESARME TERMICO,DESARME TERMICO,UNIQUE,1.0,6,6,N/A,False,No high-confidence equivalent was approved. self mapping
+DESARME TRANSPORTE,DESARME DE TRANSPORTE,EXACT_VARIANT,0.923077,1,23,HIGH,False,Only a preposition is omitted. TRAIN observation centroid cosine=0.1047
+DESGASTE DE PINO DE SEPARACAO,DESGASTE DE PINO DE SEPARACAO,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping
+DESLIGAMENTO INDEVIDO DO EQUIPAMENTO,DESLIGAMENTO INDEVIDO DO EQUIPAMENTO,UNIQUE,1.0,6,6,N/A,False,No high-confidence equivalent was approved. self mapping
+DESNIVELAMENTO DE ESTEIRA,DESNIVELAMENTO DE ESTEIRA,UNIQUE,1.0,4,4,N/A,False,No high-confidence equivalent was approved. self mapping
+DESPRENDIMENTO DO PISTAO DE TRAVAMENTO,DESPRENDIMENTO DO PISTAO DE TRAVAMENTO,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping
+EIXO DO BRACO TENCIONADOR DO FILME DA ENVOLVEDORA SOLTO,EIXO DO BRACO TENCIONADOR DO FILME DA ENVOLVEDORA SOLTO,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping
+ENROSCO DE CAIXAS,ENROSCO DE CAIXAS,UNIQUE,1.0,10,10,N/A,False,No high-confidence equivalent was approved. self mapping
+ENROSCO DE CARTAO QUADRO,ENROSCO DE CARTAO QUADRO,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping
+ENROSCO DE GARRAFAS,ENROSCO DE GARRAFAS,UNIQUE,1.0,45,45,N/A,False,No high-confidence equivalent was approved. self mapping
+ENROSCO DE LATAS,ENROSCO DE LATAS,UNIQUE,1.0,28,28,N/A,False,No high-confidence equivalent was approved. self mapping
+ENROSCO DE PACOTES,ENROSCO DE PACOTES,UNIQUE,1.0,50,50,N/A,False,No high-confidence equivalent was approved. self mapping
+ENROSCO DE ROTULOS,ENROSCO DE ROTULOS,UNIQUE,1.0,16,16,N/A,False,No high-confidence equivalent was approved. self mapping
+ENROSCO DE TAMPAS,ENROSCO DE TAMPAS,UNIQUE,1.0,62,62,N/A,False,No high-confidence equivalent was approved. self mapping
+ENRROSCO DE GARRAFA,ENROSCO DE GARRAFAS,ORTHOGRAPHIC_VARIANT,0.947368,1,45,HIGH,False,Clear spelling error plus singular/plural variation of the same event. TRAIN observation centroid cosine=0.1708
+ENTUPIMENTO,ENTUPIMENTO,UNIQUE,1.0,2,2,N/A,False,No high-confidence equivalent was approved. self mapping
+ENTUPIMENTO DE TUBULACAO,ENTUPIMENTO DE TUBULACAO,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping
+ENTUPIMENTO NO TRANSPORTE DE TAMPAS,ENTUPIMENTO NO TRANSPORTE DE TAMPAS,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping
+ERRO DE COMUNICACAO,ERRO DE COMUNICACAO,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping
+ESCAPE DE CORREIA,ESCAPE DE CORREIA,UNIQUE,1.0,6,6,N/A,False,No high-confidence equivalent was approved. self mapping
+ESCAPE DE ESTEIRA,ESCAPE DE ESTEIRA,UNIQUE,1.0,108,108,N/A,False,No high-confidence equivalent was approved. self mapping
+ESPANAMENTO DE PARAFUSO,ESPANAMENTO DE PARAFUSO,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping
+ESPUMAMENTO DA BEBIDA,ESPUMAMENTO DE BEBIDA,EXACT_VARIANT,0.952381,1,18,HIGH,False,Only the article/preposition differs. TRAIN observation centroid cosine=0.3012
+ESPUMAMENTO DE BEBIDA,ESPUMAMENTO DE BEBIDA,UNIQUE,1.0,18,18,N/A,False,No high-confidence equivalent was approved. self mapping
+ESTABILIDADE DE EQUIPAMENTO,ESTABILIDADE DE EQUIPAMENTO,UNIQUE,1.0,2,2,N/A,False,No high-confidence equivalent was approved. self mapping
+ETICADOR DE CORRENTE ESCAPOU,ETICADOR DE CORRENTE ESCAPOU,UNIQUE,1.0,2,2,N/A,False,No high-confidence equivalent was approved. self mapping
+EXCESSO DE GARRAFA COM ROTULO,EXCESSO DE GARRAFA COM ROTULO,UNIQUE,1.0,11,11,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DA MESA GIRATORIA,FALHA DA MESA GIRATORIA,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DA PINCA,FALHA DE PINCA,EXACT_VARIANT,0.928571,1,58,HIGH,False,Only the article/preposition differs. TRAIN observation centroid cosine=0.2270
+FALHA DE ABA CONICA,FALHA DE ABA CONICA,UNIQUE,1.0,7,7,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE ACIONAMENTO DO EMPURRADOR,FALHA DE ACIONAMENTO DO EMPURRADOR,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE ACOPLAMENTO,FALHA DE ACOPLAMENTO,UNIQUE,1.0,2,2,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE ACUMULO NO TRANSPORTE,FALHA DE ACUMULO NO TRANSPORTE,UNIQUE,1.0,14,14,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE ALIMENTACAO,FALHA DE ALIMENTACAO,UNIQUE,1.0,2,2,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE ALIMENTACAO DE GARRAFAS,FALHA DE ALIMENTACAO DE GARRAFAS,UNIQUE,1.0,8,8,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE ALIMENTACAO DE LATAS,FALHA DE ALIMENTACAO DE LATAS,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE ALIMENTACAO DE PACOTES,FALHA DE ALIMENTACAO DE PACOTES,UNIQUE,1.0,8,8,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE ALIMENTACAO DE PALETES,FALHA DE ALIMENTACAO DE PALETES,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE ALIMENTACAO DE TAMPAS,FALHA DE ALIMENTACAO DE TAMPAS,UNIQUE,1.0,22,22,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE ALIMENTACAO ELETRICA,FALHA DE ALIMENTACAO ELETRICA,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE ALIMENTACAO ELETRICA DA EMBREAGEM,FALHA DE ALIMENTACAO ELETRICA DA EMBREAGEM,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE AMOSTRAGEM,FALHA DE AMOSTRAGEM,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE ANALISADOR,FALHA DE ANALISADOR,UNIQUE,1.0,4,4,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE APLICACAO DE COLA,FALHA DE APLICACAO DE COLA,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE ATUADOR,FALHA DE ATUADOR,UNIQUE,1.0,2,2,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE ATUADOR DA VALVULA,FALHA DE ATUADOR DA VALVULA,UNIQUE,1.0,4,4,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE ATUADOR DO DEVAISER,FALHA DE ATUADOR DO DEVAISER,UNIQUE,1.0,2,2,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE AUTOMACAO,FALHA DE AUTOMACAO,UNIQUE,1.0,16,16,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE BAILARINA,FALHA DE BAILARINA,UNIQUE,1.0,8,8,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE BANDEIROLA,FALHA DE BANDEIROLA,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE BARREIRA,FALHA DE BARREIRA,UNIQUE,1.0,41,41,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE BATEDOR DE CAIXAS,FALHA DE BATEDOR DE CAIXAS,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE BATETORES PNEUMATICOS,FALHA DE BATETORES PNEUMATICOS,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE BOCAL,FALHA DE BOCAL,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE BOMBA,FALHA DE BOMBA,UNIQUE,1.0,21,21,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE BOTAO DE RESET,FALHA NO BOTAO RESET,EXACT_VARIANT,0.837209,3,2,HIGH,False,Same button and reset failure; only function words differ. TRAIN observation centroid cosine=0.1702
+FALHA DE BOTOEIRA DE EMERGENCIA,FALHA DE BOTOEIRA DE EMERGENCIA,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE BRACO DE TUBETES,FALHA DE BRACO DE TUBETES,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE CABECOTE,FALHA DE CABECOTE,UNIQUE,1.0,3,3,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE CABO DE SEGURANCA,FALHA DE CABO DE SEGURANCA,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE CALIBRACAO,FALHA DE CALIBRACAO,UNIQUE,1.0,3,3,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE CAME,FALHA DE CAME,UNIQUE,1.0,2,2,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE CAMERA,FALHA DE CAMERA,UNIQUE,1.0,4,4,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE CARBONATACAO,FALHA DE CARBONATACAO,UNIQUE,1.0,10,10,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE CARTAO MESTRE,FALHA DE CARTAO MESTRE,UNIQUE,1.0,11,11,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE CENTRADOR,FALHA DE CENTRADOR,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE CHAVE DE EMERGENCIA,FALHA DE CHAVE DE EMERGENCIA,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE CIP,FALHA DE CIP,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE CODIFICACAO,FALHA DE CODIFICACAO,UNIQUE,1.0,66,66,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE COLETOR,FALHA DE COLETOR,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE COLISAO DA GAIOLA,FALHA DE COLISAO DA GAIOLA,UNIQUE,1.0,2,2,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE COMANDO DA ARVORE DE ESPUMA,FALHA DE COMANDO DA ARVORE DE ESPUMA,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE COMPACTACAO DE CAMADA,FALHA DE COMPACTACAO DE CAMADA,UNIQUE,1.0,9,9,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE COMUNICACAO,FALHA DE COMUNICACAO,UNIQUE,1.0,69,69,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE CONEXAO DE MANGUEIRA,FALHA DE CONEXAO DE MANGUEIRA,UNIQUE,1.0,8,8,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE CONEXAO ELETRICA,FALHA DE CONEXAO ELETRICA,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE CONEXAO PNEUMATICA,FALHA DE CONEXAO PNEUMATICA,UNIQUE,1.0,5,5,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE CONTAGEM,FALHA DE CONTAGEM,UNIQUE,1.0,12,12,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE CONTAGEM DE PRODUTO,FALHA DE CONTAGEM DE PRODUTO,UNIQUE,1.0,2,2,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE CONTROLE DE BRIX,FALHA DE CONTROLE DE BRIX,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE CONTROLE DE NIVEL DO CARBONATADOR,FALHA DE CONTROLE DE NIVEL DO CARBONATADOR,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE CONTROLE DE PROCESSO,FALHA DE CONTROLE DE PROCESSO,UNIQUE,1.0,20,20,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE CONTROLE DE TEMPERATURA,FALHA DE CONTROLE DE TEMPERATURA,UNIQUE,1.0,20,20,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE CORREIA,FALHA DE CORREIA,UNIQUE,1.0,14,14,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE CORRENTE,FALHA DE CORRENTE,UNIQUE,1.0,3,3,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE CORTE DA EMBALAGEM DO TUBETE,FALHA DE CORTE DA EMBALAGEM DO TUBETE,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE CORTE DE FILME,FALHA DE CORTE DE FILME,UNIQUE,1.0,57,57,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE DESCAPSULAMENTO,FALHA DE DESCAPSULAMENTO,UNIQUE,1.0,22,22,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE DIMENSIONAMENTO DE CAMADA,FALHA DE DIMENSIONAMENTO DE CAMADA,UNIQUE,1.0,2,2,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE DIRECIONAMENTO DE PACOTES,FALHA DE DIRECIONAMENTO DE PACOTES,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE DOSAGEM,FALHA DE DOSAGEM,UNIQUE,1.0,7,7,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE DOSAGEM DE NITROGENIO,FALHA DE DOSAGEM DE NITROGENIO,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE DRIVE,FALHA DE DRIVE,UNIQUE,1.0,3,3,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE ELAU,FALHA DE ELAU,UNIQUE,1.0,7,7,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE ELEMENTO DE TRANSMISSAO,FALHA DE ELEMENTO DE TRANSMISSAO,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE ELEVADOR,FALHA DE ELEVADOR,UNIQUE,1.0,32,32,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE ELO DE ESTEIRA,FALHA DE ELO DE ESTEIRA,UNIQUE,1.0,11,11,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE EMPURRADOR,FALHA DE EMPURRADOR,UNIQUE,1.0,4,4,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE ENCHIMENTO,FALHA DE ENCHIMENTO,UNIQUE,1.0,145,145,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE ENCODER,FALHA DE ENCODER,UNIQUE,1.0,10,10,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE ENCOSTO DE AGRUPAMENTO,FALHA DE ENCOSTO DE AGRUPAMENTO,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE ENGRENAGEM,FALHA DE ENGRENAGEM,UNIQUE,1.0,9,9,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE ENVOLVIMENTO,FALHA DE ENVOLVIMENTO,UNIQUE,1.0,67,67,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE ESTEIRA,FALHA DE ESTEIRA,UNIQUE,1.0,36,36,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE EXTRACAO DE ROTULOS,FALHA DE EXTRACAO DE ROTULOS,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE FACA,FALHA DE FACA,UNIQUE,1.0,3,3,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE FEEDBACK,FALHA DE FEEDBACK,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE FILTRO,FALHA DE FILTRO,UNIQUE,1.0,4,4,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE FIXACAO,FALHA DE FIXACAO,UNIQUE,1.0,28,28,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE FIXACAO DA BASE DO SENSOR,FALHA DE FIXACAO DA BASE DO SENSOR,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE FIXACAO DA CORRENTE DE ELEVACAO,FALHA DE FIXACAO DA CORRENTE DE ELEVACAO,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE FIXACAO DA TULIPA,FALHA DE FIXACAO DA TULIPA,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE FIXACAO DA VALVULA,FALHA DE FIXACAO DA VALVULA,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE FIXACAO DE PROTECAO,FALHA DE FIXACAO DE PROTECAO,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE FLUXIMETRO,FALHA DE FLUXIMETRO,UNIQUE,1.0,4,4,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE FONTE DE ALIMENTACAO,FALHA DE FONTE DE ALIMENTACAO,UNIQUE,1.0,9,9,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE FORMACAO DE CAIXA,FALHA DE FORMACAO DE CAIXA,UNIQUE,1.0,2,2,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE FORMACAO DE CAMADA,FALHA DE FORMACAO DE CAMADA,UNIQUE,1.0,44,44,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE FORMACAO DE PACOTE,FALHA DE FORMACAO DE PACOTE,UNIQUE,1.0,10,10,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE FREIO,FALHA DE FREIO,UNIQUE,1.0,7,7,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE GERADOR DE IMPULSOS,FALHA DE GERADOR DE IMPULSOS,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE GUIA,FALHA DE GUIA,UNIQUE,1.0,19,19,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE IHM,FALHA DE IHM,UNIQUE,1.0,18,18,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE INSPECAO,FALHA DE INSPECAO,UNIQUE,1.0,98,98,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE INVERSOR,FALHA DE INVERSOR,UNIQUE,1.0,100,100,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE JATOS DE ENXAGUE,FALHA DE JATOS DE ENXAGUE,UNIQUE,1.0,2,2,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE LEITURA,FALHA DE LEITURA,UNIQUE,1.0,2,2,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE LEITURA DA GARRAFA TESTE,FALHA DE LEITURA DA GARRAFA TESTE,UNIQUE,1.0,2,2,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE LUBRIFICACAO,FALHA DE LUBRIFICACAO,UNIQUE,1.0,2,2,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE MAGAZINE,FALHA DE MAGAZINE,UNIQUE,1.0,76,76,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE MANDRIL,FALHA DE MANDRIL,UNIQUE,1.0,13,13,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE MANGUEIRA,FALHA DE MANGUEIRA,UNIQUE,1.0,3,3,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE MANGUEIRA DE AGUA,FALHA DE MANGUEIRA DE AGUA,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE MANGUEIRA DE ALTA PRESSAO,FALHA DE MANGUEIRA DE ALTA PRESSAO,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE MANGUEIRA PNEUMATICA,FALHA DE MANGUEIRA PNEUMATICA,UNIQUE,1.0,4,4,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE MEDIDOR,FALHA DE MEDIDOR,UNIQUE,1.0,3,3,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE MEDIDOR DE VAZAO,FALHA DE MEDIDOR DE VAZAO,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE MISTURA,FALHA DE MISTURA,UNIQUE,1.0,5,5,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE MIXER,FALHA DE MIXER,UNIQUE,1.0,2,2,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE MODULO,FALHA DE MODULO,UNIQUE,1.0,6,6,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE MOLA,FALHA DE MOLA,UNIQUE,1.0,9,9,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE MOTOR,FALHA DE MOTOR,UNIQUE,1.0,69,69,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE NIVEL DE AGUA,FALHA DE NIVEL DE AGUA,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE NOBREAK,FALHA DE NOBREAK,UNIQUE,1.0,3,3,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE PARAMETRIZACAO,FALHA DE PARAMETRIZACAO,UNIQUE,1.0,5,5,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE PARAMETRIZACAO DE RECEITA,FALHA DE PARAMETRIZACAO DE RECEITA,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE PARAMETRIZACAO DO REJEITO,FALHA DE PARAMETRIZACAO DO REJEITO,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE PATINS,FALHA DE PATINS,UNIQUE,1.0,13,13,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE PEGADOR,FALHA DE PEGADOR,UNIQUE,1.0,27,27,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE PENTE DE TRANSFERENCIA,FALHA DE PENTE DE TRANSFERENCIA,UNIQUE,1.0,6,6,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE PERSIANA,FALHA DE PERSIANA,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE PINCA,FALHA DE PINCA,UNIQUE,1.0,58,58,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE PINO,FALHA DE PINO,UNIQUE,1.0,4,4,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE PINO DE SEPARACAO,FALHA DE PINO DE SEPARACAO,UNIQUE,1.0,2,2,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE PINOS DE TRANSFERENCIA,FALHA DE PINOS DE TRANSFERENCIA,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE PLACA ELETRONICA,FALHA DE PLACA ELETRONICA,UNIQUE,1.0,3,3,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE PLC,FALHA DE PLC,UNIQUE,1.0,12,12,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE PORTA DE SEGURANCA,FALHA DE PORTA DE SEGURANCA,UNIQUE,1.0,15,15,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE POSICIONAMENTO DE PACOTES,FALHA DE POSICIONAMENTO DE PACOTES,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE POSICIONAMENTO DE PALETE,FALHA DE POSICIONAMENTO DE PALETE,UNIQUE,1.0,2,2,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE POSICIONAMENTO DO CABECOTE,FALHA DE POSICIONAMENTO DO CABECOTE,UNIQUE,1.0,2,2,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE PRANCHA,FALHA DE PRANCHA,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE PRE ENXAGUE,FALHA DE PRE ENXAGUE,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE PRESSAO,FALHA DE PRESSAO,UNIQUE,1.0,2,2,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE PRESSAO DE AGUA,FALHA DE PRESSAO DE AGUA,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE PRESSAO DOS JATOS,FALHA DE PRESSAO DOS JATOS,UNIQUE,1.0,6,6,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE PRESSOSTATO,FALHA DE PRESSOSTATO,UNIQUE,1.0,5,5,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE PRESSURIZACAO,FALHA DE PRESSURIZACAO,UNIQUE,1.0,5,5,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE PRESSURIZACAO DA ENCHEDORA,FALHA DE PRESSURIZACAO DA ENCHEDORA,UNIQUE,1.0,2,2,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE PROPORCIONAMENTO,FALHA DE PROPORCIONAMENTO,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE RECRAVACAO,FALHA DE RECRAVACAO,UNIQUE,1.0,46,46,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE REDUTOR,FALHA DE REDUTOR,UNIQUE,1.0,10,10,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE REGUA DE ARRASTE,FALHA DE REGUA DE ARRASTE,UNIQUE,1.0,4,4,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE REGUA DE ENVOLVIMENTO,FALHA DE REGUA DE ENVOLVIMENTO,UNIQUE,1.0,9,9,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE REJEICAO,FALHA DE REJEICAO,UNIQUE,1.0,93,93,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE RELE DE SEGURANCA,FALHA DE RELE DE SEGURANCA,UNIQUE,1.0,2,2,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE RESFRIAMENTO,FALHA DE RESFRIAMENTO,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE RETORNO DO BRACO DE SOLDA,FALHA DE RETORNO DO BRACO DE SOLDA,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE ROBO,FALHA DE ROBO,UNIQUE,1.0,29,29,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE ROLAMENTO,FALHA DE ROLAMENTO,UNIQUE,1.0,13,13,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE ROLETES,FALHA DE ROLETES,UNIQUE,1.0,46,46,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE ROLO DE ESTIRAMENTO,FALHA DE ROLO DE ESTIRAMENTO,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE ROLO SEPARADOR,FALHA DE ROLO SEPARADOR,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE ROTACAO,FALHA DE ROTACAO,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE ROTULAGEM,FALHA DE ROTULAGEM,UNIQUE,1.0,20,20,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE SECAGEM DE ROTULO,FALHA DE SECAGEM DE ROTULO,UNIQUE,1.0,2,2,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE SEGMENTOS,FALHA DE SEGMENTOS,UNIQUE,1.0,2,2,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE SEGURANCA,FALHA DE SEGURANCA,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE SEGURANCA DO CABECOTE,FALHA DE SEGURANCA DO CABECOTE,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE SENSOR,FALHA DE SENSOR,UNIQUE,1.0,397,397,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE SEQUENCIAMENTO DA PALETIZADORA,FALHA DE SEQUENCIAMENTO DA PALETIZADORA,UNIQUE,1.0,2,2,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE SERVO MOTOR,FALHA DE SERVO MOTOR,UNIQUE,1.0,29,29,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE SINCRONISMO,FALHA DE SINCRONISMO,UNIQUE,1.0,58,58,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE SOLDA DE FILME,FALHA DE SOLDA DE FILME,UNIQUE,1.0,43,43,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE SOLENOIDE,FALHA DE SOLENOIDE,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE SOPRADOR,FALHA DE SOPRADOR,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE SUPORTE DE TAMPAS,FALHA DE SUPORTE DE TAMPAS,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE SUPRIMENTO DE AR COMPRIMIDO,FALHA DE SUPRIMENTO DE AR COMPRIMIDO,UNIQUE,1.0,9,9,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE TAMPAMENTO,FALHA DE TAMPAMENTO,UNIQUE,1.0,18,18,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE TANGENCIAMENTO,FALHA DE TANGENCIAMENTO,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE TENSIONAMENTO DE ESTEIRA,FALHA DE TENSIONAMENTO DE ESTEIRA,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE TERMOSTATO,FALHA DE TERMOSTATO,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE TESOURA DE FILME,FALHA DE TESOURA DE FILME,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE TRACAO GUIAMENTO DE FILME,FALHA DE TRACAO GUIAMENTO DE FILME,UNIQUE,1.0,13,13,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE TRANSDUTOR,FALHA DE TRANSDUTOR,UNIQUE,1.0,2,2,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE TRANSPORTE,FALHA DE TRANSPORTE,UNIQUE,1.0,17,17,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE TRANSPORTE DE CAIXAS,FALHA DE TRANSPORTE DE CAIXAS,UNIQUE,1.0,3,3,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE TRANSPORTE DE GARRAFAS,FALHA DE TRANSPORTE DE GARRAFAS,UNIQUE,1.0,2,2,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE TRANSPORTE DE LATAS,FALHA DE TRANSPORTE DE LATAS,UNIQUE,1.0,4,4,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE TRANSPORTE DE PACOTES,FALHA DE TRANSPORTE DE PACOTES,UNIQUE,1.0,5,5,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE TRANSPORTE DE PALETES,FALHA DE TRANSPORTE DE PALETES,UNIQUE,1.0,2,2,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE TULIPA,FALHA DE TULIPA,UNIQUE,1.0,5,5,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE TWISTER,FALHA DE TWISTER,UNIQUE,1.0,6,6,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE VACUO,FALHA DE VACUO,UNIQUE,1.0,8,8,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE VALVULA,FALHA DE VALVULA,UNIQUE,1.0,54,54,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE VALVULA DE AGUA,FALHA DE VALVULA DE AGUA,UNIQUE,1.0,2,2,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE VALVULA DE ENCHIMENTO,FALHA DE VALVULA DE ENCHIMENTO,UNIQUE,1.0,165,165,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE VALVULA DE NITROGENIO,FALHA DE VALVULA DE NITROGENIO,UNIQUE,1.0,3,3,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE VALVULA DE XAROPE,FALHA DE VALVULA DE XAROPE,UNIQUE,1.0,2,2,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE VALVULA MODULADORA,FALHA DE VALVULA MODULADORA,UNIQUE,1.0,18,18,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE VEDACAO,FALHA DE VEDACAO,UNIQUE,1.0,3,3,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE VEDACAO DA VALVULA,FALHA DE VEDACAO DA VALVULA,UNIQUE,1.0,7,7,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE VELOCIDADE DO TRANSPORTE,FALHA DE VELOCIDADE DO TRANSPORTE,UNIQUE,1.0,14,14,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE VENTOSA,FALHA DE VENTOSA,UNIQUE,1.0,23,23,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DE VIBRADOR,FALHA DE VIBRADOR,UNIQUE,1.0,9,9,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DO COLOCADOR DE CARTAO,FALHA DO COLOCADOR DE CARTAO,UNIQUE,1.0,2,2,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DO COLOCADOR DE CHAPATEX,FALHA DO COLOCADOR DE CHAPATEX,UNIQUE,1.0,3,3,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DO SECADOR DE GARRAFAS,FALHA DO SECADOR DE GARRAFAS,UNIQUE,1.0,2,2,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA DO TENSOR DE ROTULOS,FALHA DO TENSOR DE ROTULOS,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA ELETRICA DO TRANSPORTE,FALHA ELETRICA DO TRANSPORTE,UNIQUE,1.0,3,3,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA ELETRICA DO TRANSPORTE DE ENTRADA,FALHA ELETRICA DO TRANSPORTE DE ENTRADA,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA ELETRICA SEM COMPONENTE IDENTIFICADO,FALHA ELETRICA SEM COMPONENTE IDENTIFICADO,UNIQUE,1.0,7,7,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA ELETRONICA DA VALVULA,FALHA ELETRONICA DA VALVULA,UNIQUE,1.0,4,4,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA EM ENVIAR TAMPAS PARA ENCHEDORA,FALHA EM ENVIAR TAMPAS PARA ENCHEDORA,UNIQUE,1.0,2,2,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA ESTRUTURAL,FALHA ESTRUTURAL,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA INVERSOR,FALHA DE INVERSOR,EXACT_VARIANT,0.903226,1,100,HIGH,False,Only a preposition is omitted. TRAIN observation centroid cosine=0.3958
+FALHA NA ABERTURA DA GARRA,FALHA NA ABERTURA DA GARRA,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA NA ABERTURA DOS GANCHOS DO ROBO,FALHA NA ABERTURA DOS GANCHOS DO ROBO,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA NA DESCARGA DE PALETE,FALHA NA DESCARGA DE PALETE,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA NA DESCIDA DE TAMPAS,FALHA NA DESCIDA DE TAMPAS,UNIQUE,1.0,2,2,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA NA FORMACAO DE CAMADA,FALHA DE FORMACAO DE CAMADA,EXACT_VARIANT,0.925926,1,44,HIGH,False,Only the preposition differs. TRAIN observation centroid cosine=0.3413
+FALHA NA GARRA DO ROBO,FALHA NA GARRA DO ROBO,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA NA INSERCAO DE GARRAFAS FALSAS,FALHA NA INSERCAO DE GARRAFAS FALSAS,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA NA INSERCAO DE LATAS,FALHA NA INSERCAO DE LATAS,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA NA INSERCAO DE LATAS FALSAS,FALHA NA INSERCAO DE LATAS FALSAS,UNIQUE,1.0,3,3,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA NA MESA DE CARGA,FALHA NA MESA DE CARGA,UNIQUE,1.0,5,5,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA NA MESA DE FORMACAO DE PACOTES,FALHA NA MESA DE FORMACAO DE PACOTES,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA NA PEGA DE GARRAFAS,FALHA NA PEGA DE GARRAFAS,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA NA PEGA DE PALLET VAZIO,FALHA NA PEGA DE PALLET VAZIO,UNIQUE,1.0,3,3,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA NA PEGADA DE CAMADA,FALHA NA PEGADA DE CAMADA,UNIQUE,1.0,19,19,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA NA REFRIGERACAO DE FUNDO,FALHA NA REFRIGERACAO DE FUNDO,UNIQUE,1.0,9,9,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA NA SAIDA DE PALETES,FALHA NA SAIDA DE PALETES,UNIQUE,1.0,2,2,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA NA TROCA AUTOMATICA,FALHA NA TROCA AUTOMATICA,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA NA TROCA DE BANDEJA,FALHA NA TROCA DE BANDEJA,UNIQUE,1.0,11,11,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA NA TROCA DE BOBINA,FALHA NA TROCA DE BOBINA,UNIQUE,1.0,11,11,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA NA TROCA DE PALETE DE CARTAO,FALHA NA TROCA DE PALETE DE CARTAO,UNIQUE,1.0,20,20,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA NA TROCA DE PALETE DE FOLHA SEPARADORA,FALHA NA TROCA DE PALETE DE FOLHA SEPARADORA,UNIQUE,1.0,6,6,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA NA VALVULA,FALHA DE VALVULA,EXACT_VARIANT,0.875,1,54,HIGH,False,Same generic valve failure; only the preposition differs. TRAIN observation centroid cosine=0.2698
+FALHA NO AVANCO DE PALETES PARA PALETIZAR,FALHA NO AVANCO DE PALETES PARA PALETIZAR,UNIQUE,1.0,2,2,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA NO BOTAO RESET,FALHA NO BOTAO RESET,UNIQUE,1.0,2,2,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA NO CARREGAMENTO DE RECEITA,FALHA NO CARREGAMENTO DE RECEITA,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA NO CIP RAMAL B,FALHA NO CIP RAMAL B,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA NO CORTE DE TUBETES,FALHA NO CORTE DE TUBETES,UNIQUE,1.0,11,11,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA NO DEPOSITO DE PALLET,FALHA NO DEPOSITO DE PALLET,UNIQUE,1.0,2,2,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA NO DISPOSITIVO DE RETIRADA DE GARRAFAS,FALHA NO DISPOSITIVO DE RETIRADA DE GARRAFAS,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA NO DOSADOR DE NITROGENIO,FALHA NO DOSADOR DE NITROGENIO,UNIQUE,1.0,5,5,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA NO ENVIO DE BEBIDA,FALHA NO ENVIO DE BEBIDA,UNIQUE,1.0,4,4,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA NO FLUXO DE PALETES,FALHA NO FLUXO DE PALETES,UNIQUE,1.0,2,2,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA NO MANUSEIO DE CARTAO,FALHA NO MANUSEIO DE CARTAO,UNIQUE,1.0,27,27,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA NO SENSOR EXPULSADOR,FALHA NO SENSOR EXPULSADOR,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA NO SISTEMA DE AR COMPRIMIDO,FALHA NO SISTEMA DE AR COMPRIMIDO,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA NO SISTEMA DE CORTE,FALHA NO SISTEMA DE CORTE,UNIQUE,1.0,4,4,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA NO SISTEMA DE INSERCAO DE FALSA GARRAFA,FALHA NO SISTEMA DE INSERCAO DE FALSA GARRAFA,UNIQUE,1.0,2,2,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA NO SUPRIMENTO DE AGUA,FALHA NO SUPRIMENTO DE AGUA,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA NO TROCADOR DE CALOR,FALHA TROCADOR DE CALOR,EXACT_VARIANT,0.938776,3,1,HIGH,False,Same heat-exchanger failure; only function words differ. TRAIN observation centroid cosine=0.5323
+FALHA NO VIRADOR DE CAIXAS,FALHA NO VIRADOR DE CAIXAS,UNIQUE,1.0,2,2,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA NO VIRADOR DE PACOTES,FALHA NO VIRADOR DE PACOTES,UNIQUE,1.0,4,4,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA NOS SNIFS,FALHA NOS SNIFS,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA SENSOR DA PORTA,FALHA SENSOR DA PORTA,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA TROCADOR DE CALOR,FALHA TROCADOR DE CALOR,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping
+FALHA VALVULA DE ENCHIMENTO,FALHA DE VALVULA DE ENCHIMENTO,EXACT_VARIANT,0.947368,1,165,HIGH,False,Only a preposition is omitted. TRAIN observation centroid cosine=0.0524
+FALSA RECRAVACAO,FALSA RECRAVACAO,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping
+FALSO ALARME DE REJEITO OBSTRUIDO,FALSO ALARME DE REJEITO OBSTRUIDO,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping
+FALSO REJEITO,FALSO REJEITO,UNIQUE,1.0,5,5,N/A,False,No high-confidence equivalent was approved. self mapping
+GARRAFAS FORA DE POSICAO,GARRAFAS FORA DE POSICAO,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping
+GARRAFAS TORTAS NA SAIDA DO RINSER,GARRAFAS TORTAS NA SAIDA DO RINSER,UNIQUE,1.0,2,2,N/A,False,No high-confidence equivalent was approved. self mapping
+INTERFERENCIA MECANICA,INTERFERENCIA MECANICA,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping
+MONTAGEM INCORRETA DE CORREIA,MONTAGEM INCORRETA DE CORREIA,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping
+OBSTRUCAO DE MANGUEIRA DE AR,OBSTRUCAO DE MANGUEIRA DE AR,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping
+PACOTE FORA DE POSICAO,PACOTE FORA DE POSICAO,UNIQUE,1.0,3,3,N/A,False,No high-confidence equivalent was approved. self mapping
+PALLET PARADO NA MESA,PALLET PARADO NA MESA,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping
+PARADA DE TRANSPORTE,PARADA DE TRANSPORTE,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping
+PATINAGEM DE ESTEIRA,PATINAGEM DE ESTEIRA,UNIQUE,1.0,19,19,N/A,False,No high-confidence equivalent was approved. self mapping
+PATINAMENTO DE ESTEIRA,PATINAMENTO DE ESTEIRA,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping
+PATINAMENTO DE ROLETE,PATINAMENTO DE ROLETE,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping
+PATINS FORA DE POSICAO,PATINS FORA DE POSICAO,UNIQUE,1.0,9,9,N/A,False,No high-confidence equivalent was approved. self mapping
+PENTES SOLTOS,PENTES SOLTOS,UNIQUE,1.0,2,2,N/A,False,No high-confidence equivalent was approved. self mapping
+PERDA DE REFERENCIA,PERDA DE REFERENCIA,UNIQUE,1.0,14,14,N/A,False,No high-confidence equivalent was approved. self mapping
+PERDA DE REFERENCIA DO CENTRADOR,PERDA DE REFERENCIA DO CENTRADOR,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping
+PERDA DE REFERENCIA DO PEGADOR DE CHAPATEX,PERDA DE REFERENCIA DO PEGADOR DE CHAPATEX,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping
+PERDA DE REFERENCIA DO ROBO,PERDA DE REFERENCIA DO ROBO,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping
+PERDA DE REFERENCIA HOME,PERDA DE REFERENCIA HOME,UNIQUE,1.0,2,2,N/A,False,No high-confidence equivalent was approved. self mapping
+PINO DE SEPARACAO TRAVADO,PINO DE SEPARACAO TRAVADO,UNIQUE,1.0,2,2,N/A,False,No high-confidence equivalent was approved. self mapping
+PROBLEMA NA TAMPA DA LATA,PROBLEMA NA TAMPA DA LATA,UNIQUE,1.0,2,2,N/A,False,No high-confidence equivalent was approved. self mapping
+QUEBRA DA ESTEIRA,QUEBRA DE ESTEIRA,EXACT_VARIANT,0.941176,1,84,HIGH,False,Same break mechanism and conveyor component. TRAIN observation centroid cosine=0.3595
+QUEBRA DE ANEL O RING,QUEBRA DE ANEL O RING,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping
+QUEBRA DE ATUADOR,QUEBRA DE ATUADOR,UNIQUE,1.0,8,8,N/A,False,No high-confidence equivalent was approved. self mapping
+QUEBRA DE BRACO,QUEBRA DE BRACO,UNIQUE,1.0,3,3,N/A,False,No high-confidence equivalent was approved. self mapping
+QUEBRA DE COMPONENTE,QUEBRA DE COMPONENTE,UNIQUE,1.0,25,25,N/A,False,No high-confidence equivalent was approved. self mapping
+QUEBRA DE CORREIA,QUEBRA DE CORREIA,UNIQUE,1.0,21,21,N/A,False,No high-confidence equivalent was approved. self mapping
+QUEBRA DE CORRENTE,QUEBRA DE CORRENTE,UNIQUE,1.0,6,6,N/A,False,No high-confidence equivalent was approved. self mapping
+QUEBRA DE EIXO,QUEBRA DE EIXO,UNIQUE,1.0,16,16,N/A,False,No high-confidence equivalent was approved. self mapping
+QUEBRA DE ELO DE ESTEIRA,QUEBRA DE ELO DE ESTEIRA,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping
+QUEBRA DE ENGRENAGEM,QUEBRA DE ENGRENAGEM,UNIQUE,1.0,2,2,N/A,False,No high-confidence equivalent was approved. self mapping
+QUEBRA DE ESTEIRA,QUEBRA DE ESTEIRA,UNIQUE,1.0,84,84,N/A,False,No high-confidence equivalent was approved. self mapping
+QUEBRA DE PARAFUSO,QUEBRA DE PARAFUSO,UNIQUE,1.0,13,13,N/A,False,No high-confidence equivalent was approved. self mapping
+QUEBRA DE PINO,QUEBRA DE PINO,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping
+QUEBRA DE PISTAO,QUEBRA DE PISTAO,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping
+QUEBRA DE REGUA,QUEBRA DE REGUA,UNIQUE,1.0,2,2,N/A,False,No high-confidence equivalent was approved. self mapping
+QUEBRA DE SEGMENTO,QUEBRA DE SEGMENTO,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping
+QUEBRA DE SUPORTE,QUEBRA DE SUPORTE,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping
+QUEBRA DE TERMINAL ELETRICO,QUEBRA DE TERMINAL ELETRICO,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping
+QUEBRA DE TRANSPORTE,QUEBRA DE TRANSPORTE,UNIQUE,1.0,10,10,N/A,False,No high-confidence equivalent was approved. self mapping
+QUEBRA DE TRECHO DO TRANSPORTE,QUEBRA DE TRECHO DO TRANSPORTE,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping
+QUEBRA NO EIXO DA TAMPA DO ARROLHADOR,QUEBRA NO EIXO DA TAMPA DO ARROLHADOR,UNIQUE,1.0,2,2,N/A,False,No high-confidence equivalent was approved. self mapping
+QUEDA DE CAIXAS,QUEDA DE CAIXAS,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping
+QUEDA DE GARRAFAS,QUEDA DE GARRAFAS,UNIQUE,1.0,88,88,N/A,False,No high-confidence equivalent was approved. self mapping
+QUEDA DE LATAS,QUEDA DE LATAS,UNIQUE,1.0,34,34,N/A,False,No high-confidence equivalent was approved. self mapping
+QUEDA DE PACOTES,QUEDA DE PACOTES,UNIQUE,1.0,5,5,N/A,False,No high-confidence equivalent was approved. self mapping
+QUEIMA DA PLACA DEVICENET,QUEIMA DA PLACA DEVICENET,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping
+QUEIMA DE FILAMENTO,QUEIMA DE FILAMENTO,UNIQUE,1.0,5,5,N/A,False,No high-confidence equivalent was approved. self mapping
+ROBO COM FALHA,FALHA DE ROBO,EXACT_VARIANT,0.37037,1,29,HIGH,False,Same generic robot failure with inverted word order. TRAIN observation centroid cosine=0.1909
+ROMPIMENTO DE ESTEIRA LONA,ROMPIMENTO DE ESTEIRA LONA,UNIQUE,1.0,2,2,N/A,False,No high-confidence equivalent was approved. self mapping
+ROMPIMENTO DE FILME,ROMPIMENTO DE FILME,UNIQUE,1.0,29,29,N/A,False,No high-confidence equivalent was approved. self mapping
+ROMPIMENTO DE MANGUEIRA,ROMPIMENTO DE MANGUEIRA,UNIQUE,1.0,3,3,N/A,False,No high-confidence equivalent was approved. self mapping
+ROMPIMENTO DE MANGUEIRA DE AGUA,ROMPIMENTO DE MANGUEIRA DE AGUA,UNIQUE,1.0,3,3,N/A,False,No high-confidence equivalent was approved. self mapping
+ROMPIMENTO DE MANGUEIRA DE AR,ROMPIMENTO DE MANGUEIRA DE AR,UNIQUE,1.0,6,6,N/A,False,No high-confidence equivalent was approved. self mapping
+ROMPIMENTO DE TUBEIRA DO FORNO,ROMPIMENTO DE TUBEIRA DO FORNO,UNIQUE,1.0,6,6,N/A,False,No high-confidence equivalent was approved. self mapping
+ROMPIMENTO DE TUBETE,ROMPIMENTO DE TUBETE,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping
+SAIDA DE GARRAFAS COM TAMPA TORTA,SAIDA DE GARRAFAS COM TAMPA TORTA,UNIQUE,1.0,2,2,N/A,False,No high-confidence equivalent was approved. self mapping
+SEM MODO DE FALHA IDENTIFICADO,SEM MODO DE FALHA IDENTIFICADO,UNIQUE,1.0,100,100,N/A,False,No high-confidence equivalent was approved. self mapping
+SOBREAQUECIMENTO DE PROCESSADOR,SOBREAQUECIMENTO DE PROCESSADOR,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping
+SOBRECORRENTE,SOBRECORRENTE,UNIQUE,1.0,5,5,N/A,False,No high-confidence equivalent was approved. self mapping
+TAB DANIFICADO,TAB DANIFICADO,UNIQUE,1.0,2,2,N/A,False,No high-confidence equivalent was approved. self mapping
+TAMPA INVERTIDA,TAMPA INVERTIDA,UNIQUE,1.0,7,7,N/A,False,No high-confidence equivalent was approved. self mapping
+TOMBAMENTO DE RECIPIENTES,TOMBAMENTO DE RECIPIENTES,UNIQUE,1.0,4,4,N/A,False,No high-confidence equivalent was approved. self mapping
+TRANSBORDAMENTO DE TANQUE,TRANSBORDAMENTO DE TANQUE,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping
+TRAVAMENTO DE ATUADOR,TRAVAMENTO DE ATUADOR,UNIQUE,1.0,14,14,N/A,False,No high-confidence equivalent was approved. self mapping
+TRAVAMENTO DE BOCAL,TRAVAMENTO DE BOCAL,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping
+TRAVAMENTO DE BOIA,TRAVAMENTO DE BOIA,UNIQUE,1.0,2,2,N/A,False,No high-confidence equivalent was approved. self mapping
+TRAVAMENTO DE CENTRADOR,TRAVAMENTO DE CENTRADOR,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping
+TRAVAMENTO DE CHAVE SECCIONADORA,TRAVAMENTO DE CHAVE SECCIONADORA,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping
+TRAVAMENTO DE CILINDRO ROTATIVO,TRAVAMENTO DE CILINDRO ROTATIVO,UNIQUE,1.0,2,2,N/A,False,No high-confidence equivalent was approved. self mapping
+TRAVAMENTO DE CORRENTE,TRAVAMENTO DE CORRENTE,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping
+TRAVAMENTO DE ELEVADOR,TRAVAMENTO DE ELEVADOR,UNIQUE,1.0,2,2,N/A,False,No high-confidence equivalent was approved. self mapping
+TRAVAMENTO DE ENGRENAGEM,TRAVAMENTO DE ENGRENAGEM,UNIQUE,1.0,10,10,N/A,False,No high-confidence equivalent was approved. self mapping
+TRAVAMENTO DE ESTEIRA,TRAVAMENTO DE ESTEIRA,UNIQUE,1.0,20,20,N/A,False,No high-confidence equivalent was approved. self mapping
+TRAVAMENTO DE GARRAFAS NA SAIDA DA LAVADORA,TRAVAMENTO DE GARRAFAS NA SAIDA DA LAVADORA,UNIQUE,1.0,3,3,N/A,False,No high-confidence equivalent was approved. self mapping
+TRAVAMENTO DE PALETE,TRAVAMENTO DE PALETE,UNIQUE,1.0,9,9,N/A,False,No high-confidence equivalent was approved. self mapping
+TRAVAMENTO DE PATINS,TRAVAMENTO DE PATINS,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping
+TRAVAMENTO DE PERSIANA,TRAVAMENTO DE PERSIANA,UNIQUE,1.0,4,4,N/A,False,No high-confidence equivalent was approved. self mapping
+TRAVAMENTO DE PINCA,TRAVAMENTO DE PINCA,UNIQUE,1.0,2,2,N/A,False,No high-confidence equivalent was approved. self mapping
+TRAVAMENTO DE PINO DE SEPARACAO,TRAVAMENTO DE PINO DE SEPARACAO,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping
+TRAVAMENTO DE ROBO,TRAVAMENTO DE ROBO,UNIQUE,1.0,13,13,N/A,False,No high-confidence equivalent was approved. self mapping
+TRAVAMENTO DE ROLETES,TRAVAMENTO DE ROLETES,UNIQUE,1.0,12,12,N/A,False,No high-confidence equivalent was approved. self mapping
+TRAVAMENTO DE ROLO DE COLA,TRAVAMENTO DE ROLO DE COLA,UNIQUE,1.0,3,3,N/A,False,No high-confidence equivalent was approved. self mapping
+TRAVAMENTO DE SEGMENTOS,TRAVAMENTO DE SEGMENTOS,UNIQUE,1.0,46,46,N/A,False,No high-confidence equivalent was approved. self mapping
+TRAVAMENTO DE SNIFFER,TRAVAMENTO DE SNIFFER,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping
+TRAVAMENTO DE STOPPER,TRAVAMENTO DE STOPPER,UNIQUE,1.0,4,4,N/A,False,No high-confidence equivalent was approved. self mapping
+TRAVAMENTO DE TRANSPORTE,TRAVAMENTO DE TRANSPORTE,UNIQUE,1.0,19,19,N/A,False,No high-confidence equivalent was approved. self mapping
+TRAVAMENTO DE VALVULA,TRAVAMENTO DE VALVULA,UNIQUE,1.0,18,18,N/A,False,No high-confidence equivalent was approved. self mapping
+TRAVAMENTO DO CAPSULADOR,TRAVAMENTO DO CAPSULADOR,UNIQUE,1.0,2,2,N/A,False,No high-confidence equivalent was approved. self mapping
+TRAVAMENTO DO SISTEMA DE COMPACTACAO,TRAVAMENTO DO SISTEMA DE COMPACTACAO,UNIQUE,1.0,5,5,N/A,False,No high-confidence equivalent was approved. self mapping
+TRAVAMENTO ELEVADOR,TRAVAMENTO DE ELEVADOR,EXACT_VARIANT,0.926829,1,2,HIGH,False,Only a preposition is omitted. TRAIN observation centroid cosine=0.0816
+TRAVAMENTO NA ALIMENTACAO DE TAMPAS,TRAVAMENTO NA ALIMENTACAO DE TAMPAS,UNIQUE,1.0,2,2,N/A,False,No high-confidence equivalent was approved. self mapping
+TREPIDACAO DE ESTEIRA,TREPIDACAO DE ESTEIRA,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping
+TREPIDACAO DE LATAS,TREPIDACAO DE LATAS,UNIQUE,1.0,4,4,N/A,False,No high-confidence equivalent was approved. self mapping
+VAZAMENTO,VAZAMENTO,UNIQUE,1.0,3,3,N/A,False,No high-confidence equivalent was approved. self mapping
+VAZAMENTO DE PRODUTO,VAZAMENTO DE PRODUTO,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping
+VAZAMENTO EM COLETOR,VAZAMENTO EM COLETOR,UNIQUE,1.0,7,7,N/A,False,No high-confidence equivalent was approved. self mapping
+VAZAMENTO EM CONEXAO,VAZAMENTO EM CONEXAO,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping
+VAZAMENTO EM TUBULACAO,VAZAMENTO EM TUBULACAO,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping
+VAZAMENTO EM VALVULA,VAZAMENTO EM VALVULA,UNIQUE,1.0,19,19,N/A,False,No high-confidence equivalent was approved. self mapping
+VAZAMENTO NO COLETOR COM GAS BAIXO,VAZAMENTO NO COLETOR COM GAS BAIXO,UNIQUE,1.0,2,2,N/A,False,No high-confidence equivalent was approved. self mapping
+VAZAMENTO PNEUMATICO,VAZAMENTO PNEUMATICO,UNIQUE,1.0,2,2,N/A,False,No high-confidence equivalent was approved. self mapping
+VELOCIDADE REDUZIDA SEM CAUSA IDENTIFICADA,VELOCIDADE REDUZIDA SEM CAUSA IDENTIFICADA,UNIQUE,1.0,8,8,N/A,False,No high-confidence equivalent was approved. self mapping
+VIBRACAO DE ROBO,VIBRACAO DE ROBO,UNIQUE,1.0,7,7,N/A,False,No high-confidence equivalent was approved. self mapping
+ALIMENTACAO TAMPAS FALHA,FALHA DE ALIMENTACAO,GENERIC_SPECIFIC,0.666667,1,2,LOW,True,Not auto-merged. lexical=0.5000; token_jaccard=0.6667; TRAIN observation centroid cosine=0.0067.
+DEFORMACAO DE CABECOTE,DEFORMACAO DE HASTE,RELATED_NOT_EQUIVALENT,0.829268,1,1,LOW,True,Not auto-merged. lexical=0.8293; token_jaccard=0.3333; TRAIN observation centroid cosine=0.0095.
+DEFORMACAO DE EIXO,DEFORMACAO DE MEXEDOR,RELATED_NOT_EQUIVALENT,0.871795,1,1,LOW,True,Not auto-merged. lexical=0.8718; token_jaccard=0.3333; TRAIN observation centroid cosine=0.1586.
+DEFORMACAO DE HASTE,DEFORMACAO DE SUPORTE,RELATED_NOT_EQUIVALENT,0.85,1,3,LOW,True,Not auto-merged. lexical=0.8500; token_jaccard=0.3333; TRAIN observation centroid cosine=0.0582.
+DEFORMACAO DESALINHAMENTO DE GUIA,DESALINHAMENTO DE GUIA,GENERIC_SPECIFIC,0.8,12,9,LOW,True,Not auto-merged. lexical=0.8000; token_jaccard=0.6667; TRAIN observation centroid cosine=0.1869.
+DESAJUSTE DE GUIA,DESAJUSTE DE REGUA,RELATED_NOT_EQUIVALENT,0.914286,1,1,LOW,True,Not auto-merged. lexical=0.9143; token_jaccard=0.3333; TRAIN observation centroid cosine=0.0729.
+DESALINHAMENTO DE AGREGADO,DESALINHAMENTO DE CENTRADOR,RELATED_NOT_EQUIVALENT,0.830189,7,1,LOW,True,Not auto-merged. lexical=0.8302; token_jaccard=0.3333; TRAIN observation centroid cosine=0.0094.
+DESALINHAMENTO DE AGREGADO,DESALINHAMENTO DE EIXO,RELATED_NOT_EQUIVALENT,0.833333,7,4,LOW,True,Not auto-merged. lexical=0.8333; token_jaccard=0.3333; TRAIN observation centroid cosine=0.0000.
+DESALINHAMENTO DE AGREGADO,DESALINHAMENTO DE MASCARA,RELATED_NOT_EQUIVALENT,0.823529,7,1,LOW,True,Not auto-merged. lexical=0.8235; token_jaccard=0.3333; TRAIN observation centroid cosine=0.0000.
+DESALINHAMENTO DE CHAPA,DESALINHAMENTO DE GUIA,RELATED_NOT_EQUIVALENT,0.844444,1,9,LOW,True,Not auto-merged. lexical=0.8444; token_jaccard=0.3333; TRAIN observation centroid cosine=0.2351.
+DESALINHAMENTO DE CHAPA,DESALINHAMENTO DE MASCARA,RELATED_NOT_EQUIVALENT,0.875,1,1,LOW,True,Not auto-merged. lexical=0.8750; token_jaccard=0.3333; TRAIN observation centroid cosine=0.0105.
+DESALINHAMENTO DE CHAPA,DESALINHAMENTO DE PALETE,RELATED_NOT_EQUIVALENT,0.851064,1,1,LOW,True,Not auto-merged. lexical=0.8511; token_jaccard=0.3333; TRAIN observation centroid cosine=0.0113.
+DESALINHAMENTO DE EIXO,DESALINHAMENTO DE GUIA,RELATED_NOT_EQUIVALENT,0.863636,4,9,LOW,True,Not auto-merged. lexical=0.8636; token_jaccard=0.3333; TRAIN observation centroid cosine=0.0000.
+DESALINHAMENTO DE EIXO,DESALINHAMENTO DE PALETE,RELATED_NOT_EQUIVALENT,0.826087,4,1,LOW,True,Not auto-merged. lexical=0.8261; token_jaccard=0.3333; TRAIN observation centroid cosine=0.0000.
+DESALINHAMENTO DE GUIA,DESALINHAMENTO DE PALETE,RELATED_NOT_EQUIVALENT,0.826087,9,1,LOW,True,Not auto-merged. lexical=0.8261; token_jaccard=0.3333; TRAIN observation centroid cosine=0.1106.
+DESALINHAMENTO DE PALETE,DESALINHAMENTO DE PILHA DE PALETES,RELATED_NOT_EQUIVALENT,0.827586,1,1,LOW,True,Not auto-merged. lexical=0.8276; token_jaccard=0.2500; TRAIN observation centroid cosine=0.0040.
+DESARME DE BOMBA,DESARME DE MESA,RELATED_NOT_EQUIVALENT,0.83871,1,3,LOW,True,Not auto-merged. lexical=0.8387; token_jaccard=0.3333; TRAIN observation centroid cosine=0.0000.
+DESARME DE ESTEIRA,DESARME DE MESA,RELATED_NOT_EQUIVALENT,0.848485,3,3,LOW,True,Not auto-merged. lexical=0.8485; token_jaccard=0.3333; TRAIN observation centroid cosine=0.0318.
+DESARME DE ESTEIRA,ESCAPE DE ESTEIRA,RELATED_NOT_EQUIVALENT,0.857143,3,108,LOW,True,Not auto-merged. lexical=0.8571; token_jaccard=0.3333; TRAIN observation centroid cosine=0.1191.
+DESARME DE PAINEL,DESARME DE PAINEL DE COMANDO,GENERIC_SPECIFIC,0.755556,2,2,LOW,True,Not auto-merged. lexical=0.7556; token_jaccard=0.6667; TRAIN observation centroid cosine=0.0693.
+ENROSCO DE CAIXAS,ENROSCO DE LATAS,RELATED_NOT_EQUIVALENT,0.848485,10,28,LOW,True,Not auto-merged. lexical=0.8485; token_jaccard=0.3333; TRAIN observation centroid cosine=0.1605.
+ENROSCO DE CAIXAS,ENROSCO DE TAMPAS,RELATED_NOT_EQUIVALENT,0.823529,10,62,LOW,True,Not auto-merged. lexical=0.8235; token_jaccard=0.3333; TRAIN observation centroid cosine=0.1387.
+ENROSCO DE LATAS,ENROSCO DE PACOTES,RELATED_NOT_EQUIVALENT,0.823529,28,50,LOW,True,Not auto-merged. lexical=0.8235; token_jaccard=0.3333; TRAIN observation centroid cosine=0.3703.
+ENROSCO DE LATAS,ENROSCO DE TAMPAS,RELATED_NOT_EQUIVALENT,0.848485,28,62,LOW,True,Not auto-merged. lexical=0.8485; token_jaccard=0.3333; TRAIN observation centroid cosine=0.3313.
+FALHA DE ACIONAMENTO DO EMPURRADOR,FALHA DE EMPURRADOR,GENERIC_SPECIFIC,0.716981,1,4,LOW,True,Not auto-merged. lexical=0.7170; token_jaccard=0.6667; TRAIN observation centroid cosine=0.1496.
+FALHA DE ACOPLAMENTO,FALHA DE COLETOR,RELATED_NOT_EQUIVALENT,0.833333,2,1,LOW,True,Not auto-merged. lexical=0.8333; token_jaccard=0.3333; TRAIN observation centroid cosine=0.0000.
+FALHA DE ACOPLAMENTO,FALHA DE ROLAMENTO,RELATED_NOT_EQUIVALENT,0.894737,2,13,LOW,True,Not auto-merged. lexical=0.8947; token_jaccard=0.3333; TRAIN observation centroid cosine=0.0212.
+FALHA DE ACOPLAMENTO,FALHA DE TAMPAMENTO,RELATED_NOT_EQUIVALENT,0.871795,2,18,LOW,True,Not auto-merged. lexical=0.8718; token_jaccard=0.3333; TRAIN observation centroid cosine=0.0024.
+FALHA DE ACUMULO NO TRANSPORTE,FALHA DE TRANSPORTE,GENERIC_SPECIFIC,0.77551,14,17,LOW,True,Not auto-merged. lexical=0.7755; token_jaccard=0.6667; TRAIN observation centroid cosine=0.2306.
+FALHA DE ALIMENTACAO,FALHA DE ALIMENTACAO DE GARRAFAS,GENERIC_SPECIFIC,0.769231,2,8,LOW,True,Not auto-merged. lexical=0.7692; token_jaccard=0.6667; TRAIN observation centroid cosine=0.0000.
+FALHA DE ALIMENTACAO,FALHA DE ALIMENTACAO DE LATAS,GENERIC_SPECIFIC,0.816327,2,1,LOW,True,Not auto-merged. lexical=0.8163; token_jaccard=0.6667; TRAIN observation centroid cosine=0.0121.
+FALHA DE ALIMENTACAO,FALHA DE ALIMENTACAO DE PACOTES,GENERIC_SPECIFIC,0.784314,2,8,LOW,True,Not auto-merged. lexical=0.7843; token_jaccard=0.6667; TRAIN observation centroid cosine=0.0292.
+FALHA DE ALIMENTACAO,FALHA DE ALIMENTACAO DE PALETES,GENERIC_SPECIFIC,0.784314,2,1,LOW,True,Not auto-merged. lexical=0.7843; token_jaccard=0.6667; TRAIN observation centroid cosine=0.0112.
+FALHA DE ALIMENTACAO,FALHA DE ALIMENTACAO DE TAMPAS,GENERIC_SPECIFIC,0.8,2,22,LOW,True,Not auto-merged. lexical=0.8000; token_jaccard=0.6667; TRAIN observation centroid cosine=0.0174.
+FALHA DE ALIMENTACAO,FALHA DE ALIMENTACAO ELETRICA,GENERIC_SPECIFIC,0.816327,2,1,LOW,True,Not auto-merged. lexical=0.8163; token_jaccard=0.6667; TRAIN observation centroid cosine=0.0000.
+FALHA DE ALIMENTACAO,FALHA DE CALIBRACAO,RELATED_NOT_EQUIVALENT,0.820513,2,3,LOW,True,Not auto-merged. lexical=0.8205; token_jaccard=0.3333; TRAIN observation centroid cosine=0.0083.
+FALHA DE ALIMENTACAO,FALHA DE FONTE DE ALIMENTACAO,GENERIC_SPECIFIC,0.816327,2,9,LOW,True,Not auto-merged. lexical=0.8163; token_jaccard=0.6667; TRAIN observation centroid cosine=0.0105.
+FALHA DE ALIMENTACAO DE GARRAFAS,FALHA DE ALIMENTACAO DE LATAS,RELATED_NOT_EQUIVALENT,0.885246,8,1,LOW,True,Not auto-merged. lexical=0.8852; token_jaccard=0.5000; TRAIN observation centroid cosine=0.1532.
+FALHA DE ALIMENTACAO DE GARRAFAS,FALHA DE ALIMENTACAO DE PACOTES,RELATED_NOT_EQUIVALENT,0.825397,8,8,LOW,True,Not auto-merged. lexical=0.8254; token_jaccard=0.5000; TRAIN observation centroid cosine=0.0142.
+FALHA DE ALIMENTACAO DE GARRAFAS,FALHA DE ALIMENTACAO DE PALETES,RELATED_NOT_EQUIVALENT,0.825397,8,1,LOW,True,Not auto-merged. lexical=0.8254; token_jaccard=0.5000; TRAIN observation centroid cosine=0.0000.
+FALHA DE ALIMENTACAO DE GARRAFAS,FALHA DE ALIMENTACAO DE TAMPAS,RELATED_NOT_EQUIVALENT,0.870968,8,22,LOW,True,Not auto-merged. lexical=0.8710; token_jaccard=0.5000; TRAIN observation centroid cosine=0.1543.
+FALHA DE ALIMENTACAO DE LATAS,FALHA DE ALIMENTACAO DE PACOTES,RELATED_NOT_EQUIVALENT,0.9,1,8,LOW,True,Not auto-merged. lexical=0.9000; token_jaccard=0.5000; TRAIN observation centroid cosine=0.0102.
+FALHA DE ALIMENTACAO DE LATAS,FALHA DE ALIMENTACAO DE PALETES,RELATED_NOT_EQUIVALENT,0.9,1,1,LOW,True,Not auto-merged. lexical=0.9000; token_jaccard=0.5000; TRAIN observation centroid cosine=0.0000.
+FALHA DE ALIMENTACAO DE LATAS,FALHA DE ALIMENTACAO DE TAMPAS,RELATED_NOT_EQUIVALENT,0.915254,1,22,LOW,True,Not auto-merged. lexical=0.9153; token_jaccard=0.5000; TRAIN observation centroid cosine=0.0755.
+FALHA DE ALIMENTACAO DE LATAS,FALHA DE ALIMENTACAO ELETRICA,RELATED_NOT_EQUIVALENT,0.827586,1,1,LOW,True,Not auto-merged. lexical=0.8276; token_jaccard=0.5000; TRAIN observation centroid cosine=0.1276.
+FALHA DE ALIMENTACAO DE PACOTES,FALHA DE ALIMENTACAO DE PALETES,RELATED_NOT_EQUIVALENT,0.935484,8,1,LOW,True,Not auto-merged. lexical=0.9355; token_jaccard=0.5000; TRAIN observation centroid cosine=0.0170.
+FALHA DE ALIMENTACAO DE PACOTES,FALHA DE ALIMENTACAO DE TAMPAS,RELATED_NOT_EQUIVALENT,0.885246,8,22,LOW,True,Not auto-merged. lexical=0.8852; token_jaccard=0.5000; TRAIN observation centroid cosine=0.0800.
+FALHA DE ALIMENTACAO DE PACOTES,FALHA DE FORMACAO DE PACOTE,RELATED_NOT_EQUIVALENT,0.827586,8,10,LOW,True,Not auto-merged. lexical=0.8276; token_jaccard=0.2000; TRAIN observation centroid cosine=0.0306.
+FALHA DE ALIMENTACAO DE PALETES,FALHA DE ALIMENTACAO DE TAMPAS,RELATED_NOT_EQUIVALENT,0.885246,1,22,LOW,True,Not auto-merged. lexical=0.8852; token_jaccard=0.5000; TRAIN observation centroid cosine=0.0085.
+FALHA DE ALIMENTACAO DE PALETES,FALHA DE ALIMENTACAO ELETRICA,RELATED_NOT_EQUIVALENT,0.833333,1,1,LOW,True,Not auto-merged. lexical=0.8333; token_jaccard=0.5000; TRAIN observation centroid cosine=0.0000.
+FALHA DE ALIMENTACAO ELETRICA,FALHA DE ALIMENTACAO ELETRICA DA EMBREAGEM,GENERIC_SPECIFIC,0.816901,1,1,LOW,True,Not auto-merged. lexical=0.8169; token_jaccard=0.7500; TRAIN observation centroid cosine=0.0068.
+FALHA DE AMOSTRAGEM,FALHA DE CONTAGEM,RELATED_NOT_EQUIVALENT,0.833333,1,12,LOW,True,Not auto-merged. lexical=0.8333; token_jaccard=0.3333; TRAIN observation centroid cosine=0.0164.
+FALHA DE AMOSTRAGEM,FALHA DE DOSAGEM,RELATED_NOT_EQUIVALENT,0.857143,1,7,LOW,True,Not auto-merged. lexical=0.8571; token_jaccard=0.3333; TRAIN observation centroid cosine=0.0175.
+FALHA DE ATUADOR,FALHA DE ATUADOR DA VALVULA,GENERIC_SPECIFIC,0.744186,2,4,LOW,True,Not auto-merged. lexical=0.7442; token_jaccard=0.6667; TRAIN observation centroid cosine=0.0479.
+FALHA DE ATUADOR,FALHA DE ATUADOR DO DEVAISER,GENERIC_SPECIFIC,0.727273,2,2,LOW,True,Not auto-merged. lexical=0.7273; token_jaccard=0.6667; TRAIN observation centroid cosine=0.0641.
+FALHA DE ATUADOR,FALHA DE CENTRADOR,RELATED_NOT_EQUIVALENT,0.823529,2,1,LOW,True,Not auto-merged. lexical=0.8235; token_jaccard=0.3333; TRAIN observation centroid cosine=0.0055.
+FALHA DE ATUADOR DA VALVULA,FALHA DE FIXACAO DA VALVULA,RELATED_NOT_EQUIVALENT,0.851852,4,1,LOW,True,Not auto-merged. lexical=0.8519; token_jaccard=0.5000; TRAIN observation centroid cosine=0.0154.
+FALHA DE ATUADOR DA VALVULA,FALHA DE VALVULA,GENERIC_SPECIFIC,0.744186,4,54,LOW,True,Not auto-merged. lexical=0.7442; token_jaccard=0.6667; TRAIN observation centroid cosine=0.1932.
+FALHA DE ATUADOR DA VALVULA,FALHA DE VEDACAO DA VALVULA,RELATED_NOT_EQUIVALENT,0.851852,4,7,LOW,True,Not auto-merged. lexical=0.8519; token_jaccard=0.5000; TRAIN observation centroid cosine=0.1042.
+FALHA DE ATUADOR DA VALVULA,FALHA NA VALVULA,GENERIC_SPECIFIC,0.697674,4,1,LOW,True,Not auto-merged. lexical=0.6977; token_jaccard=0.6667; TRAIN observation centroid cosine=0.0643.
+FALHA DE AUTOMACAO,FALHA DE ROTACAO,RELATED_NOT_EQUIVALENT,0.823529,16,1,LOW,True,Not auto-merged. lexical=0.8235; token_jaccard=0.3333; TRAIN observation centroid cosine=0.0317.
+FALHA DE BANDEIROLA,FALHA DE BARREIRA,RELATED_NOT_EQUIVALENT,0.833333,1,41,LOW,True,Not auto-merged. lexical=0.8333; token_jaccard=0.3333; TRAIN observation centroid cosine=0.0637.
+FALHA DE BARREIRA,FALHA DE CORREIA,RELATED_NOT_EQUIVALENT,0.848485,41,14,LOW,True,Not auto-merged. lexical=0.8485; token_jaccard=0.3333; TRAIN observation centroid cosine=0.0683.
+FALHA DE BOCAL,FALHA DE BOMBA,RELATED_NOT_EQUIVALENT,0.857143,1,21,LOW,True,Not auto-merged. lexical=0.8571; token_jaccard=0.3333; TRAIN observation centroid cosine=0.0582.
+FALHA DE CABECOTE,FALHA DE POSICIONAMENTO DO CABECOTE,GENERIC_SPECIFIC,0.666667,3,2,LOW,True,Not auto-merged. lexical=0.6538; token_jaccard=0.6667; TRAIN observation centroid cosine=0.0000.
+FALHA DE CABECOTE,FALHA DE SEGURANCA DO CABECOTE,GENERIC_SPECIFIC,0.723404,3,1,LOW,True,Not auto-merged. lexical=0.7234; token_jaccard=0.6667; TRAIN observation centroid cosine=0.0144.
+FALHA DE CABO DE SEGURANCA,FALHA DE PORTA DE SEGURANCA,RELATED_NOT_EQUIVALENT,0.867925,1,15,LOW,True,Not auto-merged. lexical=0.8679; token_jaccard=0.5000; TRAIN observation centroid cosine=0.1503.
+FALHA DE CABO DE SEGURANCA,FALHA DE RELE DE SEGURANCA,RELATED_NOT_EQUIVALENT,0.846154,1,2,LOW,True,Not auto-merged. lexical=0.8462; token_jaccard=0.5000; TRAIN observation centroid cosine=0.1748.
+FALHA DE CABO DE SEGURANCA,FALHA DE SEGURANCA,GENERIC_SPECIFIC,0.818182,1,1,LOW,True,Not auto-merged. lexical=0.8182; token_jaccard=0.6667; TRAIN observation centroid cosine=0.1182.
+FALHA DE CAME,FALHA DE CAMERA,RELATED_NOT_EQUIVALENT,0.928571,2,4,LOW,True,Not auto-merged. lexical=0.9286; token_jaccard=0.3333; TRAIN observation centroid cosine=0.0209.
+FALHA DE CAME,FALHA DE FACA,RELATED_NOT_EQUIVALENT,0.846154,2,3,LOW,True,Not auto-merged. lexical=0.8462; token_jaccard=0.3333; TRAIN observation centroid cosine=0.0107.
+FALHA DE CAMERA,FALHA DE MIXER,RELATED_NOT_EQUIVALENT,0.827586,4,2,LOW,True,Not auto-merged. lexical=0.8276; token_jaccard=0.3333; TRAIN observation centroid cosine=0.0403.
+FALHA DE CARBONATACAO,FALHA DE ROTACAO,RELATED_NOT_EQUIVALENT,0.864865,10,1,LOW,True,Not auto-merged. lexical=0.8649; token_jaccard=0.3333; TRAIN observation centroid cosine=0.0204.
+FALHA DE CENTRADOR,FALHA DE COLETOR,RELATED_NOT_EQUIVALENT,0.823529,1,1,LOW,True,Not auto-merged. lexical=0.8235; token_jaccard=0.3333; TRAIN observation centroid cosine=0.0000.
+FALHA DE CENTRADOR,FALHA DE PEGADOR,RELATED_NOT_EQUIVALENT,0.823529,1,27,LOW,True,Not auto-merged. lexical=0.8235; token_jaccard=0.3333; TRAIN observation centroid cosine=0.0475.
+FALHA DE CIP,FALHA DE IHM,RELATED_NOT_EQUIVALENT,0.833333,1,18,LOW,True,Not auto-merged. lexical=0.8333; token_jaccard=0.3333; TRAIN observation centroid cosine=0.0388.
+FALHA DE CIP,FALHA DE PLC,RELATED_NOT_EQUIVALENT,0.833333,1,12,LOW,True,Not auto-merged. lexical=0.8333; token_jaccard=0.3333; TRAIN observation centroid cosine=0.0621.
+FALHA DE CODIFICACAO,FALHA DE COMUNICACAO,RELATED_NOT_EQUIVALENT,0.85,66,69,LOW,True,Not auto-merged. lexical=0.8500; token_jaccard=0.3333; TRAIN observation centroid cosine=0.1089.
+FALHA DE CODIFICACAO,FALHA DE FIXACAO,RELATED_NOT_EQUIVALENT,0.833333,66,28,LOW,True,Not auto-merged. lexical=0.8333; token_jaccard=0.3333; TRAIN observation centroid cosine=0.0655.
+FALHA DE CODIFICACAO,FALHA DE LUBRIFICACAO,RELATED_NOT_EQUIVALENT,0.829268,66,2,LOW,True,Not auto-merged. lexical=0.8293; token_jaccard=0.3333; TRAIN observation centroid cosine=0.0117.
+FALHA DE COLETOR,FALHA DE MOTOR,RELATED_NOT_EQUIVALENT,0.866667,1,69,LOW,True,Not auto-merged. lexical=0.8667; token_jaccard=0.3333; TRAIN observation centroid cosine=0.0230.
+FALHA DE COLETOR,FALHA DE ROLAMENTO,RELATED_NOT_EQUIVALENT,0.823529,1,13,LOW,True,Not auto-merged. lexical=0.8235; token_jaccard=0.3333; TRAIN observation centroid cosine=0.0051.
+FALHA DE COMPACTACAO DE CAMADA,FALHA DE FORMACAO DE CAMADA,RELATED_NOT_EQUIVALENT,0.877193,9,44,LOW,True,Not auto-merged. lexical=0.8772; token_jaccard=0.5000; TRAIN observation centroid cosine=0.1279.
+FALHA DE CONEXAO DE MANGUEIRA,FALHA DE MANGUEIRA,GENERIC_SPECIFIC,0.765957,8,3,LOW,True,Not auto-merged. lexical=0.7660; token_jaccard=0.6667; TRAIN observation centroid cosine=0.0980.
+FALHA DE CONEXAO ELETRICA,FALHA DE CONEXAO PNEUMATICA,RELATED_NOT_EQUIVALENT,0.846154,1,5,LOW,True,Not auto-merged. lexical=0.8462; token_jaccard=0.5000; TRAIN observation centroid cosine=0.0668.
+FALHA DE CONEXAO PNEUMATICA,FALHA DE MANGUEIRA PNEUMATICA,RELATED_NOT_EQUIVALENT,0.821429,5,4,LOW,True,Not auto-merged. lexical=0.8214; token_jaccard=0.5000; TRAIN observation centroid cosine=0.2642.
+FALHA DE CONTAGEM,FALHA DE CONTAGEM DE PRODUTO,GENERIC_SPECIFIC,0.755556,12,2,LOW,True,Not auto-merged. lexical=0.7556; token_jaccard=0.6667; TRAIN observation centroid cosine=0.0176.
+FALHA DE CONTAGEM,FALHA DE CORRENTE,RELATED_NOT_EQUIVALENT,0.823529,12,3,LOW,True,Not auto-merged. lexical=0.8235; token_jaccard=0.3333; TRAIN observation centroid cosine=0.0094.
+FALHA DE CONTAGEM,FALHA DE DOSAGEM,RELATED_NOT_EQUIVALENT,0.848485,12,7,LOW,True,Not auto-merged. lexical=0.8485; token_jaccard=0.3333; TRAIN observation centroid cosine=0.0748.
+FALHA DE CONTAGEM,FALHA DE ROTULAGEM,RELATED_NOT_EQUIVALENT,0.857143,12,20,LOW,True,Not auto-merged. lexical=0.8571; token_jaccard=0.3333; TRAIN observation centroid cosine=0.0656.
+FALHA DE CORREIA,FALHA DE CORRENTE,RELATED_NOT_EQUIVALENT,0.848485,14,3,LOW,True,Not auto-merged. lexical=0.8485; token_jaccard=0.3333; TRAIN observation centroid cosine=0.0095.
+FALHA DE CORTE DE FILME,FALHA DE SOLDA DE FILME,RELATED_NOT_EQUIVALENT,0.826087,57,43,LOW,True,Not auto-merged. lexical=0.8261; token_jaccard=0.5000; TRAIN observation centroid cosine=0.2756.
+FALHA DE CORTE DE FILME,FALHA DE TESOURA DE FILME,RELATED_NOT_EQUIVALENT,0.833333,57,1,LOW,True,Not auto-merged. lexical=0.8333; token_jaccard=0.5000; TRAIN observation centroid cosine=0.1770.
+FALHA DE DIRECIONAMENTO DE PACOTES,FALHA DE POSICIONAMENTO DE PACOTES,RELATED_NOT_EQUIVALENT,0.911765,1,1,LOW,True,Not auto-merged. lexical=0.9118; token_jaccard=0.5000; TRAIN observation centroid cosine=0.0000.
+FALHA DE DIRECIONAMENTO DE PACOTES,FALHA DE POSICIONAMENTO DE PALETE,RELATED_NOT_EQUIVALENT,0.835821,1,2,LOW,True,Not auto-merged. lexical=0.8358; token_jaccard=0.2000; TRAIN observation centroid cosine=0.0000.
+FALHA DE DOSAGEM,FALHA DE DOSAGEM DE NITROGENIO,GENERIC_SPECIFIC,0.695652,7,1,LOW,True,Not auto-merged. lexical=0.6957; token_jaccard=0.6667; TRAIN observation centroid cosine=0.0754.
+FALHA DE DOSAGEM,FALHA DE ROTULAGEM,RELATED_NOT_EQUIVALENT,0.823529,7,20,LOW,True,Not auto-merged. lexical=0.8235; token_jaccard=0.3333; TRAIN observation centroid cosine=0.0459.
+FALHA DE DOSAGEM DE NITROGENIO,FALHA NO DOSADOR DE NITROGENIO,RELATED_NOT_EQUIVALENT,0.833333,1,5,LOW,True,Not auto-merged. lexical=0.8333; token_jaccard=0.5000; TRAIN observation centroid cosine=0.0785.
+FALHA DE ELAU,FALHA DE MOLA,RELATED_NOT_EQUIVALENT,0.846154,7,9,LOW,True,Not auto-merged. lexical=0.8462; token_jaccard=0.3333; TRAIN observation centroid cosine=0.0185.
+FALHA DE ELEVADOR,FALHA DE PEGADOR,RELATED_NOT_EQUIVALENT,0.848485,32,27,LOW,True,Not auto-merged. lexical=0.8485; token_jaccard=0.3333; TRAIN observation centroid cosine=0.1697.
+FALHA DE ELEVADOR,FALHA DE VIBRADOR,RELATED_NOT_EQUIVALENT,0.823529,32,9,LOW,True,Not auto-merged. lexical=0.8235; token_jaccard=0.3333; TRAIN observation centroid cosine=0.0510.
+FALHA DE ELO DE ESTEIRA,FALHA DE ESTEIRA,GENERIC_SPECIFIC,0.820513,11,36,LOW,True,Not auto-merged. lexical=0.8205; token_jaccard=0.6667; TRAIN observation centroid cosine=0.1472.
+FALHA DE ELO DE ESTEIRA,FALHA DE ROLO DE ESTIRAMENTO,RELATED_NOT_EQUIVALENT,0.823529,11,1,LOW,True,Not auto-merged. lexical=0.8235; token_jaccard=0.2000; TRAIN observation centroid cosine=0.0374.
+FALHA DE EMPURRADOR,FALHA DE SOPRADOR,RELATED_NOT_EQUIVALENT,0.833333,4,1,LOW,True,Not auto-merged. lexical=0.8333; token_jaccard=0.3333; TRAIN observation centroid cosine=0.0038.
+FALHA DE ENCHIMENTO,FALHA DE ENVOLVIMENTO,RELATED_NOT_EQUIVALENT,0.85,145,67,LOW,True,Not auto-merged. lexical=0.8500; token_jaccard=0.3333; TRAIN observation centroid cosine=0.1096.
+FALHA DE ENCHIMENTO,FALHA DE TANGENCIAMENTO,RELATED_NOT_EQUIVALENT,0.857143,145,1,LOW,True,Not auto-merged. lexical=0.8571; token_jaccard=0.3333; TRAIN observation centroid cosine=0.0031.
+FALHA DE ENCHIMENTO,FALHA DE VALVULA DE ENCHIMENTO,GENERIC_SPECIFIC,0.77551,145,165,LOW,True,Not auto-merged. lexical=0.7755; token_jaccard=0.6667; TRAIN observation centroid cosine=0.6144.
+FALHA DE ENCHIMENTO,FALHA VALVULA DE ENCHIMENTO,GENERIC_SPECIFIC,0.826087,145,1,LOW,True,Not auto-merged. lexical=0.8261; token_jaccard=0.6667; TRAIN observation centroid cosine=0.0289.
+FALHA DE ENCODER,FALHA DE SENSOR,RELATED_NOT_EQUIVALENT,0.83871,10,397,LOW,True,Not auto-merged. lexical=0.8387; token_jaccard=0.3333; TRAIN observation centroid cosine=0.1224.
+FALHA DE ENCODER,FALHA DE SOLENOIDE,RELATED_NOT_EQUIVALENT,0.823529,10,1,LOW,True,Not auto-merged. lexical=0.8235; token_jaccard=0.3333; TRAIN observation centroid cosine=0.0172.
+FALHA DE ENVOLVIMENTO,FALHA DE REGUA DE ENVOLVIMENTO,GENERIC_SPECIFIC,0.823529,67,9,LOW,True,Not auto-merged. lexical=0.8235; token_jaccard=0.6667; TRAIN observation centroid cosine=0.4263.
+FALHA DE ENVOLVIMENTO,FALHA DE ROLAMENTO,RELATED_NOT_EQUIVALENT,0.820513,67,13,LOW,True,Not auto-merged. lexical=0.8205; token_jaccard=0.3333; TRAIN observation centroid cosine=0.0706.
+FALHA DE ESTEIRA,FALHA DE TENSIONAMENTO DE ESTEIRA,GENERIC_SPECIFIC,0.666667,36,1,LOW,True,Not auto-merged. lexical=0.6531; token_jaccard=0.6667; TRAIN observation centroid cosine=0.1980.
+FALHA DE FACA,FALHA DE FIXACAO,RELATED_NOT_EQUIVALENT,0.896552,3,28,LOW,True,Not auto-merged. lexical=0.8966; token_jaccard=0.3333; TRAIN observation centroid cosine=0.0139.
+FALHA DE FACA,FALHA DE PRANCHA,RELATED_NOT_EQUIVALENT,0.827586,3,1,LOW,True,Not auto-merged. lexical=0.8276; token_jaccard=0.3333; TRAIN observation centroid cosine=0.0000.
+FALHA DE FACA,FALHA DE ROTACAO,RELATED_NOT_EQUIVALENT,0.827586,3,1,LOW,True,Not auto-merged. lexical=0.8276; token_jaccard=0.3333; TRAIN observation centroid cosine=0.0000.
+FALHA DE FACA,FALHA DE VEDACAO,RELATED_NOT_EQUIVALENT,0.827586,3,3,LOW,True,Not auto-merged. lexical=0.8276; token_jaccard=0.3333; TRAIN observation centroid cosine=0.0122.
+FALHA DE FILTRO,FALHA DE FLUXIMETRO,RELATED_NOT_EQUIVALENT,0.823529,4,4,LOW,True,Not auto-merged. lexical=0.8235; token_jaccard=0.3333; TRAIN observation centroid cosine=0.0000.
+FALHA DE FILTRO,FALHA DE FREIO,RELATED_NOT_EQUIVALENT,0.827586,4,7,LOW,True,Not auto-merged. lexical=0.8276; token_jaccard=0.3333; TRAIN observation centroid cosine=0.0035.
+FALHA DE FIXACAO,FALHA DE FIXACAO DA TULIPA,GENERIC_SPECIFIC,0.761905,28,1,LOW,True,Not auto-merged. lexical=0.7619; token_jaccard=0.6667; TRAIN observation centroid cosine=0.1129.
+FALHA DE FIXACAO,FALHA DE FIXACAO DA VALVULA,GENERIC_SPECIFIC,0.744186,28,1,LOW,True,Not auto-merged. lexical=0.7442; token_jaccard=0.6667; TRAIN observation centroid cosine=0.1109.
+FALHA DE FIXACAO,FALHA DE FIXACAO DE PROTECAO,GENERIC_SPECIFIC,0.727273,28,1,LOW,True,Not auto-merged. lexical=0.7273; token_jaccard=0.6667; TRAIN observation centroid cosine=0.0253.
+FALHA DE FIXACAO DA TULIPA,FALHA DE FIXACAO DA VALVULA,RELATED_NOT_EQUIVALENT,0.867925,1,1,LOW,True,Not auto-merged. lexical=0.8679; token_jaccard=0.5000; TRAIN observation centroid cosine=0.0145.
+FALHA DE FIXACAO DA TULIPA,FALHA DE TULIPA,GENERIC_SPECIFIC,0.731707,1,5,LOW,True,Not auto-merged. lexical=0.7317; token_jaccard=0.6667; TRAIN observation centroid cosine=0.3122.
+FALHA DE FIXACAO DA VALVULA,FALHA DE VALVULA,GENERIC_SPECIFIC,0.744186,1,54,LOW,True,Not auto-merged. lexical=0.7442; token_jaccard=0.6667; TRAIN observation centroid cosine=0.1086.
+FALHA DE FIXACAO DA VALVULA,FALHA DE VEDACAO DA VALVULA,RELATED_NOT_EQUIVALENT,0.888889,1,7,LOW,True,Not auto-merged. lexical=0.8889; token_jaccard=0.5000; TRAIN observation centroid cosine=0.0654.
+FALHA DE FIXACAO DA VALVULA,FALHA NA VALVULA,GENERIC_SPECIFIC,0.697674,1,1,LOW,True,Not auto-merged. lexical=0.6977; token_jaccard=0.6667; TRAIN observation centroid cosine=0.0254.
+FALHA DE FORMACAO DE CAIXA,FALHA DE FORMACAO DE CAMADA,LIKELY_EQUIVALENT,0.90566,2,44,MEDIUM,True,Not auto-merged. lexical=0.9057; token_jaccard=0.5000; TRAIN observation centroid cosine=0.1992.
+FALHA DE FORMACAO DE CAIXA,FALHA DE FORMACAO DE PACOTE,RELATED_NOT_EQUIVALENT,0.830189,2,10,LOW,True,Not auto-merged. lexical=0.8302; token_jaccard=0.5000; TRAIN observation centroid cosine=0.0000.
+FALHA DE FORMACAO DE CAIXA,FALHA NA FORMACAO DE CAMADA,RELATED_NOT_EQUIVALENT,0.830189,2,1,LOW,True,Not auto-merged. lexical=0.8302; token_jaccard=0.5000; TRAIN observation centroid cosine=0.0557.
+FALHA DE FORMACAO DE PACOTE,FALHA NA MESA DE FORMACAO DE PACOTES,RELATED_NOT_EQUIVALENT,0.857143,10,1,LOW,True,Not auto-merged. lexical=0.8571; token_jaccard=0.4000; TRAIN observation centroid cosine=0.0264.
+FALHA DE FREIO,FALHA DE REJEICAO,RELATED_NOT_EQUIVALENT,0.83871,7,93,LOW,True,Not auto-merged. lexical=0.8387; token_jaccard=0.3333; TRAIN observation centroid cosine=0.0232.
+FALHA DE GUIA,FALHA DE MANGUEIRA,RELATED_NOT_EQUIVALENT,0.83871,19,3,LOW,True,Not auto-merged. lexical=0.8387; token_jaccard=0.3333; TRAIN observation centroid cosine=0.0327.
+FALHA DE GUIA,FALHA DE TULIPA,RELATED_NOT_EQUIVALENT,0.857143,19,5,LOW,True,Not auto-merged. lexical=0.8571; token_jaccard=0.3333; TRAIN observation centroid cosine=0.0480.
+FALHA DE INSPECAO,FALHA DE PINCA,RELATED_NOT_EQUIVALENT,0.83871,98,58,LOW,True,Not auto-merged. lexical=0.8387; token_jaccard=0.3333; TRAIN observation centroid cosine=0.1510.
+FALHA DE LEITURA,FALHA DE MISTURA,RELATED_NOT_EQUIVALENT,0.875,2,5,LOW,True,Not auto-merged. lexical=0.8750; token_jaccard=0.3333; TRAIN observation centroid cosine=0.0062.
+FALHA DE MANGUEIRA,FALHA DE MANGUEIRA DE AGUA,GENERIC_SPECIFIC,0.818182,3,1,LOW,True,Not auto-merged. lexical=0.8182; token_jaccard=0.6667; TRAIN observation centroid cosine=0.0609.
+FALHA DE MANGUEIRA,FALHA DE MANGUEIRA PNEUMATICA,GENERIC_SPECIFIC,0.765957,3,4,LOW,True,Not auto-merged. lexical=0.7660; token_jaccard=0.6667; TRAIN observation centroid cosine=0.0876.
+FALHA DE MEDIDOR,FALHA DE MEDIDOR DE VAZAO,GENERIC_SPECIFIC,0.780488,3,1,LOW,True,Not auto-merged. lexical=0.7805; token_jaccard=0.6667; TRAIN observation centroid cosine=0.1846.
+FALHA DE MODULO,FALHA DE MOLA,RELATED_NOT_EQUIVALENT,0.857143,6,9,LOW,True,Not auto-merged. lexical=0.8571; token_jaccard=0.3333; TRAIN observation centroid cosine=0.0237.
+FALHA DE MODULO,FALHA DE MOTOR,RELATED_NOT_EQUIVALENT,0.827586,6,69,LOW,True,Not auto-merged. lexical=0.8276; token_jaccard=0.3333; TRAIN observation centroid cosine=0.0729.
+FALHA DE MOTOR,FALHA DE SERVO MOTOR,GENERIC_SPECIFIC,0.823529,69,29,LOW,True,Not auto-merged. lexical=0.8235; token_jaccard=0.6667; TRAIN observation centroid cosine=0.2286.
+FALHA DE NIVEL DE AGUA,FALHA DE VALVULA DE AGUA,RELATED_NOT_EQUIVALENT,0.826087,1,2,LOW,True,Not auto-merged. lexical=0.8261; token_jaccard=0.5000; TRAIN observation centroid cosine=0.1156.
+FALHA DE PARAMETRIZACAO,FALHA DE PARAMETRIZACAO DE RECEITA,GENERIC_SPECIFIC,0.807018,5,1,LOW,True,Not auto-merged. lexical=0.8070; token_jaccard=0.6667; TRAIN observation centroid cosine=0.0156.
+FALHA DE PARAMETRIZACAO,FALHA DE PARAMETRIZACAO DO REJEITO,GENERIC_SPECIFIC,0.807018,5,1,LOW,True,Not auto-merged. lexical=0.8070; token_jaccard=0.6667; TRAIN observation centroid cosine=0.1481.
+FALHA DE PARAMETRIZACAO,FALHA DE PRESSURIZACAO,RELATED_NOT_EQUIVALENT,0.844444,5,5,LOW,True,Not auto-merged. lexical=0.8444; token_jaccard=0.3333; TRAIN observation centroid cosine=0.0131.
+FALHA DE PARAMETRIZACAO DE RECEITA,FALHA DE PARAMETRIZACAO DO REJEITO,RELATED_NOT_EQUIVALENT,0.911765,1,1,LOW,True,Not auto-merged. lexical=0.9118; token_jaccard=0.5000; TRAIN observation centroid cosine=0.0124.
+FALHA DE PATINS,FALHA DE PINCA,RELATED_NOT_EQUIVALENT,0.827586,13,58,LOW,True,Not auto-merged. lexical=0.8276; token_jaccard=0.3333; TRAIN observation centroid cosine=0.0941.
+FALHA DE PATINS,FALHA DE PINO,RELATED_NOT_EQUIVALENT,0.857143,13,4,LOW,True,Not auto-merged. lexical=0.8571; token_jaccard=0.3333; TRAIN observation centroid cosine=0.0401.
+FALHA DE PEGADOR,FALHA DE SOPRADOR,RELATED_NOT_EQUIVALENT,0.848485,27,1,LOW,True,Not auto-merged. lexical=0.8485; token_jaccard=0.3333; TRAIN observation centroid cosine=0.0203.
+FALHA DE PENTE DE TRANSFERENCIA,FALHA DE PINOS DE TRANSFERENCIA,RELATED_NOT_EQUIVALENT,0.903226,6,1,LOW,True,Not auto-merged. lexical=0.9032; token_jaccard=0.5000; TRAIN observation centroid cosine=0.0101.
+FALHA DE PERSIANA,FALHA DE PRANCHA,RELATED_NOT_EQUIVALENT,0.848485,1,1,LOW,True,Not auto-merged. lexical=0.8485; token_jaccard=0.3333; TRAIN observation centroid cosine=0.0000.
+FALHA DE PINCA,FALHA DE PINO,RELATED_NOT_EQUIVALENT,0.888889,58,4,LOW,True,Not auto-merged. lexical=0.8889; token_jaccard=0.3333; TRAIN observation centroid cosine=0.0551.
+FALHA DE PINCA,FALHA DE PLC,RELATED_NOT_EQUIVALENT,0.846154,58,12,LOW,True,Not auto-merged. lexical=0.8462; token_jaccard=0.3333; TRAIN observation centroid cosine=0.0543.
+FALHA DE PINCA,FALHA DE PRANCHA,RELATED_NOT_EQUIVALENT,0.866667,58,1,LOW,True,Not auto-merged. lexical=0.8667; token_jaccard=0.3333; TRAIN observation centroid cosine=0.0148.
+FALHA DE PINO,FALHA DE PINO DE SEPARACAO,GENERIC_SPECIFIC,0.666667,4,2,LOW,True,Not auto-merged. lexical=0.6667; token_jaccard=0.6667; TRAIN observation centroid cosine=0.3242.
+FALHA DE PORTA DE SEGURANCA,FALHA DE RELE DE SEGURANCA,RELATED_NOT_EQUIVALENT,0.867925,15,2,LOW,True,Not auto-merged. lexical=0.8679; token_jaccard=0.5000; TRAIN observation centroid cosine=0.1584.
+FALHA DE PORTA DE SEGURANCA,FALHA DE SEGURANCA,GENERIC_SPECIFIC,0.8,15,1,LOW,True,Not auto-merged. lexical=0.8000; token_jaccard=0.6667; TRAIN observation centroid cosine=0.1431.
+FALHA DE POSICIONAMENTO DE PACOTES,FALHA DE POSICIONAMENTO DE PALETE,RELATED_NOT_EQUIVALENT,0.925373,1,2,LOW,True,Not auto-merged. lexical=0.9254; token_jaccard=0.5000; TRAIN observation centroid cosine=0.0061.
+FALHA DE POSICIONAMENTO DE PACOTES,FALHA DE POSICIONAMENTO DO CABECOTE,RELATED_NOT_EQUIVALENT,0.869565,1,2,LOW,True,Not auto-merged. lexical=0.8696; token_jaccard=0.5000; TRAIN observation centroid cosine=0.0000.
+FALHA DE POSICIONAMENTO DE PALETE,FALHA DE POSICIONAMENTO DO CABECOTE,RELATED_NOT_EQUIVALENT,0.823529,2,2,LOW,True,Not auto-merged. lexical=0.8235; token_jaccard=0.5000; TRAIN observation centroid cosine=0.0052.
+FALHA DE PRANCHA,FALHA DE SEGURANCA,RELATED_NOT_EQUIVALENT,0.823529,1,1,LOW,True,Not auto-merged. lexical=0.8235; token_jaccard=0.3333; TRAIN observation centroid cosine=0.0000.
+FALHA DE PRESSAO,FALHA DE PRESSAO DE AGUA,GENERIC_SPECIFIC,0.8,2,1,LOW,True,Not auto-merged. lexical=0.8000; token_jaccard=0.6667; TRAIN observation centroid cosine=0.0409.
+FALHA DE PRESSAO,FALHA DE PRESSAO DOS JATOS,GENERIC_SPECIFIC,0.761905,2,6,LOW,True,Not auto-merged. lexical=0.7619; token_jaccard=0.6667; TRAIN observation centroid cosine=0.0161.
+FALHA DE PRESSAO,FALHA DE PRESSOSTATO,RELATED_NOT_EQUIVALENT,0.888889,2,5,LOW,True,Not auto-merged. lexical=0.8889; token_jaccard=0.3333; TRAIN observation centroid cosine=0.0622.
+FALHA DE PRESSAO,FALHA DE PRESSURIZACAO,RELATED_NOT_EQUIVALENT,0.842105,2,5,LOW,True,Not auto-merged. lexical=0.8421; token_jaccard=0.3333; TRAIN observation centroid cosine=0.0145.
+FALHA DE PRESSAO DOS JATOS,FALHA DE PRESSOSTATO,RELATED_NOT_EQUIVALENT,0.826087,6,5,LOW,True,Not auto-merged. lexical=0.8261; token_jaccard=0.2500; TRAIN observation centroid cosine=0.0102.
+FALHA DE PRESSOSTATO,FALHA DE TERMOSTATO,RELATED_NOT_EQUIVALENT,0.820513,5,1,LOW,True,Not auto-merged. lexical=0.8205; token_jaccard=0.3333; TRAIN observation centroid cosine=0.0751.
+FALHA DE PRESSURIZACAO,FALHA DE PRESSURIZACAO DA ENCHEDORA,GENERIC_SPECIFIC,0.77193,5,2,LOW,True,Not auto-merged. lexical=0.7719; token_jaccard=0.6667; TRAIN observation centroid cosine=0.1418.
+FALHA DE RECRAVACAO,FALSA RECRAVACAO,RELATED_NOT_EQUIVALENT,0.857143,46,1,LOW,True,Not auto-merged. lexical=0.8571; token_jaccard=0.3333; TRAIN observation centroid cosine=0.1113.
+FALHA DE REDUTOR,FALHA DE TRANSDUTOR,RELATED_NOT_EQUIVALENT,0.857143,10,2,LOW,True,Not auto-merged. lexical=0.8571; token_jaccard=0.3333; TRAIN observation centroid cosine=0.0248.
+FALHA DE RELE DE SEGURANCA,FALHA DE SEGURANCA,GENERIC_SPECIFIC,0.818182,2,1,LOW,True,Not auto-merged. lexical=0.8182; token_jaccard=0.6667; TRAIN observation centroid cosine=0.1342.
+FALHA DE RESFRIAMENTO,FALHA DE ROLAMENTO,RELATED_NOT_EQUIVALENT,0.820513,1,13,LOW,True,Not auto-merged. lexical=0.8205; token_jaccard=0.3333; TRAIN observation centroid cosine=0.0215.
+FALHA DE ROBO,FALHA DE ROTACAO,RELATED_NOT_EQUIVALENT,0.827586,29,1,LOW,True,Not auto-merged. lexical=0.8276; token_jaccard=0.3333; TRAIN observation centroid cosine=0.0310.
+FALHA DE ROBO,FALHA NA GARRA DO ROBO,GENERIC_SPECIFIC,0.685714,29,1,LOW,True,Not auto-merged. lexical=0.6857; token_jaccard=0.6667; TRAIN observation centroid cosine=0.3444.
+FALHA DE ROLAMENTO,FALHA DE ROLETES,RELATED_NOT_EQUIVALENT,0.823529,13,46,LOW,True,Not auto-merged. lexical=0.8235; token_jaccard=0.3333; TRAIN observation centroid cosine=0.0648.
+FALHA DE SEGMENTOS,FALHA DE VENTOSA,RELATED_NOT_EQUIVALENT,0.823529,2,23,LOW,True,Not auto-merged. lexical=0.8235; token_jaccard=0.3333; TRAIN observation centroid cosine=0.0147.
+FALHA DE SEGURANCA,FALHA DE SEGURANCA DO CABECOTE,GENERIC_SPECIFIC,0.75,1,1,LOW,True,Not auto-merged. lexical=0.7500; token_jaccard=0.6667; TRAIN observation centroid cosine=0.1901.
+FALHA DE SENSOR,FALHA NO SENSOR EXPULSADOR,GENERIC_SPECIFIC,0.666667,397,1,LOW,True,Not auto-merged. lexical=0.6341; token_jaccard=0.6667; TRAIN observation centroid cosine=0.2602.
+FALHA DE SENSOR,FALHA SENSOR DA PORTA,GENERIC_SPECIFIC,0.666667,397,1,LOW,True,Not auto-merged. lexical=0.6667; token_jaccard=0.6667; TRAIN observation centroid cosine=0.4149.
+FALHA DE SOLDA DE FILME,FALHA DE TESOURA DE FILME,RELATED_NOT_EQUIVALENT,0.875,43,1,LOW,True,Not auto-merged. lexical=0.8750; token_jaccard=0.5000; TRAIN observation centroid cosine=0.1215.
+FALHA DE SOPRADOR,FALHA DE VIBRADOR,RELATED_NOT_EQUIVALENT,0.823529,1,9,LOW,True,Not auto-merged. lexical=0.8235; token_jaccard=0.3333; TRAIN observation centroid cosine=0.0234.
+FALHA DE SUPRIMENTO DE AR COMPRIMIDO,FALHA NO SISTEMA DE AR COMPRIMIDO,RELATED_NOT_EQUIVALENT,0.782609,9,1,LOW,True,Not auto-merged. lexical=0.7826; token_jaccard=0.6000; TRAIN observation centroid cosine=0.2345.
+FALHA DE TRANSDUTOR,FALHA DE TRANSPORTE,RELATED_NOT_EQUIVALENT,0.842105,2,17,LOW,True,Not auto-merged. lexical=0.8421; token_jaccard=0.3333; TRAIN observation centroid cosine=0.0252.
+FALHA DE TRANSPORTE,FALHA DE TRANSPORTE DE CAIXAS,GENERIC_SPECIFIC,0.791667,17,3,LOW,True,Not auto-merged. lexical=0.7917; token_jaccard=0.6667; TRAIN observation centroid cosine=0.0743.
+FALHA DE TRANSPORTE,FALHA DE TRANSPORTE DE GARRAFAS,GENERIC_SPECIFIC,0.76,17,2,LOW,True,Not auto-merged. lexical=0.7600; token_jaccard=0.6667; TRAIN observation centroid cosine=0.2969.
+FALHA DE TRANSPORTE,FALHA DE TRANSPORTE DE LATAS,GENERIC_SPECIFIC,0.808511,17,4,LOW,True,Not auto-merged. lexical=0.8085; token_jaccard=0.6667; TRAIN observation centroid cosine=0.2797.
+FALHA DE TRANSPORTE,FALHA DE TRANSPORTE DE PACOTES,GENERIC_SPECIFIC,0.77551,17,5,LOW,True,Not auto-merged. lexical=0.7755; token_jaccard=0.6667; TRAIN observation centroid cosine=0.2180.
+FALHA DE TRANSPORTE,FALHA DE TRANSPORTE DE PALETES,GENERIC_SPECIFIC,0.77551,17,2,LOW,True,Not auto-merged. lexical=0.7755; token_jaccard=0.6667; TRAIN observation centroid cosine=0.1780.
+FALHA DE TRANSPORTE,FALHA DE VELOCIDADE DO TRANSPORTE,GENERIC_SPECIFIC,0.730769,17,14,LOW,True,Not auto-merged. lexical=0.7308; token_jaccard=0.6667; TRAIN observation centroid cosine=0.2612.
+FALHA DE TRANSPORTE,FALHA ELETRICA DO TRANSPORTE,GENERIC_SPECIFIC,0.765957,17,3,LOW,True,Not auto-merged. lexical=0.7660; token_jaccard=0.6667; TRAIN observation centroid cosine=0.0591.
+FALHA DE TRANSPORTE,PARADA DE TRANSPORTE,RELATED_NOT_EQUIVALENT,0.820513,17,1,LOW,True,Not auto-merged. lexical=0.8205; token_jaccard=0.3333; TRAIN observation centroid cosine=0.1950.
+FALHA DE TRANSPORTE DE CAIXAS,FALHA DE TRANSPORTE DE GARRAFAS,RELATED_NOT_EQUIVALENT,0.866667,3,2,LOW,True,Not auto-merged. lexical=0.8667; token_jaccard=0.5000; TRAIN observation centroid cosine=0.0274.
+FALHA DE TRANSPORTE DE CAIXAS,FALHA DE TRANSPORTE DE LATAS,RELATED_NOT_EQUIVALENT,0.912281,3,4,LOW,True,Not auto-merged. lexical=0.9123; token_jaccard=0.5000; TRAIN observation centroid cosine=0.0521.
+FALHA DE TRANSPORTE DE CAIXAS,FALHA DE TRANSPORTE DE PACOTES,RELATED_NOT_EQUIVALENT,0.847458,3,5,LOW,True,Not auto-merged. lexical=0.8475; token_jaccard=0.5000; TRAIN observation centroid cosine=0.0386.
+FALHA DE TRANSPORTE DE CAIXAS,FALHA DE TRANSPORTE DE PALETES,RELATED_NOT_EQUIVALENT,0.847458,3,2,LOW,True,Not auto-merged. lexical=0.8475; token_jaccard=0.5000; TRAIN observation centroid cosine=0.0342.
+FALHA DE TRANSPORTE DE GARRAFAS,FALHA DE TRANSPORTE DE LATAS,RELATED_NOT_EQUIVALENT,0.881356,2,4,LOW,True,Not auto-merged. lexical=0.8814; token_jaccard=0.5000; TRAIN observation centroid cosine=0.0651.
+FALHA DE TRANSPORTE DE LATAS,FALHA DE TRANSPORTE DE PACOTES,RELATED_NOT_EQUIVALENT,0.896552,4,5,LOW,True,Not auto-merged. lexical=0.8966; token_jaccard=0.5000; TRAIN observation centroid cosine=0.5025.
+FALHA DE TRANSPORTE DE LATAS,FALHA DE TRANSPORTE DE PALETES,RELATED_NOT_EQUIVALENT,0.896552,4,2,LOW,True,Not auto-merged. lexical=0.8966; token_jaccard=0.5000; TRAIN observation centroid cosine=0.4322.
+FALHA DE TRANSPORTE DE PACOTES,FALHA DE TRANSPORTE DE PALETES,LIKELY_EQUIVALENT,0.933333,5,2,MEDIUM,True,Not auto-merged. lexical=0.9333; token_jaccard=0.5000; TRAIN observation centroid cosine=0.3305.
+FALHA DE VACUO,FALHA DE VEDACAO,RELATED_NOT_EQUIVALENT,0.866667,8,3,LOW,True,Not auto-merged. lexical=0.8667; token_jaccard=0.3333; TRAIN observation centroid cosine=0.0226.
+FALHA DE VALVULA,FALHA DE VALVULA DE AGUA,GENERIC_SPECIFIC,0.8,54,2,LOW,True,Not auto-merged. lexical=0.8000; token_jaccard=0.6667; TRAIN observation centroid cosine=0.2704.
+FALHA DE VALVULA,FALHA DE VALVULA DE ENCHIMENTO,GENERIC_SPECIFIC,0.695652,54,165,LOW,True,Not auto-merged. lexical=0.6957; token_jaccard=0.6667; TRAIN observation centroid cosine=0.3804.
+FALHA DE VALVULA,FALHA DE VALVULA DE NITROGENIO,GENERIC_SPECIFIC,0.695652,54,3,LOW,True,Not auto-merged. lexical=0.6957; token_jaccard=0.6667; TRAIN observation centroid cosine=0.1854.
+FALHA DE VALVULA,FALHA DE VALVULA DE XAROPE,GENERIC_SPECIFIC,0.761905,54,2,LOW,True,Not auto-merged. lexical=0.7619; token_jaccard=0.6667; TRAIN observation centroid cosine=0.2603.
+FALHA DE VALVULA,FALHA DE VALVULA MODULADORA,GENERIC_SPECIFIC,0.744186,54,18,LOW,True,Not auto-merged. lexical=0.7442; token_jaccard=0.6667; TRAIN observation centroid cosine=0.3220.
+FALHA DE VALVULA,FALHA DE VEDACAO DA VALVULA,GENERIC_SPECIFIC,0.744186,54,7,LOW,True,Not auto-merged. lexical=0.7442; token_jaccard=0.6667; TRAIN observation centroid cosine=0.2807.
+FALHA DE VALVULA,FALHA ELETRONICA DA VALVULA,GENERIC_SPECIFIC,0.697674,54,4,LOW,True,Not auto-merged. lexical=0.6977; token_jaccard=0.6667; TRAIN observation centroid cosine=0.2286.
+FALHA DE VALVULA,FALHA VALVULA DE ENCHIMENTO,GENERIC_SPECIFIC,0.666667,54,1,LOW,True,Not auto-merged. lexical=0.6047; token_jaccard=0.6667; TRAIN observation centroid cosine=0.0425.
+FALHA DE VALVULA DE AGUA,FALHA DE VALVULA DE XAROPE,RELATED_NOT_EQUIVALENT,0.84,2,2,LOW,True,Not auto-merged. lexical=0.8400; token_jaccard=0.5000; TRAIN observation centroid cosine=0.2130.
+FALHA DE VALVULA DE AGUA,FALHA NA VALVULA,GENERIC_SPECIFIC,0.7,2,1,LOW,True,Not auto-merged. lexical=0.7000; token_jaccard=0.6667; TRAIN observation centroid cosine=0.0567.
+FALHA DE VALVULA DE ENCHIMENTO,FALHA NA VALVULA,GENERIC_SPECIFIC,0.666667,165,1,LOW,True,Not auto-merged. lexical=0.6087; token_jaccard=0.6667; TRAIN observation centroid cosine=0.1650.
+FALHA DE VALVULA DE NITROGENIO,FALHA DE VALVULA DE XAROPE,RELATED_NOT_EQUIVALENT,0.821429,3,2,LOW,True,Not auto-merged. lexical=0.8214; token_jaccard=0.5000; TRAIN observation centroid cosine=0.0929.
+FALHA DE VALVULA DE NITROGENIO,FALHA NA VALVULA,GENERIC_SPECIFIC,0.666667,3,1,LOW,True,Not auto-merged. lexical=0.6087; token_jaccard=0.6667; TRAIN observation centroid cosine=0.0783.
+FALHA DE VALVULA DE XAROPE,FALHA NA VALVULA,GENERIC_SPECIFIC,0.666667,2,1,LOW,True,Not auto-merged. lexical=0.6667; token_jaccard=0.6667; TRAIN observation centroid cosine=0.0434.
+FALHA DE VALVULA MODULADORA,FALHA NA VALVULA,GENERIC_SPECIFIC,0.666667,18,1,LOW,True,Not auto-merged. lexical=0.6512; token_jaccard=0.6667; TRAIN observation centroid cosine=0.0883.
+FALHA DE VEDACAO,FALHA DE VEDACAO DA VALVULA,GENERIC_SPECIFIC,0.744186,3,7,LOW,True,Not auto-merged. lexical=0.7442; token_jaccard=0.6667; TRAIN observation centroid cosine=0.0443.
+FALHA DE VEDACAO DA VALVULA,FALHA NA VALVULA,GENERIC_SPECIFIC,0.697674,7,1,LOW,True,Not auto-merged. lexical=0.6977; token_jaccard=0.6667; TRAIN observation centroid cosine=0.0954.
+FALHA DO COLOCADOR DE CARTAO,FALHA DO COLOCADOR DE CHAPATEX,RELATED_NOT_EQUIVALENT,0.862069,2,3,LOW,True,Not auto-merged. lexical=0.8621; token_jaccard=0.5000; TRAIN observation centroid cosine=0.0096.
+FALHA ELETRICA DO TRANSPORTE,FALHA ELETRICA DO TRANSPORTE DE ENTRADA,GENERIC_SPECIFIC,0.835821,3,1,LOW,True,Not auto-merged. lexical=0.8358; token_jaccard=0.7500; TRAIN observation centroid cosine=0.1240.
+FALHA ELETRONICA DA VALVULA,FALHA NA VALVULA,GENERIC_SPECIFIC,0.744186,4,1,LOW,True,Not auto-merged. lexical=0.7442; token_jaccard=0.6667; TRAIN observation centroid cosine=0.0969.
+FALHA NA GARRA DO ROBO,ROBO COM FALHA,GENERIC_SPECIFIC,0.666667,1,1,LOW,True,Not auto-merged. lexical=0.2778; token_jaccard=0.6667; TRAIN observation centroid cosine=0.0520.
+FALHA NA INSERCAO DE GARRAFAS FALSAS,FALHA NA INSERCAO DE LATAS FALSAS,RELATED_NOT_EQUIVALENT,0.898551,1,3,LOW,True,Not auto-merged. lexical=0.8986; token_jaccard=0.6000; TRAIN observation centroid cosine=0.0805.
+FALHA NA INSERCAO DE LATAS,FALHA NA INSERCAO DE LATAS FALSAS,GENERIC_SPECIFIC,0.881356,1,3,LOW,True,Not auto-merged. lexical=0.8814; token_jaccard=0.7500; TRAIN observation centroid cosine=0.1442.
+FALHA NA TROCA DE PALETE DE CARTAO,FALHA NA TROCA DE PALETE DE FOLHA SEPARADORA,RELATED_NOT_EQUIVALENT,0.820513,20,6,LOW,True,Not auto-merged. lexical=0.8205; token_jaccard=0.5000; TRAIN observation centroid cosine=0.1849.
+FALHA NA VALVULA,FALHA VALVULA DE ENCHIMENTO,GENERIC_SPECIFIC,0.666667,1,1,LOW,True,Not auto-merged. lexical=0.6047; token_jaccard=0.6667; TRAIN observation centroid cosine=0.0105.
+FALHA NO VIRADOR DE CAIXAS,FALHA NO VIRADOR DE PACOTES,RELATED_NOT_EQUIVALENT,0.830189,2,4,LOW,True,Not auto-merged. lexical=0.8302; token_jaccard=0.5000; TRAIN observation centroid cosine=0.2296.
+PACOTE FORA DE POSICAO,PATINS FORA DE POSICAO,RELATED_NOT_EQUIVALENT,0.863636,3,9,LOW,True,Not auto-merged. lexical=0.8636; token_jaccard=0.5000; TRAIN observation centroid cosine=0.0977.
+PATINAGEM DE ESTEIRA,PATINAMENTO DE ESTEIRA,LIKELY_EQUIVALENT,0.857143,19,1,MEDIUM,True,Not auto-merged. lexical=0.8571; token_jaccard=0.3333; TRAIN observation centroid cosine=0.2281.
+PATINAMENTO DE ESTEIRA,PATINAMENTO DE ROLETE,RELATED_NOT_EQUIVALENT,0.837209,1,1,LOW,True,Not auto-merged. lexical=0.8372; token_jaccard=0.3333; TRAIN observation centroid cosine=0.0757.
+PATINAMENTO DE ESTEIRA,TRAVAMENTO DE ESTEIRA,RELATED_NOT_EQUIVALENT,0.837209,1,20,LOW,True,Not auto-merged. lexical=0.8372; token_jaccard=0.3333; TRAIN observation centroid cosine=0.0932.
+PERDA DE REFERENCIA,PERDA DE REFERENCIA DO CENTRADOR,GENERIC_SPECIFIC,0.745098,14,1,LOW,True,Not auto-merged. lexical=0.7451; token_jaccard=0.6667; TRAIN observation centroid cosine=0.0082.
+PERDA DE REFERENCIA,PERDA DE REFERENCIA DO ROBO,GENERIC_SPECIFIC,0.826087,14,1,LOW,True,Not auto-merged. lexical=0.8261; token_jaccard=0.6667; TRAIN observation centroid cosine=0.0965.
+PERDA DE REFERENCIA,PERDA DE REFERENCIA HOME,GENERIC_SPECIFIC,0.883721,14,2,LOW,True,Not auto-merged. lexical=0.8837; token_jaccard=0.6667; TRAIN observation centroid cosine=0.0398.
+PERDA DE REFERENCIA DO CENTRADOR,PERDA DE REFERENCIA DO ROBO,RELATED_NOT_EQUIVALENT,0.847458,1,1,LOW,True,Not auto-merged. lexical=0.8475; token_jaccard=0.5000; TRAIN observation centroid cosine=0.0780.
+PERDA DE REFERENCIA DO ROBO,PERDA DE REFERENCIA HOME,RELATED_NOT_EQUIVALENT,0.823529,1,2,LOW,True,Not auto-merged. lexical=0.8235; token_jaccard=0.5000; TRAIN observation centroid cosine=0.0893.
+QUEBRA DA ESTEIRA,QUEBRA DE ELO DE ESTEIRA,GENERIC_SPECIFIC,0.780488,1,1,LOW,True,Not auto-merged. lexical=0.7805; token_jaccard=0.6667; TRAIN observation centroid cosine=0.0925.
+QUEBRA DE COMPONENTE,QUEBRA DE CORRENTE,RELATED_NOT_EQUIVALENT,0.842105,25,6,LOW,True,Not auto-merged. lexical=0.8421; token_jaccard=0.3333; TRAIN observation centroid cosine=0.1461.
+QUEBRA DE CORREIA,QUEBRA DE CORRENTE,RELATED_NOT_EQUIVALENT,0.857143,21,6,LOW,True,Not auto-merged. lexical=0.8571; token_jaccard=0.3333; TRAIN observation centroid cosine=0.1382.
+QUEBRA DE EIXO,QUEBRA DE PINO,RELATED_NOT_EQUIVALENT,0.857143,16,1,LOW,True,Not auto-merged. lexical=0.8571; token_jaccard=0.3333; TRAIN observation centroid cosine=0.1713.
+QUEBRA DE ELO DE ESTEIRA,QUEBRA DE ESTEIRA,GENERIC_SPECIFIC,0.829268,1,84,LOW,True,Not auto-merged. lexical=0.8293; token_jaccard=0.6667; TRAIN observation centroid cosine=0.2465.
+QUEBRA DE PINO,QUEBRA DE PISTAO,RELATED_NOT_EQUIVALENT,0.866667,1,1,LOW,True,Not auto-merged. lexical=0.8667; token_jaccard=0.3333; TRAIN observation centroid cosine=0.0128.
+QUEBRA DE SUPORTE,QUEBRA DE TRANSPORTE,RELATED_NOT_EQUIVALENT,0.864865,1,10,LOW,True,Not auto-merged. lexical=0.8649; token_jaccard=0.3333; TRAIN observation centroid cosine=0.0437.
+QUEBRA DE TRANSPORTE,QUEBRA DE TRECHO DO TRANSPORTE,GENERIC_SPECIFIC,0.8,10,1,LOW,True,Not auto-merged. lexical=0.8000; token_jaccard=0.6667; TRAIN observation centroid cosine=0.1404.
+QUEDA DE CAIXAS,QUEDA DE LATAS,RELATED_NOT_EQUIVALENT,0.827586,1,34,LOW,True,Not auto-merged. lexical=0.8276; token_jaccard=0.3333; TRAIN observation centroid cosine=0.0408.
+ROMPIMENTO DE MANGUEIRA,ROMPIMENTO DE MANGUEIRA DE AGUA,GENERIC_SPECIFIC,0.851852,3,3,LOW,True,Not auto-merged. lexical=0.8519; token_jaccard=0.6667; TRAIN observation centroid cosine=0.1673.
+ROMPIMENTO DE MANGUEIRA,ROMPIMENTO DE MANGUEIRA DE AR,GENERIC_SPECIFIC,0.884615,3,6,LOW,True,Not auto-merged. lexical=0.8846; token_jaccard=0.6667; TRAIN observation centroid cosine=0.1664.
+ROMPIMENTO DE MANGUEIRA DE AGUA,ROMPIMENTO DE MANGUEIRA DE AR,LIKELY_EQUIVALENT,0.933333,3,6,MEDIUM,True,Not auto-merged. lexical=0.9333; token_jaccard=0.5000; TRAIN observation centroid cosine=0.4062.
+TRAVAMENTO DE ATUADOR,TRAVAMENTO DE CENTRADOR,RELATED_NOT_EQUIVALENT,0.863636,14,1,LOW,True,Not auto-merged. lexical=0.8636; token_jaccard=0.3333; TRAIN observation centroid cosine=0.1153.
+TRAVAMENTO DE ATUADOR,TRAVAMENTO DE ELEVADOR,RELATED_NOT_EQUIVALENT,0.837209,14,2,LOW,True,Not auto-merged. lexical=0.8372; token_jaccard=0.3333; TRAIN observation centroid cosine=0.0377.
+TRAVAMENTO DE ATUADOR,TRAVAMENTO DO CAPSULADOR,RELATED_NOT_EQUIVALENT,0.844444,14,2,LOW,True,Not auto-merged. lexical=0.8444; token_jaccard=0.3333; TRAIN observation centroid cosine=0.0727.
+TRAVAMENTO DE BOCAL,TRAVAMENTO DE BOIA,RELATED_NOT_EQUIVALENT,0.918919,1,2,LOW,True,Not auto-merged. lexical=0.9189; token_jaccard=0.3333; TRAIN observation centroid cosine=0.0000.
+TRAVAMENTO DE BOCAL,TRAVAMENTO DE PALETE,RELATED_NOT_EQUIVALENT,0.820513,1,9,LOW,True,Not auto-merged. lexical=0.8205; token_jaccard=0.3333; TRAIN observation centroid cosine=0.0000.
+TRAVAMENTO DE BOCAL,TRAVAMENTO DE PINCA,RELATED_NOT_EQUIVALENT,0.842105,1,2,LOW,True,Not auto-merged. lexical=0.8421; token_jaccard=0.3333; TRAIN observation centroid cosine=0.0000.
+TRAVAMENTO DE BOCAL,TRAVAMENTO DE ROBO,RELATED_NOT_EQUIVALENT,0.864865,1,13,LOW,True,Not auto-merged. lexical=0.8649; token_jaccard=0.3333; TRAIN observation centroid cosine=0.0802.
+TRAVAMENTO DE BOIA,TRAVAMENTO DE ESTEIRA,RELATED_NOT_EQUIVALENT,0.820513,2,20,LOW,True,Not auto-merged. lexical=0.8205; token_jaccard=0.3333; TRAIN observation centroid cosine=0.0441.
+TRAVAMENTO DE BOIA,TRAVAMENTO DE PINCA,RELATED_NOT_EQUIVALENT,0.864865,2,2,LOW,True,Not auto-merged. lexical=0.8649; token_jaccard=0.3333; TRAIN observation centroid cosine=0.0120.
+TRAVAMENTO DE BOIA,TRAVAMENTO DE ROBO,RELATED_NOT_EQUIVALENT,0.888889,2,13,LOW,True,Not auto-merged. lexical=0.8889; token_jaccard=0.3333; TRAIN observation centroid cosine=0.0408.
+TRAVAMENTO DE CENTRADOR,TRAVAMENTO DE ELEVADOR,RELATED_NOT_EQUIVALENT,0.844444,1,2,LOW,True,Not auto-merged. lexical=0.8444; token_jaccard=0.3333; TRAIN observation centroid cosine=0.0159.
+TRAVAMENTO DE CORRENTE,TRAVAMENTO DE ROLETES,RELATED_NOT_EQUIVALENT,0.837209,1,12,LOW,True,Not auto-merged. lexical=0.8372; token_jaccard=0.3333; TRAIN observation centroid cosine=0.0376.
+TRAVAMENTO DE ESTEIRA,TRAVAMENTO DE PALETE,RELATED_NOT_EQUIVALENT,0.829268,20,9,LOW,True,Not auto-merged. lexical=0.8293; token_jaccard=0.3333; TRAIN observation centroid cosine=0.0461.
+TRAVAMENTO DE ESTEIRA,TRAVAMENTO DE PERSIANA,RELATED_NOT_EQUIVALENT,0.837209,20,4,LOW,True,Not auto-merged. lexical=0.8372; token_jaccard=0.3333; TRAIN observation centroid cosine=0.0399.
+TRAVAMENTO DE ESTEIRA,TRAVAMENTO DE STOPPER,RELATED_NOT_EQUIVALENT,0.857143,20,4,LOW,True,Not auto-merged. lexical=0.8571; token_jaccard=0.3333; TRAIN observation centroid cosine=0.1288.
+TRAVAMENTO DE PALETE,TRAVAMENTO DE PATINS,RELATED_NOT_EQUIVALENT,0.85,9,1,LOW,True,Not auto-merged. lexical=0.8500; token_jaccard=0.3333; TRAIN observation centroid cosine=0.0074.
+TRAVAMENTO DE PALETE,TRAVAMENTO DE PINCA,RELATED_NOT_EQUIVALENT,0.820513,9,2,LOW,True,Not auto-merged. lexical=0.8205; token_jaccard=0.3333; TRAIN observation centroid cosine=0.0086.
+TRAVAMENTO DE PALETE,TRAVAMENTO DE ROLETES,RELATED_NOT_EQUIVALENT,0.878049,9,12,LOW,True,Not auto-merged. lexical=0.8780; token_jaccard=0.3333; TRAIN observation centroid cosine=0.0993.
+TRAVAMENTO DE PATINS,TRAVAMENTO DE PINCA,RELATED_NOT_EQUIVALENT,0.871795,1,2,LOW,True,Not auto-merged. lexical=0.8718; token_jaccard=0.3333; TRAIN observation centroid cosine=0.0533.
+TRAVAMENTO DE PERSIANA,TRAVAMENTO DE PINCA,RELATED_NOT_EQUIVALENT,0.829268,4,2,LOW,True,Not auto-merged. lexical=0.8293; token_jaccard=0.3333; TRAIN observation centroid cosine=0.0000.
+TRAVAMENTO DE ROBO,TRAVAMENTO DE ROLETES,RELATED_NOT_EQUIVALENT,0.820513,13,12,LOW,True,Not auto-merged. lexical=0.8205; token_jaccard=0.3333; TRAIN observation centroid cosine=0.0684.
+TRAVAMENTO DE VALVULA,VAZAMENTO EM VALVULA,RELATED_NOT_EQUIVALENT,0.829268,18,19,LOW,True,Not auto-merged. lexical=0.8293; token_jaccard=0.3333; TRAIN observation centroid cosine=0.2474.
+VAZAMENTO EM COLETOR,VAZAMENTO EM CONEXAO,RELATED_NOT_EQUIVALENT,0.85,7,1,LOW,True,Not auto-merged. lexical=0.8500; token_jaccard=0.3333; TRAIN observation centroid cosine=0.1212.

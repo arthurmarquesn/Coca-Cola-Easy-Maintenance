@@ -2,8 +2,16 @@
 
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+<<<<<<< HEAD
 import { FormEvent, useEffect, useState, useSyncExternalStore } from "react";
 import { preload } from "react-dom";
+=======
+import {
+  FormEvent,
+  useEffect,
+  useState,
+} from "react";
+>>>>>>> origin/marques
 
 import {
   ArrowRight,
@@ -26,6 +34,15 @@ const WAVE_PATH_1 =
 const WAVE_PATH_2 =
   "M0 174 C155 240 308 116 465 157 C615 197 725 240 850 170 V270 H0 Z";
 
+<<<<<<< HEAD
+=======
+const LOGIN_TRANSITION_DURATION =
+  1800;
+
+const DASHBOARD_PRODUCT_TRANSITION_KEY =
+  "play-dashboard-product-transition";
+
+>>>>>>> origin/marques
 interface LoginResponse {
   success: boolean;
   message?: string;
@@ -34,18 +51,25 @@ interface LoginResponse {
 const subscribeHydration = () => () => {};
 
 export default function LoginPage() {
+<<<<<<< HEAD
   const router = useRouter();
   const startLoginTransition = useLoginTransition();
 
   preload(LOGIN_TRANSITION_BOTTLE_SRC, {
     as: "image",
   });
+=======
+  const router =
+    useRouter();
+>>>>>>> origin/marques
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [remember, setRemember] = useState(false);
-  const [showPassword, setShowPassword] = useState(false);
+  const [
+    email,
+    setEmail,
+  ] =
+    useState("");
 
+<<<<<<< HEAD
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [isLeaving, setIsLeaving] = useState(false);
@@ -54,13 +78,75 @@ export default function LoginPage() {
   useEffect(() => {
     router.prefetch("/dashboard");
   }, [router]);
+=======
+  const [
+    password,
+    setPassword,
+  ] =
+    useState("");
+
+  const [
+    remember,
+    setRemember,
+  ] =
+    useState(false);
+
+  const [
+    showPassword,
+    setShowPassword,
+  ] =
+    useState(false);
+
+  const [
+    loading,
+    setLoading,
+  ] =
+    useState(false);
+
+  const [
+    error,
+    setError,
+  ] =
+    useState("");
+
+  const [
+    isLeaving,
+    setIsLeaving,
+  ] =
+    useState(false);
+
+  const [
+    isHydrated,
+    setIsHydrated,
+  ] =
+    useState(false);
+
+  useEffect(
+    () => {
+      setIsHydrated(
+        true,
+      );
+
+      router.prefetch(
+        "/dashboard",
+      );
+    },
+    [
+      router,
+    ],
+  );
+>>>>>>> origin/marques
 
   async function handleSubmit(
-    event: FormEvent<HTMLFormElement>,
+    event:
+      FormEvent<HTMLFormElement>,
   ) {
     event.preventDefault();
 
-    if (loading || isLeaving) {
+    if (
+      loading ||
+      isLeaving
+    ) {
       return;
     }
 
@@ -68,40 +154,107 @@ export default function LoginPage() {
     setLoading(true);
 
     try {
-      const response = await fetch("/api/auth/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email,
-          password,
-          remember,
-        }),
-      });
+      const response =
+        await fetch(
+          "/api/auth/login",
+          {
+            method:
+              "POST",
 
-      const data = (await response
-        .json()
-        .catch(() => null)) as LoginResponse | null;
+            headers: {
+              "Content-Type":
+                "application/json",
+            },
 
-      if (!response.ok || !data?.success) {
+            body:
+              JSON.stringify({
+                email,
+                password,
+                remember,
+              }),
+          },
+        );
+
+      const data =
+        (
+          await response
+            .json()
+            .catch(
+              () =>
+                null,
+            )
+        ) as
+          | LoginResponse
+          | null;
+
+      if (
+        !response.ok ||
+        !data?.success
+      ) {
         setError(
           data?.message ??
             "Não foi possível realizar o login.",
         );
 
-        setLoading(false);
+        setLoading(
+          false,
+        );
+
         return;
       }
 
+<<<<<<< HEAD
       setIsLeaving(true);
       startLoginTransition("/dashboard");
+=======
+      /*
+       * Marca que o próximo acesso ao dashboard
+       * veio de um login bem-sucedido.
+       *
+       * A home irá consumir e remover esta flag
+       * antes de executar a animação dos produtos.
+       */
+      try {
+        window
+          .sessionStorage
+          .setItem(
+            DASHBOARD_PRODUCT_TRANSITION_KEY,
+            "true",
+          );
+      } catch {
+        /*
+         * Não bloqueia o login caso
+         * sessionStorage esteja indisponível.
+         */
+      }
+
+      setIsLeaving(
+        true,
+      );
+
+      await new Promise<void>(
+        (
+          resolve,
+        ) => {
+          window.setTimeout(
+            resolve,
+            LOGIN_TRANSITION_DURATION,
+          );
+        },
+      );
+
+      router.replace(
+        "/dashboard",
+      );
+>>>>>>> origin/marques
     } catch {
       setError(
         "Não foi possível conectar ao servidor.",
       );
 
-      setLoading(false);
+      setLoading(
+        false,
+      );
     }
   }
 
@@ -131,8 +284,15 @@ export default function LoginPage() {
               aria-hidden="true"
             >
               <path
+<<<<<<< HEAD
                 d={BRAND_CURVE_PATH}
                 className="fill-background-secondary transition-colors"
+=======
+                d={
+                  CURVE_PATH
+                }
+                fill="#ffffff"
+>>>>>>> origin/marques
               />
             </svg>
 
@@ -144,12 +304,16 @@ export default function LoginPage() {
                 aria-hidden="true"
               >
                 <path
-                  d={WAVE_PATH_1}
+                  d={
+                    WAVE_PATH_1
+                  }
                   fill="#ffffff"
                 />
 
                 <path
-                  d={WAVE_PATH_2}
+                  d={
+                    WAVE_PATH_2
+                  }
                   fill="#ffffff"
                   opacity="0.52"
                 />
@@ -212,8 +376,12 @@ export default function LoginPage() {
               {/* Formulário */}
 
               <form
-                onSubmit={handleSubmit}
-                inert={!isHydrated}
+                onSubmit={
+                  handleSubmit
+                }
+                inert={
+                  !isHydrated
+                }
                 className="login-form space-y-5"
               >
                 {/* E-mail */}
@@ -236,10 +404,16 @@ export default function LoginPage() {
                     <input
                       id="email"
                       type="email"
-                      value={email}
-                      onChange={(event) =>
+                      value={
+                        email
+                      }
+                      onChange={(
+                        event,
+                      ) =>
                         setEmail(
-                          event.target.value,
+                          event
+                            .target
+                            .value,
                         )
                       }
                       placeholder="Digite seu e-mail"
@@ -291,10 +465,16 @@ export default function LoginPage() {
                           ? "text"
                           : "password"
                       }
-                      value={password}
-                      onChange={(event) =>
+                      value={
+                        password
+                      }
+                      onChange={(
+                        event,
+                      ) =>
                         setPassword(
-                          event.target.value,
+                          event
+                            .target
+                            .value,
                         )
                       }
                       placeholder="Digite sua senha"
@@ -315,7 +495,9 @@ export default function LoginPage() {
                       }
                       onClick={() =>
                         setShowPassword(
-                          (current) =>
+                          (
+                            current,
+                          ) =>
                             !current,
                         )
                       }
@@ -347,10 +529,16 @@ export default function LoginPage() {
                   <input
                     id="remember"
                     type="checkbox"
-                    checked={remember}
-                    onChange={(event) =>
+                    checked={
+                      remember
+                    }
+                    onChange={(
+                      event,
+                    ) =>
                       setRemember(
-                        event.target.checked,
+                        event
+                          .target
+                          .checked,
                       )
                     }
                     disabled={
@@ -375,7 +563,9 @@ export default function LoginPage() {
                     role="alert"
                     className="rounded-[10px] border border-red-200 bg-red-50 px-4 py-3 text-[12px] leading-5 text-red-700"
                   >
-                    {error}
+                    {
+                      error
+                    }
                   </div>
                 )}
 
@@ -403,7 +593,9 @@ export default function LoginPage() {
                     </>
                   ) : (
                     <>
-                      <span>Entrar</span>
+                      <span>
+                        Entrar
+                      </span>
 
                       <ArrowRight
                         size={17}

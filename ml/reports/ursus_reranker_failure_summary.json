@@ -1,0 +1,451 @@
+{
+  "result": "PASS",
+  "analysis_version": "ursus-reranker-failure-diagnosis-v1",
+  "generated_at": "2026-10-04T00:00:00-03:00",
+  "scope": {
+    "frozen_model": "C:\\Users\\arthu\\Coca\\Coca-Cola-Easy-Maintenance\\ml\\models\\failure_classifier_marilia_v1_5_candidate_eval.joblib",
+    "test_rows": 698,
+    "no_training_performed": true,
+    "no_fitting_performed": true,
+    "no_rankings_changed": true
+  },
+  "rank4_rank5_cases": 18,
+  "reranker_expulsions": 11,
+  "recovery_classification": {
+    "LIKELY_TAXONOMY_PROBLEM": 5,
+    "EASY_RERANK_RECOVERY": 8,
+    "LIKELY_DATA_PROBLEM": 3,
+    "LIKELY_REPRESENTATION_PROBLEM": 2,
+    "POSSIBLE_RERANK_RECOVERY": 0
+  },
+  "dominant_feature_categories": {
+    "COMPONENT": 1,
+    "FAMILY": 5,
+    "SUPPORT": 5
+  },
+  "mean_feature_contributions": [
+    {
+      "feature_name": "flat_score",
+      "expected_mean_contribution": -2.4412439942,
+      "promoted_wrong_mean_contribution": -2.8481035546,
+      "mean_delta_promoted_minus_expected": -0.4068595603
+    },
+    {
+      "feature_name": "normalized_flat_score",
+      "expected_mean_contribution": 0.3448590258,
+      "promoted_wrong_mean_contribution": 0.2921323598,
+      "mean_delta_promoted_minus_expected": -0.0527266661
+    },
+    {
+      "feature_name": "family_score",
+      "expected_mean_contribution": 1.1202013528,
+      "promoted_wrong_mean_contribution": 1.7933127878,
+      "mean_delta_promoted_minus_expected": 0.6731114351
+    },
+    {
+      "feature_name": "centroid_similarity",
+      "expected_mean_contribution": 0.3394040099,
+      "promoted_wrong_mean_contribution": 0.2872172914,
+      "mean_delta_promoted_minus_expected": -0.0521867185
+    },
+    {
+      "feature_name": "max_neighbor_similarity",
+      "expected_mean_contribution": -0.0433454201,
+      "promoted_wrong_mean_contribution": -0.0276247326,
+      "mean_delta_promoted_minus_expected": 0.0157206875
+    },
+    {
+      "feature_name": "mean_top3_neighbor_similarity",
+      "expected_mean_contribution": -0.2730285192,
+      "promoted_wrong_mean_contribution": -0.1752192665,
+      "mean_delta_promoted_minus_expected": 0.0978092526
+    },
+    {
+      "feature_name": "log_class_support",
+      "expected_mean_contribution": 1.2706733652,
+      "promoted_wrong_mean_contribution": 1.8890525408,
+      "mean_delta_promoted_minus_expected": 0.6183791756
+    },
+    {
+      "feature_name": "top1_gap",
+      "expected_mean_contribution": -0.4514985584,
+      "promoted_wrong_mean_contribution": -0.6568599974,
+      "mean_delta_promoted_minus_expected": -0.205361439
+    },
+    {
+      "feature_name": "token_overlap",
+      "expected_mean_contribution": -0.0251148624,
+      "promoted_wrong_mean_contribution": -0.0550118647,
+      "mean_delta_promoted_minus_expected": -0.0298970023
+    },
+    {
+      "feature_name": "root_overlap",
+      "expected_mean_contribution": 0.2538063675,
+      "promoted_wrong_mean_contribution": 0.2053086367,
+      "mean_delta_promoted_minus_expected": -0.0484977309
+    },
+    {
+      "feature_name": "char_overlap",
+      "expected_mean_contribution": -0.0248917613,
+      "promoted_wrong_mean_contribution": -0.0210581746,
+      "mean_delta_promoted_minus_expected": 0.0038335867
+    },
+    {
+      "feature_name": "label_cosine",
+      "expected_mean_contribution": 0.1529764899,
+      "promoted_wrong_mean_contribution": 0.1904015183,
+      "mean_delta_promoted_minus_expected": 0.0374250284
+    },
+    {
+      "feature_name": "component_present",
+      "expected_mean_contribution": 0.0,
+      "promoted_wrong_mean_contribution": 0.1471682863,
+      "mean_delta_promoted_minus_expected": 0.1471682863
+    },
+    {
+      "feature_name": "mechanism_present",
+      "expected_mean_contribution": 0.0037310258,
+      "promoted_wrong_mean_contribution": 0.0037310258,
+      "mean_delta_promoted_minus_expected": 0.0
+    }
+  ],
+  "top_features_harming": [
+    {
+      "feature": "family_score",
+      "mean_weighted_delta": 0.6731114351
+    },
+    {
+      "feature": "log_class_support",
+      "mean_weighted_delta": 0.6183791756
+    },
+    {
+      "feature": "component_present",
+      "mean_weighted_delta": 0.1471682863
+    },
+    {
+      "feature": "mean_top3_neighbor_similarity",
+      "mean_weighted_delta": 0.0978092526
+    },
+    {
+      "feature": "label_cosine",
+      "mean_weighted_delta": 0.0374250284
+    },
+    {
+      "feature": "max_neighbor_similarity",
+      "mean_weighted_delta": 0.0157206875
+    },
+    {
+      "feature": "char_overlap",
+      "mean_weighted_delta": 0.0038335867
+    }
+  ],
+  "top_features_helping": [
+    {
+      "feature": "flat_score",
+      "mean_weighted_delta": -0.4068595603
+    },
+    {
+      "feature": "top1_gap",
+      "mean_weighted_delta": -0.205361439
+    },
+    {
+      "feature": "normalized_flat_score",
+      "mean_weighted_delta": -0.0527266661
+    },
+    {
+      "feature": "centroid_similarity",
+      "mean_weighted_delta": -0.0521867185
+    },
+    {
+      "feature": "root_overlap",
+      "mean_weighted_delta": -0.0484977309
+    },
+    {
+      "feature": "token_overlap",
+      "mean_weighted_delta": -0.0298970023
+    }
+  ],
+  "families_most_affected": [
+    {
+      "segment_type": "FAMILY",
+      "segment": "OTHER_UNKNOWN",
+      "test_rows": 83,
+      "rank4_rank5_cases": 4,
+      "expulsions": 3,
+      "expulsion_rate": 0.03614458,
+      "expulsion_share": 0.27272727,
+      "test_share": 0.11891117,
+      "representation_lift": 2.29353779
+    },
+    {
+      "segment_type": "FAMILY",
+      "segment": "LATA",
+      "test_rows": 17,
+      "rank4_rank5_cases": 4,
+      "expulsions": 2,
+      "expulsion_rate": 0.11764706,
+      "expulsion_share": 0.18181818,
+      "test_share": 0.0243553,
+      "representation_lift": 7.46524064
+    },
+    {
+      "segment_type": "FAMILY",
+      "segment": "CAMADA",
+      "test_rows": 11,
+      "rank4_rank5_cases": 1,
+      "expulsions": 1,
+      "expulsion_rate": 0.09090909,
+      "expulsion_share": 0.09090909,
+      "test_share": 0.01575931,
+      "representation_lift": 5.76859504
+    },
+    {
+      "segment_type": "FAMILY",
+      "segment": "PINCA",
+      "test_rows": 11,
+      "rank4_rank5_cases": 0,
+      "expulsions": 1,
+      "expulsion_rate": 0.09090909,
+      "expulsion_share": 0.09090909,
+      "test_share": 0.01575931,
+      "representation_lift": 5.76859504
+    },
+    {
+      "segment_type": "FAMILY",
+      "segment": "REJEICAO",
+      "test_rows": 12,
+      "rank4_rank5_cases": 1,
+      "expulsions": 1,
+      "expulsion_rate": 0.08333333,
+      "expulsion_share": 0.09090909,
+      "test_share": 0.01719198,
+      "representation_lift": 5.28787879
+    },
+    {
+      "segment_type": "FAMILY",
+      "segment": "TAMPA",
+      "test_rows": 19,
+      "rank4_rank5_cases": 1,
+      "expulsions": 1,
+      "expulsion_rate": 0.05263158,
+      "expulsion_share": 0.09090909,
+      "test_share": 0.02722063,
+      "representation_lift": 3.33971292
+    },
+    {
+      "segment_type": "FAMILY",
+      "segment": "FILME",
+      "test_rows": 20,
+      "rank4_rank5_cases": 1,
+      "expulsions": 1,
+      "expulsion_rate": 0.05,
+      "expulsion_share": 0.09090909,
+      "test_share": 0.0286533,
+      "representation_lift": 3.17272727
+    },
+    {
+      "segment_type": "FAMILY",
+      "segment": "ENCHIMENTO",
+      "test_rows": 32,
+      "rank4_rank5_cases": 1,
+      "expulsions": 1,
+      "expulsion_rate": 0.03125,
+      "expulsion_share": 0.09090909,
+      "test_share": 0.04584527,
+      "representation_lift": 1.98295455
+    }
+  ],
+  "support_buckets": [
+    {
+      "segment_type": "SUPPORT_BUCKET",
+      "segment": "11-20",
+      "test_rows": 106,
+      "rank4_rank5_cases": 5,
+      "expulsions": 4,
+      "expulsion_rate": 0.03773585,
+      "expulsion_share": 0.36363636,
+      "test_share": 0.15186246,
+      "representation_lift": 2.39451115
+    },
+    {
+      "segment_type": "SUPPORT_BUCKET",
+      "segment": "1",
+      "test_rows": 57,
+      "rank4_rank5_cases": 3,
+      "expulsions": 2,
+      "expulsion_rate": 0.03508772,
+      "expulsion_share": 0.18181818,
+      "test_share": 0.08166189,
+      "representation_lift": 2.22647528
+    },
+    {
+      "segment_type": "SUPPORT_BUCKET",
+      "segment": "2-3",
+      "test_rows": 39,
+      "rank4_rank5_cases": 2,
+      "expulsions": 1,
+      "expulsion_rate": 0.02564103,
+      "expulsion_share": 0.09090909,
+      "test_share": 0.05587393,
+      "representation_lift": 1.62703963
+    },
+    {
+      "segment_type": "SUPPORT_BUCKET",
+      "segment": "6-10",
+      "test_rows": 89,
+      "rank4_rank5_cases": 3,
+      "expulsions": 2,
+      "expulsion_rate": 0.02247191,
+      "expulsion_share": 0.18181818,
+      "test_share": 0.12750716,
+      "representation_lift": 1.42594484
+    },
+    {
+      "segment_type": "SUPPORT_BUCKET",
+      "segment": ">20",
+      "test_rows": 386,
+      "rank4_rank5_cases": 5,
+      "expulsions": 2,
+      "expulsion_rate": 0.00518135,
+      "expulsion_share": 0.18181818,
+      "test_share": 0.5530086,
+      "representation_lift": 0.32878003
+    },
+    {
+      "segment_type": "SUPPORT_BUCKET",
+      "segment": "4-5",
+      "test_rows": 21,
+      "rank4_rank5_cases": 0,
+      "expulsions": 0,
+      "expulsion_rate": 0.0,
+      "expulsion_share": 0.0,
+      "test_share": 0.03008596,
+      "representation_lift": 0.0
+    }
+  ],
+  "counterfactuals": {
+    "restore_expulsions": {
+      "additional_hits": 11,
+      "top3_hit_rate": 0.91547278
+    },
+    "recover_rank_4": {
+      "additional_hits": 13,
+      "top3_hit_rate": 0.91833811
+    },
+    "recover_rank_4_and_5": {
+      "additional_hits": 18,
+      "top3_hit_rate": 0.92550143
+    },
+    "combined_non_overlapping": {
+      "additional_hits": 21,
+      "overlap": 8,
+      "top3_hit_rate": 0.92979943
+    }
+  },
+  "reranker_diagnostic_evidence": {
+    "family_overvaluation": {
+      "conclusion": "SUPPORTED_IN_EXPULSION_SAMPLE",
+      "mean_weighted_delta": 0.6731114351,
+      "positive_cases": 10
+    },
+    "support_overvaluation": {
+      "conclusion": "SUPPORTED_IN_EXPULSION_SAMPLE",
+      "mean_weighted_delta": 0.6183791756,
+      "positive_cases": 7
+    },
+    "centroid_overvaluation": {
+      "conclusion": "INCONCLUSIVE",
+      "mean_weighted_delta": -0.0521867185,
+      "positive_cases": 6
+    },
+    "neighbor_overvaluation": {
+      "conclusion": "SUPPORTED_IN_EXPULSION_SAMPLE",
+      "mean_weighted_delta": 0.1135299401,
+      "positive_cases": 6
+    },
+    "rare_class_penalty": {
+      "conclusion": "SUPPORTED_IN_EXPULSION_SAMPLE",
+      "rare_support_le_10": {
+        "expulsions": 5,
+        "test_rows": 206,
+        "rate": 0.02427184
+      },
+      "support_gt_10": {
+        "expulsions": 6,
+        "test_rows": 492,
+        "rate": 0.01219512
+      }
+    },
+    "generic_class_promotion": {
+      "count": 5,
+      "conclusion": "INCONCLUSIVE_SMALL_SAMPLE"
+    },
+    "other_unknown_promotion": {
+      "count": 2,
+      "conclusion": "NOT_SUPPORTED"
+    },
+    "generic_specific_worsening": {
+      "count": 0,
+      "conclusion": "NOT_OBSERVED"
+    },
+    "cause_effect_worsening": {
+      "count": 0,
+      "conclusion": "NOT_OBSERVED"
+    }
+  },
+  "recommendations": {
+    "A_feature_engineering": "Add explicit relative candidate-vs-boundary features and separate label-text similarity from TRAIN prototype similarity; validate on VALIDATION only.",
+    "B_weighting": "Regularize or cap only feature groups with positive harmful deltas; do not globally remove family/support evidence from eleven cases alone.",
+    "C_training_objective": "Evaluate a listwise or pairwise objective that penalizes pushing the true class across the Top-3 boundary.",
+    "D_negative_sampling": "Emphasize hard negatives from ranks 2-5, same-family pairs, and reviewed generic-specific pairs.",
+    "E_calibration": "Calibrate the Top-3 boundary margin on VALIDATION; current row-wise reranker scores are ranking scores, not probabilities.",
+    "F_taxonomy": "Human-review strong taxonomy signals and pending pairs; do not merge concepts automatically.",
+    "G_data_collection": "Collect real examples for low-support affected classes, prioritizing support buckets with elevated expulsion lift."
+  },
+  "methodology": {
+    "feature_contribution": "feature_value * real LogisticRegression coefficient",
+    "feature_delta": "(promoted_wrong_value - expected_value) * real coefficient",
+    "promoted_wrong_candidate": "highest-ranked candidate present in reranker Top-3 but absent from flat Top-3",
+    "rank4_rank5_field_mapping": {
+      "family_match": "reranker Top-1 family equals expected family",
+      "component_match": "expected candidate component_present feature",
+      "mechanism_match": "expected candidate mechanism_present feature",
+      "label_token_overlap": "expected candidate token_overlap feature",
+      "observation_label_overlap": "expected candidate char_overlap feature",
+      "prototype_similarity": "expected candidate label_cosine feature"
+    },
+    "recovery_classification_precedence": [
+      "EASY: flat Top-3 and reranker rank 4-5",
+      "TAXONOMY: OTHER_UNKNOWN, negative separation, or generic-specific/cause-effect evidence",
+      "DATA: TRAIN support <=3",
+      "REPRESENTATION: flat rank >5",
+      "POSSIBLE: remaining rank 4-5 cases"
+    ]
+  },
+  "integrity": {
+    "protected_hashes_before": {
+      "C:\\Users\\arthu\\Coca\\Coca-Cola-Easy-Maintenance\\ml\\data\\human\\marilia\\prepared\\marilia_human_v2_canonical.csv": "9ad6fe9c03fc77bf6096efff7aaae6512455469c321a0b83ae4e33962dfe44bc",
+      "C:\\Users\\arthu\\Coca\\Coca-Cola-Easy-Maintenance\\ml\\models\\failure_classifier_marilia_v1_5_candidate_eval.joblib": "3bcdd63139a3ddefb1b3b328c2ac135f97bb1547664a940603aade586380b413",
+      "C:\\Users\\arthu\\Coca\\Coca-Cola-Easy-Maintenance\\ml\\taxonomy\\canonical_failure_modes.csv": "3684220f4e21ed20ab4edeb7d5d510f087af379ffda85e5e8d358a4c801eb92b",
+      "C:\\Users\\arthu\\Coca\\Coca-Cola-Easy-Maintenance\\ml\\taxonomy\\failure_mode_aliases.csv": "3707c5be226505ed85c5af46485a24d85578d63d839c290bbd8c2f328307b18c",
+      "C:\\Users\\arthu\\Coca\\Coca-Cola-Easy-Maintenance\\ml\\taxonomy\\taxonomy_review_decisions.csv": "b11515142c3b3fc7deca02f2b27b4efb6ced47085936839b9b4d63b093355956"
+    },
+    "protected_hashes_after": {
+      "C:\\Users\\arthu\\Coca\\Coca-Cola-Easy-Maintenance\\ml\\data\\human\\marilia\\prepared\\marilia_human_v2_canonical.csv": "9ad6fe9c03fc77bf6096efff7aaae6512455469c321a0b83ae4e33962dfe44bc",
+      "C:\\Users\\arthu\\Coca\\Coca-Cola-Easy-Maintenance\\ml\\models\\failure_classifier_marilia_v1_5_candidate_eval.joblib": "3bcdd63139a3ddefb1b3b328c2ac135f97bb1547664a940603aade586380b413",
+      "C:\\Users\\arthu\\Coca\\Coca-Cola-Easy-Maintenance\\ml\\taxonomy\\canonical_failure_modes.csv": "3684220f4e21ed20ab4edeb7d5d510f087af379ffda85e5e8d358a4c801eb92b",
+      "C:\\Users\\arthu\\Coca\\Coca-Cola-Easy-Maintenance\\ml\\taxonomy\\failure_mode_aliases.csv": "3707c5be226505ed85c5af46485a24d85578d63d839c290bbd8c2f328307b18c",
+      "C:\\Users\\arthu\\Coca\\Coca-Cola-Easy-Maintenance\\ml\\taxonomy\\taxonomy_review_decisions.csv": "b11515142c3b3fc7deca02f2b27b4efb6ced47085936839b9b4d63b093355956"
+    },
+    "protected_files_unchanged": true,
+    "no_model_artifact_created": true
+  },
+  "artifacts": [
+    "ursus_rank4_rank5_diagnosis.csv",
+    "ursus_reranker_expulsions.csv",
+    "ursus_reranker_feature_contributions.csv",
+    "ursus_reranker_family_support_analysis.csv",
+    "ursus_reranker_failure_summary.json",
+    "ursus_reranker_failure_summary.md"
+  ]
+}

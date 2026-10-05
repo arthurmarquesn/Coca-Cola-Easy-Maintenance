@@ -1,0 +1,18 @@
+{
+  "version": "canonical-taxonomy-v3-candidate",
+  "status": "candidate",
+  "source_version": "canonical-taxonomy-v2",
+  "created_at": "2026-10-04T00:00:00-03:00",
+  "notes": "Governance candidate built from canonical taxonomy v2 and frozen v1.6 diagnostics. Not active; no automatic taxonomy merge or human relabeling was applied.",
+  "source_hashes": {
+    "C:\\Users\\arthu\\Coca\\Coca-Cola-Easy-Maintenance\\ml\\data\\human\\marilia\\prepared\\marilia_human_v2_canonical.csv": "9ad6fe9c03fc77bf6096efff7aaae6512455469c321a0b83ae4e33962dfe44bc",
+    "C:\\Users\\arthu\\Coca\\Coca-Cola-Easy-Maintenance\\ml\\data\\human\\marilia\\taxonomy\\canonical_taxonomy_v2.csv": "b8d2ede739e5d44059d1a930c1b8232fd35b9976d489317ce56fb375f7ae2695",
+    "C:\\Users\\arthu\\Coca\\Coca-Cola-Easy-Maintenance\\ml\\models\\failure_classifier_real_v1_2_eval.joblib": "34189a2b5a7bf99f441262b46805f89e84ae49ba252b55fe069e07adc5b0e829",
+    "C:\\Users\\arthu\\Coca\\Coca-Cola-Easy-Maintenance\\ml\\models\\failure_classifier_marilia_v1_3_candidate.joblib": "eca38bc48e55a9b2c0ae46883fa272c66c711fd49f544c849fe9c689d469bb52",
+    "C:\\Users\\arthu\\Coca\\Coca-Cola-Easy-Maintenance\\ml\\models\\failure_classifier_marilia_v1_3_candidate_eval.joblib": "b8efd62fd534bdb8a7bcc13effc019c27aa8933e58305e4a4ea3e76ddb3323ad",
+    "C:\\Users\\arthu\\Coca\\Coca-Cola-Easy-Maintenance\\ml\\models\\failure_classifier_marilia_v1_4_candidate.joblib": "411df64f97e4da000071006a77013245a77680f54e7cdf7d5218cee79e22bd17",
+    "C:\\Users\\arthu\\Coca\\Coca-Cola-Easy-Maintenance\\ml\\models\\failure_classifier_marilia_v1_4_candidate_eval.joblib": "dc177ec8c82019bde442d09b458a0075446e367bdece3e90ee9bfd142cf8f307",
+    "C:\\Users\\arthu\\Coca\\Coca-Cola-Easy-Maintenance\\ml\\models\\failure_classifier_marilia_v1_5_candidate.joblib": "471e78f81124969c22e86ac6c6edf8fa7b71164e7b0bc51bcba5dcc26d91f11b",
+    "C:\\Users\\arthu\\Coca\\Coca-Cola-Easy-Maintenance\\ml\\models\\failure_classifier_marilia_v1_5_candidate_eval.joblib": "3bcdd63139a3ddefb1b3b328c2ac135f97bb1547664a940603aade586380b413"
+  }
+}

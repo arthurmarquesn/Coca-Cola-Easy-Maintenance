@@ -1,0 +1,77 @@
+{
+  "experiment_version": "ursus-reranker-v1.6-experimental",
+  "status": "locked_before_test_not_active",
+  "created_at": "2026-10-04T00:00:00-03:00",
+  "winner": "SUPPORT_CAPPED",
+  "winner_parameters": {
+    "name": "SUPPORT_CAPPED",
+    "C": 0.1,
+    "candidate_n": 10,
+    "features": [
+      "flat_score",
+      "normalized_flat_score",
+      "family_score",
+      "centroid_similarity",
+      "max_neighbor_similarity",
+      "mean_top3_neighbor_similarity",
+      "log_class_support",
+      "top1_gap",
+      "token_overlap",
+      "root_overlap",
+      "char_overlap",
+      "label_cosine",
+      "component_present",
+      "mechanism_present"
+    ],
+    "feature_config": {
+      "family_cap": null,
+      "support_cap": 2.8903717579,
+      "include_relative_top3": false
+    },
+    "ranker": "LogisticRegression",
+    "training": "5_fold_OOF_TRAIN_only"
+  },
+  "winner_validation": {
+    "candidate": "SUPPORT_CAPPED",
+    "validation_top1": 0.74014599,
+    "validation_top2": 0.84671533,
+    "validation_top3": 0.90072993,
+    "validation_top5": 0.91824818,
+    "validation_top10": 0.92846715,
+    "validation_mrr": 0.81884116,
+    "brought_into_top3": 34,
+    "expelled_from_top3": 2,
+    "net_top3_gain": 32,
+    "average_rank_movement": 0.15912409,
+    "positive_movements": 64,
+    "negative_movements": 19,
+    "neutral_movements": 602,
+    "complexity_rank": 2,
+    "parameters": "{\"C\": 0.1, \"candidate_n\": 10, \"feature_config\": {\"family_cap\": null, \"include_relative_top3\": false, \"support_cap\": 2.8903717579}, \"features\": [\"flat_score\", \"normalized_flat_score\", \"family_score\", \"centroid_similarity\", \"max_neighbor_similarity\", \"mean_top3_neighbor_similarity\", \"log_class_support\", \"top1_gap\", \"token_overlap\", \"root_overlap\", \"char_overlap\", \"label_cosine\", \"component_present\", \"mechanism_present\"], \"name\": \"SUPPORT_CAPPED\", \"ranker\": \"LogisticRegression\", \"training\": \"5_fold_OOF_TRAIN_only\"}",
+    "top1_guardrail_floor": 0.72160584,
+    "eligible_top1_guardrail": true,
+    "selected": true
+  },
+  "selection_key": [
+    "validation_recall_at_3",
+    "fewer_expulsions",
+    "MRR",
+    "Top1",
+    "complexity"
+  ],
+  "test_used_for_selection": false,
+  "test_evaluations_at_lock_time": 0,
+  "model_artifact": "C:\\Users\\arthu\\Coca\\Coca-Cola-Easy-Maintenance\\ml\\models\\ursus_reranker_v16_experimental_locked.joblib",
+  "model_sha256": "58f4010bae724e29b7eae34b0bd370b608db3f706f5b7fe9e8a501eb3664b85b",
+  "development_source_sha256": "9ad6fe9c03fc77bf6096efff7aaae6512455469c321a0b83ae4e33962dfe44bc",
+  "oof_audit": {
+    "folds": 5,
+    "train_rows": 3072,
+    "evaluated_oof_rows": 3072,
+    "candidate_rows": 30720,
+    "positive_candidate_rows": 2597,
+    "grouping": "deterministic_hash_by_observation_norm",
+    "self_row_excluded": true,
+    "validation_or_test_used": false
+  }
+}

@@ -22,18 +22,20 @@ import {
   getUnitSelection,
 } from "@/lib/unit-selection";
 
+<<<<<<< HEAD
 import {
   FAILURE_ORIGIN_JOINS,
   containsLikePattern,
 } from "@/lib/analytics/sql";
 
 
+=======
+>>>>>>> origin/marques
 export const runtime =
   "nodejs";
 
 export const dynamic =
   "force-dynamic";
-
 
 /* =========================================================
    TIPOS
@@ -43,11 +45,13 @@ type FailureOrigin =
   | "OPERACAO"
   | "MANUTENCAO";
 
-
 type EffectiveFailureOrigin =
   | FailureOrigin
   | "NAO_CLASSIFICADO";
 
+type OriginsView =
+  | "EVENTS"
+  | "SUMMARY";
 
 interface CountRow
   extends RowDataPacket {
@@ -56,32 +60,38 @@ interface CountRow
     | string;
 }
 
-
 interface OriginEventRow
   extends RowDataPacket {
-  id:
-    number;
+  id: number;
 
   event_date:
-    string | Date | null;
+    | string
+    | Date
+    | null;
 
   source_line_name:
-    string | null;
+    | string
+    | null;
 
   source_equipment_name:
-    string | null;
+    | string
+    | null;
 
   source_stop_type:
-    string | null;
+    | string
+    | null;
 
   source_stop_subkey:
-    string | null;
+    | string
+    | null;
 
   source_stop_key_1:
-    string | null;
+    | string
+    | null;
 
   observation:
-    string | null;
+    | string
+    | null;
 
   downtime_minutes:
     | number
@@ -89,7 +99,8 @@ interface OriginEventRow
     | null;
 
   predicted_origin:
-    string | null;
+    | string
+    | null;
 
   prediction_confidence:
     | number
@@ -97,65 +108,188 @@ interface OriginEventRow
     | null;
 
   prediction_confidence_level:
-    string | null;
+    | string
+    | null;
 
   model_version:
-    string | null;
+    | string
+    | null;
 
   manual_origin:
-    string | null;
+    | string
+    | null;
 
   review_note:
-    string | null;
+    | string
+    | null;
 
   reviewed_at:
-    string | Date | null;
+    | string
+    | Date
+    | null;
 
   reviewed_by_user_id:
-    number | null;
+    | number
+    | null;
 
   reviewed_by_name:
-    string | null;
+    | string
+    | null;
 
   effective_origin:
-    string | null;
+    | string
+    | null;
 }
-
 
 interface EventAccessRow
   extends RowDataPacket {
-  id:
-    number;
-
-  unit_id:
-    number;
+  id: number;
+  unit_id: number;
 }
-
 
 interface CurrentReviewRow
   extends RowDataPacket {
-  id:
-    number;
+  id: number;
 
   manual_origin:
     FailureOrigin;
 
   review_note:
-    string | null;
+    | string
+    | null;
 }
-
 
 interface PatchBody {
-  eventId?:
-    unknown;
-
-  manualOrigin?:
-    unknown;
-
-  note?:
-    unknown;
+  eventId?: unknown;
+  manualOrigin?: unknown;
+  note?: unknown;
 }
 
+/* =========================================================
+   TIPOS DO RESUMO ANALÍTICO
+========================================================= */
+
+interface OriginSummaryRow
+  extends RowDataPacket {
+  total:
+    | number
+    | string;
+
+  operation_count:
+    | number
+    | string;
+
+  maintenance_count:
+    | number
+    | string;
+
+  unclassified_count:
+    | number
+    | string;
+
+  reviewed_count:
+    | number
+    | string;
+
+  model_only_count:
+    | number
+    | string;
+
+  operation_downtime:
+    | number
+    | string
+    | null;
+
+  maintenance_downtime:
+    | number
+    | string
+    | null;
+
+  unclassified_downtime:
+    | number
+    | string
+    | null;
+}
+
+interface OriginTimelineRow
+  extends RowDataPacket {
+  period:
+    | string
+    | Date
+    | null;
+
+  total:
+    | number
+    | string;
+
+  operation_count:
+    | number
+    | string;
+
+  maintenance_count:
+    | number
+    | string;
+
+  unclassified_count:
+    | number
+    | string;
+
+  reviewed_count:
+    | number
+    | string;
+
+  downtime_minutes:
+    | number
+    | string
+    | null;
+}
+
+interface OriginLineRow
+  extends RowDataPacket {
+  line_name:
+    | string
+    | null;
+
+  total:
+    | number
+    | string;
+
+  operation_count:
+    | number
+    | string;
+
+  maintenance_count:
+    | number
+    | string;
+
+  unclassified_count:
+    | number
+    | string;
+
+  reviewed_count:
+    | number
+    | string;
+
+  downtime_minutes:
+    | number
+    | string
+    | null;
+
+  operation_downtime:
+    | number
+    | string
+    | null;
+
+  maintenance_downtime:
+    | number
+    | string
+    | null;
+
+  unclassified_downtime:
+    | number
+    | string
+    | null;
+}
 
 /* =========================================================
    HELPERS
@@ -163,7 +297,8 @@ interface PatchBody {
 
 function isDateValue(
   value:
-    string | null,
+    | string
+    | null,
 ): value is string {
   return Boolean(
     value &&
@@ -173,10 +308,8 @@ function isDateValue(
   );
 }
 
-
 function normalizeOrigin(
-  value:
-    unknown,
+  value: unknown,
 ): FailureOrigin | null {
   if (
     typeof value !==
@@ -185,12 +318,10 @@ function normalizeOrigin(
     return null;
   }
 
-
   const normalized =
     value
       .trim()
       .toUpperCase();
-
 
   if (
     normalized ===
@@ -199,7 +330,6 @@ function normalizeOrigin(
     return "OPERACAO";
   }
 
-
   if (
     normalized ===
     "MANUTENCAO"
@@ -207,14 +337,11 @@ function normalizeOrigin(
     return "MANUTENCAO";
   }
 
-
   return null;
 }
 
-
 function normalizeEffectiveOrigin(
-  value:
-    unknown,
+  value: unknown,
 ): EffectiveFailureOrigin {
   if (
     typeof value !==
@@ -223,12 +350,10 @@ function normalizeEffectiveOrigin(
     return "NAO_CLASSIFICADO";
   }
 
-
   const normalized =
     value
       .trim()
       .toUpperCase();
-
 
   if (
     normalized ===
@@ -237,7 +362,6 @@ function normalizeEffectiveOrigin(
     return "OPERACAO";
   }
 
-
   if (
     normalized ===
     "MANUTENCAO"
@@ -245,14 +369,11 @@ function normalizeEffectiveOrigin(
     return "MANUTENCAO";
   }
 
-
   return "NAO_CLASSIFICADO";
 }
 
-
 function normalizeNote(
-  value:
-    unknown,
+  value: unknown,
 ): string | null {
   if (
     typeof value !==
@@ -260,7 +381,6 @@ function normalizeNote(
   ) {
     return null;
   }
-
 
   const normalized =
     value
@@ -270,25 +390,23 @@ function normalizeNote(
         500,
       );
 
-
   return (
     normalized ||
     null
   );
 }
 
-
 function formatDate(
   value:
-    string | Date | null,
+    | string
+    | Date
+    | null,
 ): string | null {
   if (
-    value ===
-    null
+    value === null
   ) {
     return null;
   }
-
 
   if (
     value instanceof
@@ -314,16 +432,13 @@ function formatDate(
         "0",
       );
 
-
     return `${year}-${month}-${day}`;
   }
-
 
   const text =
     String(
       value,
     );
-
 
   return text.length >=
     10
@@ -334,18 +449,17 @@ function formatDate(
     : text;
 }
 
-
 function formatDateTime(
   value:
-    string | Date | null,
+    | string
+    | Date
+    | null,
 ): string | null {
   if (
-    value ===
-    null
+    value === null
   ) {
     return null;
   }
-
 
   if (
     value instanceof
@@ -354,24 +468,23 @@ function formatDateTime(
     return value.toISOString();
   }
 
-
   return String(
     value,
   );
 }
 
-
 function toNumber(
   value:
     | number
     | string
-    | null,
+    | null
+    | undefined,
 ): number {
   const parsed =
     Number(
-      value ?? 0,
+      value ??
+        0,
     );
-
 
   return Number.isFinite(
     parsed,
@@ -380,12 +493,43 @@ function toNumber(
     : 0;
 }
 
+function percentage(
+  value: number,
+  total: number,
+): number {
+  if (
+    total <= 0
+  ) {
+    return 0;
+  }
+
+  return (
+    value /
+    total
+  ) *
+    100;
+}
 
 /* =========================================================
    GET
 
-   Lista exatamente as ocorrências pertencentes ao mesmo
-   universo utilizado pelo gráfico de origem.
+   DOIS MODOS:
+
+   1. EVENTS
+      GET /api/analytics/reliability/origins
+
+      Mantém o comportamento atual:
+      lista paginada de ocorrências e revisão.
+
+   2. SUMMARY
+      GET /api/analytics/reliability/origins?view=summary
+
+      Retorna:
+      - resumo operação × manutenção × não classificado;
+      - revisões manuais;
+      - classificação somente pelo modelo;
+      - evolução diária;
+      - distribuição por linha.
 
    PRIORIDADE DA ORIGEM:
 
@@ -395,12 +539,10 @@ function toNumber(
 ========================================================= */
 
 export async function GET(
-  request:
-    NextRequest,
+  request: NextRequest,
 ) {
   const session =
     await getSession();
-
 
   if (
     !session
@@ -420,7 +562,6 @@ export async function GET(
     );
   }
 
-
   try {
     /* =====================================================
        UNIDADES
@@ -434,7 +575,6 @@ export async function GET(
         defaultUnitId:
           session.unitId,
       });
-
 
     if (
       unitSelection
@@ -457,13 +597,11 @@ export async function GET(
       );
     }
 
-
     const unitFilter =
       buildUnitInClause(
         unitSelection
           .selectedUnitIds,
       );
-
 
     /* =====================================================
        PARAMS
@@ -476,18 +614,31 @@ export async function GET(
         request.url,
       );
 
+    const requestedViewRaw =
+      searchParams
+        .get(
+          "view",
+        )
+        ?.trim()
+        .toUpperCase() ||
+      "";
+
+    const view:
+      OriginsView =
+      requestedViewRaw ===
+        "SUMMARY"
+        ? "SUMMARY"
+        : "EVENTS";
 
     const startDate =
       searchParams.get(
         "startDate",
       );
 
-
     const endDate =
       searchParams.get(
         "endDate",
       );
-
 
     const line =
       searchParams
@@ -497,7 +648,6 @@ export async function GET(
         ?.trim() ||
       "";
 
-
     const equipment =
       searchParams
         .get(
@@ -505,7 +655,6 @@ export async function GET(
         )
         ?.trim() ||
       "";
-
 
     const search =
       searchParams
@@ -519,7 +668,6 @@ export async function GET(
         ) ||
       "";
 
-
     const requestedOriginRaw =
       searchParams
         .get(
@@ -528,7 +676,6 @@ export async function GET(
         ?.trim()
         .toUpperCase() ||
       "";
-
 
     const requestedOrigin:
       EffectiveFailureOrigin | null =
@@ -543,24 +690,21 @@ export async function GET(
             ? "NAO_CLASSIFICADO"
             : null;
 
-
     const requestedPage =
       Number(
         searchParams.get(
           "page",
         ) ??
-        1,
+          1,
       );
-
 
     const requestedPageSize =
       Number(
         searchParams.get(
           "pageSize",
         ) ??
-        20,
+          20,
       );
-
 
     const page =
       Number.isInteger(
@@ -570,7 +714,6 @@ export async function GET(
         0
         ? requestedPage
         : 1;
-
 
     const pageSize =
       Number.isInteger(
@@ -585,12 +728,13 @@ export async function GET(
           )
         : 20;
 
-
     /* =====================================================
        FILTROS BASE
 
-       Estes são os mesmos filtros conceituais utilizados
-       pela tela principal:
+       São os filtros analíticos globais.
+
+       O resumo e a lista utilizam exatamente o mesmo
+       universo de eventos:
 
        - unidade
        - período
@@ -603,14 +747,12 @@ export async function GET(
         `e.unit_id IN (${unitFilter.placeholders})`,
       ];
 
-
     const baseValues:
       Array<
         string | number
       > = [
         ...unitFilter.values,
       ];
-
 
     if (
       isDateValue(
@@ -626,7 +768,6 @@ export async function GET(
       );
     }
 
-
     if (
       isDateValue(
         endDate,
@@ -641,7 +782,6 @@ export async function GET(
       );
     }
 
-
     if (
       line
     ) {
@@ -653,7 +793,6 @@ export async function GET(
         line,
       );
     }
-
 
     if (
       equipment
@@ -667,17 +806,25 @@ export async function GET(
       );
     }
 
-
     /* =====================================================
        CTE BASE
 
-       IMPORTANTE:
+       A definição da origem existe somente aqui.
 
-       A previsão é ligada DIRETAMENTE pelo event_id.
+       Isso garante consistência entre:
 
-       Isso deixa esta consulta alinhada ao modelo de
-       persistência utilizado pelo classificador e elimina
-       a divergência anterior do drawer.
+       - resumo;
+       - evolução;
+       - linhas;
+       - drawer/listagem.
+
+       REGRA:
+
+       revisão manual
+            ↓
+       previsão do modelo
+            ↓
+       não classificado
     ====================================================== */
 
     const baseSql =
@@ -725,7 +872,6 @@ export async function GET(
               AS reviewed_by_name,
 
             CASE
-
               WHEN
                 UPPER(
                   TRIM(
@@ -754,7 +900,6 @@ export async function GET(
 
               ELSE
                 'NAO_CLASSIFICADO'
-
             END
               AS effective_origin
 
@@ -775,11 +920,727 @@ export async function GET(
         )
       `;
 
+    /* =====================================================
+       VIEW = SUMMARY
+    ====================================================== */
+
+    if (
+      view ===
+      "SUMMARY"
+    ) {
+      /* ===================================================
+         RESUMO
+      ==================================================== */
+
+      const summaryPromise =
+        executeRows<
+          OriginSummaryRow[]
+        >(
+          `
+            ${baseSql}
+
+            SELECT
+              COUNT(*)
+                AS total,
+
+              SUM(
+                CASE
+                  WHEN effective_origin = 'OPERACAO'
+                    THEN 1
+                  ELSE 0
+                END
+              )
+                AS operation_count,
+
+              SUM(
+                CASE
+                  WHEN effective_origin = 'MANUTENCAO'
+                    THEN 1
+                  ELSE 0
+                END
+              )
+                AS maintenance_count,
+
+              SUM(
+                CASE
+                  WHEN effective_origin = 'NAO_CLASSIFICADO'
+                    THEN 1
+                  ELSE 0
+                END
+              )
+                AS unclassified_count,
+
+              SUM(
+                CASE
+                  WHEN manual_origin IS NOT NULL
+                    THEN 1
+                  ELSE 0
+                END
+              )
+                AS reviewed_count,
+
+              SUM(
+                CASE
+                  WHEN
+                    manual_origin IS NULL
+                    AND UPPER(
+                      TRIM(
+                        COALESCE(
+                          predicted_origin,
+                          ''
+                        )
+                      )
+                    ) IN (
+                      'OPERACAO',
+                      'MANUTENCAO'
+                    )
+                  THEN 1
+                  ELSE 0
+                END
+              )
+                AS model_only_count,
+
+              COALESCE(
+                SUM(
+                  CASE
+                    WHEN effective_origin = 'OPERACAO'
+                      THEN COALESCE(
+                        downtime_minutes,
+                        0
+                      )
+                    ELSE 0
+                  END
+                ),
+                0
+              )
+                AS operation_downtime,
+
+              COALESCE(
+                SUM(
+                  CASE
+                    WHEN effective_origin = 'MANUTENCAO'
+                      THEN COALESCE(
+                        downtime_minutes,
+                        0
+                      )
+                    ELSE 0
+                  END
+                ),
+                0
+              )
+                AS maintenance_downtime,
+
+              COALESCE(
+                SUM(
+                  CASE
+                    WHEN effective_origin = 'NAO_CLASSIFICADO'
+                      THEN COALESCE(
+                        downtime_minutes,
+                        0
+                      )
+                    ELSE 0
+                  END
+                ),
+                0
+              )
+                AS unclassified_downtime
+
+            FROM
+              origin_base
+          `,
+          [
+            ...baseValues,
+          ],
+        );
+
+      /* ===================================================
+         EVOLUÇÃO TEMPORAL
+
+         O agrupamento inicial é diário.
+
+         Na interface podemos transformar visualmente em
+         semana/mês sem perder os dados originais.
+      ==================================================== */
+
+      const timelinePromise =
+        executeRows<
+          OriginTimelineRow[]
+        >(
+          `
+            ${baseSql}
+
+            SELECT
+              DATE(event_date)
+                AS period,
+
+              COUNT(*)
+                AS total,
+
+              SUM(
+                CASE
+                  WHEN effective_origin = 'OPERACAO'
+                    THEN 1
+                  ELSE 0
+                END
+              )
+                AS operation_count,
+
+              SUM(
+                CASE
+                  WHEN effective_origin = 'MANUTENCAO'
+                    THEN 1
+                  ELSE 0
+                END
+              )
+                AS maintenance_count,
+
+              SUM(
+                CASE
+                  WHEN effective_origin = 'NAO_CLASSIFICADO'
+                    THEN 1
+                  ELSE 0
+                END
+              )
+                AS unclassified_count,
+
+              SUM(
+                CASE
+                  WHEN manual_origin IS NOT NULL
+                    THEN 1
+                  ELSE 0
+                END
+              )
+                AS reviewed_count,
+
+              COALESCE(
+                SUM(
+                  COALESCE(
+                    downtime_minutes,
+                    0
+                  )
+                ),
+                0
+              )
+                AS downtime_minutes
+
+            FROM
+              origin_base
+
+            WHERE
+              event_date IS NOT NULL
+
+            GROUP BY
+              DATE(event_date)
+
+            ORDER BY
+              DATE(event_date) ASC
+          `,
+          [
+            ...baseValues,
+          ],
+        );
+
+      /* ===================================================
+         DISTRIBUIÇÃO POR LINHA
+      ==================================================== */
+
+      const byLinePromise =
+        executeRows<
+          OriginLineRow[]
+        >(
+          `
+            ${baseSql}
+
+            SELECT
+              COALESCE(
+                NULLIF(
+                  TRIM(
+                    source_line_name
+                  ),
+                  ''
+                ),
+                'Linha não informada'
+              )
+                AS line_name,
+
+              COUNT(*)
+                AS total,
+
+              SUM(
+                CASE
+                  WHEN effective_origin = 'OPERACAO'
+                    THEN 1
+                  ELSE 0
+                END
+              )
+                AS operation_count,
+
+              SUM(
+                CASE
+                  WHEN effective_origin = 'MANUTENCAO'
+                    THEN 1
+                  ELSE 0
+                END
+              )
+                AS maintenance_count,
+
+              SUM(
+                CASE
+                  WHEN effective_origin = 'NAO_CLASSIFICADO'
+                    THEN 1
+                  ELSE 0
+                END
+              )
+                AS unclassified_count,
+
+              SUM(
+                CASE
+                  WHEN manual_origin IS NOT NULL
+                    THEN 1
+                  ELSE 0
+                END
+              )
+                AS reviewed_count,
+
+              COALESCE(
+                SUM(
+                  COALESCE(
+                    downtime_minutes,
+                    0
+                  )
+                ),
+                0
+              )
+                AS downtime_minutes,
+
+              COALESCE(
+                SUM(
+                  CASE
+                    WHEN effective_origin = 'OPERACAO'
+                      THEN COALESCE(
+                        downtime_minutes,
+                        0
+                      )
+                    ELSE 0
+                  END
+                ),
+                0
+              )
+                AS operation_downtime,
+
+              COALESCE(
+                SUM(
+                  CASE
+                    WHEN effective_origin = 'MANUTENCAO'
+                      THEN COALESCE(
+                        downtime_minutes,
+                        0
+                      )
+                    ELSE 0
+                  END
+                ),
+                0
+              )
+                AS maintenance_downtime,
+
+              COALESCE(
+                SUM(
+                  CASE
+                    WHEN effective_origin = 'NAO_CLASSIFICADO'
+                      THEN COALESCE(
+                        downtime_minutes,
+                        0
+                      )
+                    ELSE 0
+                  END
+                ),
+                0
+              )
+                AS unclassified_downtime
+
+            FROM
+              origin_base
+
+            GROUP BY
+              COALESCE(
+                NULLIF(
+                  TRIM(
+                    source_line_name
+                  ),
+                  ''
+                ),
+                'Linha não informada'
+              )
+
+            ORDER BY
+              total DESC,
+              line_name ASC
+          `,
+          [
+            ...baseValues,
+          ],
+        );
+
+      const [
+        summaryRows,
+        timelineRows,
+        lineRows,
+      ] =
+        await Promise.all([
+          summaryPromise,
+          timelinePromise,
+          byLinePromise,
+        ]);
+
+      const summaryRow =
+        summaryRows[
+          0
+        ];
+
+      const total =
+        toNumber(
+          summaryRow
+            ?.total,
+        );
+
+      const operation =
+        toNumber(
+          summaryRow
+            ?.operation_count,
+        );
+
+      const maintenance =
+        toNumber(
+          summaryRow
+            ?.maintenance_count,
+        );
+
+      const unclassified =
+        toNumber(
+          summaryRow
+            ?.unclassified_count,
+        );
+
+      const reviewed =
+        toNumber(
+          summaryRow
+            ?.reviewed_count,
+        );
+
+      const modelOnly =
+        toNumber(
+          summaryRow
+            ?.model_only_count,
+        );
+
+      const classified =
+        operation +
+        maintenance;
+
+      const operationDowntimeMinutes =
+        toNumber(
+          summaryRow
+            ?.operation_downtime,
+        );
+
+      const maintenanceDowntimeMinutes =
+        toNumber(
+          summaryRow
+            ?.maintenance_downtime,
+        );
+
+      const unclassifiedDowntimeMinutes =
+        toNumber(
+          summaryRow
+            ?.unclassified_downtime,
+        );
+
+      const totalDowntimeMinutes =
+        operationDowntimeMinutes +
+        maintenanceDowntimeMinutes +
+        unclassifiedDowntimeMinutes;
+
+      const timeline =
+        timelineRows.map(
+          (
+            row,
+          ) => {
+            const rowTotal =
+              toNumber(
+                row.total,
+              );
+
+            const rowOperation =
+              toNumber(
+                row.operation_count,
+              );
+
+            const rowMaintenance =
+              toNumber(
+                row.maintenance_count,
+              );
+
+            const rowUnclassified =
+              toNumber(
+                row.unclassified_count,
+              );
+
+            const rowReviewed =
+              toNumber(
+                row.reviewed_count,
+              );
+
+            return {
+              period:
+                formatDate(
+                  row.period,
+                ),
+
+              total:
+                rowTotal,
+
+              operation:
+                rowOperation,
+
+              maintenance:
+                rowMaintenance,
+
+              unclassified:
+                rowUnclassified,
+
+              reviewed:
+                rowReviewed,
+
+              downtimeMinutes:
+                toNumber(
+                  row.downtime_minutes,
+                ),
+
+              operationPercentage:
+                percentage(
+                  rowOperation,
+                  rowTotal,
+                ),
+
+              maintenancePercentage:
+                percentage(
+                  rowMaintenance,
+                  rowTotal,
+                ),
+
+              unclassifiedPercentage:
+                percentage(
+                  rowUnclassified,
+                  rowTotal,
+                ),
+            };
+          },
+        );
+
+      const byLine =
+        lineRows.map(
+          (
+            row,
+          ) => {
+            const lineTotal =
+              toNumber(
+                row.total,
+              );
+
+            const lineOperation =
+              toNumber(
+                row.operation_count,
+              );
+
+            const lineMaintenance =
+              toNumber(
+                row.maintenance_count,
+              );
+
+            const lineUnclassified =
+              toNumber(
+                row.unclassified_count,
+              );
+
+            return {
+              line:
+                row.line_name?.trim() ||
+                "Linha não informada",
+
+              total:
+                lineTotal,
+
+              operation:
+                lineOperation,
+
+              maintenance:
+                lineMaintenance,
+
+              unclassified:
+                lineUnclassified,
+
+              reviewed:
+                toNumber(
+                  row.reviewed_count,
+                ),
+
+              downtimeMinutes:
+                toNumber(
+                  row.downtime_minutes,
+                ),
+
+              operationDowntimeMinutes:
+                toNumber(
+                  row.operation_downtime,
+                ),
+
+              maintenanceDowntimeMinutes:
+                toNumber(
+                  row.maintenance_downtime,
+                ),
+
+              unclassifiedDowntimeMinutes:
+                toNumber(
+                  row.unclassified_downtime,
+                ),
+
+              operationPercentage:
+                percentage(
+                  lineOperation,
+                  lineTotal,
+                ),
+
+              maintenancePercentage:
+                percentage(
+                  lineMaintenance,
+                  lineTotal,
+                ),
+
+              unclassifiedPercentage:
+                percentage(
+                  lineUnclassified,
+                  lineTotal,
+                ),
+            };
+          },
+        );
+
+      return NextResponse.json({
+        success:
+          true,
+
+        editable:
+          session.role ===
+          "ANALISTA",
+
+        view:
+          "SUMMARY",
+
+        filter: {
+          startDate:
+            startDate ??
+            null,
+
+          endDate:
+            endDate ??
+            null,
+
+          line:
+            line ||
+            null,
+
+          equipment:
+            equipment ||
+            null,
+
+          selectedUnitIds:
+            unitSelection
+              .selectedUnitIds,
+        },
+
+        summary: {
+          total,
+
+          classified,
+
+          operation,
+
+          maintenance,
+
+          unclassified,
+
+          reviewed,
+
+          modelOnly,
+
+          operationPercentage:
+            percentage(
+              operation,
+              classified,
+            ),
+
+          maintenancePercentage:
+            percentage(
+              maintenance,
+              classified,
+            ),
+
+          unclassifiedPercentage:
+            percentage(
+              unclassified,
+              total,
+            ),
+
+          reviewedPercentage:
+            percentage(
+              reviewed,
+              total,
+            ),
+
+          modelOnlyPercentage:
+            percentage(
+              modelOnly,
+              total,
+            ),
+
+          downtimeMinutes:
+            totalDowntimeMinutes,
+
+          operationDowntimeMinutes,
+
+          maintenanceDowntimeMinutes,
+
+          unclassifiedDowntimeMinutes,
+
+          operationDowntimePercentage:
+            percentage(
+              operationDowntimeMinutes,
+              totalDowntimeMinutes,
+            ),
+
+          maintenanceDowntimePercentage:
+            percentage(
+              maintenanceDowntimeMinutes,
+              totalDowntimeMinutes,
+            ),
+
+          unclassifiedDowntimePercentage:
+            percentage(
+              unclassifiedDowntimeMinutes,
+              totalDowntimeMinutes,
+            ),
+        },
+
+        timeline,
+
+        byLine,
+      });
+    }
 
     /* =====================================================
-       FILTRO EXTERNO
+       VIEW = EVENTS
 
-       Aqui filtramos a origem JÁ CALCULADA.
+       A partir daqui o comportamento anterior é mantido.
     ====================================================== */
 
     const resultWhere:
@@ -787,12 +1648,10 @@ export async function GET(
         "1 = 1",
       ];
 
-
     const resultValues:
       Array<
         string | number
       > = [];
-
 
     if (
       requestedOrigin
@@ -805,7 +1664,6 @@ export async function GET(
         requestedOrigin,
       );
     }
-
 
     if (
       search
@@ -846,10 +1704,8 @@ export async function GET(
         `,
       );
 
-
       const like =
         containsLikePattern(search);
-
 
       resultValues.push(
         like,
@@ -860,7 +1716,6 @@ export async function GET(
         like,
       );
     }
-
 
     /* =====================================================
        CONTAGEM
@@ -891,15 +1746,13 @@ export async function GET(
         ],
       );
 
-
     const total =
       toNumber(
         countRows[
           0
         ]?.total ??
-        0,
+          0,
       );
-
 
     const totalPages =
       Math.max(
@@ -910,13 +1763,11 @@ export async function GET(
         ),
       );
 
-
     const safePage =
       Math.min(
         page,
         totalPages,
       );
-
 
     const offset =
       (
@@ -924,7 +1775,6 @@ export async function GET(
         1
       ) *
       pageSize;
-
 
     /* =====================================================
        LISTA
@@ -994,7 +1844,6 @@ export async function GET(
         `,
         [
           ...baseValues,
-
           ...resultValues,
 
           pageSize,
@@ -1002,7 +1851,6 @@ export async function GET(
           offset,
         ],
       );
-
 
     /* =====================================================
        RESPONSE
@@ -1018,18 +1866,15 @@ export async function GET(
               row.predicted_origin,
             );
 
-
           const manualOrigin =
             normalizeOrigin(
               row.manual_origin,
             );
 
-
           const effectiveOrigin =
             normalizeEffectiveOrigin(
               row.effective_origin,
             );
-
 
           return {
             id:
@@ -1115,7 +1960,6 @@ export async function GET(
         },
       );
 
-
     return NextResponse.json({
       success:
         true,
@@ -1123,6 +1967,9 @@ export async function GET(
       editable:
         session.role ===
         "MAINTENANCE",
+
+      view:
+        "EVENTS",
 
       filter: {
         origin:
@@ -1170,7 +2017,6 @@ export async function GET(
       error,
     );
 
-
     return NextResponse.json(
       {
         success:
@@ -1187,7 +2033,6 @@ export async function GET(
   }
 }
 
-
 /* =========================================================
    PATCH
 
@@ -1201,12 +2046,10 @@ export async function GET(
 ========================================================= */
 
 export async function PATCH(
-  request:
-    NextRequest,
+  request: NextRequest,
 ) {
   const session =
     await getSession();
-
 
   if (
     !session
@@ -1225,7 +2068,6 @@ export async function PATCH(
       },
     );
   }
-
 
   if (
     session.role !==
@@ -1246,10 +2088,8 @@ export async function PATCH(
     );
   }
 
-
   let body:
     PatchBody;
-
 
   try {
     body =
@@ -1273,12 +2113,10 @@ export async function PATCH(
     );
   }
 
-
   const eventId =
     Number(
       body.eventId,
     );
-
 
   if (
     !Number.isInteger(
@@ -1302,11 +2140,9 @@ export async function PATCH(
     );
   }
 
-
   const removeReview =
     body.manualOrigin ===
     null;
-
 
   const manualOrigin =
     removeReview
@@ -1314,7 +2150,6 @@ export async function PATCH(
       : normalizeOrigin(
           body.manualOrigin,
         );
-
 
   if (
     !removeReview &&
@@ -1335,12 +2170,10 @@ export async function PATCH(
     );
   }
 
-
   const note =
     normalizeNote(
       body.note,
     );
-
 
   let connection:
     Awaited<
@@ -1350,7 +2183,6 @@ export async function PATCH(
     > |
     null =
     null;
-
 
   try {
     /* =====================================================
@@ -1365,7 +2197,6 @@ export async function PATCH(
         defaultUnitId:
           session.unitId,
       });
-
 
     if (
       unitSelection
@@ -1388,13 +2219,11 @@ export async function PATCH(
       );
     }
 
-
     const unitFilter =
       buildUnitInClause(
         unitSelection
           .selectedUnitIds,
       );
-
 
     const eventRows =
       await executeRows<
@@ -1419,10 +2248,10 @@ export async function PATCH(
         `,
         [
           eventId,
+
           ...unitFilter.values,
         ],
       );
-
 
     if (
       eventRows.length ===
@@ -1443,7 +2272,6 @@ export async function PATCH(
       );
     }
 
-
     /* =====================================================
        TRANSAÇÃO
     ====================================================== */
@@ -1451,10 +2279,8 @@ export async function PATCH(
     connection =
       await getConnection();
 
-
     await connection
       .beginTransaction();
-
 
     const [
       currentRows,
@@ -1486,12 +2312,10 @@ export async function PATCH(
           ],
         );
 
-
     const current =
       currentRows[
         0
       ];
-
 
     /* =====================================================
        RESTAURAR PREVISÃO
@@ -1518,7 +2342,6 @@ export async function PATCH(
               eventId,
             ],
           );
-
 
         await connection
           .query<
@@ -1563,10 +2386,8 @@ export async function PATCH(
           );
       }
 
-
       await connection
         .commit();
-
 
       return NextResponse.json({
         success:
@@ -1582,7 +2403,6 @@ export async function PATCH(
       });
     }
 
-
     /* =====================================================
        CRIAR OU ALTERAR REVISÃO
     ====================================================== */
@@ -1591,7 +2411,6 @@ export async function PATCH(
       current
         ? "ALTERACAO"
         : "CRIACAO";
-
 
     await connection
       .query<
@@ -1652,7 +2471,6 @@ export async function PATCH(
         ],
       );
 
-
     /* =====================================================
        AUDITORIA
     ====================================================== */
@@ -1695,7 +2513,7 @@ export async function PATCH(
 
           current
             ?.manual_origin ??
-          null,
+            null,
 
           manualOrigin,
 
@@ -1705,10 +2523,8 @@ export async function PATCH(
         ],
       );
 
-
     await connection
       .commit();
-
 
     return NextResponse.json({
       success:
@@ -1734,12 +2550,10 @@ export async function PATCH(
       }
     }
 
-
     console.error(
       "PATCH /api/analytics/reliability/origins",
       error,
     );
-
 
     return NextResponse.json(
       {

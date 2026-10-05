@@ -1,0 +1,422 @@
+﻿canonical_id,canonical_label,family,component,mechanism,definition,status,taxonomy_version
+FM000001,ACUMULO TAMPAS BUFFER FALHA,TAMPA,,,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000002,AFROUXAMENTO DE PARAFUSO DE FIXACAO,OTHER_UNKNOWN,,AFROUXAMENTO,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000003,ALTERACAO DA VELOCIDADE DO DEVICER,OTHER_UNKNOWN,,,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000004,AMASSAMENTO DE LATAS,LATA,,AMASSAMENTO,"Nos apontamentos existentes, este rótulo aparece em observações que mencionam frequentemente: LATAS, AMASSANDO, VELOCIDADE. Requer validação de especialista.",REVIEW,canonical-taxonomy-v3-candidate
+FM000005,ATUACAO DO CIRCUITO DE EMERGENCIA,OTHER_UNKNOWN,,,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000006,ATUACAO QUEIMA DE FUSIVEL,ELETRICO,,,,REVIEW,canonical-taxonomy-v3-candidate
+FM000007,AUSENCIA DE PARAFUSO DE FIXACAO,OTHER_UNKNOWN,,AUSENCIA,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000008,BAIXA VELOCIDADE DE ESTEIRA,ESTEIRA,ESTEIRA,,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000009,COLAPSO DE LATAS,LATA,,COLAPSO,"Nos apontamentos existentes, este rótulo aparece em observações que mencionam frequentemente: LATAS, VELOCIDADE, COLAPSANDO, DURANTE, NOMINAL, PARTIDA. Requer validação de especialista.",REVIEW,canonical-taxonomy-v3-candidate
+FM000010,COLISAO DO BRACO DE ESTIRAMENTO,OTHER_UNKNOWN,,COLISAO,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000011,COLISAO DO EMPURRADOR,OTHER_UNKNOWN,,COLISAO,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000012,COLISAO DO ROBO COM PALETE,ROBO,ROBO,COLISAO,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000013,CRASH DE GARRAFAS,GARRAFA,,,"Nos apontamentos existentes, este rótulo aparece em observações que mencionam frequentemente: GARRAFAS, CRASH, REJEITO, EXCESSO, SAIDA, ENCHEDORA. Requer validação de especialista.",REVIEW,canonical-taxonomy-v3-candidate
+FM000014,CRASH DE LATAS,LATA,,,,REVIEW,canonical-taxonomy-v3-candidate
+FM000015,CURTO CIRCUITO,OTHER_UNKNOWN,,CURTO CIRCUITO,"Nos apontamentos existentes, este rótulo aparece em observações que mencionam frequentemente: CURTO. Requer validação de especialista.",REVIEW,canonical-taxonomy-v3-candidate
+FM000016,DANIFICACAO DA BUCHA DE ELEVACAO DO PISTAO,OTHER_UNKNOWN,,DANIFICACAO,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000017,DANIFICACAO DE GARRAFAS,GARRAFA,,DANIFICACAO,"Nos apontamentos existentes, este rótulo aparece em observações que mencionam frequentemente: GARRAFA, DANIFICANDO, FINISH, BOCAL, QUEBRANDO. Requer validação de especialista.",ACTIVE,canonical-taxonomy-v3-candidate
+FM000018,DEFORMACAO DE CABECOTE,CABECOTE,CABECOTE,DEFORMACAO,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000019,DEFORMACAO DE EIXO,EIXO,EIXO,DEFORMACAO,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000020,DEFORMACAO DE FACA,OTHER_UNKNOWN,,DEFORMACAO,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000021,DEFORMACAO DE HASTE,OTHER_UNKNOWN,,DEFORMACAO,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000022,DEFORMACAO DE MEXEDOR,OTHER_UNKNOWN,,DEFORMACAO,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000023,DEFORMACAO DE SUPORTE,SUPORTE,SUPORTE,DEFORMACAO,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000024,DEFORMACAO DESALINHAMENTO DE GUIA,GUIA,GUIA,DEFORMACAO,"Nos apontamentos existentes, este rótulo aparece em observações que mencionam frequentemente: GUIA, GUIAS, TORTA. Requer validação de especialista.",REVIEW,canonical-taxonomy-v3-candidate
+FM000025,DEGRADACAO DE MANGUEIRA,MANGUEIRA,MANGUEIRA,,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000026,DESAJUSTE DE GUIA,GUIA,GUIA,,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000027,DESAJUSTE DE REGUA,GUIA,,,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000028,DESALINHAMENTO DE AGREGADO,OTHER_UNKNOWN,,DESALINHAMENTO,"Nos apontamentos existentes, este rótulo aparece em observações que mencionam frequentemente: AGREGADO, TANGENCIAMENTO, ENROSCO, ROTULOS. Requer validação de especialista.",REVIEW,canonical-taxonomy-v3-candidate
+FM000029,DESALINHAMENTO DE CENTRADOR,OTHER_UNKNOWN,,DESALINHAMENTO,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000030,DESALINHAMENTO DE CHAPA,OTHER_UNKNOWN,,DESALINHAMENTO,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000031,DESALINHAMENTO DE EIXO,EIXO,EIXO,DESALINHAMENTO,,REVIEW,canonical-taxonomy-v3-candidate
+FM000032,DESALINHAMENTO DE GUIA,GUIA,GUIA,DESALINHAMENTO,"Nos apontamentos existentes, este rótulo aparece em observações que mencionam frequentemente: GUIA. Requer validação de especialista.",REVIEW,canonical-taxonomy-v3-candidate
+FM000033,DESALINHAMENTO DE MASCARA,OTHER_UNKNOWN,,DESALINHAMENTO,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000034,DESALINHAMENTO DE PALETE,PALETE,,DESALINHAMENTO,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000035,DESALINHAMENTO DE PILHA DE PALETES,PALETE,,DESALINHAMENTO,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000036,DESALINHAMENTO DO BRACO DE CENTRAGEM,OTHER_UNKNOWN,,DESALINHAMENTO,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000037,DESALINHAMENTO MECANICO,OTHER_UNKNOWN,,DESALINHAMENTO,"Nos apontamentos existentes, este rótulo aparece em observações que mencionam frequentemente: FORA, POSICAO. Requer validação de especialista.",REVIEW,canonical-taxonomy-v3-candidate
+FM000038,DESARME DE BOMBA,BOMBA,BOMBA,DESARME,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000039,DESARME DE DISJUNTOR,OTHER_UNKNOWN,,DESARME,,REVIEW,canonical-taxonomy-v3-candidate
+FM000040,DESARME DE EQUIPAMENTO,OTHER_UNKNOWN,,DESARME,,REVIEW,canonical-taxonomy-v3-candidate
+FM000041,DESARME DE ESTEIRA,ESTEIRA,ESTEIRA,DESARME,,REVIEW,canonical-taxonomy-v3-candidate
+FM000042,DESARME DE MESA,MESA,MESA,DESARME,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000043,DESARME DE MOTOR,MOTOR,MOTOR,DESARME,"Nos apontamentos existentes, este rótulo aparece em observações que mencionam frequentemente: MOTOR, DESARMOU, TRANSPORTE, DESARME. Requer validação de especialista.",REVIEW,canonical-taxonomy-v3-candidate
+FM000044,DESARME DE PAINEL,OTHER_UNKNOWN,,DESARME,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000045,DESARME DE PAINEL DE COMANDO,OTHER_UNKNOWN,,DESARME,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000046,DESARME DE TRANSPORTE,TRANSPORTE,,DESARME,"Nos apontamentos existentes, este rótulo aparece em observações que mencionam frequentemente: TRANSPORTE, DESARMOU. Requer validação de especialista.",REVIEW,canonical-taxonomy-v3-candidate
+FM000047,DESARME PALETIZADORA,OTHER_UNKNOWN,,DESARME,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000048,DESARME TERMICO,TEMPERATURA,,DESARME,"Nos apontamentos existentes, este rótulo aparece em observações que mencionam frequentemente: TERMICO, DESARME, DESARMADO. Requer validação de especialista.",ACTIVE,canonical-taxonomy-v3-candidate
+FM000049,DESGASTE DE PINO DE SEPARACAO,OTHER_UNKNOWN,,DESGASTE,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000050,DESLIGAMENTO INDEVIDO DO EQUIPAMENTO,OTHER_UNKNOWN,,DESLIGAMENTO,"Nos apontamentos existentes, este rótulo aparece em observações que mencionam frequentemente: EQUIPAMENTO, ALARME, FALHA, GERAR, SONORO, ALERTA. Requer validação de especialista.",ACTIVE,canonical-taxonomy-v3-candidate
+FM000051,DESNIVELAMENTO DE ESTEIRA,ESTEIRA,ESTEIRA,DESNIVELAMENTO,,REVIEW,canonical-taxonomy-v3-candidate
+FM000052,DESPRENDIMENTO DO PISTAO DE TRAVAMENTO,OTHER_UNKNOWN,,DESPRENDIMENTO,,REVIEW,canonical-taxonomy-v3-candidate
+FM000053,EIXO DO BRACO TENCIONADOR DO FILME DA ENVOLVEDORA SOLTO,FILME,,,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000054,ENROSCO DE CAIXAS,CAIXA,,ENROSCO,"Nos apontamentos existentes, este rótulo aparece em observações que mencionam frequentemente: CAIXAS, CONGESTIONAMENTO, CAIXA, ENROSCO. Requer validação de especialista.",REVIEW,canonical-taxonomy-v3-candidate
+FM000055,ENROSCO DE CARTAO QUADRO,CARTAO,,ENROSCO,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000056,ENROSCO DE GARRAFAS,GARRAFA,,ENROSCO,"Nos apontamentos existentes, este rótulo aparece em observações que mencionam frequentemente: SAIDA, GARRAFAS, ENROSCO, ENCHEDORA. Requer validação de especialista.",REVIEW,canonical-taxonomy-v3-candidate
+FM000057,ENROSCO DE LATAS,LATA,,ENROSCO,"Nos apontamentos existentes, este rótulo aparece em observações que mencionam frequentemente: ENROSCO, LATAS, LATA, TWISTER. Requer validação de especialista.",REVIEW,canonical-taxonomy-v3-candidate
+FM000058,ENROSCO DE PACOTES,PACOTE,,ENROSCO,"Nos apontamentos existentes, este rótulo aparece em observações que mencionam frequentemente: ENROSCO, PACOTES. Requer validação de especialista.",REVIEW,canonical-taxonomy-v3-candidate
+FM000059,ENROSCO DE ROTULOS,ROTULO,,ENROSCO,"Nos apontamentos existentes, este rótulo aparece em observações que mencionam frequentemente: ENROSCO, ROTULO, ROTULOS, AGREGADO, FALHA. Requer validação de especialista.",REVIEW,canonical-taxonomy-v3-candidate
+FM000060,ENROSCO DE TAMPAS,TAMPA,,ENROSCO,"Nos apontamentos existentes, este rótulo aparece em observações que mencionam frequentemente: ENROSCO, TAMPAS, TAMPA. Requer validação de especialista.",REVIEW,canonical-taxonomy-v3-candidate
+FM000061,ENTUPIMENTO,OTHER_UNKNOWN,,ENTUPIMENTO,,REVIEW,canonical-taxonomy-v3-candidate
+FM000062,ENTUPIMENTO DE TUBULACAO,TUBULACAO,TUBULACAO,ENTUPIMENTO,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000063,ENTUPIMENTO NO TRANSPORTE DE TAMPAS,TAMPA,,ENTUPIMENTO,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000064,ERRO DE COMUNICACAO,COMUNICACAO,,ERRO,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000065,ESCAPE DE CORREIA,CORREIA,CORREIA,ESCAPE,"Nos apontamentos existentes, este rótulo aparece em observações que mencionam frequentemente: CORREIA, ESCAPOU, TRANSPORTADORA, CURVA, SAIDA. Requer validação de especialista.",ACTIVE,canonical-taxonomy-v3-candidate
+FM000066,ESCAPE DE ESTEIRA,ESTEIRA,ESTEIRA,ESCAPE,"Nos apontamentos existentes, este rótulo aparece em observações que mencionam frequentemente: ESTEIRA, CURVA, ESCAPOU, PALETIZADORA, TRANSPORTE. Requer validação de especialista.",REVIEW,canonical-taxonomy-v3-candidate
+FM000067,ESPANAMENTO DE PARAFUSO,OTHER_UNKNOWN,,,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000068,ESPUMAMENTO DE BEBIDA,OTHER_UNKNOWN,,,"Nos apontamentos existentes, este rótulo aparece em observações que mencionam frequentemente: BEBIDA, ESPUMANDO, BAIXO, NIVEL. Requer validação de especialista.",ACTIVE,canonical-taxonomy-v3-candidate
+FM000069,ESTABILIDADE DE EQUIPAMENTO,OTHER_UNKNOWN,,,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000070,ETICADOR DE CORRENTE ESCAPOU,CORRENTE,CORRENTE,,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000071,EXCESSO DE GARRAFA COM ROTULO,GARRAFA,,,"Nos apontamentos existentes, este rótulo aparece em observações que mencionam frequentemente: GARRAFAS, ROTULOS, CRASH, LINATRONIC, MUITAS, LAVADORA. Requer validação de especialista.",ACTIVE,canonical-taxonomy-v3-candidate
+FM000072,FALHA DA MESA GIRATORIA,MESA,MESA,FALHA,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000073,FALHA DE ABA CONICA,OTHER_UNKNOWN,,FALHA,"Nos apontamentos existentes, este rótulo aparece em observações que mencionam frequentemente: CONICA, DANIFICADA, BAIXO, NIVEL, TROCA. Requer validação de especialista.",REVIEW,canonical-taxonomy-v3-candidate
+FM000074,FALHA DE ACIONAMENTO DO EMPURRADOR,OTHER_UNKNOWN,,FALHA,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000075,FALHA DE ACOPLAMENTO,OTHER_UNKNOWN,,FALHA,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000076,FALHA DE ACUMULO NO TRANSPORTE,TRANSPORTE,,FALHA,"Nos apontamentos existentes, este rótulo aparece em observações que mencionam frequentemente: ACUMULO, TRANSPORTE, GERANDO, ALINHADOR, EMPACOTADORA, LATAS. Requer validação de especialista.",REVIEW,canonical-taxonomy-v3-candidate
+FM000077,FALHA DE ALIMENTACAO,OTHER_UNKNOWN,,FALHA,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000078,FALHA DE ALIMENTACAO DE GARRAFAS,GARRAFA,,FALHA,"Nos apontamentos existentes, este rótulo aparece em observações que mencionam frequentemente: GARRAFAS, DOIS, FALTA, PENTES, VINDO, ENCHEDORA. Requer validação de especialista.",REVIEW,canonical-taxonomy-v3-candidate
+FM000079,FALHA DE ALIMENTACAO DE LATAS,LATA,,FALHA,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000080,FALHA DE ALIMENTACAO DE PACOTES,PACOTE,,FALHA,"Nos apontamentos existentes, este rótulo aparece em observações que mencionam frequentemente: ENTRADA, FALHA, PACOTE. Requer validação de especialista.",ACTIVE,canonical-taxonomy-v3-candidate
+FM000081,FALHA DE ALIMENTACAO DE PALETES,PALETE,,FALHA,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000082,FALHA DE ALIMENTACAO DE TAMPAS,TAMPA,,FALHA,"Nos apontamentos existentes, este rótulo aparece em observações que mencionam frequentemente: TAMPAS, TAMPA, FALHA, GARRAFAS, FALTA, SAINDO. Requer validação de especialista.",REVIEW,canonical-taxonomy-v3-candidate
+FM000083,FALHA DE ALIMENTACAO ELETRICA,ELETRICO,,FALHA,,REVIEW,canonical-taxonomy-v3-candidate
+FM000084,FALHA DE ALIMENTACAO ELETRICA DA EMBREAGEM,ELETRICO,,FALHA,,REVIEW,canonical-taxonomy-v3-candidate
+FM000085,FALHA DE AMOSTRAGEM,OTHER_UNKNOWN,,FALHA,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000086,FALHA DE ANALISADOR,OTHER_UNKNOWN,,FALHA,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000087,FALHA DE APLICACAO DE COLA,OTHER_UNKNOWN,,FALHA,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000088,FALHA DE ATUADOR,ATUADOR,ATUADOR,FALHA,,REVIEW,canonical-taxonomy-v3-candidate
+FM000089,FALHA DE ATUADOR DA VALVULA,VALVULA,VALVULA,FALHA,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000090,FALHA DE ATUADOR DO DEVAISER,ATUADOR,ATUADOR,FALHA,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000091,FALHA DE AUTOMACAO,AUTOMACAO,,FALHA,"Nos apontamentos existentes, este rótulo aparece em observações que mencionam frequentemente: FALHA. Requer validação de especialista.",REVIEW,canonical-taxonomy-v3-candidate
+FM000092,FALHA DE BAILARINA,OTHER_UNKNOWN,,FALHA,"Nos apontamentos existentes, este rótulo aparece em observações que mencionam frequentemente: BAILARINA, FALHA, FREIO, MESMO, MODULACAO. Requer validação de especialista.",ACTIVE,canonical-taxonomy-v3-candidate
+FM000093,FALHA DE BANDEIROLA,OTHER_UNKNOWN,,FALHA,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000094,FALHA DE BARREIRA,BARREIRA,BARREIRA,FALHA,"Nos apontamentos existentes, este rótulo aparece em observações que mencionam frequentemente: BARREIRA, FALHA, SAIDA, PALETES. Requer validação de especialista.",REVIEW,canonical-taxonomy-v3-candidate
+FM000095,FALHA DE BATEDOR DE CAIXAS,CAIXA,,FALHA,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000096,FALHA DE BATETORES PNEUMATICOS,PNEUMATICO,,FALHA,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000097,FALHA DE BOCAL,OTHER_UNKNOWN,,FALHA,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000098,FALHA DE BOMBA,BOMBA,BOMBA,FALHA,"Nos apontamentos existentes, este rótulo aparece em observações que mencionam frequentemente: BOMBA, FALHA. Requer validação de especialista.",REVIEW,canonical-taxonomy-v3-candidate
+FM000099,FALHA DE BOTOEIRA DE EMERGENCIA,OTHER_UNKNOWN,,FALHA,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000100,FALHA DE BRACO DE TUBETES,OTHER_UNKNOWN,,FALHA,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000101,FALHA DE CABECOTE,CABECOTE,CABECOTE,FALHA,,REVIEW,canonical-taxonomy-v3-candidate
+FM000102,FALHA DE CABO DE SEGURANCA,SEGURANCA,,FALHA,,REVIEW,canonical-taxonomy-v3-candidate
+FM000103,FALHA DE CALIBRACAO,OTHER_UNKNOWN,,FALHA,,REVIEW,canonical-taxonomy-v3-candidate
+FM000104,FALHA DE CAME,OTHER_UNKNOWN,,FALHA,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000105,FALHA DE CAMERA,CAMERA,CAMERA,FALHA,,REVIEW,canonical-taxonomy-v3-candidate
+FM000106,FALHA DE CARBONATACAO,CARBONATACAO,,FALHA,"Nos apontamentos existentes, este rótulo aparece em observações que mencionam frequentemente: CARBONATADOR, FALHA, BEBIDA, MIXER, PARTIDA. Requer validação de especialista.",REVIEW,canonical-taxonomy-v3-candidate
+FM000107,FALHA DE CARTAO MESTRE,CARTAO,,FALHA,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000108,FALHA DE CENTRADOR,OTHER_UNKNOWN,,FALHA,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000109,FALHA DE CHAVE DE EMERGENCIA,OTHER_UNKNOWN,,FALHA,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000110,FALHA DE CIP,OTHER_UNKNOWN,,FALHA,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000111,FALHA DE CODIFICACAO,IMPRESSAO,,FALHA,"Nos apontamentos existentes, este rótulo aparece em observações que mencionam frequentemente: FALHA, CODIFICACAO. Requer validação de especialista.",REVIEW,canonical-taxonomy-v3-candidate
+FM000112,FALHA DE COLETOR,OTHER_UNKNOWN,,FALHA,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000113,FALHA DE COLISAO DA GAIOLA,OTHER_UNKNOWN,,FALHA,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000114,FALHA DE COMANDO DA ARVORE DE ESPUMA,OTHER_UNKNOWN,,FALHA,,REVIEW,canonical-taxonomy-v3-candidate
+FM000115,FALHA DE COMPACTACAO DE CAMADA,CAMADA,,FALHA,"Nos apontamentos existentes, este rótulo aparece em observações que mencionam frequentemente: COMPACTADOR. Requer validação de especialista.",REVIEW,canonical-taxonomy-v3-candidate
+FM000116,FALHA DE COMUNICACAO,COMUNICACAO,,FALHA,"Nos apontamentos existentes, este rótulo aparece em observações que mencionam frequentemente: FALHA, COMUNICACAO. Requer validação de especialista.",REVIEW,canonical-taxonomy-v3-candidate
+FM000117,FALHA DE CONEXAO DE MANGUEIRA,MANGUEIRA,MANGUEIRA,FALHA,"Nos apontamentos existentes, este rótulo aparece em observações que mencionam frequentemente: MANGUEIRA, CONEXAO, ESCAPOU. Requer validação de especialista.",REVIEW,canonical-taxonomy-v3-candidate
+FM000118,FALHA DE CONEXAO ELETRICA,ELETRICO,,FALHA,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000119,FALHA DE CONEXAO PNEUMATICA,PNEUMATICO,,FALHA,"Nos apontamentos existentes, este rótulo aparece em observações que mencionam frequentemente: TROCA, CONECTOR, MANGUEIRA, COMPRIMIDO. Requer validação de especialista.",ACTIVE,canonical-taxonomy-v3-candidate
+FM000120,FALHA DE CONTAGEM,OTHER_UNKNOWN,,FALHA,"Nos apontamentos existentes, este rótulo aparece em observações que mencionam frequentemente: CONTAGEM, PACOTES, PERDA. Requer validação de especialista.",REVIEW,canonical-taxonomy-v3-candidate
+FM000121,FALHA DE CONTAGEM DE PRODUTO,OTHER_UNKNOWN,,FALHA,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000122,FALHA DE CONTROLE DE BRIX,OTHER_UNKNOWN,,FALHA,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000123,FALHA DE CONTROLE DE NIVEL DO CARBONATADOR,CARBONATACAO,,FALHA,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000124,FALHA DE CONTROLE DE PROCESSO,PROCESSO,,FALHA,"Nos apontamentos existentes, este rótulo aparece em observações que mencionam frequentemente: FALHA, BAIXO, REDOX, OZONIO. Requer validação de especialista.",REVIEW,canonical-taxonomy-v3-candidate
+FM000125,FALHA DE CONTROLE DE TEMPERATURA,TEMPERATURA,,FALHA,"Nos apontamentos existentes, este rótulo aparece em observações que mencionam frequentemente: TEMPERATURA, QUEDA. Requer validação de especialista.",ACTIVE,canonical-taxonomy-v3-candidate
+FM000126,FALHA DE CORREIA,CORREIA,CORREIA,FALHA,"Nos apontamentos existentes, este rótulo aparece em observações que mencionam frequentemente: CORREIA, FALHA. Requer validação de especialista.",REVIEW,canonical-taxonomy-v3-candidate
+FM000127,FALHA DE CORRENTE,CORRENTE,CORRENTE,FALHA,,REVIEW,canonical-taxonomy-v3-candidate
+FM000128,FALHA DE CORTE DA EMBALAGEM DO TUBETE,OTHER_UNKNOWN,,FALHA,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000129,FALHA DE CORTE DE FILME,FILME,,FALHA,"Nos apontamentos existentes, este rótulo aparece em observações que mencionam frequentemente: CORTE, FILME, FALHA. Requer validação de especialista.",REVIEW,canonical-taxonomy-v3-candidate
+FM000130,FALHA DE DESCAPSULAMENTO,DESCAPSULAMENTO,,FALHA,"Nos apontamentos existentes, este rótulo aparece em observações que mencionam frequentemente: FALHA, GARRAFAS, DESCAPSULAGEM, DESCAPSULADOR. Requer validação de especialista.",REVIEW,canonical-taxonomy-v3-candidate
+FM000131,FALHA DE DIMENSIONAMENTO DE CAMADA,CAMADA,,FALHA,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000132,FALHA DE DIRECIONAMENTO DE PACOTES,PACOTE,,FALHA,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000133,FALHA DE DOSAGEM,DOSAGEM,,FALHA,"Nos apontamentos existentes, este rótulo aparece em observações que mencionam frequentemente: DOSAGEM, NITROGENIO, DOSADOR. Requer validação de especialista.",ACTIVE,canonical-taxonomy-v3-candidate
+FM000134,FALHA DE DOSAGEM DE NITROGENIO,DOSAGEM,,FALHA,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000135,FALHA DE DRIVE,OTHER_UNKNOWN,,FALHA,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000136,FALHA DE ELAU,OTHER_UNKNOWN,,FALHA,"Nos apontamentos existentes, este rótulo aparece em observações que mencionam frequentemente: ELAU, FALHA, ENCHEDORA, ERRO, MAX4, SINCRONISMO. Requer validação de especialista.",ACTIVE,canonical-taxonomy-v3-candidate
+FM000137,FALHA DE ELEMENTO DE TRANSMISSAO,OTHER_UNKNOWN,,FALHA,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000138,FALHA DE ELEVADOR,ELEVADOR,ELEVADOR,FALHA,"Nos apontamentos existentes, este rótulo aparece em observações que mencionam frequentemente: ELEVADOR, FALHA, GERANDO, PALETE. Requer validação de especialista.",REVIEW,canonical-taxonomy-v3-candidate
+FM000139,FALHA DE ELO DE ESTEIRA,ESTEIRA,ESTEIRA,FALHA,"Nos apontamentos existentes, este rótulo aparece em observações que mencionam frequentemente: ESTEIRA, VELOCIDADE, SAIDA. Requer validação de especialista.",REVIEW,canonical-taxonomy-v3-candidate
+FM000140,FALHA DE EMPURRADOR,OTHER_UNKNOWN,,FALHA,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000141,FALHA DE ENCHIMENTO,ENCHIMENTO,,FALHA,"Nos apontamentos existentes, este rótulo aparece em observações que mencionam frequentemente: ENCHIMENTO, NIVEL, FALHA, BAIXO. Requer validação de especialista.",REVIEW,canonical-taxonomy-v3-candidate
+FM000142,FALHA DE ENCODER,ENCODER,ENCODER,FALHA,"Nos apontamentos existentes, este rótulo aparece em observações que mencionam frequentemente: ENCODER, FALHA. Requer validação de especialista.",ACTIVE,canonical-taxonomy-v3-candidate
+FM000143,FALHA DE ENCOSTO DE AGRUPAMENTO,OTHER_UNKNOWN,,FALHA,,REVIEW,canonical-taxonomy-v3-candidate
+FM000144,FALHA DE ENGRENAGEM,ENGRENAGEM,ENGRENAGEM,FALHA,"Nos apontamentos existentes, este rótulo aparece em observações que mencionam frequentemente: ENGRENAGEM, ESTEIRA, FALHA, GERANDO, QUEDA. Requer validação de especialista.",REVIEW,canonical-taxonomy-v3-candidate
+FM000145,FALHA DE ENVOLVIMENTO,ENVOLVIMENTO,,FALHA,"Nos apontamentos existentes, este rótulo aparece em observações que mencionam frequentemente: ENVOLVIMENTO, FALHA, PACOTES. Requer validação de especialista.",REVIEW,canonical-taxonomy-v3-candidate
+FM000146,FALHA DE ESTEIRA,ESTEIRA,ESTEIRA,FALHA,"Nos apontamentos existentes, este rótulo aparece em observações que mencionam frequentemente: ESTEIRA. Requer validação de especialista.",REVIEW,canonical-taxonomy-v3-candidate
+FM000147,FALHA DE EXTRACAO DE ROTULOS,ROTULO,,FALHA,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000148,FALHA DE FACA,OTHER_UNKNOWN,,FALHA,,REVIEW,canonical-taxonomy-v3-candidate
+FM000149,FALHA DE FEEDBACK,OTHER_UNKNOWN,,FALHA,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000150,FALHA DE FILTRO,FILTRO,FILTRO,FALHA,,REVIEW,canonical-taxonomy-v3-candidate
+FM000151,FALHA DE FIXACAO,OTHER_UNKNOWN,,FALHA,"Nos apontamentos existentes, este rótulo aparece em observações que mencionam frequentemente: PARAFUSO. Requer validação de especialista.",REVIEW,canonical-taxonomy-v3-candidate
+FM000152,FALHA DE FIXACAO DA BASE DO SENSOR,SENSOR,SENSOR,FALHA,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000153,FALHA DE FIXACAO DA CORRENTE DE ELEVACAO,CORRENTE,CORRENTE,FALHA,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000154,FALHA DE FIXACAO DA TULIPA,OTHER_UNKNOWN,,FALHA,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000155,FALHA DE FIXACAO DA VALVULA,VALVULA,VALVULA,FALHA,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000156,FALHA DE FIXACAO DE PROTECAO,OTHER_UNKNOWN,,FALHA,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000157,FALHA DE FLUXIMETRO,FLUXIMETRO,FLUXIMETRO,FALHA,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000158,FALHA DE FONTE DE ALIMENTACAO,OTHER_UNKNOWN,,FALHA,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000159,FALHA DE FORMACAO DE CAIXA,CAIXA,,FALHA,,REVIEW,canonical-taxonomy-v3-candidate
+FM000160,FALHA DE FORMACAO DE CAMADA,CAMADA,,FALHA,"Nos apontamentos existentes, este rótulo aparece em observações que mencionam frequentemente: FORMACAO, FALHA, CAMADA, CAMADAS. Requer validação de especialista.",REVIEW,canonical-taxonomy-v3-candidate
+FM000161,FALHA DE FORMACAO DE PACOTE,PACOTE,,FALHA,"Nos apontamentos existentes, este rótulo aparece em observações que mencionam frequentemente: FORMADOS, PACOTES, SAINDO, GERANDO. Requer validação de especialista.",REVIEW,canonical-taxonomy-v3-candidate
+FM000162,FALHA DE FREIO,OTHER_UNKNOWN,,FALHA,"Nos apontamentos existentes, este rótulo aparece em observações que mencionam frequentemente: FREIO, PACOTES, CORREIA, DOSADORA. Requer validação de especialista.",REVIEW,canonical-taxonomy-v3-candidate
+FM000163,FALHA DE GERADOR DE IMPULSOS,OTHER_UNKNOWN,,FALHA,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000164,FALHA DE GUIA,GUIA,GUIA,FALHA,"Nos apontamentos existentes, este rótulo aparece em observações que mencionam frequentemente: GUIA, GARRAFAS. Requer validação de especialista.",REVIEW,canonical-taxonomy-v3-candidate
+FM000165,FALHA DE IHM,IHM,IHM,FALHA,"Nos apontamentos existentes, este rótulo aparece em observações que mencionam frequentemente: FALHA. Requer validação de especialista.",REVIEW,canonical-taxonomy-v3-candidate
+FM000166,FALHA DE INSPECAO,INSPECAO,,FALHA,"Nos apontamentos existentes, este rótulo aparece em observações que mencionam frequentemente: FALHA. Requer validação de especialista.",REVIEW,canonical-taxonomy-v3-candidate
+FM000167,FALHA DE INVERSOR,INVERSOR,INVERSOR,FALHA,"Nos apontamentos existentes, este rótulo aparece em observações que mencionam frequentemente: INVERSOR, FALHA. Requer validação de especialista.",REVIEW,canonical-taxonomy-v3-candidate
+FM000168,FALHA DE JATOS DE ENXAGUE,OTHER_UNKNOWN,,FALHA,,REVIEW,canonical-taxonomy-v3-candidate
+FM000169,FALHA DE LEITURA,OTHER_UNKNOWN,,FALHA,,REVIEW,canonical-taxonomy-v3-candidate
+FM000170,FALHA DE LEITURA DA GARRAFA TESTE,GARRAFA,,FALHA,,REVIEW,canonical-taxonomy-v3-candidate
+FM000171,FALHA DE LUBRIFICACAO,OTHER_UNKNOWN,,FALHA,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000172,FALHA DE MAGAZINE,MAGAZINE,MAGAZINE,FALHA,"Nos apontamentos existentes, este rótulo aparece em observações que mencionam frequentemente: MAGAZINE, FALHA, PALETE. Requer validação de especialista.",REVIEW,canonical-taxonomy-v3-candidate
+FM000173,FALHA DE MANDRIL,OTHER_UNKNOWN,,FALHA,"Nos apontamentos existentes, este rótulo aparece em observações que mencionam frequentemente: MANDRIL. Requer validação de especialista.",ACTIVE,canonical-taxonomy-v3-candidate
+FM000174,FALHA DE MANGUEIRA,MANGUEIRA,MANGUEIRA,FALHA,,REVIEW,canonical-taxonomy-v3-candidate
+FM000175,FALHA DE MANGUEIRA DE AGUA,MANGUEIRA,MANGUEIRA,FALHA,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000176,FALHA DE MANGUEIRA DE ALTA PRESSAO,MANGUEIRA,MANGUEIRA,FALHA,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000177,FALHA DE MANGUEIRA PNEUMATICA,MANGUEIRA,MANGUEIRA,FALHA,,REVIEW,canonical-taxonomy-v3-candidate
+FM000178,FALHA DE MEDIDOR,OTHER_UNKNOWN,,FALHA,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000179,FALHA DE MEDIDOR DE VAZAO,OTHER_UNKNOWN,,FALHA,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000180,FALHA DE MISTURA,OTHER_UNKNOWN,,FALHA,,REVIEW,canonical-taxonomy-v3-candidate
+FM000181,FALHA DE MIXER,OTHER_UNKNOWN,,FALHA,,REVIEW,canonical-taxonomy-v3-candidate
+FM000182,FALHA DE MODULO,OTHER_UNKNOWN,,FALHA,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000183,FALHA DE MOLA,OTHER_UNKNOWN,,FALHA,"Nos apontamentos existentes, este rótulo aparece em observações que mencionam frequentemente: MOLA, DANIFICADA, TAMPA. Requer validação de especialista.",REVIEW,canonical-taxonomy-v3-candidate
+FM000184,FALHA DE MOTOR,MOTOR,MOTOR,FALHA,"Nos apontamentos existentes, este rótulo aparece em observações que mencionam frequentemente: MOTOR, FALHA, TRANSPORTE. Requer validação de especialista.",REVIEW,canonical-taxonomy-v3-candidate
+FM000185,FALHA DE NIVEL DE AGUA,OTHER_UNKNOWN,,FALHA,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000186,FALHA DE NOBREAK,OTHER_UNKNOWN,,FALHA,,REVIEW,canonical-taxonomy-v3-candidate
+FM000187,FALHA DE PARAMETRIZACAO,OTHER_UNKNOWN,,FALHA,"Nos apontamentos existentes, este rótulo aparece em observações que mencionam frequentemente: PARAMETROS. Requer validação de especialista.",ACTIVE,canonical-taxonomy-v3-candidate
+FM000188,FALHA DE PARAMETRIZACAO DE RECEITA,OTHER_UNKNOWN,,FALHA,,REVIEW,canonical-taxonomy-v3-candidate
+FM000189,FALHA DE PARAMETRIZACAO DO REJEITO,REJEICAO,,FALHA,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000190,FALHA DE PATINS,PATINS,PATINS,FALHA,"Nos apontamentos existentes, este rótulo aparece em observações que mencionam frequentemente: PATINS, FORMACAO, CAMADA, GERANDO, CHAPA, COLISAO. Requer validação de especialista.",REVIEW,canonical-taxonomy-v3-candidate
+FM000191,FALHA DE PEGADOR,PEGADOR,PEGADOR,FALHA,"Nos apontamentos existentes, este rótulo aparece em observações que mencionam frequentemente: PEGADOR, FALHA, CHAPATEX. Requer validação de especialista.",REVIEW,canonical-taxonomy-v3-candidate
+FM000192,FALHA DE PENTE DE TRANSFERENCIA,OTHER_UNKNOWN,,FALHA,"Nos apontamentos existentes, este rótulo aparece em observações que mencionam frequentemente: PENTE, TRANSFERENCIA, DESNIVEL, ESTEIRA, QUEBRA. Requer validação de especialista.",ACTIVE,canonical-taxonomy-v3-candidate
+FM000193,FALHA DE PERSIANA,PERSIANA,PERSIANA,FALHA,,REVIEW,canonical-taxonomy-v3-candidate
+FM000194,FALHA DE PINCA,PINCA,PINCA,FALHA,"Nos apontamentos existentes, este rótulo aparece em observações que mencionam frequentemente: PINCA, FALHA. Requer validação de especialista.",REVIEW,canonical-taxonomy-v3-candidate
+FM000195,FALHA DE PINO,OTHER_UNKNOWN,,FALHA,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000196,FALHA DE PINO DE SEPARACAO,OTHER_UNKNOWN,,FALHA,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000197,FALHA DE PINOS DE TRANSFERENCIA,OTHER_UNKNOWN,,FALHA,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000198,FALHA DE PLACA ELETRONICA,OTHER_UNKNOWN,,FALHA,,REVIEW,canonical-taxonomy-v3-candidate
+FM000199,FALHA DE PLC,AUTOMACAO,,FALHA,"Nos apontamentos existentes, este rótulo aparece em observações que mencionam frequentemente: FALHA. Requer validação de especialista.",ACTIVE,canonical-taxonomy-v3-candidate
+FM000200,FALHA DE PORTA DE SEGURANCA,SEGURANCA,,FALHA,"Nos apontamentos existentes, este rótulo aparece em observações que mencionam frequentemente: PORTA, FALHA, SEGURANCA. Requer validação de especialista.",REVIEW,canonical-taxonomy-v3-candidate
+FM000201,FALHA DE POSICIONAMENTO DE PACOTES,PACOTE,,FALHA,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000202,FALHA DE POSICIONAMENTO DE PALETE,PALETE,,FALHA,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000203,FALHA DE POSICIONAMENTO DO CABECOTE,CABECOTE,CABECOTE,FALHA,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000204,FALHA DE PRANCHA,OTHER_UNKNOWN,,FALHA,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000205,FALHA DE PRE ENXAGUE,OTHER_UNKNOWN,,FALHA,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000206,FALHA DE PRESSAO,OTHER_UNKNOWN,,FALHA,,REVIEW,canonical-taxonomy-v3-candidate
+FM000207,FALHA DE PRESSAO DE AGUA,OTHER_UNKNOWN,,FALHA,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000208,FALHA DE PRESSAO DOS JATOS,OTHER_UNKNOWN,,FALHA,"Nos apontamentos existentes, este rótulo aparece em observações que mencionam frequentemente: FINAIS, PRESSAO, JATOS, FALHA, BAIXA. Requer validação de especialista.",REVIEW,canonical-taxonomy-v3-candidate
+FM000209,FALHA DE PRESSOSTATO,PRESSOSTATO,PRESSOSTATO,FALHA,"Nos apontamentos existentes, este rótulo aparece em observações que mencionam frequentemente: FALHA, PRESSOSTATO, ELETRONICAS, FALTA, VALVULAS. Requer validação de especialista.",ACTIVE,canonical-taxonomy-v3-candidate
+FM000210,FALHA DE PRESSURIZACAO,OTHER_UNKNOWN,,FALHA,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000211,FALHA DE PRESSURIZACAO DA ENCHEDORA,ENCHIMENTO,,FALHA,,REVIEW,canonical-taxonomy-v3-candidate
+FM000212,FALHA DE PROPORCIONAMENTO,OTHER_UNKNOWN,,FALHA,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000213,FALHA DE RECRAVACAO,RECRAVACAO,,FALHA,"Nos apontamentos existentes, este rótulo aparece em observações que mencionam frequentemente: RECRAVADORA, FALHA, LATAS. Requer validação de especialista.",ACTIVE,canonical-taxonomy-v3-candidate
+FM000214,FALHA DE REDUTOR,REDUTOR,REDUTOR,FALHA,"Nos apontamentos existentes, este rótulo aparece em observações que mencionam frequentemente: REDUTOR, FREIO, MOTO, ENCHEDORA, PROBLEMA. Requer validação de especialista.",ACTIVE,canonical-taxonomy-v3-candidate
+FM000215,FALHA DE REGUA DE ARRASTE,GUIA,,FALHA,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000216,FALHA DE REGUA DE ENVOLVIMENTO,ENVOLVIMENTO,,FALHA,"Nos apontamentos existentes, este rótulo aparece em observações que mencionam frequentemente: ENVOLVIMENTO, REGUA, QUEDA, FALHA. Requer validação de especialista.",REVIEW,canonical-taxonomy-v3-candidate
+FM000217,FALHA DE REJEICAO,REJEICAO,,FALHA,"Nos apontamentos existentes, este rótulo aparece em observações que mencionam frequentemente: REJEITO, FALHA. Requer validação de especialista.",REVIEW,canonical-taxonomy-v3-candidate
+FM000218,FALHA DE RELE DE SEGURANCA,ELETRICO,,FALHA,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000219,FALHA DE RESFRIAMENTO,OTHER_UNKNOWN,,FALHA,,REVIEW,canonical-taxonomy-v3-candidate
+FM000220,FALHA DE RETORNO DO BRACO DE SOLDA,OTHER_UNKNOWN,,FALHA,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000221,FALHA DE ROBO,ROBO,ROBO,FALHA,"Nos apontamentos existentes, este rótulo aparece em observações que mencionam frequentemente: ROBO. Requer validação de especialista.",REVIEW,canonical-taxonomy-v3-candidate
+FM000222,FALHA DE ROLAMENTO,ROLAMENTO,ROLAMENTO,FALHA,"Nos apontamentos existentes, este rótulo aparece em observações que mencionam frequentemente: ROLAMENTO, TROCA. Requer validação de especialista.",REVIEW,canonical-taxonomy-v3-candidate
+FM000223,FALHA DE ROLETES,ROLETE,ROLETE,FALHA,"Nos apontamentos existentes, este rótulo aparece em observações que mencionam frequentemente: ROLETES, ROLETE, FORMACAO. Requer validação de especialista.",REVIEW,canonical-taxonomy-v3-candidate
+FM000224,FALHA DE ROLO DE ESTIRAMENTO,OTHER_UNKNOWN,,FALHA,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000225,FALHA DE ROLO SEPARADOR,OTHER_UNKNOWN,,FALHA,,REVIEW,canonical-taxonomy-v3-candidate
+FM000226,FALHA DE ROTACAO,OTHER_UNKNOWN,,FALHA,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000227,FALHA DE ROTULAGEM,ROTULO,,FALHA,"Nos apontamentos existentes, este rótulo aparece em observações que mencionam frequentemente: FALHA, ROTULO, ROTULADORA. Requer validação de especialista.",REVIEW,canonical-taxonomy-v3-candidate
+FM000228,FALHA DE SECAGEM DE ROTULO,ROTULO,,FALHA,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000229,FALHA DE SEGMENTOS,SEGMENTO,,FALHA,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000230,FALHA DE SEGURANCA,SEGURANCA,,FALHA,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000231,FALHA DE SEGURANCA DO CABECOTE,CABECOTE,CABECOTE,FALHA,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000232,FALHA DE SENSOR,SENSOR,SENSOR,FALHA,"Nos apontamentos existentes, este rótulo aparece em observações que mencionam frequentemente: SENSOR, FALHA. Requer validação de especialista.",REVIEW,canonical-taxonomy-v3-candidate
+FM000233,FALHA DE SEQUENCIAMENTO DA PALETIZADORA,OTHER_UNKNOWN,,FALHA,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000234,FALHA DE SERVO MOTOR,SERVO_MOTOR,SERVO MOTOR,FALHA,"Nos apontamentos existentes, este rótulo aparece em observações que mencionam frequentemente: SERVO, FALHA, MOTOR. Requer validação de especialista.",ACTIVE,canonical-taxonomy-v3-candidate
+FM000235,FALHA DE SINCRONISMO,SINCRONISMO,,FALHA,"Nos apontamentos existentes, este rótulo aparece em observações que mencionam frequentemente: SINCRONISMO, FORA, FALHA. Requer validação de especialista.",REVIEW,canonical-taxonomy-v3-candidate
+FM000236,FALHA DE SOLDA DE FILME,FILME,,FALHA,"Nos apontamentos existentes, este rótulo aparece em observações que mencionam frequentemente: SOLDA, FILME, TROCA, BOBINA, FALHA, ESTOURO. Requer validação de especialista.",REVIEW,canonical-taxonomy-v3-candidate
+FM000237,FALHA DE SOLENOIDE,OTHER_UNKNOWN,,FALHA,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000238,FALHA DE SOPRADOR,OTHER_UNKNOWN,,FALHA,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000239,FALHA DE SUPORTE DE TAMPAS,SUPORTE,SUPORTE,FALHA,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000240,FALHA DE SUPRIMENTO DE AR COMPRIMIDO,OTHER_UNKNOWN,,FALHA,"Nos apontamentos existentes, este rótulo aparece em observações que mencionam frequentemente: FALTA. Requer validação de especialista.",REVIEW,canonical-taxonomy-v3-candidate
+FM000241,FALHA DE TAMPAMENTO,TAMPA,,FALHA,"Nos apontamentos existentes, este rótulo aparece em observações que mencionam frequentemente: CAPSULADOR, TAMPA, TORTA. Requer validação de especialista.",REVIEW,canonical-taxonomy-v3-candidate
+FM000242,FALHA DE TANGENCIAMENTO,OTHER_UNKNOWN,,FALHA,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000243,FALHA DE TENSIONAMENTO DE ESTEIRA,ESTEIRA,ESTEIRA,FALHA,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000244,FALHA DE TERMOSTATO,OTHER_UNKNOWN,,FALHA,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000245,FALHA DE TESOURA DE FILME,FILME,,FALHA,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000246,FALHA DE TRACAO GUIAMENTO DE FILME,FILME,,FALHA,"Nos apontamentos existentes, este rótulo aparece em observações que mencionam frequentemente: FILME, DOBRANDO, RAMPA. Requer validação de especialista.",REVIEW,canonical-taxonomy-v3-candidate
+FM000247,FALHA DE TRANSDUTOR,OTHER_UNKNOWN,,FALHA,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000248,FALHA DE TRANSPORTE,TRANSPORTE,,FALHA,"Nos apontamentos existentes, este rótulo aparece em observações que mencionam frequentemente: TRANSPORTE, FALHA. Requer validação de especialista.",REVIEW,canonical-taxonomy-v3-candidate
+FM000249,FALHA DE TRANSPORTE DE CAIXAS,CAIXA,,FALHA,,REVIEW,canonical-taxonomy-v3-candidate
+FM000250,FALHA DE TRANSPORTE DE GARRAFAS,GARRAFA,,FALHA,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000251,FALHA DE TRANSPORTE DE LATAS,LATA,,FALHA,,REVIEW,canonical-taxonomy-v3-candidate
+FM000252,FALHA DE TRANSPORTE DE PACOTES,PACOTE,,FALHA,"Nos apontamentos existentes, este rótulo aparece em observações que mencionam frequentemente: FALHA, PACOTES, TRANSPORTE. Requer validação de especialista.",REVIEW,canonical-taxonomy-v3-candidate
+FM000253,FALHA DE TRANSPORTE DE PALETES,PALETE,,FALHA,,REVIEW,canonical-taxonomy-v3-candidate
+FM000254,FALHA DE TULIPA,OTHER_UNKNOWN,,FALHA,"Nos apontamentos existentes, este rótulo aparece em observações que mencionam frequentemente: TULIPA, TROCA. Requer validação de especialista.",ACTIVE,canonical-taxonomy-v3-candidate
+FM000255,FALHA DE TWISTER,OTHER_UNKNOWN,,FALHA,,REVIEW,canonical-taxonomy-v3-candidate
+FM000256,FALHA DE VACUO,OTHER_UNKNOWN,,FALHA,"Nos apontamentos existentes, este rótulo aparece em observações que mencionam frequentemente: VACUO, FALHA, FALTA. Requer validação de especialista.",ACTIVE,canonical-taxonomy-v3-candidate
+FM000257,FALHA DE VALVULA,VALVULA,VALVULA,FALHA,"Nos apontamentos existentes, este rótulo aparece em observações que mencionam frequentemente: VALVULA, FALHA. Requer validação de especialista.",REVIEW,canonical-taxonomy-v3-candidate
+FM000258,FALHA DE VALVULA DE AGUA,VALVULA,VALVULA,FALHA,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000259,FALHA DE VALVULA DE ENCHIMENTO,VALVULA,VALVULA,FALHA,"Nos apontamentos existentes, este rótulo aparece em observações que mencionam frequentemente: ENCHIMENTO, FALHA, VALVULA, VALVULAS. Requer validação de especialista.",REVIEW,canonical-taxonomy-v3-candidate
+FM000260,FALHA DE VALVULA DE NITROGENIO,VALVULA,VALVULA,FALHA,,REVIEW,canonical-taxonomy-v3-candidate
+FM000261,FALHA DE VALVULA DE XAROPE,VALVULA,VALVULA,FALHA,,REVIEW,canonical-taxonomy-v3-candidate
+FM000262,FALHA DE VALVULA MODULADORA,VALVULA,VALVULA,FALHA,"Nos apontamentos existentes, este rótulo aparece em observações que mencionam frequentemente: VALVULA, FALHA, MODULADORA. Requer validação de especialista.",REVIEW,canonical-taxonomy-v3-candidate
+FM000263,FALHA DE VEDACAO,OTHER_UNKNOWN,,FALHA,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000264,FALHA DE VEDACAO DA VALVULA,VALVULA,VALVULA,FALHA,"Nos apontamentos existentes, este rótulo aparece em observações que mencionam frequentemente: REPARO, TROCA, VALVULA, VALVULAS. Requer validação de especialista.",REVIEW,canonical-taxonomy-v3-candidate
+FM000265,FALHA DE VELOCIDADE DO TRANSPORTE,TRANSPORTE,,FALHA,"Nos apontamentos existentes, este rótulo aparece em observações que mencionam frequentemente: VELOCIDADE, TRANSPORTE, GARRAFAS. Requer validação de especialista.",REVIEW,canonical-taxonomy-v3-candidate
+FM000266,FALHA DE VENTOSA,VENTOSA,VENTOSA,FALHA,"Nos apontamentos existentes, este rótulo aparece em observações que mencionam frequentemente: VENTOSA, TROCA. Requer validação de especialista.",ACTIVE,canonical-taxonomy-v3-candidate
+FM000267,FALHA DE VIBRADOR,VIBRADOR,VIBRADOR,FALHA,"Nos apontamentos existentes, este rótulo aparece em observações que mencionam frequentemente: VIBRADOR, TAMPAS. Requer validação de especialista.",REVIEW,canonical-taxonomy-v3-candidate
+FM000268,FALHA DO COLOCADOR DE CARTAO,CARTAO,,FALHA,,REVIEW,canonical-taxonomy-v3-candidate
+FM000269,FALHA DO COLOCADOR DE CHAPATEX,CARTAO,,FALHA,,REVIEW,canonical-taxonomy-v3-candidate
+FM000270,FALHA DO SECADOR DE GARRAFAS,GARRAFA,,FALHA,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000271,FALHA DO TENSOR DE ROTULOS,ROTULO,,FALHA,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000272,FALHA ELETRICA DO TRANSPORTE,ELETRICO,,FALHA,,REVIEW,canonical-taxonomy-v3-candidate
+FM000273,FALHA ELETRICA DO TRANSPORTE DE ENTRADA,ELETRICO,,FALHA,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000274,FALHA ELETRICA SEM COMPONENTE IDENTIFICADO,ELETRICO,,FALHA,,REVIEW,canonical-taxonomy-v3-candidate
+FM000275,FALHA ELETRONICA DA VALVULA,VALVULA,VALVULA,FALHA,,REVIEW,canonical-taxonomy-v3-candidate
+FM000276,FALHA EM ENVIAR TAMPAS PARA ENCHEDORA,TAMPA,,FALHA,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000277,FALHA ESTRUTURAL,OTHER_UNKNOWN,,FALHA,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000278,FALHA NA ABERTURA DA GARRA,OTHER_UNKNOWN,,FALHA,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000279,FALHA NA ABERTURA DOS GANCHOS DO ROBO,ROBO,ROBO,FALHA,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000280,FALHA NA DESCARGA DE PALETE,PALETE,,FALHA,,REVIEW,canonical-taxonomy-v3-candidate
+FM000281,FALHA NA DESCIDA DE TAMPAS,TAMPA,,FALHA,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000282,FALHA NA GARRA DO ROBO,ROBO,ROBO,FALHA,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000283,FALHA NA INSERCAO DE GARRAFAS FALSAS,GARRAFA,,FALHA,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000284,FALHA NA INSERCAO DE LATAS,LATA,,FALHA,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000285,FALHA NA INSERCAO DE LATAS FALSAS,LATA,,FALHA,,REVIEW,canonical-taxonomy-v3-candidate
+FM000286,FALHA NA MESA DE CARGA,MESA,MESA,FALHA,"Nos apontamentos existentes, este rótulo aparece em observações que mencionam frequentemente: CARGA, MESA, FALHA, LAVADORA. Requer validação de especialista.",ACTIVE,canonical-taxonomy-v3-candidate
+FM000287,FALHA NA MESA DE FORMACAO DE PACOTES,MESA,MESA,FALHA,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000288,FALHA NA PEGA DE GARRAFAS,GARRAFA,,FALHA,,REVIEW,canonical-taxonomy-v3-candidate
+FM000289,FALHA NA PEGA DE PALLET VAZIO,PALETE,,FALHA,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000290,FALHA NA PEGADA DE CAMADA,CAMADA,,FALHA,"Nos apontamentos existentes, este rótulo aparece em observações que mencionam frequentemente: CAMADA, PEGA, PEGANDO, MENOS, CAIXAS, FALHA. Requer validação de especialista.",REVIEW,canonical-taxonomy-v3-candidate
+FM000291,FALHA NA REFRIGERACAO DE FUNDO,OTHER_UNKNOWN,,FALHA,"Nos apontamentos existentes, este rótulo aparece em observações que mencionam frequentemente: FUNDO, FALHA, GARRAFA, REFRIGERACAO, SISTEMA. Requer validação de especialista.",ACTIVE,canonical-taxonomy-v3-candidate
+FM000292,FALHA NA SAIDA DE PALETES,PALETE,,FALHA,,REVIEW,canonical-taxonomy-v3-candidate
+FM000293,FALHA NA TROCA AUTOMATICA,OTHER_UNKNOWN,,FALHA,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000294,FALHA NA TROCA DE BANDEJA,BANDEJA,BANDEJA,FALHA,"Nos apontamentos existentes, este rótulo aparece em observações que mencionam frequentemente: AGREGADO, BANDEJA, FALHA, TROCA, ENROSCO, OCASIONANDO. Requer validação de especialista.",REVIEW,canonical-taxonomy-v3-candidate
+FM000295,FALHA NA TROCA DE BOBINA,BOBINA,,FALHA,"Nos apontamentos existentes, este rótulo aparece em observações que mencionam frequentemente: BOBINA, TROCA, FALHA, PORTA, SEGURANCA. Requer validação de especialista.",ACTIVE,canonical-taxonomy-v3-candidate
+FM000296,FALHA NA TROCA DE PALETE DE CARTAO,CARTAO,,FALHA,"Nos apontamentos existentes, este rótulo aparece em observações que mencionam frequentemente: TROCA, CARTAO, FALHA, AUTOMATICO, PALETE. Requer validação de especialista.",REVIEW,canonical-taxonomy-v3-candidate
+FM000297,FALHA NA TROCA DE PALETE DE FOLHA SEPARADORA,PALETE,,FALHA,,REVIEW,canonical-taxonomy-v3-candidate
+FM000298,FALHA NO AVANCO DE PALETES PARA PALETIZAR,PALETE,,FALHA,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000299,FALHA NO BOTAO RESET,OTHER_UNKNOWN,,FALHA,"Nos apontamentos existentes, este rótulo aparece em observações que mencionam frequentemente: BOTAO, FALHA, RESET, ATUOU, LINATRONIC. Requer validação de especialista.",REVIEW,canonical-taxonomy-v3-candidate
+FM000300,FALHA NO CARREGAMENTO DE RECEITA,OTHER_UNKNOWN,,FALHA,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000301,FALHA NO CIP RAMAL B,OTHER_UNKNOWN,,FALHA,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000302,FALHA NO CORTE DE TUBETES,OTHER_UNKNOWN,,FALHA,"Nos apontamentos existentes, este rótulo aparece em observações que mencionam frequentemente: CORTE, FALHA, SISTEMA, TUBETE. Requer validação de especialista.",REVIEW,canonical-taxonomy-v3-candidate
+FM000303,FALHA NO DEPOSITO DE PALLET,PALETE,,FALHA,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000304,FALHA NO DISPOSITIVO DE RETIRADA DE GARRAFAS,GARRAFA,,FALHA,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000305,FALHA NO DOSADOR DE NITROGENIO,DOSAGEM,,FALHA,,REVIEW,canonical-taxonomy-v3-candidate
+FM000306,FALHA NO ENVIO DE BEBIDA,OTHER_UNKNOWN,,FALHA,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000307,FALHA NO FLUXO DE PALETES,PALETE,,FALHA,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000308,FALHA NO MANUSEIO DE CARTAO,CARTAO,,FALHA,"Nos apontamentos existentes, este rótulo aparece em observações que mencionam frequentemente: CARTAO, FALHA, RETIRADA, REMOVEDOR. Requer validação de especialista.",REVIEW,canonical-taxonomy-v3-candidate
+FM000309,FALHA NO SENSOR EXPULSADOR,SENSOR,SENSOR,FALHA,,REVIEW,canonical-taxonomy-v3-candidate
+FM000310,FALHA NO SISTEMA DE AR COMPRIMIDO,OTHER_UNKNOWN,,FALHA,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000311,FALHA NO SISTEMA DE CORTE,OTHER_UNKNOWN,,FALHA,,REVIEW,canonical-taxonomy-v3-candidate
+FM000312,FALHA NO SISTEMA DE INSERCAO DE FALSA GARRAFA,GARRAFA,,FALHA,,REVIEW,canonical-taxonomy-v3-candidate
+FM000313,FALHA NO SUPRIMENTO DE AGUA,OTHER_UNKNOWN,,FALHA,,REVIEW,canonical-taxonomy-v3-candidate
+FM000314,FALHA NO VIRADOR DE CAIXAS,CAIXA,,FALHA,,REVIEW,canonical-taxonomy-v3-candidate
+FM000315,FALHA NO VIRADOR DE PACOTES,PACOTE,,FALHA,,REVIEW,canonical-taxonomy-v3-candidate
+FM000316,FALHA NOS SNIFS,OTHER_UNKNOWN,,FALHA,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000317,FALHA SENSOR DA PORTA,SENSOR,SENSOR,FALHA,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000318,FALHA TROCADOR DE CALOR,OTHER_UNKNOWN,,FALHA,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000319,FALSA RECRAVACAO,RECRAVACAO,,,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000320,FALSO ALARME DE REJEITO OBSTRUIDO,REJEICAO,,,,REVIEW,canonical-taxonomy-v3-candidate
+FM000321,FALSO REJEITO,REJEICAO,,,"Nos apontamentos existentes, este rótulo aparece em observações que mencionam frequentemente: FALSO, REJEITO, CRASH, EXCESSO, LATAS, SAIDA. Requer validação de especialista.",REVIEW,canonical-taxonomy-v3-candidate
+FM000322,GARRAFAS FORA DE POSICAO,GARRAFA,,,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000323,GARRAFAS TORTAS NA SAIDA DO RINSER,GARRAFA,,,,REVIEW,canonical-taxonomy-v3-candidate
+FM000324,INTERFERENCIA MECANICA,OTHER_UNKNOWN,,INTERFERENCIA,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000325,MONTAGEM INCORRETA DE CORREIA,CORREIA,CORREIA,,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000326,OBSTRUCAO DE MANGUEIRA DE AR,MANGUEIRA,MANGUEIRA,OBSTRUCAO,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000327,PACOTE FORA DE POSICAO,PACOTE,,,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000328,PALLET PARADO NA MESA,MESA,MESA,,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000329,PARADA DE TRANSPORTE,TRANSPORTE,,,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000330,PATINAGEM DE ESTEIRA,ESTEIRA,ESTEIRA,PATINAGEM,"Nos apontamentos existentes, este rótulo aparece em observações que mencionam frequentemente: PATINANDO, LONA, QUEDA, ENVOLVIMENTO, GARRAFAS, MESA. Requer validação de especialista.",REVIEW,canonical-taxonomy-v3-candidate
+FM000331,PATINAMENTO DE ESTEIRA,ESTEIRA,ESTEIRA,PATINAMENTO,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000332,PATINAMENTO DE ROLETE,ROLETE,ROLETE,PATINAMENTO,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000333,PATINS FORA DE POSICAO,PATINS,PATINS,,"Nos apontamentos existentes, este rótulo aparece em observações que mencionam frequentemente: FORA, PATINS, POSICAO, CAMADA, ENTREGANDO, FORMACAO. Requer validação de especialista.",REVIEW,canonical-taxonomy-v3-candidate
+FM000334,PENTES SOLTOS,OTHER_UNKNOWN,,,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000335,PERDA DE REFERENCIA,OTHER_UNKNOWN,,PERDA,"Nos apontamentos existentes, este rótulo aparece em observações que mencionam frequentemente: MASTERIZACAO, FALHA. Requer validação de especialista.",REVIEW,canonical-taxonomy-v3-candidate
+FM000336,PERDA DE REFERENCIA DO CENTRADOR,OTHER_UNKNOWN,,PERDA,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000337,PERDA DE REFERENCIA DO PEGADOR DE CHAPATEX,PEGADOR,PEGADOR,PERDA,,REVIEW,canonical-taxonomy-v3-candidate
+FM000338,PERDA DE REFERENCIA DO ROBO,ROBO,ROBO,PERDA,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000339,PERDA DE REFERENCIA HOME,OTHER_UNKNOWN,,PERDA,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000340,PINO DE SEPARACAO TRAVADO,OTHER_UNKNOWN,,,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000341,PROBLEMA NA TAMPA DA LATA,TAMPA,,,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000342,QUEBRA DE ANEL O RING,OTHER_UNKNOWN,,QUEBRA,,REVIEW,canonical-taxonomy-v3-candidate
+FM000343,QUEBRA DE ATUADOR,ATUADOR,ATUADOR,QUEBRA,"Nos apontamentos existentes, este rótulo aparece em observações que mencionam frequentemente: PISTAO, QUEBRADO. Requer validação de especialista.",REVIEW,canonical-taxonomy-v3-candidate
+FM000344,QUEBRA DE BRACO,OTHER_UNKNOWN,,QUEBRA,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000345,QUEBRA DE COMPONENTE,OTHER_UNKNOWN,,QUEBRA,"Nos apontamentos existentes, este rótulo aparece em observações que mencionam frequentemente: QUEBRA, TROCA. Requer validação de especialista.",REVIEW,canonical-taxonomy-v3-candidate
+FM000346,QUEBRA DE CORREIA,CORREIA,CORREIA,QUEBRA,"Nos apontamentos existentes, este rótulo aparece em observações que mencionam frequentemente: CORREIA, QUEBRA, QUEBROU. Requer validação de especialista.",REVIEW,canonical-taxonomy-v3-candidate
+FM000347,QUEBRA DE CORRENTE,CORRENTE,CORRENTE,QUEBRA,"Nos apontamentos existentes, este rótulo aparece em observações que mencionam frequentemente: CORRENTE, PALETE, MAGAZINE, QUEBRA, QUEBROU. Requer validação de especialista.",REVIEW,canonical-taxonomy-v3-candidate
+FM000348,QUEBRA DE EIXO,EIXO,EIXO,QUEBRA,"Nos apontamentos existentes, este rótulo aparece em observações que mencionam frequentemente: EIXO, QUEBRA. Requer validação de especialista.",REVIEW,canonical-taxonomy-v3-candidate
+FM000349,QUEBRA DE ELO DE ESTEIRA,ESTEIRA,ESTEIRA,QUEBRA,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000350,QUEBRA DE ENGRENAGEM,ENGRENAGEM,ENGRENAGEM,QUEBRA,,REVIEW,canonical-taxonomy-v3-candidate
+FM000351,QUEBRA DE ESTEIRA,ESTEIRA,ESTEIRA,QUEBRA,"Nos apontamentos existentes, este rótulo aparece em observações que mencionam frequentemente: ESTEIRA, QUEBRA. Requer validação de especialista.",REVIEW,canonical-taxonomy-v3-candidate
+FM000352,QUEBRA DE PARAFUSO,OTHER_UNKNOWN,,QUEBRA,"Nos apontamentos existentes, este rótulo aparece em observações que mencionam frequentemente: PARAFUSO, QUEBRA, QUEBROU. Requer validação de especialista.",REVIEW,canonical-taxonomy-v3-candidate
+FM000353,QUEBRA DE PINO,OTHER_UNKNOWN,,QUEBRA,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000354,QUEBRA DE PISTAO,OTHER_UNKNOWN,,QUEBRA,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000355,QUEBRA DE REGUA,GUIA,,QUEBRA,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000356,QUEBRA DE SEGMENTO,SEGMENTO,,QUEBRA,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000357,QUEBRA DE SUPORTE,SUPORTE,SUPORTE,QUEBRA,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000358,QUEBRA DE TERMINAL ELETRICO,ELETRICO,,QUEBRA,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000359,QUEBRA DE TRANSPORTE,TRANSPORTE,,QUEBRA,"Nos apontamentos existentes, este rótulo aparece em observações que mencionam frequentemente: TRANSPORTE, EMPACOTADORA, QUEBRA, QUEBRADO. Requer validação de especialista.",REVIEW,canonical-taxonomy-v3-candidate
+FM000360,QUEBRA DE TRECHO DO TRANSPORTE,TRANSPORTE,,QUEBRA,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000361,QUEBRA NO EIXO DA TAMPA DO ARROLHADOR,TAMPA,,QUEBRA,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000362,QUEDA DE CAIXAS,CAIXA,,QUEDA,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000363,QUEDA DE GARRAFAS,GARRAFA,,QUEDA,"Nos apontamentos existentes, este rótulo aparece em observações que mencionam frequentemente: QUEDA, GARRAFAS. Requer validação de especialista.",REVIEW,canonical-taxonomy-v3-candidate
+FM000364,QUEDA DE LATAS,LATA,,QUEDA,"Nos apontamentos existentes, este rótulo aparece em observações que mencionam frequentemente: LATAS, QUEDA, DERRUBANDO, MESA, LATA, TRANSPORTE. Requer validação de especialista.",REVIEW,canonical-taxonomy-v3-candidate
+FM000365,QUEDA DE PACOTES,PACOTE,,QUEDA,,REVIEW,canonical-taxonomy-v3-candidate
+FM000366,QUEIMA DA PLACA DEVICENET,COMUNICACAO,,QUEIMA,,REVIEW,canonical-taxonomy-v3-candidate
+FM000367,QUEIMA DE FILAMENTO,OTHER_UNKNOWN,,QUEIMA,"Nos apontamentos existentes, este rótulo aparece em observações que mencionam frequentemente: FILAMENTO, QUEIMA, FILAMENTOS, QUEIMOU, TROCA. Requer validação de especialista.",ACTIVE,canonical-taxonomy-v3-candidate
+FM000368,ROMPIMENTO DE ESTEIRA LONA,ESTEIRA,ESTEIRA,ROMPIMENTO,,REVIEW,canonical-taxonomy-v3-candidate
+FM000369,ROMPIMENTO DE FILME,FILME,,ROMPIMENTO,"Nos apontamentos existentes, este rótulo aparece em observações que mencionam frequentemente: FILME, BOBINA, ESTOURO. Requer validação de especialista.",REVIEW,canonical-taxonomy-v3-candidate
+FM000370,ROMPIMENTO DE MANGUEIRA,MANGUEIRA,MANGUEIRA,ROMPIMENTO,,REVIEW,canonical-taxonomy-v3-candidate
+FM000371,ROMPIMENTO DE MANGUEIRA DE AGUA,MANGUEIRA,MANGUEIRA,ROMPIMENTO,,REVIEW,canonical-taxonomy-v3-candidate
+FM000372,ROMPIMENTO DE MANGUEIRA DE AR,MANGUEIRA,MANGUEIRA,ROMPIMENTO,"Nos apontamentos existentes, este rótulo aparece em observações que mencionam frequentemente: MANGUEIRA, RASGADA. Requer validação de especialista.",REVIEW,canonical-taxonomy-v3-candidate
+FM000373,ROMPIMENTO DE TUBEIRA DO FORNO,TUBULACAO,,ROMPIMENTO,"Nos apontamentos existentes, este rótulo aparece em observações que mencionam frequentemente: ABERTO, FORNO, PACOTE, RASGADA, TUBEIRA, VINDO. Requer validação de especialista.",REVIEW,canonical-taxonomy-v3-candidate
+FM000374,ROMPIMENTO DE TUBETE,OTHER_UNKNOWN,,ROMPIMENTO,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000375,SAIDA DE GARRAFAS COM TAMPA TORTA,TAMPA,,,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000376,SEM MODO DE FALHA IDENTIFICADO,OTHER_UNKNOWN,,SEM MODO DE FALHA IDENTIFICADO,,REVIEW,canonical-taxonomy-v3-candidate
+FM000377,SOBREAQUECIMENTO DE PROCESSADOR,OTHER_UNKNOWN,,SOBREAQUECIMENTO,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000378,SOBRECORRENTE,CORRENTE,,SOBRECORRENTE,"Nos apontamentos existentes, este rótulo aparece em observações que mencionam frequentemente: TRANSPORTE, MOTOR, SOBRECORRENTE, CAIXAS, DESARMANDO, FALHA. Requer validação de especialista.",REVIEW,canonical-taxonomy-v3-candidate
+FM000379,TAB DANIFICADO,OTHER_UNKNOWN,,,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000380,TAMPA INVERTIDA,TAMPA,,,"Nos apontamentos existentes, este rótulo aparece em observações que mencionam frequentemente: TAMPA, VIRADA, CANALETA, PRESA. Requer validação de especialista.",ACTIVE,canonical-taxonomy-v3-candidate
+FM000381,TOMBAMENTO DE RECIPIENTES,OTHER_UNKNOWN,,TOMBAMENTO,,REVIEW,canonical-taxonomy-v3-candidate
+FM000382,TRANSBORDAMENTO DE TANQUE,OTHER_UNKNOWN,,TRANSBORDAMENTO,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000383,TRAVAMENTO DE ATUADOR,ATUADOR,ATUADOR,TRAVAMENTO,"Nos apontamentos existentes, este rótulo aparece em observações que mencionam frequentemente: PISTAO, TRAVAMENTO. Requer validação de especialista.",REVIEW,canonical-taxonomy-v3-candidate
+FM000384,TRAVAMENTO DE BOCAL,OTHER_UNKNOWN,,TRAVAMENTO,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000385,TRAVAMENTO DE BOIA,OTHER_UNKNOWN,,TRAVAMENTO,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000386,TRAVAMENTO DE CENTRADOR,OTHER_UNKNOWN,,TRAVAMENTO,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000387,TRAVAMENTO DE CHAVE SECCIONADORA,OTHER_UNKNOWN,,TRAVAMENTO,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000388,TRAVAMENTO DE CILINDRO ROTATIVO,CILINDRO,CILINDRO,TRAVAMENTO,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000389,TRAVAMENTO DE CORRENTE,CORRENTE,CORRENTE,TRAVAMENTO,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000390,TRAVAMENTO DE ELEVADOR,ELEVADOR,ELEVADOR,TRAVAMENTO,,REVIEW,canonical-taxonomy-v3-candidate
+FM000391,TRAVAMENTO DE ENGRENAGEM,ENGRENAGEM,ENGRENAGEM,TRAVAMENTO,"Nos apontamentos existentes, este rótulo aparece em observações que mencionam frequentemente: ENGRENAGEM, TRAVAMENTO, ESTEIRA, NYLON, PERFIL, DANIFICADA. Requer validação de especialista.",ACTIVE,canonical-taxonomy-v3-candidate
+FM000392,TRAVAMENTO DE ESTEIRA,ESTEIRA,ESTEIRA,TRAVAMENTO,"Nos apontamentos existentes, este rótulo aparece em observações que mencionam frequentemente: ESTEIRA, TRANSPORTE. Requer validação de especialista.",REVIEW,canonical-taxonomy-v3-candidate
+FM000393,TRAVAMENTO DE GARRAFAS NA SAIDA DA LAVADORA,GARRAFA,,TRAVAMENTO,,REVIEW,canonical-taxonomy-v3-candidate
+FM000394,TRAVAMENTO DE PALETE,PALETE,,TRAVAMENTO,"Nos apontamentos existentes, este rótulo aparece em observações que mencionam frequentemente: POSICAO, PALETE, FORA, PALLET. Requer validação de especialista.",REVIEW,canonical-taxonomy-v3-candidate
+FM000395,TRAVAMENTO DE PATINS,PATINS,PATINS,TRAVAMENTO,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000396,TRAVAMENTO DE PERSIANA,PERSIANA,PERSIANA,TRAVAMENTO,,REVIEW,canonical-taxonomy-v3-candidate
+FM000397,TRAVAMENTO DE PINCA,PINCA,PINCA,TRAVAMENTO,,REVIEW,canonical-taxonomy-v3-candidate
+FM000398,TRAVAMENTO DE PINO DE SEPARACAO,OTHER_UNKNOWN,,TRAVAMENTO,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000399,TRAVAMENTO DE ROBO,ROBO,ROBO,TRAVAMENTO,"Nos apontamentos existentes, este rótulo aparece em observações que mencionam frequentemente: ROBO, PACOTES, TRAVANDO, TREPIDACAO. Requer validação de especialista.",REVIEW,canonical-taxonomy-v3-candidate
+FM000400,TRAVAMENTO DE ROLETES,ROLETE,ROLETE,TRAVAMENTO,"Nos apontamentos existentes, este rótulo aparece em observações que mencionam frequentemente: ROLETES, DEVEICER, GERANDO, ROLETE. Requer validação de especialista.",REVIEW,canonical-taxonomy-v3-candidate
+FM000401,TRAVAMENTO DE ROLO DE COLA,OTHER_UNKNOWN,,TRAVAMENTO,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000402,TRAVAMENTO DE SEGMENTOS,SEGMENTO,,TRAVAMENTO,"Nos apontamentos existentes, este rótulo aparece em observações que mencionam frequentemente: TRAVAMENTO, SEGMENTOS, GARRAFAS, REJEITOR, ENOS, SEGMENTO. Requer validação de especialista.",ACTIVE,canonical-taxonomy-v3-candidate
+FM000403,TRAVAMENTO DE SNIFFER,OTHER_UNKNOWN,,TRAVAMENTO,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000404,TRAVAMENTO DE STOPPER,STOPPER,STOPPER,TRAVAMENTO,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000405,TRAVAMENTO DE TRANSPORTE,TRANSPORTE,,TRAVAMENTO,"Nos apontamentos existentes, este rótulo aparece em observações que mencionam frequentemente: TRANSPORTE, TRAVAMENTO. Requer validação de especialista.",REVIEW,canonical-taxonomy-v3-candidate
+FM000406,TRAVAMENTO DE VALVULA,VALVULA,VALVULA,TRAVAMENTO,"Nos apontamentos existentes, este rótulo aparece em observações que mencionam frequentemente: VALVULA, OCASIONANDO, FALHA, GARRAFAS, TRAVADA. Requer validação de especialista.",REVIEW,canonical-taxonomy-v3-candidate
+FM000407,TRAVAMENTO DO CAPSULADOR,OTHER_UNKNOWN,,TRAVAMENTO,,REVIEW,canonical-taxonomy-v3-candidate
+FM000408,TRAVAMENTO DO SISTEMA DE COMPACTACAO,OTHER_UNKNOWN,,TRAVAMENTO,"Nos apontamentos existentes, este rótulo aparece em observações que mencionam frequentemente: CAMADA, COMPACTADOR, PRANCHA, TRAVADO. Requer validação de especialista.",REVIEW,canonical-taxonomy-v3-candidate
+FM000409,TRAVAMENTO NA ALIMENTACAO DE TAMPAS,TAMPA,,TRAVAMENTO,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000410,TREPIDACAO DE ESTEIRA,ESTEIRA,ESTEIRA,TREPIDACAO,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000411,TREPIDACAO DE LATAS,LATA,,TREPIDACAO,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000412,VAZAMENTO,OTHER_UNKNOWN,,VAZAMENTO,,REVIEW,canonical-taxonomy-v3-candidate
+FM000413,VAZAMENTO DE PRODUTO,OTHER_UNKNOWN,,VAZAMENTO,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000414,VAZAMENTO EM COLETOR,OTHER_UNKNOWN,,VAZAMENTO,"Nos apontamentos existentes, este rótulo aparece em observações que mencionam frequentemente: COLETOR, VAZAMENTO, FALHA, PRESSAO, PRESSURIZACAO. Requer validação de especialista.",ACTIVE,canonical-taxonomy-v3-candidate
+FM000415,VAZAMENTO EM CONEXAO,OTHER_UNKNOWN,,VAZAMENTO,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000416,VAZAMENTO EM TUBULACAO,TUBULACAO,TUBULACAO,VAZAMENTO,,REVIEW,canonical-taxonomy-v3-candidate
+FM000417,VAZAMENTO EM VALVULA,VALVULA,VALVULA,VAZAMENTO,"Nos apontamentos existentes, este rótulo aparece em observações que mencionam frequentemente: VALVULA, VAZAMENTO, TROCA, BLOCO. Requer validação de especialista.",ACTIVE,canonical-taxonomy-v3-candidate
+FM000418,VAZAMENTO NO COLETOR COM GAS BAIXO,OTHER_UNKNOWN,,VAZAMENTO,,REVIEW,canonical-taxonomy-v3-candidate
+FM000419,VAZAMENTO PNEUMATICO,PNEUMATICO,,VAZAMENTO,,ACTIVE,canonical-taxonomy-v3-candidate
+FM000420,VELOCIDADE REDUZIDA SEM CAUSA IDENTIFICADA,OTHER_UNKNOWN,,,,REVIEW,canonical-taxonomy-v3-candidate
+FM000421,VIBRACAO DE ROBO,ROBO,ROBO,VIBRACAO,,ACTIVE,canonical-taxonomy-v3-candidate

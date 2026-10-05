@@ -1,0 +1,7 @@
+﻿stage,validation_accuracy,validation_macro_f1,validation_top3_accuracy
+flat_baseline_v1_3_remapped,0.7270073,0.53171606,0.8540146
+canonical_taxonomy_flat,0.72846715,0.53831643,0.8540146
+family_soft_score,0.73722628,0.5604224,0.86423358
+prototype_similarity,0.72846715,0.54462566,0.87737226
+label_overlap,0.72992701,0.55734281,0.8919708
+reranker_selected,0.74160584,0.56956952,0.89781022

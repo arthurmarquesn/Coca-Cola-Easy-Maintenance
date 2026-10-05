@@ -1,0 +1,803 @@
+{
+  "result": "PASS",
+  "analysis_version": "ursus-suggestion-quality-v1",
+  "generated_at": "2026-10-04T00:00:00-03:00",
+  "product_principle": "OBSERVATION -> TOP-3 SUGGESTIONS -> HUMAN VALIDATION -> FINAL CLASSIFICATION",
+  "scope": {
+    "decision_support_only": true,
+    "no_automation_readiness_assessment": true,
+    "no_training_performed": true,
+    "test_used_for_frozen_analysis_only": true,
+    "model": "C:\\Users\\arthu\\Coca\\Coca-Cola-Easy-Maintenance\\ml\\models\\failure_classifier_marilia_v1_5_candidate_eval.joblib",
+    "taxonomy_version": "canonical-taxonomy-v3-candidate"
+  },
+  "global": {
+    "rows": 698,
+    "recall_at_1": 0.75501433,
+    "recall_at_2": 0.84670487,
+    "recall_at_3": 0.89971347,
+    "recall_at_5": 0.92550143,
+    "recall_at_10": 0.94412607,
+    "mrr": 0.82838973,
+    "mean_expected_rank": 12.34813754,
+    "median_expected_rank": 1.0,
+    "top1_accuracy": 0.75501433,
+    "top2_hit_rate": 0.84670487,
+    "top3_hit_rate": 0.89971347,
+    "top5_hit_rate": 0.92550143,
+    "top10_hit_rate": 0.94412607,
+    "macro_f1": 0.54527921,
+    "weighted_f1": 0.72364177
+  },
+  "top3_misses": 70,
+  "distance_to_targets": {
+    "90": {
+      "target": 0.9,
+      "required_hits": 629,
+      "current_hits": 628,
+      "additional_hits_needed": 1
+    },
+    "92": {
+      "target": 0.92,
+      "required_hits": 643,
+      "current_hits": 628,
+      "additional_hits_needed": 15
+    },
+    "95": {
+      "target": 0.95,
+      "required_hits": 664,
+      "current_hits": 628,
+      "additional_hits_needed": 36
+    }
+  },
+  "legacy_review_cohort": {
+    "rows": 610,
+    "recall_at_1": 0.71967213,
+    "recall_at_2": 0.82459016,
+    "recall_at_3": 0.8852459,
+    "recall_at_5": 0.9147541,
+    "recall_at_10": 0.93606557,
+    "mrr": 0.80363284,
+    "mean_expected_rank": 13.9852459,
+    "median_expected_rank": 1.0,
+    "top3_misses": 70,
+    "note": "Reproduces the frozen v1.5 review subset only for comparison; it is not an automation-readiness cohort.",
+    "distance_to_targets": {
+      "90": {
+        "target": 0.9,
+        "required_hits": 549,
+        "current_hits": 540,
+        "additional_hits_needed": 9
+      },
+      "92": {
+        "target": 0.92,
+        "required_hits": 562,
+        "current_hits": 540,
+        "additional_hits_needed": 22
+      },
+      "95": {
+        "target": 0.95,
+        "required_hits": 580,
+        "current_hits": 540,
+        "additional_hits_needed": 40
+      }
+    }
+  },
+  "top5_recoverable_to_top3": 18,
+  "rank_distribution_of_top3_misses": {
+    "4": 13,
+    "5": 5,
+    "6-10": 13,
+    "11-20": 5,
+    ">20": 34
+  },
+  "reranker_movements_for_top3_misses": {
+    "neutral": 41,
+    "worsened": 18,
+    "improved": 11
+  },
+  "reranker_top3_transitions_all_test": {
+    "flat_top3_hits": 615,
+    "reranker_top3_hits": 628,
+    "rescued_into_top3": 24,
+    "pushed_out_of_top3": 11,
+    "net_top3_hits": 13
+  },
+  "taxonomy_impact": {
+    "broad_diagnostic_association_misses": 70,
+    "broad_share_of_top3_misses": 1.0,
+    "strong_signal_misses": 38,
+    "strong_signal_share_of_top3_misses": 0.54285714,
+    "definition": [
+      "CAUSE_EFFECT",
+      "GENERIC_SPECIFIC",
+      "OTHER_UNKNOWN",
+      "SEMANTIC_OVERLAP",
+      "TAXONOMY_AMBIGUITY"
+    ],
+    "indicators": {
+      "taxonomy_status_review": 70,
+      "pending_pair_in_top3": 70,
+      "persistent_confusion_in_top3": 70,
+      "other_unknown": 19,
+      "negative_separation_margin": 25,
+      "generic_specific_or_cause_effect": 5,
+      "possible_label_noise": 1
+    },
+    "methodological_warning": "The v1.6 taxonomy queue and persistent-confusion report were derived partly from the same frozen TEST errors. Broad association is diagnostic cross-reference, not independent causal evidence."
+  },
+  "low_support_impact": {
+    "support_le_10_misses": 38,
+    "share_of_top3_misses": 0.54285714
+  },
+  "counterfactuals": {
+    "recover_rank_4_only": {
+      "cases": 13,
+      "top3_hit_rate": 0.91833811
+    },
+    "recover_rank_4_and_5": {
+      "cases": 18,
+      "top3_hit_rate": 0.92550143
+    },
+    "taxonomy_associated_theoretical_ceiling": {
+      "cases": 70,
+      "top3_hit_rate": 1.0,
+      "warning": "Broad upper bound only; the diagnostic inputs reuse these TEST errors and do not establish causality or recoverability."
+    },
+    "strong_taxonomy_signal_theoretical_ceiling": {
+      "cases": 38,
+      "top3_hit_rate": 0.95415473,
+      "warning": "Upper bound for stronger indicators only; causes overlap and recoverability is not demonstrated."
+    },
+    "low_support_misses": 38
+  },
+  "bottleneck_related_miss_counts_non_exclusive": {
+    "A_improve_taxonomy": 38,
+    "B_review_labels": 1,
+    "C_collect_data": 38,
+    "D_improve_reranker": 11,
+    "E_improve_text_representation": 59,
+    "F_improve_family_component_mechanism": 57,
+    "G_other": 6
+  },
+  "top_20_classes_worst_recall_at_3": [
+    {
+      "canonical_label": "QUEBRA DE COMPONENTE",
+      "family": "OTHER_UNKNOWN",
+      "train_support": 18,
+      "test_support": 4,
+      "top1_accuracy": 0.0,
+      "recall_at_3": 0.0,
+      "recall_at_5": 0.25,
+      "mrr": 0.14688819,
+      "average_expected_rank": 63.25,
+      "top3_miss_count": 4,
+      "main_competitor": "FALHA DE SENSOR",
+      "main_failure_reason": "TAXONOMY_AMBIGUITY"
+    },
+    {
+      "canonical_label": "PATINS FORA DE POSICAO",
+      "family": "PATINS",
+      "train_support": 6,
+      "test_support": 2,
+      "top1_accuracy": 0.0,
+      "recall_at_3": 0.0,
+      "recall_at_5": 0.0,
+      "mrr": 0.0031348,
+      "average_expected_rank": 319.0,
+      "top3_miss_count": 2,
+      "main_competitor": "QUEDA DE PACOTES",
+      "main_failure_reason": "LOW_SUPPORT"
+    },
+    {
+      "canonical_label": "DESARME DE DISJUNTOR",
+      "family": "OTHER_UNKNOWN",
+      "train_support": 1,
+      "test_support": 1,
+      "top1_accuracy": 0.0,
+      "recall_at_3": 0.0,
+      "recall_at_5": 0.0,
+      "mrr": 0.09090909,
+      "average_expected_rank": 11.0,
+      "top3_miss_count": 1,
+      "main_competitor": "DESARME DE TRANSPORTE",
+      "main_failure_reason": "SINGLETON"
+    },
+    {
+      "canonical_label": "DESARME DE EQUIPAMENTO",
+      "family": "OTHER_UNKNOWN",
+      "train_support": 2,
+      "test_support": 1,
+      "top1_accuracy": 0.0,
+      "recall_at_3": 0.0,
+      "recall_at_5": 0.0,
+      "mrr": 0.08333333,
+      "average_expected_rank": 12.0,
+      "top3_miss_count": 1,
+      "main_competitor": "DESARME DE TRANSPORTE",
+      "main_failure_reason": "LOW_SUPPORT"
+    },
+    {
+      "canonical_label": "DESARME DE ESTEIRA",
+      "family": "ESTEIRA",
+      "train_support": 1,
+      "test_support": 1,
+      "top1_accuracy": 0.0,
+      "recall_at_3": 0.0,
+      "recall_at_5": 0.0,
+      "mrr": 0.01315789,
+      "average_expected_rank": 76.0,
+      "top3_miss_count": 1,
+      "main_competitor": "QUEBRA DE ESTEIRA",
+      "main_failure_reason": "SINGLETON"
+    },
+    {
+      "canonical_label": "DESNIVELAMENTO DE ESTEIRA",
+      "family": "ESTEIRA",
+      "train_support": 2,
+      "test_support": 1,
+      "top1_accuracy": 0.0,
+      "recall_at_3": 0.0,
+      "recall_at_5": 1.0,
+      "mrr": 0.2,
+      "average_expected_rank": 5.0,
+      "top3_miss_count": 1,
+      "main_competitor": "ESCAPE DE ESTEIRA",
+      "main_failure_reason": "LOW_SUPPORT"
+    },
+    {
+      "canonical_label": "ENTUPIMENTO",
+      "family": "OTHER_UNKNOWN",
+      "train_support": 1,
+      "test_support": 1,
+      "top1_accuracy": 0.0,
+      "recall_at_3": 0.0,
+      "recall_at_5": 0.0,
+      "mrr": 0.01020408,
+      "average_expected_rank": 98.0,
+      "top3_miss_count": 1,
+      "main_competitor": "FALSO ALARME DE REJEITO OBSTRUIDO",
+      "main_failure_reason": "SINGLETON"
+    },
+    {
+      "canonical_label": "FALHA DE ALIMENTACAO DE GARRAFAS",
+      "family": "GARRAFA",
+      "train_support": 6,
+      "test_support": 1,
+      "top1_accuracy": 0.0,
+      "recall_at_3": 0.0,
+      "recall_at_5": 0.0,
+      "mrr": 0.00689655,
+      "average_expected_rank": 145.0,
+      "top3_miss_count": 1,
+      "main_competitor": "FALHA DE SENSOR",
+      "main_failure_reason": "LOW_SUPPORT"
+    },
+    {
+      "canonical_label": "FALHA DE COMPACTACAO DE CAMADA",
+      "family": "CAMADA",
+      "train_support": 7,
+      "test_support": 1,
+      "top1_accuracy": 0.0,
+      "recall_at_3": 0.0,
+      "recall_at_5": 1.0,
+      "mrr": 0.2,
+      "average_expected_rank": 5.0,
+      "top3_miss_count": 1,
+      "main_competitor": "FALHA NO MANUSEIO DE CARTAO",
+      "main_failure_reason": "LOW_SUPPORT"
+    },
+    {
+      "canonical_label": "FALHA DE CORRENTE",
+      "family": "CORRENTE",
+      "train_support": 1,
+      "test_support": 1,
+      "top1_accuracy": 0.0,
+      "recall_at_3": 0.0,
+      "recall_at_5": 0.0,
+      "mrr": 0.08333333,
+      "average_expected_rank": 12.0,
+      "top3_miss_count": 1,
+      "main_competitor": "QUEDA DE GARRAFAS",
+      "main_failure_reason": "SINGLETON"
+    },
+    {
+      "canonical_label": "FALHA DE FORMACAO DE CAIXA",
+      "family": "CAIXA",
+      "train_support": 1,
+      "test_support": 1,
+      "top1_accuracy": 0.0,
+      "recall_at_3": 0.0,
+      "recall_at_5": 0.0,
+      "mrr": 0.14285714,
+      "average_expected_rank": 7.0,
+      "top3_miss_count": 1,
+      "main_competitor": "FALHA NA PEGADA DE CAMADA",
+      "main_failure_reason": "SINGLETON"
+    },
+    {
+      "canonical_label": "FALHA DE LEITURA",
+      "family": "OTHER_UNKNOWN",
+      "train_support": 1,
+      "test_support": 1,
+      "top1_accuracy": 0.0,
+      "recall_at_3": 0.0,
+      "recall_at_5": 0.0,
+      "mrr": 0.00813008,
+      "average_expected_rank": 123.0,
+      "top3_miss_count": 1,
+      "main_competitor": "FALHA DE PARAMETRIZACAO DE RECEITA",
+      "main_failure_reason": "SINGLETON"
+    },
+    {
+      "canonical_label": "FALHA DE MANGUEIRA",
+      "family": "MANGUEIRA",
+      "train_support": 1,
+      "test_support": 1,
+      "top1_accuracy": 0.0,
+      "recall_at_3": 0.0,
+      "recall_at_5": 0.0,
+      "mrr": 0.07692308,
+      "average_expected_rank": 13.0,
+      "top3_miss_count": 1,
+      "main_competitor": "FALHA DE CONEXAO DE MANGUEIRA",
+      "main_failure_reason": "SINGLETON"
+    },
+    {
+      "canonical_label": "FALHA DE MISTURA",
+      "family": "OTHER_UNKNOWN",
+      "train_support": 1,
+      "test_support": 1,
+      "top1_accuracy": 0.0,
+      "recall_at_3": 0.0,
+      "recall_at_5": 0.0,
+      "mrr": 0.125,
+      "average_expected_rank": 8.0,
+      "top3_miss_count": 1,
+      "main_competitor": "FALHA DE MIXER",
+      "main_failure_reason": "SINGLETON"
+    },
+    {
+      "canonical_label": "FALHA DE PRESSAO",
+      "family": "OTHER_UNKNOWN",
+      "train_support": 1,
+      "test_support": 1,
+      "top1_accuracy": 0.0,
+      "recall_at_3": 0.0,
+      "recall_at_5": 0.0,
+      "mrr": 0.16666667,
+      "average_expected_rank": 6.0,
+      "top3_miss_count": 1,
+      "main_competitor": "FALHA DE ENCHIMENTO",
+      "main_failure_reason": "SINGLETON"
+    },
+    {
+      "canonical_label": "FALHA DE PRESSURIZACAO DA ENCHEDORA",
+      "family": "ENCHIMENTO",
+      "train_support": 1,
+      "test_support": 1,
+      "top1_accuracy": 0.0,
+      "recall_at_3": 0.0,
+      "recall_at_5": 1.0,
+      "mrr": 0.25,
+      "average_expected_rank": 4.0,
+      "top3_miss_count": 1,
+      "main_competitor": "FALHA DE CABECOTE",
+      "main_failure_reason": "SINGLETON"
+    },
+    {
+      "canonical_label": "FALHA DE TRANSPORTE DE CAIXAS",
+      "family": "CAIXA",
+      "train_support": 2,
+      "test_support": 1,
+      "top1_accuracy": 0.0,
+      "recall_at_3": 0.0,
+      "recall_at_5": 0.0,
+      "mrr": 0.00275482,
+      "average_expected_rank": 363.0,
+      "top3_miss_count": 1,
+      "main_competitor": "ESCAPE DE ESTEIRA",
+      "main_failure_reason": "LOW_SUPPORT"
+    },
+    {
+      "canonical_label": "FALHA DE TRANSPORTE DE PALETES",
+      "family": "PALETE",
+      "train_support": 1,
+      "test_support": 1,
+      "top1_accuracy": 0.0,
+      "recall_at_3": 0.0,
+      "recall_at_5": 1.0,
+      "mrr": 0.25,
+      "average_expected_rank": 4.0,
+      "top3_miss_count": 1,
+      "main_competitor": "FALHA DE TRANSPORTE DE PACOTES",
+      "main_failure_reason": "SINGLETON"
+    },
+    {
+      "canonical_label": "FALHA DE VALVULA DE NITROGENIO",
+      "family": "VALVULA",
+      "train_support": 1,
+      "test_support": 1,
+      "top1_accuracy": 0.0,
+      "recall_at_3": 0.0,
+      "recall_at_5": 0.0,
+      "mrr": 0.16666667,
+      "average_expected_rank": 6.0,
+      "top3_miss_count": 1,
+      "main_competitor": "FALHA NO DOSADOR DE NITROGENIO",
+      "main_failure_reason": "SINGLETON"
+    },
+    {
+      "canonical_label": "FALHA DO COLOCADOR DE CARTAO",
+      "family": "CARTAO",
+      "train_support": 1,
+      "test_support": 1,
+      "top1_accuracy": 0.0,
+      "recall_at_3": 0.0,
+      "recall_at_5": 0.0,
+      "mrr": 0.00892857,
+      "average_expected_rank": 112.0,
+      "top3_miss_count": 1,
+      "main_competitor": "FALHA DE ROBO",
+      "main_failure_reason": "SINGLETON"
+    }
+  ],
+  "top_10_families_worst_recall_at_3": [
+    {
+      "family": "CORRENTE",
+      "classes": 6,
+      "test_support": 4,
+      "top1_accuracy": 0.5,
+      "recall_at_3": 0.5,
+      "recall_at_5": 0.75,
+      "mrr": 0.57083333,
+      "top3_misses": 2,
+      "main_failure_reason": "LOW_SUPPORT"
+    },
+    {
+      "family": "PATINS",
+      "classes": 3,
+      "test_support": 4,
+      "top1_accuracy": 0.5,
+      "recall_at_3": 0.5,
+      "recall_at_5": 0.5,
+      "mrr": 0.5015674,
+      "top3_misses": 2,
+      "main_failure_reason": "LOW_SUPPORT"
+    },
+    {
+      "family": "LATA",
+      "classes": 10,
+      "test_support": 17,
+      "top1_accuracy": 0.23529412,
+      "recall_at_3": 0.58823529,
+      "recall_at_5": 0.82352941,
+      "mrr": 0.46122892,
+      "top3_misses": 7,
+      "main_failure_reason": "TAXONOMY_AMBIGUITY"
+    },
+    {
+      "family": "CAIXA",
+      "classes": 6,
+      "test_support": 5,
+      "top1_accuracy": 0.4,
+      "recall_at_3": 0.6,
+      "recall_at_5": 0.6,
+      "mrr": 0.52912239,
+      "top3_misses": 2,
+      "main_failure_reason": "LOW_SUPPORT"
+    },
+    {
+      "family": "PALETE",
+      "classes": 13,
+      "test_support": 5,
+      "top1_accuracy": 0.6,
+      "recall_at_3": 0.6,
+      "recall_at_5": 0.8,
+      "mrr": 0.65625,
+      "top3_misses": 2,
+      "main_failure_reason": "SINGLETON"
+    },
+    {
+      "family": "REJEICAO",
+      "classes": 4,
+      "test_support": 12,
+      "top1_accuracy": 0.66666667,
+      "recall_at_3": 0.66666667,
+      "recall_at_5": 0.75,
+      "mrr": 0.68871966,
+      "top3_misses": 4,
+      "main_failure_reason": "TAXONOMY_AMBIGUITY"
+    },
+    {
+      "family": "MANGUEIRA",
+      "classes": 10,
+      "test_support": 6,
+      "top1_accuracy": 0.33333333,
+      "recall_at_3": 0.66666667,
+      "recall_at_5": 0.66666667,
+      "mrr": 0.486315,
+      "top3_misses": 2,
+      "main_failure_reason": "SINGLETON"
+    },
+    {
+      "family": "ELETRICO",
+      "classes": 9,
+      "test_support": 3,
+      "top1_accuracy": 0.0,
+      "recall_at_3": 0.66666667,
+      "recall_at_5": 0.66666667,
+      "mrr": 0.27868112,
+      "top3_misses": 1,
+      "main_failure_reason": "LOW_SUPPORT"
+    },
+    {
+      "family": "GUIA",
+      "classes": 7,
+      "test_support": 7,
+      "top1_accuracy": 0.42857143,
+      "recall_at_3": 0.71428571,
+      "recall_at_5": 0.85714286,
+      "mrr": 0.55990174,
+      "top3_misses": 2,
+      "main_failure_reason": "TAXONOMY_AMBIGUITY"
+    },
+    {
+      "family": "PEGADOR",
+      "classes": 2,
+      "test_support": 4,
+      "top1_accuracy": 0.75,
+      "recall_at_3": 0.75,
+      "recall_at_5": 0.75,
+      "mrr": 0.78571429,
+      "top3_misses": 1,
+      "main_failure_reason": "TAXONOMY_AMBIGUITY"
+    }
+  ],
+  "top3_by_rarity_bucket": [
+    {
+      "segment_type": "rarity_bucket",
+      "segment": "1",
+      "rows": 57,
+      "recall_at_1": 0.38596491,
+      "recall_at_2": 0.59649123,
+      "recall_at_3": 0.66666667,
+      "recall_at_5": 0.71929825,
+      "recall_at_10": 0.80701754,
+      "mrr": 0.54746771,
+      "mean_expected_rank": 19.56140351,
+      "median_expected_rank": 2.0
+    },
+    {
+      "segment_type": "rarity_bucket",
+      "segment": "2-3",
+      "rows": 39,
+      "recall_at_1": 0.69230769,
+      "recall_at_2": 0.74358974,
+      "recall_at_3": 0.79487179,
+      "recall_at_5": 0.84615385,
+      "recall_at_10": 0.92307692,
+      "mrr": 0.75926432,
+      "mean_expected_rank": 15.48717949,
+      "median_expected_rank": 1.0
+    },
+    {
+      "segment_type": "rarity_bucket",
+      "segment": "4-5",
+      "rows": 21,
+      "recall_at_1": 0.76190476,
+      "recall_at_2": 0.85714286,
+      "recall_at_3": 0.95238095,
+      "recall_at_5": 0.95238095,
+      "recall_at_10": 0.95238095,
+      "mrr": 0.84139889,
+      "mean_expected_rank": 18.80952381,
+      "median_expected_rank": 1.0
+    },
+    {
+      "segment_type": "rarity_bucket",
+      "segment": "6-10",
+      "rows": 89,
+      "recall_at_1": 0.5505618,
+      "recall_at_2": 0.76404494,
+      "recall_at_3": 0.88764045,
+      "recall_at_5": 0.92134831,
+      "recall_at_10": 0.93258427,
+      "mrr": 0.70792542,
+      "mean_expected_rank": 18.3258427,
+      "median_expected_rank": 1.0
+    },
+    {
+      "segment_type": "rarity_bucket",
+      "segment": "11-20",
+      "rows": 106,
+      "recall_at_1": 0.73584906,
+      "recall_at_2": 0.83018868,
+      "recall_at_3": 0.86792453,
+      "recall_at_5": 0.91509434,
+      "recall_at_10": 0.95283019,
+      "mrr": 0.81361338,
+      "mean_expected_rank": 16.72641509,
+      "median_expected_rank": 1.0
+    },
+    {
+      "segment_type": "rarity_bucket",
+      "segment": ">20",
+      "rows": 386,
+      "recall_at_1": 0.86787565,
+      "recall_at_2": 0.91709845,
+      "recall_at_3": 0.95336788,
+      "recall_at_5": 0.96632124,
+      "recall_at_10": 0.96632124,
+      "mrr": 0.90798266,
+      "mean_expected_rank": 8.03367876,
+      "median_expected_rank": 1.0
+    }
+  ],
+  "priority_family_comparison": [
+    {
+      "family": "CARTAO",
+      "classes": 6,
+      "test_support": 8,
+      "top1_accuracy": 0.375,
+      "recall_at_3": 0.875,
+      "recall_at_5": 0.875,
+      "mrr": 0.62611607,
+      "top3_misses": 1,
+      "main_failure_reason": "SINGLETON"
+    },
+    {
+      "family": "ESTEIRA",
+      "classes": 14,
+      "test_support": 40,
+      "top1_accuracy": 0.675,
+      "recall_at_3": 0.875,
+      "recall_at_5": 0.9,
+      "mrr": 0.75981059,
+      "top3_misses": 5,
+      "main_failure_reason": "TAXONOMY_AMBIGUITY"
+    },
+    {
+      "family": "LATA",
+      "classes": 10,
+      "test_support": 17,
+      "top1_accuracy": 0.23529412,
+      "recall_at_3": 0.58823529,
+      "recall_at_5": 0.82352941,
+      "mrr": 0.46122892,
+      "top3_misses": 7,
+      "main_failure_reason": "TAXONOMY_AMBIGUITY"
+    },
+    {
+      "family": "MANGUEIRA",
+      "classes": 10,
+      "test_support": 6,
+      "top1_accuracy": 0.33333333,
+      "recall_at_3": 0.66666667,
+      "recall_at_5": 0.66666667,
+      "mrr": 0.486315,
+      "top3_misses": 2,
+      "main_failure_reason": "SINGLETON"
+    },
+    {
+      "family": "OTHER_UNKNOWN",
+      "classes": 156,
+      "test_support": 83,
+      "top1_accuracy": 0.57831325,
+      "recall_at_3": 0.77108434,
+      "recall_at_5": 0.81927711,
+      "mrr": 0.68944372,
+      "top3_misses": 19,
+      "main_failure_reason": "TAXONOMY_AMBIGUITY"
+    },
+    {
+      "family": "ROTULO",
+      "classes": 5,
+      "test_support": 8,
+      "top1_accuracy": 0.25,
+      "recall_at_3": 1.0,
+      "recall_at_5": 1.0,
+      "mrr": 0.58333333,
+      "top3_misses": 0,
+      "main_failure_reason": ""
+    },
+    {
+      "family": "TRANSPORTE",
+      "classes": 8,
+      "test_support": 23,
+      "top1_accuracy": 0.65217391,
+      "recall_at_3": 0.91304348,
+      "recall_at_5": 0.91304348,
+      "mrr": 0.78040955,
+      "top3_misses": 2,
+      "main_failure_reason": "TAXONOMY_AMBIGUITY"
+    },
+    {
+      "family": "VALVULA",
+      "classes": 12,
+      "test_support": 44,
+      "top1_accuracy": 0.81818182,
+      "recall_at_3": 0.97727273,
+      "recall_at_5": 0.97727273,
+      "mrr": 0.89393939,
+      "top3_misses": 1,
+      "main_failure_reason": "SINGLETON"
+    }
+  ],
+  "strong_family_comparison": [
+    {
+      "family": "ENCHIMENTO",
+      "classes": 2,
+      "test_support": 32,
+      "top1_accuracy": 0.875,
+      "recall_at_3": 0.90625,
+      "recall_at_5": 0.9375,
+      "mrr": 0.90014111,
+      "top3_misses": 3,
+      "main_failure_reason": "TAXONOMY_AMBIGUITY"
+    },
+    {
+      "family": "PACOTE",
+      "classes": 9,
+      "test_support": 20,
+      "top1_accuracy": 0.9,
+      "recall_at_3": 0.9,
+      "recall_at_5": 0.9,
+      "mrr": 0.91071429,
+      "top3_misses": 2,
+      "main_failure_reason": "LOW_SUPPORT"
+    },
+    {
+      "family": "SENSOR",
+      "classes": 4,
+      "test_support": 58,
+      "top1_accuracy": 0.98275862,
+      "recall_at_3": 0.98275862,
+      "recall_at_5": 0.98275862,
+      "mrr": 0.98289227,
+      "top3_misses": 1,
+      "main_failure_reason": "TAXONOMY_AMBIGUITY"
+    },
+    {
+      "family": "TAMPA",
+      "classes": 12,
+      "test_support": 19,
+      "top1_accuracy": 0.84210526,
+      "recall_at_3": 0.89473684,
+      "recall_at_5": 0.94736842,
+      "mrr": 0.88157895,
+      "top3_misses": 2,
+      "main_failure_reason": "TAXONOMY_AMBIGUITY"
+    }
+  ],
+  "integrity": {
+    "protected_hashes_before": {
+      "C:\\Users\\arthu\\Coca\\Coca-Cola-Easy-Maintenance\\ml\\data\\human\\marilia\\prepared\\marilia_human_v2_canonical.csv": "9ad6fe9c03fc77bf6096efff7aaae6512455469c321a0b83ae4e33962dfe44bc",
+      "C:\\Users\\arthu\\Coca\\Coca-Cola-Easy-Maintenance\\ml\\models\\failure_classifier_marilia_v1_5_candidate_eval.joblib": "3bcdd63139a3ddefb1b3b328c2ac135f97bb1547664a940603aade586380b413",
+      "C:\\Users\\arthu\\Coca\\Coca-Cola-Easy-Maintenance\\ml\\taxonomy\\canonical_failure_modes.csv": "3684220f4e21ed20ab4edeb7d5d510f087af379ffda85e5e8d358a4c801eb92b",
+      "C:\\Users\\arthu\\Coca\\Coca-Cola-Easy-Maintenance\\ml\\taxonomy\\failure_mode_aliases.csv": "3707c5be226505ed85c5af46485a24d85578d63d839c290bbd8c2f328307b18c",
+      "C:\\Users\\arthu\\Coca\\Coca-Cola-Easy-Maintenance\\ml\\taxonomy\\taxonomy_review_decisions.csv": "b11515142c3b3fc7deca02f2b27b4efb6ced47085936839b9b4d63b093355956"
+    },
+    "protected_hashes_after": {
+      "C:\\Users\\arthu\\Coca\\Coca-Cola-Easy-Maintenance\\ml\\data\\human\\marilia\\prepared\\marilia_human_v2_canonical.csv": "9ad6fe9c03fc77bf6096efff7aaae6512455469c321a0b83ae4e33962dfe44bc",
+      "C:\\Users\\arthu\\Coca\\Coca-Cola-Easy-Maintenance\\ml\\models\\failure_classifier_marilia_v1_5_candidate_eval.joblib": "3bcdd63139a3ddefb1b3b328c2ac135f97bb1547664a940603aade586380b413",
+      "C:\\Users\\arthu\\Coca\\Coca-Cola-Easy-Maintenance\\ml\\taxonomy\\canonical_failure_modes.csv": "3684220f4e21ed20ab4edeb7d5d510f087af379ffda85e5e8d358a4c801eb92b",
+      "C:\\Users\\arthu\\Coca\\Coca-Cola-Easy-Maintenance\\ml\\taxonomy\\failure_mode_aliases.csv": "3707c5be226505ed85c5af46485a24d85578d63d839c290bbd8c2f328307b18c",
+      "C:\\Users\\arthu\\Coca\\Coca-Cola-Easy-Maintenance\\ml\\taxonomy\\taxonomy_review_decisions.csv": "b11515142c3b3fc7deca02f2b27b4efb6ced47085936839b9b4d63b093355956"
+    },
+    "protected_files_unchanged": true,
+    "all_test_rows_represented": true,
+    "no_model_artifact_created": true
+  },
+  "artifacts": [
+    "ursus_suggestion_quality_test_rows.csv",
+    "ursus_top3_misses.csv",
+    "ursus_top3_by_class.csv",
+    "ursus_top3_by_family.csv",
+    "ursus_top5_recoverable_to_top3.csv",
+    "ursus_reranker_rank_movements.csv",
+    "ursus_ranking_quality_segments.csv",
+    "ursus_suggestion_quality_summary.json",
+    "ursus_suggestion_quality_summary.md"
+  ]
+}

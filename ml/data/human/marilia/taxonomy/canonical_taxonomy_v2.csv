@@ -1,0 +1,438 @@
+﻿original_label,suggested_canonical_label,relation_type,similarity_score,frequency_original,frequency_target,confidence,requires_human_review,reason,applied_automatically,technical_family
+ACUMULO TAMPAS BUFFER FALHA,ACUMULO TAMPAS BUFFER FALHA,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping,False,TAMPA
+AFROUXAMENTO DE PARAFUSO DE FIXACAO,AFROUXAMENTO DE PARAFUSO DE FIXACAO,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping,False,OTHER_UNKNOWN
+ALIMENTACAO TAMPAS FALHA,FALHA DE ALIMENTACAO DE TAMPAS,EXACT_VARIANT,0.666667,1,22,HIGH,False,Same mechanism and object; only word order and prepositions differ. TRAIN observation centroid cosine=0.1894,True,TAMPA
+ALTERACAO DA VELOCIDADE DO DEVICER,ALTERACAO DA VELOCIDADE DO DEVICER,UNIQUE,1.0,2,2,N/A,False,No high-confidence equivalent was approved. self mapping,False,OTHER_UNKNOWN
+AMASSAMENTO DE LATAS,AMASSAMENTO DE LATAS,UNIQUE,1.0,15,15,N/A,False,No high-confidence equivalent was approved. self mapping,False,LATA
+ATUACAO DO CIRCUITO DE EMERGENCIA,ATUACAO DO CIRCUITO DE EMERGENCIA,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping,False,OTHER_UNKNOWN
+ATUACAO QUEIMA DE FUSIVEL,ATUACAO QUEIMA DE FUSIVEL,UNIQUE,1.0,2,2,N/A,False,No high-confidence equivalent was approved. self mapping,False,ELETRICO
+AUSENCIA DE PARAFUSO DE FIXACAO,AUSENCIA DE PARAFUSO DE FIXACAO,UNIQUE,1.0,2,2,N/A,False,No high-confidence equivalent was approved. self mapping,False,OTHER_UNKNOWN
+BAIXA VELOCIDADE DE ESTEIRA,BAIXA VELOCIDADE DE ESTEIRA,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping,False,ESTEIRA
+COLAPSO DE LATAS,COLAPSO DE LATAS,UNIQUE,1.0,9,9,N/A,False,No high-confidence equivalent was approved. self mapping,False,LATA
+COLISAO DO BRACO DE ESTIRAMENTO,COLISAO DO BRACO DE ESTIRAMENTO,UNIQUE,1.0,2,2,N/A,False,No high-confidence equivalent was approved. self mapping,False,OTHER_UNKNOWN
+COLISAO DO EMPURRADOR,COLISAO DO EMPURRADOR,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping,False,OTHER_UNKNOWN
+COLISAO DO ROBO COM PALETE,COLISAO DO ROBO COM PALETE,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping,False,ROBO
+CRASH DE GARRAFAS,CRASH DE GARRAFAS,UNIQUE,1.0,10,10,N/A,False,No high-confidence equivalent was approved. self mapping,False,GARRAFA
+CRASH DE LATAS,CRASH DE LATAS,UNIQUE,1.0,4,4,N/A,False,No high-confidence equivalent was approved. self mapping,False,LATA
+CURTO CIRCUITO,CURTO CIRCUITO,UNIQUE,1.0,11,11,N/A,False,No high-confidence equivalent was approved. self mapping,False,OTHER_UNKNOWN
+DANIFICACAO DA BUCHA DE ELEVACAO DO PISTAO,DANIFICACAO DA BUCHA DE ELEVACAO DO PISTAO,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping,False,OTHER_UNKNOWN
+DANIFICACAO DE GARRAFAS,DANIFICACAO DE GARRAFAS,UNIQUE,1.0,5,5,N/A,False,No high-confidence equivalent was approved. self mapping,False,GARRAFA
+DEFORMACAO DE CABECOTE,DEFORMACAO DE CABECOTE,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping,False,CABECOTE
+DEFORMACAO DE EIXO,DEFORMACAO DE EIXO,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping,False,EIXO
+DEFORMACAO DE FACA,DEFORMACAO DE FACA,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping,False,OTHER_UNKNOWN
+DEFORMACAO DE HASTE,DEFORMACAO DE HASTE,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping,False,OTHER_UNKNOWN
+DEFORMACAO DE MEXEDOR,DEFORMACAO DE MEXEDOR,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping,False,OTHER_UNKNOWN
+DEFORMACAO DE SUPORTE,DEFORMACAO DE SUPORTE,UNIQUE,1.0,3,3,N/A,False,No high-confidence equivalent was approved. self mapping,False,SUPORTE
+DEFORMACAO DESALINHAMENTO DE GUIA,DEFORMACAO DESALINHAMENTO DE GUIA,UNIQUE,1.0,12,12,N/A,False,No high-confidence equivalent was approved. self mapping,False,GUIA
+DEFORMACAO DO CABECOTE,DEFORMACAO DE CABECOTE,EXACT_VARIANT,0.954545,1,1,HIGH,False,Only the article/preposition differs. TRAIN observation centroid cosine=0.0859,True,CABECOTE
+DEGRADACAO DE MANGUEIRA,DEGRADACAO DE MANGUEIRA,UNIQUE,1.0,2,2,N/A,False,No high-confidence equivalent was approved. self mapping,False,MANGUEIRA
+DESAJUSTE DE GUIA,DESAJUSTE DE GUIA,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping,False,GUIA
+DESAJUSTE DE REGUA,DESAJUSTE DE REGUA,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping,False,GUIA
+DESALINHAMENTO DE AGREGADO,DESALINHAMENTO DE AGREGADO,UNIQUE,1.0,7,7,N/A,False,No high-confidence equivalent was approved. self mapping,False,OTHER_UNKNOWN
+DESALINHAMENTO DE CENTRADOR,DESALINHAMENTO DE CENTRADOR,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping,False,OTHER_UNKNOWN
+DESALINHAMENTO DE CHAPA,DESALINHAMENTO DE CHAPA,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping,False,OTHER_UNKNOWN
+DESALINHAMENTO DE EIXO,DESALINHAMENTO DE EIXO,UNIQUE,1.0,4,4,N/A,False,No high-confidence equivalent was approved. self mapping,False,EIXO
+DESALINHAMENTO DE GUIA,DESALINHAMENTO DE GUIA,UNIQUE,1.0,9,9,N/A,False,No high-confidence equivalent was approved. self mapping,False,GUIA
+DESALINHAMENTO DE MASCARA,DESALINHAMENTO DE MASCARA,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping,False,OTHER_UNKNOWN
+DESALINHAMENTO DE PALETE,DESALINHAMENTO DE PALETE,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping,False,PALETE
+DESALINHAMENTO DE PILHA DE PALETES,DESALINHAMENTO DE PILHA DE PALETES,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping,False,PALETE
+DESALINHAMENTO DO BRACO DE CENTRAGEM,DESALINHAMENTO DO BRACO DE CENTRAGEM,UNIQUE,1.0,2,2,N/A,False,No high-confidence equivalent was approved. self mapping,False,OTHER_UNKNOWN
+DESALINHAMENTO DO CENTRADOR,DESALINHAMENTO DE CENTRADOR,EXACT_VARIANT,0.962963,1,1,HIGH,False,Only the article/preposition differs. TRAIN observation centroid cosine=0.0888,True,OTHER_UNKNOWN
+DESALINHAMENTO MECANICO,DESALINHAMENTO MECANICO,UNIQUE,1.0,11,11,N/A,False,No high-confidence equivalent was approved. self mapping,False,OTHER_UNKNOWN
+DESARME DE BOMBA,DESARME DE BOMBA,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping,False,BOMBA
+DESARME DE DISJUNTOR,DESARME DE DISJUNTOR,UNIQUE,1.0,3,3,N/A,False,No high-confidence equivalent was approved. self mapping,False,OTHER_UNKNOWN
+DESARME DE EQUIPAMENTO,DESARME DE EQUIPAMENTO,UNIQUE,1.0,4,4,N/A,False,No high-confidence equivalent was approved. self mapping,False,OTHER_UNKNOWN
+DESARME DE ESTEIRA,DESARME DE ESTEIRA,UNIQUE,1.0,3,3,N/A,False,No high-confidence equivalent was approved. self mapping,False,ESTEIRA
+DESARME DE MESA,DESARME DE MESA,UNIQUE,1.0,3,3,N/A,False,No high-confidence equivalent was approved. self mapping,False,MESA
+DESARME DE MOTOR,DESARME DE MOTOR,UNIQUE,1.0,28,28,N/A,False,No high-confidence equivalent was approved. self mapping,False,MOTOR
+DESARME DE PAINEL,DESARME DE PAINEL,UNIQUE,1.0,2,2,N/A,False,No high-confidence equivalent was approved. self mapping,False,OTHER_UNKNOWN
+DESARME DE PAINEL DE COMANDO,DESARME DE PAINEL DE COMANDO,UNIQUE,1.0,2,2,N/A,False,No high-confidence equivalent was approved. self mapping,False,OTHER_UNKNOWN
+DESARME DE TRANSPORTE,DESARME DE TRANSPORTE,UNIQUE,1.0,23,23,N/A,False,No high-confidence equivalent was approved. self mapping,False,TRANSPORTE
+DESARME PALETIZADORA,DESARME PALETIZADORA,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping,False,OTHER_UNKNOWN
+DESARME TERMICO,DESARME TERMICO,UNIQUE,1.0,6,6,N/A,False,No high-confidence equivalent was approved. self mapping,False,TEMPERATURA
+DESARME TRANSPORTE,DESARME DE TRANSPORTE,EXACT_VARIANT,0.923077,1,23,HIGH,False,Only a preposition is omitted. TRAIN observation centroid cosine=0.1047,True,TRANSPORTE
+DESGASTE DE PINO DE SEPARACAO,DESGASTE DE PINO DE SEPARACAO,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping,False,OTHER_UNKNOWN
+DESLIGAMENTO INDEVIDO DO EQUIPAMENTO,DESLIGAMENTO INDEVIDO DO EQUIPAMENTO,UNIQUE,1.0,6,6,N/A,False,No high-confidence equivalent was approved. self mapping,False,OTHER_UNKNOWN
+DESNIVELAMENTO DE ESTEIRA,DESNIVELAMENTO DE ESTEIRA,UNIQUE,1.0,4,4,N/A,False,No high-confidence equivalent was approved. self mapping,False,ESTEIRA
+DESPRENDIMENTO DO PISTAO DE TRAVAMENTO,DESPRENDIMENTO DO PISTAO DE TRAVAMENTO,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping,False,OTHER_UNKNOWN
+EIXO DO BRACO TENCIONADOR DO FILME DA ENVOLVEDORA SOLTO,EIXO DO BRACO TENCIONADOR DO FILME DA ENVOLVEDORA SOLTO,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping,False,FILME
+ENROSCO DE CAIXAS,ENROSCO DE CAIXAS,UNIQUE,1.0,10,10,N/A,False,No high-confidence equivalent was approved. self mapping,False,CAIXA
+ENROSCO DE CARTAO QUADRO,ENROSCO DE CARTAO QUADRO,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping,False,CARTAO
+ENROSCO DE GARRAFAS,ENROSCO DE GARRAFAS,UNIQUE,1.0,45,45,N/A,False,No high-confidence equivalent was approved. self mapping,False,GARRAFA
+ENROSCO DE LATAS,ENROSCO DE LATAS,UNIQUE,1.0,28,28,N/A,False,No high-confidence equivalent was approved. self mapping,False,LATA
+ENROSCO DE PACOTES,ENROSCO DE PACOTES,UNIQUE,1.0,50,50,N/A,False,No high-confidence equivalent was approved. self mapping,False,PACOTE
+ENROSCO DE ROTULOS,ENROSCO DE ROTULOS,UNIQUE,1.0,16,16,N/A,False,No high-confidence equivalent was approved. self mapping,False,ROTULO
+ENROSCO DE TAMPAS,ENROSCO DE TAMPAS,UNIQUE,1.0,62,62,N/A,False,No high-confidence equivalent was approved. self mapping,False,TAMPA
+ENRROSCO DE GARRAFA,ENROSCO DE GARRAFAS,ORTHOGRAPHIC_VARIANT,0.947368,1,45,HIGH,False,Clear spelling error plus singular/plural variation of the same event. TRAIN observation centroid cosine=0.1708,True,GARRAFA
+ENTUPIMENTO,ENTUPIMENTO,UNIQUE,1.0,2,2,N/A,False,No high-confidence equivalent was approved. self mapping,False,OTHER_UNKNOWN
+ENTUPIMENTO DE TUBULACAO,ENTUPIMENTO DE TUBULACAO,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping,False,TUBULACAO
+ENTUPIMENTO NO TRANSPORTE DE TAMPAS,ENTUPIMENTO NO TRANSPORTE DE TAMPAS,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping,False,TAMPA
+ERRO DE COMUNICACAO,ERRO DE COMUNICACAO,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping,False,COMUNICACAO
+ESCAPE DE CORREIA,ESCAPE DE CORREIA,UNIQUE,1.0,6,6,N/A,False,No high-confidence equivalent was approved. self mapping,False,CORREIA
+ESCAPE DE ESTEIRA,ESCAPE DE ESTEIRA,UNIQUE,1.0,108,108,N/A,False,No high-confidence equivalent was approved. self mapping,False,ESTEIRA
+ESPANAMENTO DE PARAFUSO,ESPANAMENTO DE PARAFUSO,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping,False,OTHER_UNKNOWN
+ESPUMAMENTO DA BEBIDA,ESPUMAMENTO DE BEBIDA,EXACT_VARIANT,0.952381,1,18,HIGH,False,Only the article/preposition differs. TRAIN observation centroid cosine=0.3012,True,OTHER_UNKNOWN
+ESPUMAMENTO DE BEBIDA,ESPUMAMENTO DE BEBIDA,UNIQUE,1.0,18,18,N/A,False,No high-confidence equivalent was approved. self mapping,False,OTHER_UNKNOWN
+ESTABILIDADE DE EQUIPAMENTO,ESTABILIDADE DE EQUIPAMENTO,UNIQUE,1.0,2,2,N/A,False,No high-confidence equivalent was approved. self mapping,False,OTHER_UNKNOWN
+ETICADOR DE CORRENTE ESCAPOU,ETICADOR DE CORRENTE ESCAPOU,UNIQUE,1.0,2,2,N/A,False,No high-confidence equivalent was approved. self mapping,False,CORRENTE
+EXCESSO DE GARRAFA COM ROTULO,EXCESSO DE GARRAFA COM ROTULO,UNIQUE,1.0,11,11,N/A,False,No high-confidence equivalent was approved. self mapping,False,GARRAFA
+FALHA DA MESA GIRATORIA,FALHA DA MESA GIRATORIA,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping,False,MESA
+FALHA DA PINCA,FALHA DE PINCA,EXACT_VARIANT,0.928571,1,58,HIGH,False,Only the article/preposition differs. TRAIN observation centroid cosine=0.2270,True,PINCA
+FALHA DE ABA CONICA,FALHA DE ABA CONICA,UNIQUE,1.0,7,7,N/A,False,No high-confidence equivalent was approved. self mapping,False,OTHER_UNKNOWN
+FALHA DE ACIONAMENTO DO EMPURRADOR,FALHA DE ACIONAMENTO DO EMPURRADOR,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping,False,OTHER_UNKNOWN
+FALHA DE ACOPLAMENTO,FALHA DE ACOPLAMENTO,UNIQUE,1.0,2,2,N/A,False,No high-confidence equivalent was approved. self mapping,False,OTHER_UNKNOWN
+FALHA DE ACUMULO NO TRANSPORTE,FALHA DE ACUMULO NO TRANSPORTE,UNIQUE,1.0,14,14,N/A,False,No high-confidence equivalent was approved. self mapping,False,TRANSPORTE
+FALHA DE ALIMENTACAO,FALHA DE ALIMENTACAO,UNIQUE,1.0,2,2,N/A,False,No high-confidence equivalent was approved. self mapping,False,OTHER_UNKNOWN
+FALHA DE ALIMENTACAO DE GARRAFAS,FALHA DE ALIMENTACAO DE GARRAFAS,UNIQUE,1.0,8,8,N/A,False,No high-confidence equivalent was approved. self mapping,False,GARRAFA
+FALHA DE ALIMENTACAO DE LATAS,FALHA DE ALIMENTACAO DE LATAS,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping,False,LATA
+FALHA DE ALIMENTACAO DE PACOTES,FALHA DE ALIMENTACAO DE PACOTES,UNIQUE,1.0,8,8,N/A,False,No high-confidence equivalent was approved. self mapping,False,PACOTE
+FALHA DE ALIMENTACAO DE PALETES,FALHA DE ALIMENTACAO DE PALETES,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping,False,PALETE
+FALHA DE ALIMENTACAO DE TAMPAS,FALHA DE ALIMENTACAO DE TAMPAS,UNIQUE,1.0,22,22,N/A,False,No high-confidence equivalent was approved. self mapping,False,TAMPA
+FALHA DE ALIMENTACAO ELETRICA,FALHA DE ALIMENTACAO ELETRICA,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping,False,ELETRICO
+FALHA DE ALIMENTACAO ELETRICA DA EMBREAGEM,FALHA DE ALIMENTACAO ELETRICA DA EMBREAGEM,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping,False,ELETRICO
+FALHA DE AMOSTRAGEM,FALHA DE AMOSTRAGEM,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping,False,OTHER_UNKNOWN
+FALHA DE ANALISADOR,FALHA DE ANALISADOR,UNIQUE,1.0,4,4,N/A,False,No high-confidence equivalent was approved. self mapping,False,OTHER_UNKNOWN
+FALHA DE APLICACAO DE COLA,FALHA DE APLICACAO DE COLA,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping,False,OTHER_UNKNOWN
+FALHA DE ATUADOR,FALHA DE ATUADOR,UNIQUE,1.0,2,2,N/A,False,No high-confidence equivalent was approved. self mapping,False,ATUADOR
+FALHA DE ATUADOR DA VALVULA,FALHA DE ATUADOR DA VALVULA,UNIQUE,1.0,4,4,N/A,False,No high-confidence equivalent was approved. self mapping,False,VALVULA
+FALHA DE ATUADOR DO DEVAISER,FALHA DE ATUADOR DO DEVAISER,UNIQUE,1.0,2,2,N/A,False,No high-confidence equivalent was approved. self mapping,False,ATUADOR
+FALHA DE AUTOMACAO,FALHA DE AUTOMACAO,UNIQUE,1.0,16,16,N/A,False,No high-confidence equivalent was approved. self mapping,False,AUTOMACAO
+FALHA DE BAILARINA,FALHA DE BAILARINA,UNIQUE,1.0,8,8,N/A,False,No high-confidence equivalent was approved. self mapping,False,OTHER_UNKNOWN
+FALHA DE BANDEIROLA,FALHA DE BANDEIROLA,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping,False,OTHER_UNKNOWN
+FALHA DE BARREIRA,FALHA DE BARREIRA,UNIQUE,1.0,41,41,N/A,False,No high-confidence equivalent was approved. self mapping,False,BARREIRA
+FALHA DE BATEDOR DE CAIXAS,FALHA DE BATEDOR DE CAIXAS,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping,False,CAIXA
+FALHA DE BATETORES PNEUMATICOS,FALHA DE BATETORES PNEUMATICOS,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping,False,PNEUMATICO
+FALHA DE BOCAL,FALHA DE BOCAL,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping,False,OTHER_UNKNOWN
+FALHA DE BOMBA,FALHA DE BOMBA,UNIQUE,1.0,21,21,N/A,False,No high-confidence equivalent was approved. self mapping,False,BOMBA
+FALHA DE BOTAO DE RESET,FALHA NO BOTAO RESET,EXACT_VARIANT,0.837209,3,2,HIGH,False,Same button and reset failure; only function words differ. TRAIN observation centroid cosine=0.1702,True,OTHER_UNKNOWN
+FALHA DE BOTOEIRA DE EMERGENCIA,FALHA DE BOTOEIRA DE EMERGENCIA,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping,False,OTHER_UNKNOWN
+FALHA DE BRACO DE TUBETES,FALHA DE BRACO DE TUBETES,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping,False,OTHER_UNKNOWN
+FALHA DE CABECOTE,FALHA DE CABECOTE,UNIQUE,1.0,3,3,N/A,False,No high-confidence equivalent was approved. self mapping,False,CABECOTE
+FALHA DE CABO DE SEGURANCA,FALHA DE CABO DE SEGURANCA,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping,False,SEGURANCA
+FALHA DE CALIBRACAO,FALHA DE CALIBRACAO,UNIQUE,1.0,3,3,N/A,False,No high-confidence equivalent was approved. self mapping,False,OTHER_UNKNOWN
+FALHA DE CAME,FALHA DE CAME,UNIQUE,1.0,2,2,N/A,False,No high-confidence equivalent was approved. self mapping,False,OTHER_UNKNOWN
+FALHA DE CAMERA,FALHA DE CAMERA,UNIQUE,1.0,4,4,N/A,False,No high-confidence equivalent was approved. self mapping,False,CAMERA
+FALHA DE CARBONATACAO,FALHA DE CARBONATACAO,UNIQUE,1.0,10,10,N/A,False,No high-confidence equivalent was approved. self mapping,False,CARBONATACAO
+FALHA DE CARTAO MESTRE,FALHA DE CARTAO MESTRE,UNIQUE,1.0,11,11,N/A,False,No high-confidence equivalent was approved. self mapping,False,CARTAO
+FALHA DE CENTRADOR,FALHA DE CENTRADOR,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping,False,OTHER_UNKNOWN
+FALHA DE CHAVE DE EMERGENCIA,FALHA DE CHAVE DE EMERGENCIA,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping,False,OTHER_UNKNOWN
+FALHA DE CIP,FALHA DE CIP,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping,False,OTHER_UNKNOWN
+FALHA DE CODIFICACAO,FALHA DE CODIFICACAO,UNIQUE,1.0,66,66,N/A,False,No high-confidence equivalent was approved. self mapping,False,IMPRESSAO
+FALHA DE COLETOR,FALHA DE COLETOR,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping,False,OTHER_UNKNOWN
+FALHA DE COLISAO DA GAIOLA,FALHA DE COLISAO DA GAIOLA,UNIQUE,1.0,2,2,N/A,False,No high-confidence equivalent was approved. self mapping,False,OTHER_UNKNOWN
+FALHA DE COMANDO DA ARVORE DE ESPUMA,FALHA DE COMANDO DA ARVORE DE ESPUMA,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping,False,OTHER_UNKNOWN
+FALHA DE COMPACTACAO DE CAMADA,FALHA DE COMPACTACAO DE CAMADA,UNIQUE,1.0,9,9,N/A,False,No high-confidence equivalent was approved. self mapping,False,CAMADA
+FALHA DE COMUNICACAO,FALHA DE COMUNICACAO,UNIQUE,1.0,69,69,N/A,False,No high-confidence equivalent was approved. self mapping,False,COMUNICACAO
+FALHA DE CONEXAO DE MANGUEIRA,FALHA DE CONEXAO DE MANGUEIRA,UNIQUE,1.0,8,8,N/A,False,No high-confidence equivalent was approved. self mapping,False,MANGUEIRA
+FALHA DE CONEXAO ELETRICA,FALHA DE CONEXAO ELETRICA,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping,False,ELETRICO
+FALHA DE CONEXAO PNEUMATICA,FALHA DE CONEXAO PNEUMATICA,UNIQUE,1.0,5,5,N/A,False,No high-confidence equivalent was approved. self mapping,False,PNEUMATICO
+FALHA DE CONTAGEM,FALHA DE CONTAGEM,UNIQUE,1.0,12,12,N/A,False,No high-confidence equivalent was approved. self mapping,False,OTHER_UNKNOWN
+FALHA DE CONTAGEM DE PRODUTO,FALHA DE CONTAGEM DE PRODUTO,UNIQUE,1.0,2,2,N/A,False,No high-confidence equivalent was approved. self mapping,False,OTHER_UNKNOWN
+FALHA DE CONTROLE DE BRIX,FALHA DE CONTROLE DE BRIX,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping,False,OTHER_UNKNOWN
+FALHA DE CONTROLE DE NIVEL DO CARBONATADOR,FALHA DE CONTROLE DE NIVEL DO CARBONATADOR,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping,False,CARBONATACAO
+FALHA DE CONTROLE DE PROCESSO,FALHA DE CONTROLE DE PROCESSO,UNIQUE,1.0,20,20,N/A,False,No high-confidence equivalent was approved. self mapping,False,PROCESSO
+FALHA DE CONTROLE DE TEMPERATURA,FALHA DE CONTROLE DE TEMPERATURA,UNIQUE,1.0,20,20,N/A,False,No high-confidence equivalent was approved. self mapping,False,TEMPERATURA
+FALHA DE CORREIA,FALHA DE CORREIA,UNIQUE,1.0,14,14,N/A,False,No high-confidence equivalent was approved. self mapping,False,CORREIA
+FALHA DE CORRENTE,FALHA DE CORRENTE,UNIQUE,1.0,3,3,N/A,False,No high-confidence equivalent was approved. self mapping,False,CORRENTE
+FALHA DE CORTE DA EMBALAGEM DO TUBETE,FALHA DE CORTE DA EMBALAGEM DO TUBETE,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping,False,OTHER_UNKNOWN
+FALHA DE CORTE DE FILME,FALHA DE CORTE DE FILME,UNIQUE,1.0,57,57,N/A,False,No high-confidence equivalent was approved. self mapping,False,FILME
+FALHA DE DESCAPSULAMENTO,FALHA DE DESCAPSULAMENTO,UNIQUE,1.0,22,22,N/A,False,No high-confidence equivalent was approved. self mapping,False,DESCAPSULAMENTO
+FALHA DE DIMENSIONAMENTO DE CAMADA,FALHA DE DIMENSIONAMENTO DE CAMADA,UNIQUE,1.0,2,2,N/A,False,No high-confidence equivalent was approved. self mapping,False,CAMADA
+FALHA DE DIRECIONAMENTO DE PACOTES,FALHA DE DIRECIONAMENTO DE PACOTES,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping,False,PACOTE
+FALHA DE DOSAGEM,FALHA DE DOSAGEM,UNIQUE,1.0,7,7,N/A,False,No high-confidence equivalent was approved. self mapping,False,DOSAGEM
+FALHA DE DOSAGEM DE NITROGENIO,FALHA DE DOSAGEM DE NITROGENIO,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping,False,DOSAGEM
+FALHA DE DRIVE,FALHA DE DRIVE,UNIQUE,1.0,3,3,N/A,False,No high-confidence equivalent was approved. self mapping,False,OTHER_UNKNOWN
+FALHA DE ELAU,FALHA DE ELAU,UNIQUE,1.0,7,7,N/A,False,No high-confidence equivalent was approved. self mapping,False,OTHER_UNKNOWN
+FALHA DE ELEMENTO DE TRANSMISSAO,FALHA DE ELEMENTO DE TRANSMISSAO,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping,False,OTHER_UNKNOWN
+FALHA DE ELEVADOR,FALHA DE ELEVADOR,UNIQUE,1.0,32,32,N/A,False,No high-confidence equivalent was approved. self mapping,False,ELEVADOR
+FALHA DE ELO DE ESTEIRA,FALHA DE ELO DE ESTEIRA,UNIQUE,1.0,11,11,N/A,False,No high-confidence equivalent was approved. self mapping,False,ESTEIRA
+FALHA DE EMPURRADOR,FALHA DE EMPURRADOR,UNIQUE,1.0,4,4,N/A,False,No high-confidence equivalent was approved. self mapping,False,OTHER_UNKNOWN
+FALHA DE ENCHIMENTO,FALHA DE ENCHIMENTO,UNIQUE,1.0,145,145,N/A,False,No high-confidence equivalent was approved. self mapping,False,ENCHIMENTO
+FALHA DE ENCODER,FALHA DE ENCODER,UNIQUE,1.0,10,10,N/A,False,No high-confidence equivalent was approved. self mapping,False,ENCODER
+FALHA DE ENCOSTO DE AGRUPAMENTO,FALHA DE ENCOSTO DE AGRUPAMENTO,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping,False,OTHER_UNKNOWN
+FALHA DE ENGRENAGEM,FALHA DE ENGRENAGEM,UNIQUE,1.0,9,9,N/A,False,No high-confidence equivalent was approved. self mapping,False,ENGRENAGEM
+FALHA DE ENVOLVIMENTO,FALHA DE ENVOLVIMENTO,UNIQUE,1.0,67,67,N/A,False,No high-confidence equivalent was approved. self mapping,False,ENVOLVIMENTO
+FALHA DE ESTEIRA,FALHA DE ESTEIRA,UNIQUE,1.0,36,36,N/A,False,No high-confidence equivalent was approved. self mapping,False,ESTEIRA
+FALHA DE EXTRACAO DE ROTULOS,FALHA DE EXTRACAO DE ROTULOS,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping,False,ROTULO
+FALHA DE FACA,FALHA DE FACA,UNIQUE,1.0,3,3,N/A,False,No high-confidence equivalent was approved. self mapping,False,OTHER_UNKNOWN
+FALHA DE FEEDBACK,FALHA DE FEEDBACK,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping,False,OTHER_UNKNOWN
+FALHA DE FILTRO,FALHA DE FILTRO,UNIQUE,1.0,4,4,N/A,False,No high-confidence equivalent was approved. self mapping,False,FILTRO
+FALHA DE FIXACAO,FALHA DE FIXACAO,UNIQUE,1.0,28,28,N/A,False,No high-confidence equivalent was approved. self mapping,False,OTHER_UNKNOWN
+FALHA DE FIXACAO DA BASE DO SENSOR,FALHA DE FIXACAO DA BASE DO SENSOR,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping,False,SENSOR
+FALHA DE FIXACAO DA CORRENTE DE ELEVACAO,FALHA DE FIXACAO DA CORRENTE DE ELEVACAO,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping,False,CORRENTE
+FALHA DE FIXACAO DA TULIPA,FALHA DE FIXACAO DA TULIPA,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping,False,OTHER_UNKNOWN
+FALHA DE FIXACAO DA VALVULA,FALHA DE FIXACAO DA VALVULA,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping,False,VALVULA
+FALHA DE FIXACAO DE PROTECAO,FALHA DE FIXACAO DE PROTECAO,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping,False,OTHER_UNKNOWN
+FALHA DE FLUXIMETRO,FALHA DE FLUXIMETRO,UNIQUE,1.0,4,4,N/A,False,No high-confidence equivalent was approved. self mapping,False,FLUXIMETRO
+FALHA DE FONTE DE ALIMENTACAO,FALHA DE FONTE DE ALIMENTACAO,UNIQUE,1.0,9,9,N/A,False,No high-confidence equivalent was approved. self mapping,False,OTHER_UNKNOWN
+FALHA DE FORMACAO DE CAIXA,FALHA DE FORMACAO DE CAIXA,UNIQUE,1.0,2,2,N/A,False,No high-confidence equivalent was approved. self mapping,False,CAIXA
+FALHA DE FORMACAO DE CAMADA,FALHA DE FORMACAO DE CAMADA,UNIQUE,1.0,44,44,N/A,False,No high-confidence equivalent was approved. self mapping,False,CAMADA
+FALHA DE FORMACAO DE PACOTE,FALHA DE FORMACAO DE PACOTE,UNIQUE,1.0,10,10,N/A,False,No high-confidence equivalent was approved. self mapping,False,PACOTE
+FALHA DE FREIO,FALHA DE FREIO,UNIQUE,1.0,7,7,N/A,False,No high-confidence equivalent was approved. self mapping,False,OTHER_UNKNOWN
+FALHA DE GERADOR DE IMPULSOS,FALHA DE GERADOR DE IMPULSOS,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping,False,OTHER_UNKNOWN
+FALHA DE GUIA,FALHA DE GUIA,UNIQUE,1.0,19,19,N/A,False,No high-confidence equivalent was approved. self mapping,False,GUIA
+FALHA DE IHM,FALHA DE IHM,UNIQUE,1.0,18,18,N/A,False,No high-confidence equivalent was approved. self mapping,False,IHM
+FALHA DE INSPECAO,FALHA DE INSPECAO,UNIQUE,1.0,98,98,N/A,False,No high-confidence equivalent was approved. self mapping,False,INSPECAO
+FALHA DE INVERSOR,FALHA DE INVERSOR,UNIQUE,1.0,100,100,N/A,False,No high-confidence equivalent was approved. self mapping,False,INVERSOR
+FALHA DE JATOS DE ENXAGUE,FALHA DE JATOS DE ENXAGUE,UNIQUE,1.0,2,2,N/A,False,No high-confidence equivalent was approved. self mapping,False,OTHER_UNKNOWN
+FALHA DE LEITURA,FALHA DE LEITURA,UNIQUE,1.0,2,2,N/A,False,No high-confidence equivalent was approved. self mapping,False,OTHER_UNKNOWN
+FALHA DE LEITURA DA GARRAFA TESTE,FALHA DE LEITURA DA GARRAFA TESTE,UNIQUE,1.0,2,2,N/A,False,No high-confidence equivalent was approved. self mapping,False,GARRAFA
+FALHA DE LUBRIFICACAO,FALHA DE LUBRIFICACAO,UNIQUE,1.0,2,2,N/A,False,No high-confidence equivalent was approved. self mapping,False,OTHER_UNKNOWN
+FALHA DE MAGAZINE,FALHA DE MAGAZINE,UNIQUE,1.0,76,76,N/A,False,No high-confidence equivalent was approved. self mapping,False,MAGAZINE
+FALHA DE MANDRIL,FALHA DE MANDRIL,UNIQUE,1.0,13,13,N/A,False,No high-confidence equivalent was approved. self mapping,False,OTHER_UNKNOWN
+FALHA DE MANGUEIRA,FALHA DE MANGUEIRA,UNIQUE,1.0,3,3,N/A,False,No high-confidence equivalent was approved. self mapping,False,MANGUEIRA
+FALHA DE MANGUEIRA DE AGUA,FALHA DE MANGUEIRA DE AGUA,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping,False,MANGUEIRA
+FALHA DE MANGUEIRA DE ALTA PRESSAO,FALHA DE MANGUEIRA DE ALTA PRESSAO,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping,False,MANGUEIRA
+FALHA DE MANGUEIRA PNEUMATICA,FALHA DE MANGUEIRA PNEUMATICA,UNIQUE,1.0,4,4,N/A,False,No high-confidence equivalent was approved. self mapping,False,MANGUEIRA
+FALHA DE MEDIDOR,FALHA DE MEDIDOR,UNIQUE,1.0,3,3,N/A,False,No high-confidence equivalent was approved. self mapping,False,OTHER_UNKNOWN
+FALHA DE MEDIDOR DE VAZAO,FALHA DE MEDIDOR DE VAZAO,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping,False,OTHER_UNKNOWN
+FALHA DE MISTURA,FALHA DE MISTURA,UNIQUE,1.0,5,5,N/A,False,No high-confidence equivalent was approved. self mapping,False,OTHER_UNKNOWN
+FALHA DE MIXER,FALHA DE MIXER,UNIQUE,1.0,2,2,N/A,False,No high-confidence equivalent was approved. self mapping,False,OTHER_UNKNOWN
+FALHA DE MODULO,FALHA DE MODULO,UNIQUE,1.0,6,6,N/A,False,No high-confidence equivalent was approved. self mapping,False,OTHER_UNKNOWN
+FALHA DE MOLA,FALHA DE MOLA,UNIQUE,1.0,9,9,N/A,False,No high-confidence equivalent was approved. self mapping,False,OTHER_UNKNOWN
+FALHA DE MOTOR,FALHA DE MOTOR,UNIQUE,1.0,69,69,N/A,False,No high-confidence equivalent was approved. self mapping,False,MOTOR
+FALHA DE NIVEL DE AGUA,FALHA DE NIVEL DE AGUA,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping,False,OTHER_UNKNOWN
+FALHA DE NOBREAK,FALHA DE NOBREAK,UNIQUE,1.0,3,3,N/A,False,No high-confidence equivalent was approved. self mapping,False,OTHER_UNKNOWN
+FALHA DE PARAMETRIZACAO,FALHA DE PARAMETRIZACAO,UNIQUE,1.0,5,5,N/A,False,No high-confidence equivalent was approved. self mapping,False,OTHER_UNKNOWN
+FALHA DE PARAMETRIZACAO DE RECEITA,FALHA DE PARAMETRIZACAO DE RECEITA,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping,False,OTHER_UNKNOWN
+FALHA DE PARAMETRIZACAO DO REJEITO,FALHA DE PARAMETRIZACAO DO REJEITO,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping,False,REJEICAO
+FALHA DE PATINS,FALHA DE PATINS,UNIQUE,1.0,13,13,N/A,False,No high-confidence equivalent was approved. self mapping,False,PATINS
+FALHA DE PEGADOR,FALHA DE PEGADOR,UNIQUE,1.0,27,27,N/A,False,No high-confidence equivalent was approved. self mapping,False,PEGADOR
+FALHA DE PENTE DE TRANSFERENCIA,FALHA DE PENTE DE TRANSFERENCIA,UNIQUE,1.0,6,6,N/A,False,No high-confidence equivalent was approved. self mapping,False,OTHER_UNKNOWN
+FALHA DE PERSIANA,FALHA DE PERSIANA,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping,False,PERSIANA
+FALHA DE PINCA,FALHA DE PINCA,UNIQUE,1.0,58,58,N/A,False,No high-confidence equivalent was approved. self mapping,False,PINCA
+FALHA DE PINO,FALHA DE PINO,UNIQUE,1.0,4,4,N/A,False,No high-confidence equivalent was approved. self mapping,False,OTHER_UNKNOWN
+FALHA DE PINO DE SEPARACAO,FALHA DE PINO DE SEPARACAO,UNIQUE,1.0,2,2,N/A,False,No high-confidence equivalent was approved. self mapping,False,OTHER_UNKNOWN
+FALHA DE PINOS DE TRANSFERENCIA,FALHA DE PINOS DE TRANSFERENCIA,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping,False,OTHER_UNKNOWN
+FALHA DE PLACA ELETRONICA,FALHA DE PLACA ELETRONICA,UNIQUE,1.0,3,3,N/A,False,No high-confidence equivalent was approved. self mapping,False,OTHER_UNKNOWN
+FALHA DE PLC,FALHA DE PLC,UNIQUE,1.0,12,12,N/A,False,No high-confidence equivalent was approved. self mapping,False,AUTOMACAO
+FALHA DE PORTA DE SEGURANCA,FALHA DE PORTA DE SEGURANCA,UNIQUE,1.0,15,15,N/A,False,No high-confidence equivalent was approved. self mapping,False,SEGURANCA
+FALHA DE POSICIONAMENTO DE PACOTES,FALHA DE POSICIONAMENTO DE PACOTES,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping,False,PACOTE
+FALHA DE POSICIONAMENTO DE PALETE,FALHA DE POSICIONAMENTO DE PALETE,UNIQUE,1.0,2,2,N/A,False,No high-confidence equivalent was approved. self mapping,False,PALETE
+FALHA DE POSICIONAMENTO DO CABECOTE,FALHA DE POSICIONAMENTO DO CABECOTE,UNIQUE,1.0,2,2,N/A,False,No high-confidence equivalent was approved. self mapping,False,CABECOTE
+FALHA DE PRANCHA,FALHA DE PRANCHA,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping,False,OTHER_UNKNOWN
+FALHA DE PRE ENXAGUE,FALHA DE PRE ENXAGUE,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping,False,OTHER_UNKNOWN
+FALHA DE PRESSAO,FALHA DE PRESSAO,UNIQUE,1.0,2,2,N/A,False,No high-confidence equivalent was approved. self mapping,False,OTHER_UNKNOWN
+FALHA DE PRESSAO DE AGUA,FALHA DE PRESSAO DE AGUA,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping,False,OTHER_UNKNOWN
+FALHA DE PRESSAO DOS JATOS,FALHA DE PRESSAO DOS JATOS,UNIQUE,1.0,6,6,N/A,False,No high-confidence equivalent was approved. self mapping,False,OTHER_UNKNOWN
+FALHA DE PRESSOSTATO,FALHA DE PRESSOSTATO,UNIQUE,1.0,5,5,N/A,False,No high-confidence equivalent was approved. self mapping,False,PRESSOSTATO
+FALHA DE PRESSURIZACAO,FALHA DE PRESSURIZACAO,UNIQUE,1.0,5,5,N/A,False,No high-confidence equivalent was approved. self mapping,False,OTHER_UNKNOWN
+FALHA DE PRESSURIZACAO DA ENCHEDORA,FALHA DE PRESSURIZACAO DA ENCHEDORA,UNIQUE,1.0,2,2,N/A,False,No high-confidence equivalent was approved. self mapping,False,ENCHIMENTO
+FALHA DE PROPORCIONAMENTO,FALHA DE PROPORCIONAMENTO,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping,False,OTHER_UNKNOWN
+FALHA DE RECRAVACAO,FALHA DE RECRAVACAO,UNIQUE,1.0,46,46,N/A,False,No high-confidence equivalent was approved. self mapping,False,RECRAVACAO
+FALHA DE REDUTOR,FALHA DE REDUTOR,UNIQUE,1.0,10,10,N/A,False,No high-confidence equivalent was approved. self mapping,False,REDUTOR
+FALHA DE REGUA DE ARRASTE,FALHA DE REGUA DE ARRASTE,UNIQUE,1.0,4,4,N/A,False,No high-confidence equivalent was approved. self mapping,False,GUIA
+FALHA DE REGUA DE ENVOLVIMENTO,FALHA DE REGUA DE ENVOLVIMENTO,UNIQUE,1.0,9,9,N/A,False,No high-confidence equivalent was approved. self mapping,False,ENVOLVIMENTO
+FALHA DE REJEICAO,FALHA DE REJEICAO,UNIQUE,1.0,93,93,N/A,False,No high-confidence equivalent was approved. self mapping,False,REJEICAO
+FALHA DE RELE DE SEGURANCA,FALHA DE RELE DE SEGURANCA,UNIQUE,1.0,2,2,N/A,False,No high-confidence equivalent was approved. self mapping,False,ELETRICO
+FALHA DE RESFRIAMENTO,FALHA DE RESFRIAMENTO,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping,False,OTHER_UNKNOWN
+FALHA DE RETORNO DO BRACO DE SOLDA,FALHA DE RETORNO DO BRACO DE SOLDA,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping,False,OTHER_UNKNOWN
+FALHA DE ROBO,FALHA DE ROBO,UNIQUE,1.0,29,29,N/A,False,No high-confidence equivalent was approved. self mapping,False,ROBO
+FALHA DE ROLAMENTO,FALHA DE ROLAMENTO,UNIQUE,1.0,13,13,N/A,False,No high-confidence equivalent was approved. self mapping,False,ROLAMENTO
+FALHA DE ROLETES,FALHA DE ROLETES,UNIQUE,1.0,46,46,N/A,False,No high-confidence equivalent was approved. self mapping,False,ROLETE
+FALHA DE ROLO DE ESTIRAMENTO,FALHA DE ROLO DE ESTIRAMENTO,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping,False,OTHER_UNKNOWN
+FALHA DE ROLO SEPARADOR,FALHA DE ROLO SEPARADOR,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping,False,OTHER_UNKNOWN
+FALHA DE ROTACAO,FALHA DE ROTACAO,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping,False,OTHER_UNKNOWN
+FALHA DE ROTULAGEM,FALHA DE ROTULAGEM,UNIQUE,1.0,20,20,N/A,False,No high-confidence equivalent was approved. self mapping,False,ROTULO
+FALHA DE SECAGEM DE ROTULO,FALHA DE SECAGEM DE ROTULO,UNIQUE,1.0,2,2,N/A,False,No high-confidence equivalent was approved. self mapping,False,ROTULO
+FALHA DE SEGMENTOS,FALHA DE SEGMENTOS,UNIQUE,1.0,2,2,N/A,False,No high-confidence equivalent was approved. self mapping,False,SEGMENTO
+FALHA DE SEGURANCA,FALHA DE SEGURANCA,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping,False,SEGURANCA
+FALHA DE SEGURANCA DO CABECOTE,FALHA DE SEGURANCA DO CABECOTE,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping,False,CABECOTE
+FALHA DE SENSOR,FALHA DE SENSOR,UNIQUE,1.0,397,397,N/A,False,No high-confidence equivalent was approved. self mapping,False,SENSOR
+FALHA DE SEQUENCIAMENTO DA PALETIZADORA,FALHA DE SEQUENCIAMENTO DA PALETIZADORA,UNIQUE,1.0,2,2,N/A,False,No high-confidence equivalent was approved. self mapping,False,OTHER_UNKNOWN
+FALHA DE SERVO MOTOR,FALHA DE SERVO MOTOR,UNIQUE,1.0,29,29,N/A,False,No high-confidence equivalent was approved. self mapping,False,SERVO_MOTOR
+FALHA DE SINCRONISMO,FALHA DE SINCRONISMO,UNIQUE,1.0,58,58,N/A,False,No high-confidence equivalent was approved. self mapping,False,SINCRONISMO
+FALHA DE SOLDA DE FILME,FALHA DE SOLDA DE FILME,UNIQUE,1.0,43,43,N/A,False,No high-confidence equivalent was approved. self mapping,False,FILME
+FALHA DE SOLENOIDE,FALHA DE SOLENOIDE,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping,False,OTHER_UNKNOWN
+FALHA DE SOPRADOR,FALHA DE SOPRADOR,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping,False,OTHER_UNKNOWN
+FALHA DE SUPORTE DE TAMPAS,FALHA DE SUPORTE DE TAMPAS,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping,False,SUPORTE
+FALHA DE SUPRIMENTO DE AR COMPRIMIDO,FALHA DE SUPRIMENTO DE AR COMPRIMIDO,UNIQUE,1.0,9,9,N/A,False,No high-confidence equivalent was approved. self mapping,False,OTHER_UNKNOWN
+FALHA DE TAMPAMENTO,FALHA DE TAMPAMENTO,UNIQUE,1.0,18,18,N/A,False,No high-confidence equivalent was approved. self mapping,False,TAMPA
+FALHA DE TANGENCIAMENTO,FALHA DE TANGENCIAMENTO,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping,False,OTHER_UNKNOWN
+FALHA DE TENSIONAMENTO DE ESTEIRA,FALHA DE TENSIONAMENTO DE ESTEIRA,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping,False,ESTEIRA
+FALHA DE TERMOSTATO,FALHA DE TERMOSTATO,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping,False,OTHER_UNKNOWN
+FALHA DE TESOURA DE FILME,FALHA DE TESOURA DE FILME,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping,False,FILME
+FALHA DE TRACAO GUIAMENTO DE FILME,FALHA DE TRACAO GUIAMENTO DE FILME,UNIQUE,1.0,13,13,N/A,False,No high-confidence equivalent was approved. self mapping,False,FILME
+FALHA DE TRANSDUTOR,FALHA DE TRANSDUTOR,UNIQUE,1.0,2,2,N/A,False,No high-confidence equivalent was approved. self mapping,False,OTHER_UNKNOWN
+FALHA DE TRANSPORTE,FALHA DE TRANSPORTE,UNIQUE,1.0,17,17,N/A,False,No high-confidence equivalent was approved. self mapping,False,TRANSPORTE
+FALHA DE TRANSPORTE DE CAIXAS,FALHA DE TRANSPORTE DE CAIXAS,UNIQUE,1.0,3,3,N/A,False,No high-confidence equivalent was approved. self mapping,False,CAIXA
+FALHA DE TRANSPORTE DE GARRAFAS,FALHA DE TRANSPORTE DE GARRAFAS,UNIQUE,1.0,2,2,N/A,False,No high-confidence equivalent was approved. self mapping,False,GARRAFA
+FALHA DE TRANSPORTE DE LATAS,FALHA DE TRANSPORTE DE LATAS,UNIQUE,1.0,4,4,N/A,False,No high-confidence equivalent was approved. self mapping,False,LATA
+FALHA DE TRANSPORTE DE PACOTES,FALHA DE TRANSPORTE DE PACOTES,UNIQUE,1.0,5,5,N/A,False,No high-confidence equivalent was approved. self mapping,False,PACOTE
+FALHA DE TRANSPORTE DE PALETES,FALHA DE TRANSPORTE DE PALETES,UNIQUE,1.0,2,2,N/A,False,No high-confidence equivalent was approved. self mapping,False,PALETE
+FALHA DE TULIPA,FALHA DE TULIPA,UNIQUE,1.0,5,5,N/A,False,No high-confidence equivalent was approved. self mapping,False,OTHER_UNKNOWN
+FALHA DE TWISTER,FALHA DE TWISTER,UNIQUE,1.0,6,6,N/A,False,No high-confidence equivalent was approved. self mapping,False,OTHER_UNKNOWN
+FALHA DE VACUO,FALHA DE VACUO,UNIQUE,1.0,8,8,N/A,False,No high-confidence equivalent was approved. self mapping,False,OTHER_UNKNOWN
+FALHA DE VALVULA,FALHA DE VALVULA,UNIQUE,1.0,54,54,N/A,False,No high-confidence equivalent was approved. self mapping,False,VALVULA
+FALHA DE VALVULA DE AGUA,FALHA DE VALVULA DE AGUA,UNIQUE,1.0,2,2,N/A,False,No high-confidence equivalent was approved. self mapping,False,VALVULA
+FALHA DE VALVULA DE ENCHIMENTO,FALHA DE VALVULA DE ENCHIMENTO,UNIQUE,1.0,165,165,N/A,False,No high-confidence equivalent was approved. self mapping,False,VALVULA
+FALHA DE VALVULA DE NITROGENIO,FALHA DE VALVULA DE NITROGENIO,UNIQUE,1.0,3,3,N/A,False,No high-confidence equivalent was approved. self mapping,False,VALVULA
+FALHA DE VALVULA DE XAROPE,FALHA DE VALVULA DE XAROPE,UNIQUE,1.0,2,2,N/A,False,No high-confidence equivalent was approved. self mapping,False,VALVULA
+FALHA DE VALVULA MODULADORA,FALHA DE VALVULA MODULADORA,UNIQUE,1.0,18,18,N/A,False,No high-confidence equivalent was approved. self mapping,False,VALVULA
+FALHA DE VEDACAO,FALHA DE VEDACAO,UNIQUE,1.0,3,3,N/A,False,No high-confidence equivalent was approved. self mapping,False,OTHER_UNKNOWN
+FALHA DE VEDACAO DA VALVULA,FALHA DE VEDACAO DA VALVULA,UNIQUE,1.0,7,7,N/A,False,No high-confidence equivalent was approved. self mapping,False,VALVULA
+FALHA DE VELOCIDADE DO TRANSPORTE,FALHA DE VELOCIDADE DO TRANSPORTE,UNIQUE,1.0,14,14,N/A,False,No high-confidence equivalent was approved. self mapping,False,TRANSPORTE
+FALHA DE VENTOSA,FALHA DE VENTOSA,UNIQUE,1.0,23,23,N/A,False,No high-confidence equivalent was approved. self mapping,False,VENTOSA
+FALHA DE VIBRADOR,FALHA DE VIBRADOR,UNIQUE,1.0,9,9,N/A,False,No high-confidence equivalent was approved. self mapping,False,VIBRADOR
+FALHA DO COLOCADOR DE CARTAO,FALHA DO COLOCADOR DE CARTAO,UNIQUE,1.0,2,2,N/A,False,No high-confidence equivalent was approved. self mapping,False,CARTAO
+FALHA DO COLOCADOR DE CHAPATEX,FALHA DO COLOCADOR DE CHAPATEX,UNIQUE,1.0,3,3,N/A,False,No high-confidence equivalent was approved. self mapping,False,CARTAO
+FALHA DO SECADOR DE GARRAFAS,FALHA DO SECADOR DE GARRAFAS,UNIQUE,1.0,2,2,N/A,False,No high-confidence equivalent was approved. self mapping,False,GARRAFA
+FALHA DO TENSOR DE ROTULOS,FALHA DO TENSOR DE ROTULOS,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping,False,ROTULO
+FALHA ELETRICA DO TRANSPORTE,FALHA ELETRICA DO TRANSPORTE,UNIQUE,1.0,3,3,N/A,False,No high-confidence equivalent was approved. self mapping,False,ELETRICO
+FALHA ELETRICA DO TRANSPORTE DE ENTRADA,FALHA ELETRICA DO TRANSPORTE DE ENTRADA,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping,False,ELETRICO
+FALHA ELETRICA SEM COMPONENTE IDENTIFICADO,FALHA ELETRICA SEM COMPONENTE IDENTIFICADO,UNIQUE,1.0,7,7,N/A,False,No high-confidence equivalent was approved. self mapping,False,ELETRICO
+FALHA ELETRONICA DA VALVULA,FALHA ELETRONICA DA VALVULA,UNIQUE,1.0,4,4,N/A,False,No high-confidence equivalent was approved. self mapping,False,VALVULA
+FALHA EM ENVIAR TAMPAS PARA ENCHEDORA,FALHA EM ENVIAR TAMPAS PARA ENCHEDORA,UNIQUE,1.0,2,2,N/A,False,No high-confidence equivalent was approved. self mapping,False,TAMPA
+FALHA ESTRUTURAL,FALHA ESTRUTURAL,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping,False,OTHER_UNKNOWN
+FALHA INVERSOR,FALHA DE INVERSOR,EXACT_VARIANT,0.903226,1,100,HIGH,False,Only a preposition is omitted. TRAIN observation centroid cosine=0.3958,True,INVERSOR
+FALHA NA ABERTURA DA GARRA,FALHA NA ABERTURA DA GARRA,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping,False,OTHER_UNKNOWN
+FALHA NA ABERTURA DOS GANCHOS DO ROBO,FALHA NA ABERTURA DOS GANCHOS DO ROBO,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping,False,ROBO
+FALHA NA DESCARGA DE PALETE,FALHA NA DESCARGA DE PALETE,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping,False,PALETE
+FALHA NA DESCIDA DE TAMPAS,FALHA NA DESCIDA DE TAMPAS,UNIQUE,1.0,2,2,N/A,False,No high-confidence equivalent was approved. self mapping,False,TAMPA
+FALHA NA FORMACAO DE CAMADA,FALHA DE FORMACAO DE CAMADA,EXACT_VARIANT,0.925926,1,44,HIGH,False,Only the preposition differs. TRAIN observation centroid cosine=0.3413,True,CAMADA
+FALHA NA GARRA DO ROBO,FALHA NA GARRA DO ROBO,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping,False,ROBO
+FALHA NA INSERCAO DE GARRAFAS FALSAS,FALHA NA INSERCAO DE GARRAFAS FALSAS,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping,False,GARRAFA
+FALHA NA INSERCAO DE LATAS,FALHA NA INSERCAO DE LATAS,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping,False,LATA
+FALHA NA INSERCAO DE LATAS FALSAS,FALHA NA INSERCAO DE LATAS FALSAS,UNIQUE,1.0,3,3,N/A,False,No high-confidence equivalent was approved. self mapping,False,LATA
+FALHA NA MESA DE CARGA,FALHA NA MESA DE CARGA,UNIQUE,1.0,5,5,N/A,False,No high-confidence equivalent was approved. self mapping,False,MESA
+FALHA NA MESA DE FORMACAO DE PACOTES,FALHA NA MESA DE FORMACAO DE PACOTES,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping,False,MESA
+FALHA NA PEGA DE GARRAFAS,FALHA NA PEGA DE GARRAFAS,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping,False,GARRAFA
+FALHA NA PEGA DE PALLET VAZIO,FALHA NA PEGA DE PALLET VAZIO,UNIQUE,1.0,3,3,N/A,False,No high-confidence equivalent was approved. self mapping,False,PALETE
+FALHA NA PEGADA DE CAMADA,FALHA NA PEGADA DE CAMADA,UNIQUE,1.0,19,19,N/A,False,No high-confidence equivalent was approved. self mapping,False,CAMADA
+FALHA NA REFRIGERACAO DE FUNDO,FALHA NA REFRIGERACAO DE FUNDO,UNIQUE,1.0,9,9,N/A,False,No high-confidence equivalent was approved. self mapping,False,OTHER_UNKNOWN
+FALHA NA SAIDA DE PALETES,FALHA NA SAIDA DE PALETES,UNIQUE,1.0,2,2,N/A,False,No high-confidence equivalent was approved. self mapping,False,PALETE
+FALHA NA TROCA AUTOMATICA,FALHA NA TROCA AUTOMATICA,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping,False,OTHER_UNKNOWN
+FALHA NA TROCA DE BANDEJA,FALHA NA TROCA DE BANDEJA,UNIQUE,1.0,11,11,N/A,False,No high-confidence equivalent was approved. self mapping,False,BANDEJA
+FALHA NA TROCA DE BOBINA,FALHA NA TROCA DE BOBINA,UNIQUE,1.0,11,11,N/A,False,No high-confidence equivalent was approved. self mapping,False,BOBINA
+FALHA NA TROCA DE PALETE DE CARTAO,FALHA NA TROCA DE PALETE DE CARTAO,UNIQUE,1.0,20,20,N/A,False,No high-confidence equivalent was approved. self mapping,False,CARTAO
+FALHA NA TROCA DE PALETE DE FOLHA SEPARADORA,FALHA NA TROCA DE PALETE DE FOLHA SEPARADORA,UNIQUE,1.0,6,6,N/A,False,No high-confidence equivalent was approved. self mapping,False,PALETE
+FALHA NA VALVULA,FALHA DE VALVULA,EXACT_VARIANT,0.875,1,54,HIGH,False,Same generic valve failure; only the preposition differs. TRAIN observation centroid cosine=0.2698,True,VALVULA
+FALHA NO AVANCO DE PALETES PARA PALETIZAR,FALHA NO AVANCO DE PALETES PARA PALETIZAR,UNIQUE,1.0,2,2,N/A,False,No high-confidence equivalent was approved. self mapping,False,PALETE
+FALHA NO BOTAO RESET,FALHA NO BOTAO RESET,UNIQUE,1.0,2,2,N/A,False,No high-confidence equivalent was approved. self mapping,False,OTHER_UNKNOWN
+FALHA NO CARREGAMENTO DE RECEITA,FALHA NO CARREGAMENTO DE RECEITA,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping,False,OTHER_UNKNOWN
+FALHA NO CIP RAMAL B,FALHA NO CIP RAMAL B,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping,False,OTHER_UNKNOWN
+FALHA NO CORTE DE TUBETES,FALHA NO CORTE DE TUBETES,UNIQUE,1.0,11,11,N/A,False,No high-confidence equivalent was approved. self mapping,False,OTHER_UNKNOWN
+FALHA NO DEPOSITO DE PALLET,FALHA NO DEPOSITO DE PALLET,UNIQUE,1.0,2,2,N/A,False,No high-confidence equivalent was approved. self mapping,False,PALETE
+FALHA NO DISPOSITIVO DE RETIRADA DE GARRAFAS,FALHA NO DISPOSITIVO DE RETIRADA DE GARRAFAS,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping,False,GARRAFA
+FALHA NO DOSADOR DE NITROGENIO,FALHA NO DOSADOR DE NITROGENIO,UNIQUE,1.0,5,5,N/A,False,No high-confidence equivalent was approved. self mapping,False,DOSAGEM
+FALHA NO ENVIO DE BEBIDA,FALHA NO ENVIO DE BEBIDA,UNIQUE,1.0,4,4,N/A,False,No high-confidence equivalent was approved. self mapping,False,OTHER_UNKNOWN
+FALHA NO FLUXO DE PALETES,FALHA NO FLUXO DE PALETES,UNIQUE,1.0,2,2,N/A,False,No high-confidence equivalent was approved. self mapping,False,PALETE
+FALHA NO MANUSEIO DE CARTAO,FALHA NO MANUSEIO DE CARTAO,UNIQUE,1.0,27,27,N/A,False,No high-confidence equivalent was approved. self mapping,False,CARTAO
+FALHA NO SENSOR EXPULSADOR,FALHA NO SENSOR EXPULSADOR,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping,False,SENSOR
+FALHA NO SISTEMA DE AR COMPRIMIDO,FALHA NO SISTEMA DE AR COMPRIMIDO,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping,False,OTHER_UNKNOWN
+FALHA NO SISTEMA DE CORTE,FALHA NO SISTEMA DE CORTE,UNIQUE,1.0,4,4,N/A,False,No high-confidence equivalent was approved. self mapping,False,OTHER_UNKNOWN
+FALHA NO SISTEMA DE INSERCAO DE FALSA GARRAFA,FALHA NO SISTEMA DE INSERCAO DE FALSA GARRAFA,UNIQUE,1.0,2,2,N/A,False,No high-confidence equivalent was approved. self mapping,False,GARRAFA
+FALHA NO SUPRIMENTO DE AGUA,FALHA NO SUPRIMENTO DE AGUA,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping,False,OTHER_UNKNOWN
+FALHA NO TROCADOR DE CALOR,FALHA TROCADOR DE CALOR,EXACT_VARIANT,0.938776,3,1,HIGH,False,Same heat-exchanger failure; only function words differ. TRAIN observation centroid cosine=0.5323,True,OTHER_UNKNOWN
+FALHA NO VIRADOR DE CAIXAS,FALHA NO VIRADOR DE CAIXAS,UNIQUE,1.0,2,2,N/A,False,No high-confidence equivalent was approved. self mapping,False,CAIXA
+FALHA NO VIRADOR DE PACOTES,FALHA NO VIRADOR DE PACOTES,UNIQUE,1.0,4,4,N/A,False,No high-confidence equivalent was approved. self mapping,False,PACOTE
+FALHA NOS SNIFS,FALHA NOS SNIFS,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping,False,OTHER_UNKNOWN
+FALHA SENSOR DA PORTA,FALHA SENSOR DA PORTA,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping,False,SENSOR
+FALHA TROCADOR DE CALOR,FALHA TROCADOR DE CALOR,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping,False,OTHER_UNKNOWN
+FALHA VALVULA DE ENCHIMENTO,FALHA DE VALVULA DE ENCHIMENTO,EXACT_VARIANT,0.947368,1,165,HIGH,False,Only a preposition is omitted. TRAIN observation centroid cosine=0.0524,True,VALVULA
+FALSA RECRAVACAO,FALSA RECRAVACAO,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping,False,RECRAVACAO
+FALSO ALARME DE REJEITO OBSTRUIDO,FALSO ALARME DE REJEITO OBSTRUIDO,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping,False,REJEICAO
+FALSO REJEITO,FALSO REJEITO,UNIQUE,1.0,5,5,N/A,False,No high-confidence equivalent was approved. self mapping,False,REJEICAO
+GARRAFAS FORA DE POSICAO,GARRAFAS FORA DE POSICAO,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping,False,GARRAFA
+GARRAFAS TORTAS NA SAIDA DO RINSER,GARRAFAS TORTAS NA SAIDA DO RINSER,UNIQUE,1.0,2,2,N/A,False,No high-confidence equivalent was approved. self mapping,False,GARRAFA
+INTERFERENCIA MECANICA,INTERFERENCIA MECANICA,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping,False,OTHER_UNKNOWN
+MONTAGEM INCORRETA DE CORREIA,MONTAGEM INCORRETA DE CORREIA,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping,False,CORREIA
+OBSTRUCAO DE MANGUEIRA DE AR,OBSTRUCAO DE MANGUEIRA DE AR,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping,False,MANGUEIRA
+PACOTE FORA DE POSICAO,PACOTE FORA DE POSICAO,UNIQUE,1.0,3,3,N/A,False,No high-confidence equivalent was approved. self mapping,False,PACOTE
+PALLET PARADO NA MESA,PALLET PARADO NA MESA,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping,False,MESA
+PARADA DE TRANSPORTE,PARADA DE TRANSPORTE,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping,False,TRANSPORTE
+PATINAGEM DE ESTEIRA,PATINAGEM DE ESTEIRA,UNIQUE,1.0,19,19,N/A,False,No high-confidence equivalent was approved. self mapping,False,ESTEIRA
+PATINAMENTO DE ESTEIRA,PATINAMENTO DE ESTEIRA,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping,False,ESTEIRA
+PATINAMENTO DE ROLETE,PATINAMENTO DE ROLETE,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping,False,ROLETE
+PATINS FORA DE POSICAO,PATINS FORA DE POSICAO,UNIQUE,1.0,9,9,N/A,False,No high-confidence equivalent was approved. self mapping,False,PATINS
+PENTES SOLTOS,PENTES SOLTOS,UNIQUE,1.0,2,2,N/A,False,No high-confidence equivalent was approved. self mapping,False,OTHER_UNKNOWN
+PERDA DE REFERENCIA,PERDA DE REFERENCIA,UNIQUE,1.0,14,14,N/A,False,No high-confidence equivalent was approved. self mapping,False,OTHER_UNKNOWN
+PERDA DE REFERENCIA DO CENTRADOR,PERDA DE REFERENCIA DO CENTRADOR,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping,False,OTHER_UNKNOWN
+PERDA DE REFERENCIA DO PEGADOR DE CHAPATEX,PERDA DE REFERENCIA DO PEGADOR DE CHAPATEX,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping,False,PEGADOR
+PERDA DE REFERENCIA DO ROBO,PERDA DE REFERENCIA DO ROBO,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping,False,ROBO
+PERDA DE REFERENCIA HOME,PERDA DE REFERENCIA HOME,UNIQUE,1.0,2,2,N/A,False,No high-confidence equivalent was approved. self mapping,False,OTHER_UNKNOWN
+PINO DE SEPARACAO TRAVADO,PINO DE SEPARACAO TRAVADO,UNIQUE,1.0,2,2,N/A,False,No high-confidence equivalent was approved. self mapping,False,OTHER_UNKNOWN
+PROBLEMA NA TAMPA DA LATA,PROBLEMA NA TAMPA DA LATA,UNIQUE,1.0,2,2,N/A,False,No high-confidence equivalent was approved. self mapping,False,TAMPA
+QUEBRA DA ESTEIRA,QUEBRA DE ESTEIRA,EXACT_VARIANT,0.941176,1,84,HIGH,False,Same break mechanism and conveyor component. TRAIN observation centroid cosine=0.3595,True,ESTEIRA
+QUEBRA DE ANEL O RING,QUEBRA DE ANEL O RING,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping,False,OTHER_UNKNOWN
+QUEBRA DE ATUADOR,QUEBRA DE ATUADOR,UNIQUE,1.0,8,8,N/A,False,No high-confidence equivalent was approved. self mapping,False,ATUADOR
+QUEBRA DE BRACO,QUEBRA DE BRACO,UNIQUE,1.0,3,3,N/A,False,No high-confidence equivalent was approved. self mapping,False,OTHER_UNKNOWN
+QUEBRA DE COMPONENTE,QUEBRA DE COMPONENTE,UNIQUE,1.0,25,25,N/A,False,No high-confidence equivalent was approved. self mapping,False,OTHER_UNKNOWN
+QUEBRA DE CORREIA,QUEBRA DE CORREIA,UNIQUE,1.0,21,21,N/A,False,No high-confidence equivalent was approved. self mapping,False,CORREIA
+QUEBRA DE CORRENTE,QUEBRA DE CORRENTE,UNIQUE,1.0,6,6,N/A,False,No high-confidence equivalent was approved. self mapping,False,CORRENTE
+QUEBRA DE EIXO,QUEBRA DE EIXO,UNIQUE,1.0,16,16,N/A,False,No high-confidence equivalent was approved. self mapping,False,EIXO
+QUEBRA DE ELO DE ESTEIRA,QUEBRA DE ELO DE ESTEIRA,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping,False,ESTEIRA
+QUEBRA DE ENGRENAGEM,QUEBRA DE ENGRENAGEM,UNIQUE,1.0,2,2,N/A,False,No high-confidence equivalent was approved. self mapping,False,ENGRENAGEM
+QUEBRA DE ESTEIRA,QUEBRA DE ESTEIRA,UNIQUE,1.0,84,84,N/A,False,No high-confidence equivalent was approved. self mapping,False,ESTEIRA
+QUEBRA DE PARAFUSO,QUEBRA DE PARAFUSO,UNIQUE,1.0,13,13,N/A,False,No high-confidence equivalent was approved. self mapping,False,OTHER_UNKNOWN
+QUEBRA DE PINO,QUEBRA DE PINO,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping,False,OTHER_UNKNOWN
+QUEBRA DE PISTAO,QUEBRA DE PISTAO,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping,False,OTHER_UNKNOWN
+QUEBRA DE REGUA,QUEBRA DE REGUA,UNIQUE,1.0,2,2,N/A,False,No high-confidence equivalent was approved. self mapping,False,GUIA
+QUEBRA DE SEGMENTO,QUEBRA DE SEGMENTO,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping,False,SEGMENTO
+QUEBRA DE SUPORTE,QUEBRA DE SUPORTE,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping,False,SUPORTE
+QUEBRA DE TERMINAL ELETRICO,QUEBRA DE TERMINAL ELETRICO,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping,False,ELETRICO
+QUEBRA DE TRANSPORTE,QUEBRA DE TRANSPORTE,UNIQUE,1.0,10,10,N/A,False,No high-confidence equivalent was approved. self mapping,False,TRANSPORTE
+QUEBRA DE TRECHO DO TRANSPORTE,QUEBRA DE TRECHO DO TRANSPORTE,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping,False,TRANSPORTE
+QUEBRA NO EIXO DA TAMPA DO ARROLHADOR,QUEBRA NO EIXO DA TAMPA DO ARROLHADOR,UNIQUE,1.0,2,2,N/A,False,No high-confidence equivalent was approved. self mapping,False,TAMPA
+QUEDA DE CAIXAS,QUEDA DE CAIXAS,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping,False,CAIXA
+QUEDA DE GARRAFAS,QUEDA DE GARRAFAS,UNIQUE,1.0,88,88,N/A,False,No high-confidence equivalent was approved. self mapping,False,GARRAFA
+QUEDA DE LATAS,QUEDA DE LATAS,UNIQUE,1.0,34,34,N/A,False,No high-confidence equivalent was approved. self mapping,False,LATA
+QUEDA DE PACOTES,QUEDA DE PACOTES,UNIQUE,1.0,5,5,N/A,False,No high-confidence equivalent was approved. self mapping,False,PACOTE
+QUEIMA DA PLACA DEVICENET,QUEIMA DA PLACA DEVICENET,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping,False,COMUNICACAO
+QUEIMA DE FILAMENTO,QUEIMA DE FILAMENTO,UNIQUE,1.0,5,5,N/A,False,No high-confidence equivalent was approved. self mapping,False,OTHER_UNKNOWN
+ROBO COM FALHA,FALHA DE ROBO,EXACT_VARIANT,0.37037,1,29,HIGH,False,Same generic robot failure with inverted word order. TRAIN observation centroid cosine=0.1909,True,ROBO
+ROMPIMENTO DE ESTEIRA LONA,ROMPIMENTO DE ESTEIRA LONA,UNIQUE,1.0,2,2,N/A,False,No high-confidence equivalent was approved. self mapping,False,ESTEIRA
+ROMPIMENTO DE FILME,ROMPIMENTO DE FILME,UNIQUE,1.0,29,29,N/A,False,No high-confidence equivalent was approved. self mapping,False,FILME
+ROMPIMENTO DE MANGUEIRA,ROMPIMENTO DE MANGUEIRA,UNIQUE,1.0,3,3,N/A,False,No high-confidence equivalent was approved. self mapping,False,MANGUEIRA
+ROMPIMENTO DE MANGUEIRA DE AGUA,ROMPIMENTO DE MANGUEIRA DE AGUA,UNIQUE,1.0,3,3,N/A,False,No high-confidence equivalent was approved. self mapping,False,MANGUEIRA
+ROMPIMENTO DE MANGUEIRA DE AR,ROMPIMENTO DE MANGUEIRA DE AR,UNIQUE,1.0,6,6,N/A,False,No high-confidence equivalent was approved. self mapping,False,MANGUEIRA
+ROMPIMENTO DE TUBEIRA DO FORNO,ROMPIMENTO DE TUBEIRA DO FORNO,UNIQUE,1.0,6,6,N/A,False,No high-confidence equivalent was approved. self mapping,False,TUBULACAO
+ROMPIMENTO DE TUBETE,ROMPIMENTO DE TUBETE,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping,False,OTHER_UNKNOWN
+SAIDA DE GARRAFAS COM TAMPA TORTA,SAIDA DE GARRAFAS COM TAMPA TORTA,UNIQUE,1.0,2,2,N/A,False,No high-confidence equivalent was approved. self mapping,False,TAMPA
+SEM MODO DE FALHA IDENTIFICADO,SEM MODO DE FALHA IDENTIFICADO,UNIQUE,1.0,100,100,N/A,False,No high-confidence equivalent was approved. self mapping,False,OTHER_UNKNOWN
+SOBREAQUECIMENTO DE PROCESSADOR,SOBREAQUECIMENTO DE PROCESSADOR,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping,False,OTHER_UNKNOWN
+SOBRECORRENTE,SOBRECORRENTE,UNIQUE,1.0,5,5,N/A,False,No high-confidence equivalent was approved. self mapping,False,CORRENTE
+TAB DANIFICADO,TAB DANIFICADO,UNIQUE,1.0,2,2,N/A,False,No high-confidence equivalent was approved. self mapping,False,OTHER_UNKNOWN
+TAMPA INVERTIDA,TAMPA INVERTIDA,UNIQUE,1.0,7,7,N/A,False,No high-confidence equivalent was approved. self mapping,False,TAMPA
+TOMBAMENTO DE RECIPIENTES,TOMBAMENTO DE RECIPIENTES,UNIQUE,1.0,4,4,N/A,False,No high-confidence equivalent was approved. self mapping,False,OTHER_UNKNOWN
+TRANSBORDAMENTO DE TANQUE,TRANSBORDAMENTO DE TANQUE,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping,False,OTHER_UNKNOWN
+TRAVAMENTO DE ATUADOR,TRAVAMENTO DE ATUADOR,UNIQUE,1.0,14,14,N/A,False,No high-confidence equivalent was approved. self mapping,False,ATUADOR
+TRAVAMENTO DE BOCAL,TRAVAMENTO DE BOCAL,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping,False,OTHER_UNKNOWN
+TRAVAMENTO DE BOIA,TRAVAMENTO DE BOIA,UNIQUE,1.0,2,2,N/A,False,No high-confidence equivalent was approved. self mapping,False,OTHER_UNKNOWN
+TRAVAMENTO DE CENTRADOR,TRAVAMENTO DE CENTRADOR,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping,False,OTHER_UNKNOWN
+TRAVAMENTO DE CHAVE SECCIONADORA,TRAVAMENTO DE CHAVE SECCIONADORA,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping,False,OTHER_UNKNOWN
+TRAVAMENTO DE CILINDRO ROTATIVO,TRAVAMENTO DE CILINDRO ROTATIVO,UNIQUE,1.0,2,2,N/A,False,No high-confidence equivalent was approved. self mapping,False,CILINDRO
+TRAVAMENTO DE CORRENTE,TRAVAMENTO DE CORRENTE,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping,False,CORRENTE
+TRAVAMENTO DE ELEVADOR,TRAVAMENTO DE ELEVADOR,UNIQUE,1.0,2,2,N/A,False,No high-confidence equivalent was approved. self mapping,False,ELEVADOR
+TRAVAMENTO DE ENGRENAGEM,TRAVAMENTO DE ENGRENAGEM,UNIQUE,1.0,10,10,N/A,False,No high-confidence equivalent was approved. self mapping,False,ENGRENAGEM
+TRAVAMENTO DE ESTEIRA,TRAVAMENTO DE ESTEIRA,UNIQUE,1.0,20,20,N/A,False,No high-confidence equivalent was approved. self mapping,False,ESTEIRA
+TRAVAMENTO DE GARRAFAS NA SAIDA DA LAVADORA,TRAVAMENTO DE GARRAFAS NA SAIDA DA LAVADORA,UNIQUE,1.0,3,3,N/A,False,No high-confidence equivalent was approved. self mapping,False,GARRAFA
+TRAVAMENTO DE PALETE,TRAVAMENTO DE PALETE,UNIQUE,1.0,9,9,N/A,False,No high-confidence equivalent was approved. self mapping,False,PALETE
+TRAVAMENTO DE PATINS,TRAVAMENTO DE PATINS,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping,False,PATINS
+TRAVAMENTO DE PERSIANA,TRAVAMENTO DE PERSIANA,UNIQUE,1.0,4,4,N/A,False,No high-confidence equivalent was approved. self mapping,False,PERSIANA
+TRAVAMENTO DE PINCA,TRAVAMENTO DE PINCA,UNIQUE,1.0,2,2,N/A,False,No high-confidence equivalent was approved. self mapping,False,PINCA
+TRAVAMENTO DE PINO DE SEPARACAO,TRAVAMENTO DE PINO DE SEPARACAO,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping,False,OTHER_UNKNOWN
+TRAVAMENTO DE ROBO,TRAVAMENTO DE ROBO,UNIQUE,1.0,13,13,N/A,False,No high-confidence equivalent was approved. self mapping,False,ROBO
+TRAVAMENTO DE ROLETES,TRAVAMENTO DE ROLETES,UNIQUE,1.0,12,12,N/A,False,No high-confidence equivalent was approved. self mapping,False,ROLETE
+TRAVAMENTO DE ROLO DE COLA,TRAVAMENTO DE ROLO DE COLA,UNIQUE,1.0,3,3,N/A,False,No high-confidence equivalent was approved. self mapping,False,OTHER_UNKNOWN
+TRAVAMENTO DE SEGMENTOS,TRAVAMENTO DE SEGMENTOS,UNIQUE,1.0,46,46,N/A,False,No high-confidence equivalent was approved. self mapping,False,SEGMENTO
+TRAVAMENTO DE SNIFFER,TRAVAMENTO DE SNIFFER,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping,False,OTHER_UNKNOWN
+TRAVAMENTO DE STOPPER,TRAVAMENTO DE STOPPER,UNIQUE,1.0,4,4,N/A,False,No high-confidence equivalent was approved. self mapping,False,STOPPER
+TRAVAMENTO DE TRANSPORTE,TRAVAMENTO DE TRANSPORTE,UNIQUE,1.0,19,19,N/A,False,No high-confidence equivalent was approved. self mapping,False,TRANSPORTE
+TRAVAMENTO DE VALVULA,TRAVAMENTO DE VALVULA,UNIQUE,1.0,18,18,N/A,False,No high-confidence equivalent was approved. self mapping,False,VALVULA
+TRAVAMENTO DO CAPSULADOR,TRAVAMENTO DO CAPSULADOR,UNIQUE,1.0,2,2,N/A,False,No high-confidence equivalent was approved. self mapping,False,OTHER_UNKNOWN
+TRAVAMENTO DO SISTEMA DE COMPACTACAO,TRAVAMENTO DO SISTEMA DE COMPACTACAO,UNIQUE,1.0,5,5,N/A,False,No high-confidence equivalent was approved. self mapping,False,OTHER_UNKNOWN
+TRAVAMENTO ELEVADOR,TRAVAMENTO DE ELEVADOR,EXACT_VARIANT,0.926829,1,2,HIGH,False,Only a preposition is omitted. TRAIN observation centroid cosine=0.0816,True,ELEVADOR
+TRAVAMENTO NA ALIMENTACAO DE TAMPAS,TRAVAMENTO NA ALIMENTACAO DE TAMPAS,UNIQUE,1.0,2,2,N/A,False,No high-confidence equivalent was approved. self mapping,False,TAMPA
+TREPIDACAO DE ESTEIRA,TREPIDACAO DE ESTEIRA,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping,False,ESTEIRA
+TREPIDACAO DE LATAS,TREPIDACAO DE LATAS,UNIQUE,1.0,4,4,N/A,False,No high-confidence equivalent was approved. self mapping,False,LATA
+VAZAMENTO,VAZAMENTO,UNIQUE,1.0,3,3,N/A,False,No high-confidence equivalent was approved. self mapping,False,OTHER_UNKNOWN
+VAZAMENTO DE PRODUTO,VAZAMENTO DE PRODUTO,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping,False,OTHER_UNKNOWN
+VAZAMENTO EM COLETOR,VAZAMENTO EM COLETOR,UNIQUE,1.0,7,7,N/A,False,No high-confidence equivalent was approved. self mapping,False,OTHER_UNKNOWN
+VAZAMENTO EM CONEXAO,VAZAMENTO EM CONEXAO,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping,False,OTHER_UNKNOWN
+VAZAMENTO EM TUBULACAO,VAZAMENTO EM TUBULACAO,UNIQUE,1.0,1,1,N/A,False,No high-confidence equivalent was approved. self mapping,False,TUBULACAO
+VAZAMENTO EM VALVULA,VAZAMENTO EM VALVULA,UNIQUE,1.0,19,19,N/A,False,No high-confidence equivalent was approved. self mapping,False,VALVULA
+VAZAMENTO NO COLETOR COM GAS BAIXO,VAZAMENTO NO COLETOR COM GAS BAIXO,UNIQUE,1.0,2,2,N/A,False,No high-confidence equivalent was approved. self mapping,False,OTHER_UNKNOWN
+VAZAMENTO PNEUMATICO,VAZAMENTO PNEUMATICO,UNIQUE,1.0,2,2,N/A,False,No high-confidence equivalent was approved. self mapping,False,PNEUMATICO
+VELOCIDADE REDUZIDA SEM CAUSA IDENTIFICADA,VELOCIDADE REDUZIDA SEM CAUSA IDENTIFICADA,UNIQUE,1.0,8,8,N/A,False,No high-confidence equivalent was approved. self mapping,False,OTHER_UNKNOWN
+VIBRACAO DE ROBO,VIBRACAO DE ROBO,UNIQUE,1.0,7,7,N/A,False,No high-confidence equivalent was approved. self mapping,False,ROBO

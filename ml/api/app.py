@@ -1,9 +1,15 @@
+# FILE: ml/api/app.py
+
 from __future__ import annotations
 
 from contextlib import asynccontextmanager
 from pathlib import Path
 from typing import Any, Literal
+<<<<<<< HEAD
 import logging
+=======
+
+>>>>>>> origin/marques
 import re
 import unicodedata
 
@@ -13,13 +19,10 @@ from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel, Field
 
 from ml.rules import RULES_VERSION, classify_by_rule
+from ml.runtime import UrsusRuntime, validate_labels_in_taxonomy
 
 logger = logging.getLogger(__name__)
 
-
-# ============================================================
-# CONFIGURAÇÃO
-# ============================================================
 
 CURRENT_FILE = Path(__file__).resolve()
 
@@ -40,7 +43,6 @@ ORIGIN_MODEL_PATH = (
 DEFAULT_HIGH_CONFIDENCE_THRESHOLD = 0.72849883
 
 ORIGIN_HIGH_CONFIDENCE_THRESHOLD = 0.90
-
 ORIGIN_MEDIUM_CONFIDENCE_THRESHOLD = 0.75
 
 ORIGIN_CLASSES = {
@@ -55,18 +57,10 @@ NON_AUTOMATABLE_FAILURE_MODES = {
 }
 
 
-# ============================================================
-# ESTADO DO MODELO
-# ============================================================
-
 model_package: dict[str, Any] | None = None
-
+ursus_runtime: UrsusRuntime | None = None
 origin_model_package: dict[str, Any] | None = None
 
-
-# ============================================================
-# SCHEMAS
-# ============================================================
 
 class PredictionRequest(BaseModel):
     observation: str = Field(
@@ -102,26 +96,15 @@ class PredictionRequest(BaseModel):
 
 class RankedPrediction(BaseModel):
     failed_component_code: str
-
     failure_mode: str
-
-    # Compatibilidade temporária com o backend atual.
-    # Para o ML real isto NÃO representa
-    # uma probabilidade calibrada.
     confidence: float
-
     decision_score: float | None = None
 
 
 class PredictionResponse(BaseModel):
     model_version: str
-
     failed_component_code: str
-
     failure_mode: str
-
-    # Mantido temporariamente para não quebrar
-    # a integração atual com o Next.js.
     confidence: float
 
     top_predictions: list[
@@ -131,13 +114,10 @@ class PredictionResponse(BaseModel):
     decision_source: str
 
     decision_margin: float | None = None
-
     automation_threshold: float | None = None
 
     automation_status: str
-
     review_required: bool
-
     confidence_type: str
 
     failure_origin: Literal[
@@ -192,27 +172,26 @@ class HealthResponse(BaseModel):
     status: str
 
     model_version: str
-
     rules_version: str
-
     classifier_version: str
 
     confidence_type: str
-
     high_confidence_threshold: float
 
     origin_model_version: str
-
     origin_confidence_type: str
 
     origin_high_confidence_threshold: float
-
     origin_medium_confidence_threshold: float
 
+    requested_model_version: str
+    active_model_version: str
 
-# ============================================================
-# NORMALIZAÇÃO
-# ============================================================
+    fallback_used: bool
+    shadow_v16_enabled: bool
+
+    artifact_sha256: str
+
 
 def strip_accents(
     value: str,
@@ -227,7 +206,8 @@ def strip_accents(
         for character in normalized
         if unicodedata.category(
             character
-        ) != "Mn"
+        )
+        != "Mn"
     )
 
 
@@ -254,16 +234,6 @@ def normalize_failure_mode_for_guardrail(
 def is_non_automatable_failure_mode(
     failure_mode: str,
 ) -> bool:
-    """
-    Guardrail semântico de automação.
-
-    Uma margem alta significa que o classificador separou
-    bem a classe vencedora das alternativas.
-
-    Isso não transforma uma classe semanticamente
-    "não identificada" em classificação apta à automação.
-    """
-
     normalized = (
         normalize_failure_mode_for_guardrail(
             failure_mode
@@ -280,14 +250,6 @@ def is_non_automatable_failure_mode(
 def failure_mode_code(
     failure_mode: str,
 ) -> str:
-    """
-    Código técnico de compatibilidade.
-
-    No modelo real a classe prevista é o
-    modo de falha, e não necessariamente
-    um componente físico.
-    """
-
     normalized = strip_accents(
         failure_mode
     ).upper()
@@ -302,9 +264,7 @@ def failure_mode_code(
         r"_+",
         "_",
         normalized,
-    ).strip(
-        "_"
-    )
+    ).strip("_")
 
     return (
         normalized
@@ -313,12 +273,12 @@ def failure_mode_code(
     )
 
 
-# ============================================================
-# VERSÕES
-# ============================================================
-
 def get_model_version() -> str:
-    if model_package is None:
+    if (
+        model_package is None
+        or
+        ursus_runtime is None
+    ):
         return "unknown"
 
     return str(
@@ -368,10 +328,6 @@ def get_origin_confidence_type() -> str:
         )
     )
 
-
-# ============================================================
-# ARTEFATO
-# ============================================================
 
 def get_vectorizer() -> Any:
     if model_package is None:
@@ -436,10 +392,6 @@ def get_origin_model() -> Any:
     return model
 
 
-# ============================================================
-# THRESHOLD
-# ============================================================
-
 def get_high_confidence_threshold() -> float:
     if model_package is None:
         return (
@@ -451,17 +403,6 @@ def get_high_confidence_threshold() -> float:
             "automation_thresholds"
         )
     )
-
-    # --------------------------------------------------------
-    # Estrutura esperada:
-    #
-    # {
-    #     "97": {
-    #         "threshold": 0.72849883,
-    #         ...
-    #     }
-    # }
-    # --------------------------------------------------------
 
     if isinstance(
         thresholds,
@@ -495,10 +436,6 @@ def get_high_confidence_threshold() -> float:
             ):
                 pass
 
-    # --------------------------------------------------------
-    # Fallback defensivo para outras estruturas.
-    # --------------------------------------------------------
-
     for key in (
         "high_confidence_threshold",
         "automation_threshold",
@@ -526,10 +463,6 @@ def get_high_confidence_threshold() -> float:
         DEFAULT_HIGH_CONFIDENCE_THRESHOLD
     )
 
-
-# ============================================================
-# LABEL PARA EXIBIÇÃO
-# ============================================================
 
 def display_failure_mode(
     normalized_label: str,
@@ -561,11 +494,7 @@ def display_failure_mode(
     return normalized_label
 
 
-# ============================================================
-# CARREGAMENTO DO MODELO
-# ============================================================
-
-def load_model() -> None:
+def _load_legacy_model() -> None:
     global model_package
 
     if not MODEL_PATH.exists():
@@ -689,6 +618,56 @@ def load_model() -> None:
                 "classifier.classes_."
             )
 
+    model_package = package
+
+
+def load_model() -> None:
+    global model_package
+    global ursus_runtime
+
+    runtime = UrsusRuntime()
+
+    runtime.initialize()
+
+    for loaded_model in runtime.models.values():
+        validate_labels_in_taxonomy(
+            loaded_model
+        )
+
+    package = dict(
+        runtime.compatibility_package
+    )
+
+    active = (
+        runtime.active_model
+    )
+
+    package.update(
+        {
+            "vectorizer":
+                active.package[
+                    "vectorizer"
+                ],
+
+            "classifier":
+                active.package[
+                    "classifier"
+                ],
+
+            "classes":
+                active.package[
+                    "classes"
+                ],
+
+            "model_version":
+                active.spec.runtime_model_version,
+
+            "confidence_type":
+                "ursus_ranking_score_not_probability",
+        }
+    )
+
+    ursus_runtime = runtime
     model_package = package
 
 
@@ -825,24 +804,15 @@ def load_origin_model() -> None:
     origin_model_package = package
 
 
-# ============================================================
-# LIFESPAN
-# ============================================================
-
 @asynccontextmanager
 async def lifespan(
     _app: FastAPI,
 ):
     load_model()
-
     load_origin_model()
 
     yield
 
-
-# ============================================================
-# FASTAPI
-# ============================================================
 
 app = FastAPI(
     title=(
@@ -853,10 +823,6 @@ app = FastAPI(
     lifespan=lifespan,
 )
 
-
-# ============================================================
-# REQUEST -> EVENT
-# ============================================================
 
 def request_to_event(
     request: PredictionRequest,
@@ -882,10 +848,6 @@ def request_to_event(
     }
 
 
-# ============================================================
-# VALIDAÇÃO
-# ============================================================
-
 def validate_request(
     request: PredictionRequest,
 ) -> None:
@@ -903,10 +865,6 @@ def validate_request(
         )
 
 
-# ============================================================
-# DECISION FUNCTION
-# ============================================================
-
 def decision_scores(
     classifier: Any,
     features: Any,
@@ -919,8 +877,6 @@ def decision_scores(
         dtype=float,
     )
 
-    # Compatibilidade defensiva
-    # caso um futuro modelo seja binário.
     if scores.ndim == 1:
         scores = np.column_stack(
             [
@@ -967,23 +923,9 @@ def decision_margins(
     )
 
 
-# ============================================================
-# SCORE LEGADO 0..1
-# ============================================================
-
 def ranking_scores_from_decision(
     scores: np.ndarray,
 ) -> np.ndarray:
-    """
-    Converte os decision scores em um valor
-    entre 0 e 1 apenas para compatibilidade
-    com a interface atual.
-
-    NÃO é probabilidade calibrada.
-
-    A automação utiliza decision_margin.
-    """
-
     shifted = (
         scores
         -
@@ -1019,10 +961,6 @@ def ranking_scores_from_decision(
     )
 
 
-# ============================================================
-# PREDIÇÃO ML REAL V1.2
-# ============================================================
-
 def predict_ml_many(
     requests: list[
         PredictionRequest
@@ -1030,7 +968,11 @@ def predict_ml_many(
 ) -> list[
     dict[str, Any]
 ]:
-    if model_package is None:
+    if (
+        model_package is None
+        or
+        ursus_runtime is None
+    ):
         raise HTTPException(
             status_code=503,
             detail=(
@@ -1041,23 +983,6 @@ def predict_ml_many(
 
     if not requests:
         return []
-
-    vectorizer = (
-        get_vectorizer()
-    )
-
-    classifier = (
-        get_classifier()
-    )
-
-    classes = (
-        np.asarray(
-            classifier.classes_
-        )
-        .astype(
-            str
-        )
-    )
 
     texts: list[str] = []
 
@@ -1076,41 +1001,50 @@ def predict_ml_many(
             observation
         )
 
-    # ========================================================
-    # IMPORTANTE
-    #
-    # O v1.2 foi treinado somente com OBSERVATION.
-    #
-    # Equipamento, linha, chave etc. permanecem
-    # disponíveis somente para as regras.
-    # ========================================================
-
-    features = (
-        vectorizer
-        .transform(
+    runtime_prediction = (
+        ursus_runtime.predict(
             texts
         )
     )
 
-    predictions = (
+    loaded_model = (
+        runtime_prediction
+        .output
+        .loaded_model
+    )
+
+    classifier = (
+        loaded_model
+        .package[
+            "classifier"
+        ]
+    )
+
+    classes = (
         np.asarray(
-            classifier
-            .predict(
-                features
-            )
+            classifier.classes_
         )
         .astype(
             str
         )
     )
 
-    scores = decision_scores(
-        classifier,
-        features,
+    predictions = (
+        runtime_prediction
+        .output
+        .predictions
     )
 
-    margins = decision_margins(
-        scores
+    scores = (
+        runtime_prediction
+        .output
+        .scores
+    )
+
+    margins = (
+        decision_margins(
+            scores
+        )
     )
 
     ranking_scores = (
@@ -1206,19 +1140,6 @@ def predict_ml_many(
             ]
         )
 
-        blocked_by_guardrail = (
-            is_non_automatable_failure_mode(
-                predicted_display
-            )
-        )
-
-        high_confidence = (
-            margin
-            >=
-            threshold
-            and not blocked_by_guardrail
-        )
-
         top_index = int(
             ranked_indices[
                 0
@@ -1235,7 +1156,11 @@ def predict_ml_many(
         results.append(
             {
                 "model_version":
-                    get_classifier_version(),
+                    (
+                        f"{RULES_VERSION}"
+                        f"+ml-"
+                        f"{loaded_model.spec.runtime_model_version}"
+                    ),
 
                 "failed_component_code":
                     failure_mode_code(
@@ -1261,30 +1186,18 @@ def predict_ml_many(
                     threshold,
 
                 "automation_status":
-                    (
-                        "HIGH_CONFIDENCE"
-                        if high_confidence
-                        else
-                        "REVIEW_REQUIRED"
-                    ),
+                    "REVIEW_REQUIRED",
 
                 "review_required":
-                    not high_confidence,
+                    True,
 
                 "confidence_type":
-                    (
-                        "ranking_score_"
-                        "not_probability"
-                    ),
+                    "ranking_score_not_probability",
             }
         )
 
     return results
 
-
-# ============================================================
-# PREDIÇÃO DE ORIGEM V4
-# ============================================================
 
 def predict_origin_many(
     requests: list[
@@ -1356,9 +1269,11 @@ def predict_origin_many(
         ) from error
 
     try:
-        classes = validate_origin_classes(
-            model.classes_,
-            "model.classes_",
+        classes = (
+            validate_origin_classes(
+                model.classes_,
+                "model.classes_",
+            )
         )
 
     except RuntimeError as error:
@@ -1453,8 +1368,13 @@ def predict_origin_many(
         )
 
     class_indexes = {
-        class_name: index
-        for index, class_name
+        class_name:
+            index
+
+        for (
+            index,
+            class_name,
+        )
         in enumerate(
             classes.tolist()
         )
@@ -1488,9 +1408,11 @@ def predict_origin_many(
                 ),
             )
 
-        probability_row = probabilities[
-            row_index
-        ]
+        probability_row = (
+            probabilities[
+                row_index
+            ]
+        )
 
         predicted_probability = float(
             probability_row[
@@ -1524,17 +1446,23 @@ def predict_origin_many(
             >=
             ORIGIN_HIGH_CONFIDENCE_THRESHOLD
         ):
-            confidence_level = "HIGH"
+            confidence_level = (
+                "HIGH"
+            )
 
         elif (
             confidence
             >=
             ORIGIN_MEDIUM_CONFIDENCE_THRESHOLD
         ):
-            confidence_level = "MEDIUM"
+            confidence_level = (
+                "MEDIUM"
+            )
 
         else:
-            confidence_level = "LOW"
+            confidence_level = (
+                "LOW"
+            )
 
         results.append(
             {
@@ -1571,10 +1499,6 @@ def predict_origin_many(
     return results
 
 
-# ============================================================
-# PIPELINE HÍBRIDO
-# ============================================================
-
 def predict_many(
     requests: list[
         PredictionRequest
@@ -1607,10 +1531,6 @@ def predict_many(
     ] = []
 
     ml_indexes: list[int] = []
-
-    # ========================================================
-    # 1. REGRAS SEMÂNTICAS
-    # ========================================================
 
     for (
         index,
@@ -1696,10 +1616,10 @@ def predict_many(
                     None,
 
                 "automation_status":
-                    "RULE_HIGH_CONFIDENCE",
+                    "REVIEW_REQUIRED",
 
                 "review_required":
-                    False,
+                    True,
 
                 "confidence_type":
                     "rule_confidence",
@@ -1714,10 +1634,6 @@ def predict_many(
         ml_requests.append(
             request
         )
-
-    # ========================================================
-    # 2. ML REAL V1.2
-    # ========================================================
 
     if ml_requests:
         ml_results = (
@@ -1735,11 +1651,33 @@ def predict_many(
         ):
             results[
                 original_index
-            ] = ml_result
+            ] = (
+                ml_result
+            )
 
-    # ========================================================
-    # 3. INTEGRIDADE
-    # ========================================================
+        effective_version = str(
+            ml_results[
+                0
+            ][
+                "model_version"
+            ]
+        )
+
+        for result in results:
+            if (
+                result is not None
+                and
+                result.get(
+                    "decision_source"
+                )
+                ==
+                "RULE"
+            ):
+                result[
+                    "model_version"
+                ] = (
+                    effective_version
+                )
 
     completed_results: list[
         dict[str, Any]
@@ -1758,10 +1696,6 @@ def predict_many(
         completed_results.append(
             result
         )
-
-    # ========================================================
-    # 4. ORIGEM V4 PARA TODOS OS EVENTOS
-    # ========================================================
 
     origin_results = (
         predict_origin_many(
@@ -1787,7 +1721,10 @@ def predict_many(
             ),
         )
 
-    for result, origin in zip(
+    for (
+        result,
+        origin,
+    ) in zip(
         completed_results,
         origin_results,
     ):
@@ -1797,10 +1734,6 @@ def predict_many(
 
     return completed_results
 
-
-# ============================================================
-# HEALTH
-# ============================================================
 
 @app.get(
     "/health",
@@ -1812,6 +1745,8 @@ def health():
         model_package is None
         or
         origin_model_package is None
+        or
+        ursus_runtime is None
     ):
         raise HTTPException(
             status_code=503,
@@ -1835,9 +1770,11 @@ def health():
             get_classifier_version(),
 
         "confidence_type":
-            (
-                "linear_svc_"
-                "top1_minus_top2_margin"
+            str(
+                model_package.get(
+                    "confidence_type",
+                    "ranking_score_not_probability",
+                )
             ),
 
         "high_confidence_threshold":
@@ -1854,12 +1791,27 @@ def health():
 
         "origin_medium_confidence_threshold":
             ORIGIN_MEDIUM_CONFIDENCE_THRESHOLD,
+
+        "requested_model_version":
+            ursus_runtime.requested_version,
+
+        "active_model_version":
+            ursus_runtime.active_version,
+
+        "fallback_used":
+            ursus_runtime.startup_fallback_used,
+
+        "shadow_v16_enabled":
+            ursus_runtime.shadow_enabled,
+
+        "artifact_sha256":
+            (
+                ursus_runtime
+                .active_model
+                .artifact_sha256
+            ),
     }
 
-
-# ============================================================
-# PREDICT
-# ============================================================
 
 @app.post(
     "/predict",
@@ -1876,10 +1828,6 @@ def predict(
         ]
     )[0]
 
-
-# ============================================================
-# PREDICT BATCH
-# ============================================================
 
 @app.post(
     "/predict-batch",
@@ -1914,9 +1862,45 @@ def predict_batch(
         )
     ]
 
+    effective_versions = {
+        str(
+            prediction[
+                "model_version"
+            ]
+        )
+
+        for prediction
+        in predictions
+    }
+
+    if (
+        len(
+            effective_versions
+        )
+        !=
+        1
+    ):
+        raise HTTPException(
+            status_code=500,
+            detail=(
+                "O lote retornou mais de uma "
+                "versão efetiva de classificação, "
+                "o que viola o contrato de "
+                "auditoria do Ursus."
+            ),
+        )
+
+    effective_model_version = (
+        next(
+            iter(
+                effective_versions
+            )
+        )
+    )
+
     return BatchPredictionResponse(
         model_version=
-            get_classifier_version(),
+            effective_model_version,
 
         items=
             results,

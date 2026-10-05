@@ -124,8 +124,7 @@ interface FailureOriginPagination {
 }
 
 interface FailureOriginAnalysisProps {
-  data:
-    FailureOriginSummary;
+  data: FailureOriginSummary;
 
   startDate: string;
   endDate: string;
@@ -173,6 +172,7 @@ function failureOriginLabel(
       return "Manutenção";
 
     case "NAO_CLASSIFICADO":
+
     default:
       return "Não classificado";
   }
@@ -235,14 +235,11 @@ function FailureOriginOverview({
   data,
   onSelectOrigin,
 }: {
-  data:
-    FailureOriginSummary;
+  data: FailureOriginSummary;
 
-  onSelectOrigin:
-    (
-      origin:
-        FailureOriginFilter,
-    ) => void;
+  onSelectOrigin: (
+    origin: FailureOriginFilter,
+  ) => void;
 }) {
   const operationPercentage =
     Math.min(
@@ -294,13 +291,25 @@ function FailureOriginOverview({
           ? "Operação"
           : "Manutenção";
 
-  return (
-    <div className="px-1">
-      <div className="grid items-stretch lg:grid-cols-[1fr_92px_1fr]">
-        {/* =================================================
-            OPERAÇÃO
-        ================================================== */}
+  const hasClassified =
+    data.classified > 0;
 
+  return (
+    <div>
+      <div className="overflow-hidden rounded-[28px] border border-black/[0.045] bg-[#F7F7F6]">
+        <div className="grid lg:grid-cols-2">
+          <button
+            type="button"
+            onClick={() =>
+              onSelectOrigin(
+                "OPERACAO",
+              )
+            }
+            className="group relative overflow-hidden border-b border-black/[0.05] px-6 py-6 text-left outline-none transition-all duration-200 hover:bg-white focus-visible:z-10 focus-visible:ring-2 focus-visible:ring-[#E41E2B]/20 sm:px-7 sm:py-7 lg:border-b-0 lg:border-r"
+          >
+            <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[3px] origin-left scale-x-0 bg-[#E41E2B] transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-x-100" />
+
+<<<<<<< HEAD
         <button
           type="button"
           onClick={() =>
@@ -333,9 +342,119 @@ function FailureOriginOverview({
 
               <span className="ml-1 text-[24px] font-medium tracking-[-0.03em] text-text-secondary">
                 %
+=======
+            <div className="flex items-center justify-between gap-4">
+              <div className="flex items-center gap-2.5">
+                <span className="h-2.5 w-2.5 rounded-full bg-[#E41E2B] shadow-[0_0_0_5px_rgba(228,30,43,0.07)]" />
+
+                <p className="text-[10px] font-semibold uppercase tracking-[0.13em] text-[#5D6268]">
+                  Operação
+                </p>
+              </div>
+
+              <span className="text-[9px] font-semibold text-[#A1A5AA] transition-colors duration-150 group-hover:text-[#C92832]">
+                Ver ocorrências
               </span>
+            </div>
+
+            <div className="mt-8 flex items-end justify-between gap-5">
+              <div>
+                <p className="text-[48px] font-semibold leading-none tracking-[-0.065em] text-[#1E2125] sm:text-[58px]">
+                  {formatNumber(
+                    operationPercentage,
+                    1,
+                  )}
+
+                  <span className="ml-1 text-[21px] font-medium tracking-[-0.025em] text-[#9DA2A8]">
+                    %
+                  </span>
+                </p>
+
+                <p className="mt-3 text-[11px] font-medium text-[#8E9399]">
+                  entre as ocorrências classificadas
+                </p>
+              </div>
+
+              <div className="shrink-0 text-right">
+                <p className="text-[20px] font-semibold tracking-[-0.04em] text-[#2B2F33]">
+                  {formatNumber(
+                    data.operation,
+                  )}
+                </p>
+
+                <p className="mt-1 text-[9px] font-medium text-[#A1A5AA]">
+                  ocorrências
+                </p>
+              </div>
+            </div>
+          </button>
+
+          <button
+            type="button"
+            onClick={() =>
+              onSelectOrigin(
+                "MANUTENCAO",
+              )
+            }
+            className="group relative overflow-hidden px-6 py-6 text-left outline-none transition-all duration-200 hover:bg-white focus-visible:z-10 focus-visible:ring-2 focus-visible:ring-black/10 sm:px-7 sm:py-7 lg:text-right"
+          >
+            <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[3px] origin-right scale-x-0 bg-[#202327] transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-x-100" />
+
+            <div className="flex items-center justify-between gap-4 lg:flex-row-reverse">
+              <div className="flex items-center gap-2.5 lg:flex-row-reverse">
+                <span className="h-2.5 w-2.5 rounded-full bg-[#202327] shadow-[0_0_0_5px_rgba(32,35,39,0.06)]" />
+
+                <p className="text-[10px] font-semibold uppercase tracking-[0.13em] text-[#5D6268]">
+                  Manutenção
+                </p>
+              </div>
+
+              <span className="text-[9px] font-semibold text-[#A1A5AA] transition-colors duration-150 group-hover:text-[#2F3337]">
+                Ver ocorrências
+>>>>>>> origin/marques
+              </span>
+            </div>
+
+            <div className="mt-8 flex items-end justify-between gap-5 lg:flex-row-reverse">
+              <div>
+                <p className="text-[48px] font-semibold leading-none tracking-[-0.065em] text-[#1E2125] sm:text-[58px]">
+                  {formatNumber(
+                    maintenancePercentage,
+                    1,
+                  )}
+
+                  <span className="ml-1 text-[21px] font-medium tracking-[-0.025em] text-[#9DA2A8]">
+                    %
+                  </span>
+                </p>
+
+                <p className="mt-3 text-[11px] font-medium text-[#8E9399]">
+                  entre as ocorrências classificadas
+                </p>
+              </div>
+
+              <div className="shrink-0 lg:text-left">
+                <p className="text-[20px] font-semibold tracking-[-0.04em] text-[#2B2F33]">
+                  {formatNumber(
+                    data.maintenance,
+                  )}
+                </p>
+
+                <p className="mt-1 text-[9px] font-medium text-[#A1A5AA]">
+                  ocorrências
+                </p>
+              </div>
+            </div>
+          </button>
+        </div>
+
+        <div className="border-t border-black/[0.045] bg-white/70 px-6 py-5 sm:px-7">
+          <div className="flex items-center justify-between gap-5">
+            <p className="text-[9px] font-semibold uppercase tracking-[0.11em] text-[#9DA2A8]">
+              Distribuição das classificadas
             </p>
 
+<<<<<<< HEAD
             <div className="mt-4 flex items-center gap-3">
               <p className="text-[15px] font-semibold text-text-primary">
                 {formatNumber(
@@ -416,14 +535,35 @@ function FailureOriginOverview({
                 ocorrências
               </p>
             </div>
+=======
+            <p className="text-[9px] font-medium text-[#A0A4A9]">
+              {formatNumber(
+                data.classified,
+              )}{" "}
+              ocorrências
+            </p>
+>>>>>>> origin/marques
           </div>
-        </button>
-      </div>
 
-      {/* ===================================================
-          BARRA COMPARATIVA
-      ==================================================== */}
+          <div className="mt-3 flex h-[10px] overflow-hidden rounded-full bg-[#E7E9EA]">
+            {hasClassified ? (
+              <>
+                <button
+                  type="button"
+                  aria-label="Ver ocorrências de operação"
+                  onClick={() =>
+                    onSelectOrigin(
+                      "OPERACAO",
+                    )
+                  }
+                  className="h-full bg-[#E41E2B] transition-[width,filter] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] hover:brightness-95"
+                  style={{
+                    width:
+                      `${operationPercentage}%`,
+                  }}
+                />
 
+<<<<<<< HEAD
       <div className="mt-6">
         <div className="relative flex h-[18px] overflow-hidden rounded-full bg-surface-hover">
           {data.classified > 0 ? (
@@ -513,22 +653,56 @@ function FailureOriginOverview({
           <p className="mt-2 text-[14px] font-semibold text-text-primary">
             {formatNumber(
               data.classified,
+=======
+                <button
+                  type="button"
+                  aria-label="Ver ocorrências de manutenção"
+                  onClick={() =>
+                    onSelectOrigin(
+                      "MANUTENCAO",
+                    )
+                  }
+                  className="h-full bg-[#202327] transition-[width,filter] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] hover:brightness-125"
+                  style={{
+                    width:
+                      `${maintenancePercentage}%`,
+                  }}
+                />
+              </>
+            ) : (
+              <div className="h-full w-full bg-[#E7E9EA]" />
+>>>>>>> origin/marques
             )}
+          </div>
 
+<<<<<<< HEAD
             <span className="ml-1 text-[10px] font-normal text-text-secondary">
               de{" "}
               {formatNumber(
                 data.total,
               )}
+=======
+          <div className="mt-2.5 flex items-center justify-between text-[9px] font-medium text-[#9A9FA5]">
+            <span>
+              Operação
+>>>>>>> origin/marques
             </span>
-          </p>
+
+            <span>
+              Manutenção
+            </span>
+          </div>
         </div>
       </div>
 
-      {/* ===================================================
-          COBERTURA
-      ==================================================== */}
+      <div className="mt-4 overflow-hidden rounded-[22px] border border-black/[0.045] bg-white">
+        <div className="grid sm:grid-cols-3">
+          <div className="border-b border-black/[0.045] px-5 py-4 sm:border-b-0 sm:border-r">
+            <p className="text-[9px] font-semibold uppercase tracking-[0.1em] text-[#A1A5AA]">
+              Origem predominante
+            </p>
 
+<<<<<<< HEAD
       <div className="mt-5 flex flex-col gap-4 border-t border-border-theme pt-5 sm:flex-row sm:items-center sm:justify-between">
         <div className="min-w-0 flex-1">
           <div className="flex items-center justify-between gap-4">
@@ -537,17 +711,78 @@ function FailureOriginOverview({
             </p>
 
             <p className="text-[11px] font-semibold text-text-primary">
-              {formatNumber(
-                coveragePercentage,
-                1,
-              )}
-              %
+=======
+            <p className="mt-2 text-[15px] font-semibold tracking-[-0.02em] text-[#303438]">
+              {dominantOrigin ??
+                "Sem classificação"}
             </p>
           </div>
 
+          <div className="border-b border-black/[0.045] px-5 py-4 sm:border-b-0 sm:border-r">
+            <p className="text-[9px] font-semibold uppercase tracking-[0.1em] text-[#A1A5AA]">
+              Diferença
+            </p>
+
+            <p className="mt-2 text-[15px] font-semibold tracking-[-0.02em] text-[#303438]">
+              {hasClassified
+                ? `${formatNumber(
+                    difference,
+                    1,
+                  )} p.p.`
+                : "—"}
+            </p>
+          </div>
+
+          <div className="px-5 py-4">
+            <p className="text-[9px] font-semibold uppercase tracking-[0.1em] text-[#A1A5AA]">
+              Cobertura
+            </p>
+
+            <div className="mt-2 flex items-baseline gap-2">
+              <p className="text-[15px] font-semibold tracking-[-0.02em] text-[#303438]">
+                {formatNumber(
+                  coveragePercentage,
+                  1,
+                )}%
+              </p>
+
+              <span className="text-[9px] text-[#9A9FA5]">
+                {formatNumber(
+                  data.classified,
+                )}{" "}
+                de{" "}
+                {formatNumber(
+                  data.total,
+                )}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="mt-4 flex flex-col gap-4 rounded-[22px] bg-[#F7F7F6] px-5 py-4 sm:flex-row sm:items-center sm:justify-between">
+        <div className="min-w-0 flex-1">
+          <div className="flex items-center justify-between gap-4">
+            <p className="text-[10px] font-medium text-[#6F747A]">
+              Cobertura da classificação
+            </p>
+
+            <p className="text-[10px] font-semibold text-[#34383D]">
+>>>>>>> origin/marques
+              {formatNumber(
+                coveragePercentage,
+                1,
+              )}%
+            </p>
+          </div>
+
+<<<<<<< HEAD
           <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-surface-hover">
+=======
+          <div className="mt-2.5 h-[5px] overflow-hidden rounded-full bg-[#E4E6E7]">
+>>>>>>> origin/marques
             <div
-              className="h-full rounded-full bg-[#B5B9BE]"
+              className="h-full rounded-full bg-[#202327] transition-[width] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]"
               style={{
                 width:
                   `${coveragePercentage}%`,
@@ -564,17 +799,30 @@ function FailureOriginOverview({
                 "NAO_CLASSIFICADO",
               )
             }
+<<<<<<< HEAD
             className="shrink-0 rounded-full border border-border-theme bg-surface px-3 py-2 text-[10px] font-medium text-text-secondary transition hover:border-border-theme hover:bg-surface-hover"
+=======
+            className="shrink-0 rounded-full bg-[#202327] px-4 py-2.5 text-[10px] font-semibold text-white transition-all duration-180 hover:-translate-y-px hover:bg-[#111315]"
+>>>>>>> origin/marques
           >
             {formatNumber(
               data.unclassified,
             )}{" "}
-            aguardando classificação →
+            aguardando classificação
           </button>
         ) : (
+<<<<<<< HEAD
           <p className="shrink-0 text-[10px] text-text-secondary">
+=======
+          <div className="flex shrink-0 items-center gap-2 text-[10px] font-medium text-[#777C82]">
+            <CheckCircle2
+              size={13}
+              className="text-[#6F747A]"
+            />
+
+>>>>>>> origin/marques
             Todas as ocorrências foram classificadas
-          </p>
+          </div>
         )}
       </div>
     </div>
@@ -714,10 +962,6 @@ function FailureOriginReviewDrawer({
       false,
     );
 
-  /* =======================================================
-     CARREGAR OCORRÊNCIAS
-  ======================================================= */
-
   const loadItems =
     useCallback(
       async (
@@ -814,7 +1058,8 @@ function FailureOriginReviewDrawer({
             );
 
           const raw =
-            await response.json();
+            await response
+              .json();
 
           if (
             !response.ok ||
@@ -913,15 +1158,37 @@ function FailureOriginReviewDrawer({
       ],
     );
 
+<<<<<<< HEAD
   /* =======================================================
      RESET AO ABRIR OUTRA ORIGEM
   ======================================================= */
 
   // The parent's key remounts the drawer for each origin, resetting local state.
+=======
+  useEffect(() => {
+    if (!origin) {
+      return;
+    }
 
-  /* =======================================================
-     FETCH
-  ======================================================= */
+    setPage(
+      1,
+    );
+
+    setSearch(
+      "",
+    );
+
+    setAppliedSearch(
+      "",
+    );
+
+    setEditing(
+      null,
+    );
+  }, [
+    origin,
+  ]);
+>>>>>>> origin/marques
 
   useEffect(() => {
     if (!origin) {
@@ -941,10 +1208,6 @@ function FailureOriginReviewDrawer({
     origin,
     loadItems,
   ]);
-
-  /* =======================================================
-     ESC / SCROLL
-  ======================================================= */
 
   useEffect(() => {
     if (!origin) {
@@ -977,7 +1240,8 @@ function FailureOriginReviewDrawer({
       document.body.style
         .overflow;
 
-    document.body.style.overflow =
+    document.body.style
+      .overflow =
       "hidden";
 
     window.addEventListener(
@@ -986,7 +1250,8 @@ function FailureOriginReviewDrawer({
     );
 
     return () => {
-      document.body.style.overflow =
+      document.body.style
+        .overflow =
         oldOverflow;
 
       window.removeEventListener(
@@ -999,10 +1264,6 @@ function FailureOriginReviewDrawer({
     editing,
     onClose,
   ]);
-
-  /* =======================================================
-     ABRIR REVISÃO
-  ======================================================= */
 
   function openReview(
     item:
@@ -1032,10 +1293,6 @@ function FailureOriginReviewDrawer({
       "",
     );
   }
-
-  /* =======================================================
-     SALVAR REVISÃO
-  ======================================================= */
 
   async function saveReview() {
     if (!editing) {
@@ -1078,7 +1335,8 @@ function FailureOriginReviewDrawer({
         );
 
       const raw =
-        await response.json();
+        await response
+          .json();
 
       if (
         !response.ok ||
@@ -1116,10 +1374,6 @@ function FailureOriginReviewDrawer({
       );
     }
   }
-
-  /* =======================================================
-     RESTAURAR PREVISÃO DO MODELO
-  ======================================================= */
 
   async function restorePrediction() {
     if (
@@ -1165,7 +1419,8 @@ function FailureOriginReviewDrawer({
         );
 
       const raw =
-        await response.json();
+        await response
+          .json();
 
       if (
         !response.ok ||
@@ -1213,14 +1468,12 @@ function FailureOriginReviewDrawer({
       className="fixed inset-0 z-[60]"
       role="dialog"
       aria-modal="true"
-      aria-label={`Ocorrências de ${failureOriginLabel(
-        origin,
-      )}`}
+      aria-label={
+        `Ocorrências de ${failureOriginLabel(
+          origin,
+        )}`
+      }
     >
-      {/* ===================================================
-          BACKDROP
-      ==================================================== */}
-
       <button
         type="button"
         aria-label="Fechar ocorrências"
@@ -1230,6 +1483,7 @@ function FailureOriginReviewDrawer({
         className="absolute inset-0 h-full w-full cursor-default bg-black/20 backdrop-blur-[2px]"
       />
 
+<<<<<<< HEAD
       {/* ===================================================
           DRAWER
       ==================================================== */}
@@ -1238,6 +1492,10 @@ function FailureOriginReviewDrawer({
         {/* HEADER */}
 
         <div className="border-b border-border-theme px-5 py-5 sm:px-6">
+=======
+      <aside className="absolute bottom-0 right-0 top-0 flex w-full max-w-[620px] flex-col border-l border-black/[0.06] bg-white shadow-[-18px_0_50px_rgba(0,0,0,0.08)]">
+        <div className="border-b border-[#ECEDEF] px-5 py-5 sm:px-6">
+>>>>>>> origin/marques
           <div className="flex items-start justify-between gap-4">
             <div>
               <p className="text-[10px] font-semibold uppercase tracking-[0.11em] text-text-secondary">
@@ -1254,7 +1512,8 @@ function FailureOriginReviewDrawer({
                 {formatNumber(
                   pagination.total,
                 )}{" "}
-                {pagination.total === 1
+                {pagination.total ===
+                1
                   ? "ocorrência"
                   : "ocorrências"}
 
@@ -1276,8 +1535,6 @@ function FailureOriginReviewDrawer({
               />
             </button>
           </div>
-
-          {/* BUSCA */}
 
           <form
             className="mt-5 flex gap-2"
@@ -1326,10 +1583,6 @@ function FailureOriginReviewDrawer({
           </form>
         </div>
 
-        {/* =================================================
-            LISTA
-        ================================================== */}
-
         <div className="flex-1 overflow-y-auto px-5 py-5 sm:px-6">
           {error && (
             <div className="mb-4 rounded-[12px] border border-[#F0D2D5] bg-[#FFF8F8] px-4 py-3 text-[11px] text-[#BF2C35]">
@@ -1345,7 +1598,8 @@ function FailureOriginReviewDrawer({
                 className="animate-spin text-[#E41E2B]"
               />
             </div>
-          ) : items.length === 0 ? (
+          ) : items.length ===
+            0 ? (
             <div className="flex min-h-[260px] flex-col items-center justify-center text-center">
               <CheckCircle2
                 size={28}
@@ -1393,6 +1647,7 @@ function FailureOriginReviewDrawer({
                         <div className="min-w-0">
                           <div className="flex flex-wrap items-center gap-2">
                             <span
+<<<<<<< HEAD
                               className={`inline-flex rounded-full px-2.5 py-1 text-[9px] font-semibold uppercase tracking-[0.08em] ${
                                 effective ===
                                 "OPERACAO"
@@ -1402,6 +1657,19 @@ function FailureOriginReviewDrawer({
                                     ? "bg-surface-elevated text-text-primary"
                                     : "bg-surface-elevated text-text-secondary"
                               }`}
+=======
+                              className={
+                                `inline-flex rounded-full px-2.5 py-1 text-[9px] font-semibold uppercase tracking-[0.08em] ${
+                                  effective ===
+                                  "OPERACAO"
+                                    ? "bg-[#FFF0F1] text-[#C92832]"
+                                    : effective ===
+                                        "MANUTENCAO"
+                                      ? "bg-[#EFF0F1] text-[#42474C]"
+                                      : "bg-[#F4F4F3] text-[#858A90]"
+                                }`
+                              }
+>>>>>>> origin/marques
                             >
                               {effective
                                 ? failureOriginLabel(
@@ -1503,10 +1771,15 @@ function FailureOriginReviewDrawer({
                             </span>
                           )}
 
-                          {item.review.reviewedByName && (
+                          {item.review
+                            .reviewedByName && (
                             <span>
                               Revisado por{" "}
-                              {item.review.reviewedByName}
+                              {
+                                item
+                                  .review
+                                  .reviewedByName
+                              }
                             </span>
                           )}
                         </div>
@@ -1519,11 +1792,15 @@ function FailureOriginReviewDrawer({
           )}
         </div>
 
+<<<<<<< HEAD
         {/* =================================================
             PAGINAÇÃO
         ================================================== */}
 
         <div className="border-t border-border-theme bg-surface px-5 py-4 sm:px-6">
+=======
+        <div className="border-t border-[#ECEDEF] bg-white px-5 py-4 sm:px-6">
+>>>>>>> origin/marques
           <div className="flex items-center justify-between gap-3">
             <p className="text-[10px] text-text-secondary">
               Página{" "}
@@ -1591,10 +1868,6 @@ function FailureOriginReviewDrawer({
         </div>
       </aside>
 
-      {/* ===================================================
-          MODAL DE REVISÃO
-      ==================================================== */}
-
       {editing && (
         <div className="absolute inset-0 z-20 flex items-end justify-center bg-black/20 p-4 sm:items-center">
           <div className="w-full max-w-[470px] rounded-[22px] border border-border-theme/[0.06] bg-surface p-5 shadow-2xl sm:p-6">
@@ -1627,10 +1900,15 @@ function FailureOriginReviewDrawer({
               </button>
             </div>
 
+<<<<<<< HEAD
             {/* PREVISÃO */}
 
             <div className="mt-5 rounded-[14px] bg-surface-elevated p-4">
               <p className="text-[9px] font-semibold uppercase tracking-[0.08em] text-text-secondary">
+=======
+            <div className="mt-5 rounded-[14px] bg-[#F7F7F6] p-4">
+              <p className="text-[9px] font-semibold uppercase tracking-[0.08em] text-[#9A9FA5]">
+>>>>>>> origin/marques
                 Previsão original do modelo
               </p>
 
@@ -1665,8 +1943,6 @@ function FailureOriginReviewDrawer({
               </p>
             </div>
 
-            {/* NOVA ORIGEM */}
-
             <div className="mt-5">
               <p className="text-[10px] font-semibold text-text-primary">
                 Classificação validada
@@ -1683,24 +1959,46 @@ function FailureOriginReviewDrawer({
                   disabled={
                     saving
                   }
+<<<<<<< HEAD
                   className={`rounded-[14px] border px-4 py-4 text-left transition ${
                     editOrigin ===
                     "OPERACAO"
                       ? "border-[#E41E2B] bg-accent-primary/5 shadow-[0_0_0_1px_rgba(228,30,43,0.05)]"
                       : "border-border-theme bg-surface hover:bg-surface-hover"
                   }`}
+=======
+                  className={
+                    `rounded-[14px] border px-4 py-4 text-left transition ${
+                      editOrigin ===
+                      "OPERACAO"
+                        ? "border-[#E41E2B] bg-[#FFF7F7] shadow-[0_0_0_1px_rgba(228,30,43,0.05)]"
+                        : "border-[#E1E3E5] bg-white hover:bg-[#FAFAF9]"
+                    }`
+                  }
+>>>>>>> origin/marques
                 >
                   <span className="block text-[10px] font-semibold uppercase tracking-[0.09em] text-text-secondary">
                     Origem
                   </span>
 
                   <span
+<<<<<<< HEAD
                     className={`mt-2 block text-[13px] font-semibold ${
                       editOrigin ===
                       "OPERACAO"
                         ? "text-[#C92832]"
                         : "text-text-primary"
                     }`}
+=======
+                    className={
+                      `mt-2 block text-[13px] font-semibold ${
+                        editOrigin ===
+                        "OPERACAO"
+                          ? "text-[#C92832]"
+                          : "text-[#45494E]"
+                      }`
+                    }
+>>>>>>> origin/marques
                   >
                     Operação
                   </span>
@@ -1716,32 +2014,52 @@ function FailureOriginReviewDrawer({
                   disabled={
                     saving
                   }
+<<<<<<< HEAD
                   className={`rounded-[14px] border px-4 py-4 text-left transition ${
                     editOrigin ===
                     "MANUTENCAO"
                       ? "border-[#393D41] bg-surface-elevated shadow-[0_0_0_1px_rgba(0,0,0,0.03)]"
                       : "border-border-theme bg-surface hover:bg-surface-hover"
                   }`}
+=======
+                  className={
+                    `rounded-[14px] border px-4 py-4 text-left transition ${
+                      editOrigin ===
+                      "MANUTENCAO"
+                        ? "border-[#393D41] bg-[#F7F7F6] shadow-[0_0_0_1px_rgba(0,0,0,0.03)]"
+                        : "border-[#E1E3E5] bg-white hover:bg-[#FAFAF9]"
+                    }`
+                  }
+>>>>>>> origin/marques
                 >
                   <span className="block text-[10px] font-semibold uppercase tracking-[0.09em] text-text-secondary">
                     Origem
                   </span>
 
                   <span
+<<<<<<< HEAD
                     className={`mt-2 block text-[13px] font-semibold ${
                       editOrigin ===
                       "MANUTENCAO"
                         ? "text-text-primary"
                         : "text-text-primary"
                     }`}
+=======
+                    className={
+                      `mt-2 block text-[13px] font-semibold ${
+                        editOrigin ===
+                        "MANUTENCAO"
+                          ? "text-[#303438]"
+                          : "text-[#45494E]"
+                      }`
+                    }
+>>>>>>> origin/marques
                   >
                     Manutenção
                   </span>
                 </button>
               </div>
             </div>
-
-            {/* OBSERVAÇÃO */}
 
             <label className="mt-5 block">
               <span className="text-[10px] font-semibold text-text-primary">
@@ -1774,8 +2092,6 @@ function FailureOriginReviewDrawer({
                 {editNote.length}/500
               </span>
             </label>
-
-            {/* AÇÕES */}
 
             <div className="mt-5 flex flex-col-reverse gap-2 sm:flex-row sm:justify-between">
               <div>
@@ -1846,10 +2162,6 @@ function FailureOriginReviewDrawer({
     </div>
   );
 }
-
-/* =========================================================
-   COMPONENTE PRINCIPAL
-========================================================= */
 
 export function FailureOriginAnalysis({
   data,
