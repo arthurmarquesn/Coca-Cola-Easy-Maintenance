@@ -12,6 +12,13 @@ USE coca_cola_maintenance;
 
 START TRANSACTION;
 
+-- Vincula apenas contas criadas por esta execucao. Nao usa
+-- ROW_COUNT(): o cliente mysql envia linhas de comentario como
+-- comandos vazios, o que zera ROW_COUNT() antes do SET.
+SET @test_user_existed = (
+    SELECT COUNT(*) FROM users WHERE email = 'analista.teste@example.com'
+);
+
 -- Analista de Teste: analista.teste@example.com / Analista@Teste2026!
 INSERT INTO users (unit_id, name, email, password_hash, role, active)
 SELECT
@@ -25,13 +32,16 @@ WHERE NOT EXISTS (
     SELECT 1 FROM users WHERE email = 'analista.teste@example.com'
 );
 
--- Vincula apenas o usuario que acabou de ser criado.
-SET @test_login_user_id = IF(ROW_COUNT() = 1, LAST_INSERT_ID(), NULL);
-
 INSERT INTO user_units (user_id, unit_id, is_default)
 SELECT id, unit_id, TRUE
 FROM users
-WHERE id = @test_login_user_id;
+WHERE email = 'analista.teste@example.com'
+  AND @test_user_existed = 0;
+
+-- Mesmo controle de vinculo do Analista.
+SET @test_user_existed = (
+    SELECT COUNT(*) FROM users WHERE email = 'gestor.teste@example.com'
+);
 
 -- Gestor de Teste: gestor.teste@example.com / Gestor@Teste2026!
 INSERT INTO users (unit_id, name, email, password_hash, role, active)
@@ -46,14 +56,12 @@ WHERE NOT EXISTS (
     SELECT 1 FROM users WHERE email = 'gestor.teste@example.com'
 );
 
--- Vincula apenas o usuario que acabou de ser criado.
-SET @test_login_user_id = IF(ROW_COUNT() = 1, LAST_INSERT_ID(), NULL);
-
 INSERT INTO user_units (user_id, unit_id, is_default)
 SELECT id, unit_id, TRUE
 FROM users
-WHERE id = @test_login_user_id;
+WHERE email = 'gestor.teste@example.com'
+  AND @test_user_existed = 0;
 
-SET @test_login_user_id = NULL;
+SET @test_user_existed = NULL;
 
 COMMIT;

@@ -800,10 +800,38 @@ def load_origin_model() -> None:
     origin_model_package = package
 
 
+def configure_runtime_logging() -> None:
+    # O uvicorn só configura os próprios loggers. Sem handler,
+    # os eventos JSON do runtime (falha ao carregar a v1.6,
+    # fallback para a v1.5 durante a inferência, auditoria de
+    # cada inferência) eram descartados em silêncio.
+    runtime_logger = logging.getLogger(
+        "ursus.runtime"
+    )
+
+    if not runtime_logger.handlers:
+        handler = logging.StreamHandler()
+
+        handler.setFormatter(
+            logging.Formatter(
+                "%(asctime)s %(levelname)s %(name)s %(message)s"
+            )
+        )
+
+        runtime_logger.addHandler(
+            handler
+        )
+
+    runtime_logger.setLevel(
+        logging.INFO
+    )
+
+
 @asynccontextmanager
 async def lifespan(
     _app: FastAPI,
 ):
+    configure_runtime_logging()
     load_model()
     load_origin_model()
 

@@ -13,12 +13,20 @@ import {
 } from "@/lib/db";
 
 import {
+  publicErrorMessage,
+} from "@/lib/errors";
+
+import {
   getSession,
 } from "@/lib/session";
 
 import {
   getUnitSelection,
 } from "@/lib/unit-selection";
+
+import {
+  getWriteAccessError,
+} from "@/lib/write-access";
 
 export const runtime =
   "nodejs";
@@ -1337,6 +1345,16 @@ export async function DELETE(
     );
   }
 
+  /* Gestor apenas consulta: excluir importação é escrita. */
+  const writeAccessError =
+    getWriteAccessError(
+      session,
+    );
+
+  if (writeAccessError) {
+    return writeAccessError;
+  }
+
   const {
     id:
       rawId,
@@ -1721,10 +1739,10 @@ export async function DELETE(
           false,
 
         message:
-          error instanceof
-          Error
-            ? error.message
-            : "Não foi possível excluir a importação.",
+          publicErrorMessage(
+            error,
+            "Não foi possível excluir a importação.",
+          ),
       },
       {
         status:

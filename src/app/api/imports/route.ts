@@ -8,8 +8,16 @@ import type {
 } from "mysql2/promise";
 
 import {
+  containsLikePattern,
+} from "@/lib/analytics/sql";
+
+import {
   executeRows,
 } from "@/lib/db";
+
+import {
+  publicErrorMessage,
+} from "@/lib/errors";
 
 import {
   getSession,
@@ -540,7 +548,9 @@ export async function GET(
       );
 
       const like =
-        `%${search}%`;
+        containsLikePattern(
+          search,
+        );
 
       filteredValues.push(
         like,
@@ -1411,10 +1421,10 @@ export async function GET(
           false,
 
         message:
-          error instanceof
-          Error
-            ? error.message
-            : "Não foi possível carregar as importações.",
+          publicErrorMessage(
+            error,
+            "Não foi possível carregar as importações.",
+          ),
       },
       {
         status:

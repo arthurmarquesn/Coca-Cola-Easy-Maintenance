@@ -20,9 +20,12 @@ import {
 
 import {
   useCallback,
-  useEffect,
   useState,
 } from "react";
+
+import {
+  useInitialRequest,
+} from "@/lib/use-initial-request";
 
 
 interface UrsusDashboardPageProps {
@@ -373,7 +376,10 @@ export function UrsusDashboardPage({
 
   const loadData =
     useCallback(
-      async () => {
+      async (
+        signal?:
+          AbortSignal,
+      ) => {
         setLoading(
           true,
         );
@@ -389,6 +395,8 @@ export function UrsusDashboardPage({
               {
                 cache:
                   "no-store",
+
+                signal,
               },
             );
 
@@ -411,12 +419,24 @@ export function UrsusDashboardPage({
             );
           }
 
+          if (
+            signal?.aborted
+          ) {
+            return;
+          }
+
           setData(
             payload,
           );
         } catch (
           cause
         ) {
+          if (
+            signal?.aborted
+          ) {
+            return;
+          }
+
           setError(
             cause instanceof
               Error
@@ -424,22 +444,21 @@ export function UrsusDashboardPage({
               : "Não foi possível carregar a performance do Ursus.",
           );
         } finally {
-          setLoading(
-            false,
-          );
+          if (
+            !signal?.aborted
+          ) {
+            setLoading(
+              false,
+            );
+          }
         }
       },
       [],
     );
 
 
-  useEffect(
-    () => {
-      void loadData();
-    },
-    [
-      loadData,
-    ],
+  useInitialRequest(
+    loadData,
   );
 
 

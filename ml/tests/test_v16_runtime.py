@@ -9,6 +9,7 @@ import pytest
 from ml import runtime as runtime_module
 from ml.api import app
 from ml.model_registry import V16_SUPPORT_CAP
+from ml.rules import RULES_VERSION
 from ml.runtime import UrsusRuntime, validate_labels_in_taxonomy
 
 
@@ -113,7 +114,7 @@ def test_fastapi_contract_remains_compatible_and_human_review_is_required(
         "failure_origin_model_version",
     }
     assert required <= set(result)
-    assert result["model_version"] == "rules-v3+ml-ursus-v1.6"
+    assert result["model_version"] == f"{RULES_VERSION}+ml-ursus-v1.6"
     assert len(result["top_predictions"]) == 3
     assert result["review_required"] is True
     assert result["automation_status"] == "REVIEW_REQUIRED"

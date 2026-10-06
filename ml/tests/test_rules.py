@@ -48,6 +48,28 @@ class SemanticRulesTest(unittest.TestCase):
             with self.subTest(observation=observation):
                 self.assertIsNone(classify_by_rule({"observation": observation, "equipment": "RECRAVADORA 708 G FRR LI04"}))
 
+    def test_negated_occurrence_goes_to_ml(self):
+        for observation in (
+            "NÃO HOUVE FALHA DE CORTE DE FILME, APENAS LIMPEZA",
+            "NAO FOI IDENTIFICADO ROMPIMENTO DE MANGUEIRA",
+            "VERIFICADA A ESTEIRA, SEM FALHA. ESTEIRA QUEBROU? NAO OCORREU",
+            "NENHUMA FALHA NA RECRAVAÇÃO",
+        ):
+            with self.subTest(observation=observation):
+                self.assertIsNone(classify_by_rule({"observation": observation}))
+
+    def test_negation_that_describes_the_failure_keeps_the_rule(self):
+        # Casos reais da planilha de Marília: SEM/NAO não negam a falha.
+        cases = [
+            ("FILME DOBRANDO DEPOIS DO CORTE, SEM ANTI ESTÁTICA, PACOTES ABRINDO", "FALHA DE CORTE DE FILME"),
+            ("NÃO TINHA MAIS DESSA ESTEIRA, ESTEIRA DE SAIDA QUEBROU", "QUEBRA DE ESTEIRA"),
+        ]
+        for observation, mode in cases:
+            with self.subTest(observation=observation):
+                result = classify_by_rule({"observation": observation})
+                self.assertIsNotNone(result)
+                self.assertEqual(result.failure_mode, mode)
+
 
 if __name__ == "__main__":
     unittest.main()

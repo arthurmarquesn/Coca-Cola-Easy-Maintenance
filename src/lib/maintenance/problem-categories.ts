@@ -118,6 +118,14 @@ export function getCategoryLabel(
 
 /* =========================================================
    GRUPOS DE COMPONENTE POR CATEGORIA
+
+   O componente é procurado como token dentro de
+   failed_component_code. Os modelos Ursus (taxonomia
+   Marília) gravam o código do modo de falha, não o do
+   componente: "FALHA_DE_SENSOR", "ESCAPE_DE_ESTEIRA",
+   "FALHA_DE_VALVULA_DE_ENCHIMENTO". Com igualdade exata,
+   quase tudo caía em "outros". Códigos antigos ("SENSOR")
+   continuam casando.
 ========================================================= */
 
 const COMPONENT_GROUPS: Record<string, string[]> = {
@@ -132,6 +140,10 @@ const COMPONENT_GROUPS: Record<string, string[]> = {
     "CABO",
     "SISTEMA_COMUNICACAO",
     "SISTEMA_CONTROLE",
+    "COMUNICACAO",
+    "ELETRICA",
+    "ELETRICO",
+    "AUTOMACAO",
   ],
   transmissao: [
     "CORREIA",
@@ -145,6 +157,9 @@ const COMPONENT_GROUPS: Record<string, string[]> = {
     "ATUADOR",
     "MANGUEIRA",
     "VEDACAO",
+    "PNEUMATICO",
+    "PNEUMATICA",
+    "PISTAO",
   ],
   transporte: [
     "TRANSPORTADOR",
@@ -158,8 +173,10 @@ const COMPONENT_GROUPS: Record<string, string[]> = {
     "SISTEMA_TRANSFERENCIA",
     "SISTEMA_ALIMENTACAO",
     "SISTEMA_REJEICAO",
+    "TRANSPORTE",
+    "ROLETE",
   ],
-  sensores: ["SENSOR"],
+  sensores: ["SENSOR", "ENCODER", "PRESSOSTATO", "FLUXIMETRO"],
 };
 
 const LEAK_KEYWORDS = [
@@ -212,13 +229,19 @@ export function buildProblemCategoryCaseSql(): string {
     `WHEN ${likeAnySql(TEXT_SOURCE_SQL, TEMPERATURE_KEYWORDS)} THEN 'temperatura'`,
   );
 
+  /* Delimita com "_" para casar tokens inteiros: MOTOR
+     não casa com MOTORISTA. Os códigos são constantes deste
+     arquivo, nunca entrada do usuário. */
+  const delimitedCodeSql =
+    "CONCAT('_', UPPER(COALESCE(cs.failed_component_code, '')), '_')";
+
   for (const [slug, codes] of Object.entries(COMPONENT_GROUPS)) {
-    const codesSql = codes
-      .map((code) => `'${code}'`)
-      .join(", ");
+    const tokensSql = codes
+      .map((code) => `INSTR(${delimitedCodeSql}, '_${code}_') > 0`)
+      .join(" OR ");
 
     whenClauses.push(
-      `WHEN cs.failed_component_code IN (${codesSql}) THEN '${slug}'`,
+      `WHEN ${tokensSql} THEN '${slug}'`,
     );
   }
 
@@ -249,8 +272,10 @@ export function deriveProblemCategorySlug(input: {
     return "temperatura";
   }
 
+  const delimitedCode = `_${(input.failedComponentCode ?? "").toUpperCase()}_`;
+
   for (const [slug, codes] of Object.entries(COMPONENT_GROUPS)) {
-    if (codes.includes(input.failedComponentCode)) {
+    if (codes.some((code) => delimitedCode.includes(`_${code}_`))) {
       return slug;
     }
   }

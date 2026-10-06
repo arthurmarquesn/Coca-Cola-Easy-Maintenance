@@ -1,1 +1,5 @@
 *.joblib filter=lfs diff=lfs merge=lfs -text
+
+# Bytes exatos: o SHA-256 deste arquivo é verificado em ml/model_registry.py.
+# Foi travado com CRLF; qualquer conversão de fim de linha invalida o modelo v1.6.
+ml/reports/ursus_reranker_v16_locked_config.json -text

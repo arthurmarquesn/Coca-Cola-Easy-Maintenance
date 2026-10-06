@@ -6,7 +6,7 @@ Aplicação de manutenção industrial com Next.js, MySQL e um serviço Python d
 
 1. Instale as dependências JavaScript com `npm ci`.
 2. Copie `.env.example` para `.env.local` e configure a conexão MySQL. Gere `AUTH_SECRET` (mínimo de 32 caracteres) com `openssl rand -hex 32`.
-3. Para uma instalação nova, execute `database/schema.sql` no MySQL 8. O arquivo cria o banco `coca_cola_maintenance` e não cadastra nenhum usuário. Em bancos existentes, aplique as migrações pendentes em `database/migrations/`: o login exige a tabela `login_attempts` (`20261002_login_attempts.sql`) e `20261004_analytics_indexes.sql` cria os índices usados pelos gráficos.
+3. Execute `database/schema.sql` no MySQL 8. O arquivo consolida todas as migrações anteriores, cria o banco `coca_cola_maintenance` e não cadastra nenhum usuário. Ele é idempotente (`CREATE ... IF NOT EXISTS`): em um banco existente cria as tabelas que faltam, mas não altera colunas nem índices de tabelas já criadas. Para atualizar um banco antigo, use as migrações removidas do diretório, disponíveis no histórico do git (commit `c5ff0b4`, pasta `database/migrations/`). Para desenvolvimento local, `database/migrations/20261005_seed_test_users.sql` cria um Analista e um Gestor de teste com senhas conhecidas: não execute esse arquivo em produção.
 4. Configure um ambiente Python e instale `ml/requirements.txt`. Os modelos em `ml/models/` precisam estar disponíveis como arquivos reais, não apenas ponteiros do Git LFS.
 5. Execute `npm run dev` para iniciar Next.js e ML, ou `npm run dev:next` para iniciar apenas a aplicação web.
 
@@ -32,7 +32,7 @@ node --env-file=.env.local scripts/create-user.mjs "Nome" "email@empresa.com" "S
 npm test
 npm run lint
 npx tsc --noEmit
-python -m unittest discover -s ml/tests -v
+python -m pytest ml/tests   # requer pytest: pip install pytest
 npm run build
 ```
 

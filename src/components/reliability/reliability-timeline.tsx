@@ -956,20 +956,37 @@ export function ReliabilityTimeline({
      AGRUPAMENTO AUTOMÁTICO
   ======================================================= */
 
-  useEffect(
-    () => {
-      setGrouping(
-        recommendedGrouping(
-          startDate,
-          endDate,
-        ),
-      );
-    },
-    [
-      startDate,
-      endDate,
-    ],
-  );
+  /*
+   * Ajusta o agrupamento durante a renderização quando o
+   * período muda (padrão recomendado pelo React em vez de
+   * setState dentro de useEffect).
+   */
+  const periodKey =
+    `${startDate}|${endDate}`;
+
+  const [
+    groupingPeriodKey,
+    setGroupingPeriodKey,
+  ] =
+    useState(
+      periodKey,
+    );
+
+  if (
+    groupingPeriodKey !==
+    periodKey
+  ) {
+    setGroupingPeriodKey(
+      periodKey,
+    );
+
+    setGrouping(
+      recommendedGrouping(
+        startDate,
+        endDate,
+      ),
+    );
+  }
 
   /* =======================================================
      CARREGAMENTO

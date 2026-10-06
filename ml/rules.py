@@ -6,7 +6,7 @@ from dataclasses import asdict, dataclass
 from typing import Any, Mapping
 
 
-RULES_VERSION = "rules-v3.1"
+RULES_VERSION = "rules-v3.2"
 
 
 @dataclass(frozen=True)
@@ -132,6 +132,31 @@ def _contains(
         re.search(
             pattern,
             text,
+        )
+        is not None
+    )
+
+
+# Frases que negam a própria ocorrência ("NAO HOUVE FALHA DE
+# CORTE DE FILME"). As regras casam palavras-chave e emitiam o
+# modo negado com confiança 0,99. Só bloqueia negações da
+# ocorrência: "SEM ANTI ESTATICA" ou "NAO TINHA MAIS DESSA
+# ESTEIRA" descrevem a falha e continuam passando pelas regras.
+_NEGATED_OCCURRENCE = re.compile(
+    r"\b(?:NAO|NUNCA)\s+(?:HOUVE|HOUVERAM|TEVE|TIVEMOS|OCORREU|OCORRERAM"
+    r"|APRESENTOU|APRESENTA|FOI\s+(?:IDENTIFICAD|CONSTATAD|ENCONTRAD|OBSERVAD)\w*"
+    r"|(?:IDENTIFICAD|CONSTATAD|ENCONTRAD|OBSERVAD)\w*)\b"
+    r"|\bSEM\s+(?:FALHAS?|DEFEITOS?|PROBLEMAS?|SINAIS?|INDICIOS?|EVIDENCIAS?|OCORRENCIAS?)\b"
+    r"|\bNENHUM[A]?\s+(?:FALHA|DEFEITO|PROBLEMA|SINAL|INDICIO|EVIDENCIA|OCORRENCIA)\b"
+)
+
+
+def _has_negated_occurrence(
+    occurrence: str,
+) -> bool:
+    return (
+        _NEGATED_OCCURRENCE.search(
+            occurrence,
         )
         is not None
     )
@@ -336,6 +361,12 @@ def classify_by_rule(
     )
 
     if not occurrence:
+        return None
+
+    # Negação da ocorrência: decide o ML, com revisão humana.
+    if _has_negated_occurrence(
+        occurrence,
+    ):
         return None
 
     # ---------------------------------------------------------

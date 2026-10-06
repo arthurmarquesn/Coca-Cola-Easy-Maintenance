@@ -65,6 +65,8 @@ interface ModuleCardData {
   action: string;
   variant: "red" | "white" | "dark";
   icon: React.ReactNode;
+  section: "data" | "analysis";
+  badge?: string;
 }
 
 interface ProductIntroSlide {
@@ -146,6 +148,31 @@ function getFirstName(
     name
   );
 }
+
+function getInitials(
+  name: string,
+): string {
+  const parts =
+    name.trim().split(/\s+/).filter(Boolean);
+
+  const first =
+    parts[0]?.[0] ?? "";
+
+  const last =
+    parts.length > 1
+      ? parts[parts.length - 1][0]
+      : "";
+
+  return (
+    first + last
+  ).toUpperCase();
+}
+
+const WORKFLOW_STEPS = [
+  "Importar apontamentos",
+  "Revisar classificações",
+  "Analisar confiabilidade e causas",
+];
 
 /* =========================================================
    PRODUCT INTRO OVERLAY
@@ -475,8 +502,11 @@ function ModuleCard({
     <Link
       href={module.href}
       className={[
-        "module-card group relative flex min-h-[292px] overflow-hidden rounded-[30px] border p-7",
+        "module-card group relative flex overflow-hidden rounded-[22px] border p-7",
         "transition-[transform,opacity,box-shadow,border-color] duration-700 ease-[cubic-bezier(0.16,1,0.3,1)]",
+        isRed
+          ? "min-h-[306px]"
+          : "min-h-[238px]",
         ready
           ? "translate-y-0 opacity-100"
           : "translate-y-8 opacity-0",
@@ -523,54 +553,76 @@ function ModuleCard({
           <div className="absolute -right-24 -top-24 h-72 w-72 rounded-full bg-[#E41E2B]/20 blur-3xl transition-transform duration-1000 group-hover:scale-125" />
 
           <div className="absolute bottom-[-110px] right-[8%] h-52 w-52 rounded-full bg-white/[0.035] blur-3xl" />
-
-          <div className="absolute right-6 top-6 h-[5px] w-[5px] rounded-full bg-[#E41E2B] shadow-[0_0_18px_rgba(228,30,43,0.7)]" />
         </>
       )}
 
       <div className="relative flex w-full flex-col justify-between">
         <div>
-          <div className="flex items-start justify-between">
+          <div className="flex items-start justify-between gap-3">
             <div
               className={[
-                "flex h-12 w-12 items-center justify-center rounded-[15px]",
+                "flex h-11 w-11 items-center justify-center rounded-[13px]",
                 "transition-all duration-500 group-hover:-translate-y-1 group-hover:scale-[1.04]",
                 foreground
-                  ? "bg-white/[0.10] text-white"
+                  ? "bg-white/[0.12] text-white"
                   : "border border-black/[0.035] bg-[#F6F6F5] text-[#34393E]",
               ].join(" ")}
             >
               {module.icon}
             </div>
 
-            <ArrowRight
-              size={16}
-              strokeWidth={1.7}
-              className={[
-                "transition-all duration-300 group-hover:translate-x-1",
-                foreground
-                  ? "text-white/40 group-hover:text-white/90"
-                  : "text-[#ADB1B5] group-hover:text-[#24282C]",
-              ].join(" ")}
-            />
+            {isRed && module.badge && (
+              <span className="mt-2 rounded-full bg-white/[0.14] px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.08em] text-white/92">
+                {module.badge}
+              </span>
+            )}
+
+            {isDark && module.badge && (
+              <span className="mt-3 flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.08em] text-white/80">
+                <span className="h-[5px] w-[5px] rounded-full bg-[#E41E2B] shadow-[0_0_18px_rgba(228,30,43,0.7)]" />
+
+                {module.badge}
+              </span>
+            )}
           </div>
 
-          <h2
+          <div
             className={[
-              "mt-9 text-[27px] font-semibold leading-[1.05] tracking-[-0.052em]",
-              foreground
-                ? "text-white"
-                : "text-[#181B1F]",
+              "flex flex-wrap items-center gap-x-3 gap-y-2",
+              isRed
+                ? "mt-7"
+                : "mt-6",
             ].join(" ")}
           >
-            {module.title}
-          </h2>
+            <h3
+              className={[
+                "font-semibold leading-[1.05] tracking-[-0.04em]",
+                isRed
+                  ? "text-[30px] sm:text-[32px]"
+                  : "text-[22px]",
+                foreground
+                  ? "text-white"
+                  : "text-[#181B1F]",
+              ].join(" ")}
+            >
+              {module.title}
+            </h3>
+
+            {!foreground && module.badge && (
+              <span className="rounded-full border border-black/[0.08] bg-white px-2.5 py-1 text-[10px] font-medium text-[#5F656B]">
+                {module.badge}
+              </span>
+            )}
+          </div>
 
           <p
             className={[
-              "mt-4 max-w-[270px] text-[12px] leading-6",
+              "mt-3 text-[13px] leading-6",
+              isRed
+                ? "max-w-[420px]"
+                : "max-w-[320px]",
               foreground
-                ? "text-white/64"
+                ? "text-white/72"
                 : "text-[#7A8187]",
             ].join(" ")}
           >
@@ -578,43 +630,94 @@ function ModuleCard({
           </p>
         </div>
 
-        <div
-          className={[
-            "mt-9 flex items-center justify-between border-t pt-5",
-            foreground
-              ? "border-white/[0.11]"
-              : "border-black/[0.055]",
-          ].join(" ")}
-        >
-          <span
-            className={[
-              "text-[11px] font-semibold",
-              foreground
-                ? "text-white/92"
-                : "text-[#32373B]",
-            ].join(" ")}
-          >
-            {module.action}
-          </span>
+        {isRed ? (
+          <div className="mt-8 flex flex-col gap-3 rounded-[14px] border border-dashed border-white/35 p-4 sm:flex-row sm:items-center sm:justify-between">
+            <span className="text-[12px] text-white/80">
+              Arraste a planilha aqui ou selecione um arquivo
+            </span>
 
+            <span className="flex h-10 shrink-0 items-center justify-center gap-2 self-start rounded-full bg-white px-5 text-[12px] font-semibold text-[#E41E2B] transition-transform duration-300 group-hover:translate-x-1 sm:self-auto">
+              {module.action}
+
+              <ArrowRight
+                size={13}
+                strokeWidth={2}
+              />
+            </span>
+          </div>
+        ) : (
           <div
             className={[
-              "flex h-8 w-8 items-center justify-center rounded-full transition-all duration-300 group-hover:translate-x-1",
-              isRed
-                ? "bg-white text-[#E41E2B]"
-                : isDark
-                  ? "bg-white text-[#191C1F]"
-                  : "bg-[#F2F2F1] text-[#676D73] group-hover:bg-[#191C1F] group-hover:text-white",
+              "mt-8 flex items-center justify-between border-t pt-4",
+              foreground
+                ? "border-white/[0.11]"
+                : "border-black/[0.055]",
             ].join(" ")}
           >
+            <span
+              className={[
+                "text-[12px] font-semibold",
+                foreground
+                  ? "text-white/92"
+                  : "text-[#32373B]",
+              ].join(" ")}
+            >
+              {module.action}
+            </span>
+
             <ArrowRight
-              size={13}
-              strokeWidth={2}
+              size={15}
+              strokeWidth={1.9}
+              className={[
+                "transition-all duration-300 group-hover:translate-x-1",
+                foreground
+                  ? "text-white/80 group-hover:text-white"
+                  : "text-[#32373B] group-hover:text-[#E41E2B]",
+              ].join(" ")}
             />
           </div>
-        </div>
+        )}
       </div>
     </Link>
+  );
+}
+
+/* =========================================================
+   SECTION HEADER
+========================================================= */
+
+function SectionHeader({
+  title,
+  caption,
+  ready,
+  delay,
+}: {
+  title: string;
+  caption: string;
+  ready: boolean;
+  delay: number;
+}) {
+  return (
+    <div
+      className={[
+        "flex items-end justify-between gap-4 border-b border-black/[0.06] pb-3",
+        "transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)]",
+        ready
+          ? "translate-y-0 opacity-100"
+          : "translate-y-4 opacity-0",
+      ].join(" ")}
+      style={{
+        transitionDelay: `${delay}ms`,
+      }}
+    >
+      <h2 className="text-[19px] font-semibold tracking-[-0.03em] text-[#171A1D]">
+        {title}
+      </h2>
+
+      <p className="hidden text-[12px] text-[#7A8187] sm:block">
+        {caption}
+      </p>
+    </div>
   );
 }
 
@@ -700,6 +803,8 @@ export function DashboardHome({
             "Adicione uma nova planilha de manutenção ao histórico das unidades.",
           action: "Importar planilha",
           variant: "red",
+          section: "data",
+          badge: "Ação principal",
           icon: (
             <FileSpreadsheet
               size={20}
@@ -715,6 +820,7 @@ export function DashboardHome({
             "Consulte falhas, ocorrências e paradas registradas na manutenção.",
           action: "Consultar",
           variant: "white",
+          section: "data",
           icon: (
             <History
               size={20}
@@ -730,6 +836,7 @@ export function DashboardHome({
             "Identifique concentração de perdas, recorrência e impacto das falhas.",
           action: "Analisar",
           variant: "white",
+          section: "analysis",
           icon: (
             <Activity
               size={20}
@@ -745,6 +852,8 @@ export function DashboardHome({
             "Investigue problemas, valide causas e acompanhe ações com dados locais.",
           action: "Abrir análises",
           variant: "white",
+          section: "analysis",
+          badge: "Análise de causa",
           icon: (
             <Waypoints
               size={20}
@@ -759,6 +868,7 @@ export function DashboardHome({
           description: "Consulte e revise as sugest\u00f5es de classifica\u00e7\u00e3o das ocorr\u00eancias.",
           action: "Abrir revis\u00e3o",
           variant: "white",
+          section: "data",
           icon: <ClipboardCheck size={20} strokeWidth={1.7} />,
         },
         {
@@ -768,6 +878,8 @@ export function DashboardHome({
             "Acompanhe a assertividade, versões e evolução do modelo de machine learning.",
           action: "Abrir modelo",
           variant: "dark",
+          section: "analysis",
+          badge: "Machine learning",
           icon: (
             <PawPrint
               size={20}
@@ -824,8 +936,33 @@ export function DashboardHome({
     setShowEntryIntro(false);
   }
 
+  const visibleModules =
+    modules.filter(
+      (module) =>
+        isAnalyst ||
+        module.href !== "/dashboard/importar",
+    );
+
+  const dataModules =
+    visibleModules.filter(
+      (module) =>
+        module.section === "data",
+    );
+
+  const analysisModules =
+    visibleModules.filter(
+      (module) =>
+        module.section === "analysis",
+    );
+
+  const hasFeatured =
+    dataModules.some(
+      (module) =>
+        module.variant === "red",
+    );
+
   return (
-    <main className="relative min-h-screen overflow-hidden bg-[#F7F7F6]">
+    <main className="relative flex min-h-screen flex-col overflow-hidden bg-[#F7F7F6]">
       {introDecisionMade &&
         showEntryIntro && (
           <ProductEntryIntro
@@ -836,29 +973,35 @@ export function DashboardHome({
       <CocaBackground />
 
       <header className="relative z-40 border-b border-black/[0.045] bg-white/[0.88] shadow-[0_1px_0_rgba(0,0,0,0.01)] backdrop-blur-xl">
-        <div className="mx-auto flex min-h-[72px] w-full max-w-[1320px] items-center justify-between gap-4 px-6 py-2 sm:px-8 lg:px-10">
-          <Image
-            src="/logo.webp"
-            alt="Coca-Cola FEMSA"
-            width={180}
-            height={64}
-            priority
-            className="h-auto max-h-[40px] w-auto object-contain transition-transform duration-500 hover:scale-[1.025]"
-          />
+        <div className="mx-auto flex min-h-[72px] w-full max-w-[1320px] flex-wrap items-center justify-between gap-x-4 gap-y-2 px-4 py-3 sm:flex-nowrap sm:px-8 sm:py-2 lg:px-10">
+          <div className="flex shrink-0 items-center gap-3">
+            <Image
+              src="/logo.webp"
+              alt="Coca-Cola FEMSA"
+              width={180}
+              height={64}
+              priority
+              className="h-auto max-h-[32px] w-auto shrink-0 object-contain transition-transform duration-500 hover:scale-[1.025] sm:max-h-[40px]"
+            />
 
-          <div className="flex items-center gap-1.5 sm:gap-2.5">
+            <div className="hidden h-7 w-px bg-black/[0.08] sm:block" />
+
+            <span className="hidden truncate text-[13px] text-[#5F656B] sm:inline">
+              Manutenção Industrial
+            </span>
+          </div>
+
+          <div className="ml-auto flex items-center gap-1.5 sm:gap-2.5">
             <UnitFilter
               fallbackLabel={
                 unit.city
               }
             />
 
-            <div className="mx-1 hidden h-7 w-px bg-black/[0.06] lg:block" />
-
             {isAnalyst && (
             <Link
               href="/dashboard/usuarios"
-              className="group flex h-9 items-center gap-2 rounded-[11px] px-2.5 text-[11px] font-medium text-[#676D73] transition-all duration-200 hover:bg-[#F2F2F1] hover:text-[#23272B]"
+              className="group flex h-9 items-center gap-2 rounded-[11px] px-2.5 text-[13px] font-medium text-[#3C4146] transition-all duration-200 hover:bg-[#F2F2F1] hover:text-[#23272B]"
             >
               <Users
                 size={15}
@@ -866,31 +1009,31 @@ export function DashboardHome({
                 className="transition-transform duration-300 group-hover:scale-[1.07]"
               />
 
-              <span className="hidden xl:inline">
+              <span className="hidden lg:inline">
                 Usuários
               </span>
             </Link>
             )}
 
-            <div className="mx-1 hidden h-7 w-px bg-black/[0.06] md:block" />
+            <div className="mx-1 hidden h-8 w-px bg-black/[0.06] md:block" />
 
-            <div className="hidden min-w-0 text-right md:block">
-              <p className="max-w-[145px] truncate text-[11px] font-semibold text-[#292D31]">
-                {user.name}
-              </p>
+            <div className="hidden min-w-0 items-center gap-2.5 md:flex">
+              <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#191C1F] text-[11px] font-semibold text-white">
+                {getInitials(user.name)}
+              </div>
 
-              <p className="mt-[1px] text-[9px] text-[#A1A5AA]">
-                {unit.city || "Unidade"}
-              </p>
+              <div className="min-w-0">
+                <p className="max-w-[160px] truncate text-[13px] font-semibold text-[#292D31]">
+                  {user.name}
+                </p>
+
+                <p className="mt-[1px] text-[11px] text-[#A1A5AA]">
+                  {unit.city || "Unidade"}
+                </p>
+              </div>
             </div>
 
-            <div className="hidden h-8 w-px bg-border-theme sm:block" />
-
             <ThemeSwitcher />
-
-
-            <div className="h-8 w-px bg-border-theme" />
-
 
             <button
               type="button"
@@ -898,7 +1041,7 @@ export function DashboardHome({
                 void handleLogout()
               }
               disabled={loggingOut}
-              className="group flex h-9 items-center gap-2 rounded-[11px] px-2.5 text-[11px] font-medium text-[#777D83] transition-all duration-200 hover:bg-[#FFF1F2] hover:text-[#E41E2B] disabled:cursor-not-allowed disabled:opacity-40"
+              className="group flex h-10 items-center gap-2 rounded-[12px] border border-black/[0.08] bg-white px-3.5 text-[13px] font-medium text-[#3C4146] transition-all duration-200 hover:border-[#E41E2B]/30 hover:bg-[#FFF1F2] hover:text-[#E41E2B] disabled:cursor-not-allowed disabled:opacity-40"
             >
               <LogOut
                 size={15}
@@ -906,7 +1049,7 @@ export function DashboardHome({
                 className="transition-transform duration-300 group-hover:translate-x-[2px]"
               />
 
-              <span className="hidden sm:inline">
+              <span className="hidden text-[13px] sm:inline">
                 {loggingOut
                   ? "Saindo..."
                   : "Sair"}
@@ -916,17 +1059,25 @@ export function DashboardHome({
         </div>
       </header>
 
-      <div className="relative z-10 mx-auto w-full max-w-[1320px] px-6 pb-14 pt-11 sm:px-8 lg:px-10 lg:pt-14">
+      <div className="relative z-10 mx-auto w-full max-w-[1320px] flex-1 px-6 pb-16 pt-11 sm:px-8 lg:px-16 lg:pt-14">
         <section
           className={[
-            "relative transition-all duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)]",
+            "relative flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between",
+            "transition-all duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)]",
             ready
               ? "translate-y-0 opacity-100"
               : "translate-y-5 opacity-0",
           ].join(" ")}
         >
-          <div className="max-w-[770px]">
-            <h1 className="text-[42px] font-semibold leading-[0.98] tracking-[-0.065em] text-[#171A1D] sm:text-[52px] lg:text-[60px]">
+          <div className="max-w-[660px]">
+            <p className="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.1em] text-[#5F656B]">
+              <span className="h-[6px] w-[6px] rounded-full bg-[#E41E2B]" />
+
+              Olá, {firstName}
+              {unit.city && ` · Unidade ${unit.city}`}
+            </p>
+
+            <h1 className="mt-4 text-[42px] font-semibold leading-[0.98] tracking-[-0.065em] text-[#171A1D] sm:text-[52px] lg:text-[60px]">
               Manutenção orientada
               <br />
               por dados
@@ -935,15 +1086,93 @@ export function DashboardHome({
               </span>
             </h1>
 
-            <p className="mt-5 max-w-[600px] text-[13px] leading-6 text-[#777E85]">
-              Olá, {firstName}. Importe novos apontamentos, consulte o histórico ou analise a confiabilidade das unidades selecionadas.
+            <p className="mt-6 max-w-[620px] text-[15px] leading-7 text-[#777E85]">
+              Importe novos apontamentos, consulte o histórico ou analise a confiabilidade das unidades selecionadas.
             </p>
+          </div>
+
+          <div className="w-full rounded-[18px] border border-black/[0.06] bg-white/[0.88] p-5 shadow-[0_14px_40px_rgba(18,20,22,0.035)] backdrop-blur-md lg:w-[340px]">
+            <p className="text-[10px] font-semibold uppercase tracking-[0.1em] text-[#5F656B]">
+              Fluxo de trabalho
+            </p>
+
+            <ol className="mt-3 space-y-3">
+              {WORKFLOW_STEPS.map(
+                (step, stepIndex) => (
+                  <li
+                    key={step}
+                    className="flex items-center gap-3 text-[13px] text-[#23272B]"
+                  >
+                    <span
+                      className={[
+                        "flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-[11px] font-semibold text-white",
+                        stepIndex === 0
+                          ? "bg-[#E41E2B]"
+                          : "bg-[#191C1F]",
+                      ].join(" ")}
+                    >
+                      {stepIndex + 1}
+                    </span>
+
+                    {step}
+                  </li>
+                ),
+              )}
+            </ol>
           </div>
         </section>
 
-        <section className="mt-11">
-          <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-5">
-            {modules.filter((module) => isAnalyst || module.href !== "/dashboard/importar").map(
+        <section className="mt-12">
+          <SectionHeader
+            title="Dados de manutenção"
+            caption="Entrada, consulta e curadoria"
+            ready={ready}
+            delay={60}
+          />
+
+          <div
+            className={[
+              "mt-4 grid gap-4 md:grid-cols-2",
+              hasFeatured
+                ? "xl:grid-cols-[2fr_1fr_1fr]"
+                : "",
+            ].join(" ")}
+          >
+            {dataModules.map(
+              (
+                module,
+                index,
+              ) => (
+                <div
+                  key={module.href}
+                  className={[
+                    "grid",
+                    module.variant === "red"
+                      ? "md:col-span-2 xl:col-span-1"
+                      : "",
+                  ].join(" ")}
+                >
+                  <ModuleCard
+                    module={module}
+                    index={index}
+                    ready={ready}
+                  />
+                </div>
+              ),
+            )}
+          </div>
+        </section>
+
+        <section className="mt-12">
+          <SectionHeader
+            title="Análise e inteligência"
+            caption="Perdas, causas e modelo preditivo"
+            ready={ready}
+            delay={260}
+          />
+
+          <div className="mt-4 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+            {analysisModules.map(
               (
                 module,
                 index,
@@ -951,36 +1180,39 @@ export function DashboardHome({
                 <ModuleCard
                   key={module.href}
                   module={module}
-                  index={index}
+                  index={dataModules.length + index}
                   ready={ready}
                 />
               ),
             )}
           </div>
         </section>
+      </div>
 
-        <footer
-          className={[
-            "mt-7 flex items-center justify-between border-t border-black/[0.045] pt-4",
-            "transition-all delay-500 duration-700",
-            ready
-              ? "translate-y-0 opacity-100"
-              : "translate-y-2 opacity-0",
-          ].join(" ")}
-        >
-          <p className="text-[8px] uppercase tracking-[0.14em] text-[#A5A9AD]">
+      <footer
+        className={[
+          "relative z-10 border-t border-black/[0.045] bg-[#F7F7F6]/80",
+          "transition-all delay-500 duration-700",
+          ready
+            ? "translate-y-0 opacity-100"
+            : "translate-y-2 opacity-0",
+        ].join(" ")}
+      >
+        <div className="mx-auto flex w-full max-w-[1320px] items-center justify-between px-6 py-5 sm:px-8 lg:px-10">
+          <p className="text-[11px] uppercase tracking-[0.14em] text-[#5F656B]">
             Coca-Cola FEMSA
           </p>
 
           <div className="flex items-center gap-2">
-            <span className="h-[4px] w-[4px] rounded-full bg-[#E41E2B]" />
+            <span className="h-[5px] w-[5px] rounded-full bg-[#E41E2B]" />
 
-            <span className="text-[8px] uppercase tracking-[0.14em] text-[#A5A9AD]">
+            <span className="text-[11px] uppercase tracking-[0.14em] text-[#5F656B]">
               Manutenção industrial
             </span>
           </div>
-        </footer>
-      </div>
+        </div>
+      </footer>
+
 
       <style>
         {`

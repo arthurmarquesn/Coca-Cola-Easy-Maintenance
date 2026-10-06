@@ -8,7 +8,6 @@ import {
 } from "lucide-react";
 
 import {
-  useEffect,
   useMemo,
   useState,
 } from "react";
@@ -346,18 +345,39 @@ export function JackKnifeDetailTable({
         visibleItems.length,
     );
 
-  useEffect(
-    () => {
-      setPage(
-        0,
-      );
-    },
-    [
+  /*
+   * Volta para a primeira página quando a busca, a categoria
+   * ou os dados mudam. Ajuste feito durante a renderização
+   * (padrão recomendado pelo React em vez de useEffect).
+   */
+  const [
+    pageResetDeps,
+    setPageResetDeps,
+  ] =
+    useState({
       search,
       category,
       items,
-    ],
-  );
+    });
+
+  if (
+    pageResetDeps.search !==
+      search ||
+    pageResetDeps.category !==
+      category ||
+    pageResetDeps.items !==
+      items
+  ) {
+    setPageResetDeps({
+      search,
+      category,
+      items,
+    });
+
+    setPage(
+      0,
+    );
+  }
 
   const criticalChronicCount =
     items.filter(

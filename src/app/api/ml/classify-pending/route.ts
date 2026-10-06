@@ -5,6 +5,7 @@ import {
 } from "next/server";
 
 import type {
+  ResultSetHeader,
   RowDataPacket,
 } from "mysql2";
 
@@ -18,7 +19,7 @@ import {
 
 import {
   getMlHealth,
-  predictFailure,
+  predictFailuresBatch,
 } from "@/lib/ml/client";
 
 import {
@@ -48,6 +49,9 @@ interface MaintenanceEventRow
     string | null;
 
   source_stop_type:
+    string | null;
+
+  source_line_name:
     string | null;
 }
 
@@ -164,7 +168,8 @@ export async function POST(
               me.source_equipment_name,
               me.source_stop_key_1,
               me.source_stop_subkey,
-              me.source_stop_type
+              me.source_stop_type,
+              me.source_line_name
           FROM maintenance_events me
 
           WHERE
@@ -212,7 +217,16 @@ export async function POST(
         ],
       );
 
-    let processed = 0;
+    /*
+     * Mesmo contrato de gravação de lib/ml/classify-import:
+     * metadados da decisão (fonte, margem, status de
+     * automação) e a origem da falha. Antes esta rota gravava
+     * só componente/modo, e os eventos ficavam sem origem
+     * (Operação x Manutenção) para sempre, pois não voltam a
+     * ser selecionados depois de receber a sugestão.
+     */
+    const processed =
+      rows.length;
 
     let inserted = 0;
 
@@ -223,35 +237,42 @@ export async function POST(
       error: string;
     }> = [];
 
-    for (
-      const event
-      of rows
-    ) {
-      processed += 1;
-
+    if (rows.length > 0) {
       try {
-        const prediction =
-          await predictFailure({
-            observation:
-              event.observation ?? "",
+        const predictions =
+          await predictFailuresBatch(
+            rows.map(
+              (event) => ({
+                eventId:
+                  event.id,
 
-            equipment:
-              event.source_equipment_name,
+                observation:
+                  event.observation ?? "",
 
-            stopKey1:
-              event.source_stop_key_1,
+                equipment:
+                  event.source_equipment_name,
 
-            stopSubkey:
-              event.source_stop_subkey,
+                stopKey1:
+                  event.source_stop_key_1,
 
-            stopType:
-              event.source_stop_type,
-          });
+                stopSubkey:
+                  event.source_stop_subkey,
+
+                stopType:
+                  event.source_stop_type,
+
+                line:
+                  event.source_line_name,
+              }),
+            ),
+          );
+
+        await connection.beginTransaction();
 
         const [
-          result,
+          suggestionResult,
         ] =
-          await connection.execute(
+          await connection.query<ResultSetHeader>(
             `
               INSERT IGNORE INTO
                   classification_suggestions
@@ -263,60 +284,97 @@ export async function POST(
                   failure_mode,
                   confidence,
                   top_predictions,
+                  decision_source,
+                  decision_margin,
+                  automation_threshold,
+                  automation_status,
+                  confidence_type,
                   status
               )
               VALUES
-              (
-                  ?,
-                  'ML',
-                  ?,
-                  ?,
-                  ?,
-                  ?,
-                  ?,
-                  'PENDENTE_REVISAO'
-              )
+                  ${predictions
+                    .map(() => "(?, 'ML', ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'PENDENTE_REVISAO')")
+                    .join(", ")}
             `,
-            [
-              event.id,
-
-              prediction.modelVersion,
-
-              prediction.failedComponentCode,
-
-              prediction.failureMode,
-
-              prediction.confidence,
-
-              JSON.stringify(
-                prediction.topPredictions,
-              ),
-            ],
+            predictions.flatMap(
+              (prediction) => [
+                prediction.eventId,
+                prediction.modelVersion,
+                prediction.failedComponentCode,
+                prediction.failureMode,
+                prediction.confidence,
+                JSON.stringify(
+                  prediction.topPredictions,
+                ),
+                prediction.decisionSource,
+                prediction.decisionMargin,
+                prediction.automationThreshold,
+                prediction.automationStatus,
+                prediction.confidenceType,
+              ],
+            ),
           );
 
-        const mysqlResult =
-          result as {
-            affectedRows?: number;
-          };
+        await connection.query<ResultSetHeader>(
+          `
+            INSERT INTO
+                event_failure_origin_predictions
+            (
+                event_id,
+                failure_origin,
+                confidence,
+                confidence_level,
+                model_version
+            )
+            VALUES
+                ${predictions
+                  .map(() => "(?, ?, ?, ?, ?)")
+                  .join(", ")}
+            ON DUPLICATE KEY UPDATE
+                failure_origin =
+                    VALUES(failure_origin),
+                confidence =
+                    VALUES(confidence),
+                confidence_level =
+                    VALUES(confidence_level)
+          `,
+          predictions.flatMap(
+            (prediction) => [
+              prediction.eventId,
+              prediction.failureOrigin,
+              prediction.failureOriginConfidence,
+              prediction.failureOriginConfidenceLevel,
+              prediction.failureOriginModelVersion,
+            ],
+          ),
+        );
 
-        if (
-          mysqlResult.affectedRows === 1
-        ) {
-          inserted += 1;
-        }
+        await connection.commit();
+
+        inserted =
+          suggestionResult.affectedRows;
       } catch (error) {
-        failed += 1;
+        try {
+          await connection.rollback();
+        } catch {
+          // A transação pode não ter sido aberta.
+        }
 
-        failures.push({
-          eventId:
-            event.id,
+        failed =
+          rows.length;
 
-          error:
-            "Não foi possível classificar o evento.",
-        });
+        for (const event of rows) {
+          failures.push({
+            eventId:
+              event.id,
+
+            error:
+              "Não foi possível classificar o evento.",
+          });
+        }
 
         console.error(
-          `Erro ao classificar evento ${event.id}:`,
+          "Erro ao classificar eventos pendentes:",
           error,
         );
       }

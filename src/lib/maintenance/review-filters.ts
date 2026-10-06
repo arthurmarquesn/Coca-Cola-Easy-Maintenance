@@ -80,6 +80,11 @@ export function parseReviewFilters(
           AND official.status IN ('APROVADA', 'CORRIGIDA')
       )
     )`,
+    /* Sugestão substituída por reclassificação (troca de
+       modelo) também vira DESCARTADA, mas sem revisor. Não é
+       revisão humana: fora da fila e dos totais, senão conta
+       como "validada" e como "rejeitada". */
+    "NOT (cs.status = 'DESCARTADA' AND cs.reviewed_by_user_id IS NULL)",
   ];
 
   const values: unknown[] = [...validUnitIds];

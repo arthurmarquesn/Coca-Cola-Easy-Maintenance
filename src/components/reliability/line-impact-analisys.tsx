@@ -6,7 +6,6 @@ import {
   Factory,
   Gauge,
   LoaderCircle,
-  Wrench,
 } from "lucide-react";
 
 import {

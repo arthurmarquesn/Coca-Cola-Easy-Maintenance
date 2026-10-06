@@ -25,6 +25,7 @@ import {
 import {
   FAILURE_ORIGIN_JOINS,
   containsLikePattern,
+  isDateValue as isCalendarDate,
 } from "@/lib/analytics/sql";
 
 
@@ -297,11 +298,9 @@ function isDateValue(
     | string
     | null,
 ): value is string {
-  return Boolean(
-    value &&
-      /^\d{4}-\d{2}-\d{2}$/.test(
-        value,
-      ),
+  /* Formato e data real: 2026-02-31 é recusado. */
+  return isCalendarDate(
+    value,
   );
 }
 
