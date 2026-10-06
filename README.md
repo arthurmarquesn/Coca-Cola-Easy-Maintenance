@@ -36,6 +36,10 @@ python -m pytest ml/tests   # requer pytest: pip install pytest
 npm run build
 ```
 
-O build exige as variáveis de banco e autenticação configuradas e acesso ao download da fonte Inter. Para executar em produção, use `npm start` após o build e mantenha MySQL e o serviço ML acessíveis.
+O build exige as variáveis de banco e autenticação configuradas e acesso ao download da fonte Inter. O build gera `.next/standalone` (`output: "standalone"`): fora dos contêineres, rode `node .next/standalone/server.js` após copiar `public` e `.next/static` para dentro dele, conforme a documentação do Next.js. Em produção, use os contêineres descritos abaixo.
+
+## Produção
+
+O deploy do piloto (Oracle Cloud Always Free, São Paulo) usa Docker Compose com Caddy (HTTPS), o site em modo `standalone` e o serviço ML numa rede interna protegida por `ML_SERVICE_TOKEN`. O banco é o MySQL HeatWave, acessado com TLS (`DB_SSL`, `DB_SSL_CA`, `DB_SSL_VERIFY_HOSTNAME`). O passo a passo completo, com banco, backup criptografado, segurança e verificação, está em [deploy/DEPLOY.md](deploy/DEPLOY.md).
 
 A revisão de código e os limites das verificações desta rodada estão em [AUDIT.md](AUDIT.md).

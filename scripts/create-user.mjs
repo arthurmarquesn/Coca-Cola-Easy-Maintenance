@@ -1,3 +1,5 @@
+import { readFileSync } from "node:fs";
+
 import bcrypt from "bcryptjs";
 import mysql from "mysql2/promise";
 
@@ -90,7 +92,25 @@ const {
   DB_USER,
   DB_PASSWORD,
   DB_NAME,
+  DB_SSL,
+  DB_SSL_CA,
+  DB_SSL_VERIFY_HOSTNAME,
 } = process.env;
+
+/* Mesma regra de src/lib/db-ssl.ts: a cadeia é sempre
+   validada; DB_SSL_VERIFY_HOSTNAME=false dispensa só o nome. */
+const ssl =
+  DB_SSL?.trim().toLowerCase() === "true"
+    ? {
+        rejectUnauthorized: true,
+        minVersion: "TLSv1.2",
+        verifyIdentity:
+          DB_SSL_VERIFY_HOSTNAME?.trim().toLowerCase() !== "false",
+        ...(DB_SSL_CA?.trim()
+          ? { ca: readFileSync(DB_SSL_CA.trim(), "utf8") }
+          : {}),
+      }
+    : undefined;
 
 if (
   !DB_HOST ||
@@ -98,7 +118,7 @@ if (
   !DB_NAME
 ) {
   console.error(
-    "Variáveis de banco não configuradas no .env.local.",
+    "Variáveis de banco não configuradas (DB_HOST, DB_USER, DB_NAME).",
   );
 
   process.exit(1);
@@ -130,6 +150,8 @@ try {
 
       database:
         DB_NAME,
+
+      ...(ssl ? { ssl } : {}),
     });
 
   await connection.beginTransaction();

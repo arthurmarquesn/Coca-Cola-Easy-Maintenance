@@ -9,12 +9,17 @@ import type {
   RowDataPacket,
 } from "mysql2/promise";
 
+import { buildSslOptions } from "@/lib/db-ssl";
+
 const {
   DB_HOST,
   DB_PORT,
   DB_USER,
   DB_PASSWORD,
   DB_NAME,
+  DB_SSL,
+  DB_SSL_CA,
+  DB_SSL_VERIFY_HOSTNAME,
 } = process.env;
 
 /* =========================================================
@@ -38,6 +43,13 @@ if (!DB_NAME) {
     "A variável de ambiente DB_NAME não foi definida.",
   );
 }
+
+/* TLS do banco: ver src/lib/db-ssl.ts. */
+const sslOptions = buildSslOptions({
+  DB_SSL,
+  DB_SSL_CA,
+  DB_SSL_VERIFY_HOSTNAME,
+});
 
 /* =========================================================
    GLOBAL
@@ -63,6 +75,8 @@ function createPool(): Pool {
     password: DB_PASSWORD ?? "",
 
     database: DB_NAME,
+
+    ...(sslOptions ? { ssl: sslOptions } : {}),
 
     waitForConnections: true,
 

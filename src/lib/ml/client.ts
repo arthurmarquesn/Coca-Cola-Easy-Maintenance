@@ -367,6 +367,27 @@ string {
   );
 }
 
+/*
+ * Token compartilhado com o FastAPI (ml/api/app.py). Em
+ * produção o serviço recusa /predict e /predict-batch sem
+ * ele; /health continua aberto para o healthcheck.
+ */
+function getMlHeaders(
+  headers: Record<string, string> = {},
+): Record<string, string> {
+  const token =
+    process.env
+      .ML_SERVICE_TOKEN
+      ?.trim();
+
+  return token
+    ? {
+        ...headers,
+        "X-ML-Token": token,
+      }
+    : headers;
+}
+
 /* =========================================================
    HELPERS
 ========================================================= */
@@ -882,6 +903,9 @@ Promise<MlHealth> {
       await fetch(
         `${getMlServiceUrl()}/health`,
         {
+          headers:
+            getMlHeaders(),
+
           signal: AbortSignal.timeout(5_000),
           cache:
             "no-store",
@@ -1094,10 +1118,11 @@ export async function predictFailure(
         method:
           "POST",
 
-        headers: {
-          "Content-Type":
-            "application/json",
-        },
+        headers:
+          getMlHeaders({
+            "Content-Type":
+              "application/json",
+          }),
 
         body:
           JSON.stringify({
@@ -1183,10 +1208,11 @@ export async function predictFailuresBatch(
         method:
           "POST",
 
-        headers: {
-          "Content-Type":
-            "application/json",
-        },
+        headers:
+          getMlHeaders({
+            "Content-Type":
+              "application/json",
+          }),
 
         body:
           JSON.stringify({

@@ -1,0 +1,92 @@
+# Produção: Caddy (HTTPS) -> web (Next.js) -> ml (FastAPI).
+#
+#   docker compose --env-file .env.production -f docker-compose.prod.yml up -d --build
+#
+# Só o Caddy publica portas (80/443). web e ml ficam na rede
+# interna; o banco (MySQL HeatWave) fica na sub-rede privada da
+# Oracle e é acessado com TLS. Passo a passo em deploy/DEPLOY.md.
+
+x-logging: &logging
+  driver: json-file
+  options:
+    max-size: "10m"
+    max-file: "5"
+
+services:
+  caddy:
+    image: caddy:2
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    environment:
+      DOMAIN: ${DOMAIN:?defina DOMAIN no .env.production}
+      ACME_EMAIL: ${ACME_EMAIL:?defina ACME_EMAIL no .env.production}
+    volumes:
+      - ./deploy/Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      web:
+        condition: service_healthy
+    networks:
+      - edge
+    logging: *logging
+
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    env_file:
+      - .env.production
+    environment:
+      NODE_ENV: production
+      ML_SERVICE_URL: http://ml:8001
+    volumes:
+      # CA do MySQL HeatWave (DB_SSL_CA=/run/secrets/db-ca.pem).
+      - ./deploy/secrets/db-ca.pem:/run/secrets/db-ca.pem:ro
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:3000/api/health/database').then((r)=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
+      interval: 30s
+      timeout: 5s
+      start_period: 40s
+      retries: 3
+    depends_on:
+      ml:
+        condition: service_healthy
+    networks:
+      - edge
+      - internal
+    logging: *logging
+
+  ml:
+    build:
+      context: .
+      dockerfile: ml/Dockerfile
+    restart: unless-stopped
+    # Só o necessário: o ML não recebe credenciais do banco.
+    environment:
+      ML_SERVICE_TOKEN: ${ML_SERVICE_TOKEN:?defina ML_SERVICE_TOKEN no .env.production}
+      URSUS_MODEL_VERSION: ${URSUS_MODEL_VERSION:-v1.6}
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request,sys; sys.exit(0 if urllib.request.urlopen('http://127.0.0.1:8001/health', timeout=4).status == 200 else 1)"]
+      interval: 30s
+      timeout: 5s
+      # Os modelos levam alguns segundos para carregar.
+      start_period: 120s
+      retries: 3
+    networks:
+      - internal
+    logging: *logging
+
+networks:
+  edge:
+  internal:
+    # Sem rota para a internet: o ML só conversa com o web.
+    internal: true
+
+volumes:
+  caddy_data:
+  caddy_config:

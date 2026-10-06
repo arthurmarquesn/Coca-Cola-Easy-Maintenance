@@ -5,13 +5,15 @@ from __future__ import annotations
 from contextlib import asynccontextmanager
 from pathlib import Path
 from typing import Any, Literal
+import hmac
 import logging
+import os
 import re
 import unicodedata
 
 import joblib
 import numpy as np
-from fastapi import FastAPI, HTTPException
+from fastapi import Depends, FastAPI, Header, HTTPException
 from pydantic import BaseModel, Field
 
 from ml.rules import RULES_VERSION, classify_by_rule
@@ -827,11 +829,63 @@ def configure_runtime_logging() -> None:
     )
 
 
+ML_SERVICE_TOKEN_ENV = "ML_SERVICE_TOKEN"
+
+
+def require_service_token(
+    x_ml_token: str | None = Header(
+        default=None,
+        alias="X-ML-Token",
+    ),
+) -> None:
+    # Defesa em profundidade: o serviço só fica na rede interna
+    # do Compose, mas mesmo assim exige o token compartilhado
+    # com o Next.js. Sem ML_SERVICE_TOKEN (desenvolvimento
+    # local), a verificação fica desligada.
+    expected = os.environ.get(
+        ML_SERVICE_TOKEN_ENV,
+        "",
+    ).strip()
+
+    if not expected:
+        return
+
+    if (
+        x_ml_token is None
+        or
+        not hmac.compare_digest(
+            x_ml_token.encode("utf-8"),
+            expected.encode("utf-8"),
+        )
+    ):
+        raise HTTPException(
+            status_code=401,
+            detail=(
+                "Token do serviço de "
+                "classificação ausente "
+                "ou inválido."
+            ),
+        )
+
+
 @asynccontextmanager
 async def lifespan(
     _app: FastAPI,
 ):
     configure_runtime_logging()
+
+    if not os.environ.get(
+        ML_SERVICE_TOKEN_ENV,
+        "",
+    ).strip():
+        logger.warning(
+            "%s não definido: /predict e "
+            "/predict-batch aceitam requisições "
+            "sem token. Use apenas em "
+            "desenvolvimento.",
+            ML_SERVICE_TOKEN_ENV,
+        )
+
     load_model()
     load_origin_model()
 
@@ -1839,6 +1893,11 @@ def health():
 
 @app.post(
     "/predict",
+    dependencies=[
+        Depends(
+            require_service_token
+        )
+    ],
     response_model=
         PredictionResponse,
 )
@@ -1855,6 +1914,11 @@ def predict(
 
 @app.post(
     "/predict-batch",
+    dependencies=[
+        Depends(
+            require_service_token
+        )
+    ],
     response_model=
         BatchPredictionResponse,
 )

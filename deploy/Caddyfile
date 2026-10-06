@@ -1,0 +1,28 @@
+# HTTPS automático (Let's Encrypt). DOMAIN e ACME_EMAIL vêm do
+# .env.production pelo docker-compose.prod.yml. O Caddy redireciona
+# http:// para https:// sozinho.
+{
+	email {$ACME_EMAIL}
+}
+
+{$DOMAIN} {
+	encode zstd gzip
+
+	# Planilha de até 50 MB (src/lib/imports/limits.ts) + folga
+	# do multipart.
+	request_body {
+		max_size 60MB
+	}
+
+	reverse_proxy web:3000 {
+		# Sobrescreve qualquer X-Real-IP vindo do cliente. O login
+		# usa este header para limitar tentativas por IP
+		# (LOGIN_TRUSTED_IP_HEADER=x-real-ip).
+		header_up X-Real-IP {remote_host}
+	}
+
+	log {
+		output stdout
+		format console
+	}
+}

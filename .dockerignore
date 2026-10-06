@@ -1,0 +1,37 @@
+# Segredos e estado local nunca entram nas imagens.
+.env
+.env.*
+!.env.example
+*.pem
+
+# Dependências e artefatos de build locais.
+.git
+node_modules
+.next
+out
+coverage
+tsconfig.tsbuildinfo
+next-env.d.ts
+.venv
+**/__pycache__
+**/*.pyc
+.pytest_cache
+
+# ML: dados, treino e relatórios ficam fora. Só entram os
+# artefatos carregados em runtime (ver ml/Dockerfile).
+ml/data
+ml/synthetic
+ml/training
+ml/tests
+ml/models/*
+!ml/models/failure_classifier_marilia_v1_5_candidate.joblib
+!ml/models/ursus_reranker_v16_experimental_locked.joblib
+!ml/models/failure_origin_classifier_v4_candidate.joblib
+ml/reports/*
+!ml/reports/ursus_reranker_v16_locked_config.json
+
+# Deploy e documentação não fazem parte das imagens.
+database
+deploy
+*.md
+!README.md
