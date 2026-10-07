@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import { BrandLogo } from "@/components/layout/brand-logo";
 import Link from "next/link";
 
 import {
@@ -2467,14 +2467,7 @@ export function ReliabilityOriginsPage({
           <Link
             href="/dashboard"
           >
-            <Image
-              src="/logo.webp"
-              alt="Coca-Cola FEMSA"
-              width={180}
-              height={64}
-              priority
-              className="h-auto max-h-[42px] w-auto object-contain"
-            />
+            <BrandLogo />
           </Link>
 
           <div className="flex items-center gap-3 sm:gap-5">

@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import { BrandLogo } from "@/components/layout/brand-logo";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -49,25 +49,7 @@ export function AppHeader({ userName, unitName }: AppHeaderProps) {
           aria-label="Início"
           className="flex items-center gap-4"
         >
-          <Image
-            src="/logo.webp"
-            alt="Coca-Cola"
-            width={180}
-            height={64}
-            priority
-            className="h-auto max-h-[42px] w-auto object-contain"
-          />
-
-          <div className="hidden h-8 w-px bg-border-theme sm:block" />
-
-          <Image
-            src="/femsa-logo.png"
-            alt="FEMSA"
-            width={544}
-            height={129}
-            priority
-            className="hidden h-[22px] w-auto rounded-[2px] object-contain sm:block"
-          />
+          <BrandLogo />
         </Link>
 
         <div className="flex items-center gap-5">

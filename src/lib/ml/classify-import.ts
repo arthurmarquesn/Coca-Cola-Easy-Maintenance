@@ -13,6 +13,7 @@ import {
 import {
   getMlHealth,
   predictFailuresBatch,
+  type MlBatchPrediction,
 } from "@/lib/ml/client";
 
 /* =========================================================
@@ -113,7 +114,30 @@ interface ClassifyImportOptions {
 
   batchSize?:
     number;
+
+  /*
+   * Predições já obtidas, indexadas pelo texto enviado ao
+   * modelo. Compartilhe o mesmo Map entre as unidades de uma
+   * importação para não reclassificar apontamentos repetidos.
+   */
+  predictionCache?:
+    MlPredictionCache;
+
+  /*
+   * Chamado ao fim de cada lote com quantos eventos ele
+   * tinha, com sucesso ou falha.
+   */
+  onBatchDone?:
+    (
+      events: number,
+    ) => void;
 }
+
+export type MlPredictionCache =
+  Map<
+    string,
+    MlBatchPrediction
+  >;
 
 type MlHealthResult =
   Awaited<
@@ -168,6 +192,14 @@ type UnknownRecord =
 /* =========================================================
    CONFIGURAÇÃO
 ========================================================= */
+
+/*
+ * Lotes em andamento ao mesmo tempo: enquanto um lote
+ * espera o modelo, os anteriores gravam no banco. As
+ * chamadas ao modelo continuam uma por vez (ver mlQueue).
+ */
+const MAX_CONCURRENT_BATCHES =
+  3;
 
 function normalizeBatchSize(
   value:
@@ -314,6 +346,155 @@ function fieldValue(
   return record[
     snakeCase
   ];
+}
+
+/* =========================================================
+   CACHE DE PREDIÇÕES
+========================================================= */
+
+/*
+ * O modelo só recebe estes campos, então eventos com os
+ * mesmos valores recebem a mesma predição.
+ */
+function predictionKey(
+  event:
+    MaintenanceEventRow,
+): string {
+  return JSON.stringify([
+    event.observation,
+    event.source_equipment_name,
+    event.source_stop_key_1,
+    event.source_stop_subkey,
+    event.source_stop_type,
+  ]);
+}
+
+async function predictWithCache(
+  events:
+    MaintenanceEventRow[],
+
+  cache:
+    MlPredictionCache,
+): Promise<
+  MlBatchPrediction[]
+> {
+  const keys =
+    events.map(
+      predictionKey,
+    );
+
+  const missing =
+    new Map<
+      string,
+      MaintenanceEventRow
+    >();
+
+  keys.forEach(
+    (
+      key,
+      index,
+    ) => {
+      if (
+        !cache.has(key) &&
+        !missing.has(key)
+      ) {
+        missing.set(
+          key,
+          events[index],
+        );
+      }
+    },
+  );
+
+  if (
+    missing.size >
+    0
+  ) {
+    const predictions =
+      await predictFailuresBatch(
+        Array.from(
+          missing.values(),
+        ).map(
+          (
+            event,
+          ) => ({
+            eventId:
+              event.id,
+
+            observation:
+              event.observation,
+
+            equipment:
+              event
+                .source_equipment_name,
+
+            stopKey1:
+              event
+                .source_stop_key_1,
+
+            stopSubkey:
+              event
+                .source_stop_subkey,
+
+            stopType:
+              event
+                .source_stop_type,
+          }),
+        ),
+      );
+
+    const predictionByEventId =
+      new Map(
+        predictions.map(
+          (
+            prediction,
+          ) => [
+            prediction.eventId,
+            prediction,
+          ],
+        ),
+      );
+
+    for (
+      const [
+        key,
+        event,
+      ]
+      of missing
+    ) {
+      const prediction =
+        predictionByEventId.get(
+          event.id,
+        );
+
+      if (
+        !prediction
+      ) {
+        throw new Error(
+          `O serviço de classificação não retornou predição para o evento ${event.id}.`,
+        );
+      }
+
+      cache.set(
+        key,
+        prediction,
+      );
+    }
+  }
+
+  return events.map(
+    (
+      event,
+      index,
+    ) => ({
+      ...cache.get(
+        keys[index],
+      )!,
+
+      eventId:
+        event.id,
+    }),
+  );
 }
 
 /* =========================================================
@@ -495,6 +676,9 @@ export async function classifyImportWithMl({
   importId,
   unitId,
   batchSize,
+  predictionCache =
+    new Map(),
+  onBatchDone,
 }: ClassifyImportOptions):
 Promise<ClassifyImportMlResult> {
   /* -------------------------------------------------------
@@ -796,6 +980,19 @@ Promise<ClassifyImportMlResult> {
      3. PROCESSAMENTO EM LOTES
   ======================================================= */
 
+  const inFlight =
+    new Set<
+      Promise<void>
+    >();
+
+  /*
+   * O serviço usa toda a CPU em cada lote; chamadas em
+   * paralelo só disputam processador e ficam mais lentas.
+   */
+  let mlQueue:
+    Promise<unknown> =
+      Promise.resolve();
+
   while (
     true
   ) {
@@ -909,41 +1106,66 @@ Promise<ClassifyImportMlResult> {
         events.length - 1
       ].id;
 
-    /* =====================================================
-       4. PREDIÇÃO
-    ===================================================== */
+    const task =
+      processBatch(
+        events,
+      ).finally(
+        () => {
+          inFlight.delete(
+            task,
+          );
 
+          onBatchDone?.(
+            events.length,
+          );
+        },
+      );
+
+    inFlight.add(
+      task,
+    );
+
+    if (
+      inFlight.size >=
+      MAX_CONCURRENT_BATCHES
+    ) {
+      await Promise.race(
+        inFlight,
+      );
+    }
+  }
+
+  await Promise.all(
+    inFlight,
+  );
+
+  /* =======================================================
+     4. PREDIÇÃO E PERSISTÊNCIA DE UM LOTE
+
+     Nunca rejeita: uma falha conta o lote em failed.
+  ======================================================= */
+
+  async function processBatch(
+    events:
+      MaintenanceEventRow[],
+  ): Promise<void> {
     try {
-      const predictions =
-        await predictFailuresBatch(
-          events.map(
-            (
-              event,
-            ) => ({
-              eventId:
-                event.id,
-
-              observation:
-                event.observation,
-
-              equipment:
-                event
-                  .source_equipment_name,
-
-              stopKey1:
-                event
-                  .source_stop_key_1,
-
-              stopSubkey:
-                event
-                  .source_stop_subkey,
-
-              stopType:
-                event
-                  .source_stop_type,
-            }),
-          ),
+      const prediction =
+        mlQueue.then(
+          () =>
+            predictWithCache(
+              events,
+              predictionCache,
+            ),
         );
+
+      mlQueue =
+        prediction.catch(
+          () => undefined,
+        );
+
+      const predictions =
+        await prediction;
 
       if (
         predictions.length !==
@@ -965,7 +1187,7 @@ Promise<ClassifyImportMlResult> {
         predictions.length ===
         0
       ) {
-        continue;
+        return;
       }
 
       /* ===================================================

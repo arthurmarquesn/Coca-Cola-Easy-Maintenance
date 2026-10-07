@@ -14,13 +14,6 @@ interface CategoryCardProps {
   href: string;
 }
 
-function confidenceColor(value: number | null): string {
-  if (value === null) return "var(--text-muted)";
-  if (value >= 0.85) return "var(--success)";
-  if (value >= 0.7) return "var(--warning)";
-  return "var(--error)";
-}
-
 export function CategoryCard({ category, href }: CategoryCardProps) {
   const hasLowConfidence = category.lowConfidencePending > 0;
 
@@ -77,17 +70,7 @@ export function CategoryCard({ category, href }: CategoryCardProps) {
         </div>
       </div>
 
-      <div className="mt-5 flex items-center justify-between border-t border-border-theme pt-4">
-        <span
-          className="text-[11.5px] font-semibold"
-          style={{ color: confidenceColor(category.averageConfidence) }}
-        >
-          Confiança média:{" "}
-          {category.averageConfidence === null
-            ? "—"
-            : `${Math.round(category.averageConfidence * 100)}%`}
-        </span>
-
+      <div className="mt-5 flex items-center justify-end border-t border-border-theme pt-4">
         <ArrowRight
           size={16}
           className="text-text-secondary transition-transform duration-200 group-hover:translate-x-1 group-hover:text-accent-hover"

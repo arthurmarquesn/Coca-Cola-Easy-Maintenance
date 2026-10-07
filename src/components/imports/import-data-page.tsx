@@ -374,6 +374,17 @@ interface ImportDetailResponse {
    STATUS DA TELA
 ========================================================= */
 
+interface ImportProgress {
+  stage:
+    | "importing"
+    | "classifying";
+  done: number;
+  total: number;
+}
+
+const PROGRESS_POLL_INTERVAL_MS =
+  1500;
+
 type ImportStatus =
   | "idle"
   | "validating"
@@ -633,6 +644,14 @@ export function ImportDataPage({
     setMlResult,
   ] =
     useState<MlResult | null>(
+      null,
+    );
+
+  const [
+    importProgress,
+    setImportProgress,
+  ] =
+    useState<ImportProgress | null>(
       null,
     );
 
@@ -1285,6 +1304,60 @@ export function ImportDataPage({
       "processing",
     );
 
+    setImportProgress(
+      null,
+    );
+
+    // crypto.randomUUID só existe em HTTPS/localhost.
+    const progressId =
+      `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 12)}`;
+
+    let polling =
+      true;
+
+    const pollProgress =
+      async () => {
+        while (polling) {
+          await new Promise(
+            (resolve) =>
+              setTimeout(
+                resolve,
+                PROGRESS_POLL_INTERVAL_MS,
+              ),
+          );
+
+          if (!polling) break;
+
+          try {
+            const response =
+              await fetch(
+                `/api/imports/progress?id=${progressId}`,
+                {
+                  cache:
+                    "no-store",
+                },
+              );
+
+            const data =
+              await response.json();
+
+            if (
+              polling &&
+              response.ok &&
+              data.progress
+            ) {
+              setImportProgress(
+                data.progress as ImportProgress,
+              );
+            }
+          } catch {
+            // Progresso é só informativo; o POST segue valendo.
+          }
+        }
+      };
+
+    void pollProgress();
+
     try {
       const formData =
         new FormData();
@@ -1292,6 +1365,11 @@ export function ImportDataPage({
       formData.append(
         "file",
         file,
+      );
+
+      formData.append(
+        "progressId",
+        progressId,
       );
 
       const response =
@@ -1402,6 +1480,13 @@ export function ImportDataPage({
 
       setStatus(
         "error",
+      );
+    } finally {
+      polling =
+        false;
+
+      setImportProgress(
+        null,
       );
     }
   }
@@ -2108,17 +2193,46 @@ export function ImportDataPage({
 
                         <div>
                           <p className="text-[12px] font-semibold text-text-primary">
-                            Importando e analisando dados
+                            {importProgress?.stage ===
+                            "classifying"
+                              ? "Analisando com o Modelo ML"
+                              : "Importando dados"}
                           </p>
 
                           <p className="mt-1 text-[9px] leading-5 text-text-secondary">
-                            Os registros estão sendo armazenados e enviados ao modelo de classificação.
+                            {importProgress?.stage ===
+                              "classifying" &&
+                            importProgress.total >
+                              0
+                              ? `${formatNumber(
+                                  importProgress.done,
+                                )} de ${formatNumber(
+                                  importProgress.total,
+                                )} apontamento(s) analisados. Planilhas grandes podem levar alguns minutos.`
+                              : "Os registros estão sendo armazenados e depois serão enviados ao modelo de classificação."}
                           </p>
                         </div>
                       </div>
 
                       <div className="mt-5 overflow-hidden rounded-full bg-surface-elevated">
-                        <div className="h-[4px] w-1/2 animate-pulse rounded-full bg-accent-primary" />
+                        {importProgress?.stage ===
+                          "classifying" &&
+                        importProgress.total >
+                          0 ? (
+                          <div
+                            className="h-[4px] rounded-full bg-accent-primary transition-all duration-500"
+                            style={{
+                              width: `${Math.min(
+                                (importProgress.done /
+                                  importProgress.total) *
+                                  100,
+                                100,
+                              )}%`,
+                            }}
+                          />
+                        ) : (
+                          <div className="h-[4px] w-1/2 animate-pulse rounded-full bg-accent-primary" />
+                        )}
                       </div>
                     </div>
                   )}

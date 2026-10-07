@@ -2,7 +2,7 @@
 
 "use client";
 
-import Image from "next/image";
+import { BrandLogo } from "@/components/layout/brand-logo";
 import Link from "next/link";
 
 import {
@@ -26,6 +26,10 @@ import {
 import {
   useInitialRequest,
 } from "@/lib/use-initial-request";
+
+import {
+  ThemeSwitcher,
+} from "@/components/theme/theme-switcher";
 
 
 interface UrsusDashboardPageProps {
@@ -476,26 +480,25 @@ export function UrsusDashboardPage({
       <header className="border-b border-border-theme bg-surface">
         <div className="mx-auto flex h-[76px] w-full max-w-[1420px] items-center justify-between px-6 sm:px-8 lg:px-12">
           <Link href="/dashboard">
-            <Image
-              src="/logo.webp"
-              alt="Coca-Cola FEMSA"
-              width={180}
-              height={64}
-              priority
-              className="h-auto max-h-[42px] w-auto object-contain"
-            />
+            <BrandLogo />
           </Link>
 
-          <div className="hidden text-right sm:block">
-            <p className="text-[13px] font-medium text-text-primary">
-              {user.name}
-            </p>
-
-            {unit.name && (
-              <p className="mt-0.5 text-[10px] text-text-secondary">
-                {unit.name}
+          <div className="flex items-center gap-4">
+            <div className="hidden text-right sm:block">
+              <p className="text-[13px] font-medium text-text-primary">
+                {user.name}
               </p>
-            )}
+
+              {unit.name && (
+                <p className="mt-0.5 text-[10px] text-text-secondary">
+                  {unit.name}
+                </p>
+              )}
+            </div>
+
+            <div className="hidden h-8 w-px bg-border-theme sm:block" />
+
+            <ThemeSwitcher />
           </div>
         </div>
       </header>

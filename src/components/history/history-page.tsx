@@ -1,8 +1,8 @@
 "use client";
 
+import { BrandLogo } from "@/components/layout/brand-logo";
 import { useInitialRequest } from "@/lib/use-initial-request";
 
-import Image from "next/image";
 
 import Link from "next/link";
 
@@ -1388,14 +1388,7 @@ export function HistoryPage({
           <Link
             href="/dashboard"
           >
-            <Image
-              src="/logo.webp"
-              alt="Coca-Cola FEMSA"
-              width={180}
-              height={70}
-              priority
-              className="h-auto max-h-[52px] w-auto max-w-[140px] object-contain"
-            />
+            <BrandLogo />
           </Link>
 
 

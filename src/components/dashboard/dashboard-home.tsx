@@ -1,5 +1,6 @@
 "use client";
 
+import { BrandLogo } from "@/components/layout/brand-logo";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -982,20 +983,7 @@ export function DashboardHome({
       <header className="relative z-40 border-b border-border-theme bg-surface/[0.88] shadow-[0_1px_0_rgba(0,0,0,0.01)] backdrop-blur-xl">
         <div className="mx-auto flex min-h-[72px] w-full max-w-[1320px] flex-wrap items-center justify-between gap-x-4 gap-y-2 px-4 py-3 sm:flex-nowrap sm:px-8 sm:py-2 lg:px-10">
           <div className="flex shrink-0 items-center gap-3">
-            <Image
-              src="/logo.webp"
-              alt="Coca-Cola FEMSA"
-              width={180}
-              height={64}
-              priority
-              className="h-auto max-h-[32px] w-auto shrink-0 object-contain transition-transform duration-500 hover:scale-[1.025] sm:max-h-[40px]"
-            />
-
-            <div className="hidden h-7 w-px bg-black/[0.08] sm:block" />
-
-            <span className="hidden truncate text-[13px] text-text-body sm:inline">
-              Manutenção Industrial
-            </span>
+            <BrandLogo />
           </div>
 
           <div className="ml-auto flex items-center gap-1.5 sm:gap-2.5">

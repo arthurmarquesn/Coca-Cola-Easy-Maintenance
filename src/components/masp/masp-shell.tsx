@@ -1,4 +1,4 @@
-import Image from "next/image";
+import { BrandLogo } from "@/components/layout/brand-logo";
 import Link from "next/link";
 
 import {
@@ -41,14 +41,7 @@ export function MaspShell({
             href="/dashboard"
             aria-label="Voltar ao painel"
           >
-            <Image
-              src="/logo.webp"
-              alt="Coca-Cola FEMSA"
-              width={180}
-              height={64}
-              priority
-              className="h-auto max-h-[42px] w-auto object-contain"
-            />
+            <BrandLogo />
           </Link>
 
           <div className="flex items-center gap-4">

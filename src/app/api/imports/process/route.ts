@@ -33,7 +33,14 @@ import {
 
 import {
   classifyImportWithMl,
+  type MlPredictionCache,
 } from "@/lib/ml/classify-import";
+
+import {
+  clearImportProgress,
+  isValidProgressId,
+  setImportProgress,
+} from "@/lib/import-progress";
 
 
 export const runtime =
@@ -5534,6 +5541,39 @@ const session = await getSession();
     );
 
 
+  // Opcional: a tela consulta /api/imports/progress com este id.
+  const rawProgressId =
+    formData.get(
+      "progressId",
+    );
+
+  const progressId =
+    isValidProgressId(
+      rawProgressId,
+    )
+      ? rawProgressId
+      : null;
+
+  const reportProgress = (
+    stage:
+      "importing" | "classifying",
+    done = 0,
+    total = 0,
+  ) => {
+    if (progressId) {
+      setImportProgress(
+        session.userId,
+        progressId,
+        {
+          stage,
+          done,
+          total,
+        },
+      );
+    }
+  };
+
+
   if (
     !(file instanceof File)
   ) {
@@ -5769,6 +5809,10 @@ const session = await getSession();
 
 
   try {
+    reportProgress(
+      "importing",
+    );
+
     // --------------------------------------------------------
     // CONFIG DO BANCO
     // --------------------------------------------------------
@@ -6727,6 +6771,50 @@ const session = await getSession();
     // LIBERA CONEXÃO ANTES DO ML
     // --------------------------------------------------------
 
+    // Total para a barra de progresso: numa importação nova
+    // todo evento com observação é elegível ao modelo.
+    const [
+      mlTotalRows,
+    ] =
+      await connection.query<
+        RowDataPacket[]
+      >(
+        `
+          SELECT
+              COUNT(*) AS total
+
+          FROM
+              maintenance_events
+
+          WHERE
+              import_id = ?
+
+              AND observation REGEXP '[^[:space:]]'
+        `,
+        [
+          importId,
+        ],
+      );
+
+    const mlTotal =
+      Number(
+        mlTotalRows[0]?.total ??
+        0,
+      );
+
+    let mlDone =
+      0;
+
+    reportProgress(
+      "classifying",
+      mlDone,
+      mlTotal,
+    );
+
+    const predictionCache:
+      MlPredictionCache =
+        new Map();
+
     await releaseConnection();
 
 
@@ -6777,6 +6865,25 @@ const session = await getSession();
 
             batchSize:
               ML_BATCH_SIZE,
+
+            predictionCache,
+
+            onBatchDone:
+              (
+                events,
+              ) => {
+                mlDone +=
+                  events;
+
+                reportProgress(
+                  "classifying",
+                  Math.min(
+                    mlDone,
+                    mlTotal,
+                  ),
+                  mlTotal,
+                );
+              },
           });
 
 
@@ -7208,5 +7315,12 @@ const session = await getSession();
     );
   } finally {
     await releaseConnection();
+
+    if (progressId) {
+      clearImportProgress(
+        session.userId,
+        progressId,
+      );
+    }
   }
 }

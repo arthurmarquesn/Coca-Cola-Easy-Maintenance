@@ -1,8 +1,8 @@
 "use client";
 
+import { BrandLogo } from "@/components/layout/brand-logo";
 import { useInitialRequest } from "@/lib/use-initial-request";
 
-import Image from "next/image";
 import Link from "next/link";
 
 import {
@@ -743,14 +743,7 @@ export function EquipmentCriticalityPage({
           <Link
             href="/dashboard"
           >
-            <Image
-              src="/logo.webp"
-              alt="Coca-Cola FEMSA"
-              width={180}
-              height={64}
-              priority
-              className="h-auto max-h-[42px] w-auto object-contain"
-            />
+            <BrandLogo />
           </Link>
 
           <div className="hidden text-right sm:block">
