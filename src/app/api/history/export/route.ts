@@ -328,9 +328,8 @@ function unitLabel(
   row:
     ExportRow,
 ): string {
+  /* Nome oficial da unidade, como no resto do sistema. */
   return (
-    row.unit_city
-      ?.trim() ||
     row.unit_name
       ?.trim() ||
     row.unit_code

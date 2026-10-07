@@ -3,6 +3,10 @@ import {
   readFile,
 } from "node:fs/promises";
 
+import {
+  isDateValue as isCalendarDate,
+} from "@/lib/analytics/sql";
+
 import path from "node:path";
 
 import {
@@ -51,13 +55,15 @@ const ALLOWED_METRICS:
     "DETAILS",
   ];
 
+/* Data de calendário real: o formato sozinho aceitava
+   2026-02-31 e 2026-00-10. */
 function isDateValue(
   value: unknown,
 ): value is string {
   return (
     typeof value ===
       "string" &&
-    /^\d{4}-\d{2}-\d{2}$/.test(
+    isCalendarDate(
       value,
     )
   );
