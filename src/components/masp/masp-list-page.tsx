@@ -72,7 +72,7 @@ function statusClass(
     status ===
     "CLOSED"
   ) {
-    return "bg-[#EDF7EF] text-[#39734A]";
+    return "bg-success/10 text-success";
   }
 
   if (
@@ -88,10 +88,10 @@ function statusClass(
     status ===
       "VERIFICATION"
   ) {
-    return "bg-[#FFF5E2] text-[#94671B]";
+    return "bg-warning/10 text-warning";
   }
 
-  return "bg-[#FFF0F1] text-[#B82C36]";
+  return "bg-accent-soft text-accent-primary";
 }
 
 export function MaspListPage({
@@ -286,7 +286,7 @@ export function MaspListPage({
         canCreate && (
         <Link
           href="/dashboard/masp/novo"
-          className="inline-flex h-11 items-center justify-center gap-2 rounded-[12px] bg-[#E41E2B] px-5 text-[12px] font-semibold text-white transition-colors hover:bg-[#CB1924]"
+          className="inline-flex h-11 items-center justify-center gap-2 rounded-[12px] bg-accent-primary px-5 text-[12px] font-semibold text-white transition-colors hover:bg-accent-hover"
         >
           <CirclePlus
             size={16}
@@ -308,7 +308,7 @@ export function MaspListPage({
               event.target.value,
             )
           }
-          className="h-11 rounded-[11px] border border-border-theme bg-surface px-3 text-[12px] text-text-primary outline-none focus:border-[#D58B91]"
+          className="h-11 rounded-[11px] border border-border-theme bg-surface px-3 text-[12px] text-text-primary outline-none focus:border-accent-primary/40"
         >
           <option value="">
             Todos os status
@@ -345,7 +345,7 @@ export function MaspListPage({
               event.target.value,
             )
           }
-          className="h-11 rounded-[11px] border border-border-theme bg-surface px-3 text-[12px] text-text-primary outline-none focus:border-[#D58B91]"
+          className="h-11 rounded-[11px] border border-border-theme bg-surface px-3 text-[12px] text-text-primary outline-none focus:border-accent-primary/40"
         >
           <option value="">
             Todos os equipamentos
@@ -380,7 +380,7 @@ export function MaspListPage({
       </div>
 
       {error && (
-        <div className="mt-5 rounded-[14px] border border-[#F0D2D5] bg-[#FFF8F8] px-4 py-3 text-[12px] text-[#B52D36]">
+        <div className="mt-5 rounded-[14px] border border-accent-primary/30 bg-accent-soft px-4 py-3 text-[12px] text-accent-primary">
           {error}
         </div>
       )}
@@ -389,7 +389,7 @@ export function MaspListPage({
         <div className="flex min-h-[280px] items-center justify-center gap-3 text-[13px] text-text-secondary">
           <LoaderCircle
             size={18}
-            className="animate-spin text-[#E41E2B]"
+            className="animate-spin text-accent-primary"
           />
           Carregando análises...
         </div>
@@ -495,7 +495,7 @@ export function MaspListPage({
                       <td className="px-5 py-4 text-right">
                         <Link
                           href={`/dashboard/masp/${item.id}`}
-                          className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-border-theme text-text-secondary hover:border-[#D7A7AB] hover:text-[#C92834]"
+                          className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-border-theme text-text-secondary hover:border-accent-primary/30 hover:text-accent-hover"
                           aria-label={`Abrir MASP ${item.id}`}
                         >
                           <ArrowRight

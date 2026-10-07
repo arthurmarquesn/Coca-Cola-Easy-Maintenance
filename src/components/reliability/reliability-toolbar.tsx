@@ -268,7 +268,7 @@ export function ReliabilityToolbar({
     );
 
   return (
-    <section className="mt-5 overflow-hidden rounded-[18px] border border-black/[0.05] bg-white shadow-[0_8px_28px_rgba(28,31,34,0.025)]">
+    <section className="mt-5 overflow-hidden rounded-[18px] border border-border-theme bg-surface shadow-[0_8px_28px_rgba(28,31,34,0.025)]">
       {/* ===================================================
           SUMMARY / HEADER RECOLHÍVEL
       ==================================================== */}
@@ -286,10 +286,10 @@ export function ReliabilityToolbar({
         aria-expanded={
           expanded
         }
-        className="flex w-full items-center justify-between gap-5 px-4 py-3.5 text-left transition-colors hover:bg-[#FAFAF9] sm:px-5"
+        className="flex w-full items-center justify-between gap-5 px-4 py-3.5 text-left transition-colors hover:bg-background-primary sm:px-5"
       >
         <div className="flex min-w-0 items-center gap-3">
-          <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-[10px] bg-[#F1F1F0] text-[#555A60]">
+          <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-[10px] bg-surface-elevated text-text-body">
             <SlidersHorizontal
               size={
                 14
@@ -299,13 +299,13 @@ export function ReliabilityToolbar({
 
           <div className="min-w-0">
             <div className="flex flex-wrap items-center gap-2">
-              <p className="text-[11px] font-semibold text-[#303438]">
+              <p className="text-[11px] font-semibold text-text-primary">
                 Filtros
               </p>
 
               {activeFilterCount >
                 0 && (
-                <span className="rounded-full bg-[#F0F1F2] px-2 py-0.5 text-[8px] font-semibold text-[#777C82]">
+                <span className="rounded-full bg-surface-elevated px-2 py-0.5 text-[8px] font-semibold text-text-secondary">
                   {
                     activeFilterCount
                   }{" "}
@@ -318,19 +318,19 @@ export function ReliabilityToolbar({
                   size={
                     11
                   }
-                  className="animate-spin text-[#E41E2B]"
+                  className="animate-spin text-accent-primary"
                 />
               )}
             </div>
 
-            <div className="mt-1 flex min-w-0 flex-wrap items-center gap-x-2 gap-y-1 text-[8px] text-[#999EA4]">
+            <div className="mt-1 flex min-w-0 flex-wrap items-center gap-x-2 gap-y-1 text-[8px] text-text-muted">
               <span className="truncate">
                 {
                   selectedUnitsLabel
                 }
               </span>
 
-              <span className="text-[#D1D3D5]">
+              <span className="text-text-muted">
                 ·
               </span>
 
@@ -342,7 +342,7 @@ export function ReliabilityToolbar({
 
               {line && (
                 <>
-                  <span className="text-[#D1D3D5]">
+                  <span className="text-text-muted">
                     ·
                   </span>
 
@@ -356,7 +356,7 @@ export function ReliabilityToolbar({
 
               {equipment && (
                 <>
-                  <span className="text-[#D1D3D5]">
+                  <span className="text-text-muted">
                     ·
                   </span>
 
@@ -374,11 +374,11 @@ export function ReliabilityToolbar({
         <div className="flex shrink-0 items-center gap-4">
           <div className="hidden items-center gap-4 text-right md:flex">
             <div>
-              <p className="text-[8px] font-semibold uppercase tracking-[0.08em] text-[#A0A5AA]">
+              <p className="text-[8px] font-semibold uppercase tracking-[0.08em] text-text-muted">
                 Ocorrências
               </p>
 
-              <p className="mt-0.5 text-[11px] font-semibold tabular-nums text-[#41464B]">
+              <p className="mt-0.5 text-[11px] font-semibold tabular-nums text-text-primary">
                 {formatNumber(
                   events,
                 )}
@@ -388,11 +388,11 @@ export function ReliabilityToolbar({
             <div className="h-7 w-px bg-black/[0.055]" />
 
             <div>
-              <p className="text-[8px] font-semibold uppercase tracking-[0.08em] text-[#A0A5AA]">
+              <p className="text-[8px] font-semibold uppercase tracking-[0.08em] text-text-muted">
                 Parada
               </p>
 
-              <p className="mt-0.5 text-[11px] font-semibold tabular-nums text-[#41464B]">
+              <p className="mt-0.5 text-[11px] font-semibold tabular-nums text-text-primary">
                 {formatMinutes(
                   downtimeMinutes,
                 )}
@@ -400,7 +400,7 @@ export function ReliabilityToolbar({
             </div>
           </div>
 
-          <div className="flex h-8 w-8 items-center justify-center rounded-[9px] text-[#8B9095] transition-colors hover:bg-[#F0F1F2] hover:text-[#393D42]">
+          <div className="flex h-8 w-8 items-center justify-center rounded-[9px] text-text-secondary transition-colors hover:bg-surface-elevated hover:text-text-primary">
             <ChevronDown
               size={
                 15
@@ -433,14 +433,14 @@ export function ReliabilityToolbar({
         )}
       >
         <div className="overflow-hidden">
-          <div className="border-t border-black/[0.05] px-4 pb-5 pt-4 sm:px-5">
+          <div className="border-t border-border-theme px-4 pb-5 pt-4 sm:px-5">
             <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-4">
               {/* =============================================
                   DATA INICIAL
               ============================================== */}
 
               <label className="block">
-                <span className="mb-1.5 flex items-center gap-1.5 text-[8px] font-semibold uppercase tracking-[0.08em] text-[#979CA2]">
+                <span className="mb-1.5 flex items-center gap-1.5 text-[8px] font-semibold uppercase tracking-[0.08em] text-text-secondary">
                   <CalendarDays
                     size={
                       11
@@ -464,7 +464,7 @@ export function ReliabilityToolbar({
                         .value,
                     )
                   }
-                  className="h-10 w-full rounded-[10px] border border-black/[0.07] bg-[#FAFAF9] px-3 text-[10px] text-[#393D42] outline-none transition focus:border-[#D8A5A9] focus:bg-white focus:ring-2 focus:ring-[#E41E2B]/[0.06]"
+                  className="h-10 w-full rounded-[10px] border border-border-theme bg-background-primary px-3 text-[10px] text-text-primary outline-none transition focus:border-accent-primary/30 focus:bg-surface focus:ring-2 focus:ring-accent-primary/[0.06]"
                 />
               </label>
 
@@ -473,7 +473,7 @@ export function ReliabilityToolbar({
               ============================================== */}
 
               <label className="block">
-                <span className="mb-1.5 flex items-center gap-1.5 text-[8px] font-semibold uppercase tracking-[0.08em] text-[#979CA2]">
+                <span className="mb-1.5 flex items-center gap-1.5 text-[8px] font-semibold uppercase tracking-[0.08em] text-text-secondary">
                   <CalendarDays
                     size={
                       11
@@ -497,7 +497,7 @@ export function ReliabilityToolbar({
                         .value,
                     )
                   }
-                  className="h-10 w-full rounded-[10px] border border-black/[0.07] bg-[#FAFAF9] px-3 text-[10px] text-[#393D42] outline-none transition focus:border-[#D8A5A9] focus:bg-white focus:ring-2 focus:ring-[#E41E2B]/[0.06]"
+                  className="h-10 w-full rounded-[10px] border border-border-theme bg-background-primary px-3 text-[10px] text-text-primary outline-none transition focus:border-accent-primary/30 focus:bg-surface focus:ring-2 focus:ring-accent-primary/[0.06]"
                 />
               </label>
 
@@ -506,7 +506,7 @@ export function ReliabilityToolbar({
               ============================================== */}
 
               <label className="block">
-                <span className="mb-1.5 flex items-center gap-1.5 text-[8px] font-semibold uppercase tracking-[0.08em] text-[#979CA2]">
+                <span className="mb-1.5 flex items-center gap-1.5 text-[8px] font-semibold uppercase tracking-[0.08em] text-text-secondary">
                   <Factory
                     size={
                       11
@@ -529,7 +529,7 @@ export function ReliabilityToolbar({
                         .value,
                     )
                   }
-                  className="h-10 w-full rounded-[10px] border border-black/[0.07] bg-[#FAFAF9] px-3 text-[10px] text-[#393D42] outline-none transition focus:border-[#D8A5A9] focus:bg-white focus:ring-2 focus:ring-[#E41E2B]/[0.06]"
+                  className="h-10 w-full rounded-[10px] border border-border-theme bg-background-primary px-3 text-[10px] text-text-primary outline-none transition focus:border-accent-primary/30 focus:bg-surface focus:ring-2 focus:ring-accent-primary/[0.06]"
                 >
                   <option value="">
                     Todas as linhas
@@ -561,7 +561,7 @@ export function ReliabilityToolbar({
               ============================================== */}
 
               <label className="block">
-                <span className="mb-1.5 flex items-center gap-1.5 text-[8px] font-semibold uppercase tracking-[0.08em] text-[#979CA2]">
+                <span className="mb-1.5 flex items-center gap-1.5 text-[8px] font-semibold uppercase tracking-[0.08em] text-text-secondary">
                   <Wrench
                     size={
                       11
@@ -584,7 +584,7 @@ export function ReliabilityToolbar({
                         .value,
                     )
                   }
-                  className="h-10 w-full rounded-[10px] border border-black/[0.07] bg-[#FAFAF9] px-3 text-[10px] text-[#393D42] outline-none transition focus:border-[#D8A5A9] focus:bg-white focus:ring-2 focus:ring-[#E41E2B]/[0.06]"
+                  className="h-10 w-full rounded-[10px] border border-border-theme bg-background-primary px-3 text-[10px] text-text-primary outline-none transition focus:border-accent-primary/30 focus:bg-surface focus:ring-2 focus:ring-accent-primary/[0.06]"
                 >
                   <option value="">
                     Todos os equipamentos
@@ -616,16 +616,16 @@ export function ReliabilityToolbar({
                 FOOTER
             ============================================== */}
 
-            <div className="mt-4 flex flex-col gap-3 border-t border-black/[0.045] pt-4 sm:flex-row sm:items-center sm:justify-between">
+            <div className="mt-4 flex flex-col gap-3 border-t border-border-theme pt-4 sm:flex-row sm:items-center sm:justify-between">
               <div className="flex flex-wrap items-center gap-2">
-                <span className="rounded-[8px] bg-[#F4F4F3] px-2.5 py-1.5 text-[8px] font-medium text-[#757A80]">
+                <span className="rounded-[8px] bg-surface-elevated px-2.5 py-1.5 text-[8px] font-medium text-text-secondary">
                   {
                     selectedUnitsLabel
                   }
                 </span>
 
                 {line && (
-                  <span className="rounded-[8px] bg-[#F4F4F3] px-2.5 py-1.5 text-[8px] font-medium text-[#757A80]">
+                  <span className="rounded-[8px] bg-surface-elevated px-2.5 py-1.5 text-[8px] font-medium text-text-secondary">
                     {
                       line
                     }
@@ -633,7 +633,7 @@ export function ReliabilityToolbar({
                 )}
 
                 {equipment && (
-                  <span className="rounded-[8px] bg-[#FFF3F4] px-2.5 py-1.5 text-[8px] font-medium text-[#B72831]">
+                  <span className="rounded-[8px] bg-accent-soft px-2.5 py-1.5 text-[8px] font-medium text-accent-primary">
                     {
                       equipment
                     }
@@ -646,7 +646,7 @@ export function ReliabilityToolbar({
                 onClick={
                   onResetFilters
                 }
-                className="inline-flex h-9 items-center justify-center gap-2 self-start rounded-[9px] border border-black/[0.06] bg-white px-3 text-[9px] font-semibold text-[#71767C] transition hover:bg-[#F5F5F4] hover:text-[#34383D] sm:self-auto"
+                className="inline-flex h-9 items-center justify-center gap-2 self-start rounded-[9px] border border-border-theme bg-surface px-3 text-[9px] font-semibold text-text-body transition hover:bg-surface-elevated hover:text-text-primary sm:self-auto"
               >
                 <RotateCcw
                   size={

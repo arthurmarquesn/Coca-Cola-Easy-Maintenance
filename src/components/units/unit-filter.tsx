@@ -115,7 +115,6 @@ function getUnitLabel(
     UnitOption,
 ): string {
   return (
-    unit.city?.trim() ||
     unit.name?.trim() ||
     unit.code?.trim() ||
     `Unidade ${unit.id}`
@@ -163,6 +162,17 @@ export function UnitFilter({
   const containerRef =
     useRef<HTMLDivElement>(
       null,
+    );
+
+
+  /* Topo do menu no mobile, logo abaixo do gatilho
+     (o header muda de altura conforme a largura). */
+  const [
+    menuTop,
+    setMenuTop,
+  ] =
+    useState(
+      0,
     );
 
 
@@ -722,6 +732,14 @@ export function UnitFilter({
      * Dessa forma ele nunca fica com aparência
      * de botão sem responder.
      */
+    setMenuTop(
+      Math.round(
+        containerRef.current?.getBoundingClientRect()
+          .bottom ?? 0,
+      ) + 8,
+    );
+
+
     setOpen(
       true,
     );
@@ -994,6 +1012,54 @@ export function UnitFilter({
 
 
   /* =======================================================
+     UNIDADE FIXA
+
+     Usuário com uma única unidade autorizada (o Gestor,
+     por regra do backend) vê a unidade sem seletor.
+  ======================================================= */
+
+  if (
+    !loading &&
+    !loadError &&
+    units.length ===
+      1
+  ) {
+    return (
+      <div
+        className="flex min-w-0 max-w-[220px] items-center gap-3 rounded-[13px] px-3 py-2"
+        title={getUnitDescription(
+          units[0],
+        )}
+      >
+        <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-[10px] bg-surface-elevated text-text-secondary">
+          <Building2
+            size={15}
+            strokeWidth={1.8}
+          />
+        </div>
+
+        <div className="min-w-0">
+          <p className="text-[9px] font-medium uppercase tracking-[0.08em] text-text-secondary">
+            Unidade
+          </p>
+
+          <p className="mt-0.5 truncate text-[11px] font-semibold text-text-primary">
+            {getUnitLabel(
+              units[0],
+            )}
+            {units[0].code && (
+              <span className="font-medium text-text-secondary">
+                {" "}— {units[0].code}
+              </span>
+            )}
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+
+  /* =======================================================
      UI
   ======================================================= */
 
@@ -1019,7 +1085,7 @@ export function UnitFilter({
         }
         aria-haspopup="menu"
         className={[
-          "flex min-w-[185px] items-center gap-3 rounded-[13px] px-3 py-2 text-left transition-colors",
+          "flex min-w-0 items-center gap-3 rounded-[13px] px-3 py-2 text-left transition-colors sm:min-w-[185px]",
           open
             ? "bg-surface-elevated"
             : "hover:bg-surface-hover",
@@ -1052,7 +1118,7 @@ export function UnitFilter({
           </p>
 
 
-          <p className="mt-0.5 max-w-[170px] truncate text-[11px] font-semibold text-text-primary">
+          <p className="mt-0.5 max-w-[120px] truncate text-[11px] font-semibold text-text-primary sm:max-w-[170px]">
             {label}
           </p>
 
@@ -1082,7 +1148,11 @@ export function UnitFilter({
       {open && (
         <div
           role="menu"
-          className="absolute right-0 top-full z-[100] mt-3 w-[360px] overflow-hidden rounded-[20px] border border-border-theme/[0.08] bg-surface shadow-[0_20px_60px_rgba(0,0,0,0.14)]"
+          style={{
+            top:
+              menuTop,
+          }}
+          className="fixed inset-x-4 z-[100] overflow-hidden rounded-[20px] border border-border-theme bg-surface shadow-[0_20px_60px_rgba(0,0,0,0.14)] sm:absolute sm:inset-x-auto sm:right-0 sm:!top-full sm:mt-3 sm:w-[360px]"
         >
 
           {/* ===============================================
@@ -1131,7 +1201,7 @@ export function UnitFilter({
 
               <LoaderCircle
                 size={22}
-                className="animate-spin text-[#E41E2B]"
+                className="animate-spin text-accent-primary"
               />
 
 
@@ -1151,14 +1221,14 @@ export function UnitFilter({
             loadError && (
               <div className="px-5 py-6">
 
-                <div className="rounded-[14px] border border-[#F0D4D6] bg-[#FFF8F8] px-4 py-4">
+                <div className="rounded-[14px] border border-accent-primary/30 bg-accent-soft px-4 py-4">
 
-                  <p className="text-[11px] font-semibold text-[#9F4147]">
+                  <p className="text-[11px] font-semibold text-accent-primary">
                     Não foi possível carregar as unidades
                   </p>
 
 
-                  <p className="mt-2 text-[10px] leading-5 text-[#A86166]">
+                  <p className="mt-2 text-[10px] leading-5 text-accent-primary">
                     {loadError}
                   </p>
 
@@ -1204,7 +1274,7 @@ export function UnitFilter({
                     disabled={
                       allDraftSelected
                     }
-                    className="text-[10px] font-semibold text-[#E41E2B] disabled:cursor-default disabled:opacity-35"
+                    className="text-[10px] font-semibold text-accent-primary disabled:cursor-default disabled:opacity-35"
                   >
                     Selecionar todas
                   </button>
@@ -1223,7 +1293,7 @@ export function UnitFilter({
                 </div>
 
 
-                <div className="max-h-[390px] overflow-y-auto p-2">
+                <div className="max-h-[min(390px,55vh)] overflow-y-auto p-2">
 
                   {units.map(
                     (
@@ -1259,7 +1329,7 @@ export function UnitFilter({
                             className={[
                               "flex h-[19px] w-[19px] shrink-0 items-center justify-center rounded-[5px] border transition-colors",
                               checked
-                                ? "border-[#E41E2B] bg-[#E41E2B] text-white"
+                                ? "border-accent-primary bg-accent-primary text-white"
                                 : "border-border-theme bg-surface text-transparent",
                             ].join(
                               " ",
@@ -1317,9 +1387,9 @@ export function UnitFilter({
                 ============================================ */}
 
                 {actionError && (
-                  <div className="border-t border-[#F1D7D9] bg-[#FFF8F8] px-5 py-3">
+                  <div className="border-t border-accent-primary/30 bg-accent-soft px-5 py-3">
 
-                    <p className="text-[10px] leading-4 text-[#A84A50]">
+                    <p className="text-[10px] leading-4 text-accent-primary">
                       {actionError}
                     </p>
 
@@ -1368,7 +1438,7 @@ export function UnitFilter({
                         draftUnitIds.length ===
                           0
                       }
-                      className="inline-flex min-w-[90px] items-center justify-center gap-2 rounded-[9px] bg-[#E41E2B] px-4 py-2 text-[10px] font-semibold text-white transition-colors hover:bg-[#CD1925] disabled:cursor-not-allowed disabled:opacity-40"
+                      className="inline-flex min-w-[90px] items-center justify-center gap-2 rounded-[9px] bg-accent-primary px-4 py-2 text-[10px] font-semibold text-white transition-colors hover:bg-accent-hover disabled:cursor-not-allowed disabled:opacity-40"
                     >
 
                       {saving && (

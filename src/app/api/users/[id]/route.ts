@@ -13,9 +13,15 @@ import {
 
 import { getSession } from "@/lib/session";
 
+import { getAuthorizedUnits } from "@/lib/unit-selection";
+
 import {
+  applyUnitLinks,
   findUnitLeftWithoutAnalyst,
   lockAdministrableTarget,
+  lockUserUnitLinks,
+  parseUnitIdList,
+  planUnitLinks,
 } from "@/lib/user-admin";
 
 export const runtime = "nodejs";
@@ -24,6 +30,10 @@ export const dynamic = "force-dynamic";
 interface UpdateUserBody {
   role?: unknown;
   active?: unknown;
+  /* Unidade principal (users.unit_id). */
+  unitId?: unknown;
+  /* Unidades de acesso além da principal (só Analista). */
+  extraUnitIds?: unknown;
 }
 
 function fail(
@@ -142,12 +152,59 @@ export async function PATCH(
     values.push(body.active ? 1 : 0);
   }
 
-  if (assignments.length === 0) {
+  let unitId: number | undefined;
+
+  if (body.unitId !== undefined) {
+    if (
+      typeof body.unitId !== "number" ||
+      !Number.isInteger(body.unitId) ||
+      body.unitId <= 0
+    ) {
+      return fail(
+        400,
+        "Selecione uma unidade válida.",
+      );
+    }
+
+    unitId = body.unitId;
+  }
+
+  let extraUnitIds: number[] | undefined;
+
+  if (body.extraUnitIds !== undefined) {
+    const parsed = parseUnitIdList(body.extraUnitIds);
+
+    if (!parsed) {
+      return fail(
+        400,
+        "Unidades de acesso inválidas.",
+      );
+    }
+
+    extraUnitIds = parsed;
+  }
+
+  if (
+    assignments.length === 0 &&
+    unitId === undefined &&
+    extraUnitIds === undefined
+  ) {
     return fail(
       400,
       "Nada para atualizar.",
     );
   }
+
+  const changesUnits =
+    unitId !== undefined ||
+    extraUnitIds !== undefined ||
+    body.role === "MANAGER";
+
+  const actorUnitIds = changesUnits
+    ? (await getAuthorizedUnits(session.userId)).map(
+        (unit) => unit.id,
+      )
+    : [];
 
   const connection = await getConnection();
 
@@ -188,14 +245,70 @@ export async function PATCH(
       }
     }
 
-    await connection.execute(
-      `
-        UPDATE users
-        SET ${assignments.join(", ")}
-        WHERE id = ?
-      `,
-      [...values, userId],
-    );
+    if (changesUnits) {
+      const currentUnitIds = await lockUserUnitLinks(
+        connection,
+        userId,
+      );
+
+      const role =
+        typeof body.role === "string"
+          ? body.role
+          : target.role;
+
+      const plan = planUnitLinks({
+        role,
+        primaryUnitId: unitId ?? target.unitId,
+        extraUnitIds,
+        currentUnitIds,
+        currentPrimaryUnitId: target.unitId,
+        actorUnitIds,
+      });
+
+      if (!plan.ok) {
+        await connection.rollback();
+        return fail(plan.status, plan.message);
+      }
+
+      /* Analista que continua ativo mas perde vínculos: cada
+         unidade removida precisa manter outro Analista. */
+      const removedUnitIds = currentUnitIds.filter(
+        (currentUnitId) => !plan.unitIds.includes(currentUnitId),
+      );
+
+      if (
+        !losesAnalystAccess &&
+        target.active &&
+        target.role === "MAINTENANCE"
+      ) {
+        const orphanUnit = await findUnitLeftWithoutAnalyst(
+          connection,
+          userId,
+          removedUnitIds,
+        );
+
+        if (orphanUnit) {
+          await connection.rollback();
+          return fail(
+            409,
+            `A unidade ${orphanUnit} ficaria sem nenhum Analista ativo.`,
+          );
+        }
+      }
+
+      await applyUnitLinks(connection, userId, plan);
+    }
+
+    if (assignments.length > 0) {
+      await connection.execute(
+        `
+          UPDATE users
+          SET ${assignments.join(", ")}
+          WHERE id = ?
+        `,
+        [...values, userId],
+      );
+    }
 
     await connection.commit();
 

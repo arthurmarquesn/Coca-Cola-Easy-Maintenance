@@ -52,7 +52,7 @@ function TreeNode({
       <div className={`relative rounded-[15px] border p-4 before:absolute before:-left-4 before:top-6 before:h-px before:w-4 before:bg-surface-hover ${node.status === "DISCARDED" ? "border-border-theme bg-surface-elevated opacity-60" : "border-border-theme bg-surface"}`}>
         <div className="flex items-start justify-between gap-4">
           <div>
-            <p className="text-[9px] font-semibold uppercase tracking-[0.1em] text-[#E41E2B]">
+            <p className="text-[9px] font-semibold uppercase tracking-[0.1em] text-accent-primary">
               Por quê {node.depth}
             </p>
             <p className="mt-2 text-[12px] leading-5 text-text-primary">
@@ -78,7 +78,7 @@ function TreeNode({
                   node.id,
                 )
               }
-              className="inline-flex items-center gap-1.5 text-[9px] font-semibold text-text-primary hover:text-[#C92834]"
+              className="inline-flex items-center gap-1.5 text-[9px] font-semibold text-text-primary hover:text-accent-hover"
             >
               <CirclePlus
                 size={12}
@@ -92,7 +92,7 @@ function TreeNode({
                   node,
                 )
               }
-              className="inline-flex items-center gap-1.5 text-[9px] font-semibold text-text-primary hover:text-[#C92834]"
+              className="inline-flex items-center gap-1.5 text-[9px] font-semibold text-text-primary hover:text-accent-hover"
             >
               <GitBranch
                 size={12}
@@ -106,7 +106,7 @@ function TreeNode({
                   node.id,
                 )
               }
-              className="inline-flex items-center gap-1.5 text-[9px] font-semibold text-text-secondary hover:text-[#C92834]"
+              className="inline-flex items-center gap-1.5 text-[9px] font-semibold text-text-secondary hover:text-accent-hover"
             >
               <Trash2
                 size={12}

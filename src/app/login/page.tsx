@@ -317,7 +317,7 @@ export default function LoginPage() {
                             .value,
                         )
                       }
-                      placeholder="Digite seu e-mail"
+                      placeholder="nome@kof.com"
                       autoComplete="email"
                       required
                       disabled={

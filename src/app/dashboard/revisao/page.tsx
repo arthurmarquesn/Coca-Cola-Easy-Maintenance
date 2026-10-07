@@ -18,11 +18,13 @@ import {
   getSession,
 } from "@/lib/session";
 
+import {
+  isAnalystRole,
+} from "@/lib/roles";
+
 interface UnitRow
   extends RowDataPacket {
-  city:
-    | string
-    | null;
+  name: string;
 }
 
 export default async function ReviewPageRoute() {
@@ -35,13 +37,20 @@ export default async function ReviewPageRoute() {
     );
   }
 
+  /* Revisão, MASP e Ursus não fazem parte do perfil Gestor
+     (o dashboard também esconde esses módulos). */
+  if (!isAnalystRole(session.role)) {
+    redirect("/dashboard");
+  }
+
+
   const units =
     await executeRows<
       UnitRow[]
     >(
       `
         SELECT
-          city
+          name
 
         FROM units
 
@@ -73,8 +82,8 @@ export default async function ReviewPageRoute() {
           session.name,
       }}
       unit={{
-        city:
-          unit.city,
+        name:
+          unit.name,
       }}
     />
   );

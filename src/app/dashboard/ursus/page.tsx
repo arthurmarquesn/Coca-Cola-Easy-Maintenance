@@ -3,11 +3,12 @@ import type { RowDataPacket } from "mysql2/promise";
 
 import { UrsusDashboardPage } from "@/components/ursus/ursus-dashboard-page";
 import { executeRows } from "@/lib/db";
+import { isAnalystRole } from "@/lib/roles";
 import { getSession } from "@/lib/session";
 
 interface UnitRow extends RowDataPacket {
   id: number;
-  city: string | null;
+  name: string;
 }
 
 export default async function UrsusPage() {
@@ -17,11 +18,18 @@ export default async function UrsusPage() {
     redirect("/login");
   }
 
+  /* Revisão, MASP e Ursus não fazem parte do perfil Gestor
+     (o dashboard também esconde esses módulos). */
+  if (!isAnalystRole(session.role)) {
+    redirect("/dashboard");
+  }
+
+
   const units = await executeRows<UnitRow[]>(
     `
       SELECT
         id,
-        city
+        name
       FROM units
       WHERE id = ?
         AND active = TRUE
@@ -42,7 +50,7 @@ export default async function UrsusPage() {
         name: session.name,
       }}
       unit={{
-        city: unit.city,
+        name: unit.name,
       }}
     />
   );

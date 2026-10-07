@@ -84,7 +84,7 @@ interface ReliabilityFailuresPageProps {
 
   unit: {
 
-    city: string | null;
+    name: string;
 
   };
 
@@ -487,8 +487,6 @@ function getUnitLabel(
 ): string {
 
   return (
-
-    unit.city?.trim() ||
 
     unit.name?.trim() ||
 
@@ -1350,7 +1348,7 @@ export function ReliabilityFailuresPage({
 
           return (
 
-            unit.city ??
+            unit.name ??
 
             "Unidade atual"
 
@@ -1390,7 +1388,7 @@ export function ReliabilityFailuresPage({
 
         data,
 
-        unit.city,
+        unit.name,
 
       ],
 
@@ -1444,7 +1442,7 @@ export function ReliabilityFailuresPage({
 
   return (
 
-    <main className="min-h-screen bg-[#F7F7F6]">
+    <main className="min-h-screen bg-background-primary">
 
       {/* ===================================================
 
@@ -1454,7 +1452,7 @@ export function ReliabilityFailuresPage({
 
 
 
-      <header className="border-b border-black/[0.05] bg-white">
+      <header className="border-b border-border-theme bg-surface">
 
         <div className="mx-auto flex h-[76px] w-full max-w-[1380px] items-center justify-between px-6 sm:px-8 lg:px-12">
 
@@ -1490,7 +1488,7 @@ export function ReliabilityFailuresPage({
 
               fallbackLabel={
 
-                unit.city
+                unit.name
 
               }
 
@@ -1510,7 +1508,7 @@ export function ReliabilityFailuresPage({
 
             <div className="hidden text-right sm:block">
 
-              <p className="text-[13px] font-medium text-[#25272A]">
+              <p className="text-[13px] font-medium text-text-primary">
 
                 {user.name}
 
@@ -1518,7 +1516,7 @@ export function ReliabilityFailuresPage({
 
 
 
-              <p className="mt-0.5 text-[10px] text-[#999DA2]">
+              <p className="mt-0.5 text-[10px] text-text-secondary">
 
                 Análise de confiabilidade
 
@@ -1548,7 +1546,7 @@ export function ReliabilityFailuresPage({
 
           href="/dashboard"
 
-          className="inline-flex items-center gap-2 text-[12px] font-medium text-[#81868C] transition-colors hover:text-[#282B2F]"
+          className="inline-flex items-center gap-2 text-[12px] font-medium text-text-secondary transition-colors hover:text-text-primary"
 
         >
 
@@ -1576,7 +1574,7 @@ export function ReliabilityFailuresPage({
 
         <div className="mt-6">
 
-          <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-[#A2A6AB]">
+          <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-text-muted">
 
             Engenharia de confiabilidade
 
@@ -1584,7 +1582,7 @@ export function ReliabilityFailuresPage({
 
 
 
-          <h1 className="mt-2 text-[34px] font-semibold tracking-[-0.045em] text-[#191B1E] sm:text-[40px]">
+          <h1 className="mt-2 text-[34px] font-semibold tracking-[-0.045em] text-text-primary sm:text-[40px]">
 
             Confiabilidade
 
@@ -1606,7 +1604,7 @@ export function ReliabilityFailuresPage({
 
           aria-label="Navegação da confiabilidade"
 
-          className="mt-6 overflow-x-auto border-b border-black/[0.055]"
+          className="mt-6 overflow-x-auto border-b border-border-theme"
 
         >
 
@@ -1616,7 +1614,7 @@ export function ReliabilityFailuresPage({
 
               href="/dashboard/confiabilidade"
 
-              className="pb-3 text-[11px] font-medium text-[#92979D] transition-colors hover:text-[#34383D]"
+              className="pb-3 text-[11px] font-medium text-text-secondary transition-colors hover:text-text-primary"
 
             >
 
@@ -1630,7 +1628,7 @@ export function ReliabilityFailuresPage({
 
               href="/dashboard/confiabilidade/origens"
 
-              className="pb-3 text-[11px] font-medium text-[#92979D] transition-colors hover:text-[#34383D]"
+              className="pb-3 text-[11px] font-medium text-text-secondary transition-colors hover:text-text-primary"
 
             >
 
@@ -1644,7 +1642,7 @@ export function ReliabilityFailuresPage({
 
               href="/dashboard/confiabilidade/evolucao"
 
-              className="pb-3 text-[11px] font-medium text-[#92979D] transition-colors hover:text-[#34383D]"
+              className="pb-3 text-[11px] font-medium text-text-secondary transition-colors hover:text-text-primary"
 
             >
 
@@ -1660,7 +1658,7 @@ export function ReliabilityFailuresPage({
 
               aria-current="page"
 
-              className="relative pb-3 text-[11px] font-semibold text-[#202327]"
+              className="relative pb-3 text-[11px] font-semibold text-text-primary"
 
             >
 
@@ -1668,7 +1666,7 @@ export function ReliabilityFailuresPage({
 
 
 
-              <span className="absolute inset-x-0 bottom-0 h-[2px] rounded-full bg-[#E41E2B]" />
+              <span className="absolute inset-x-0 bottom-0 h-[2px] rounded-full bg-accent-primary" />
 
             </Link>
 
@@ -1678,7 +1676,7 @@ export function ReliabilityFailuresPage({
 
               href="/dashboard/confiabilidade/linhas"
 
-              className="pb-3 text-[11px] font-medium text-[#92979D] transition-colors hover:text-[#34383D]"
+              className="pb-3 text-[11px] font-medium text-text-secondary transition-colors hover:text-text-primary"
 
             >
 
@@ -1814,7 +1812,7 @@ export function ReliabilityFailuresPage({
 
         {error && (
 
-          <div className="mt-8 rounded-[14px] border border-[#F0D2D5] bg-[#FFF8F8] px-4 py-3 text-[12px] text-[#BF2C35]">
+          <div className="mt-8 rounded-[14px] border border-accent-primary/30 bg-accent-soft px-4 py-3 text-[12px] text-accent-primary">
 
             {error}
 
@@ -1842,7 +1840,7 @@ export function ReliabilityFailuresPage({
 
                 size={22}
 
-                className="animate-spin text-[#E41E2B]"
+                className="animate-spin text-accent-primary"
 
               />
 

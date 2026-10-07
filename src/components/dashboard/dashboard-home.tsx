@@ -50,7 +50,7 @@ interface DashboardHomeProps {
   };
 
   unit: {
-    city: string | null;
+    name: string;
   };
 }
 
@@ -81,6 +81,14 @@ interface ProductIntroSlide {
 /* =========================================================
    DATA
 ========================================================= */
+
+const ANALYST_ONLY_MODULES =
+  new Set([
+    "/dashboard/importar",
+    "/dashboard/revisao",
+    "/dashboard/masp",
+    "/dashboard/ursus",
+  ]);
 
 const INTRO_STORAGE_KEY =
   "dashboard-home-intro-played";
@@ -167,12 +175,6 @@ function getInitials(
     first + last
   ).toUpperCase();
 }
-
-const WORKFLOW_STEPS = [
-  "Importar apontamentos",
-  "Revisar classificações",
-  "Analisar confiabilidade e causas",
-];
 
 /* =========================================================
    PRODUCT INTRO OVERLAY
@@ -367,11 +369,11 @@ function CocaBackground() {
       aria-hidden="true"
       className="pointer-events-none absolute inset-0 overflow-hidden"
     >
-      <div className="absolute left-1/2 top-[-360px] h-[720px] w-[1150px] -translate-x-1/2 rounded-full bg-white blur-[110px]" />
+      <div className="absolute left-1/2 top-[-360px] h-[720px] w-[1150px] -translate-x-1/2 rounded-full bg-surface blur-[110px]" />
 
-      <div className="absolute -right-[260px] top-[80px] h-[580px] w-[580px] rounded-full bg-[#E41E2B]/[0.025] blur-[110px]" />
+      <div className="absolute -right-[260px] top-[80px] h-[580px] w-[580px] rounded-full bg-accent-primary/[0.025] blur-[110px]" />
 
-      <div className="absolute -left-[220px] bottom-[-160px] h-[460px] w-[460px] rounded-full bg-[#E41E2B]/[0.018] blur-[100px]" />
+      <div className="absolute -left-[220px] bottom-[-160px] h-[460px] w-[460px] rounded-full bg-accent-primary/[0.018] blur-[100px]" />
 
       <svg
         viewBox="0 0 1800 820"
@@ -388,25 +390,25 @@ function CocaBackground() {
           >
             <stop
               offset="0%"
-              stopColor="#E41E2B"
+              stopColor="var(--accent-primary)"
               stopOpacity="0.015"
             />
 
             <stop
               offset="35%"
-              stopColor="#E41E2B"
+              stopColor="var(--accent-primary)"
               stopOpacity="0.09"
             />
 
             <stop
               offset="72%"
-              stopColor="#E41E2B"
+              stopColor="var(--accent-primary)"
               stopOpacity="0.055"
             />
 
             <stop
               offset="100%"
-              stopColor="#E41E2B"
+              stopColor="var(--accent-primary)"
               stopOpacity="0.01"
             />
           </linearGradient>
@@ -443,21 +445,22 @@ function CocaBackground() {
         <path
           d={COCA_WAVE_WHITE_PATH}
           fill="none"
-          stroke="rgba(255,255,255,0.82)"
+          stroke="var(--surface)"
+          strokeOpacity="0.82"
           strokeWidth="34"
           strokeLinecap="round"
         />
       </svg>
 
-      <div className="coca-particle coca-particle-1 absolute left-[9%] top-[25%] h-[5px] w-[5px] rounded-full bg-[#E41E2B]/20" />
+      <div className="coca-particle coca-particle-1 absolute left-[9%] top-[25%] h-[5px] w-[5px] rounded-full bg-accent-primary/20" />
 
-      <div className="coca-particle coca-particle-2 absolute left-[20%] top-[72%] h-[8px] w-[8px] rounded-full border border-[#E41E2B]/15 bg-white/70" />
+      <div className="coca-particle coca-particle-2 absolute left-[20%] top-[72%] h-[8px] w-[8px] rounded-full border border-accent-primary/15 bg-surface/70" />
 
-      <div className="coca-particle coca-particle-3 absolute right-[13%] top-[30%] h-[6px] w-[6px] rounded-full border border-[#E41E2B]/15" />
+      <div className="coca-particle coca-particle-3 absolute right-[13%] top-[30%] h-[6px] w-[6px] rounded-full border border-accent-primary/15" />
 
-      <div className="coca-particle coca-particle-4 absolute right-[24%] top-[78%] h-[4px] w-[4px] rounded-full bg-[#E41E2B]/15" />
+      <div className="coca-particle coca-particle-4 absolute right-[24%] top-[78%] h-[4px] w-[4px] rounded-full bg-accent-primary/15" />
 
-      <div className="coca-particle coca-particle-5 absolute left-[57%] top-[15%] h-[3px] w-[3px] rounded-full bg-[#E41E2B]/15" />
+      <div className="coca-particle coca-particle-5 absolute left-[57%] top-[15%] h-[3px] w-[3px] rounded-full bg-accent-primary/15" />
 
       <div
         className="absolute inset-0 opacity-[0.16]"
@@ -469,9 +472,9 @@ function CocaBackground() {
         }}
       />
 
-      <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(247,247,246,0.30)_0%,rgba(247,247,246,0.03)_32%,rgba(247,247,246,0.38)_100%)]" />
+      <div className="absolute inset-0 bg-[linear-gradient(180deg,color-mix(in_srgb,var(--background-primary)_30%,transparent)_0%,color-mix(in_srgb,var(--background-primary)_3%,transparent)_32%,color-mix(in_srgb,var(--background-primary)_38%,transparent)_100%)]" />
 
-      <div className="absolute inset-y-0 left-0 w-[27%] bg-[linear-gradient(90deg,#F7F7F6_0%,rgba(247,247,246,0.72)_48%,transparent_100%)]" />
+      <div className="absolute inset-y-0 left-0 w-[27%] bg-[linear-gradient(90deg,var(--background-primary)_0%,color-mix(in_srgb,var(--background-primary)_72%,transparent)_48%,transparent_100%)]" />
     </div>
   );
 }
@@ -511,10 +514,10 @@ function ModuleCard({
           ? "translate-y-0 opacity-100"
           : "translate-y-8 opacity-0",
         isRed
-          ? "border-[#E41E2B] bg-[#E41E2B] text-white shadow-[0_22px_55px_rgba(228,30,43,0.16)] hover:-translate-y-[7px] hover:shadow-[0_34px_78px_rgba(228,30,43,0.25)]"
+          ? "border-accent-primary bg-accent-primary text-white shadow-[0_22px_55px_rgba(228,30,43,0.16)] hover:-translate-y-[7px] hover:shadow-[0_34px_78px_rgba(228,30,43,0.25)]"
           : isDark
-            ? "border-[#191C1F] bg-[#191C1F] text-white shadow-[0_22px_55px_rgba(18,20,22,0.11)] hover:-translate-y-[7px] hover:shadow-[0_34px_78px_rgba(18,20,22,0.20)]"
-            : "border-black/[0.06] bg-white/[0.88] text-[#181B1F] backdrop-blur-md shadow-[0_14px_40px_rgba(18,20,22,0.035)] hover:-translate-y-[7px] hover:border-black/[0.10] hover:shadow-[0_28px_68px_rgba(18,20,22,0.085)]",
+            ? "border-text-primary bg-surface-inverse text-white shadow-[0_22px_55px_rgba(18,20,22,0.11)] hover:-translate-y-[7px] hover:shadow-[0_34px_78px_rgba(18,20,22,0.20)]"
+            : "border-border-theme bg-surface/[0.88] text-text-primary backdrop-blur-md shadow-[0_14px_40px_rgba(18,20,22,0.035)] hover:-translate-y-[7px] hover:border-border-theme hover:shadow-[0_28px_68px_rgba(18,20,22,0.085)]",
       ].join(" ")}
       style={{
         transitionDelay: `${100 + index * 65}ms`,
@@ -525,7 +528,7 @@ function ModuleCard({
           "pointer-events-none absolute left-[-50%] top-[-60%] h-[130%] w-[58%] rotate-[18deg] opacity-0 blur-xl transition-all duration-700 group-hover:left-[95%] group-hover:opacity-100",
           foreground
             ? "bg-white/[0.08]"
-            : "bg-white/80",
+            : "bg-surface/80",
         ].join(" ")}
       />
 
@@ -550,7 +553,7 @@ function ModuleCard({
 
       {isDark && (
         <>
-          <div className="absolute -right-24 -top-24 h-72 w-72 rounded-full bg-[#E41E2B]/20 blur-3xl transition-transform duration-1000 group-hover:scale-125" />
+          <div className="absolute -right-24 -top-24 h-72 w-72 rounded-full bg-accent-primary/20 blur-3xl transition-transform duration-1000 group-hover:scale-125" />
 
           <div className="absolute bottom-[-110px] right-[8%] h-52 w-52 rounded-full bg-white/[0.035] blur-3xl" />
         </>
@@ -565,7 +568,7 @@ function ModuleCard({
                 "transition-all duration-500 group-hover:-translate-y-1 group-hover:scale-[1.04]",
                 foreground
                   ? "bg-white/[0.12] text-white"
-                  : "border border-black/[0.035] bg-[#F6F6F5] text-[#34393E]",
+                  : "border border-border-theme bg-surface-elevated text-text-primary",
               ].join(" ")}
             >
               {module.icon}
@@ -579,7 +582,7 @@ function ModuleCard({
 
             {isDark && module.badge && (
               <span className="mt-3 flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.08em] text-white/80">
-                <span className="h-[5px] w-[5px] rounded-full bg-[#E41E2B] shadow-[0_0_18px_rgba(228,30,43,0.7)]" />
+                <span className="h-[5px] w-[5px] rounded-full bg-accent-primary shadow-[0_0_18px_rgba(228,30,43,0.7)]" />
 
                 {module.badge}
               </span>
@@ -602,14 +605,14 @@ function ModuleCard({
                   : "text-[22px]",
                 foreground
                   ? "text-white"
-                  : "text-[#181B1F]",
+                  : "text-text-primary",
               ].join(" ")}
             >
               {module.title}
             </h3>
 
             {!foreground && module.badge && (
-              <span className="rounded-full border border-black/[0.08] bg-white px-2.5 py-1 text-[10px] font-medium text-[#5F656B]">
+              <span className="rounded-full border border-border-theme bg-surface px-2.5 py-1 text-[10px] font-medium text-text-body">
                 {module.badge}
               </span>
             )}
@@ -623,7 +626,7 @@ function ModuleCard({
                 : "max-w-[320px]",
               foreground
                 ? "text-white/72"
-                : "text-[#7A8187]",
+                : "text-text-secondary",
             ].join(" ")}
           >
             {module.description}
@@ -636,7 +639,7 @@ function ModuleCard({
               Arraste a planilha aqui ou selecione um arquivo
             </span>
 
-            <span className="flex h-10 shrink-0 items-center justify-center gap-2 self-start rounded-full bg-white px-5 text-[12px] font-semibold text-[#E41E2B] transition-transform duration-300 group-hover:translate-x-1 sm:self-auto">
+            <span className="flex h-10 shrink-0 items-center justify-center gap-2 self-start rounded-full bg-surface px-5 text-[12px] font-semibold text-accent-primary transition-transform duration-300 group-hover:translate-x-1 sm:self-auto">
               {module.action}
 
               <ArrowRight
@@ -651,7 +654,7 @@ function ModuleCard({
               "mt-8 flex items-center justify-between border-t pt-4",
               foreground
                 ? "border-white/[0.11]"
-                : "border-black/[0.055]",
+                : "border-border-theme",
             ].join(" ")}
           >
             <span
@@ -659,7 +662,7 @@ function ModuleCard({
                 "text-[12px] font-semibold",
                 foreground
                   ? "text-white/92"
-                  : "text-[#32373B]",
+                  : "text-text-primary",
               ].join(" ")}
             >
               {module.action}
@@ -672,7 +675,7 @@ function ModuleCard({
                 "transition-all duration-300 group-hover:translate-x-1",
                 foreground
                   ? "text-white/80 group-hover:text-white"
-                  : "text-[#32373B] group-hover:text-[#E41E2B]",
+                  : "text-text-primary group-hover:text-accent-hover",
               ].join(" ")}
             />
           </div>
@@ -700,7 +703,7 @@ function SectionHeader({
   return (
     <div
       className={[
-        "flex items-end justify-between gap-4 border-b border-black/[0.06] pb-3",
+        "flex items-end justify-between gap-4 border-b border-border-theme pb-3",
         "transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)]",
         ready
           ? "translate-y-0 opacity-100"
@@ -710,11 +713,11 @@ function SectionHeader({
         transitionDelay: `${delay}ms`,
       }}
     >
-      <h2 className="text-[19px] font-semibold tracking-[-0.03em] text-[#171A1D]">
+      <h2 className="text-[19px] font-semibold tracking-[-0.03em] text-text-primary">
         {title}
       </h2>
 
-      <p className="hidden text-[12px] text-[#7A8187] sm:block">
+      <p className="hidden text-[12px] text-text-secondary sm:block">
         {caption}
       </p>
     </div>
@@ -936,11 +939,15 @@ export function DashboardHome({
     setShowEntryIntro(false);
   }
 
+  /* O Gestor só consulta: Importar, Revisar, MASP e Ursus
+     ficam com o Analista. As páginas também redirecionam. */
   const visibleModules =
     modules.filter(
       (module) =>
         isAnalyst ||
-        module.href !== "/dashboard/importar",
+        !ANALYST_ONLY_MODULES.has(
+          module.href,
+        ),
     );
 
   const dataModules =
@@ -962,7 +969,7 @@ export function DashboardHome({
     );
 
   return (
-    <main className="relative flex min-h-screen flex-col overflow-hidden bg-[#F7F7F6]">
+    <main className="relative flex min-h-screen flex-col overflow-hidden bg-background-primary">
       {introDecisionMade &&
         showEntryIntro && (
           <ProductEntryIntro
@@ -972,7 +979,7 @@ export function DashboardHome({
 
       <CocaBackground />
 
-      <header className="relative z-40 border-b border-black/[0.045] bg-white/[0.88] shadow-[0_1px_0_rgba(0,0,0,0.01)] backdrop-blur-xl">
+      <header className="relative z-40 border-b border-border-theme bg-surface/[0.88] shadow-[0_1px_0_rgba(0,0,0,0.01)] backdrop-blur-xl">
         <div className="mx-auto flex min-h-[72px] w-full max-w-[1320px] flex-wrap items-center justify-between gap-x-4 gap-y-2 px-4 py-3 sm:flex-nowrap sm:px-8 sm:py-2 lg:px-10">
           <div className="flex shrink-0 items-center gap-3">
             <Image
@@ -986,7 +993,7 @@ export function DashboardHome({
 
             <div className="hidden h-7 w-px bg-black/[0.08] sm:block" />
 
-            <span className="hidden truncate text-[13px] text-[#5F656B] sm:inline">
+            <span className="hidden truncate text-[13px] text-text-body sm:inline">
               Manutenção Industrial
             </span>
           </div>
@@ -994,14 +1001,14 @@ export function DashboardHome({
           <div className="ml-auto flex items-center gap-1.5 sm:gap-2.5">
             <UnitFilter
               fallbackLabel={
-                unit.city
+                unit.name
               }
             />
 
             {isAnalyst && (
             <Link
               href="/dashboard/usuarios"
-              className="group flex h-9 items-center gap-2 rounded-[11px] px-2.5 text-[13px] font-medium text-[#3C4146] transition-all duration-200 hover:bg-[#F2F2F1] hover:text-[#23272B]"
+              className="group flex h-9 items-center gap-2 rounded-[11px] px-2.5 text-[13px] font-medium text-text-primary transition-all duration-200 hover:bg-surface-elevated hover:text-text-primary"
             >
               <Users
                 size={15}
@@ -1018,17 +1025,17 @@ export function DashboardHome({
             <div className="mx-1 hidden h-8 w-px bg-black/[0.06] md:block" />
 
             <div className="hidden min-w-0 items-center gap-2.5 md:flex">
-              <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#191C1F] text-[11px] font-semibold text-white">
+              <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-surface-inverse text-[11px] font-semibold text-white">
                 {getInitials(user.name)}
               </div>
 
               <div className="min-w-0">
-                <p className="max-w-[160px] truncate text-[13px] font-semibold text-[#292D31]">
+                <p className="max-w-[160px] truncate text-[13px] font-semibold text-text-primary">
                   {user.name}
                 </p>
 
-                <p className="mt-[1px] text-[11px] text-[#A1A5AA]">
-                  {unit.city || "Unidade"}
+                <p className="mt-[1px] text-[11px] text-text-muted">
+                  {unit.name || "Unidade"}
                 </p>
               </div>
             </div>
@@ -1041,7 +1048,7 @@ export function DashboardHome({
                 void handleLogout()
               }
               disabled={loggingOut}
-              className="group flex h-10 items-center gap-2 rounded-[12px] border border-black/[0.08] bg-white px-3.5 text-[13px] font-medium text-[#3C4146] transition-all duration-200 hover:border-[#E41E2B]/30 hover:bg-[#FFF1F2] hover:text-[#E41E2B] disabled:cursor-not-allowed disabled:opacity-40"
+              className="group flex h-10 items-center gap-2 rounded-[12px] border border-border-theme bg-surface px-3.5 text-[13px] font-medium text-text-primary transition-all duration-200 hover:border-accent-primary/30 hover:bg-accent-soft hover:text-accent-hover disabled:cursor-not-allowed disabled:opacity-40"
             >
               <LogOut
                 size={15}
@@ -1070,128 +1077,131 @@ export function DashboardHome({
           ].join(" ")}
         >
           <div className="max-w-[660px]">
-            <p className="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.1em] text-[#5F656B]">
-              <span className="h-[6px] w-[6px] rounded-full bg-[#E41E2B]" />
+            <p className="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.1em] text-text-body">
+              <span className="h-[6px] w-[6px] rounded-full bg-accent-primary" />
 
               Olá, {firstName}
-              {unit.city && ` · Unidade ${unit.city}`}
+              {unit.name && ` · Unidade ${unit.name}`}
             </p>
 
-            <h1 className="mt-4 text-[42px] font-semibold leading-[0.98] tracking-[-0.065em] text-[#171A1D] sm:text-[52px] lg:text-[60px]">
+            <h1 className="mt-4 text-[42px] font-semibold leading-[0.98] tracking-[-0.065em] text-text-primary sm:text-[52px] lg:text-[60px]">
               Manutenção orientada
               <br />
               por dados
-              <span className="text-[#E41E2B]">
+              <span className="text-accent-primary">
                 .
               </span>
             </h1>
 
-            <p className="mt-6 max-w-[620px] text-[15px] leading-7 text-[#777E85]">
-              Importe novos apontamentos, consulte o histórico ou analise a confiabilidade das unidades selecionadas.
+            <p className="mt-6 max-w-[620px] text-[15px] leading-7 text-text-secondary">
+              {isAnalyst
+                ? "Importe novos apontamentos, consulte o histórico ou analise a confiabilidade das unidades selecionadas."
+                : "Consulte o histórico e analise a confiabilidade da sua unidade."}
             </p>
-          </div>
-
-          <div className="w-full rounded-[18px] border border-black/[0.06] bg-white/[0.88] p-5 shadow-[0_14px_40px_rgba(18,20,22,0.035)] backdrop-blur-md lg:w-[340px]">
-            <p className="text-[10px] font-semibold uppercase tracking-[0.1em] text-[#5F656B]">
-              Fluxo de trabalho
-            </p>
-
-            <ol className="mt-3 space-y-3">
-              {WORKFLOW_STEPS.map(
-                (step, stepIndex) => (
-                  <li
-                    key={step}
-                    className="flex items-center gap-3 text-[13px] text-[#23272B]"
-                  >
-                    <span
-                      className={[
-                        "flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-[11px] font-semibold text-white",
-                        stepIndex === 0
-                          ? "bg-[#E41E2B]"
-                          : "bg-[#191C1F]",
-                      ].join(" ")}
-                    >
-                      {stepIndex + 1}
-                    </span>
-
-                    {step}
-                  </li>
-                ),
-              )}
-            </ol>
           </div>
         </section>
 
-        <section className="mt-12">
-          <SectionHeader
-            title="Dados de manutenção"
-            caption="Entrada, consulta e curadoria"
-            ready={ready}
-            delay={60}
-          />
+        {isAnalyst ? (
+          <>
+          <section className="mt-12">
+            <SectionHeader
+              title="Dados de manutenção"
+              caption="Entrada, consulta e curadoria"
+              ready={ready}
+              delay={60}
+            />
 
-          <div
-            className={[
-              "mt-4 grid gap-4 md:grid-cols-2",
-              hasFeatured
-                ? "xl:grid-cols-[2fr_1fr_1fr]"
-                : "",
-            ].join(" ")}
-          >
-            {dataModules.map(
-              (
-                module,
-                index,
-              ) => (
-                <div
-                  key={module.href}
-                  className={[
-                    "grid",
-                    module.variant === "red"
-                      ? "md:col-span-2 xl:col-span-1"
-                      : "",
-                  ].join(" ")}
-                >
+            <div
+              className={[
+                "mt-4 grid gap-4 md:grid-cols-2",
+                hasFeatured
+                  ? "xl:grid-cols-[2fr_1fr_1fr]"
+                  : "",
+              ].join(" ")}
+            >
+              {dataModules.map(
+                (
+                  module,
+                  index,
+                ) => (
+                  <div
+                    key={module.href}
+                    className={[
+                      "grid",
+                      module.variant === "red"
+                        ? "md:col-span-2 xl:col-span-1"
+                        : "",
+                    ].join(" ")}
+                  >
+                    <ModuleCard
+                      module={module}
+                      index={index}
+                      ready={ready}
+                    />
+                  </div>
+                ),
+              )}
+            </div>
+          </section>
+
+          <section className="mt-12">
+            <SectionHeader
+              title="Análise e inteligência"
+              caption="Perdas, causas e modelo preditivo"
+              ready={ready}
+              delay={260}
+            />
+
+            <div className="mt-4 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+              {analysisModules.map(
+                (
+                  module,
+                  index,
+                ) => (
                   <ModuleCard
+                    key={module.href}
+                    module={module}
+                    index={dataModules.length + index}
+                    ready={ready}
+                  />
+                ),
+              )}
+            </div>
+          </section>
+          </>
+        ) : (
+          /* Gestor: só consulta. Os dois módulos dividem
+             uma seção para não sobrar meia linha vazia. */
+          <section className="mt-12">
+            <SectionHeader
+              title="Consulta e análise"
+              caption="Histórico e confiabilidade da sua unidade"
+              ready={ready}
+              delay={60}
+            />
+
+            <div className="mt-4 grid gap-4 md:grid-cols-2">
+              {visibleModules.map(
+                (
+                  module,
+                  index,
+                ) => (
+                  <ModuleCard
+                    key={module.href}
                     module={module}
                     index={index}
                     ready={ready}
                   />
-                </div>
-              ),
-            )}
-          </div>
-        </section>
-
-        <section className="mt-12">
-          <SectionHeader
-            title="Análise e inteligência"
-            caption="Perdas, causas e modelo preditivo"
-            ready={ready}
-            delay={260}
-          />
-
-          <div className="mt-4 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-            {analysisModules.map(
-              (
-                module,
-                index,
-              ) => (
-                <ModuleCard
-                  key={module.href}
-                  module={module}
-                  index={dataModules.length + index}
-                  ready={ready}
-                />
-              ),
-            )}
-          </div>
-        </section>
+                ),
+              )}
+            </div>
+          </section>
+        )}
       </div>
 
       <footer
         className={[
-          "relative z-10 border-t border-black/[0.045] bg-[#F7F7F6]/80",
+          "relative z-10 border-t border-border-theme bg-background-primary/80",
           "transition-all delay-500 duration-700",
           ready
             ? "translate-y-0 opacity-100"
@@ -1199,14 +1209,14 @@ export function DashboardHome({
         ].join(" ")}
       >
         <div className="mx-auto flex w-full max-w-[1320px] items-center justify-between px-6 py-5 sm:px-8 lg:px-10">
-          <p className="text-[11px] uppercase tracking-[0.14em] text-[#5F656B]">
+          <p className="text-[11px] uppercase tracking-[0.14em] text-text-body">
             Coca-Cola FEMSA
           </p>
 
           <div className="flex items-center gap-2">
-            <span className="h-[5px] w-[5px] rounded-full bg-[#E41E2B]" />
+            <span className="h-[5px] w-[5px] rounded-full bg-accent-primary" />
 
-            <span className="text-[11px] uppercase tracking-[0.14em] text-[#5F656B]">
+            <span className="text-[11px] uppercase tracking-[0.14em] text-text-body">
               Manutenção industrial
             </span>
           </div>

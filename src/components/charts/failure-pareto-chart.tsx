@@ -157,7 +157,7 @@ function buildOccurrenceLabel(
         x={x + width / 2}
         y={y + height - 6}
         textAnchor="middle"
-        fill="#FFFFFF"
+        fill="var(--surface)"
         fontSize={10}
         fontWeight={600}
       >

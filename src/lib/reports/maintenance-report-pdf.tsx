@@ -968,10 +968,7 @@ function getUnitLabel(
     const unit =
       data.units[0];
 
-    return (
-      unit.city ||
-      unit.name
-    );
+    return unit.name;
   }
 
   return `${data.units.length} unidades selecionadas`;
@@ -1580,7 +1577,6 @@ export function MaintenanceReportPdf({
               {data.units
                 .map(
                   (unit) =>
-                    unit.city ||
                     unit.name,
                 )
                 .join(", ")}
@@ -1730,8 +1726,7 @@ export function MaintenanceReportPdf({
                       },
                     ]}
                   >
-                    {item.city ||
-                      item.name}
+                    {item.name}
                   </Text>
 
                   <Text

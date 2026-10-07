@@ -310,13 +310,13 @@ function classBadge(
     criticality
   ) {
     case "A":
-      return "border-[#EEC6CA] bg-[#FFF5F6] text-[#C12631]";
+      return "border-accent-primary/30 bg-accent-soft text-accent-primary";
 
     case "B":
-      return "border-[#EAD8A9] bg-[#FFFBEE] text-[#946F17]";
+      return "border-warning/30 bg-warning/10 text-warning";
 
     case "C":
-      return "border-[#CEE1D1] bg-[#F5FAF6] text-[#4F8158]";
+      return "border-success/30 bg-success/10 text-success";
   }
 }
 
@@ -718,11 +718,11 @@ export function EquipmentCriticalityPage({
     !data
   ) {
     return (
-      <main className="flex min-h-screen items-center justify-center bg-surface-elevated">
+      <main className="flex min-h-screen items-center justify-center bg-background-primary">
         <div className="flex items-center gap-3 text-[13px] text-text-secondary">
           <LoaderCircle
             size={18}
-            className="animate-spin text-[#E41E2B]"
+            className="animate-spin text-accent-primary"
           />
 
           Carregando criticidade...
@@ -737,7 +737,7 @@ export function EquipmentCriticalityPage({
   ======================================================== */
 
   return (
-    <main className="min-h-screen bg-surface-elevated">
+    <main className="min-h-screen bg-background-primary">
       <header className="border-b border-border-theme/[0.05] bg-surface">
         <div className="mx-auto flex h-[76px] w-full max-w-[1380px] items-center justify-between px-6 sm:px-8 lg:px-12">
           <Link
@@ -758,9 +758,9 @@ export function EquipmentCriticalityPage({
               {userName}
             </p>
 
-            {data?.unit.city && (
+            {data?.unit.name && (
               <p className="mt-0.5 text-[11px] text-text-secondary">
-                {data.unit.city}
+                {data.unit.name}
               </p>
             )}
           </div>
@@ -821,7 +821,7 @@ export function EquipmentCriticalityPage({
                     .current
                     ?.click()
                 }
-                className="inline-flex h-11 items-center justify-center gap-2 rounded-[12px] bg-[#E41E2B] px-5 text-[12px] font-semibold text-white transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
+                className="inline-flex h-11 items-center justify-center gap-2 rounded-[12px] bg-accent-primary px-5 text-[12px] font-semibold text-white transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
               >
                 {syncing ? (
                   <LoaderCircle
@@ -890,7 +890,7 @@ export function EquipmentCriticalityPage({
         =================================================== */}
 
         {error && (
-          <div className="mt-5 flex items-start gap-3 rounded-[14px] border border-[#F0D2D5] bg-[#FFF8F8] px-4 py-3 text-[11px] leading-5 text-[#B52D36]">
+          <div className="mt-5 flex items-start gap-3 rounded-[14px] border border-accent-primary/30 bg-accent-soft px-4 py-3 text-[11px] leading-5 text-accent-primary">
             <AlertTriangle
               size={16}
               className="mt-0.5 shrink-0"
@@ -901,7 +901,7 @@ export function EquipmentCriticalityPage({
         )}
 
         {successMessage && (
-          <div className="mt-5 flex items-start gap-3 rounded-[14px] border border-[#D7E7DA] bg-[#F7FBF7] px-4 py-3 text-[11px] leading-5 text-[#52795A]">
+          <div className="mt-5 flex items-start gap-3 rounded-[14px] border border-success/30 bg-success/10 px-4 py-3 text-[11px] leading-5 text-success">
             <ShieldCheck
               size={16}
               className="mt-0.5 shrink-0"

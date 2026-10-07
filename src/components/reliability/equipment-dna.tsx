@@ -1831,31 +1831,31 @@ export function EquipmentDna({
         className="absolute inset-0 h-full w-full cursor-default bg-black/30 backdrop-blur-[3px]"
       />
 
-      <div className="relative flex max-h-[94vh] w-full max-w-[1320px] flex-col overflow-hidden rounded-[24px] border border-black/[0.06] bg-[#F7F7F6] shadow-[0_28px_90px_rgba(0,0,0,0.18)]">
+      <div className="relative flex max-h-[94vh] w-full max-w-[1320px] flex-col overflow-hidden rounded-[24px] border border-border-theme bg-background-primary shadow-[0_28px_90px_rgba(0,0,0,0.18)]">
         {/* =================================================
             CABEÇALHO
         ================================================== */}
 
-        <div className="flex shrink-0 items-start justify-between gap-6 border-b border-[#E5E7E9] bg-white px-6 py-5 sm:px-8">
+        <div className="flex shrink-0 items-start justify-between gap-6 border-b border-border-theme bg-surface px-6 py-5 sm:px-8">
           <div className="flex min-w-0 items-start gap-4">
-            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-[14px] bg-[#202327] text-white">
+            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-[14px] bg-surface-inverse text-white">
               <Fingerprint
                 size={20}
               />
             </div>
 
             <div className="min-w-0">
-              <p className="text-[9px] font-semibold uppercase tracking-[0.12em] text-[#A1A5AA]">
+              <p className="text-[9px] font-semibold uppercase tracking-[0.12em] text-text-muted">
                 DNA do equipamento
               </p>
 
-              <h2 className="mt-1 truncate text-[24px] font-semibold tracking-[-0.04em] text-[#202327] sm:text-[28px]">
+              <h2 className="mt-1 truncate text-[24px] font-semibold tracking-[-0.04em] text-text-primary sm:text-[28px]">
                 {equipmentInfo
                   ?.name ??
                   equipment}
               </h2>
 
-              <div className="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-[9px] text-[#999EA4]">
+              <div className="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-[9px] text-text-muted">
                 {line && (
                   <span>
                     {line}
@@ -1896,10 +1896,10 @@ export function EquipmentDna({
 
           <div className="flex shrink-0 items-center gap-3">
             {loading && (
-              <div className="hidden items-center gap-2 text-[10px] text-[#989DA2] sm:flex">
+              <div className="hidden items-center gap-2 text-[10px] text-text-secondary sm:flex">
                 <LoaderCircle
                   size={14}
-                  className="animate-spin text-[#E41E2B]"
+                  className="animate-spin text-accent-primary"
                 />
 
                 Atualizando
@@ -1911,7 +1911,7 @@ export function EquipmentDna({
               onClick={
                 onClose
               }
-              className="flex h-10 w-10 items-center justify-center rounded-full text-[#73787E] transition hover:bg-[#F2F3F3] hover:text-[#26292D]"
+              className="flex h-10 w-10 items-center justify-center rounded-full text-text-secondary transition hover:bg-surface-elevated hover:text-text-primary"
             >
               <X
                 size={18}
@@ -1926,14 +1926,14 @@ export function EquipmentDna({
 
         <div className="flex-1 overflow-y-auto px-4 py-4 sm:px-6 sm:py-6 lg:px-8">
           {error ? (
-            <div className="rounded-[16px] border border-[#F0D2D5] bg-[#FFF8F8] px-4 py-4">
+            <div className="rounded-[16px] border border-accent-primary/30 bg-accent-soft px-4 py-4">
               <div className="flex gap-3">
                 <AlertTriangle
                   size={17}
-                  className="mt-0.5 shrink-0 text-[#BF2C35]"
+                  className="mt-0.5 shrink-0 text-accent-primary"
                 />
 
-                <p className="text-[11px] leading-5 text-[#BF2C35]">
+                <p className="text-[11px] leading-5 text-accent-primary">
                   {error}
                 </p>
               </div>
@@ -1943,7 +1943,7 @@ export function EquipmentDna({
             <div className="flex min-h-[520px] items-center justify-center">
               <LoaderCircle
                 size={24}
-                className="animate-spin text-[#E41E2B]"
+                className="animate-spin text-accent-primary"
               />
             </div>
           ) : (
@@ -1960,9 +1960,9 @@ export function EquipmentDna({
                   RESUMO
               ============================================ */}
 
-              <section className="grid overflow-hidden rounded-[20px] border border-[#E4E6E8] bg-[#E4E6E8] sm:grid-cols-2 xl:grid-cols-4">
-                <div className="bg-white px-5 py-4">
-                  <div className="flex items-center gap-2 text-[#A0A5AA]">
+              <section className="grid overflow-hidden rounded-[20px] border border-border-theme bg-surface-hover sm:grid-cols-2 xl:grid-cols-4">
+                <div className="bg-surface px-5 py-4">
+                  <div className="flex items-center gap-2 text-text-muted">
                     <Activity
                       size={13}
                     />
@@ -1972,15 +1972,15 @@ export function EquipmentDna({
                     </p>
                   </div>
 
-                  <p className="mt-2 text-[26px] font-semibold tracking-[-0.045em] text-[#25282C]">
+                  <p className="mt-2 text-[26px] font-semibold tracking-[-0.045em] text-text-primary">
                     {formatNumber(
                       summary.occurrences,
                     )}
                   </p>
                 </div>
 
-                <div className="bg-white px-5 py-4">
-                  <div className="flex items-center gap-2 text-[#A0A5AA]">
+                <div className="bg-surface px-5 py-4">
+                  <div className="flex items-center gap-2 text-text-muted">
                     <TimerReset
                       size={13}
                     />
@@ -1990,20 +1990,20 @@ export function EquipmentDna({
                     </p>
                   </div>
 
-                  <p className="mt-2 text-[26px] font-semibold tracking-[-0.045em] text-[#25282C]">
+                  <p className="mt-2 text-[26px] font-semibold tracking-[-0.045em] text-text-primary">
                     {formatNumber(
                       summary.downtimeMinutes,
                       1,
                     )}
 
-                    <span className="ml-1 text-[10px] font-medium tracking-normal text-[#9CA1A6]">
+                    <span className="ml-1 text-[10px] font-medium tracking-normal text-text-muted">
                       min
                     </span>
                   </p>
                 </div>
 
-                <div className="bg-white px-5 py-4">
-                  <div className="flex items-center gap-2 text-[#A0A5AA]">
+                <div className="bg-surface px-5 py-4">
+                  <div className="flex items-center gap-2 text-text-muted">
                     <Clock3
                       size={13}
                     />
@@ -2013,20 +2013,20 @@ export function EquipmentDna({
                     </p>
                   </div>
 
-                  <p className="mt-2 text-[26px] font-semibold tracking-[-0.045em] text-[#25282C]">
+                  <p className="mt-2 text-[26px] font-semibold tracking-[-0.045em] text-text-primary">
                     {formatNumber(
                       summary.mttr,
                       1,
                     )}
 
-                    <span className="ml-1 text-[10px] font-medium tracking-normal text-[#9CA1A6]">
+                    <span className="ml-1 text-[10px] font-medium tracking-normal text-text-muted">
                       min
                     </span>
                   </p>
                 </div>
 
-                <div className="bg-white px-5 py-4">
-                  <div className="flex items-center gap-2 text-[#A0A5AA]">
+                <div className="bg-surface px-5 py-4">
+                  <div className="flex items-center gap-2 text-text-muted">
                     <Wrench
                       size={13}
                     />
@@ -2036,13 +2036,13 @@ export function EquipmentDna({
                     </p>
                   </div>
 
-                  <p className="mt-2 text-[26px] font-semibold tracking-[-0.045em] text-[#25282C]">
+                  <p className="mt-2 text-[26px] font-semibold tracking-[-0.045em] text-text-primary">
                     {formatPercentage(
                       summary.classificationCoverage,
                     )}
                   </p>
 
-                  <p className="mt-1 text-[9px] text-[#A0A5AA]">
+                  <p className="mt-1 text-[9px] text-text-muted">
                     {formatNumber(
                       summary.failureModes,
                     )}{" "}
@@ -2056,27 +2056,27 @@ export function EquipmentDna({
               ============================================ */}
 
               <div className="grid gap-5 xl:grid-cols-2">
-                <section className="rounded-[20px] border border-[#E5E7E9] bg-white p-5 sm:p-6">
+                <section className="rounded-[20px] border border-border-theme bg-surface p-5 sm:p-6">
                   <div className="flex items-start justify-between gap-5">
                     <div>
-                      <p className="text-[9px] font-semibold uppercase tracking-[0.09em] text-[#A3A7AC]">
+                      <p className="text-[9px] font-semibold uppercase tracking-[0.09em] text-text-muted">
                         Origem das falhas
                       </p>
 
-                      <h3 className="mt-1 text-[16px] font-semibold tracking-[-0.025em] text-[#303438]">
+                      <h3 className="mt-1 text-[16px] font-semibold tracking-[-0.025em] text-text-primary">
                         Operação × Manutenção
                       </h3>
                     </div>
 
-                    <p className="text-[9px] text-[#A0A4A9]">
+                    <p className="text-[9px] text-text-muted">
                       Origem efetiva
                     </p>
                   </div>
 
-                  <div className="mt-6 overflow-hidden rounded-full bg-[#F0F1F2]">
+                  <div className="mt-6 overflow-hidden rounded-full bg-surface-elevated">
                     <div className="flex h-3 w-full">
                       <div
-                        className="h-full bg-[#E41E2B] transition-all"
+                        className="h-full bg-accent-primary transition-all"
                         style={{
                           width:
                             `${Math.min(
@@ -2087,7 +2087,7 @@ export function EquipmentDna({
                       />
 
                       <div
-                        className="h-full bg-[#5E6368] transition-all"
+                        className="h-full bg-text-muted transition-all"
                         style={{
                           width:
                             `${Math.min(
@@ -2100,22 +2100,22 @@ export function EquipmentDna({
                   </div>
 
                   <div className="mt-5 grid grid-cols-2 gap-3">
-                    <div className="rounded-[14px] bg-[#FFF7F7] p-4">
+                    <div className="rounded-[14px] bg-accent-soft p-4">
                       <div className="flex items-center gap-2">
-                        <span className="h-2 w-2 rounded-full bg-[#E41E2B]" />
+                        <span className="h-2 w-2 rounded-full bg-accent-primary" />
 
-                        <span className="text-[9px] font-semibold uppercase tracking-[0.07em] text-[#9B6064]">
+                        <span className="text-[9px] font-semibold uppercase tracking-[0.07em] text-accent-primary">
                           Manutenção
                         </span>
                       </div>
 
-                      <p className="mt-2 text-[22px] font-semibold tracking-[-0.04em] text-[#9E2730]">
+                      <p className="mt-2 text-[22px] font-semibold tracking-[-0.04em] text-accent-primary">
                         {formatPercentage(
                           origin.maintenance.percentage,
                         )}
                       </p>
 
-                      <p className="mt-1 text-[9px] text-[#AD8A8D]">
+                      <p className="mt-1 text-[9px] text-accent-primary">
                         {formatNumber(
                           origin.maintenance.occurrences,
                         )}{" "}
@@ -2123,22 +2123,22 @@ export function EquipmentDna({
                       </p>
                     </div>
 
-                    <div className="rounded-[14px] bg-[#F5F6F6] p-4">
+                    <div className="rounded-[14px] bg-surface-elevated p-4">
                       <div className="flex items-center gap-2">
-                        <span className="h-2 w-2 rounded-full bg-[#5E6368]" />
+                        <span className="h-2 w-2 rounded-full bg-text-muted" />
 
-                        <span className="text-[9px] font-semibold uppercase tracking-[0.07em] text-[#7C8186]">
+                        <span className="text-[9px] font-semibold uppercase tracking-[0.07em] text-text-secondary">
                           Operação
                         </span>
                       </div>
 
-                      <p className="mt-2 text-[22px] font-semibold tracking-[-0.04em] text-[#44494E]">
+                      <p className="mt-2 text-[22px] font-semibold tracking-[-0.04em] text-text-primary">
                         {formatPercentage(
                           origin.operation.percentage,
                         )}
                       </p>
 
-                      <p className="mt-1 text-[9px] text-[#9A9FA5]">
+                      <p className="mt-1 text-[9px] text-text-muted">
                         {formatNumber(
                           origin.operation.occurrences,
                         )}{" "}
@@ -2149,7 +2149,7 @@ export function EquipmentDna({
 
                   {origin.unclassified.occurrences >
                     0 && (
-                    <p className="mt-4 text-[9px] text-[#A1A5AA]">
+                    <p className="mt-4 text-[9px] text-text-muted">
                       {formatNumber(
                         origin.unclassified.occurrences,
                       )}{" "}
@@ -2158,21 +2158,21 @@ export function EquipmentDna({
                   )}
                 </section>
 
-                <section className="rounded-[20px] border border-[#E5E7E9] bg-white p-5 sm:p-6">
+                <section className="rounded-[20px] border border-border-theme bg-surface p-5 sm:p-6">
                   <div className="flex items-start justify-between gap-5">
                     <div>
-                      <p className="text-[9px] font-semibold uppercase tracking-[0.09em] text-[#A3A7AC]">
+                      <p className="text-[9px] font-semibold uppercase tracking-[0.09em] text-text-muted">
                         Produtos associados
                       </p>
 
-                      <h3 className="mt-1 text-[16px] font-semibold tracking-[-0.025em] text-[#303438]">
+                      <h3 className="mt-1 text-[16px] font-semibold tracking-[-0.025em] text-text-primary">
                         Contexto de produção do ativo
                       </h3>
                     </div>
 
                     <Package
                       size={17}
-                      className="text-[#A0A4A9]"
+                      className="text-text-muted"
                     />
                   </div>
 
@@ -2205,11 +2205,11 @@ export function EquipmentDna({
                               key={`${product.label}-${index}`}
                             >
                               <div className="flex items-start justify-between gap-4">
-                                <p className="min-w-0 text-[10px] font-medium leading-4 text-[#51565B]">
+                                <p className="min-w-0 text-[10px] font-medium leading-4 text-text-body">
                                   {product.label}
                                 </p>
 
-                                <p className="shrink-0 text-[10px] font-semibold tabular-nums text-[#35393D]">
+                                <p className="shrink-0 text-[10px] font-semibold tabular-nums text-text-primary">
                                   {metricLabel(
                                     value,
                                     metric,
@@ -2217,9 +2217,9 @@ export function EquipmentDna({
                                 </p>
                               </div>
 
-                              <div className="mt-2 h-[5px] overflow-hidden rounded-full bg-[#ECEEEF]">
+                              <div className="mt-2 h-[5px] overflow-hidden rounded-full bg-surface-elevated">
                                 <div
-                                  className="h-full rounded-full bg-[#51565B]"
+                                  className="h-full rounded-full bg-surface-inverse"
                                   style={{
                                     width:
                                       `${width}%`,
@@ -2231,13 +2231,13 @@ export function EquipmentDna({
                         },
                       )
                     ) : (
-                      <div className="rounded-[14px] border border-dashed border-[#DDE0E2] px-4 py-7 text-center">
+                      <div className="rounded-[14px] border border-dashed border-border-theme px-4 py-7 text-center">
                         <Package
                           size={20}
-                          className="mx-auto text-[#B1B5B9]"
+                          className="mx-auto text-text-muted"
                         />
 
-                        <p className="mt-2 text-[10px] text-[#8C9197]">
+                        <p className="mt-2 text-[10px] text-text-secondary">
                           Nenhum produto identificado no recorte.
                         </p>
                       </div>
@@ -2250,19 +2250,19 @@ export function EquipmentDna({
                   FALHAS + FALHA X PRODUTO
               ============================================ */}
 
-              <section className="overflow-hidden rounded-[20px] border border-[#E5E7E9] bg-white">
-                <div className="flex flex-col gap-4 border-b border-[#ECEDEF] px-5 py-5 sm:flex-row sm:items-end sm:justify-between sm:px-6">
+              <section className="overflow-hidden rounded-[20px] border border-border-theme bg-surface">
+                <div className="flex flex-col gap-4 border-b border-border-theme px-5 py-5 sm:flex-row sm:items-end sm:justify-between sm:px-6">
                   <div>
-                    <p className="text-[9px] font-semibold uppercase tracking-[0.09em] text-[#A3A7AC]">
+                    <p className="text-[9px] font-semibold uppercase tracking-[0.09em] text-text-muted">
                       Assinatura de falhas
                     </p>
 
-                    <h3 className="mt-1 text-[16px] font-semibold tracking-[-0.025em] text-[#303438]">
+                    <h3 className="mt-1 text-[16px] font-semibold tracking-[-0.025em] text-text-primary">
                       O que caracteriza este equipamento
                     </h3>
                   </div>
 
-                  <div className="inline-flex self-start rounded-[10px] border border-[#E1E3E5] bg-[#F7F7F6] p-1 sm:self-auto">
+                  <div className="inline-flex self-start rounded-[10px] border border-border-theme bg-background-primary p-1 sm:self-auto">
                     <button
                       type="button"
                       onClick={() =>
@@ -2274,8 +2274,8 @@ export function EquipmentDna({
                         `h-8 rounded-[7px] px-3 text-[9px] font-medium transition ${
                           metric ===
                           "OCCURRENCES"
-                            ? "bg-white text-[#303438] shadow-sm"
-                            : "text-[#8A8F95]"
+                            ? "bg-surface text-text-primary shadow-sm"
+                            : "text-text-secondary"
                         }`
                       }
                     >
@@ -2293,8 +2293,8 @@ export function EquipmentDna({
                         `h-8 rounded-[7px] px-3 text-[9px] font-medium transition ${
                           metric ===
                           "DOWNTIME"
-                            ? "bg-white text-[#303438] shadow-sm"
-                            : "text-[#8A8F95]"
+                            ? "bg-surface text-text-primary shadow-sm"
+                            : "text-text-secondary"
                         }`
                       }
                     >
@@ -2304,7 +2304,7 @@ export function EquipmentDna({
                 </div>
 
                 <div className="grid lg:grid-cols-[minmax(0,1.15fr)_minmax(320px,0.85fr)]">
-                  <div className="border-b border-[#ECEDEF] px-5 py-5 sm:px-6 lg:border-b-0 lg:border-r">
+                  <div className="border-b border-border-theme px-5 py-5 sm:px-6 lg:border-b-0 lg:border-r">
                     <div className="space-y-2">
                       {visibleFailures.length >
                       0 ? (
@@ -2347,8 +2347,8 @@ export function EquipmentDna({
                                 className={
                                   `w-full rounded-[13px] border px-3 py-3 text-left transition ${
                                     selected
-                                      ? "border-[#E7C5C8] bg-[#FFF8F8]"
-                                      : "border-transparent hover:border-[#E6E8EA] hover:bg-[#FAFAF9]"
+                                      ? "border-accent-primary/30 bg-accent-soft"
+                                      : "border-transparent hover:border-border-theme hover:bg-background-primary"
                                   }`
                                 }
                               >
@@ -2357,8 +2357,8 @@ export function EquipmentDna({
                                     className={
                                       `flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-[9px] font-semibold ${
                                         selected
-                                          ? "bg-[#E41E2B] text-white"
-                                          : "bg-[#F0F1F2] text-[#747980]"
+                                          ? "bg-accent-primary text-white"
+                                          : "bg-surface-elevated text-text-secondary"
                                       }`
                                     }
                                   >
@@ -2373,11 +2373,11 @@ export function EquipmentDna({
 
                                   <div className="min-w-0 flex-1">
                                     <div className="flex items-start justify-between gap-4">
-                                      <p className="text-[10px] font-medium leading-4 text-[#454A4F]">
+                                      <p className="text-[10px] font-medium leading-4 text-text-primary">
                                         {failure.failureMode}
                                       </p>
 
-                                      <p className="shrink-0 text-[10px] font-semibold tabular-nums text-[#34383C]">
+                                      <p className="shrink-0 text-[10px] font-semibold tabular-nums text-text-primary">
                                         {metricLabel(
                                           value,
                                           metric,
@@ -2385,13 +2385,13 @@ export function EquipmentDna({
                                       </p>
                                     </div>
 
-                                    <div className="mt-2 h-[5px] overflow-hidden rounded-full bg-[#ECEEEF]">
+                                    <div className="mt-2 h-[5px] overflow-hidden rounded-full bg-surface-elevated">
                                       <div
                                         className={
                                           `h-full rounded-full transition-all ${
                                             selected
-                                              ? "bg-[#E41E2B]"
-                                              : "bg-[#4D5257]"
+                                              ? "bg-accent-primary"
+                                              : "bg-surface-inverse"
                                           }`
                                         }
                                         style={{
@@ -2401,7 +2401,7 @@ export function EquipmentDna({
                                       />
                                     </div>
 
-                                    <div className="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-[8px] text-[#9CA1A6]">
+                                    <div className="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-[8px] text-text-muted">
                                       <span>
                                         {formatNumber(
                                           failure.occurrences,
@@ -2433,43 +2433,43 @@ export function EquipmentDna({
                           },
                         )
                       ) : (
-                        <div className="py-12 text-center text-[10px] text-[#969BA1]">
+                        <div className="py-12 text-center text-[10px] text-text-secondary">
                           Nenhum modo de falha classificado para este equipamento.
                         </div>
                       )}
                     </div>
                   </div>
 
-                  <div className="bg-[#FCFCFB] px-5 py-5 sm:px-6">
+                  <div className="bg-background-primary px-5 py-5 sm:px-6">
                     {selectedFailure ? (
                       <>
-                        <p className="text-[9px] font-semibold uppercase tracking-[0.08em] text-[#A2A7AC]">
+                        <p className="text-[9px] font-semibold uppercase tracking-[0.08em] text-text-muted">
                           Produto × falha selecionada
                         </p>
 
-                        <h4 className="mt-1 text-[15px] font-semibold leading-5 tracking-[-0.02em] text-[#34383C]">
+                        <h4 className="mt-1 text-[15px] font-semibold leading-5 tracking-[-0.02em] text-text-primary">
                           {selectedFailure.failureMode}
                         </h4>
 
-                        <div className="mt-4 grid grid-cols-3 gap-px overflow-hidden rounded-[12px] border border-[#E7E8EA] bg-[#E7E8EA]">
-                          <div className="bg-white px-3 py-3">
-                            <p className="text-[7px] font-semibold uppercase tracking-[0.07em] text-[#A1A5AA]">
+                        <div className="mt-4 grid grid-cols-3 gap-px overflow-hidden rounded-[12px] border border-border-theme bg-surface-hover">
+                          <div className="bg-surface px-3 py-3">
+                            <p className="text-[7px] font-semibold uppercase tracking-[0.07em] text-text-muted">
                               Ocorr.
                             </p>
 
-                            <p className="mt-1 text-[16px] font-semibold text-[#303438]">
+                            <p className="mt-1 text-[16px] font-semibold text-text-primary">
                               {formatNumber(
                                 selectedFailure.occurrences,
                               )}
                             </p>
                           </div>
 
-                          <div className="bg-white px-3 py-3">
-                            <p className="text-[7px] font-semibold uppercase tracking-[0.07em] text-[#A1A5AA]">
+                          <div className="bg-surface px-3 py-3">
+                            <p className="text-[7px] font-semibold uppercase tracking-[0.07em] text-text-muted">
                               Parada
                             </p>
 
-                            <p className="mt-1 text-[16px] font-semibold text-[#303438]">
+                            <p className="mt-1 text-[16px] font-semibold text-text-primary">
                               {formatNumber(
                                 selectedFailure.downtimeMinutes,
                                 1,
@@ -2477,12 +2477,12 @@ export function EquipmentDna({
                             </p>
                           </div>
 
-                          <div className="bg-white px-3 py-3">
-                            <p className="text-[7px] font-semibold uppercase tracking-[0.07em] text-[#A1A5AA]">
+                          <div className="bg-surface px-3 py-3">
+                            <p className="text-[7px] font-semibold uppercase tracking-[0.07em] text-text-muted">
                               MTTR
                             </p>
 
-                            <p className="mt-1 text-[16px] font-semibold text-[#303438]">
+                            <p className="mt-1 text-[16px] font-semibold text-text-primary">
                               {formatNumber(
                                 selectedFailure.mttr,
                                 1,
@@ -2520,11 +2520,11 @@ export function EquipmentDna({
                                     key={`${product.label}-${index}`}
                                   >
                                     <div className="flex items-start justify-between gap-3">
-                                      <p className="min-w-0 text-[9px] font-medium leading-4 text-[#565B60]">
+                                      <p className="min-w-0 text-[9px] font-medium leading-4 text-text-body">
                                         {product.label}
                                       </p>
 
-                                      <p className="shrink-0 text-[9px] font-semibold text-[#373B3F]">
+                                      <p className="shrink-0 text-[9px] font-semibold text-text-primary">
                                         {metricLabel(
                                           value,
                                           metric,
@@ -2532,9 +2532,9 @@ export function EquipmentDna({
                                       </p>
                                     </div>
 
-                                    <div className="mt-2 h-[5px] overflow-hidden rounded-full bg-[#E8EAEB]">
+                                    <div className="mt-2 h-[5px] overflow-hidden rounded-full bg-surface-hover">
                                       <div
-                                        className="h-full rounded-full bg-[#E41E2B]"
+                                        className="h-full rounded-full bg-accent-primary"
                                         style={{
                                           width:
                                             `${width}%`,
@@ -2542,7 +2542,7 @@ export function EquipmentDna({
                                       />
                                     </div>
 
-                                    <p className="mt-1 text-[8px] text-[#A1A5AA]">
+                                    <p className="mt-1 text-[8px] text-text-muted">
                                       {formatPercentage(
                                         product.occurrencePercentage,
                                       )}{" "}
@@ -2553,25 +2553,25 @@ export function EquipmentDna({
                               },
                             )
                           ) : (
-                            <div className="rounded-[12px] border border-dashed border-[#DDE0E2] px-4 py-6 text-center">
+                            <div className="rounded-[12px] border border-dashed border-border-theme px-4 py-6 text-center">
                               <Package
                                 size={18}
-                                className="mx-auto text-[#B1B5B9]"
+                                className="mx-auto text-text-muted"
                               />
 
-                              <p className="mt-2 text-[9px] text-[#969BA1]">
+                              <p className="mt-2 text-[9px] text-text-secondary">
                                 Sem produto associado a esta falha.
                               </p>
                             </div>
                           )}
                         </div>
 
-                        <p className="mt-5 border-t border-[#E8E9EA] pt-4 text-[8px] leading-4 text-[#A0A4A9]">
+                        <p className="mt-5 border-t border-border-theme pt-4 text-[8px] leading-4 text-text-muted">
                           O cruzamento mostra o produto registrado no evento. Não representa, isoladamente, causalidade entre produto e falha.
                         </p>
                       </>
                     ) : (
-                      <div className="flex min-h-[320px] items-center justify-center text-center text-[10px] text-[#979CA2]">
+                      <div className="flex min-h-[320px] items-center justify-center text-center text-[10px] text-text-secondary">
                         Selecione uma falha para visualizar o cruzamento com produto.
                       </div>
                     )}
@@ -2583,20 +2583,20 @@ export function EquipmentDna({
                   EVOLUÇÃO TEMPORAL
               ============================================ */}
 
-              <section className="rounded-[20px] border border-[#E5E7E9] bg-white p-5 sm:p-6">
+              <section className="rounded-[20px] border border-border-theme bg-surface p-5 sm:p-6">
                 <div className="flex flex-col gap-4 xl:flex-row xl:items-end xl:justify-between">
                   <div>
-                    <p className="text-[9px] font-semibold uppercase tracking-[0.09em] text-[#A3A7AC]">
+                    <p className="text-[9px] font-semibold uppercase tracking-[0.09em] text-text-muted">
                       Comportamento no tempo
                     </p>
 
-                    <h3 className="mt-1 text-[16px] font-semibold tracking-[-0.025em] text-[#303438]">
+                    <h3 className="mt-1 text-[16px] font-semibold tracking-[-0.025em] text-text-primary">
                       Evolução do equipamento
                     </h3>
                   </div>
 
                   <div className="flex flex-col gap-3 sm:flex-row">
-                    <div className="inline-flex rounded-[10px] border border-[#E1E3E5] bg-[#F7F7F6] p-1">
+                    <div className="inline-flex rounded-[10px] border border-border-theme bg-background-primary p-1">
                       {(
                         [
                           [
@@ -2633,8 +2633,8 @@ export function EquipmentDna({
                               `h-8 rounded-[7px] px-3 text-[9px] font-medium transition ${
                                 timelineMetric ===
                                 value
-                                  ? "bg-white text-[#303438] shadow-sm"
-                                  : "text-[#8A8F95]"
+                                  ? "bg-surface text-text-primary shadow-sm"
+                                  : "text-text-secondary"
                               }`
                             }
                           >
@@ -2644,7 +2644,7 @@ export function EquipmentDna({
                       )}
                     </div>
 
-                    <div className="inline-flex rounded-[10px] border border-[#E1E3E5] bg-[#F7F7F6] p-1">
+                    <div className="inline-flex rounded-[10px] border border-border-theme bg-background-primary p-1">
                       {(
                         [
                           [
@@ -2681,8 +2681,8 @@ export function EquipmentDna({
                               `h-8 rounded-[7px] px-3 text-[9px] font-medium transition ${
                                 grouping ===
                                 value
-                                  ? "bg-white text-[#303438] shadow-sm"
-                                  : "text-[#8A8F95]"
+                                  ? "bg-surface text-text-primary shadow-sm"
+                                  : "text-text-secondary"
                               }`
                             }
                           >
@@ -2746,7 +2746,7 @@ export function EquipmentDna({
                                 y2={
                                   y
                                 }
-                                stroke="#ECEEEF"
+                                stroke="var(--chart-grid)"
                               />
 
                               <text
@@ -2760,7 +2760,7 @@ export function EquipmentDna({
                                 }
                                 textAnchor="end"
                                 fontSize="9"
-                                fill="#9CA1A6"
+                                fill="var(--text-secondary)"
                               >
                                 {formatNumber(
                                   value,
@@ -2781,7 +2781,7 @@ export function EquipmentDna({
                             timelinePath
                           }
                           fill="none"
-                          stroke="#E41E2B"
+                          stroke="var(--accent-primary)"
                           strokeWidth="3"
                           strokeLinecap="round"
                           strokeLinejoin="round"
@@ -2816,7 +2816,7 @@ export function EquipmentDna({
                               }
                               textAnchor="middle"
                               fontSize="9"
-                              fill="#92979C"
+                              fill="var(--text-secondary)"
                             >
                               {formatPeriodLabel(
                                 point.item.periodStart,
@@ -2867,8 +2867,8 @@ export function EquipmentDna({
                                     ? 5
                                     : 3
                                 }
-                                fill="#FFFFFF"
-                                stroke="#E41E2B"
+                                fill="var(--surface)"
+                                stroke="var(--accent-primary)"
                                 strokeWidth={
                                   active
                                     ? 3
@@ -2883,7 +2883,7 @@ export function EquipmentDna({
 
                     {hoveredTimelinePoint && (
                       <div
-                        className="pointer-events-none absolute z-20 min-w-[165px] rounded-[12px] bg-[#202225] px-3 py-2.5 text-white shadow-xl"
+                        className="pointer-events-none absolute z-20 min-w-[165px] rounded-[12px] bg-surface-inverse px-3 py-2.5 text-white shadow-xl"
                         style={{
                           left:
                             `${(
@@ -2957,10 +2957,10 @@ export function EquipmentDna({
                   <div className="mt-5 flex min-h-[240px] flex-col items-center justify-center text-center">
                     <CalendarDays
                       size={22}
-                      className="text-[#B8BCC0]"
+                      className="text-text-muted"
                     />
 
-                    <p className="mt-2 text-[10px] text-[#92979D]">
+                    <p className="mt-2 text-[10px] text-text-secondary">
                       Sem evolução temporal disponível para o recorte.
                     </p>
                   </div>
@@ -2974,20 +2974,20 @@ export function EquipmentDna({
               {equipmentInfo &&
                 equipmentInfo.lines.length >
                   1 && (
-                <section className="rounded-[20px] border border-[#E5E7E9] bg-white p-5 sm:p-6">
+                <section className="rounded-[20px] border border-border-theme bg-surface p-5 sm:p-6">
                   <div className="flex items-start gap-3">
-                    <div className="flex h-8 w-8 items-center justify-center rounded-[10px] bg-[#F0F1F2] text-[#64696F]">
+                    <div className="flex h-8 w-8 items-center justify-center rounded-[10px] bg-surface-elevated text-text-body">
                       <Factory
                         size={15}
                       />
                     </div>
 
                     <div>
-                      <p className="text-[12px] font-semibold text-[#3C4044]">
+                      <p className="text-[12px] font-semibold text-text-primary">
                         Linhas associadas ao equipamento
                       </p>
 
-                      <p className="mt-1 text-[9px] text-[#9A9FA5]">
+                      <p className="mt-1 text-[9px] text-text-muted">
                         O mesmo nome de equipamento aparece em mais de uma linha no recorte atual.
                       </p>
                     </div>
@@ -3002,13 +3002,13 @@ export function EquipmentDna({
                           key={
                             item.name
                           }
-                          className="rounded-full border border-[#E1E3E5] bg-[#FAFAF9] px-3 py-2 text-[9px] text-[#696E74]"
+                          className="rounded-full border border-border-theme bg-background-primary px-3 py-2 text-[9px] text-text-body"
                         >
-                          <span className="font-semibold text-[#3E4246]">
+                          <span className="font-semibold text-text-primary">
                             {item.name}
                           </span>
 
-                          <span className="mx-1.5 text-[#C0C3C6]">
+                          <span className="mx-1.5 text-text-muted">
                             ·
                           </span>
 

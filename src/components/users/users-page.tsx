@@ -8,8 +8,8 @@ import Link from "next/link";
 import {
   ArrowLeft,
   Building2,
-  Globe2,
   LoaderCircle,
+  Pencil,
   ShieldCheck,
   UserPlus,
   Users,
@@ -27,6 +27,14 @@ import {
 import {
   ThemeSwitcher,
 } from "@/components/theme/theme-switcher";
+
+import {
+  EditUserDialog,
+} from "@/components/users/edit-user-dialog";
+
+import {
+  UnitAccessPicker,
+} from "@/components/users/unit-access-picker";
 
 
 /* =========================================================
@@ -78,6 +86,10 @@ interface UserItem {
     | string
     | null;
 
+  /* Unidades de acesso visíveis para quem administra. */
+  unitIds:
+    number[];
+
   representativeUnit:
     | UnitItem
     | null;
@@ -122,7 +134,6 @@ function unitLabel(
     UnitItem,
 ): string {
   return (
-    unit.city?.trim() ||
     unit.name?.trim() ||
     unit.code?.trim() ||
     `Unidade ${unit.id}`
@@ -341,6 +352,29 @@ export function UsersPage({
     );
 
 
+  /* Unidades extras: só para o Analista. */
+  const [
+    extraUnitIds,
+    setExtraUnitIds,
+  ] =
+    useState<
+      number[]
+    >(
+      [],
+    );
+
+
+  const [
+    editingUser,
+    setEditingUser,
+  ] =
+    useState<
+      UserItem | null
+    >(
+      null,
+    );
+
+
   /* =======================================================
      LOAD USERS
   ======================================================= */
@@ -505,6 +539,11 @@ export function UsersPage({
     );
 
 
+    setExtraUnitIds(
+      [],
+    );
+
+
     if (
       units.length ===
       1
@@ -574,7 +613,7 @@ export function UsersPage({
       null
     ) {
       setError(
-        "Selecione a unidade representada pelo usuário.",
+        "Selecione a unidade do usuário.",
       );
 
 
@@ -615,6 +654,18 @@ export function UsersPage({
                 role,
 
                 representativeUnitId,
+
+                extraUnitIds:
+                  role ===
+                  "MANAGER"
+                    ? []
+                    : extraUnitIds.filter(
+                        (
+                          unitId,
+                        ) =>
+                          unitId !==
+                          representativeUnitId,
+                      ),
               }),
           },
         );
@@ -667,7 +718,7 @@ export function UsersPage({
   ======================================================= */
 
   return (
-    <main className="min-h-screen bg-surface-elevated">
+    <main className="min-h-screen bg-background-primary">
 
       {/* ===================================================
           HEADER
@@ -743,7 +794,7 @@ export function UsersPage({
 
           <div className="flex items-start gap-4">
 
-            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-[14px] bg-[#FDEBEC] text-[#E41E2B]">
+            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-[14px] bg-accent-soft text-accent-primary">
 
               <Users
                 size={21}
@@ -761,10 +812,10 @@ export function UsersPage({
 
 
               <p className="mt-2 max-w-[680px] text-[13px] leading-6 text-text-secondary">
-                Cadastre os representantes das unidades.
-                Cada usuário possui uma unidade principal,
-                mas pode consultar os dados de todas as
-                unidades ativas do sistema.
+                Cadastre os usuários das suas unidades.
+                O Gestor consulta somente a unidade principal;
+                o Analista pode receber unidades de acesso
+                adicionais.
               </p>
 
             </div>
@@ -791,7 +842,7 @@ export function UsersPage({
               <UserPlus
                 size={19}
                 strokeWidth={1.8}
-                className="text-[#E41E2B]"
+                className="text-accent-primary"
               />
 
 
@@ -868,7 +919,7 @@ export function UsersPage({
                   required
                   maxLength={191}
                   autoComplete="email"
-                  placeholder="nome@empresa.com"
+                  placeholder="nome@kof.com"
                   className="mt-2 h-12 w-full rounded-[12px] border border-border-theme bg-surface px-3.5 text-[13px] text-text-primary outline-none transition-colors placeholder:text-text-muted focus:border-border-theme"
                 />
 
@@ -892,13 +943,25 @@ export function UsersPage({
                   }
                   onChange={(
                     event,
-                  ) =>
-                    setRole(
+                  ) => {
+                    const nextRole =
                       event.target
                         .value as
-                        UserRole,
-                    )
-                  }
+                        UserRole;
+
+                    setRole(
+                      nextRole,
+                    );
+
+                    if (
+                      nextRole ===
+                      "MANAGER"
+                    ) {
+                      setExtraUnitIds(
+                        [],
+                      );
+                    }
+                  }}
                   className="mt-2 h-12 w-full rounded-[12px] border border-border-theme bg-surface px-3.5 text-[13px] text-text-primary outline-none transition-colors focus:border-border-theme"
                 >
 
@@ -1013,9 +1076,8 @@ export function UsersPage({
                   <div>
 
                     <p className="text-[12px] font-semibold text-text-primary">
-                      Unidade representada
+                      Unidade
                     </p>
-
 
                     <p className="mt-0.5 text-[10px] text-text-secondary">
                       Unidade principal deste usuário.
@@ -1039,12 +1101,28 @@ export function UsersPage({
                         .value;
 
 
-                    setRepresentativeUnitId(
+                    const nextUnitId =
                       value
                         ? Number(
                             value,
                           )
-                        : null,
+                        : null;
+
+                    setRepresentativeUnitId(
+                      nextUnitId,
+                    );
+
+                    setExtraUnitIds(
+                      (
+                        current,
+                      ) =>
+                        current.filter(
+                          (
+                            unitId,
+                          ) =>
+                            unitId !==
+                            nextUnitId,
+                        ),
                     );
 
 
@@ -1088,7 +1166,7 @@ export function UsersPage({
                         )}
 
                         {currentUnit.code
-                          ? ` · ${currentUnit.code}`
+                          ? ` — ${currentUnit.code}`
                           : ""}
                       </option>
                     ),
@@ -1100,7 +1178,7 @@ export function UsersPage({
                 {units.length ===
                   0 &&
                   !loading && (
-                    <p className="mt-2 text-[10px] text-[#B04C52]">
+                    <p className="mt-2 text-[10px] text-accent-primary">
                       Nenhuma unidade ativa está disponível.
                     </p>
                   )}
@@ -1109,43 +1187,47 @@ export function UsersPage({
 
 
               {/* =============================================
-                  GLOBAL ACCESS INFORMATION
+                  ACCESS UNITS
               ============================================== */}
 
-              <div className="mt-5 rounded-[16px] border border-border-theme bg-surface-elevated p-4">
+              {role ===
+              "MANAGER" ? (
+                <div className="mt-5 rounded-[16px] border border-border-theme bg-surface-elevated p-4">
+                  <p className="text-[11px] font-semibold text-text-primary">
+                    Acesso restrito à unidade
+                  </p>
 
-                <div className="flex items-start gap-3">
-
-                  <div className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-[10px] bg-surface text-text-secondary shadow-[0_1px_2px_rgba(0,0,0,0.04)]">
-
-                    <Globe2
-                      size={15}
-                      strokeWidth={1.8}
-                    />
-
-                  </div>
-
-
-                  <div>
-
-                    <p className="text-[11px] font-semibold text-text-primary">
-                      Acesso a todas as unidades
-                    </p>
-
-
-                    <p className="mt-1 text-[10px] leading-5 text-text-secondary">
-                      A unidade representada define apenas
-                      a unidade principal do usuário.
-                      Ele poderá consultar e comparar dados
-                      de todas as unidades ativas através
-                      do filtro global.
-                    </p>
-
-                  </div>
-
+                  <p className="mt-1 text-[10px] leading-5 text-text-secondary">
+                    O Gestor consulta somente os dados
+                    da unidade selecionada acima.
+                  </p>
                 </div>
+              ) : (
+                <div className="mt-5">
+                  <p className="text-[11px] font-medium text-text-secondary">
+                    Unidades de acesso adicionais (opcional)
+                  </p>
 
-              </div>
+                  <UnitAccessPicker
+                    units={
+                      units
+                    }
+                    primaryUnitId={
+                      representativeUnitId
+                    }
+                    selectedIds={
+                      extraUnitIds
+                    }
+                    onChange={
+                      setExtraUnitIds
+                    }
+                    disabled={
+                      loading ||
+                      saving
+                    }
+                  />
+                </div>
+              )}
 
 
               {/* =============================================
@@ -1153,9 +1235,9 @@ export function UsersPage({
               ============================================== */}
 
               {error && (
-                <div className="mt-5 rounded-[12px] border border-[#F0D2D4] bg-surface-elevated px-4 py-3">
+                <div className="mt-5 rounded-[12px] border border-accent-primary/30 bg-surface-elevated px-4 py-3">
 
-                  <p className="text-[11px] leading-5 text-[#A5484D]">
+                  <p className="text-[11px] leading-5 text-accent-primary">
                     {error}
                   </p>
 
@@ -1164,9 +1246,9 @@ export function UsersPage({
 
 
               {success && (
-                <div className="mt-5 rounded-[12px] border border-[#D7E9DA] bg-surface-elevated px-4 py-3">
+                <div className="mt-5 rounded-[12px] border border-success/30 bg-surface-elevated px-4 py-3">
 
-                  <p className="text-[11px] leading-5 text-[#3E7650]">
+                  <p className="text-[11px] leading-5 text-success">
                     {success}
                   </p>
 
@@ -1186,7 +1268,7 @@ export function UsersPage({
                   units.length ===
                     0
                 }
-                className="mt-6 inline-flex h-12 w-full items-center justify-center gap-2 rounded-[12px] bg-[#E41E2B] px-5 text-[12px] font-semibold text-white transition-colors hover:bg-[#CF1925] disabled:cursor-not-allowed disabled:opacity-50"
+                className="mt-6 inline-flex h-12 w-full items-center justify-center gap-2 rounded-[12px] bg-accent-primary px-5 text-[12px] font-semibold text-white transition-colors hover:bg-accent-hover disabled:cursor-not-allowed disabled:opacity-50"
               >
 
                 {saving ? (
@@ -1250,7 +1332,7 @@ export function UsersPage({
 
                 <LoaderCircle
                   size={21}
-                  className="animate-spin text-[#E41E2B]"
+                  className="animate-spin text-accent-primary"
                 />
 
               </div>
@@ -1335,7 +1417,7 @@ export function UsersPage({
                             item.role ===
                               "MANAGER"
                               ? "bg-surface-elevated text-text-primary"
-                              : "bg-[#FDEBEC] text-[#C72B34]",
+                              : "bg-accent-soft text-accent-primary",
                           ].join(
                             " ",
                           )}
@@ -1362,7 +1444,7 @@ export function UsersPage({
                       <div className="mt-4">
 
                         <p className="text-[9px] font-medium uppercase tracking-[0.07em] text-text-secondary">
-                          Unidade representada
+                          Unidade principal
                         </p>
 
 
@@ -1411,18 +1493,32 @@ export function UsersPage({
                           ACCESS
                       ====================================== */}
 
-                      <div className="mt-4 flex items-center gap-2 text-[9px] text-text-secondary">
+                      <div className="mt-4 flex flex-wrap items-center justify-between gap-3">
+                        <p className="text-[9px] text-text-secondary">
+                          {item.role ===
+                          "MANAGER"
+                            ? "Acesso somente à unidade principal"
+                            : item.unitIds.length >
+                                1
+                              ? `Acesso a ${item.unitIds.length} unidades`
+                              : "Acesso à unidade principal"}
+                        </p>
 
-                        <Globe2
-                          size={11}
-                          strokeWidth={1.8}
-                        />
+                        <button
+                          type="button"
+                          onClick={() =>
+                            setEditingUser(
+                              item,
+                            )
+                          }
+                          className="inline-flex h-8 items-center gap-1.5 rounded-[9px] border border-border-theme px-3 text-[10px] font-semibold text-text-primary transition-colors hover:bg-surface-hover"
+                        >
+                          <Pencil
+                            size={12}
+                          />
 
-
-                        <span>
-                          Acesso aos dados de todas as unidades ativas
-                        </span>
-
+                          Editar
+                        </button>
                       </div>
 
 
@@ -1449,11 +1545,39 @@ export function UsersPage({
             )}
 
           </section>
-
         </div>
-
       </div>
 
+
+      {editingUser && (
+        <EditUserDialog
+          key={
+            editingUser.id
+          }
+          user={
+            editingUser
+          }
+          units={
+            units
+          }
+          isSelf={
+            editingUser.email ===
+            user.email
+          }
+          onClose={() =>
+            setEditingUser(
+              null,
+            )
+          }
+          onSaved={async () => {
+            setSuccess(
+              "Usuário atualizado com sucesso.",
+            );
+
+            await loadUsers();
+          }}
+        />
+      )}
     </main>
   );
 }

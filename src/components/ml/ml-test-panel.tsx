@@ -323,13 +323,13 @@ export function MlTestPanel() {
 
 
   return (
-    <main className="min-h-screen bg-background-secondary">
+    <main className="min-h-screen bg-background-primary">
       <AppHeader />
 
       <div className="mx-auto max-w-7xl px-6 py-10 lg:px-8">
         <div className="mb-10">
           <div className="mb-3 flex items-center gap-3">
-            <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[#e41e2b] text-white">
+            <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-accent-primary text-white">
               <Cpu
                 size={21}
               />
@@ -584,7 +584,7 @@ export function MlTestPanel() {
                     loading ||
                     !health.available
                   }
-                  className="flex h-12 items-center justify-center gap-2 rounded-2xl bg-[#e41e2b] px-5 text-sm font-semibold text-white transition hover:bg-[#c91925] disabled:opacity-50"
+                  className="flex h-12 items-center justify-center gap-2 rounded-2xl bg-accent-primary px-5 text-sm font-semibold text-white transition hover:bg-accent-hover disabled:opacity-50"
                 >
                   {loading ? (
                     <>
@@ -724,7 +724,7 @@ export function MlTestPanel() {
               </div>
             </div>
 
-            <div className="rounded-[28px] bg-[#e41e2b] p-6 text-white">
+            <div className="rounded-[28px] bg-accent-primary p-6 text-white">
               <p className="text-sm font-semibold">
                 Regra principal
               </p>

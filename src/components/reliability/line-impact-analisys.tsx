@@ -651,11 +651,11 @@ function SummaryMetric({
 }) {
   return (
     <div className="min-w-0">
-      <div className="text-[27px] font-semibold leading-none tracking-[-0.055em] text-[#1E2125] sm:text-[30px]">
+      <div className="text-[27px] font-semibold leading-none tracking-[-0.055em] text-text-primary sm:text-[30px]">
         {value}
       </div>
 
-      <p className="mt-2 text-[10px] font-medium text-[#969BA1]">
+      <p className="mt-2 text-[10px] font-medium text-text-secondary">
         {label}
       </p>
     </div>
@@ -666,10 +666,10 @@ function SummaryMetric({
 function LoadingState() {
   return (
     <div className="flex min-h-[420px] items-center justify-center">
-      <div className="flex items-center gap-3 text-[12px] font-medium text-[#92979D]">
+      <div className="flex items-center gap-3 text-[12px] font-medium text-text-secondary">
         <LoaderCircle
           size={16}
-          className="animate-spin text-[#E41E2B]"
+          className="animate-spin text-accent-primary"
         />
 
         Carregando impacto por linha
@@ -687,17 +687,17 @@ function ErrorState({
   return (
     <div className="flex min-h-[360px] items-center justify-center p-6">
       <div className="max-w-[420px] text-center">
-        <div className="mx-auto flex h-11 w-11 items-center justify-center rounded-full bg-[#FFF0F1] text-[#D53640]">
+        <div className="mx-auto flex h-11 w-11 items-center justify-center rounded-full bg-accent-soft text-accent-primary">
           <AlertCircle
             size={18}
           />
         </div>
 
-        <p className="mt-4 text-[14px] font-semibold text-[#282C30]">
+        <p className="mt-4 text-[14px] font-semibold text-text-primary">
           Não foi possível carregar a análise
         </p>
 
-        <p className="mt-2 text-[11px] leading-5 text-[#8E9399]">
+        <p className="mt-2 text-[11px] leading-5 text-text-secondary">
           {message}
         </p>
       </div>
@@ -710,11 +710,11 @@ function EmptyState() {
   return (
     <div className="flex min-h-[360px] items-center justify-center p-6">
       <div className="max-w-[420px] text-center">
-        <p className="text-[14px] font-semibold text-[#282C30]">
+        <p className="text-[14px] font-semibold text-text-primary">
           Nenhuma linha encontrada
         </p>
 
-        <p className="mt-2 text-[11px] leading-5 text-[#8E9399]">
+        <p className="mt-2 text-[11px] leading-5 text-text-secondary">
           Não existem dados de linha para o recorte selecionado.
         </p>
       </div>
@@ -1105,7 +1105,7 @@ export function LineImpactAnalysis({
     !data
   ) {
     return (
-      <section className="mt-6 overflow-hidden rounded-[30px] border border-black/[0.045] bg-white shadow-[0_12px_40px_rgba(28,31,34,0.03)]">
+      <section className="mt-6 overflow-hidden rounded-[30px] border border-border-theme bg-surface shadow-[0_12px_40px_rgba(28,31,34,0.03)]">
         <LoadingState />
       </section>
     );
@@ -1117,7 +1117,7 @@ export function LineImpactAnalysis({
     !data
   ) {
     return (
-      <section className="mt-6 overflow-hidden rounded-[30px] border border-black/[0.045] bg-white shadow-[0_12px_40px_rgba(28,31,34,0.03)]">
+      <section className="mt-6 overflow-hidden rounded-[30px] border border-border-theme bg-surface shadow-[0_12px_40px_rgba(28,31,34,0.03)]">
         <ErrorState
           message={
             error
@@ -1134,7 +1134,7 @@ export function LineImpactAnalysis({
       0
   ) {
     return (
-      <section className="mt-6 overflow-hidden rounded-[30px] border border-black/[0.045] bg-white shadow-[0_12px_40px_rgba(28,31,34,0.03)]">
+      <section className="mt-6 overflow-hidden rounded-[30px] border border-border-theme bg-surface shadow-[0_12px_40px_rgba(28,31,34,0.03)]">
         <EmptyState />
       </section>
     );
@@ -1146,7 +1146,7 @@ export function LineImpactAnalysis({
   ======================================================= */
 
   return (
-    <section className="relative mt-6 overflow-hidden rounded-[30px] border border-black/[0.045] bg-white shadow-[0_12px_40px_rgba(28,31,34,0.03)]">
+    <section className="relative mt-6 overflow-hidden rounded-[30px] border border-border-theme bg-surface shadow-[0_12px_40px_rgba(28,31,34,0.03)]">
       {/* ===================================================
           LOADING OVERLAY
       ==================================================== */}
@@ -1161,10 +1161,10 @@ export function LineImpactAnalysis({
         }
       >
         {loading && (
-          <div className="flex items-center gap-2 rounded-full border border-black/[0.055] bg-white px-3 py-2 text-[9px] font-medium text-[#777C82] shadow-sm">
+          <div className="flex items-center gap-2 rounded-full border border-border-theme bg-surface px-3 py-2 text-[9px] font-medium text-text-secondary shadow-sm">
             <LoaderCircle
               size={11}
-              className="animate-spin text-[#E41E2B]"
+              className="animate-spin text-accent-primary"
             />
 
             Atualizando análise
@@ -1177,19 +1177,19 @@ export function LineImpactAnalysis({
           HEADER
       ==================================================== */}
 
-      <div className="border-b border-black/[0.05] px-6 py-6 sm:px-8">
+      <div className="border-b border-border-theme px-6 py-6 sm:px-8">
         <div className="flex flex-col gap-5 xl:flex-row xl:items-end xl:justify-between">
           <div className="flex items-start gap-4">
-            <div className="flex h-8 min-w-8 items-center justify-center rounded-full bg-[#202327] px-2 text-[10px] font-bold text-white">
+            <div className="flex h-8 min-w-8 items-center justify-center rounded-full bg-surface-inverse px-2 text-[10px] font-bold text-white">
               06
             </div>
 
             <div>
-              <h2 className="text-[18px] font-semibold tracking-[-0.03em] text-[#24272B]">
+              <h2 className="text-[18px] font-semibold tracking-[-0.03em] text-text-primary">
                 Impacto por linha
               </h2>
 
-              <p className="mt-1 text-[11px] text-[#979CA2]">
+              <p className="mt-1 text-[11px] text-text-secondary">
                 Compare o impacto das linhas e identifique onde as perdas estão concentradas.
               </p>
             </div>
@@ -1198,7 +1198,7 @@ export function LineImpactAnalysis({
 
           {/* METRIC SELECTOR */}
 
-          <div className="inline-flex w-fit rounded-full bg-[#F2F2F1] p-1">
+          <div className="inline-flex w-fit rounded-full bg-surface-elevated p-1">
             {METRIC_OPTIONS.map(
               (
                 option,
@@ -1221,8 +1221,8 @@ export function LineImpactAnalysis({
                     className={
                       `rounded-full px-4 py-2 text-[10px] font-medium transition-all duration-200 ${
                         active
-                          ? "bg-[#202327] text-white shadow-[0_4px_12px_rgba(32,35,39,0.13)]"
-                          : "text-[#91969C] hover:bg-white hover:text-[#555A60]"
+                          ? "bg-surface-inverse text-white shadow-[0_4px_12px_rgba(32,35,39,0.13)]"
+                          : "text-text-secondary hover:bg-surface hover:text-text-body"
                       }`
                     }
                   >
@@ -1240,9 +1240,9 @@ export function LineImpactAnalysis({
           SUMMARY
       ==================================================== */}
 
-      <div className="border-b border-black/[0.045] bg-[#FAFAF9] px-6 py-6 sm:px-8">
+      <div className="border-b border-border-theme bg-background-primary px-6 py-6 sm:px-8">
         <div className="grid gap-y-6 sm:grid-cols-2 xl:grid-cols-4">
-          <div className="xl:border-r xl:border-black/[0.06] xl:pr-8">
+          <div className="xl:border-r xl:border-border-theme xl:pr-8">
             <SummaryMetric
               value={
                 formatNumber(
@@ -1253,7 +1253,7 @@ export function LineImpactAnalysis({
             />
           </div>
 
-          <div className="xl:border-r xl:border-black/[0.06] xl:px-8">
+          <div className="xl:border-r xl:border-border-theme xl:px-8">
             <SummaryMetric
               value={
                 formatNumber(
@@ -1265,7 +1265,7 @@ export function LineImpactAnalysis({
             />
           </div>
 
-          <div className="xl:border-r xl:border-black/[0.06] xl:px-8">
+          <div className="xl:border-r xl:border-border-theme xl:px-8">
             <SummaryMetric
               value={
                 <>
@@ -1275,7 +1275,7 @@ export function LineImpactAnalysis({
                     1,
                   )}
 
-                  <span className="ml-1.5 text-[11px] font-medium tracking-normal text-[#9BA0A6]">
+                  <span className="ml-1.5 text-[11px] font-medium tracking-normal text-text-muted">
                     min
                   </span>
                 </>
@@ -1293,7 +1293,7 @@ export function LineImpactAnalysis({
                     1,
                   )}
 
-                  <span className="ml-1.5 text-[11px] font-medium tracking-normal text-[#9BA0A6]">
+                  <span className="ml-1.5 text-[11px] font-medium tracking-normal text-text-muted">
                     min
                   </span>
                 </>
@@ -1314,21 +1314,21 @@ export function LineImpactAnalysis({
             RANKING
         ================================================== */}
 
-        <div className="border-b border-black/[0.045] px-6 py-7 lg:border-b-0 lg:border-r lg:px-8">
+        <div className="border-b border-border-theme px-6 py-7 lg:border-b-0 lg:border-r lg:px-8">
           <div className="flex items-end justify-between gap-4">
             <div>
-              <p className="text-[9px] font-semibold uppercase tracking-[0.12em] text-[#A2A6AB]">
+              <p className="text-[9px] font-semibold uppercase tracking-[0.12em] text-text-muted">
                 Ranking
               </p>
 
-              <p className="mt-1.5 text-[12px] font-medium text-[#41464B]">
+              <p className="mt-1.5 text-[12px] font-medium text-text-primary">
                 Linhas com {metricDescription(
                   metric,
                 )}
               </p>
             </div>
 
-            <p className="hidden text-[9px] text-[#AAAFB4] sm:block">
+            <p className="hidden text-[9px] text-text-muted sm:block">
               Selecione uma linha
             </p>
           </div>
@@ -1374,8 +1374,8 @@ export function LineImpactAnalysis({
                     className={
                       `group w-full rounded-[18px] border px-4 py-4 text-left transition-all duration-200 ${
                         active
-                          ? "border-[#E9C5C8] bg-[#FFF8F8]"
-                          : "border-transparent hover:border-black/[0.045] hover:bg-[#FAFAF9]"
+                          ? "border-accent-primary/30 bg-accent-soft"
+                          : "border-transparent hover:border-border-theme hover:bg-background-primary"
                       }`
                     }
                   >
@@ -1385,8 +1385,8 @@ export function LineImpactAnalysis({
                           className={
                             `flex h-7 min-w-7 items-center justify-center rounded-full text-[9px] font-bold transition-all duration-200 ${
                               active
-                                ? "bg-[#E41E2B] text-white"
-                                : "bg-[#F0F1F1] text-[#70757B]"
+                                ? "bg-accent-primary text-white"
+                                : "bg-surface-elevated text-text-body"
                             }`
                           }
                         >
@@ -1400,12 +1400,12 @@ export function LineImpactAnalysis({
                         </div>
 
                         <div className="min-w-0">
-                          <p className="truncate text-[12px] font-semibold tracking-[-0.015em] text-[#25292D]">
+                          <p className="truncate text-[12px] font-semibold tracking-[-0.015em] text-text-primary">
                             {item.line}
                           </p>
 
                           {item.topEquipment && (
-                            <p className="mt-0.5 truncate text-[9px] text-[#A0A4A9]">
+                            <p className="mt-0.5 truncate text-[9px] text-text-muted">
                               Maior impacto:{" "}
                               {
                                 item
@@ -1417,7 +1417,7 @@ export function LineImpactAnalysis({
                         </div>
                       </div>
 
-                      <p className="shrink-0 text-[11px] font-semibold text-[#34383D]">
+                      <p className="shrink-0 text-[11px] font-semibold text-text-primary">
                         {formatMetricValue(
                           value,
                           metric,
@@ -1428,13 +1428,13 @@ export function LineImpactAnalysis({
 
                     {/* BAR */}
 
-                    <div className="mt-3.5 h-[4px] overflow-hidden rounded-full bg-[#ECEDEC]">
+                    <div className="mt-3.5 h-[4px] overflow-hidden rounded-full bg-surface-hover">
                       <div
                         className={
                           `h-full rounded-full transition-[width,background-color] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${
                             active
-                              ? "bg-[#E41E2B]"
-                              : "bg-[#41464B]"
+                              ? "bg-accent-primary"
+                              : "bg-surface-inverse"
                           }`
                         }
                         style={{
@@ -1450,7 +1450,7 @@ export function LineImpactAnalysis({
 
                     {/* SUPPORTING VALUES */}
 
-                    <div className="mt-2.5 flex flex-wrap gap-x-4 gap-y-1 text-[9px] text-[#9A9FA5]">
+                    <div className="mt-2.5 flex flex-wrap gap-x-4 gap-y-1 text-[9px] text-text-muted">
                       <span>
                         {formatNumber(
                           item.occurrences,
@@ -1495,7 +1495,7 @@ export function LineImpactAnalysis({
                   HERO
               ============================================ */}
 
-              <div className="relative overflow-hidden rounded-[26px] bg-[#202327] p-6 text-white shadow-[0_14px_36px_rgba(32,35,39,0.12)]">
+              <div className="relative overflow-hidden rounded-[26px] bg-surface-inverse p-6 text-white shadow-[0_14px_36px_rgba(32,35,39,0.12)]">
                 <div className="pointer-events-none absolute -right-12 -top-16 h-44 w-44 rounded-full bg-white/[0.035] blur-[2px]" />
 
                 <div className="relative">
@@ -1587,10 +1587,10 @@ export function LineImpactAnalysis({
                   <Gauge
                     size={14}
                     strokeWidth={1.7}
-                    className="text-[#64696F]"
+                    className="text-text-body"
                   />
 
-                  <p className="text-[10px] font-semibold text-[#303438]">
+                  <p className="text-[10px] font-semibold text-text-primary">
                     Origem das ocorrências
                   </p>
                 </div>
@@ -1598,11 +1598,11 @@ export function LineImpactAnalysis({
 
                 <div className="mt-4 flex items-end justify-between gap-4">
                   <div>
-                    <p className="text-[9px] text-[#A0A4A9]">
+                    <p className="text-[9px] text-text-muted">
                       Manutenção
                     </p>
 
-                    <p className="mt-1 text-[19px] font-semibold tracking-[-0.04em] text-[#25292D]">
+                    <p className="mt-1 text-[19px] font-semibold tracking-[-0.04em] text-text-primary">
                       {formatNumber(
                         selectedItem
                           .origin
@@ -1615,11 +1615,11 @@ export function LineImpactAnalysis({
                   </div>
 
                   <div className="text-right">
-                    <p className="text-[9px] text-[#A0A4A9]">
+                    <p className="text-[9px] text-text-muted">
                       Operação
                     </p>
 
-                    <p className="mt-1 text-[19px] font-semibold tracking-[-0.04em] text-[#25292D]">
+                    <p className="mt-1 text-[19px] font-semibold tracking-[-0.04em] text-text-primary">
                       {formatNumber(
                         selectedItem
                           .origin
@@ -1633,9 +1633,9 @@ export function LineImpactAnalysis({
                 </div>
 
 
-                <div className="mt-3 flex h-[7px] overflow-hidden rounded-full bg-[#ECEDEC]">
+                <div className="mt-3 flex h-[7px] overflow-hidden rounded-full bg-surface-hover">
                   <div
-                    className="h-full bg-[#E41E2B] transition-[width] duration-500"
+                    className="h-full bg-accent-primary transition-[width] duration-500"
                     style={{
                       width:
                         `${Math.max(
@@ -1649,7 +1649,7 @@ export function LineImpactAnalysis({
                   />
 
                   <div
-                    className="h-full bg-[#3D4247] transition-[width] duration-500"
+                    className="h-full bg-surface-inverse transition-[width] duration-500"
                     style={{
                       width:
                         `${Math.max(
@@ -1669,7 +1669,7 @@ export function LineImpactAnalysis({
                   .unclassified
                   .occurrences >
                   0 && (
-                    <p className="mt-2 text-[9px] text-[#A2A6AB]">
+                    <p className="mt-2 text-[9px] text-text-muted">
                       {formatNumber(
                         selectedItem
                           .origin
@@ -1686,13 +1686,13 @@ export function LineImpactAnalysis({
                   EQUIPMENTS
               ============================================ */}
 
-              <div className="mt-7 border-t border-black/[0.055] pt-6">
+              <div className="mt-7 border-t border-border-theme pt-6">
                 <div>
-                  <p className="text-[9px] font-semibold uppercase tracking-[0.11em] text-[#A1A5AA]">
+                  <p className="text-[9px] font-semibold uppercase tracking-[0.11em] text-text-muted">
                     Equipamentos
                   </p>
 
-                  <p className="mt-1.5 text-[12px] font-medium text-[#41464B]">
+                  <p className="mt-1.5 text-[12px] font-medium text-text-primary">
                     Equipamentos de maior impacto
                   </p>
                 </div>
@@ -1701,7 +1701,7 @@ export function LineImpactAnalysis({
                 {selectedItem
                   .equipments.length ===
                 0 ? (
-                  <p className="mt-5 text-[11px] text-[#969BA1]">
+                  <p className="mt-5 text-[11px] text-text-secondary">
                     Nenhum equipamento encontrado para esta linha.
                   </p>
                 ) : (
@@ -1740,12 +1740,12 @@ export function LineImpactAnalysis({
                                 index ===
                                   0
                                   ? "pb-5"
-                                  : "border-t border-black/[0.045] py-5"
+                                  : "border-t border-border-theme py-5"
                               }
                             >
                               <div className="flex items-start justify-between gap-4">
                                 <div className="flex min-w-0 items-center gap-3">
-                                  <div className="flex h-7 min-w-7 items-center justify-center rounded-full bg-[#F0F1F1] text-[9px] font-bold text-[#71767C]">
+                                  <div className="flex h-7 min-w-7 items-center justify-center rounded-full bg-surface-elevated text-[9px] font-bold text-text-body">
                                     {String(
                                       index +
                                       1,
@@ -1755,14 +1755,14 @@ export function LineImpactAnalysis({
                                     )}
                                   </div>
 
-                                  <p className="truncate text-[11px] font-semibold text-[#2B2F33]">
+                                  <p className="truncate text-[11px] font-semibold text-text-primary">
                                     {
                                       equipmentItem.name
                                     }
                                   </p>
                                 </div>
 
-                                <p className="shrink-0 text-[10px] font-semibold text-[#34383D]">
+                                <p className="shrink-0 text-[10px] font-semibold text-text-primary">
                                   {formatNumber(
                                     equipmentItem
                                       .downtimeMinutes,
@@ -1773,9 +1773,9 @@ export function LineImpactAnalysis({
                               </div>
 
 
-                              <div className="ml-10 mt-3 h-[4px] overflow-hidden rounded-full bg-[#ECEDEC]">
+                              <div className="ml-10 mt-3 h-[4px] overflow-hidden rounded-full bg-surface-hover">
                                 <div
-                                  className="h-full rounded-full bg-[#41464B] transition-[width] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]"
+                                  className="h-full rounded-full bg-surface-inverse transition-[width] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]"
                                   style={{
                                     width:
                                       `${Math.max(
@@ -1788,7 +1788,7 @@ export function LineImpactAnalysis({
 
 
                               <div className="ml-10 mt-2.5 flex flex-wrap items-center justify-between gap-3">
-                                <div className="flex flex-wrap gap-x-4 gap-y-1 text-[9px] text-[#9A9FA5]">
+                                <div className="flex flex-wrap gap-x-4 gap-y-1 text-[9px] text-text-muted">
                                   <span>
                                     {formatNumber(
                                       equipmentItem
@@ -1818,7 +1818,7 @@ export function LineImpactAnalysis({
                                         selectedItem.line,
                                       )
                                     }
-                                    className="inline-flex items-center gap-1.5 rounded-full bg-[#202327] px-3 py-1.5 text-[9px] font-semibold text-white transition-all duration-180 hover:-translate-y-px hover:bg-[#111315]"
+                                    className="inline-flex items-center gap-1.5 rounded-full bg-surface-inverse px-3 py-1.5 text-[9px] font-semibold text-white transition-all duration-180 hover:-translate-y-px hover:bg-surface-inverse-hover"
                                   >
                                     Ver histórico
 
@@ -1842,7 +1842,7 @@ export function LineImpactAnalysis({
                   FOOTER
               ============================================ */}
 
-              <div className="mt-1 flex items-center gap-2 border-t border-black/[0.045] pt-4 text-[9px] text-[#A0A4A9]">
+              <div className="mt-1 flex items-center gap-2 border-t border-border-theme pt-4 text-[9px] text-text-muted">
                 <Factory
                   size={12}
                   strokeWidth={1.7}

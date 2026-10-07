@@ -290,10 +290,10 @@ Record<MaspCategory, string> = {
 };
 
 const inputClass =
-  "h-11 w-full rounded-[11px] border border-border-theme bg-surface px-3 text-[12px] text-text-primary outline-none focus:border-[#D58B91]";
+  "h-11 w-full rounded-[11px] border border-border-theme bg-surface px-3 text-[12px] text-text-primary outline-none focus:border-accent-primary/40";
 
 const textareaClass =
-  "w-full rounded-[11px] border border-border-theme bg-surface px-3 py-3 text-[12px] leading-5 text-text-primary outline-none focus:border-[#D58B91]";
+  "w-full rounded-[11px] border border-border-theme bg-surface px-3 py-3 text-[12px] leading-5 text-text-primary outline-none focus:border-accent-primary/40";
 
 function MethodCard({
   title,
@@ -858,11 +858,11 @@ export function MaspDetailPage({
     !data
   ) {
     return (
-      <main className="flex min-h-screen items-center justify-center bg-surface-elevated">
+      <main className="flex min-h-screen items-center justify-center bg-background-primary">
         <div className="flex items-center gap-3 text-[13px] text-text-secondary">
           <LoaderCircle
             size={18}
-            className="animate-spin text-[#E41E2B]"
+            className="animate-spin text-accent-primary"
           />
           Carregando MASP...
         </div>
@@ -882,7 +882,7 @@ export function MaspDetailPage({
         description="A análise não pôde ser carregada."
         backHref="/dashboard/masp"
       >
-        <div className="rounded-[16px] border border-[#F0D2D5] bg-[#FFF8F8] p-5 text-[12px] text-[#B52D36]">
+        <div className="rounded-[16px] border border-accent-primary/30 bg-accent-soft p-5 text-[12px] text-accent-primary">
           {error}
         </div>
       </MaspShell>
@@ -906,7 +906,7 @@ export function MaspDetailPage({
       backHref="/dashboard/masp"
       actions={
         <div className="flex flex-wrap items-center gap-2">
-          <span className="inline-flex h-10 items-center rounded-full bg-[#FFF0F1] px-4 text-[10px] font-semibold uppercase tracking-[0.07em] text-[#B82C36]">
+          <span className="inline-flex h-10 items-center rounded-full bg-accent-soft px-4 text-[10px] font-semibold uppercase tracking-[0.07em] text-accent-primary">
             {STATUS_LABELS[
               data.analysis.status
             ] ??
@@ -921,7 +921,7 @@ export function MaspDetailPage({
               onClick={() =>
                 void advanceStatus()
               }
-              className="inline-flex h-10 items-center gap-2 rounded-[11px] bg-[#E41E2B] px-4 text-[11px] font-semibold text-white hover:bg-[#CB1924] disabled:opacity-50"
+              className="inline-flex h-10 items-center gap-2 rounded-[11px] bg-accent-primary px-4 text-[11px] font-semibold text-white hover:bg-accent-hover disabled:opacity-50"
             >
               {nextStatus ===
                 "CLOSED"
@@ -952,7 +952,7 @@ export function MaspDetailPage({
                     index,
                   )
                 }
-                className={`flex flex-1 items-center gap-2 rounded-[12px] px-3 py-3 text-left text-[10px] font-semibold transition-colors ${activeTab === index ? "bg-[#E41E2B] text-white" : "text-text-secondary hover:bg-surface-hover"}`}
+                className={`flex flex-1 items-center gap-2 rounded-[12px] px-3 py-3 text-left text-[10px] font-semibold transition-colors ${activeTab === index ? "bg-accent-primary text-white" : "text-text-secondary hover:bg-surface-hover"}`}
               >
                 <span className={`flex h-5 w-5 items-center justify-center rounded-full text-[9px] ${activeTab === index ? "bg-surface/20" : "bg-surface-hover"}`}>
                   {index +
@@ -966,7 +966,7 @@ export function MaspDetailPage({
       </div>
 
       {error && (
-        <div className="mt-4 flex items-start gap-2 rounded-[14px] border border-[#F0D2D5] bg-[#FFF8F8] px-4 py-3 text-[11px] leading-5 text-[#B52D36]">
+        <div className="mt-4 flex items-start gap-2 rounded-[14px] border border-accent-primary/30 bg-accent-soft px-4 py-3 text-[11px] leading-5 text-accent-primary">
           <AlertTriangle
             size={15}
             className="mt-0.5 shrink-0"
@@ -976,7 +976,7 @@ export function MaspDetailPage({
       )}
 
       {notice && (
-        <div className="mt-4 flex items-start gap-2 rounded-[14px] border border-[#D7E7DA] bg-[#F7FBF7] px-4 py-3 text-[11px] leading-5 text-[#52795A]">
+        <div className="mt-4 flex items-start gap-2 rounded-[14px] border border-success/30 bg-success/10 px-4 py-3 text-[11px] leading-5 text-success">
           <CheckCircle2
             size={15}
             className="mt-0.5 shrink-0"
@@ -1101,7 +1101,7 @@ export function MaspDetailPage({
                       disabled={
                         busy
                       }
-                      className="h-10 rounded-[10px] bg-[#2F3337] px-4 text-[10px] font-semibold text-white disabled:opacity-50"
+                      className="h-10 rounded-[10px] bg-surface-inverse px-4 text-[10px] font-semibold text-white disabled:opacity-50"
                     >
                       Salvar problema
                     </button>
@@ -1223,7 +1223,7 @@ export function MaspDetailPage({
                   />
                   <button
                     type="submit"
-                    className="shrink-0 rounded-[10px] bg-[#2F3337] px-4 text-[10px] font-semibold text-white"
+                    className="shrink-0 rounded-[10px] bg-surface-inverse px-4 text-[10px] font-semibold text-white"
                   >
                     Associar
                   </button>
@@ -1270,7 +1270,7 @@ export function MaspDetailPage({
                                 undefined,
                             )
                           }
-                          className="text-text-secondary hover:text-[#C92834]"
+                          className="text-text-secondary hover:text-accent-hover"
                           aria-label={`Remover evento ${item.id}`}
                         >
                           <Trash2
@@ -1411,7 +1411,7 @@ export function MaspDetailPage({
                   {!terminal && (
                     <button
                       type="submit"
-                      className="inline-flex h-10 items-center gap-2 rounded-[10px] bg-[#2F3337] px-4 text-[10px] font-semibold text-white"
+                      className="inline-flex h-10 items-center gap-2 rounded-[10px] bg-surface-inverse px-4 text-[10px] font-semibold text-white"
                     >
                       <CirclePlus
                         size={14}
@@ -1431,7 +1431,7 @@ export function MaspDetailPage({
                           item.id
                         }
                         id={`hypothesis-${item.id}`}
-                        className={`rounded-[13px] border p-4 transition-colors ${selectedHypothesisId === item.id ? "border-[#E41E2B] bg-accent-primary/5" : "border-border-theme"}`}
+                        className={`rounded-[13px] border p-4 transition-colors ${selectedHypothesisId === item.id ? "border-accent-primary bg-accent-primary/5" : "border-border-theme"}`}
                       >
                         <p className="text-[11px] font-medium leading-5 text-text-primary">
                           {item.description}
@@ -1493,7 +1493,7 @@ export function MaspDetailPage({
                                       undefined,
                                   )
                                 }
-                                className="text-text-secondary hover:text-[#C92834]"
+                                className="text-text-secondary hover:text-accent-hover"
                               >
                                 <Trash2
                                   size={14}
@@ -1542,7 +1542,7 @@ export function MaspDetailPage({
                                     undefined,
                                 )
                               }
-                              className="text-[9px] font-semibold text-[#C92834]"
+                              className="text-[9px] font-semibold text-accent-primary"
                             >
                               Aceitar
                             </button>
@@ -1678,7 +1678,7 @@ export function MaspDetailPage({
                 {!terminal && (
                   <button
                     type="submit"
-                    className="h-10 rounded-[10px] bg-[#2F3337] px-4 text-[10px] font-semibold text-white"
+                    className="h-10 rounded-[10px] bg-surface-inverse px-4 text-[10px] font-semibold text-white"
                   >
                     Adicionar à árvore
                   </button>
@@ -1696,7 +1696,7 @@ export function MaspDetailPage({
                         key={
                           warning
                         }
-                        className="rounded-[10px] bg-[#FFF7E8] px-3 py-2 text-[10px] leading-5 text-[#8E671E]"
+                        className="rounded-[10px] bg-warning/10 px-3 py-2 text-[10px] leading-5 text-warning"
                       >
                         {warning}
                       </p>
@@ -1888,7 +1888,7 @@ export function MaspDetailPage({
                   {!terminal && (
                     <button
                       type="submit"
-                      className="h-10 rounded-[10px] bg-[#2F3337] px-4 text-[10px] font-semibold text-white"
+                      className="h-10 rounded-[10px] bg-surface-inverse px-4 text-[10px] font-semibold text-white"
                     >
                       Registrar proposta
                     </button>
@@ -1908,7 +1908,7 @@ export function MaspDetailPage({
                         key={
                           cause.id
                         }
-                        className={`rounded-[14px] border p-4 ${cause.status === "CONFIRMED" ? "border-[#BCD9C2] bg-success/5" : "border-border-theme"}`}
+                        className={`rounded-[14px] border p-4 ${cause.status === "CONFIRMED" ? "border-success/30 bg-success/5" : "border-border-theme"}`}
                       >
                         <p className="text-[9px] font-semibold uppercase tracking-[0.08em] text-text-secondary">
                           {cause.status ===
@@ -1947,7 +1947,7 @@ export function MaspDetailPage({
                                     undefined,
                                 )
                               }
-                              className="text-[9px] font-semibold text-[#39734A]"
+                              className="text-[9px] font-semibold text-success"
                             >
                               Confirmar
                             </button>
@@ -1967,7 +1967,7 @@ export function MaspDetailPage({
                                     undefined,
                                 )
                               }
-                              className="text-[9px] font-semibold text-[#9A4A50]"
+                              className="text-[9px] font-semibold text-accent-primary"
                             >
                               Rejeitar
                             </button>
@@ -2099,7 +2099,7 @@ export function MaspDetailPage({
                 {!terminal && (
                   <button
                     type="submit"
-                    className="h-10 rounded-[10px] bg-[#2F3337] px-4 text-[10px] font-semibold text-white"
+                    className="h-10 rounded-[10px] bg-surface-inverse px-4 text-[10px] font-semibold text-white"
                   >
                     Adicionar evidência
                   </button>
@@ -2117,7 +2117,7 @@ export function MaspDetailPage({
                       }
                       className="rounded-[13px] border border-border-theme p-4"
                     >
-                      <span className="text-[8px] font-semibold uppercase tracking-[0.08em] text-[#E41E2B]">
+                      <span className="text-[8px] font-semibold uppercase tracking-[0.08em] text-accent-primary">
                         {item.type}
                       </span>
                       <p className="mt-2 text-[11px] leading-5 text-text-primary">
@@ -2312,7 +2312,7 @@ export function MaspDetailPage({
                 {!terminal && (
                   <button
                     type="submit"
-                    className="h-10 rounded-[10px] bg-[#2F3337] px-4 text-[10px] font-semibold text-white"
+                    className="h-10 rounded-[10px] bg-surface-inverse px-4 text-[10px] font-semibold text-white"
                   >
                     Adicionar ao plano
                   </button>
@@ -2336,7 +2336,7 @@ export function MaspDetailPage({
                     >
                       <div className="flex items-start justify-between gap-4">
                         <div>
-                          <p className="text-[9px] font-semibold uppercase tracking-[0.08em] text-[#E41E2B]">
+                          <p className="text-[9px] font-semibold uppercase tracking-[0.08em] text-accent-primary">
                             What
                           </p>
                           <p className="mt-2 text-[12px] font-semibold leading-5 text-text-primary">
@@ -2417,7 +2417,7 @@ export function MaspDetailPage({
                                   undefined,
                               )
                             }
-                            className="text-text-secondary hover:text-[#C92834]"
+                            className="text-text-secondary hover:text-accent-hover"
                           >
                             <Trash2
                               size={14}
@@ -2577,7 +2577,7 @@ export function MaspDetailPage({
                 {!terminal && (
                   <button
                     type="submit"
-                    className="inline-flex h-10 items-center gap-2 rounded-[10px] bg-[#2F3337] px-4 text-[10px] font-semibold text-white"
+                    className="inline-flex h-10 items-center gap-2 rounded-[10px] bg-surface-inverse px-4 text-[10px] font-semibold text-white"
                   >
                     <RefreshCw
                       size={13}
@@ -2629,7 +2629,7 @@ export function MaspDetailPage({
                           verification
                             .recurrence_detected,
                         ) && (
-                          <p className="mb-4 rounded-[10px] bg-[#FFF1E8] px-3 py-2 text-[10px] font-medium text-[#9A5529]">
+                          <p className="mb-4 rounded-[10px] bg-warning/10 px-3 py-2 text-[10px] font-medium text-warning">
                             Reincidência detectada durante o período de verificação.
                           </p>
                         )}
@@ -2659,8 +2659,8 @@ export function MaspDetailPage({
                               )}
                             </p>
                           </div>
-                          <div className="rounded-[13px] bg-[#F3F9F4] p-4">
-                            <p className="text-[9px] font-semibold uppercase tracking-[0.08em] text-[#568060]">
+                          <div className="rounded-[13px] bg-success/10 p-4">
+                            <p className="text-[9px] font-semibold uppercase tracking-[0.08em] text-success">
                               Após
                             </p>
                             <p className="mt-3 text-[20px] font-semibold text-text-primary">
@@ -2703,7 +2703,7 @@ export function MaspDetailPage({
       </fieldset>
 
       {busy && (
-        <div className="fixed bottom-5 right-5 flex items-center gap-2 rounded-full bg-[#25282C] px-4 py-3 text-[10px] font-semibold text-white shadow-lg">
+        <div className="fixed bottom-5 right-5 flex items-center gap-2 rounded-full bg-surface-inverse px-4 py-3 text-[10px] font-semibold text-white shadow-lg">
           <LoaderCircle
             size={14}
             className="animate-spin"

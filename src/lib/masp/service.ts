@@ -11,6 +11,10 @@ import {
   MaspApiError,
 } from "@/lib/masp/api";
 
+import {
+  USER_UNIT_SCOPE_CONDITION,
+} from "@/lib/unit-selection";
+
 
 interface MaspEventRow
   extends RowDataPacket {
@@ -501,6 +505,7 @@ export async function validateMaspReferences(
           WHERE
               u.id = ?
               AND u.active = TRUE
+              AND ${USER_UNIT_SCOPE_CONDITION}
           LIMIT 1
         `,
         [
@@ -577,6 +582,7 @@ export async function validateActionReferences(
               AND uu.unit_id = ?
           WHERE u.id = ?
             AND u.active = TRUE
+            AND ${USER_UNIT_SCOPE_CONDITION}
         `,
         [
           unitId,

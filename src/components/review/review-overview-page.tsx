@@ -29,7 +29,7 @@ import {
 
 interface ReviewOverviewPageProps {
   user: { name: string };
-  unit: { city: string | null };
+  unit: { name: string };
 }
 
 interface CategoriesResponse {
@@ -181,13 +181,13 @@ export function ReviewOverviewPage({ user, unit }: ReviewOverviewPageProps) {
   }, [categories, sort]);
 
   return (
-    <main className="min-h-screen bg-surface-elevated transition-colors">
-      <AppHeader userName={user.name} city={unit.city} />
+    <main className="min-h-screen bg-background-primary transition-colors">
+      <AppHeader userName={user.name} unitName={unit.name} />
 
       <section className="mx-auto w-full max-w-[1380px] px-6 pb-24 pt-12 sm:px-8 lg:px-12 lg:pt-16">
         <Link
           href="/dashboard"
-          className="inline-flex items-center gap-2 rounded-[10px] border border-[#F40009] bg-[#F40009] px-3.5 py-2 text-[12px] font-semibold text-white transition-colors hover:border-[#B90007] hover:bg-[#B90007]"
+          className="inline-flex items-center gap-2 rounded-[10px] border border-accent-primary bg-accent-primary px-3.5 py-2 text-[12px] font-semibold text-white transition-colors hover:border-accent-primary hover:bg-accent-hover"
         >
           <ArrowLeft size={15} strokeWidth={1.8} />
           Voltar
@@ -217,7 +217,7 @@ export function ReviewOverviewPage({ user, unit }: ReviewOverviewPageProps) {
             <p className="mt-4 text-[14px] leading-6 text-text-body">
               Pendentes
             </p>
-            <p className="mt-1 text-[22px] font-semibold text-[#F40009]">
+            <p className="mt-1 text-[22px] font-semibold text-accent-primary">
               {totals.pending}
             </p>
           </div>
@@ -260,7 +260,7 @@ export function ReviewOverviewPage({ user, unit }: ReviewOverviewPageProps) {
             <select
               value={sort}
               onChange={(event) => setSort(event.target.value as CategorySort)}
-              className="h-8 rounded-[8px] border border-border-theme bg-surface transition-colors px-2 text-[11.5px] text-text-primary outline-none focus:border-[#F40009]"
+              className="h-8 rounded-[8px] border border-border-theme bg-surface transition-colors px-2 text-[11.5px] text-text-primary outline-none focus:border-accent-primary"
             >
               {SORT_OPTIONS.map((option) => (
                 <option key={option.value} value={option.value}>
@@ -283,7 +283,7 @@ export function ReviewOverviewPage({ user, unit }: ReviewOverviewPageProps) {
 
         {loading ? (
           <div className="mt-10 flex items-center gap-3 text-[13px] text-text-secondary">
-            <LoaderCircle size={18} className="animate-spin text-[#F40009]" />
+            <LoaderCircle size={18} className="animate-spin text-accent-primary" />
             Carregando categorias...
           </div>
         ) : sortedCategories.length === 0 ? (

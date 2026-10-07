@@ -59,7 +59,6 @@ function formatUnitLabel(
   unit: ReportUnit,
 ) {
   return (
-    unit.city?.trim() ||
     unit.name?.trim() ||
     unit.code?.trim() ||
     `Unidade ${unit.id}`
@@ -702,7 +701,7 @@ function ReportGeneratorContent({
         <div className="flex items-start justify-between gap-6 border-b border-border-theme bg-surface px-6 py-5 sm:px-8">
           <div>
             <div className="flex items-center gap-2.5">
-              <span className="flex h-9 w-9 items-center justify-center rounded-[11px] bg-[#FFF0F1] text-[#E41E2B]">
+              <span className="flex h-9 w-9 items-center justify-center rounded-[11px] bg-accent-soft text-accent-primary">
                 <FileDown
                   size={18}
                 />
@@ -746,7 +745,7 @@ function ReportGeneratorContent({
               <div className="flex items-center gap-3 text-[12px] text-text-secondary">
                 <LoaderCircle
                   size={18}
-                  className="animate-spin text-[#E41E2B]"
+                  className="animate-spin text-accent-primary"
                 />
 
                 Carregando opções do relatório...
@@ -783,7 +782,7 @@ function ReportGeneratorContent({
                       onClick={
                         selectAllUnits
                       }
-                      className="text-[10px] font-semibold text-[#B72831] hover:text-[#E41E2B]"
+                      className="text-[10px] font-semibold text-accent-primary hover:text-accent-hover"
                     >
                       Selecionar todas
                     </button>
@@ -814,7 +813,7 @@ function ReportGeneratorContent({
                           className={[
                             "flex min-h-[72px] items-center gap-3 rounded-[14px] border px-3.5 py-3 text-left transition-colors",
                             checked
-                              ? "border-[#E7B5B9] bg-accent-primary/5"
+                              ? "border-accent-primary/30 bg-accent-primary/5"
                               : "border-border-theme bg-surface hover:border-border-theme",
                           ].join(
                             " ",
@@ -824,7 +823,7 @@ function ReportGeneratorContent({
                             className={[
                               "flex h-[19px] w-[19px] shrink-0 items-center justify-center rounded-[5px] border",
                               checked
-                                ? "border-[#E41E2B] bg-[#E41E2B] text-white"
+                                ? "border-accent-primary bg-accent-primary text-white"
                                 : "border-border-theme bg-surface text-transparent",
                             ].join(
                               " ",
@@ -1051,7 +1050,7 @@ function ReportGeneratorContent({
           )}
 
           {error && (
-            <div className="mt-5 rounded-[13px] border border-[#F0C7CA] bg-[#FFF5F5] px-4 py-3 text-[11px] leading-5 text-[#B72B34]">
+            <div className="mt-5 rounded-[13px] border border-accent-primary/30 bg-accent-soft px-4 py-3 text-[11px] leading-5 text-accent-primary">
               {error}
             </div>
           )}
@@ -1085,7 +1084,7 @@ function ReportGeneratorContent({
                 loadingOptions ||
                 generating
               }
-              className="inline-flex h-11 min-w-[178px] items-center justify-center gap-2 rounded-[11px] bg-[#E41E2B] px-5 text-[11px] font-semibold text-white shadow-[0_8px_22px_rgba(228,30,43,0.18)] transition-colors hover:bg-[#CF1824] disabled:cursor-not-allowed disabled:opacity-50"
+              className="inline-flex h-11 min-w-[178px] items-center justify-center gap-2 rounded-[11px] bg-accent-primary px-5 text-[11px] font-semibold text-white shadow-[0_8px_22px_rgba(228,30,43,0.18)] transition-colors hover:bg-accent-hover disabled:cursor-not-allowed disabled:opacity-50"
             >
               {generating ? (
                 <>

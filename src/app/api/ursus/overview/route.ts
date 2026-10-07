@@ -1,3 +1,4 @@
+import { getAnalystAccessError } from "@/lib/write-access";
 // FILE: src/app/api/ursus/overview/route.ts
 
 import { NextResponse } from "next/server";
@@ -208,6 +209,11 @@ export async function GET() {
       },
     );
   }
+
+  /* Revisão e Ursus são exclusivos do Analista. */
+  const analystError = getAnalystAccessError(session);
+  if (analystError) return analystError;
+
 
   try {
     const health =

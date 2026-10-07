@@ -47,9 +47,7 @@ interface HistoryPageProps {
   };
 
   unit: {
-    city:
-      | string
-      | null;
+    name: string;
   };
 
   /* Só o Analista corrige classificações; o Gestor consulta. */
@@ -421,7 +419,6 @@ function getUnitLabel(
     HistoryUnit,
 ): string {
   return (
-    unit.city?.trim() ||
     unit.name?.trim() ||
     unit.code?.trim() ||
     `Unidade ${unit.id}`
@@ -637,7 +634,7 @@ export function HistoryPage({
           0
         ) {
           return (
-            unit.city ??
+            unit.name ??
             "Unidade atual"
           );
         }
@@ -657,7 +654,7 @@ export function HistoryPage({
       },
       [
         filters,
-        unit.city,
+        unit.name,
       ],
     );
 
@@ -1378,7 +1375,7 @@ export function HistoryPage({
   ======================================================= */
 
   return (
-    <main className="min-h-screen bg-surface">
+    <main className="min-h-screen bg-background-primary">
 
       {/* ===================================================
           HEADER
@@ -1406,7 +1403,7 @@ export function HistoryPage({
 
             <UnitFilter
               fallbackLabel={
-                unit.city
+                unit.name
               }
               onSelectionApplied={
                 handleUnitSelectionApplied
@@ -1562,7 +1559,7 @@ export function HistoryPage({
 
 
             {exportError && (
-              <p className="text-[11px] text-[#C92A32]">
+              <p className="text-[11px] text-accent-primary">
                 {exportError}
               </p>
             )}
@@ -1648,7 +1645,7 @@ export function HistoryPage({
 
                     <LoaderCircle
                       size={20}
-                      className="mx-auto animate-spin text-[#F40009]"
+                      className="mx-auto animate-spin text-accent-primary"
                     />
 
                   </td>
@@ -2510,9 +2507,9 @@ export function HistoryPage({
 
 
                     {editError && (
-                      <div className="mt-5 rounded-[14px] border border-[#F1D6D9] bg-surface-elevated px-4 py-3">
+                      <div className="mt-5 rounded-[14px] border border-accent-primary/30 bg-surface-elevated px-4 py-3">
 
-                        <p className="text-[12px] text-[#C92A32]">
+                        <p className="text-[12px] text-accent-primary">
                           {editError}
                         </p>
 
@@ -2551,7 +2548,7 @@ export function HistoryPage({
                         onClick={() =>
                           void saveClassification()
                         }
-                        className="inline-flex min-w-[150px] items-center justify-center rounded-full bg-[#F40009] px-5 py-2.5 text-[12px] font-semibold text-white transition-colors hover:bg-[#D90008] disabled:opacity-50"
+                        className="inline-flex min-w-[150px] items-center justify-center rounded-full bg-accent-primary px-5 py-2.5 text-[12px] font-semibold text-white transition-colors hover:bg-accent-hover disabled:opacity-50"
                       >
                         {saving
                           ? "Salvando..."

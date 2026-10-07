@@ -10,10 +10,10 @@ import { ThemeSwitcher } from "@/components/theme/theme-switcher";
 
 interface AppHeaderProps {
   userName?: string;
-  city?: string | null;
+  unitName?: string | null;
 }
 
-export function AppHeader({ userName, city }: AppHeaderProps) {
+export function AppHeader({ userName, unitName }: AppHeaderProps) {
   const router = useRouter();
   const [loggingOut, setLoggingOut] = useState(false);
 
@@ -78,9 +78,9 @@ export function AppHeader({ userName, city }: AppHeaderProps) {
                   {userName}
                 </p>
 
-                {city && (
+                {unitName && (
                   <p className="mt-0.5 text-[11px] text-text-body">
-                    {city}
+                    {unitName}
                   </p>
                 )}
               </div>
@@ -97,7 +97,7 @@ export function AppHeader({ userName, city }: AppHeaderProps) {
             type="button"
             onClick={() => void handleLogout()}
             disabled={loggingOut}
-            className="group flex items-center gap-2 text-[12px] font-medium text-text-secondary transition-colors hover:text-[#E41E2B] disabled:cursor-not-allowed disabled:opacity-40"
+            className="group flex items-center gap-2 text-[12px] font-medium text-text-secondary transition-colors hover:text-accent-hover disabled:cursor-not-allowed disabled:opacity-40"
           >
             <LogOut size={16} strokeWidth={1.8} />
 

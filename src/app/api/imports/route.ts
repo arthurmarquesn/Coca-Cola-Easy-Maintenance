@@ -882,8 +882,7 @@ export async function GET(
               unit_stats.units_label,
 
               COALESCE(
-                primary_unit.city,
-                primary_unit.name,
+primary_unit.name,
                 primary_unit.code,
                 CONCAT(
                   'Unidade ',
@@ -1035,8 +1034,7 @@ export async function GET(
 
               GROUP_CONCAT(
                 DISTINCT COALESCE(
-                  u.city,
-                  u.name,
+u.name,
                   u.code,
                   CONCAT(
                     'Unidade ',
@@ -1046,8 +1044,7 @@ export async function GET(
 
                 ORDER BY
                   COALESCE(
-                    u.city,
-                    u.name,
+u.name,
                     u.code
                   )
 

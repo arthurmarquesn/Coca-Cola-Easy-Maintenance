@@ -43,7 +43,7 @@ interface ImportDataPageProps {
   };
 
   unit: {
-    city: string | null;
+    name: string;
   };
 }
 
@@ -568,7 +568,7 @@ function statusClasses(
       normalized,
     )
   ) {
-    return "bg-[#FFF1F2] text-[#B4232C]";
+    return "bg-accent-soft text-accent-primary";
   }
 
   if (
@@ -581,10 +581,10 @@ function statusClasses(
       normalized,
     )
   ) {
-    return "bg-[#FFF8E6] text-[#8B6B16]";
+    return "bg-warning/10 text-warning";
   }
 
-  return "bg-[#EEF7F1] text-[#3E6650]";
+  return "bg-success/10 text-success";
 }
 
 /* =========================================================
@@ -1814,12 +1814,12 @@ export function ImportDataPage({
   ======================================================= */
 
   return (
-    <main className="min-h-screen bg-[#F7F7F6]">
+    <main className="min-h-screen bg-background-primary">
       {/* ===================================================
           HEADER
       ==================================================== */}
 
-      <AppHeader userName={user.name} city={unit.city} />
+      <AppHeader userName={user.name} unitName={unit.name} />
 
       {/* ===================================================
           CONTEÚDO
@@ -1828,7 +1828,7 @@ export function ImportDataPage({
       <section className="mx-auto w-full max-w-[1380px] px-6 pb-20 pt-7 sm:px-8 lg:px-12">
         <Link
           href="/dashboard"
-          className="inline-flex items-center gap-2 rounded-[10px] border border-[#F40009] bg-[#F40009] px-3.5 py-2 text-[12px] font-semibold text-white transition-colors hover:border-[#B90007] hover:bg-[#B90007]"
+          className="inline-flex items-center gap-2 rounded-[10px] border border-accent-primary bg-accent-primary px-3.5 py-2 text-[12px] font-semibold text-white transition-colors hover:border-accent-primary hover:bg-accent-hover"
         >
           <ArrowLeft
             size={15}
@@ -1843,15 +1843,15 @@ export function ImportDataPage({
 
         <div className="mt-6 flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
           <div>
-            <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-[#A2A6AB]">
+            <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-text-muted">
               Dados e modelo
             </p>
 
-            <h1 className="mt-2 text-[34px] font-semibold tracking-[-0.045em] text-[#191B1E] sm:text-[40px]">
+            <h1 className="mt-2 text-[34px] font-semibold tracking-[-0.045em] text-text-primary sm:text-[40px]">
               Importações
             </h1>
 
-            <p className="mt-2 max-w-[620px] text-[12px] leading-6 text-[#858A90]">
+            <p className="mt-2 max-w-[620px] text-[12px] leading-6 text-text-secondary">
               Importe apontamentos, acompanhe a classificação do modelo e gerencie os dados disponíveis no sistema.
             </p>
           </div>
@@ -1872,7 +1872,7 @@ export function ImportDataPage({
                 clearFile();
               }
             }}
-            className="inline-flex h-10 items-center justify-center gap-2 self-start rounded-[11px] bg-[#E41E2B] px-4 text-[10px] font-semibold text-white transition hover:bg-[#C91824] sm:self-auto"
+            className="inline-flex h-10 items-center justify-center gap-2 self-start rounded-[11px] bg-accent-primary px-4 text-[10px] font-semibold text-white transition hover:bg-accent-hover sm:self-auto"
           >
             <Upload
               size={14}
@@ -1889,13 +1889,13 @@ export function ImportDataPage({
         ================================================== */}
 
         {uploadExpanded && (
-          <section className="mt-6 overflow-hidden rounded-[24px] border border-black/[0.05] bg-white shadow-[0_12px_38px_rgba(28,31,34,0.025)]">
-            <div className="border-b border-black/[0.05] px-5 py-4 sm:px-6">
-              <h2 className="text-[14px] font-semibold tracking-[-0.025em] text-[#202327]">
+          <section className="mt-6 overflow-hidden rounded-[24px] border border-border-theme bg-surface shadow-[0_12px_38px_rgba(28,31,34,0.025)]">
+            <div className="border-b border-border-theme px-5 py-4 sm:px-6">
+              <h2 className="text-[14px] font-semibold tracking-[-0.025em] text-text-primary">
                 Nova importação
               </h2>
 
-              <p className="mt-1 text-[9px] text-[#9A9FA5]">
+              <p className="mt-1 text-[9px] text-text-muted">
                 Preview, processamento e análise ML no mesmo fluxo.
               </p>
             </div>
@@ -1935,25 +1935,25 @@ export function ImportDataPage({
                   }}
                   className={`flex min-h-[220px] cursor-pointer flex-col items-center justify-center rounded-[18px] border border-dashed px-8 text-center outline-none transition ${
                     dragging
-                      ? "border-[#E41E2B] bg-[#FFF8F8]"
-                      : "border-[#D5D7DA] bg-[#FAFAF9] hover:border-[#B9BDC1]"
+                      ? "border-accent-primary bg-accent-soft"
+                      : "border-border-theme bg-background-primary hover:border-text-muted"
                   }`}
                 >
-                  <div className="flex h-11 w-11 items-center justify-center rounded-[11px] bg-white text-[#4B5055] shadow-sm">
+                  <div className="flex h-11 w-11 items-center justify-center rounded-[11px] bg-surface text-text-body shadow-sm">
                     <Upload
                       size={19}
                     />
                   </div>
 
-                  <p className="mt-5 text-[13px] font-semibold text-[#32363A]">
+                  <p className="mt-5 text-[13px] font-semibold text-text-primary">
                     Arraste a planilha aqui
                   </p>
 
-                  <p className="mt-1 text-[10px] text-[#979CA2]">
+                  <p className="mt-1 text-[10px] text-text-secondary">
                     ou clique para selecionar
                   </p>
 
-                  <p className="mt-4 text-[9px] text-[#A4A8AD]">
+                  <p className="mt-4 text-[9px] text-text-muted">
                     .xlsx ou .xlsm
                   </p>
                 </div>
@@ -1973,20 +1973,20 @@ export function ImportDataPage({
 
               {file && (
                 <>
-                  <div className="flex items-center justify-between rounded-[15px] border border-black/[0.06] bg-[#FAFAF9] px-4 py-3.5">
+                  <div className="flex items-center justify-between rounded-[15px] border border-border-theme bg-background-primary px-4 py-3.5">
                     <div className="flex min-w-0 items-center gap-3">
-                      <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-[9px] bg-white text-[#484D52]">
+                      <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-[9px] bg-surface text-text-body">
                         <FileSpreadsheet
                           size={17}
                         />
                       </div>
 
                       <div className="min-w-0">
-                        <p className="truncate text-[11px] font-semibold text-[#33373B]">
+                        <p className="truncate text-[11px] font-semibold text-text-primary">
                           {file.name}
                         </p>
 
-                        <p className="mt-0.5 text-[8px] text-[#9CA1A6]">
+                        <p className="mt-0.5 text-[8px] text-text-muted">
                           {formatFileSize(
                             file.size,
                           )}
@@ -2005,7 +2005,7 @@ export function ImportDataPage({
                         onClick={
                           clearFile
                         }
-                        className="flex h-8 w-8 items-center justify-center rounded-[8px] text-[#92979C] transition hover:bg-white hover:text-[#34383D]"
+                        className="flex h-8 w-8 items-center justify-center rounded-[8px] text-text-secondary transition hover:bg-surface hover:text-text-primary"
                       >
                         <X
                           size={15}
@@ -2019,10 +2019,10 @@ export function ImportDataPage({
                     <div className="flex min-h-[150px] items-center justify-center gap-3">
                       <LoaderCircle
                         size={18}
-                        className="animate-spin text-[#E41E2B]"
+                        className="animate-spin text-accent-primary"
                       />
 
-                      <p className="text-[11px] text-[#777C82]">
+                      <p className="text-[11px] text-text-secondary">
                         Verificando estrutura da planilha...
                       </p>
                     </div>
@@ -2035,27 +2035,27 @@ export function ImportDataPage({
                         <div className="flex items-start gap-3">
                           <Check
                             size={17}
-                            className="mt-0.5 text-[#456A57]"
+                            className="mt-0.5 text-success"
                           />
 
                           <div>
-                            <p className="text-[12px] font-semibold text-[#303438]">
+                            <p className="text-[12px] font-semibold text-text-primary">
                               Planilha pronta para processamento
                             </p>
 
-                            <p className="mt-1 text-[9px] text-[#8F949A]">
+                            <p className="mt-1 text-[9px] text-text-secondary">
                               A estrutura necessária foi identificada corretamente.
                             </p>
                           </div>
                         </div>
 
-                        <div className="mt-5 grid overflow-hidden rounded-[14px] border border-black/[0.05] sm:grid-cols-3 sm:divide-x sm:divide-black/[0.05]">
+                        <div className="mt-5 grid overflow-hidden rounded-[14px] border border-border-theme sm:grid-cols-3 sm:divide-x sm:divide-border-theme">
                           <div className="px-4 py-4">
-                            <p className="text-[8px] uppercase tracking-[0.08em] text-[#A0A5AA]">
+                            <p className="text-[8px] uppercase tracking-[0.08em] text-text-muted">
                               Registros
                             </p>
 
-                            <p className="mt-1 text-[17px] font-semibold text-[#34383D]">
+                            <p className="mt-1 text-[17px] font-semibold text-text-primary">
                               {formatNumber(
                                 preview.totalRows,
                               )}
@@ -2063,21 +2063,21 @@ export function ImportDataPage({
                           </div>
 
                           <div className="px-4 py-4">
-                            <p className="text-[8px] uppercase tracking-[0.08em] text-[#A0A5AA]">
+                            <p className="text-[8px] uppercase tracking-[0.08em] text-text-muted">
                               Aba
                             </p>
 
-                            <p className="mt-1 truncate text-[12px] font-semibold text-[#34383D]">
+                            <p className="mt-1 truncate text-[12px] font-semibold text-text-primary">
                               {preview.sheetName}
                             </p>
                           </div>
 
                           <div className="px-4 py-4">
-                            <p className="text-[8px] uppercase tracking-[0.08em] text-[#A0A5AA]">
+                            <p className="text-[8px] uppercase tracking-[0.08em] text-text-muted">
                               Colunas
                             </p>
 
-                            <p className="mt-1 text-[17px] font-semibold text-[#34383D]">
+                            <p className="mt-1 text-[17px] font-semibold text-text-primary">
                               {preview.expectedColumns.length}
                             </p>
                           </div>
@@ -2089,7 +2089,7 @@ export function ImportDataPage({
                             onClick={() =>
                               void processFile()
                             }
-                            className="h-10 rounded-[10px] bg-[#E41E2B] px-5 text-[10px] font-semibold text-white transition hover:bg-[#C91824]"
+                            className="h-10 rounded-[10px] bg-accent-primary px-5 text-[10px] font-semibold text-white transition hover:bg-accent-hover"
                           >
                             Processar dados
                           </button>
@@ -2103,22 +2103,22 @@ export function ImportDataPage({
                       <div className="flex items-start gap-3">
                         <LoaderCircle
                           size={18}
-                          className="mt-0.5 animate-spin text-[#E41E2B]"
+                          className="mt-0.5 animate-spin text-accent-primary"
                         />
 
                         <div>
-                          <p className="text-[12px] font-semibold text-[#303438]">
+                          <p className="text-[12px] font-semibold text-text-primary">
                             Importando e analisando dados
                           </p>
 
-                          <p className="mt-1 text-[9px] leading-5 text-[#8E9399]">
+                          <p className="mt-1 text-[9px] leading-5 text-text-secondary">
                             Os registros estão sendo armazenados e enviados ao modelo de classificação.
                           </p>
                         </div>
                       </div>
 
-                      <div className="mt-5 overflow-hidden rounded-full bg-[#ECEEEF]">
-                        <div className="h-[4px] w-1/2 animate-pulse rounded-full bg-[#E41E2B]" />
+                      <div className="mt-5 overflow-hidden rounded-full bg-surface-elevated">
+                        <div className="h-[4px] w-1/2 animate-pulse rounded-full bg-accent-primary" />
                       </div>
                     </div>
                   )}
@@ -2130,15 +2130,15 @@ export function ImportDataPage({
                         <div className="flex items-start gap-3">
                           <Check
                             size={18}
-                            className="mt-0.5 text-[#456A57]"
+                            className="mt-0.5 text-success"
                           />
 
                           <div>
-                            <p className="text-[12px] font-semibold text-[#303438]">
+                            <p className="text-[12px] font-semibold text-text-primary">
                               Importação concluída
                             </p>
 
-                            <p className="mt-1 text-[9px] text-[#8F949A]">
+                            <p className="mt-1 text-[9px] text-text-secondary">
                               {mlCompleted
                                 ? "Os dados foram armazenados e o modelo concluiu a análise."
                                 : "Os dados foram armazenados com sucesso."}
@@ -2146,13 +2146,13 @@ export function ImportDataPage({
                           </div>
                         </div>
 
-                        <div className="mt-5 grid overflow-hidden rounded-[14px] border border-black/[0.05] sm:grid-cols-3 sm:divide-x sm:divide-black/[0.05]">
+                        <div className="mt-5 grid overflow-hidden rounded-[14px] border border-border-theme sm:grid-cols-3 sm:divide-x sm:divide-border-theme">
                           <div className="px-4 py-4">
-                            <p className="text-[8px] uppercase tracking-[0.08em] text-[#A0A5AA]">
+                            <p className="text-[8px] uppercase tracking-[0.08em] text-text-muted">
                               Importados
                             </p>
 
-                            <p className="mt-1 text-[18px] font-semibold text-[#34383D]">
+                            <p className="mt-1 text-[18px] font-semibold text-text-primary">
                               {formatNumber(
                                 importedCount,
                               )}
@@ -2165,7 +2165,7 @@ export function ImportDataPage({
                             )}
                             {ignoredCount >
                               0 && (
-                              <p className="mt-1 text-[8px] text-[#A0A5AA]">
+                              <p className="mt-1 text-[8px] text-text-muted">
                                 {formatNumber(
                                   ignoredCount,
                                 )}{" "}
@@ -2175,18 +2175,18 @@ export function ImportDataPage({
                           </div>
 
                           <div className="px-4 py-4">
-                            <p className="text-[8px] uppercase tracking-[0.08em] text-[#A0A5AA]">
+                            <p className="text-[8px] uppercase tracking-[0.08em] text-text-muted">
                               Analisados pelo ML
                             </p>
 
-                            <p className="mt-1 text-[18px] font-semibold text-[#34383D]">
+                            <p className="mt-1 text-[18px] font-semibold text-text-primary">
                               {formatNumber(
                                 mlProcessedCount,
                               )}
                             </p>
 
                             {mlAvailable && (
-                              <p className="mt-1 text-[8px] text-[#A0A5AA]">
+                              <p className="mt-1 text-[8px] text-text-muted">
                                 de{" "}
                                 {formatNumber(
                                   mlEligibleCount,
@@ -2197,11 +2197,11 @@ export function ImportDataPage({
                           </div>
 
                           <div className="px-4 py-4">
-                            <p className="text-[8px] uppercase tracking-[0.08em] text-[#A0A5AA]">
+                            <p className="text-[8px] uppercase tracking-[0.08em] text-text-muted">
                               Sugestões
                             </p>
 
-                            <p className="mt-1 text-[18px] font-semibold text-[#34383D]">
+                            <p className="mt-1 text-[18px] font-semibold text-text-primary">
                               {formatNumber(
                                 suggestionsCount,
                               )}
@@ -2210,19 +2210,19 @@ export function ImportDataPage({
                         </div>
 
                         {mlResult && (
-                          <div className="mt-4 flex flex-col gap-2 rounded-[12px] bg-[#F7F7F6] px-4 py-3 sm:flex-row sm:items-center sm:justify-between">
+                          <div className="mt-4 flex flex-col gap-2 rounded-[12px] bg-background-primary px-4 py-3 sm:flex-row sm:items-center sm:justify-between">
                             <div>
-                              <p className="text-[8px] uppercase tracking-[0.08em] text-[#A0A5AA]">
+                              <p className="text-[8px] uppercase tracking-[0.08em] text-text-muted">
                                 Modelo
                               </p>
 
-                              <p className="mt-1 text-[10px] font-semibold text-[#41464B]">
+                              <p className="mt-1 text-[10px] font-semibold text-text-primary">
                                 {mlResult.modelVersion ??
                                   "Indisponível"}
                               </p>
                             </div>
 
-                            <p className="text-[9px] font-medium text-[#777C82]">
+                            <p className="text-[9px] font-medium text-text-secondary">
                               {mlCompleted
                                 ? "Concluído"
                                 : mlResult.status ===
@@ -2235,7 +2235,7 @@ export function ImportDataPage({
 
                         {mlFailedCount >
                           0 && (
-                          <p className="mt-3 text-[9px] text-[#9A9FA5]">
+                          <p className="mt-3 text-[9px] text-text-muted">
                             {formatNumber(
                               mlFailedCount,
                             )}{" "}
@@ -2244,13 +2244,13 @@ export function ImportDataPage({
                         )}
 
                         {warning && (
-                          <div className="mt-4 flex items-start gap-3 rounded-[12px] border border-[#F0D7D9] bg-[#FFF8F8] px-4 py-3">
+                          <div className="mt-4 flex items-start gap-3 rounded-[12px] border border-accent-primary/30 bg-accent-soft px-4 py-3">
                             <AlertCircle
                               size={15}
-                              className="mt-0.5 shrink-0 text-[#B4232C]"
+                              className="mt-0.5 shrink-0 text-accent-primary"
                             />
 
-                            <p className="text-[9px] leading-5 text-[#74797F]">
+                            <p className="text-[9px] leading-5 text-text-secondary">
                               {warning}
                             </p>
                           </div>
@@ -2262,7 +2262,7 @@ export function ImportDataPage({
                             onClick={
                               clearFile
                             }
-                            className="text-[9px] font-semibold text-[#777C82] hover:text-[#303438]"
+                            className="text-[9px] font-semibold text-text-secondary hover:text-text-primary"
                           >
                             Importar outro arquivo
                           </button>
@@ -2270,7 +2270,7 @@ export function ImportDataPage({
                           <div className="flex gap-2">
                             <Link
                               href="/dashboard/historico"
-                              className="rounded-[9px] border border-black/[0.08] bg-white px-4 py-2.5 text-[9px] font-semibold text-[#4B5055] hover:bg-[#F7F7F6]"
+                              className="rounded-[9px] border border-border-theme bg-surface px-4 py-2.5 text-[9px] font-semibold text-text-body hover:bg-background-primary"
                             >
                               Ver histórico
                             </Link>
@@ -2279,7 +2279,7 @@ export function ImportDataPage({
                               0 && (
                               <Link
                                 href="/dashboard/revisao"
-                                className="rounded-[9px] bg-[#202327] px-4 py-2.5 text-[9px] font-semibold text-white hover:bg-[#111315]"
+                                className="rounded-[9px] bg-surface-inverse px-4 py-2.5 text-[9px] font-semibold text-white hover:bg-surface-inverse-hover"
                               >
                                 Revisar classificações
                               </Link>
@@ -2292,24 +2292,24 @@ export function ImportDataPage({
                   {status ===
                     "invalid" &&
                     preview && (
-                      <div className="mt-5 flex items-start gap-3 rounded-[13px] border border-[#F0D7D9] bg-[#FFF8F8] px-4 py-4">
+                      <div className="mt-5 flex items-start gap-3 rounded-[13px] border border-accent-primary/30 bg-accent-soft px-4 py-4">
                         <AlertCircle
                           size={17}
-                          className="mt-0.5 shrink-0 text-[#B4232C]"
+                          className="mt-0.5 shrink-0 text-accent-primary"
                         />
 
                         <div>
-                          <p className="text-[11px] font-semibold text-[#373B40]">
+                          <p className="text-[11px] font-semibold text-text-primary">
                             Estrutura incompatível
                           </p>
 
-                          <p className="mt-1 text-[9px] leading-5 text-[#858A90]">
+                          <p className="mt-1 text-[9px] leading-5 text-text-secondary">
                             A planilha não contém todas as colunas necessárias.
                           </p>
 
                           {preview.missingColumns.length >
                             0 && (
-                            <p className="mt-2 text-[9px] leading-5 text-[#A0A5AA]">
+                            <p className="mt-2 text-[9px] leading-5 text-text-muted">
                               Ausentes:{" "}
                               {preview.missingColumns.join(
                                 ", ",
@@ -2322,18 +2322,18 @@ export function ImportDataPage({
 
                   {status ===
                     "error" && (
-                    <div className="mt-5 flex items-start gap-3 rounded-[13px] border border-[#F0D7D9] bg-[#FFF8F8] px-4 py-4">
+                    <div className="mt-5 flex items-start gap-3 rounded-[13px] border border-accent-primary/30 bg-accent-soft px-4 py-4">
                       <AlertCircle
                         size={17}
-                        className="mt-0.5 shrink-0 text-[#B4232C]"
+                        className="mt-0.5 shrink-0 text-accent-primary"
                       />
 
                       <div>
-                        <p className="text-[11px] font-semibold text-[#373B40]">
+                        <p className="text-[11px] font-semibold text-text-primary">
                           Não foi possível concluir
                         </p>
 
-                        <p className="mt-1 text-[9px] leading-5 text-[#858A90]">
+                        <p className="mt-1 text-[9px] leading-5 text-text-secondary">
                           {error}
                         </p>
                       </div>
@@ -2349,13 +2349,13 @@ export function ImportDataPage({
             RESUMO
         ================================================== */}
 
-        <section className="mt-6 grid overflow-hidden rounded-[20px] border border-black/[0.045] bg-white shadow-[0_8px_30px_rgba(28,31,34,0.02)] sm:grid-cols-4 sm:divide-x sm:divide-black/[0.05]">
+        <section className="mt-6 grid overflow-hidden rounded-[20px] border border-border-theme bg-surface shadow-[0_8px_30px_rgba(28,31,34,0.02)] sm:grid-cols-4 sm:divide-x sm:divide-border-theme">
           <div className="px-5 py-4">
-            <p className="text-[8px] font-semibold uppercase tracking-[0.09em] text-[#A0A5AA]">
+            <p className="text-[8px] font-semibold uppercase tracking-[0.09em] text-text-muted">
               Importações
             </p>
 
-            <p className="mt-2 text-[22px] font-semibold tracking-[-0.04em] text-[#25292D]">
+            <p className="mt-2 text-[22px] font-semibold tracking-[-0.04em] text-text-primary">
               {formatNumber(
                 importsSummary.imports,
               )}
@@ -2363,11 +2363,11 @@ export function ImportDataPage({
           </div>
 
           <div className="px-5 py-4">
-            <p className="text-[8px] font-semibold uppercase tracking-[0.09em] text-[#A0A5AA]">
+            <p className="text-[8px] font-semibold uppercase tracking-[0.09em] text-text-muted">
               Eventos
             </p>
 
-            <p className="mt-2 text-[22px] font-semibold tracking-[-0.04em] text-[#25292D]">
+            <p className="mt-2 text-[22px] font-semibold tracking-[-0.04em] text-text-primary">
               {formatNumber(
                 importsSummary.events,
               )}
@@ -2375,11 +2375,11 @@ export function ImportDataPage({
           </div>
 
           <div className="px-5 py-4">
-            <p className="text-[8px] font-semibold uppercase tracking-[0.09em] text-[#A0A5AA]">
+            <p className="text-[8px] font-semibold uppercase tracking-[0.09em] text-text-muted">
               Classificados
             </p>
 
-            <p className="mt-2 text-[22px] font-semibold tracking-[-0.04em] text-[#25292D]">
+            <p className="mt-2 text-[22px] font-semibold tracking-[-0.04em] text-text-primary">
               {formatNumber(
                 importsSummary.classifiedEvents,
               )}
@@ -2387,11 +2387,11 @@ export function ImportDataPage({
           </div>
 
           <div className="px-5 py-4">
-            <p className="text-[8px] font-semibold uppercase tracking-[0.09em] text-[#A0A5AA]">
+            <p className="text-[8px] font-semibold uppercase tracking-[0.09em] text-text-muted">
               Cobertura
             </p>
 
-            <p className="mt-2 text-[22px] font-semibold tracking-[-0.04em] text-[#E41E2B]">
+            <p className="mt-2 text-[22px] font-semibold tracking-[-0.04em] text-accent-primary">
               {formatNumber(
                 globalClassificationRate,
                 1,
@@ -2405,20 +2405,20 @@ export function ImportDataPage({
             HISTÓRICO
         ================================================== */}
 
-        <section className="mt-5 overflow-hidden rounded-[24px] border border-black/[0.05] bg-white shadow-[0_12px_38px_rgba(28,31,34,0.025)]">
-          <div className="flex flex-col gap-4 border-b border-black/[0.05] px-5 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-6">
+        <section className="mt-5 overflow-hidden rounded-[24px] border border-border-theme bg-surface shadow-[0_12px_38px_rgba(28,31,34,0.025)]">
+          <div className="flex flex-col gap-4 border-b border-border-theme px-5 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-6">
             <div className="flex items-center gap-3">
               <History
                 size={15}
-                className="text-[#777C82]"
+                className="text-text-secondary"
               />
 
               <div>
-                <h2 className="text-[14px] font-semibold tracking-[-0.025em] text-[#202327]">
+                <h2 className="text-[14px] font-semibold tracking-[-0.025em] text-text-primary">
                   Histórico de importações
                 </h2>
 
-                <p className="mt-0.5 text-[8px] text-[#A0A5AA]">
+                <p className="mt-0.5 text-[8px] text-text-muted">
                   {formatNumber(
                     totalImports,
                   )}{" "}
@@ -2431,7 +2431,7 @@ export function ImportDataPage({
               <label className="relative">
                 <Search
                   size={13}
-                  className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-[#A0A5AA]"
+                  className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-text-muted"
                 />
 
                 <input
@@ -2446,7 +2446,7 @@ export function ImportDataPage({
                     )
                   }
                   placeholder="Buscar arquivo"
-                  className="h-9 w-full rounded-[9px] border border-black/[0.07] bg-[#FAFAF9] pl-8 pr-3 text-[9px] text-[#41464B] outline-none focus:border-[#D8A5A9] sm:w-[210px]"
+                  className="h-9 w-full rounded-[9px] border border-border-theme bg-background-primary pl-8 pr-3 text-[9px] text-text-primary outline-none focus:border-accent-primary/30 sm:w-[210px]"
                 />
               </label>
 
@@ -2465,7 +2465,7 @@ export function ImportDataPage({
                     1,
                   );
                 }}
-                className="h-9 rounded-[9px] border border-black/[0.07] bg-[#FAFAF9] px-3 text-[9px] text-[#555A60] outline-none focus:border-[#D8A5A9]"
+                className="h-9 rounded-[9px] border border-border-theme bg-background-primary px-3 text-[9px] text-text-body outline-none focus:border-accent-primary/30"
               >
                 <option value="">
                   Todos os status
@@ -2494,7 +2494,7 @@ export function ImportDataPage({
           </div>
 
           {importsError && (
-            <div className="m-5 rounded-[12px] border border-[#F0D7D9] bg-[#FFF8F8] px-4 py-3 text-[10px] text-[#B4232C]">
+            <div className="m-5 rounded-[12px] border border-accent-primary/30 bg-accent-soft px-4 py-3 text-[10px] text-accent-primary">
               {importsError}
             </div>
           )}
@@ -2505,7 +2505,7 @@ export function ImportDataPage({
             <div className="flex min-h-[260px] items-center justify-center">
               <LoaderCircle
                 size={20}
-                className="animate-spin text-[#E41E2B]"
+                className="animate-spin text-accent-primary"
               />
             </div>
           ) : imports.length ===
@@ -2513,14 +2513,14 @@ export function ImportDataPage({
             <div className="flex min-h-[260px] flex-col items-center justify-center px-6 text-center">
               <FileSpreadsheet
                 size={24}
-                className="text-[#C4C7CA]"
+                className="text-text-muted"
               />
 
-              <p className="mt-3 text-[11px] font-semibold text-[#60656B]">
+              <p className="mt-3 text-[11px] font-semibold text-text-body">
                 Nenhuma importação encontrada
               </p>
 
-              <p className="mt-1 text-[9px] text-[#999EA4]">
+              <p className="mt-1 text-[9px] text-text-muted">
                 Importe uma planilha ou altere os filtros da busca.
               </p>
             </div>
@@ -2529,32 +2529,32 @@ export function ImportDataPage({
               <div className="overflow-x-auto">
                 <table className="w-full min-w-[980px] border-collapse">
                   <thead>
-                    <tr className="border-b border-black/[0.05] bg-[#FAFAF9] text-left">
-                      <th className="px-5 py-3 text-[8px] font-semibold uppercase tracking-[0.08em] text-[#9CA1A7] sm:px-6">
+                    <tr className="border-b border-border-theme bg-background-primary text-left">
+                      <th className="px-5 py-3 text-[8px] font-semibold uppercase tracking-[0.08em] text-text-muted sm:px-6">
                         Arquivo
                       </th>
 
-                      <th className="px-4 py-3 text-[8px] font-semibold uppercase tracking-[0.08em] text-[#9CA1A7]">
+                      <th className="px-4 py-3 text-[8px] font-semibold uppercase tracking-[0.08em] text-text-muted">
                         Status
                       </th>
 
-                      <th className="px-4 py-3 text-[8px] font-semibold uppercase tracking-[0.08em] text-[#9CA1A7]">
+                      <th className="px-4 py-3 text-[8px] font-semibold uppercase tracking-[0.08em] text-text-muted">
                         Eventos
                       </th>
 
-                      <th className="px-4 py-3 text-[8px] font-semibold uppercase tracking-[0.08em] text-[#9CA1A7]">
+                      <th className="px-4 py-3 text-[8px] font-semibold uppercase tracking-[0.08em] text-text-muted">
                         Classificação
                       </th>
 
-                      <th className="px-4 py-3 text-[8px] font-semibold uppercase tracking-[0.08em] text-[#9CA1A7]">
+                      <th className="px-4 py-3 text-[8px] font-semibold uppercase tracking-[0.08em] text-text-muted">
                         Unidade
                       </th>
 
-                      <th className="px-4 py-3 text-[8px] font-semibold uppercase tracking-[0.08em] text-[#9CA1A7]">
+                      <th className="px-4 py-3 text-[8px] font-semibold uppercase tracking-[0.08em] text-text-muted">
                         Importado em
                       </th>
 
-                      <th className="px-5 py-3 text-right text-[8px] font-semibold uppercase tracking-[0.08em] text-[#9CA1A7] sm:px-6">
+                      <th className="px-5 py-3 text-right text-[8px] font-semibold uppercase tracking-[0.08em] text-text-muted sm:px-6">
                         Ações
                       </th>
                     </tr>
@@ -2569,7 +2569,7 @@ export function ImportDataPage({
                           key={
                             item.id
                           }
-                          className="border-b border-black/[0.045] last:border-b-0 hover:bg-[#FCFCFB]"
+                          className="border-b border-border-theme last:border-b-0 hover:bg-background-primary"
                         >
                           <td className="px-5 py-4 sm:px-6">
                             <button
@@ -2581,12 +2581,12 @@ export function ImportDataPage({
                               }
                               className="max-w-[280px] text-left"
                             >
-                              <p className="truncate text-[10px] font-semibold text-[#34383D] hover:text-[#E41E2B]">
+                              <p className="truncate text-[10px] font-semibold text-text-primary hover:text-accent-hover">
                                 {item.originalFileName ||
                                   item.fileName}
                               </p>
 
-                              <p className="mt-1 text-[8px] text-[#A0A5AA]">
+                              <p className="mt-1 text-[8px] text-text-muted">
                                 Importação #
                                 {item.id}
                               </p>
@@ -2605,14 +2605,14 @@ export function ImportDataPage({
                             </span>
                           </td>
 
-                          <td className="px-4 py-4 text-[10px] font-semibold tabular-nums text-[#4A4F54]">
+                          <td className="px-4 py-4 text-[10px] font-semibold tabular-nums text-text-body">
                             {formatNumber(
                               item.events,
                             )}
                           </td>
 
                           <td className="px-4 py-4">
-                            <p className="text-[10px] font-semibold tabular-nums text-[#4A4F54]">
+                            <p className="text-[10px] font-semibold tabular-nums text-text-body">
                               {formatNumber(
                                 item.classificationCoverage,
                                 1,
@@ -2620,7 +2620,7 @@ export function ImportDataPage({
                               %
                             </p>
 
-                            <p className="mt-1 text-[8px] text-[#A0A5AA]">
+                            <p className="mt-1 text-[8px] text-text-muted">
                               {formatNumber(
                                 item.classifiedEvents,
                               )}{" "}
@@ -2629,13 +2629,13 @@ export function ImportDataPage({
                           </td>
 
                           <td className="max-w-[180px] px-4 py-4">
-                            <p className="truncate text-[9px] text-[#71767C]">
+                            <p className="truncate text-[9px] text-text-body">
                               {item.unitsLabel ||
                                 "—"}
                             </p>
                           </td>
 
-                          <td className="px-4 py-4 text-[9px] text-[#858A90]">
+                          <td className="px-4 py-4 text-[9px] text-text-secondary">
                             {formatDateTime(
                               item.importedAt ||
                                 item.createdAt,
@@ -2651,7 +2651,7 @@ export function ImportDataPage({
                                     item.id,
                                   )
                                 }
-                                className="flex h-8 items-center gap-1.5 rounded-[8px] px-2.5 text-[8px] font-semibold text-[#71767C] transition hover:bg-[#F1F1F0] hover:text-[#34383D]"
+                                className="flex h-8 items-center gap-1.5 rounded-[8px] px-2.5 text-[8px] font-semibold text-text-body transition hover:bg-surface-elevated hover:text-text-primary"
                               >
                                 <MoreHorizontal
                                   size={13}
@@ -2668,8 +2668,8 @@ export function ImportDataPage({
                 </table>
               </div>
 
-              <div className="flex items-center justify-between border-t border-black/[0.05] px-5 py-3.5 sm:px-6">
-                <p className="text-[8px] text-[#9A9FA5]">
+              <div className="flex items-center justify-between border-t border-border-theme px-5 py-3.5 sm:px-6">
+                <p className="text-[8px] text-text-muted">
                   Página{" "}
                   {page} de{" "}
                   {totalPages}
@@ -2695,7 +2695,7 @@ export function ImportDataPage({
                           ),
                       )
                     }
-                    className="flex h-8 w-8 items-center justify-center rounded-[8px] border border-black/[0.06] text-[#74797F] transition hover:bg-[#F5F5F4] disabled:cursor-not-allowed disabled:opacity-30"
+                    className="flex h-8 w-8 items-center justify-center rounded-[8px] border border-border-theme text-text-secondary transition hover:bg-surface-elevated disabled:cursor-not-allowed disabled:opacity-30"
                   >
                     <ChevronLeft
                       size={14}
@@ -2721,7 +2721,7 @@ export function ImportDataPage({
                           ),
                       )
                     }
-                    className="flex h-8 w-8 items-center justify-center rounded-[8px] border border-black/[0.06] text-[#74797F] transition hover:bg-[#F5F5F4] disabled:cursor-not-allowed disabled:opacity-30"
+                    className="flex h-8 w-8 items-center justify-center rounded-[8px] border border-border-theme text-text-secondary transition hover:bg-surface-elevated disabled:cursor-not-allowed disabled:opacity-30"
                   >
                     <ChevronRight
                       size={14}
@@ -2750,14 +2750,14 @@ export function ImportDataPage({
             className="absolute inset-0 bg-black/25 backdrop-blur-[2px]"
           />
 
-          <aside className="absolute right-0 top-0 flex h-full w-full max-w-[560px] flex-col bg-white shadow-[-20px_0_60px_rgba(20,22,25,0.12)]">
-            <div className="flex h-[72px] shrink-0 items-center justify-between border-b border-black/[0.06] px-5 sm:px-6">
+          <aside className="absolute right-0 top-0 flex h-full w-full max-w-[560px] flex-col bg-surface shadow-[-20px_0_60px_rgba(20,22,25,0.12)]">
+            <div className="flex h-[72px] shrink-0 items-center justify-between border-b border-border-theme px-5 sm:px-6">
               <div>
-                <p className="text-[8px] font-semibold uppercase tracking-[0.1em] text-[#A0A5AA]">
+                <p className="text-[8px] font-semibold uppercase tracking-[0.1em] text-text-muted">
                   Importação
                 </p>
 
-                <p className="mt-1 text-[13px] font-semibold text-[#303438]">
+                <p className="mt-1 text-[13px] font-semibold text-text-primary">
                   #{selectedImportId}
                 </p>
               </div>
@@ -2767,7 +2767,7 @@ export function ImportDataPage({
                 onClick={
                   closeDetail
                 }
-                className="flex h-9 w-9 items-center justify-center rounded-[9px] text-[#8B9095] transition hover:bg-[#F2F2F1] hover:text-[#33373B]"
+                className="flex h-9 w-9 items-center justify-center rounded-[9px] text-text-secondary transition hover:bg-surface-elevated hover:text-text-primary"
               >
                 <X
                   size={16}
@@ -2780,19 +2780,19 @@ export function ImportDataPage({
                 <div className="flex min-h-[300px] items-center justify-center">
                   <LoaderCircle
                     size={21}
-                    className="animate-spin text-[#E41E2B]"
+                    className="animate-spin text-accent-primary"
                   />
                 </div>
               )}
 
               {detailError && (
-                <div className="mb-5 rounded-[12px] border border-[#F0D7D9] bg-[#FFF8F8] px-4 py-3 text-[9px] leading-5 text-[#B4232C]">
+                <div className="mb-5 rounded-[12px] border border-accent-primary/30 bg-accent-soft px-4 py-3 text-[9px] leading-5 text-accent-primary">
                   {detailError}
                 </div>
               )}
 
               {actionMessage && (
-                <div className="mb-5 rounded-[12px] border border-[#DCE9E1] bg-[#F6FAF7] px-4 py-3 text-[9px] leading-5 text-[#456A57]">
+                <div className="mb-5 rounded-[12px] border border-success/30 bg-background-primary px-4 py-3 text-[9px] leading-5 text-success">
                   {actionMessage}
                 </div>
               )}
@@ -2801,7 +2801,7 @@ export function ImportDataPage({
                 !detailLoading && (
                   <>
                     <div>
-                      <h2 className="break-words text-[18px] font-semibold tracking-[-0.035em] text-[#202327]">
+                      <h2 className="break-words text-[18px] font-semibold tracking-[-0.035em] text-text-primary">
                         {selectedImport.originalFileName ||
                           selectedImport.fileName}
                       </h2>
@@ -2817,7 +2817,7 @@ export function ImportDataPage({
                           )}
                         </span>
 
-                        <span className="text-[8px] text-[#A0A5AA]">
+                        <span className="text-[8px] text-text-muted">
                           {formatDateTime(
                             selectedImport.importedAt ||
                               selectedImport.createdAt,
@@ -2826,61 +2826,61 @@ export function ImportDataPage({
                       </div>
                     </div>
 
-                    <div className="mt-6 grid grid-cols-2 overflow-hidden rounded-[16px] border border-black/[0.05] sm:grid-cols-3">
-                      <div className="border-b border-r border-black/[0.05] px-4 py-4">
-                        <p className="text-[8px] uppercase tracking-[0.08em] text-[#A0A5AA]">
+                    <div className="mt-6 grid grid-cols-2 overflow-hidden rounded-[16px] border border-border-theme sm:grid-cols-3">
+                      <div className="border-b border-r border-border-theme px-4 py-4">
+                        <p className="text-[8px] uppercase tracking-[0.08em] text-text-muted">
                           Linhas
                         </p>
 
-                        <p className="mt-1 text-[16px] font-semibold text-[#34383D]">
+                        <p className="mt-1 text-[16px] font-semibold text-text-primary">
                           {formatNumber(
                             selectedImport.totalRows,
                           )}
                         </p>
                       </div>
 
-                      <div className="border-b border-black/[0.05] px-4 py-4 sm:border-r">
-                        <p className="text-[8px] uppercase tracking-[0.08em] text-[#A0A5AA]">
+                      <div className="border-b border-border-theme px-4 py-4 sm:border-r">
+                        <p className="text-[8px] uppercase tracking-[0.08em] text-text-muted">
                           Processadas
                         </p>
 
-                        <p className="mt-1 text-[16px] font-semibold text-[#34383D]">
+                        <p className="mt-1 text-[16px] font-semibold text-text-primary">
                           {formatNumber(
                             selectedImport.processedRows,
                           )}
                         </p>
                       </div>
 
-                      <div className="border-b border-r border-black/[0.05] px-4 py-4 sm:border-r-0">
-                        <p className="text-[8px] uppercase tracking-[0.08em] text-[#A0A5AA]">
+                      <div className="border-b border-r border-border-theme px-4 py-4 sm:border-r-0">
+                        <p className="text-[8px] uppercase tracking-[0.08em] text-text-muted">
                           Erros
                         </p>
 
-                        <p className="mt-1 text-[16px] font-semibold text-[#34383D]">
+                        <p className="mt-1 text-[16px] font-semibold text-text-primary">
                           {formatNumber(
                             selectedImport.errorRows,
                           )}
                         </p>
                       </div>
 
-                      <div className="border-r border-black/[0.05] px-4 py-4">
-                        <p className="text-[8px] uppercase tracking-[0.08em] text-[#A0A5AA]">
+                      <div className="border-r border-border-theme px-4 py-4">
+                        <p className="text-[8px] uppercase tracking-[0.08em] text-text-muted">
                           Eventos
                         </p>
 
-                        <p className="mt-1 text-[16px] font-semibold text-[#34383D]">
+                        <p className="mt-1 text-[16px] font-semibold text-text-primary">
                           {formatNumber(
                             selectedImport.impact.events,
                           )}
                         </p>
                       </div>
 
-                      <div className="border-r border-black/[0.05] px-4 py-4">
-                        <p className="text-[8px] uppercase tracking-[0.08em] text-[#A0A5AA]">
+                      <div className="border-r border-border-theme px-4 py-4">
+                        <p className="text-[8px] uppercase tracking-[0.08em] text-text-muted">
                           Classificados
                         </p>
 
-                        <p className="mt-1 text-[16px] font-semibold text-[#34383D]">
+                        <p className="mt-1 text-[16px] font-semibold text-text-primary">
                           {formatNumber(
                             selectedImport.classification.classifiedEvents,
                           )}
@@ -2888,11 +2888,11 @@ export function ImportDataPage({
                       </div>
 
                       <div className="px-4 py-4">
-                        <p className="text-[8px] uppercase tracking-[0.08em] text-[#A0A5AA]">
+                        <p className="text-[8px] uppercase tracking-[0.08em] text-text-muted">
                           Cobertura
                         </p>
 
-                        <p className="mt-1 text-[16px] font-semibold text-[#E41E2B]">
+                        <p className="mt-1 text-[16px] font-semibold text-accent-primary">
                           {formatNumber(
                             selectedImport.classification.coverage,
                             1,
@@ -2903,7 +2903,7 @@ export function ImportDataPage({
                     </div>
 
                     <div className="mt-6">
-                      <p className="text-[8px] font-semibold uppercase tracking-[0.1em] text-[#9CA1A7]">
+                      <p className="text-[8px] font-semibold uppercase tracking-[0.1em] text-text-muted">
                         Unidades
                       </p>
 
@@ -2916,10 +2916,9 @@ export function ImportDataPage({
                               key={
                                 currentUnit.id
                               }
-                              className="rounded-[8px] bg-[#F3F3F2] px-2.5 py-1.5 text-[8px] font-medium text-[#6E7379]"
+                              className="rounded-[8px] bg-surface-elevated px-2.5 py-1.5 text-[8px] font-medium text-text-body"
                             >
-                              {currentUnit.city ||
-                                currentUnit.name ||
+                              {currentUnit.name ||
                                 currentUnit.code ||
                                 `Unidade ${currentUnit.id}`}
                               {" · "}
@@ -2934,11 +2933,11 @@ export function ImportDataPage({
                     </div>
 
                     <div className="mt-6">
-                      <p className="text-[8px] font-semibold uppercase tracking-[0.1em] text-[#9CA1A7]">
+                      <p className="text-[8px] font-semibold uppercase tracking-[0.1em] text-text-muted">
                         Modelo
                       </p>
 
-                      <p className="mt-2 text-[10px] font-semibold text-[#41464B]">
+                      <p className="mt-2 text-[10px] font-semibold text-text-primary">
                         {selectedImport.classification.modelVersions.length >
                         0
                           ? selectedImport.classification.modelVersions.join(
@@ -2947,7 +2946,7 @@ export function ImportDataPage({
                           : "Nenhuma versão registrada"}
                       </p>
 
-                      <p className="mt-1 text-[8px] text-[#9A9FA5]">
+                      <p className="mt-1 text-[8px] text-text-muted">
                         {formatNumber(
                           selectedImport.classification.pendingEvents,
                         )}{" "}
@@ -2956,17 +2955,17 @@ export function ImportDataPage({
                     </div>
 
                     <div className="mt-6">
-                      <p className="text-[8px] font-semibold uppercase tracking-[0.1em] text-[#9CA1A7]">
+                      <p className="text-[8px] font-semibold uppercase tracking-[0.1em] text-text-muted">
                         Impacto dos dados
                       </p>
 
-                      <div className="mt-3 divide-y divide-black/[0.045] rounded-[14px] border border-black/[0.05]">
+                      <div className="mt-3 divide-y divide-border-theme rounded-[14px] border border-border-theme">
                         <div className="flex items-center justify-between px-4 py-3">
-                          <span className="text-[9px] text-[#7E8389]">
+                          <span className="text-[9px] text-text-secondary">
                             Eventos
                           </span>
 
-                          <span className="text-[9px] font-semibold text-[#41464B]">
+                          <span className="text-[9px] font-semibold text-text-primary">
                             {formatNumber(
                               selectedImport.impact.events,
                             )}
@@ -2974,11 +2973,11 @@ export function ImportDataPage({
                         </div>
 
                         <div className="flex items-center justify-between px-4 py-3">
-                          <span className="text-[9px] text-[#7E8389]">
+                          <span className="text-[9px] text-text-secondary">
                             Tempo de parada
                           </span>
 
-                          <span className="text-[9px] font-semibold text-[#41464B]">
+                          <span className="text-[9px] font-semibold text-text-primary">
                             {formatMinutes(
                               selectedImport.impact.downtimeMinutes,
                             )}
@@ -2986,11 +2985,11 @@ export function ImportDataPage({
                         </div>
 
                         <div className="flex items-center justify-between px-4 py-3">
-                          <span className="text-[9px] text-[#7E8389]">
+                          <span className="text-[9px] text-text-secondary">
                             Sugestões ML
                           </span>
 
-                          <span className="text-[9px] font-semibold text-[#41464B]">
+                          <span className="text-[9px] font-semibold text-text-primary">
                             {formatNumber(
                               selectedImport.impact.classificationSuggestions,
                             )}
@@ -2998,11 +2997,11 @@ export function ImportDataPage({
                         </div>
 
                         <div className="flex items-center justify-between px-4 py-3">
-                          <span className="text-[9px] text-[#7E8389]">
+                          <span className="text-[9px] text-text-secondary">
                             Classificações oficiais
                           </span>
 
-                          <span className="text-[9px] font-semibold text-[#41464B]">
+                          <span className="text-[9px] font-semibold text-text-primary">
                             {formatNumber(
                               selectedImport.impact.eventClassifications,
                             )}
@@ -3010,11 +3009,11 @@ export function ImportDataPage({
                         </div>
 
                         <div className="flex items-center justify-between px-4 py-3">
-                          <span className="text-[9px] text-[#7E8389]">
+                          <span className="text-[9px] text-text-secondary">
                             Revisões de origem
                           </span>
 
-                          <span className="text-[9px] font-semibold text-[#41464B]">
+                          <span className="text-[9px] font-semibold text-text-primary">
                             {formatNumber(
                               selectedImport.impact.originReviews,
                             )}
@@ -3022,11 +3021,11 @@ export function ImportDataPage({
                         </div>
 
                         <div className="flex items-center justify-between px-4 py-3">
-                          <span className="text-[9px] text-[#7E8389]">
+                          <span className="text-[9px] text-text-secondary">
                             Vínculos com MASP
                           </span>
 
-                          <span className="text-[9px] font-semibold text-[#41464B]">
+                          <span className="text-[9px] font-semibold text-text-primary">
                             {formatNumber(
                               selectedImport.impact.maspEventLinks,
                             )}
@@ -3036,26 +3035,26 @@ export function ImportDataPage({
                     </div>
 
                     {selectedImport.errorMessage && (
-                      <div className="mt-5 rounded-[12px] border border-[#F0D7D9] bg-[#FFF8F8] px-4 py-3">
-                        <p className="text-[8px] font-semibold uppercase tracking-[0.08em] text-[#B4232C]">
+                      <div className="mt-5 rounded-[12px] border border-accent-primary/30 bg-accent-soft px-4 py-3">
+                        <p className="text-[8px] font-semibold uppercase tracking-[0.08em] text-accent-primary">
                           Erro registrado
                         </p>
 
-                        <p className="mt-2 text-[9px] leading-5 text-[#74797F]">
+                        <p className="mt-2 text-[9px] leading-5 text-text-secondary">
                           {selectedImport.errorMessage}
                         </p>
                       </div>
                     )}
 
                     {deleteConfirm && (
-                      <div className="mt-6 rounded-[15px] border border-[#EAC8CB] bg-[#FFF8F8] px-4 py-4">
-                        <p className="text-[11px] font-semibold text-[#A9252E]">
+                      <div className="mt-6 rounded-[15px] border border-accent-primary/30 bg-accent-soft px-4 py-4">
+                        <p className="text-[11px] font-semibold text-accent-primary">
                           Excluir esta importação?
                         </p>
 
-                        <p className="mt-2 text-[9px] leading-5 text-[#74797F]">
+                        <p className="mt-2 text-[9px] leading-5 text-text-secondary">
                           Serão removidos{" "}
-                          <strong className="font-semibold text-[#4B5055]">
+                          <strong className="font-semibold text-text-body">
                             {formatNumber(
                               selectedImport.impact.events,
                             )}{" "}
@@ -3066,7 +3065,7 @@ export function ImportDataPage({
 
                         {selectedImport.impact.maspEventLinks >
                           0 && (
-                          <p className="mt-2 text-[9px] leading-5 text-[#74797F]">
+                          <p className="mt-2 text-[9px] leading-5 text-text-secondary">
                             {formatNumber(
                               selectedImport.impact.maspEventLinks,
                             )}{" "}
@@ -3074,7 +3073,7 @@ export function ImportDataPage({
                           </p>
                         )}
 
-                        <p className="mt-2 text-[9px] font-semibold text-[#A9252E]">
+                        <p className="mt-2 text-[9px] font-semibold text-accent-primary">
                           Esta ação não pode ser desfeita.
                         </p>
 
@@ -3089,7 +3088,7 @@ export function ImportDataPage({
                                 false,
                               )
                             }
-                            className="h-9 rounded-[9px] border border-black/[0.07] bg-white px-4 text-[9px] font-semibold text-[#6F747A]"
+                            className="h-9 rounded-[9px] border border-border-theme bg-surface px-4 text-[9px] font-semibold text-text-body"
                           >
                             Cancelar
                           </button>
@@ -3102,7 +3101,7 @@ export function ImportDataPage({
                             onClick={() =>
                               void deleteImport()
                             }
-                            className="inline-flex h-9 items-center gap-2 rounded-[9px] bg-[#B4232C] px-4 text-[9px] font-semibold text-white disabled:opacity-50"
+                            className="inline-flex h-9 items-center gap-2 rounded-[9px] bg-accent-hover px-4 text-[9px] font-semibold text-white disabled:opacity-50"
                           >
                             {deleting ? (
                               <LoaderCircle
@@ -3126,7 +3125,7 @@ export function ImportDataPage({
 
             {selectedImport &&
               !detailLoading && (
-                <div className="shrink-0 border-t border-black/[0.06] bg-white px-5 py-4 sm:px-6">
+                <div className="shrink-0 border-t border-border-theme bg-surface px-5 py-4 sm:px-6">
                   <div className="flex flex-col gap-2 sm:flex-row sm:justify-between">
                     <button
                       type="button"
@@ -3140,7 +3139,7 @@ export function ImportDataPage({
                           true,
                         )
                       }
-                      className="inline-flex h-10 items-center justify-center gap-2 rounded-[9px] border border-[#E7C5C8] px-4 text-[9px] font-semibold text-[#B4232C] transition hover:bg-[#FFF8F8] disabled:opacity-40"
+                      className="inline-flex h-10 items-center justify-center gap-2 rounded-[9px] border border-accent-primary/30 px-4 text-[9px] font-semibold text-accent-primary transition hover:bg-accent-soft disabled:opacity-40"
                     >
                       <Trash2
                         size={13}
@@ -3161,7 +3160,7 @@ export function ImportDataPage({
                           selectedImport.id,
                         )
                       }
-                      className="inline-flex h-10 items-center justify-center gap-2 rounded-[9px] bg-[#202327] px-4 text-[9px] font-semibold text-white transition hover:bg-[#111315] disabled:opacity-40"
+                      className="inline-flex h-10 items-center justify-center gap-2 rounded-[9px] bg-surface-inverse px-4 text-[9px] font-semibold text-white transition hover:bg-surface-inverse-hover disabled:opacity-40"
                     >
                       {classifyingId ===
                       selectedImport.id ? (

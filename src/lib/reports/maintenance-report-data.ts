@@ -6,6 +6,10 @@ import {
   executeRows,
 } from "@/lib/db";
 
+import {
+  USER_UNIT_SCOPE_CONDITION,
+} from "@/lib/unit-selection";
+
 /* Mesma regra de modo de falha dos gráficos: a decisão do
    revisor (classification_notes) vem antes da sugestão. */
 import {
@@ -398,27 +402,30 @@ async function loadAccessibleUnits(
     >(
       `
         SELECT
-          u.id,
-          u.code,
-          u.sap_code,
-          u.name,
-          u.city,
-          u.state
+          un.id,
+          un.code,
+          un.sap_code,
+          un.name,
+          un.city,
+          un.state
 
-        FROM user_units uu
+        FROM users u
 
-        INNER JOIN units u
-          ON u.id = uu.unit_id
+        INNER JOIN user_units uu
+          ON uu.user_id = u.id
+
+        INNER JOIN units un
+          ON un.id = uu.unit_id
 
         WHERE
-          uu.user_id = ?
-          AND u.active = TRUE
+          u.id = ?
+          AND un.active = TRUE
+          AND ${USER_UNIT_SCOPE_CONDITION}
 
         ORDER BY
-          uu.is_default DESC,
-          u.city ASC,
-          u.name ASC,
-          u.id ASC
+          (uu.unit_id = u.unit_id) DESC,
+          un.name ASC,
+          un.id ASC
       `,
       [
         userId,
@@ -883,7 +890,7 @@ function createExecutiveAnalysis(
       ) * 100;
 
     result.push(
-      `${topUnit.city || topUnit.name} concentrou ${round(
+      `${topUnit.name} concentrou ${round(
         share,
         1,
       ).toLocaleString(

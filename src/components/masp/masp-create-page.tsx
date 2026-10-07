@@ -447,7 +447,7 @@ export function MaspCreatePage({
         <div className="flex min-h-[320px] items-center justify-center gap-3 text-[13px] text-text-secondary">
           <LoaderCircle
             size={18}
-            className="animate-spin text-[#E41E2B]"
+            className="animate-spin text-accent-primary"
           />
           Preparando formulário...
         </div>
@@ -482,7 +482,7 @@ export function MaspCreatePage({
                         event.target.value,
                       )
                     }
-                    className="mt-2 h-11 w-full rounded-[11px] border border-border-theme bg-surface px-3 text-[12px] outline-none focus:border-[#D58B91]"
+                    className="mt-2 h-11 w-full rounded-[11px] border border-border-theme bg-surface px-3 text-[12px] outline-none focus:border-accent-primary/40"
                   >
                     <option value="">
                       Selecione
@@ -499,8 +499,9 @@ export function MaspCreatePage({
                             unit.id
                           }
                         >
-                          {unit.city ??
-                            unit.name} — {unit.name}
+                          {unit.code
+                            ? `${unit.name} — ${unit.code}`
+                            : unit.name}
                         </option>
                       ),
                     )}
@@ -520,7 +521,7 @@ export function MaspCreatePage({
                         event.target.value,
                       )
                     }
-                    className="mt-2 h-11 w-full rounded-[11px] border border-border-theme bg-surface px-3 text-[12px] outline-none focus:border-[#D58B91]"
+                    className="mt-2 h-11 w-full rounded-[11px] border border-border-theme bg-surface px-3 text-[12px] outline-none focus:border-accent-primary/40"
                   >
                     <option value="">
                       Detectar pelos eventos
@@ -557,7 +558,7 @@ export function MaspCreatePage({
                         event.target.value,
                       )
                     }
-                    className="mt-2 h-11 w-full rounded-[11px] border border-border-theme bg-surface px-3 text-[12px] outline-none focus:border-[#D58B91]"
+                    className="mt-2 h-11 w-full rounded-[11px] border border-border-theme bg-surface px-3 text-[12px] outline-none focus:border-accent-primary/40"
                   >
                     <option value="">
                       Detectar pelos eventos
@@ -594,7 +595,7 @@ export function MaspCreatePage({
                         event.target.value,
                       )
                     }
-                    className="mt-2 h-11 w-full rounded-[11px] border border-border-theme bg-surface px-3 text-[12px] outline-none focus:border-[#D58B91]"
+                    className="mt-2 h-11 w-full rounded-[11px] border border-border-theme bg-surface px-3 text-[12px] outline-none focus:border-accent-primary/40"
                   >
                     <option value="">
                       Definir depois
@@ -634,7 +635,7 @@ export function MaspCreatePage({
                   }
                   maxLength={180}
                   placeholder="Gerado automaticamente se ficar vazio"
-                  className="mt-2 h-11 w-full rounded-[11px] border border-border-theme px-3 text-[12px] outline-none focus:border-[#D58B91]"
+                  className="mt-2 h-11 w-full rounded-[11px] border border-border-theme px-3 text-[12px] outline-none focus:border-accent-primary/40"
                 />
               </label>
 
@@ -653,13 +654,13 @@ export function MaspCreatePage({
                   }
                   rows={5}
                   placeholder="Se houver eventos selecionados, o sistema monta uma frase apenas com os dados conhecidos."
-                  className="mt-2 w-full rounded-[11px] border border-border-theme px-3 py-3 text-[12px] leading-5 outline-none focus:border-[#D58B91]"
+                  className="mt-2 w-full rounded-[11px] border border-border-theme px-3 py-3 text-[12px] leading-5 outline-none focus:border-accent-primary/40"
                 />
               </label>
             </section>
 
             {error && (
-              <div className="rounded-[14px] border border-[#F0D2D5] bg-[#FFF8F8] px-4 py-3 text-[12px] text-[#B52D36]">
+              <div className="rounded-[14px] border border-accent-primary/30 bg-accent-soft px-4 py-3 text-[12px] text-accent-primary">
                 {error}
               </div>
             )}
@@ -669,7 +670,7 @@ export function MaspCreatePage({
               disabled={
                 saving
               }
-              className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-[13px] bg-[#E41E2B] px-5 text-[12px] font-semibold text-white hover:bg-[#CB1924] disabled:opacity-50"
+              className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-[13px] bg-accent-primary px-5 text-[12px] font-semibold text-white hover:bg-accent-hover disabled:opacity-50"
             >
               {saving ? (
                 <LoaderCircle
@@ -741,10 +742,10 @@ export function MaspCreatePage({
                           event.id,
                         )
                       }
-                      className={`w-full rounded-[14px] border p-4 text-left transition-colors ${selected ? "border-[#E5A6AC] bg-accent-primary/5" : "border-border-theme hover:bg-surface-hover"}`}
+                      className={`w-full rounded-[14px] border p-4 text-left transition-colors ${selected ? "border-accent-primary/30 bg-accent-primary/5" : "border-border-theme hover:bg-surface-hover"}`}
                     >
                       <div className="flex items-start gap-3">
-                        <span className={`mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-[6px] border ${selected ? "border-[#E41E2B] bg-[#E41E2B] text-white" : "border-border-theme"}`}>
+                        <span className={`mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-[6px] border ${selected ? "border-accent-primary bg-accent-primary text-white" : "border-border-theme"}`}>
                           {selected && (
                             <Check
                               size={12}

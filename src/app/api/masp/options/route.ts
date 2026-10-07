@@ -15,6 +15,10 @@ import {
   requireMaspContext,
 } from "@/lib/masp/api";
 
+import {
+  USER_UNIT_SCOPE_CONDITION,
+} from "@/lib/unit-selection";
+
 
 export const runtime =
   "nodejs";
@@ -83,6 +87,7 @@ export async function GET() {
             ON uu.user_id = u.id
         WHERE uu.unit_id IN (${placeholders})
           AND u.active = TRUE
+          AND ${USER_UNIT_SCOPE_CONDITION}
         ORDER BY u.name
       `,
       `

@@ -43,7 +43,7 @@ interface ReliabilityOriginsPageProps {
   };
 
   unit: {
-    city: string | null;
+    name: string;
   };
 }
 
@@ -361,7 +361,6 @@ function getUnitLabel(
   unit: ReliabilityUnit,
 ): string {
   return (
-    unit.city?.trim() ||
     unit.name?.trim() ||
     unit.code?.trim() ||
     `Unidade ${unit.id}`
@@ -1177,7 +1176,7 @@ function OriginMetric({
 }) {
   return (
     <div className="min-w-0 px-4 py-4 sm:px-5">
-      <p className="text-[9px] font-semibold uppercase tracking-[0.1em] text-[#9A9FA5]">
+      <p className="text-[9px] font-semibold uppercase tracking-[0.1em] text-text-muted">
         {label}
       </p>
 
@@ -1186,10 +1185,10 @@ function OriginMetric({
           className={[
             "text-[24px] font-semibold tracking-[-0.045em]",
             emphasis
-              ? "text-[#E41E2B]"
+              ? "text-accent-primary"
               : warning
-                ? "text-[#B4232C]"
-                : "text-[#202327]",
+                ? "text-accent-primary"
+                : "text-text-primary",
           ].join(
             " ",
           )}
@@ -1198,7 +1197,7 @@ function OriginMetric({
         </p>
 
         {detail && (
-          <span className="truncate text-[9px] font-medium text-[#9A9FA5]">
+          <span className="truncate text-[9px] font-medium text-text-muted">
             {detail}
           </span>
         )}
@@ -1234,13 +1233,13 @@ function OriginDistribution({
       : 0;
 
   return (
-    <section className="overflow-hidden rounded-[26px] border border-black/[0.045] bg-white shadow-[0_12px_40px_rgba(28,31,34,0.03)]">
-      <div className="flex items-center justify-between gap-4 border-b border-black/[0.05] px-5 py-4 sm:px-6">
-        <h2 className="text-[15px] font-semibold tracking-[-0.03em] text-[#202327]">
+    <section className="overflow-hidden rounded-[26px] border border-border-theme bg-surface shadow-[0_12px_40px_rgba(28,31,34,0.03)]">
+      <div className="flex items-center justify-between gap-4 border-b border-border-theme px-5 py-4 sm:px-6">
+        <h2 className="text-[15px] font-semibold tracking-[-0.03em] text-text-primary">
           Distribuição
         </h2>
 
-        <p className="text-[9px] font-medium text-[#999EA4]">
+        <p className="text-[9px] font-medium text-text-muted">
           {formatNumber(
             classified,
           )}{" "}
@@ -1253,11 +1252,11 @@ function OriginDistribution({
           <div>
             <div className="flex items-end justify-between gap-6">
               <div>
-                <p className="text-[10px] font-medium text-[#92979D]">
+                <p className="text-[10px] font-medium text-text-secondary">
                   Operação
                 </p>
 
-                <p className="mt-1 text-[32px] font-semibold leading-none tracking-[-0.055em] text-[#E41E2B]">
+                <p className="mt-1 text-[32px] font-semibold leading-none tracking-[-0.055em] text-accent-primary">
                   {formatNumber(
                     operationShare,
                     1,
@@ -1267,11 +1266,11 @@ function OriginDistribution({
               </div>
 
               <div className="text-right">
-                <p className="text-[10px] font-medium text-[#92979D]">
+                <p className="text-[10px] font-medium text-text-secondary">
                   Manutenção
                 </p>
 
-                <p className="mt-1 text-[32px] font-semibold leading-none tracking-[-0.055em] text-[#202327]">
+                <p className="mt-1 text-[32px] font-semibold leading-none tracking-[-0.055em] text-text-primary">
                   {formatNumber(
                     maintenanceShare,
                     1,
@@ -1281,11 +1280,11 @@ function OriginDistribution({
               </div>
             </div>
 
-            <div className="mt-5 flex h-3 overflow-hidden rounded-full bg-[#ECEDED]">
+            <div className="mt-5 flex h-3 overflow-hidden rounded-full bg-surface-hover">
               {operationShare >
                 0 && (
                 <div
-                  className="h-full bg-[#E41E2B] transition-[width] duration-500"
+                  className="h-full bg-accent-primary transition-[width] duration-500"
                   style={{
                     width:
                       `${operationShare}%`,
@@ -1296,7 +1295,7 @@ function OriginDistribution({
               {maintenanceShare >
                 0 && (
                 <div
-                  className="h-full bg-[#202327] transition-[width] duration-500"
+                  className="h-full bg-surface-inverse transition-[width] duration-500"
                   style={{
                     width:
                       `${maintenanceShare}%`,
@@ -1305,9 +1304,9 @@ function OriginDistribution({
               )}
             </div>
 
-            <div className="mt-4 flex flex-wrap items-center gap-x-6 gap-y-2 text-[9px] text-[#888D93]">
+            <div className="mt-4 flex flex-wrap items-center gap-x-6 gap-y-2 text-[9px] text-text-secondary">
               <span className="flex items-center gap-2">
-                <span className="h-2 w-2 rounded-full bg-[#E41E2B]" />
+                <span className="h-2 w-2 rounded-full bg-accent-primary" />
 
                 {formatNumber(
                   summary.operation,
@@ -1316,7 +1315,7 @@ function OriginDistribution({
               </span>
 
               <span className="flex items-center gap-2">
-                <span className="h-2 w-2 rounded-full bg-[#202327]" />
+                <span className="h-2 w-2 rounded-full bg-surface-inverse" />
 
                 {formatNumber(
                   summary.maintenance,
@@ -1326,25 +1325,25 @@ function OriginDistribution({
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-px overflow-hidden rounded-[18px] border border-black/[0.05] bg-[#E8E9EA] lg:grid-cols-1">
-            <div className="bg-[#FAFAF9] px-4 py-4">
-              <p className="text-[8px] font-semibold uppercase tracking-[0.1em] text-[#A0A5AA]">
+          <div className="grid grid-cols-2 gap-px overflow-hidden rounded-[18px] border border-border-theme bg-surface-hover lg:grid-cols-1">
+            <div className="bg-background-primary px-4 py-4">
+              <p className="text-[8px] font-semibold uppercase tracking-[0.1em] text-text-muted">
                 Parada · operação
               </p>
 
-              <p className="mt-2 text-[17px] font-semibold tracking-[-0.035em] text-[#34383D]">
+              <p className="mt-2 text-[17px] font-semibold tracking-[-0.035em] text-text-primary">
                 {formatMinutes(
                   summary.operationDowntimeMinutes,
                 )}
               </p>
             </div>
 
-            <div className="bg-[#FAFAF9] px-4 py-4">
-              <p className="text-[8px] font-semibold uppercase tracking-[0.1em] text-[#A0A5AA]">
+            <div className="bg-background-primary px-4 py-4">
+              <p className="text-[8px] font-semibold uppercase tracking-[0.1em] text-text-muted">
                 Parada · manutenção
               </p>
 
-              <p className="mt-2 text-[17px] font-semibold tracking-[-0.035em] text-[#34383D]">
+              <p className="mt-2 text-[17px] font-semibold tracking-[-0.035em] text-text-primary">
                 {formatMinutes(
                   summary.maintenanceDowntimeMinutes,
                 )}
@@ -1355,19 +1354,19 @@ function OriginDistribution({
 
         {summary.unclassified >
           0 && (
-          <div className="mt-5 flex items-center justify-between gap-4 border-t border-black/[0.05] pt-4">
-            <p className="text-[10px] text-[#8E9399]">
+          <div className="mt-5 flex items-center justify-between gap-4 border-t border-border-theme pt-4">
+            <p className="text-[10px] text-text-secondary">
               Não classificados
             </p>
 
             <div className="text-right">
-              <span className="text-[11px] font-semibold text-[#B4232C]">
+              <span className="text-[11px] font-semibold text-accent-primary">
                 {formatNumber(
                   summary.unclassified,
                 )}
               </span>
 
-              <span className="ml-2 text-[9px] text-[#9A9FA5]">
+              <span className="ml-2 text-[9px] text-text-muted">
                 {formatNumber(
                   summary.unclassifiedPercentage,
                   1,
@@ -1404,14 +1403,14 @@ function OriginTimeline({
     0
   ) {
     return (
-      <section className="overflow-hidden rounded-[26px] border border-black/[0.045] bg-white shadow-[0_12px_40px_rgba(28,31,34,0.03)]">
-        <div className="border-b border-black/[0.05] px-5 py-4 sm:px-6">
-          <h2 className="text-[15px] font-semibold tracking-[-0.03em] text-[#202327]">
+      <section className="overflow-hidden rounded-[26px] border border-border-theme bg-surface shadow-[0_12px_40px_rgba(28,31,34,0.03)]">
+        <div className="border-b border-border-theme px-5 py-4 sm:px-6">
+          <h2 className="text-[15px] font-semibold tracking-[-0.03em] text-text-primary">
             Evolução
           </h2>
         </div>
 
-        <div className="flex min-h-[280px] items-center justify-center text-[11px] text-[#999EA4]">
+        <div className="flex min-h-[280px] items-center justify-center text-[11px] text-text-muted">
           Sem dados para o período selecionado.
         </div>
       </section>
@@ -1626,29 +1625,29 @@ function OriginTimeline({
     );
 
   return (
-    <section className="overflow-hidden rounded-[26px] border border-black/[0.045] bg-white shadow-[0_12px_40px_rgba(28,31,34,0.03)]">
-      <div className="flex flex-col gap-3 border-b border-black/[0.05] px-5 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-6">
+    <section className="overflow-hidden rounded-[26px] border border-border-theme bg-surface shadow-[0_12px_40px_rgba(28,31,34,0.03)]">
+      <div className="flex flex-col gap-3 border-b border-border-theme px-5 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-6">
         <div>
-          <h2 className="text-[15px] font-semibold tracking-[-0.03em] text-[#202327]">
+          <h2 className="text-[15px] font-semibold tracking-[-0.03em] text-text-primary">
             Evolução
           </h2>
 
-          <div className="mt-2 flex items-center gap-5 text-[8px] font-medium text-[#8F949A]">
+          <div className="mt-2 flex items-center gap-5 text-[8px] font-medium text-text-secondary">
             <span className="flex items-center gap-1.5">
-              <span className="h-2 w-2 rounded-full bg-[#E41E2B]" />
+              <span className="h-2 w-2 rounded-full bg-accent-primary" />
 
               Operação
             </span>
 
             <span className="flex items-center gap-1.5">
-              <span className="h-2 w-2 rounded-full bg-[#202327]" />
+              <span className="h-2 w-2 rounded-full bg-surface-inverse" />
 
               Manutenção
             </span>
           </div>
         </div>
 
-        <div className="inline-flex self-start rounded-[11px] bg-[#F1F1F0] p-1 sm:self-auto">
+        <div className="inline-flex self-start rounded-[11px] bg-surface-elevated p-1 sm:self-auto">
           <button
             type="button"
             onClick={() =>
@@ -1660,8 +1659,8 @@ function OriginTimeline({
               "h-8 rounded-[8px] px-3 text-[9px] font-semibold transition",
               metric ===
               "PERCENTAGE"
-                ? "bg-white text-[#202327] shadow-sm"
-                : "text-[#858A90] hover:text-[#34383D]",
+                ? "bg-surface text-text-primary shadow-sm"
+                : "text-text-secondary hover:text-text-primary",
             ].join(
               " ",
             )}
@@ -1680,8 +1679,8 @@ function OriginTimeline({
               "h-8 rounded-[8px] px-3 text-[9px] font-semibold transition",
               metric ===
               "COUNT"
-                ? "bg-white text-[#202327] shadow-sm"
-                : "text-[#858A90] hover:text-[#34383D]",
+                ? "bg-surface text-text-primary shadow-sm"
+                : "text-text-secondary hover:text-text-primary",
             ].join(
               " ",
             )}
@@ -1726,7 +1725,7 @@ function OriginTimeline({
                     y2={
                       y
                     }
-                    stroke="#ECEEEF"
+                    stroke="var(--chart-grid)"
                     strokeWidth="1"
                   />
 
@@ -1741,7 +1740,7 @@ function OriginTimeline({
                     }
                     textAnchor="end"
                     fontSize="8"
-                    fill="#A0A5AA"
+                    fill="var(--text-secondary)"
                   >
                     {metric ===
                     "PERCENTAGE"
@@ -1762,7 +1761,7 @@ function OriginTimeline({
               operationPath
             }
             fill="none"
-            stroke="#E41E2B"
+            stroke="var(--accent-primary)"
             strokeWidth="2.8"
             strokeLinecap="round"
             strokeLinejoin="round"
@@ -1773,7 +1772,7 @@ function OriginTimeline({
               maintenancePath
             }
             fill="none"
-            stroke="#202327"
+            stroke="var(--text-primary)"
             strokeWidth="2.6"
             strokeLinecap="round"
             strokeLinejoin="round"
@@ -1815,8 +1814,8 @@ function OriginTimeline({
                       )
                     }
                     r="3.2"
-                    fill="#E41E2B"
-                    stroke="#FFFFFF"
+                    fill="var(--accent-primary)"
+                    stroke="var(--surface)"
                     strokeWidth="1.5"
                   />
 
@@ -1830,8 +1829,8 @@ function OriginTimeline({
                       )
                     }
                     r="3"
-                    fill="#202327"
-                    stroke="#FFFFFF"
+                    fill="var(--text-primary)"
+                    stroke="var(--surface)"
                     strokeWidth="1.5"
                   />
 
@@ -1853,7 +1852,7 @@ function OriginTimeline({
                       }
                       textAnchor="middle"
                       fontSize="8"
-                      fill="#969BA1"
+                      fill="var(--text-secondary)"
                     >
                       {formatShortDate(
                         item.period,
@@ -1881,7 +1880,7 @@ function OriginTimeline({
               top +
               plotHeight
             }
-            stroke="#C8CBCF"
+            stroke="var(--text-muted)"
           />
         </svg>
       </div>
@@ -1913,13 +1912,13 @@ function OriginByLine({
         );
 
   return (
-    <section className="overflow-hidden rounded-[26px] border border-black/[0.045] bg-white shadow-[0_12px_40px_rgba(28,31,34,0.03)]">
-      <div className="flex items-center justify-between gap-4 border-b border-black/[0.05] px-5 py-4 sm:px-6">
-        <h2 className="text-[15px] font-semibold tracking-[-0.03em] text-[#202327]">
+    <section className="overflow-hidden rounded-[26px] border border-border-theme bg-surface shadow-[0_12px_40px_rgba(28,31,34,0.03)]">
+      <div className="flex items-center justify-between gap-4 border-b border-border-theme px-5 py-4 sm:px-6">
+        <h2 className="text-[15px] font-semibold tracking-[-0.03em] text-text-primary">
           Distribuição por linha
         </h2>
 
-        <span className="text-[9px] text-[#999EA4]">
+        <span className="text-[9px] text-text-muted">
           {formatNumber(
             items.length,
           )}{" "}
@@ -1929,7 +1928,7 @@ function OriginByLine({
 
       {items.length ===
       0 ? (
-        <div className="flex min-h-[220px] items-center justify-center text-[11px] text-[#999EA4]">
+        <div className="flex min-h-[220px] items-center justify-center text-[11px] text-text-muted">
           Sem linhas para o recorte atual.
         </div>
       ) : (
@@ -1958,15 +1957,15 @@ function OriginByLine({
                 return (
                   <div
                     key={`${item.line}-${index}`}
-                    className="border-b border-black/[0.045] px-5 py-4 last:border-b-0 sm:px-6"
+                    className="border-b border-border-theme px-5 py-4 last:border-b-0 sm:px-6"
                   >
                     <div className="flex flex-col gap-3 lg:grid lg:grid-cols-[220px_1fr_90px] lg:items-center">
                       <div className="min-w-0">
-                        <p className="truncate text-[11px] font-semibold text-[#35393D]">
+                        <p className="truncate text-[11px] font-semibold text-text-primary">
                           {item.line}
                         </p>
 
-                        <p className="mt-1 text-[8px] text-[#A0A5AA]">
+                        <p className="mt-1 text-[8px] text-text-muted">
                           {formatNumber(
                             item.total,
                           )}{" "}
@@ -1978,11 +1977,11 @@ function OriginByLine({
                       </div>
 
                       <div>
-                        <div className="flex h-2.5 overflow-hidden rounded-full bg-[#ECEDED]">
+                        <div className="flex h-2.5 overflow-hidden rounded-full bg-surface-hover">
                           {operation >
                             0 && (
                             <div
-                              className="h-full bg-[#E41E2B]"
+                              className="h-full bg-accent-primary"
                               style={{
                                 width:
                                   `${operation}%`,
@@ -1993,7 +1992,7 @@ function OriginByLine({
                           {maintenance >
                             0 && (
                             <div
-                              className="h-full bg-[#202327]"
+                              className="h-full bg-surface-inverse"
                               style={{
                                 width:
                                   `${maintenance}%`,
@@ -2004,7 +2003,7 @@ function OriginByLine({
                           {unclassified >
                             0 && (
                             <div
-                              className="h-full bg-[#C8CCD0]"
+                              className="h-full bg-border-theme"
                               style={{
                                 width:
                                   `${unclassified}%`,
@@ -2013,10 +2012,10 @@ function OriginByLine({
                           )}
                         </div>
 
-                        <div className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1 text-[8px] text-[#8F949A]">
+                        <div className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1 text-[8px] text-text-secondary">
                           <span>
                             Operação{" "}
-                            <strong className="font-semibold text-[#C91D28]">
+                            <strong className="font-semibold text-accent-primary">
                               {formatNumber(
                                 operation,
                                 1,
@@ -2027,7 +2026,7 @@ function OriginByLine({
 
                           <span>
                             Manutenção{" "}
-                            <strong className="font-semibold text-[#34383D]">
+                            <strong className="font-semibold text-text-primary">
                               {formatNumber(
                                 maintenance,
                                 1,
@@ -2051,11 +2050,11 @@ function OriginByLine({
                       </div>
 
                       <div className="text-left lg:text-right">
-                        <p className="text-[8px] uppercase tracking-[0.08em] text-[#A0A5AA]">
+                        <p className="text-[8px] uppercase tracking-[0.08em] text-text-muted">
                           Revisadas
                         </p>
 
-                        <p className="mt-1 text-[13px] font-semibold text-[#454A4F]">
+                        <p className="mt-1 text-[13px] font-semibold text-text-primary">
                           {formatNumber(
                             item.reviewed,
                           )}
@@ -2070,7 +2069,7 @@ function OriginByLine({
 
           {items.length >
             8 && (
-            <div className="flex justify-center border-t border-black/[0.05] px-5 py-3">
+            <div className="flex justify-center border-t border-border-theme px-5 py-3">
               <button
                 type="button"
                 onClick={() =>
@@ -2081,7 +2080,7 @@ function OriginByLine({
                       !current,
                   )
                 }
-                className="inline-flex h-8 items-center gap-2 rounded-[10px] px-3 text-[9px] font-semibold text-[#6E7379] transition hover:bg-[#F4F4F3] hover:text-[#202327]"
+                className="inline-flex h-8 items-center gap-2 rounded-[10px] px-3 text-[9px] font-semibold text-text-body transition hover:bg-surface-elevated hover:text-text-primary"
               >
                 {expanded
                   ? "Mostrar menos"
@@ -2411,7 +2410,7 @@ export function ReliabilityOriginsPage({
             0
         ) {
           return (
-            unit.city ??
+            unit.name ??
             "Unidade atual"
           );
         }
@@ -2431,7 +2430,7 @@ export function ReliabilityOriginsPage({
       },
       [
         data,
-        unit.city,
+        unit.name,
       ],
     );
 
@@ -2458,12 +2457,12 @@ export function ReliabilityOriginsPage({
   ======================================================= */
 
   return (
-    <main className="min-h-screen bg-[#F7F7F6]">
+    <main className="min-h-screen bg-background-primary">
       {/* ===================================================
           HEADER
       ==================================================== */}
 
-      <header className="border-b border-black/[0.05] bg-white">
+      <header className="border-b border-border-theme bg-surface">
         <div className="mx-auto flex h-[76px] w-full max-w-[1380px] items-center justify-between px-6 sm:px-8 lg:px-12">
           <Link
             href="/dashboard"
@@ -2481,7 +2480,7 @@ export function ReliabilityOriginsPage({
           <div className="flex items-center gap-3 sm:gap-5">
             <UnitFilter
               fallbackLabel={
-                unit.city
+                unit.name
               }
               onSelectionApplied={
                 handleUnitSelectionApplied
@@ -2491,11 +2490,11 @@ export function ReliabilityOriginsPage({
             <div className="hidden h-8 w-px bg-black/[0.07] sm:block" />
 
             <div className="hidden text-right sm:block">
-              <p className="text-[13px] font-medium text-[#25272A]">
+              <p className="text-[13px] font-medium text-text-primary">
                 {user.name}
               </p>
 
-              <p className="mt-0.5 text-[10px] text-[#999DA2]">
+              <p className="mt-0.5 text-[10px] text-text-secondary">
                 Análise de confiabilidade
               </p>
             </div>
@@ -2510,7 +2509,7 @@ export function ReliabilityOriginsPage({
       <div className="mx-auto w-full max-w-[1380px] px-6 pb-16 pt-7 sm:px-8 lg:px-12">
         <Link
           href="/dashboard"
-          className="inline-flex items-center gap-2 text-[12px] font-medium text-[#81868C] transition-colors hover:text-[#282B2F]"
+          className="inline-flex items-center gap-2 text-[12px] font-medium text-text-secondary transition-colors hover:text-text-primary"
         >
           <ArrowLeft
             size={15}
@@ -2524,11 +2523,11 @@ export function ReliabilityOriginsPage({
         ================================================== */}
 
         <div className="mt-6">
-          <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-[#A2A6AB]">
+          <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-text-muted">
             Engenharia de confiabilidade
           </p>
 
-          <h1 className="mt-2 text-[34px] font-semibold tracking-[-0.045em] text-[#191B1E] sm:text-[40px]">
+          <h1 className="mt-2 text-[34px] font-semibold tracking-[-0.045em] text-text-primary sm:text-[40px]">
             Confiabilidade
           </h1>
         </div>
@@ -2539,12 +2538,12 @@ export function ReliabilityOriginsPage({
 
         <nav
           aria-label="Navegação da confiabilidade"
-          className="mt-6 overflow-x-auto border-b border-black/[0.055]"
+          className="mt-6 overflow-x-auto border-b border-border-theme"
         >
           <div className="flex min-w-max items-center gap-7">
             <Link
               href="/dashboard/confiabilidade"
-              className="pb-3 text-[11px] font-medium text-[#92979D] transition-colors hover:text-[#34383D]"
+              className="pb-3 text-[11px] font-medium text-text-secondary transition-colors hover:text-text-primary"
             >
               Visão geral
             </Link>
@@ -2552,30 +2551,30 @@ export function ReliabilityOriginsPage({
             <Link
               href="/dashboard/confiabilidade/origens"
               aria-current="page"
-              className="relative pb-3 text-[11px] font-semibold text-[#202327]"
+              className="relative pb-3 text-[11px] font-semibold text-text-primary"
             >
               Origens
 
-              <span className="absolute inset-x-0 bottom-0 h-[2px] rounded-full bg-[#E41E2B]" />
+              <span className="absolute inset-x-0 bottom-0 h-[2px] rounded-full bg-accent-primary" />
             </Link>
 
             <Link
               href="/dashboard/confiabilidade/evolucao"
-              className="pb-3 text-[11px] font-medium text-[#92979D] transition-colors hover:text-[#34383D]"
+              className="pb-3 text-[11px] font-medium text-text-secondary transition-colors hover:text-text-primary"
             >
               Evolução
             </Link>
 
             <Link
               href="/dashboard/confiabilidade/falhas"
-              className="pb-3 text-[11px] font-medium text-[#92979D] transition-colors hover:text-[#34383D]"
+              className="pb-3 text-[11px] font-medium text-text-secondary transition-colors hover:text-text-primary"
             >
               Falhas recorrentes
             </Link>
 
             <Link
               href="/dashboard/confiabilidade/linhas"
-              className="pb-3 text-[11px] font-medium text-[#92979D] transition-colors hover:text-[#34383D]"
+              className="pb-3 text-[11px] font-medium text-text-secondary transition-colors hover:text-text-primary"
             >
               Linhas
             </Link>
@@ -2641,7 +2640,7 @@ export function ReliabilityOriginsPage({
         ================================================== */}
 
         {error && (
-          <div className="mt-8 rounded-[14px] border border-[#F0D2D5] bg-[#FFF8F8] px-4 py-3 text-[12px] text-[#BF2C35]">
+          <div className="mt-8 rounded-[14px] border border-accent-primary/30 bg-accent-soft px-4 py-3 text-[12px] text-accent-primary">
             {error}
           </div>
         )}
@@ -2656,7 +2655,7 @@ export function ReliabilityOriginsPage({
             <div className="flex min-h-[420px] items-center justify-center">
               <LoaderCircle
                 size={22}
-                className="animate-spin text-[#E41E2B]"
+                className="animate-spin text-accent-primary"
               />
             </div>
           )}
@@ -2672,7 +2671,7 @@ export function ReliabilityOriginsPage({
                   INDICADORES
               ============================================== */}
 
-              <section className="mt-5 grid overflow-hidden rounded-[24px] border border-black/[0.045] bg-white shadow-[0_10px_36px_rgba(28,31,34,0.025)] sm:grid-cols-2 lg:grid-cols-5 lg:divide-x lg:divide-black/[0.05]">
+              <section className="mt-5 grid overflow-hidden rounded-[24px] border border-border-theme bg-surface shadow-[0_10px_36px_rgba(28,31,34,0.025)] sm:grid-cols-2 lg:grid-cols-5 lg:divide-x lg:divide-border-theme">
                 <OriginMetric
                   label="Classificadas"
                   value={
@@ -2799,21 +2798,21 @@ export function ReliabilityOriginsPage({
                   INVESTIGAÇÃO E REVISÃO
               ============================================== */}
 
-              <section className="mt-5 overflow-hidden rounded-[28px] border border-black/[0.045] bg-white shadow-[0_14px_44px_rgba(28,31,34,0.035)]">
-                <div className="flex items-center justify-between gap-4 border-b border-black/[0.05] px-5 py-3.5 sm:px-6">
+              <section className="mt-5 overflow-hidden rounded-[28px] border border-border-theme bg-surface shadow-[0_14px_44px_rgba(28,31,34,0.035)]">
+                <div className="flex items-center justify-between gap-4 border-b border-border-theme px-5 py-3.5 sm:px-6">
                   <div className="flex items-center gap-3">
-                    <div className="relative flex h-7 min-w-7 items-center justify-center rounded-full bg-[#202327] px-2 text-[9px] font-bold text-white shadow-[0_4px_12px_rgba(32,35,39,0.10)]">
+                    <div className="relative flex h-7 min-w-7 items-center justify-center rounded-full bg-surface-inverse px-2 text-[9px] font-bold text-white shadow-[0_4px_12px_rgba(32,35,39,0.10)]">
                       01
 
-                      <span className="absolute -bottom-[2px] left-1/2 h-[2px] w-3 -translate-x-1/2 rounded-full bg-[#E41E2B]" />
+                      <span className="absolute -bottom-[2px] left-1/2 h-[2px] w-3 -translate-x-1/2 rounded-full bg-accent-primary" />
                     </div>
 
-                    <h2 className="text-[16px] font-semibold tracking-[-0.035em] text-[#202327]">
+                    <h2 className="text-[16px] font-semibold tracking-[-0.035em] text-text-primary">
                       Investigação e revisão
                     </h2>
                   </div>
 
-                  <span className="hidden text-[9px] font-medium text-[#989DA3] sm:block">
+                  <span className="hidden text-[9px] font-medium text-text-secondary sm:block">
                     {analytics.editable
                       ? "Revisão manual habilitada"
                       : "Somente leitura"}

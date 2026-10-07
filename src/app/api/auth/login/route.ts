@@ -1,6 +1,7 @@
 import bcrypt from "bcryptjs";
 import { clearLoginAttempts, consumeLoginAttempt, getTrustedClientIp } from "@/lib/login-throttle";
 import { normalizeSessionRole } from "@/lib/roles";
+import { emailDomainMessage, isAllowedEmailDomain } from "@/lib/email-domain";
 
 import {
   NextResponse,
@@ -22,6 +23,7 @@ import {
 } from "@/lib/db";
 
 import {
+  getAuthorizedUnits,
   serializeUnitSelection,
   UNIT_SELECTION_COOKIE_NAME,
 } from "@/lib/unit-selection";
@@ -57,20 +59,6 @@ interface UserRow
   role: string;
 
   active: number;
-}
-
-
-interface UserUnitRow
-  extends RowDataPacket {
-  unit_id: number;
-
-  unit_code: string;
-
-  unit_name: string;
-
-  unit_active: number;
-
-  is_default: number;
 }
 
 
@@ -144,6 +132,29 @@ export async function POST(
 
           message:
             "Informe e-mail e senha.",
+        },
+        {
+          status:
+            400,
+        },
+      );
+    }
+
+
+    /* Só e-mail corporativo entra (lib/email-domain.ts);
+       recusa antes de consultar o banco. */
+    if (
+      !isAllowedEmailDomain(
+        email,
+      )
+    ) {
+      return NextResponse.json(
+        {
+          success:
+            false,
+
+          message:
+            emailDomainMessage(),
         },
         {
           status:
@@ -289,56 +300,14 @@ export async function POST(
        uma única unidade operacional.
     ===================================================== */
 
-    const userUnits =
-      await executeRows<
-        UserUnitRow[]
-      >(
-        `
-          SELECT
-              un.id
-                  AS unit_id,
-
-              un.code
-                  AS unit_code,
-
-              un.name
-                  AS unit_name,
-
-              un.active
-                  AS unit_active,
-
-              uu.is_default
-
-          FROM
-              user_units uu
-
-          INNER JOIN
-              units un
-              ON un.id =
-                 uu.unit_id
-
-          WHERE
-              uu.user_id = ?
-
-              AND un.active =
-                  TRUE
-
-          ORDER BY
-              uu.is_default DESC,
-
-              uu.created_at ASC,
-
-              un.id ASC
-
-          LIMIT 1
-        `,
-        [
-          user.id,
-        ],
+    /* Mesma regra de escopo das demais rotas: o Gestor
+       entra sempre pela unidade principal. */
+    const [
+      userUnit,
+    ] =
+      await getAuthorizedUnits(
+        user.id,
       );
-
-    const userUnit =
-      userUnits[0];
 
 
     if (
@@ -374,8 +343,7 @@ export async function POST(
           user.id,
 
         unitId:
-          userUnit
-            .unit_id,
+          userUnit.id,
 
         name:
           user.name,
@@ -443,16 +411,13 @@ export async function POST(
 
           unit: {
             id:
-              userUnit
-                .unit_id,
+              userUnit.id,
 
             code:
-              userUnit
-                .unit_code,
+              userUnit.code,
 
             name:
-              userUnit
-                .unit_name,
+              userUnit.name,
           },
 
           /*
@@ -461,8 +426,7 @@ export async function POST(
            * depois pela checklist.
            */
           selectedUnitIds: [
-            userUnit
-              .unit_id,
+            userUnit.id,
           ],
         },
         {
@@ -514,8 +478,7 @@ export async function POST(
       value:
         serializeUnitSelection(
           [
-            userUnit
-              .unit_id,
+            userUnit.id,
           ],
         ),
 

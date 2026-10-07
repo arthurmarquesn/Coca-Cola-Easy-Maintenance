@@ -296,7 +296,7 @@ function FailureOriginOverview({
 
   return (
     <div>
-      <div className="overflow-hidden rounded-[28px] border border-black/[0.045] bg-[#F7F7F6]">
+      <div className="overflow-hidden rounded-[28px] border border-border-theme bg-background-primary">
         <div className="grid lg:grid-cols-2">
           <button
             type="button"
@@ -305,50 +305,50 @@ function FailureOriginOverview({
                 "OPERACAO",
               )
             }
-            className="group relative overflow-hidden border-b border-black/[0.05] px-6 py-6 text-left outline-none transition-all duration-200 hover:bg-white focus-visible:z-10 focus-visible:ring-2 focus-visible:ring-[#E41E2B]/20 sm:px-7 sm:py-7 lg:border-b-0 lg:border-r"
+            className="group relative overflow-hidden border-b border-border-theme px-6 py-6 text-left outline-none transition-all duration-200 hover:bg-surface focus-visible:z-10 focus-visible:ring-2 focus-visible:ring-accent-primary/20 sm:px-7 sm:py-7 lg:border-b-0 lg:border-r"
           >
-            <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[3px] origin-left scale-x-0 bg-[#E41E2B] transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-x-100" />
+            <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[3px] origin-left scale-x-0 bg-accent-primary transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-x-100" />
 
             <div className="flex items-center justify-between gap-4">
               <div className="flex items-center gap-2.5">
-                <span className="h-2.5 w-2.5 rounded-full bg-[#E41E2B] shadow-[0_0_0_5px_rgba(228,30,43,0.07)]" />
+                <span className="h-2.5 w-2.5 rounded-full bg-accent-primary shadow-[0_0_0_5px_rgba(228,30,43,0.07)]" />
 
-                <p className="text-[10px] font-semibold uppercase tracking-[0.13em] text-[#5D6268]">
+                <p className="text-[10px] font-semibold uppercase tracking-[0.13em] text-text-body">
                   Operação
                 </p>
               </div>
 
-              <span className="text-[9px] font-semibold text-[#A1A5AA] transition-colors duration-150 group-hover:text-[#C92832]">
+              <span className="text-[9px] font-semibold text-text-muted transition-colors duration-150 group-hover:text-accent-hover">
                 Ver ocorrências
               </span>
             </div>
 
             <div className="mt-8 flex items-end justify-between gap-5">
               <div>
-                <p className="text-[48px] font-semibold leading-none tracking-[-0.065em] text-[#1E2125] sm:text-[58px]">
+                <p className="text-[48px] font-semibold leading-none tracking-[-0.065em] text-text-primary sm:text-[58px]">
                   {formatNumber(
                     operationPercentage,
                     1,
                   )}
 
-                  <span className="ml-1 text-[21px] font-medium tracking-[-0.025em] text-[#9DA2A8]">
+                  <span className="ml-1 text-[21px] font-medium tracking-[-0.025em] text-text-muted">
                     %
                   </span>
                 </p>
 
-                <p className="mt-3 text-[11px] font-medium text-[#8E9399]">
+                <p className="mt-3 text-[11px] font-medium text-text-secondary">
                   entre as ocorrências classificadas
                 </p>
               </div>
 
               <div className="shrink-0 text-right">
-                <p className="text-[20px] font-semibold tracking-[-0.04em] text-[#2B2F33]">
+                <p className="text-[20px] font-semibold tracking-[-0.04em] text-text-primary">
                   {formatNumber(
                     data.operation,
                   )}
                 </p>
 
-                <p className="mt-1 text-[9px] font-medium text-[#A1A5AA]">
+                <p className="mt-1 text-[9px] font-medium text-text-muted">
                   ocorrências
                 </p>
               </div>
@@ -362,50 +362,50 @@ function FailureOriginOverview({
                 "MANUTENCAO",
               )
             }
-            className="group relative overflow-hidden px-6 py-6 text-left outline-none transition-all duration-200 hover:bg-white focus-visible:z-10 focus-visible:ring-2 focus-visible:ring-black/10 sm:px-7 sm:py-7 lg:text-right"
+            className="group relative overflow-hidden px-6 py-6 text-left outline-none transition-all duration-200 hover:bg-surface focus-visible:z-10 focus-visible:ring-2 focus-visible:ring-border-theme sm:px-7 sm:py-7 lg:text-right"
           >
-            <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[3px] origin-right scale-x-0 bg-[#202327] transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-x-100" />
+            <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[3px] origin-right scale-x-0 bg-surface-inverse transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-x-100" />
 
             <div className="flex items-center justify-between gap-4 lg:flex-row-reverse">
               <div className="flex items-center gap-2.5 lg:flex-row-reverse">
-                <span className="h-2.5 w-2.5 rounded-full bg-[#202327] shadow-[0_0_0_5px_rgba(32,35,39,0.06)]" />
+                <span className="h-2.5 w-2.5 rounded-full bg-surface-inverse shadow-[0_0_0_5px_rgba(32,35,39,0.06)]" />
 
-                <p className="text-[10px] font-semibold uppercase tracking-[0.13em] text-[#5D6268]">
+                <p className="text-[10px] font-semibold uppercase tracking-[0.13em] text-text-body">
                   Manutenção
                 </p>
               </div>
 
-              <span className="text-[9px] font-semibold text-[#A1A5AA] transition-colors duration-150 group-hover:text-[#2F3337]">
+              <span className="text-[9px] font-semibold text-text-muted transition-colors duration-150 group-hover:text-text-primary">
                 Ver ocorrências
               </span>
             </div>
 
             <div className="mt-8 flex items-end justify-between gap-5 lg:flex-row-reverse">
               <div>
-                <p className="text-[48px] font-semibold leading-none tracking-[-0.065em] text-[#1E2125] sm:text-[58px]">
+                <p className="text-[48px] font-semibold leading-none tracking-[-0.065em] text-text-primary sm:text-[58px]">
                   {formatNumber(
                     maintenancePercentage,
                     1,
                   )}
 
-                  <span className="ml-1 text-[21px] font-medium tracking-[-0.025em] text-[#9DA2A8]">
+                  <span className="ml-1 text-[21px] font-medium tracking-[-0.025em] text-text-muted">
                     %
                   </span>
                 </p>
 
-                <p className="mt-3 text-[11px] font-medium text-[#8E9399]">
+                <p className="mt-3 text-[11px] font-medium text-text-secondary">
                   entre as ocorrências classificadas
                 </p>
               </div>
 
               <div className="shrink-0 lg:text-left">
-                <p className="text-[20px] font-semibold tracking-[-0.04em] text-[#2B2F33]">
+                <p className="text-[20px] font-semibold tracking-[-0.04em] text-text-primary">
                   {formatNumber(
                     data.maintenance,
                   )}
                 </p>
 
-                <p className="mt-1 text-[9px] font-medium text-[#A1A5AA]">
+                <p className="mt-1 text-[9px] font-medium text-text-muted">
                   ocorrências
                 </p>
               </div>
@@ -413,13 +413,13 @@ function FailureOriginOverview({
           </button>
         </div>
 
-        <div className="border-t border-black/[0.045] bg-white/70 px-6 py-5 sm:px-7">
+        <div className="border-t border-border-theme bg-surface/70 px-6 py-5 sm:px-7">
           <div className="flex items-center justify-between gap-5">
-            <p className="text-[9px] font-semibold uppercase tracking-[0.11em] text-[#9DA2A8]">
+            <p className="text-[9px] font-semibold uppercase tracking-[0.11em] text-text-muted">
               Distribuição das classificadas
             </p>
 
-            <p className="text-[9px] font-medium text-[#A0A4A9]">
+            <p className="text-[9px] font-medium text-text-muted">
               {formatNumber(
                 data.classified,
               )}{" "}
@@ -427,7 +427,7 @@ function FailureOriginOverview({
             </p>
           </div>
 
-          <div className="mt-3 flex h-[10px] overflow-hidden rounded-full bg-[#E7E9EA]">
+          <div className="mt-3 flex h-[10px] overflow-hidden rounded-full bg-surface-hover">
             {hasClassified ? (
               <>
                 <button
@@ -438,7 +438,7 @@ function FailureOriginOverview({
                       "OPERACAO",
                     )
                   }
-                  className="h-full bg-[#E41E2B] transition-[width,filter] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] hover:brightness-95"
+                  className="h-full bg-accent-primary transition-[width,filter] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] hover:brightness-95"
                   style={{
                     width:
                       `${operationPercentage}%`,
@@ -453,7 +453,7 @@ function FailureOriginOverview({
                       "MANUTENCAO",
                     )
                   }
-                  className="h-full bg-[#202327] transition-[width,filter] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] hover:brightness-125"
+                  className="h-full bg-surface-inverse transition-[width,filter] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] hover:brightness-125"
                   style={{
                     width:
                       `${maintenancePercentage}%`,
@@ -461,11 +461,11 @@ function FailureOriginOverview({
                 />
               </>
             ) : (
-              <div className="h-full w-full bg-[#E7E9EA]" />
+              <div className="h-full w-full bg-surface-hover" />
             )}
           </div>
 
-          <div className="mt-2.5 flex items-center justify-between text-[9px] font-medium text-[#9A9FA5]">
+          <div className="mt-2.5 flex items-center justify-between text-[9px] font-medium text-text-muted">
             <span>
               Operação
             </span>
@@ -477,25 +477,25 @@ function FailureOriginOverview({
         </div>
       </div>
 
-      <div className="mt-4 overflow-hidden rounded-[22px] border border-black/[0.045] bg-white">
+      <div className="mt-4 overflow-hidden rounded-[22px] border border-border-theme bg-surface">
         <div className="grid sm:grid-cols-3">
-          <div className="border-b border-black/[0.045] px-5 py-4 sm:border-b-0 sm:border-r">
-            <p className="text-[9px] font-semibold uppercase tracking-[0.1em] text-[#A1A5AA]">
+          <div className="border-b border-border-theme px-5 py-4 sm:border-b-0 sm:border-r">
+            <p className="text-[9px] font-semibold uppercase tracking-[0.1em] text-text-muted">
               Origem predominante
             </p>
 
-            <p className="mt-2 text-[15px] font-semibold tracking-[-0.02em] text-[#303438]">
+            <p className="mt-2 text-[15px] font-semibold tracking-[-0.02em] text-text-primary">
               {dominantOrigin ??
                 "Sem classificação"}
             </p>
           </div>
 
-          <div className="border-b border-black/[0.045] px-5 py-4 sm:border-b-0 sm:border-r">
-            <p className="text-[9px] font-semibold uppercase tracking-[0.1em] text-[#A1A5AA]">
+          <div className="border-b border-border-theme px-5 py-4 sm:border-b-0 sm:border-r">
+            <p className="text-[9px] font-semibold uppercase tracking-[0.1em] text-text-muted">
               Diferença
             </p>
 
-            <p className="mt-2 text-[15px] font-semibold tracking-[-0.02em] text-[#303438]">
+            <p className="mt-2 text-[15px] font-semibold tracking-[-0.02em] text-text-primary">
               {hasClassified
                 ? `${formatNumber(
                     difference,
@@ -506,19 +506,19 @@ function FailureOriginOverview({
           </div>
 
           <div className="px-5 py-4">
-            <p className="text-[9px] font-semibold uppercase tracking-[0.1em] text-[#A1A5AA]">
+            <p className="text-[9px] font-semibold uppercase tracking-[0.1em] text-text-muted">
               Cobertura
             </p>
 
             <div className="mt-2 flex items-baseline gap-2">
-              <p className="text-[15px] font-semibold tracking-[-0.02em] text-[#303438]">
+              <p className="text-[15px] font-semibold tracking-[-0.02em] text-text-primary">
                 {formatNumber(
                   coveragePercentage,
                   1,
                 )}%
               </p>
 
-              <span className="text-[9px] text-[#9A9FA5]">
+              <span className="text-[9px] text-text-muted">
                 {formatNumber(
                   data.classified,
                 )}{" "}
@@ -532,14 +532,14 @@ function FailureOriginOverview({
         </div>
       </div>
 
-      <div className="mt-4 flex flex-col gap-4 rounded-[22px] bg-[#F7F7F6] px-5 py-4 sm:flex-row sm:items-center sm:justify-between">
+      <div className="mt-4 flex flex-col gap-4 rounded-[22px] bg-background-primary px-5 py-4 sm:flex-row sm:items-center sm:justify-between">
         <div className="min-w-0 flex-1">
           <div className="flex items-center justify-between gap-4">
-            <p className="text-[10px] font-medium text-[#6F747A]">
+            <p className="text-[10px] font-medium text-text-body">
               Cobertura da classificação
             </p>
 
-            <p className="text-[10px] font-semibold text-[#34383D]">
+            <p className="text-[10px] font-semibold text-text-primary">
               {formatNumber(
                 coveragePercentage,
                 1,
@@ -547,9 +547,9 @@ function FailureOriginOverview({
             </p>
           </div>
 
-          <div className="mt-2.5 h-[5px] overflow-hidden rounded-full bg-[#E4E6E7]">
+          <div className="mt-2.5 h-[5px] overflow-hidden rounded-full bg-surface-hover">
             <div
-              className="h-full rounded-full bg-[#202327] transition-[width] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]"
+              className="h-full rounded-full bg-surface-inverse transition-[width] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]"
               style={{
                 width:
                   `${coveragePercentage}%`,
@@ -566,7 +566,7 @@ function FailureOriginOverview({
                 "NAO_CLASSIFICADO",
               )
             }
-            className="shrink-0 rounded-full bg-[#202327] px-4 py-2.5 text-[10px] font-semibold text-white transition-all duration-180 hover:-translate-y-px hover:bg-[#111315]"
+            className="shrink-0 rounded-full bg-surface-inverse px-4 py-2.5 text-[10px] font-semibold text-white transition-all duration-180 hover:-translate-y-px hover:bg-surface-inverse-hover"
           >
             {formatNumber(
               data.unclassified,
@@ -574,10 +574,10 @@ function FailureOriginOverview({
             aguardando classificação
           </button>
         ) : (
-          <div className="flex shrink-0 items-center gap-2 text-[10px] font-medium text-[#777C82]">
+          <div className="flex shrink-0 items-center gap-2 text-[10px] font-medium text-text-secondary">
             <CheckCircle2
               size={13}
-              className="text-[#6F747A]"
+              className="text-text-body"
             />
 
             Todas as ocorrências foram classificadas
@@ -1304,7 +1304,7 @@ function FailureOriginReviewDrawer({
 
             <button
               type="submit"
-              className="h-10 rounded-[11px] bg-[#25282C] px-4 text-[10px] font-semibold text-white transition hover:bg-black"
+              className="h-10 rounded-[11px] bg-surface-inverse px-4 text-[10px] font-semibold text-white transition hover:bg-surface-inverse"
             >
               Buscar
             </button>
@@ -1313,7 +1313,7 @@ function FailureOriginReviewDrawer({
 
         <div className="flex-1 overflow-y-auto px-5 py-5 sm:px-6">
           {error && (
-            <div className="mb-4 rounded-[12px] border border-[#F0D2D5] bg-[#FFF8F8] px-4 py-3 text-[11px] text-[#BF2C35]">
+            <div className="mb-4 rounded-[12px] border border-accent-primary/30 bg-accent-soft px-4 py-3 text-[11px] text-accent-primary">
               {error}
             </div>
           )}
@@ -1323,7 +1323,7 @@ function FailureOriginReviewDrawer({
             <div className="flex min-h-[260px] items-center justify-center">
               <LoaderCircle
                 size={21}
-                className="animate-spin text-[#E41E2B]"
+                className="animate-spin text-accent-primary"
               />
             </div>
           ) : items.length ===
@@ -1378,7 +1378,7 @@ function FailureOriginReviewDrawer({
                               className={`inline-flex rounded-full px-2.5 py-1 text-[9px] font-semibold uppercase tracking-[0.08em] ${
                                 effective ===
                                 "OPERACAO"
-                                  ? "bg-[#FFF0F1] text-[#C92832]"
+                                  ? "bg-accent-soft text-accent-primary"
                                   : effective ===
                                       "MANUTENCAO"
                                     ? "bg-surface-elevated text-text-primary"
@@ -1393,7 +1393,7 @@ function FailureOriginReviewDrawer({
                             </span>
 
                             {item.wasReviewed && (
-                              <span className="rounded-full bg-[#F5F2E8] px-2.5 py-1 text-[9px] font-semibold text-[#8A702A]">
+                              <span className="rounded-full bg-warning/10 px-2.5 py-1 text-[9px] font-semibold text-warning">
                                 Revisado
                               </span>
                             )}
@@ -1667,7 +1667,7 @@ function FailureOriginReviewDrawer({
                   className={`rounded-[14px] border px-4 py-4 text-left transition ${
                     editOrigin ===
                     "OPERACAO"
-                      ? "border-[#E41E2B] bg-accent-primary/5 shadow-[0_0_0_1px_rgba(228,30,43,0.05)]"
+                      ? "border-accent-primary bg-accent-primary/5 shadow-[0_0_0_1px_rgba(228,30,43,0.05)]"
                       : "border-border-theme bg-surface hover:bg-surface-hover"
                   }`}
                 >
@@ -1679,7 +1679,7 @@ function FailureOriginReviewDrawer({
                     className={`mt-2 block text-[13px] font-semibold ${
                       editOrigin ===
                       "OPERACAO"
-                        ? "text-[#C92832]"
+                        ? "text-accent-primary"
                         : "text-text-primary"
                     }`}
                   >
@@ -1700,7 +1700,7 @@ function FailureOriginReviewDrawer({
                   className={`rounded-[14px] border px-4 py-4 text-left transition ${
                     editOrigin ===
                     "MANUTENCAO"
-                      ? "border-[#393D41] bg-surface-elevated shadow-[0_0_0_1px_rgba(0,0,0,0.03)]"
+                      ? "border-text-primary bg-surface-elevated shadow-[0_0_0_1px_rgba(0,0,0,0.03)]"
                       : "border-border-theme bg-surface hover:bg-surface-hover"
                   }`}
                 >
@@ -1800,7 +1800,7 @@ function FailureOriginReviewDrawer({
                   disabled={
                     saving
                   }
-                  className="inline-flex h-11 items-center justify-center gap-2 rounded-[11px] bg-[#E41E2B] px-5 text-[10px] font-semibold text-white transition hover:bg-[#CF1824] disabled:cursor-not-allowed disabled:opacity-60"
+                  className="inline-flex h-11 items-center justify-center gap-2 rounded-[11px] bg-accent-primary px-5 text-[10px] font-semibold text-white transition hover:bg-accent-hover disabled:cursor-not-allowed disabled:opacity-60"
                 >
                   {saving ? (
                     <LoaderCircle

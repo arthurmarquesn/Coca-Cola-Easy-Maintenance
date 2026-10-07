@@ -1171,15 +1171,31 @@ COLLATE = utf8mb4_unicode_ci;
 -- 10. DADOS INICIAIS
 -- =========================================================
 
--- Unidade padrão.
+-- Unidades da Coca-Cola FEMSA: fonte única do cadastro.
+-- code = código do centro (coluna "Centro" das planilhas),
+-- sap_code = código SAP. A aplicação lê as unidades desta
+-- tabela; não mantenha outra lista no código.
+-- Reexecutar atualiza nome e código SAP pelo código do
+-- centro e preserva cidade, estado e vínculos existentes.
 
-INSERT INTO units (code, name, city, state, country)
-VALUES ('BAAK', 'Marília', 'Marília', 'São Paulo', 'Brasil')
+INSERT INTO units (code, sap_code, name)
+VALUES
+    ('BAAD', 'BR1103',    'JUNDIAÍ'),
+    ('BAAE', 'BR1104',    'MOGI'),
+    ('BAAF', 'BR1102',    'CAMPO GRANDE'),
+    ('BAAG', 'BR1106',    'ITABIRITO'),
+    ('BAAI', 'BR1108',    'CURITIBA'),
+    ('BAAJ', 'BR1109',    'MARINGÁ'),
+    ('BAAK', 'BR1110',    'MARILIA'),
+    ('B0AC', 'BR1111',    'BAURU'),
+    ('BAAL', 'BR1112',    'ANTONIO CARLOS'),
+    ('BAAO', 'BR1120',    'PORTO ALEGRE'),
+    ('BAAR', 'BR1123',    'SANTA MARIA'),
+    ('B2BH', 'BR1126-MI', 'ANTONIO PRADO')
+AS new_unit
 ON DUPLICATE KEY UPDATE
-    name    = VALUES(name),
-    city    = VALUES(city),
-    state   = VALUES(state),
-    country = VALUES(country);
+    sap_code = new_unit.sap_code,
+    name     = new_unit.name;
 
 
 -- Nenhum usuário é criado aqui: uma senha registrada neste
@@ -1187,7 +1203,7 @@ ON DUPLICATE KEY UPDATE
 -- Crie o primeiro Analista com:
 --
 --   node --env-file=.env.local scripts/create-user.mjs \
---     "Nome" "email@empresa.com" "SENHA" "ANALISTA" "BAAK"
+--     "Nome" "nome@kof.com" "SENHA" "ANALISTA" "BAAK"
 
 
 -- =========================================================

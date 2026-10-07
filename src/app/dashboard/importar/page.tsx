@@ -8,7 +8,7 @@ import { getSession } from "@/lib/session";
 
 interface UnitRow extends RowDataPacket {
   id: number;
-  city: string | null;
+  name: string;
 }
 
 export default async function ImportPage() {
@@ -27,7 +27,7 @@ export default async function ImportPage() {
     `
       SELECT
         id,
-        city
+        name
       FROM units
       WHERE id = ?
         AND active = TRUE
@@ -48,7 +48,7 @@ export default async function ImportPage() {
         name: session.name,
       }}
       unit={{
-        city: unit.city,
+        name: unit.name,
       }}
     />
   );

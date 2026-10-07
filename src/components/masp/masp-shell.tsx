@@ -34,7 +34,7 @@ export function MaspShell({
     React.ReactNode;
 }) {
   return (
-    <main className="min-h-screen bg-surface-elevated">
+    <main className="min-h-screen bg-background-primary">
       <header className="border-b border-border-theme/[0.05] bg-surface">
         <div className="mx-auto flex min-h-[76px] w-full max-w-[1380px] items-center justify-between gap-4 px-6 py-2 sm:px-8 lg:px-12">
           <Link
@@ -90,7 +90,7 @@ export function MaspShell({
 
         <div className="mt-8 flex flex-col justify-between gap-6 lg:flex-row lg:items-end">
           <div className="max-w-[780px]">
-            <div className="flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.13em] text-[#E41E2B]">
+            <div className="flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.13em] text-accent-primary">
               <Waypoints
                 size={15}
               />

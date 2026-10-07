@@ -29,7 +29,7 @@ import {
 } from "@/lib/maintenance/problem-categories";
 
 interface UnitRow extends RowDataPacket {
-  city: string | null;
+  name: string;
 }
 
 interface CategoryPageProps {
@@ -53,6 +53,13 @@ export default async function CategoryReviewPageRoute({
     redirect("/login");
   }
 
+  /* Revisão, MASP e Ursus não fazem parte do perfil Gestor
+     (o dashboard também esconde esses módulos). */
+  if (!isAnalystRole(session.role)) {
+    redirect("/dashboard");
+  }
+
+
   const { category } = await params;
 
   if (!isValidCategorySlug(category)) {
@@ -63,7 +70,7 @@ export default async function CategoryReviewPageRoute({
 
   const units = await executeRows<UnitRow[]>(
     `
-      SELECT city
+      SELECT name
       FROM units
       WHERE id = ? AND active = TRUE
       LIMIT 1
@@ -80,7 +87,7 @@ export default async function CategoryReviewPageRoute({
   return (
     <ReviewCategoryPage
       user={{ name: session.name }}
-      unit={{ city: unit.city }}
+      unit={{ name: unit.name }}
       categorySlug={category}
       categoryLabel={getCategoryLabel(category)}
       canWrite={isAnalystRole(session.role)}

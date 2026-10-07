@@ -30,6 +30,13 @@ export default async function MaspPage() {
     );
   }
 
+  /* Revisão, MASP e Ursus não fazem parte do perfil Gestor
+     (o dashboard também esconde esses módulos). */
+  if (!isAnalystRole(session.role)) {
+    redirect("/dashboard");
+  }
+
+
   return (
     <MaspListPage
       userName={

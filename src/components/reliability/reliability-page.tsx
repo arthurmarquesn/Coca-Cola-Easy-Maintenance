@@ -71,7 +71,7 @@ interface ReliabilityPageProps {
   };
 
   unit: {
-    city: string | null;
+    name: string;
   };
 
   /* Só o Analista inicia MASP; o Gestor apenas consulta. */
@@ -443,7 +443,6 @@ function getUnitLabel(
   unit: ReliabilityUnit,
 ): string {
   return (
-    unit.city?.trim() ||
     unit.name?.trim() ||
     unit.code?.trim() ||
     `Unidade ${unit.id}`
@@ -549,18 +548,18 @@ function quadrantColor(
     quadrant
   ) {
     case "CRITICA_E_CRONICA":
-      return "#E41E2B";
+      return "var(--accent-primary)";
 
     case "CRITICA":
-      return "#B4232C";
+      return "var(--accent-secondary)";
 
     case "CRONICA":
-      return "#34383D";
+      return "var(--text-primary)";
 
     case "BAIXA_RELEVANCIA":
 
     default:
-      return "#9AA0A6";
+      return "var(--text-secondary)";
   }
 }
 
@@ -1432,7 +1431,7 @@ function ChartTooltip({
 
   return (
     <div
-      className="pointer-events-none absolute z-20 min-w-[190px] overflow-hidden rounded-[16px] border border-white/[0.08] bg-[#202327] px-4 py-3.5 text-white shadow-[0_16px_40px_rgba(20,22,25,0.18)]"
+      className="pointer-events-none absolute z-20 min-w-[190px] overflow-hidden rounded-[16px] border border-white/[0.08] bg-surface-inverse px-4 py-3.5 text-white shadow-[0_16px_40px_rgba(20,22,25,0.18)]"
       style={{
         left:
           tooltip.x +
@@ -1535,7 +1534,7 @@ function ProgressMetric({
 
       <div className="mt-3 h-2 overflow-hidden rounded-full bg-surface-elevated">
         <div
-          className="h-full rounded-full bg-[#E41E2B]"
+          className="h-full rounded-full bg-accent-primary"
           style={{
             width:
               `${safeValue}%`,
@@ -1768,7 +1767,7 @@ function ReliabilityDetailDrawer({
 
           <div className="relative mt-3 h-2 overflow-hidden rounded-full bg-surface-elevated">
             <div
-              className="h-full rounded-full bg-[#2C3034]"
+              className="h-full rounded-full bg-surface-inverse"
               style={{
                 width:
                   `${Math.min(
@@ -1779,7 +1778,7 @@ function ReliabilityDetailDrawer({
               }}
             />
 
-            <div className="absolute bottom-0 left-[80%] top-0 w-px bg-[#E41E2B]" />
+            <div className="absolute bottom-0 left-[80%] top-0 w-px bg-accent-primary" />
           </div>
         </div>
 
@@ -2040,7 +2039,7 @@ function ReliabilityDetailDrawer({
             onClick={
               onStartMasp
             }
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-[12px] bg-[#E41E2B] text-[12px] font-semibold text-white hover:bg-[#CF1824]"
+            className="flex h-12 w-full items-center justify-center gap-2 rounded-[12px] bg-accent-primary text-[12px] font-semibold text-white hover:bg-accent-hover"
           >
             <ClipboardPlus
               size={16}
@@ -2065,7 +2064,7 @@ function ReliabilityDetailDrawer({
                   historyEquipmentName,
                 )
               }
-              className="flex h-12 w-full items-center justify-center gap-2 rounded-[12px] border border-[#DDE0E3] bg-white text-[12px] font-semibold text-[#3F4449] hover:bg-[#F7F7F6]"
+              className="flex h-12 w-full items-center justify-center gap-2 rounded-[12px] border border-border-theme bg-surface text-[12px] font-semibold text-text-primary hover:bg-background-primary"
             >
               <History
                 size={16}
@@ -2210,7 +2209,7 @@ function ParetoChart({
     items.length === 0
   ) {
     return (
-      <div className="flex min-h-[430px] items-center justify-center rounded-[24px] border border-dashed border-black/[0.07] bg-[#FAFAF9] text-[12px] text-[#93989E]">
+      <div className="flex min-h-[430px] items-center justify-center rounded-[24px] border border-dashed border-border-theme bg-background-primary text-[12px] text-text-secondary">
         Não há dados para o período selecionado.
       </div>
     );
@@ -2438,7 +2437,7 @@ function ParetoChart({
       
 
       <div
-        className="relative overflow-hidden rounded-[24px] border border-black/[0.045] bg-[#FCFCFB] px-2 pb-1 pt-2 sm:px-3"
+        className="relative overflow-hidden rounded-[24px] border border-border-theme bg-background-primary px-2 pb-1 pt-2 sm:px-3"
         onMouseLeave={() => {
           setTooltip(
             null,
@@ -2504,12 +2503,12 @@ function ParetoChart({
             >
               <stop
                 offset="0%"
-                stopColor="#E41E2B"
+                stopColor="var(--accent-primary)"
               />
 
               <stop
                 offset="100%"
-                stopColor="#C81723"
+                stopColor="var(--accent-secondary)"
               />
             </linearGradient>
 
@@ -2524,7 +2523,7 @@ function ParetoChart({
                 dx="0"
                 dy="3"
                 stdDeviation="4"
-                floodColor="#E41E2B"
+                floodColor="var(--accent-primary)"
                 floodOpacity="0.18"
               />
             </filter>
@@ -2563,7 +2562,7 @@ function ParetoChart({
                     y2={
                       y
                     }
-                    stroke="#ECEEEF"
+                    stroke="var(--chart-grid)"
                   />
 
                   <text
@@ -2577,7 +2576,7 @@ function ParetoChart({
                     }
                     textAnchor="end"
                     fontSize="10"
-                    fill="#92979D"
+                    fill="var(--text-secondary)"
                   >
                     {formatNumber(
                       minutes,
@@ -2621,8 +2620,8 @@ function ParetoChart({
                   fill={
                     percentage ===
                       80
-                      ? "#C91D28"
-                      : "#92979D"
+                      ? "var(--accent-secondary)"
+                      : "var(--text-secondary)"
                   }
                 >
                   {percentage}%
@@ -2645,7 +2644,7 @@ function ParetoChart({
             y2={
               eightyY
             }
-            stroke="#E41E2B"
+            stroke="var(--accent-primary)"
             strokeWidth="1.6"
             strokeDasharray="8 7"
             opacity="0.78"
@@ -2665,7 +2664,7 @@ function ParetoChart({
               width="62"
               height="19"
               rx="9.5"
-              fill="#FFF0F1"
+              fill="var(--accent-soft)"
             />
 
             <text
@@ -2681,7 +2680,7 @@ function ParetoChart({
               textAnchor="middle"
               fontSize="9"
               fontWeight="700"
-              fill="#C91D28"
+              fill="var(--accent-secondary)"
             >
               LIMITE 80%
             </text>
@@ -2830,7 +2829,7 @@ function ParetoChart({
                     fill={
                       belongsToVitalFew
                         ? "url(#pareto-vital-gradient)"
-                        : "#34383D"
+                        : "var(--text-body)"
                     }
                     filter={
                       active &&
@@ -2905,8 +2904,8 @@ function ParetoChart({
                       fill="none"
                       stroke={
                         belongsToVitalFew
-                          ? "#E41E2B"
-                          : "#202327"
+                          ? "var(--accent-primary)"
+                          : "var(--text-primary)"
                       }
                       strokeWidth="1.5"
                       opacity="0.22"
@@ -2931,9 +2930,9 @@ function ParetoChart({
                     fill={
                       active
                         ? belongsToVitalFew
-                          ? "#C81723"
-                          : "#202327"
-                        : "#62676D"
+                          ? "var(--accent-secondary)"
+                          : "var(--text-primary)"
+                        : "var(--text-body)"
                     }
                     className="pointer-events-none"
                   >
@@ -2966,8 +2965,8 @@ function ParetoChart({
                     }
                     fill={
                       active
-                        ? "#202327"
-                        : "#70757B"
+                        ? "var(--text-primary)"
+                        : "var(--text-body)"
                     }
                     className="pointer-events-none"
                   >
@@ -2987,7 +2986,7 @@ function ParetoChart({
               cumulativePath
             }
             fill="none"
-            stroke="#202327"
+            stroke="var(--text-primary)"
             strokeWidth="3.2"
             strokeLinejoin="round"
             strokeLinecap="round"
@@ -3069,7 +3068,7 @@ function ParetoChart({
                         point.y
                       }
                       r="8"
-                      fill="#E41E2B"
+                      fill="var(--accent-primary)"
                       opacity="0.10"
                     />
                   )}
@@ -3088,8 +3087,8 @@ function ParetoChart({
                     }
                     fill={
                       active
-                        ? "#E41E2B"
-                        : "#202327"
+                        ? "var(--accent-primary)"
+                        : "var(--text-primary)"
                     }
                     stroke="white"
                     strokeWidth="1.7"
@@ -3128,7 +3127,7 @@ function ParetoChart({
               top +
               plotHeight
             }
-            stroke="#B7BBC0"
+            stroke="var(--text-muted)"
           />
 
           <line
@@ -3147,7 +3146,7 @@ function ParetoChart({
               top +
               plotHeight
             }
-            stroke="#B7BBC0"
+            stroke="var(--text-muted)"
           />
 
           <text
@@ -3157,7 +3156,7 @@ function ParetoChart({
             y="24"
             fontSize="10"
             fontWeight="600"
-            fill="#777C82"
+            fill="var(--text-secondary)"
           >
             Tempo de parada (min)
           </text>
@@ -3171,7 +3170,7 @@ function ParetoChart({
             textAnchor="end"
             fontSize="10"
             fontWeight="600"
-            fill="#777C82"
+            fill="var(--text-secondary)"
           >
             Percentual acumulado
           </text>
@@ -3180,7 +3179,7 @@ function ParetoChart({
 
       <div className="mt-4 flex flex-col gap-3 px-1 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <p className="text-[10px] font-semibold text-[#555A60]">
+          <p className="text-[10px] font-semibold text-text-body">
             Exibindo{" "}
             {startIndex + 1}
             –
@@ -3188,14 +3187,14 @@ function ParetoChart({
             {items.length} categorias
           </p>
 
-          <p className="mt-1 text-[9px] text-[#9A9FA5]">
+          <p className="mt-1 text-[9px] text-text-muted">
             Vermelho = categorias que formam a faixa vital até 80% · grafite = cauda do Pareto
           </p>
         </div>
 
         {totalPages >
           1 && (
-            <div className="inline-flex items-center rounded-full bg-[#F1F1F0] p-1">
+            <div className="inline-flex items-center rounded-full bg-surface-elevated p-1">
               <button
                 type="button"
                 onClick={
@@ -3205,7 +3204,7 @@ function ParetoChart({
                   safePage ===
                   0
                 }
-                className="inline-flex h-8 items-center gap-1 rounded-full px-3 text-[9px] font-semibold text-[#62676D] transition hover:bg-white hover:text-[#202327] disabled:cursor-not-allowed disabled:opacity-30"
+                className="inline-flex h-8 items-center gap-1 rounded-full px-3 text-[9px] font-semibold text-text-body transition hover:bg-surface hover:text-text-primary disabled:cursor-not-allowed disabled:opacity-30"
               >
                 <ChevronLeft
                   size={13}
@@ -3214,7 +3213,7 @@ function ParetoChart({
                 Anterior
               </button>
 
-              <span className="min-w-[58px] text-center text-[9px] font-bold text-[#3A3E43]">
+              <span className="min-w-[58px] text-center text-[9px] font-bold text-text-primary">
                 {safePage + 1}
                 {" / "}
                 {totalPages}
@@ -3230,7 +3229,7 @@ function ParetoChart({
                   totalPages -
                     1
                 }
-                className="inline-flex h-8 items-center gap-1 rounded-full px-3 text-[9px] font-semibold text-[#62676D] transition hover:bg-white hover:text-[#202327] disabled:cursor-not-allowed disabled:opacity-30"
+                className="inline-flex h-8 items-center gap-1 rounded-full px-3 text-[9px] font-semibold text-text-body transition hover:bg-surface hover:text-text-primary disabled:cursor-not-allowed disabled:opacity-30"
               >
                 Próximo
 
@@ -3281,7 +3280,7 @@ function JackKnifeChart({
       0
   ) {
     return (
-      <div className="flex min-h-[520px] items-center justify-center rounded-[24px] border border-dashed border-black/[0.07] bg-[#FAFAF9] text-[12px] text-[#93989E]">
+      <div className="flex min-h-[520px] items-center justify-center rounded-[24px] border border-dashed border-border-theme bg-background-primary text-[12px] text-text-secondary">
         Nenhuma ocorrência foi encontrada para o recorte selecionado.
       </div>
     );
@@ -3656,40 +3655,40 @@ function JackKnifeChart({
     <div>
       <div className="mb-4 flex flex-col gap-3 px-1 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <p className="text-[9px] font-semibold uppercase tracking-[0.12em] text-[#A0A5AA]">
+          <p className="text-[9px] font-semibold uppercase tracking-[0.12em] text-text-muted">
             Matriz de criticidade
           </p>
 
-          <p className="mt-1 text-[11px] text-[#747A80]">
+          <p className="mt-1 text-[11px] text-text-secondary">
             Frequência × MTTR. O tamanho do ponto representa o tempo total de parada.
           </p>
         </div>
 
-        <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-[8px] font-medium text-[#92979D]">
+        <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-[8px] font-medium text-text-secondary">
           <span className="flex items-center gap-1.5">
-            <span className="h-2.5 w-2.5 rounded-full bg-[#E41E2B]" />
+            <span className="h-2.5 w-2.5 rounded-full bg-accent-primary" />
             Crítico-crônico
           </span>
 
           <span className="flex items-center gap-1.5">
-            <span className="h-2.5 w-2.5 rounded-full bg-[#B4232C]" />
+            <span className="h-2.5 w-2.5 rounded-full bg-accent-hover" />
             Crítico
           </span>
 
           <span className="flex items-center gap-1.5">
-            <span className="h-2.5 w-2.5 rounded-full bg-[#34383D]" />
+            <span className="h-2.5 w-2.5 rounded-full bg-surface-inverse" />
             Crônico
           </span>
 
           <span className="flex items-center gap-1.5">
-            <span className="h-2.5 w-2.5 rounded-full bg-[#A0A5AA]" />
+            <span className="h-2.5 w-2.5 rounded-full bg-text-muted" />
             Conforto
           </span>
         </div>
       </div>
 
       <div
-        className="relative overflow-hidden rounded-[26px] border border-black/[0.05] bg-white"
+        className="relative overflow-hidden rounded-[26px] border border-border-theme bg-surface"
         onMouseLeave={() => {
           setTooltip(
             null,
@@ -3769,7 +3768,7 @@ function JackKnifeChart({
                     top,
                 )
               }
-              fill="#FCF8F8"
+              fill="var(--accent-soft)"
             >
               <animate
                 attributeName="opacity"
@@ -3802,7 +3801,7 @@ function JackKnifeChart({
                     top,
                 )
               }
-              fill="#FFF5F5"
+              fill="var(--accent-soft)"
             >
               <animate
                 attributeName="opacity"
@@ -3835,7 +3834,7 @@ function JackKnifeChart({
                     dividerY,
                 )
               }
-              fill="#FFFFFF"
+              fill="var(--surface)"
             >
               <animate
                 attributeName="opacity"
@@ -3869,7 +3868,7 @@ function JackKnifeChart({
                     dividerY,
                 )
               }
-              fill="#F8F8F7"
+              fill="var(--surface-elevated)"
             >
               <animate
                 attributeName="opacity"
@@ -3908,7 +3907,7 @@ function JackKnifeChart({
                       top +
                       plotHeight
                     }
-                    stroke="#E9EBEC"
+                    stroke="var(--chart-grid)"
                     strokeWidth="1"
                   />
 
@@ -3923,7 +3922,7 @@ function JackKnifeChart({
                     }
                     textAnchor="middle"
                     fontSize="10"
-                    fill="#92979D"
+                    fill="var(--text-secondary)"
                   >
                     {formatNumber(
                       tick,
@@ -3961,7 +3960,7 @@ function JackKnifeChart({
                     y2={
                       y
                     }
-                    stroke="#E9EBEC"
+                    stroke="var(--chart-grid)"
                     strokeWidth="1"
                   />
 
@@ -3976,7 +3975,7 @@ function JackKnifeChart({
                     }
                     textAnchor="end"
                     fontSize="10"
-                    fill="#92979D"
+                    fill="var(--text-secondary)"
                   >
                     {formatNumber(
                       tick,
@@ -4005,7 +4004,7 @@ function JackKnifeChart({
               top +
               plotHeight
             }
-            stroke="#202327"
+            stroke="var(--text-primary)"
             strokeWidth="1.5"
             strokeDasharray="7 7"
             opacity="0.62"
@@ -4025,7 +4024,7 @@ function JackKnifeChart({
             y2={
               dividerY
             }
-            stroke="#202327"
+            stroke="var(--text-primary)"
             strokeWidth="1.5"
             strokeDasharray="7 7"
             opacity="0.62"
@@ -4045,7 +4044,7 @@ function JackKnifeChart({
               }
               fontSize="11"
               fontWeight="700"
-              fill="#7E3D43"
+              fill="var(--accent-secondary)"
               letterSpacing="1.2"
             >
               CRÍTICO
@@ -4061,7 +4060,7 @@ function JackKnifeChart({
                 51
               }
               fontSize="9"
-              fill="#A28E90"
+              fill="var(--text-secondary)"
             >
               Alto MTTR
             </text>
@@ -4077,7 +4076,7 @@ function JackKnifeChart({
               }
               fontSize="11"
               fontWeight="800"
-              fill="#C91D28"
+              fill="var(--accent-secondary)"
               letterSpacing="1.2"
             >
               CRÍTICO-CRÔNICO
@@ -4093,7 +4092,7 @@ function JackKnifeChart({
                 51
               }
               fontSize="9"
-              fill="#B88D91"
+              fill="var(--text-secondary)"
             >
               Alta frequência · alto MTTR
             </text>
@@ -4109,7 +4108,7 @@ function JackKnifeChart({
               }
               fontSize="11"
               fontWeight="700"
-              fill="#7F858B"
+              fill="var(--text-secondary)"
               letterSpacing="1.2"
             >
               CONFORTO
@@ -4125,7 +4124,7 @@ function JackKnifeChart({
                 51
               }
               fontSize="9"
-              fill="#A0A5AA"
+              fill="var(--text-secondary)"
             >
               Abaixo dos limites
             </text>
@@ -4141,7 +4140,7 @@ function JackKnifeChart({
               }
               fontSize="11"
               fontWeight="700"
-              fill="#4E5358"
+              fill="var(--text-body)"
               letterSpacing="1.2"
             >
               CRÔNICO
@@ -4157,7 +4156,7 @@ function JackKnifeChart({
                 51
               }
               fontSize="9"
-              fill="#8F9499"
+              fill="var(--text-secondary)"
             >
               Alta frequência
             </text>
@@ -4358,7 +4357,7 @@ function JackKnifeChart({
                         ? 1
                         : 0.82
                     }
-                    stroke="#FFFFFF"
+                    stroke="var(--surface)"
                     strokeWidth={
                       active
                         ? 3
@@ -4416,8 +4415,8 @@ function JackKnifeChart({
                         width="216"
                         height="38"
                         rx="11"
-                        fill="#FFFFFF"
-                        stroke="#E5E7E9"
+                        fill="var(--surface)"
+                        stroke="var(--chart-grid)"
                       />
 
                       <text
@@ -4441,7 +4440,7 @@ function JackKnifeChart({
                         }
                         fontSize="9.5"
                         fontWeight="700"
-                        fill="#303438"
+                        fill="var(--text-primary)"
                       >
                         {truncate(
                           item.label,
@@ -4469,7 +4468,7 @@ function JackKnifeChart({
               top +
               plotHeight
             }
-            stroke="#B9BDC2"
+            stroke="var(--text-muted)"
           />
 
           <line
@@ -4488,7 +4487,7 @@ function JackKnifeChart({
               top +
               plotHeight
             }
-            stroke="#B9BDC2"
+            stroke="var(--text-muted)"
           />
 
           <text
@@ -4498,7 +4497,7 @@ function JackKnifeChart({
             y="25"
             fontSize="10"
             fontWeight="700"
-            fill="#666C72"
+            fill="var(--text-body)"
           >
             MTTR (min)
           </text>
@@ -4515,7 +4514,7 @@ function JackKnifeChart({
             textAnchor="end"
             fontSize="10"
             fontWeight="700"
-            fill="#666C72"
+            fill="var(--text-body)"
           >
             Nº de falhas
           </text>
@@ -4536,8 +4535,8 @@ function JackKnifeChart({
               width="58"
               height="22"
               rx="11"
-              fill="#FFFFFF"
-              stroke="#E4E6E8"
+              fill="var(--surface)"
+              stroke="var(--chart-grid)"
             />
 
             <text
@@ -4552,7 +4551,7 @@ function JackKnifeChart({
               textAnchor="middle"
               fontSize="9"
               fontWeight="700"
-              fill="#555B61"
+              fill="var(--text-body)"
             >
               {formatNumber(
                 safeFrequencyLimit,
@@ -4572,8 +4571,8 @@ function JackKnifeChart({
               width="56"
               height="22"
               rx="11"
-              fill="#FFFFFF"
-              stroke="#E4E6E8"
+              fill="var(--surface)"
+              stroke="var(--chart-grid)"
             />
 
             <text
@@ -4588,7 +4587,7 @@ function JackKnifeChart({
               textAnchor="middle"
               fontSize="9"
               fontWeight="700"
-              fill="#555B61"
+              fill="var(--text-body)"
             >
               {formatNumber(
                 safeMttrLimit,
@@ -4599,12 +4598,12 @@ function JackKnifeChart({
         </svg>
       </div>
 
-      <div className="mt-4 flex flex-col gap-2 px-1 text-[9px] text-[#969BA1] sm:flex-row sm:items-center sm:justify-between">
+      <div className="mt-4 flex flex-col gap-2 px-1 text-[9px] text-text-secondary sm:flex-row sm:items-center sm:justify-between">
         <p>
           Escalas logarítmicas preservam a leitura entre valores de ordens diferentes. Pontos com a mesma frequência recebem apenas um microdeslocamento visual para evitar sobreposição.
         </p>
 
-        <p className="font-medium text-[#666C72]">
+        <p className="font-medium text-text-body">
           Limites:{" "}
           {formatNumber(
             safeFrequencyLimit,
@@ -4931,7 +4930,7 @@ export function ReliabilityPage({
             0
         ) {
           return (
-            unit.city ??
+            unit.name ??
             "Unidade atual"
           );
         }
@@ -4951,7 +4950,7 @@ export function ReliabilityPage({
       },
       [
         data,
-        unit.city,
+        unit.name,
       ],
     );
 
@@ -4984,7 +4983,7 @@ export function ReliabilityPage({
     [];
 
   return (
-    <main className="min-h-screen bg-surface-elevated">
+    <main className="min-h-screen bg-background-primary">
       <header className="border-b border-border-theme/[0.05] bg-surface">
         <div className="mx-auto flex h-[76px] w-full max-w-[1380px] items-center justify-between px-6 sm:px-8 lg:px-12">
           <Link
@@ -5003,7 +5002,7 @@ export function ReliabilityPage({
           <div className="flex items-center gap-3 sm:gap-5">
             <UnitFilter
               fallbackLabel={
-                unit.city
+                unit.name
               }
               onSelectionApplied={
                 handleUnitSelectionApplied
@@ -5043,15 +5042,15 @@ export function ReliabilityPage({
 
         <div className="mt-6 flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
           <div>
-            <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-[#A2A6AB]">
+            <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-text-muted">
               Engenharia de confiabilidade
             </p>
 
-            <h1 className="mt-2 text-[34px] font-semibold tracking-[-0.045em] text-[#191B1E] sm:text-[40px]">
+            <h1 className="mt-2 text-[34px] font-semibold tracking-[-0.045em] text-text-primary sm:text-[40px]">
               Confiabilidade
             </h1>
 
-            <p className="mt-2 max-w-[620px] text-[13px] leading-6 text-[#8D9298]">
+            <p className="mt-2 max-w-[620px] text-[13px] leading-6 text-text-secondary">
               Análise de falhas e desempenho dos ativos.
             </p>
           </div>
@@ -5063,7 +5062,7 @@ export function ReliabilityPage({
                 true,
               )
             }
-            className="inline-flex h-11 items-center justify-center gap-2 self-start rounded-[12px] bg-[#E41E2B] px-5 text-[11px] font-semibold text-white shadow-[0_8px_22px_rgba(228,30,43,0.15)] transition-all duration-200 hover:-translate-y-px hover:bg-[#CF1824] hover:shadow-[0_12px_28px_rgba(228,30,43,0.20)] active:translate-y-0 sm:self-auto"
+            className="inline-flex h-11 items-center justify-center gap-2 self-start rounded-[12px] bg-accent-primary px-5 text-[11px] font-semibold text-white shadow-[0_8px_22px_rgba(228,30,43,0.15)] transition-all duration-200 hover:-translate-y-px hover:bg-accent-hover hover:shadow-[0_12px_28px_rgba(228,30,43,0.20)] active:translate-y-0 sm:self-auto"
           >
             <FileDown
               size={15}
@@ -5075,43 +5074,43 @@ export function ReliabilityPage({
 
         <nav
           aria-label="Navegação da confiabilidade"
-          className="mt-6 overflow-x-auto border-b border-black/[0.055]"
+          className="mt-6 overflow-x-auto border-b border-border-theme"
         >
           <div className="flex min-w-max items-center gap-7">
             <Link
               href="/dashboard/confiabilidade"
               aria-current="page"
-              className="relative pb-3 text-[11px] font-semibold text-[#202327]"
+              className="relative pb-3 text-[11px] font-semibold text-text-primary"
             >
               Visão geral
 
-              <span className="absolute inset-x-0 bottom-0 h-[2px] rounded-full bg-[#E41E2B]" />
+              <span className="absolute inset-x-0 bottom-0 h-[2px] rounded-full bg-accent-primary" />
             </Link>
 
             <Link
               href="/dashboard/confiabilidade/origens"
-              className="pb-3 text-[11px] font-medium text-[#92979D] transition-colors hover:text-[#34383D]"
+              className="pb-3 text-[11px] font-medium text-text-secondary transition-colors hover:text-text-primary"
             >
               Origens
             </Link>
 
             <Link
               href="/dashboard/confiabilidade/evolucao"
-              className="pb-3 text-[11px] font-medium text-[#92979D] transition-colors hover:text-[#34383D]"
+              className="pb-3 text-[11px] font-medium text-text-secondary transition-colors hover:text-text-primary"
             >
               Evolução
             </Link>
 
             <Link
               href="/dashboard/confiabilidade/falhas"
-              className="pb-3 text-[11px] font-medium text-[#92979D] transition-colors hover:text-[#34383D]"
+              className="pb-3 text-[11px] font-medium text-text-secondary transition-colors hover:text-text-primary"
             >
               Falhas recorrentes
             </Link>
 
             <Link
               href="/dashboard/confiabilidade/linhas"
-              className="pb-3 text-[11px] font-medium text-[#92979D] transition-colors hover:text-[#34383D]"
+              className="pb-3 text-[11px] font-medium text-text-secondary transition-colors hover:text-text-primary"
             >
               Linhas
             </Link>
@@ -5169,7 +5168,7 @@ export function ReliabilityPage({
         )}
 
         {error && (
-          <div className="mt-8 rounded-[14px] border border-[#F0D2D5] bg-surface-elevated px-4 py-3 text-[12px] text-[#BF2C35]">
+          <div className="mt-8 rounded-[14px] border border-accent-primary/30 bg-surface-elevated px-4 py-3 text-[12px] text-accent-primary">
             {error}
           </div>
         )}
@@ -5179,7 +5178,7 @@ export function ReliabilityPage({
             <div className="flex min-h-[420px] items-center justify-center">
               <LoaderCircle
                 size={22}
-                className="animate-spin text-[#E41E2B]"
+                className="animate-spin text-accent-primary"
               />
             </div>
           )}
@@ -5188,33 +5187,33 @@ export function ReliabilityPage({
           <>
             <section
               id="reliability-pareto"
-              className="scroll-mt-[110px] relative mt-5 overflow-hidden rounded-[28px] border border-black/[0.045] bg-white shadow-[0_14px_44px_rgba(28,31,34,0.035)]"
+              className="scroll-mt-[110px] relative mt-5 overflow-hidden rounded-[28px] border border-border-theme bg-surface shadow-[0_14px_44px_rgba(28,31,34,0.035)]"
             >
-              <div className="pointer-events-none absolute -right-24 -top-28 h-64 w-64 rounded-full bg-[#E41E2B]/[0.04] blur-3xl" />
+              <div className="pointer-events-none absolute -right-24 -top-28 h-64 w-64 rounded-full bg-accent-primary/[0.04] blur-3xl" />
 
-              <div className="flex flex-col gap-3 border-b border-black/[0.05] px-5 py-3.5 sm:flex-row sm:items-center sm:justify-between sm:px-6">
+              <div className="flex flex-col gap-3 border-b border-border-theme px-5 py-3.5 sm:flex-row sm:items-center sm:justify-between sm:px-6">
                 <div className="flex items-center gap-3">
-                  <div className="relative flex h-7 min-w-7 items-center justify-center rounded-full bg-[#202327] px-2 text-[9px] font-bold text-white shadow-[0_4px_12px_rgba(32,35,39,0.10)]">
+                  <div className="relative flex h-7 min-w-7 items-center justify-center rounded-full bg-surface-inverse px-2 text-[9px] font-bold text-white shadow-[0_4px_12px_rgba(32,35,39,0.10)]">
                     01
 
-                    <span className="absolute -bottom-[2px] left-1/2 h-[2px] w-3 -translate-x-1/2 rounded-full bg-[#E41E2B]" />
+                    <span className="absolute -bottom-[2px] left-1/2 h-[2px] w-3 -translate-x-1/2 rounded-full bg-accent-primary" />
                   </div>
 
-                  <h2 className="text-[16px] font-semibold tracking-[-0.035em] text-[#202327]">
+                  <h2 className="text-[16px] font-semibold tracking-[-0.035em] text-text-primary">
                     Pareto
                   </h2>
                 </div>
 
                 <div className="flex shrink-0 flex-wrap items-center gap-3">
-                  <div className="flex items-center gap-4 text-[9px] font-medium text-[#858A90]">
+                  <div className="flex items-center gap-4 text-[9px] font-medium text-text-secondary">
                     <span className="flex items-center gap-1.5">
-                      <span className="h-2 w-2 rounded-full bg-[#E41E2B]" />
+                      <span className="h-2 w-2 rounded-full bg-accent-primary" />
 
                       Faixa vital
                     </span>
 
                     <span className="flex items-center gap-1.5">
-                      <span className="h-[2px] w-5 rounded-full bg-[#202327]" />
+                      <span className="h-[2px] w-5 rounded-full bg-surface-inverse" />
 
                       Acumulado
                     </span>
@@ -5231,7 +5230,7 @@ export function ReliabilityPage({
                         true,
                       );
                     }}
-                    className="inline-flex h-8 items-center gap-2 rounded-[10px] border border-black/[0.06] bg-[#FAFAF9] px-3 text-[9px] font-semibold text-[#656A70] transition hover:bg-[#F1F1F0] hover:text-[#202327]"
+                    className="inline-flex h-8 items-center gap-2 rounded-[10px] border border-border-theme bg-background-primary px-3 text-[9px] font-semibold text-text-body transition hover:bg-surface-elevated hover:text-text-primary"
                   >
                     <Maximize2
                       size={12}
@@ -5266,17 +5265,17 @@ export function ReliabilityPage({
 
             <section
               id="reliability-jackknife"
-              className="scroll-mt-[110px] relative mt-5 overflow-hidden rounded-[28px] border border-black/[0.045] bg-white shadow-[0_14px_44px_rgba(28,31,34,0.035)]"
+              className="scroll-mt-[110px] relative mt-5 overflow-hidden rounded-[28px] border border-border-theme bg-surface shadow-[0_14px_44px_rgba(28,31,34,0.035)]"
             >
-              <div className="flex flex-col gap-3 border-b border-black/[0.05] px-5 py-3.5 sm:flex-row sm:items-center sm:justify-between sm:px-6">
+              <div className="flex flex-col gap-3 border-b border-border-theme px-5 py-3.5 sm:flex-row sm:items-center sm:justify-between sm:px-6">
                 <div className="flex items-center gap-3">
-                  <div className="relative flex h-7 min-w-7 items-center justify-center rounded-full bg-[#202327] px-2 text-[9px] font-bold text-white shadow-[0_4px_12px_rgba(32,35,39,0.10)]">
+                  <div className="relative flex h-7 min-w-7 items-center justify-center rounded-full bg-surface-inverse px-2 text-[9px] font-bold text-white shadow-[0_4px_12px_rgba(32,35,39,0.10)]">
                     02
 
-                    <span className="absolute -bottom-[2px] left-1/2 h-[2px] w-3 -translate-x-1/2 rounded-full bg-[#E41E2B]" />
+                    <span className="absolute -bottom-[2px] left-1/2 h-[2px] w-3 -translate-x-1/2 rounded-full bg-accent-primary" />
                   </div>
 
-                  <h2 className="text-[16px] font-semibold tracking-[-0.035em] text-[#202327]">
+                  <h2 className="text-[16px] font-semibold tracking-[-0.035em] text-text-primary">
                     Jack-Knife
                   </h2>
                 </div>
@@ -5292,7 +5291,7 @@ export function ReliabilityPage({
                       true,
                     );
                   }}
-                  className="inline-flex h-8 shrink-0 items-center gap-2 self-start rounded-[10px] border border-black/[0.06] bg-[#FAFAF9] px-3 text-[9px] font-semibold text-[#656A70] transition hover:bg-[#F1F1F0] hover:text-[#202327] sm:self-auto"
+                  className="inline-flex h-8 shrink-0 items-center gap-2 self-start rounded-[10px] border border-border-theme bg-background-primary px-3 text-[9px] font-semibold text-text-body transition hover:bg-surface-elevated hover:text-text-primary sm:self-auto"
                 >
                   <Maximize2
                     size={12}
@@ -5347,7 +5346,7 @@ export function ReliabilityPage({
 
         <ComplementaryCharts
           unitSelectionKey={(data?.filters.selectedUnitIds ?? []).join(",")}
-          city={unit.city}
+          city={unit.name}
           startDate={startDate}
           endDate={endDate}
           line={line}

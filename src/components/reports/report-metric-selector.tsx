@@ -147,7 +147,7 @@ export function ReportMetricSelector({
               className={[
                 "group flex min-h-[112px] items-start gap-3 rounded-[16px] border p-4 text-left transition-all",
                 checked
-                  ? "border-[#E9B5B9] bg-accent-primary/5 shadow-[0_6px_20px_rgba(228,30,43,0.05)]"
+                  ? "border-accent-primary/30 bg-accent-primary/5 shadow-[0_6px_20px_rgba(228,30,43,0.05)]"
                   : "border-border-theme bg-surface hover:border-border-theme hover:bg-surface-hover",
               ].join(
                 " ",
@@ -160,7 +160,7 @@ export function ReportMetricSelector({
                 className={[
                   "flex h-9 w-9 shrink-0 items-center justify-center rounded-[11px] transition-colors",
                   checked
-                    ? "bg-[#E41E2B] text-white"
+                    ? "bg-accent-primary text-white"
                     : "bg-surface-elevated text-text-secondary group-hover:bg-surface-hover",
                 ].join(
                   " ",
@@ -182,7 +182,7 @@ export function ReportMetricSelector({
                     className={[
                       "mt-0.5 flex h-[18px] w-[18px] shrink-0 items-center justify-center rounded-[5px] border transition-colors",
                       checked
-                        ? "border-[#E41E2B] bg-[#E41E2B]"
+                        ? "border-accent-primary bg-accent-primary"
                         : "border-border-theme bg-surface",
                     ].join(
                       " ",

@@ -9,6 +9,10 @@
   --color-surface: var(--surface);
   --color-surface-elevated: var(--surface-elevated);
   --color-surface-hover: var(--surface-hover);
+  /* Superfície escura (chips, botões e tooltips de destaque);
+     continua escura no dark, com texto branco. */
+  --color-surface-inverse: var(--surface-inverse);
+  --color-surface-inverse-hover: var(--surface-inverse-hover);
   --color-text-primary: var(--text-primary);
   --color-text-secondary: var(--text-secondary);
   --color-text-muted: var(--text-muted);
@@ -19,6 +23,8 @@
   --color-accent-primary: var(--accent-primary);
   --color-accent-secondary: var(--accent-secondary);
   --color-accent-hover: var(--accent-hover);
+  /* Fundo suave de destaque/alerta (antes rosa claro fixo). */
+  --color-accent-soft: var(--accent-soft);
   --color-button-primary: var(--button-primary);
   --color-button-primary-hover: var(--button-primary-hover);
   --color-button-secondary: var(--button-secondary);
@@ -44,6 +50,8 @@
   --surface: #FFFFFF;
   --surface-elevated: #F1F3F5;
   --surface-hover: #E9ECEF;
+  --surface-inverse: #202327;
+  --surface-inverse-hover: #111315;
 
   --text-primary: #111111;
   --text-title: #111111;
@@ -57,6 +65,7 @@
   --accent-primary: #F40009;
   --accent-secondary: #B90007;
   --accent-hover: #B90007;
+  --accent-soft: #FFF1F2;
 
   --button-primary: #F40009;
   --button-primary-hover: #B90007;
@@ -86,12 +95,14 @@
   --surface: #1D1F23;
   --surface-elevated: #25272C;
   --surface-hover: #2B2E34;
+  --surface-inverse: #3A3D44;
+  --surface-inverse-hover: #464A52;
 
   --text-primary: #E7E7E9;
   --text-title: #F7F7F8;
   --text-body: #C5C7CB;
   --text-secondary: #8B8E95;
-  --text-muted: #656870;
+  --text-muted: #7A7E86;
 
   --border-theme: #303239;
   --border-subtle: #25272C;
@@ -99,6 +110,7 @@
   --accent-primary: #F22F36;
   --accent-secondary: #D9252C;
   --accent-hover: #D9252C;
+  --accent-soft: #33191C;
 
   --button-primary: #F22F36;
   --button-primary-hover: #D9252C;
@@ -141,6 +153,17 @@ html:has(.login-light) body {
   --accent-primary: #F40009;
   --accent-secondary: #B90007;
   --accent-hover: #B90007;
+  --accent-soft: #FFF1F2;
+
+  --surface-inverse: #202327;
+  --surface-inverse-hover: #111315;
+
+  --button-primary: #F40009;
+  --button-primary-hover: #B90007;
+
+  --success: #29A366;
+  --warning: #F59E0B;
+  --error: #DC2626;
 
   color-scheme: light;
 }
@@ -168,18 +191,25 @@ body {
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-button,
-input {
-  font: inherit;
-}
+/* Em @layer base: fora de layer, estas regras venciam as
+   utilidades do Tailwind (text-[11px] etc.) em botões e
+   campos. */
+@layer base {
+  button,
+  input,
+  select,
+  textarea {
+    font: inherit;
+  }
 
-button {
-  cursor: pointer;
-}
+  button {
+    cursor: pointer;
+  }
 
-input,
-button {
-  -webkit-tap-highlight-color: transparent;
+  input,
+  button {
+    -webkit-tap-highlight-color: transparent;
+  }
 }
 
 /* =========================================================

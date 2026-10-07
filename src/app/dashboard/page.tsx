@@ -27,9 +27,7 @@ interface UnitRow
   extends RowDataPacket {
   id: number;
 
-  city:
-    | string
-    | null;
+  name: string;
 }
 
 
@@ -72,7 +70,7 @@ export default async function DashboardPage() {
       `
         SELECT
             id,
-            city
+            name
 
         FROM
             units
@@ -117,8 +115,8 @@ export default async function DashboardPage() {
       }}
 
       unit={{
-        city:
-          unit.city,
+        name:
+          unit.name,
       }}
     />
   );

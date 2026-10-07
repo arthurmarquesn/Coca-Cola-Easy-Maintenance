@@ -103,7 +103,7 @@ export function KpiCards({
       {cards.map((card) => (
         <div
           key={card.key}
-          className="rounded-[18px] border border-border-theme bg-surface p-5 transition-colors"
+          className="min-w-0 rounded-[18px] border border-border-theme bg-surface p-5 transition-colors"
         >
           <p className="text-[11px] font-medium leading-4 text-text-secondary">
             {card.label}

@@ -37,7 +37,7 @@ import {
 
 interface ReviewCategoryPageProps {
   user: { name: string };
-  unit: { city: string | null };
+  unit: { name: string };
   categorySlug: string;
   categoryLabel: string;
   /* Só o Analista revisa; o Gestor apenas consulta. */
@@ -461,13 +461,13 @@ export function ReviewCategoryPage({
   );
 
   return (
-    <main className="min-h-screen bg-surface-elevated transition-colors">
-      <AppHeader userName={user.name} city={unit.city} />
+    <main className="min-h-screen bg-background-primary transition-colors">
+      <AppHeader userName={user.name} unitName={unit.name} />
 
       <section className="mx-auto w-full max-w-[1440px] px-6 pb-28 pt-12 sm:px-8 lg:px-12 lg:pt-16">
         <Link
           href="/dashboard/revisao"
-          className="inline-flex items-center gap-2 rounded-[10px] border border-[#F40009] bg-[#F40009] px-3.5 py-2 text-[12px] font-semibold text-white transition-colors hover:border-[#B90007] hover:bg-[#B90007]"
+          className="inline-flex items-center gap-2 rounded-[10px] border border-accent-primary bg-accent-primary px-3.5 py-2 text-[12px] font-semibold text-white transition-colors hover:border-accent-primary hover:bg-accent-hover"
         >
           <ArrowLeft size={15} strokeWidth={1.8} />
           Voltar para validação
@@ -508,7 +508,7 @@ export function ReviewCategoryPage({
               type="checkbox"
               checked={allSelected}
               onChange={toggleSelectAll}
-              className="h-4 w-4 accent-[#F40009]"
+              className="h-4 w-4 accent-accent-primary"
             />
             Selecionar todas nesta página ({items.length})
           </label>
@@ -519,7 +519,7 @@ export function ReviewCategoryPage({
             <select
               value={sort}
               onChange={(event) => setSort(event.target.value as SortValue)}
-              className="h-8 rounded-[8px] border border-border-theme bg-surface transition-colors px-2 text-[11.5px] text-text-primary outline-none focus:border-[#F40009]"
+              className="h-8 rounded-[8px] border border-border-theme bg-surface transition-colors px-2 text-[11.5px] text-text-primary outline-none focus:border-accent-primary"
             >
               {SORT_OPTIONS.map((option) => (
                 <option key={option.value} value={option.value}>
@@ -531,7 +531,7 @@ export function ReviewCategoryPage({
         </div>
 
         {canWrite && selected.size > 0 && (
-          <div className="sticky top-3 z-10 mt-3 flex flex-wrap items-center justify-between gap-3 rounded-[12px] border border-[#F40009] bg-surface-elevated px-4 py-3">
+          <div className="sticky top-3 z-10 mt-3 flex flex-wrap items-center justify-between gap-3 rounded-[12px] border border-accent-primary bg-surface-elevated px-4 py-3">
             <span className="text-[12.5px] font-semibold text-text-primary">
               {selected.size} selecionada(s)
             </span>
@@ -541,7 +541,7 @@ export function ReviewCategoryPage({
                 type="button"
                 disabled={bulkBusy}
                 onClick={() => void runBulkAction("CONFIRM")}
-                className="inline-flex items-center gap-1.5 rounded-[8px] bg-[#238636] px-3.5 py-2 text-[11.5px] font-semibold text-white transition-opacity hover:opacity-90 disabled:opacity-50"
+                className="inline-flex items-center gap-1.5 rounded-[8px] bg-success px-3.5 py-2 text-[11.5px] font-semibold text-white transition-opacity hover:opacity-90 disabled:opacity-50"
               >
                 <Check size={13} />
                 Aprovar selecionadas
@@ -586,7 +586,7 @@ export function ReviewCategoryPage({
               value={bulkCorrectComponent}
               onChange={(event) => setBulkCorrectComponent(event.target.value)}
               placeholder="Componente correto (ex.: rolamento do motor)"
-              className="h-10 w-full flex-1 rounded-[8px] border border-border-theme bg-surface transition-colors px-3 text-[12.5px] outline-none focus:border-[#F40009]"
+              className="h-10 w-full flex-1 rounded-[8px] border border-border-theme bg-surface transition-colors px-3 text-[12.5px] outline-none focus:border-accent-primary"
             />
 
             <div className="flex gap-2">
@@ -596,7 +596,7 @@ export function ReviewCategoryPage({
                 onClick={() =>
                   void runBulkAction("CORRECT", bulkCorrectComponent)
                 }
-                className="inline-flex items-center gap-1.5 rounded-[8px] bg-[#2E5AAC] px-3.5 py-2 text-[11.5px] font-semibold text-white transition-opacity hover:opacity-90 disabled:opacity-50"
+                className="inline-flex items-center gap-1.5 rounded-[8px] bg-chart-neutral px-3.5 py-2 text-[11.5px] font-semibold text-white transition-opacity hover:opacity-90 disabled:opacity-50"
               >
                 {bulkBusy && <LoaderCircle size={13} className="animate-spin" />}
                 Aplicar a todas selecionadas
@@ -652,7 +652,7 @@ export function ReviewCategoryPage({
                             type="checkbox"
                             checked={selected.has(item.suggestionId)}
                             onChange={() => toggleSelect(item.suggestionId)}
-                            className="h-4 w-4 accent-[#F40009]"
+                            className="h-4 w-4 accent-accent-primary"
                           />
                         )}
                       </td>
@@ -762,7 +762,7 @@ export function ReviewCategoryPage({
                                 setEditComponent(event.target.value)
                               }
                               placeholder="Componente correto"
-                              className="h-10 w-full flex-1 rounded-[8px] border border-border-theme bg-surface transition-colors px-3 text-[12.5px] outline-none focus:border-[#F40009]"
+                              className="h-10 w-full flex-1 rounded-[8px] border border-border-theme bg-surface transition-colors px-3 text-[12.5px] outline-none focus:border-accent-primary"
                             />
 
                             <input
@@ -772,7 +772,7 @@ export function ReviewCategoryPage({
                                 setEditNote(event.target.value)
                               }
                               placeholder="Observação (opcional)"
-                              className="h-10 w-full flex-1 rounded-[8px] border border-border-theme bg-surface transition-colors px-3 text-[12.5px] outline-none focus:border-[#F40009]"
+                              className="h-10 w-full flex-1 rounded-[8px] border border-border-theme bg-surface transition-colors px-3 text-[12.5px] outline-none focus:border-accent-primary"
                             />
 
                             <div className="flex shrink-0 gap-2">
@@ -789,7 +789,7 @@ export function ReviewCategoryPage({
                                     },
                                   )
                                 }
-                                className="inline-flex items-center gap-1.5 rounded-[8px] bg-[#2E5AAC] px-3.5 py-2 text-[11.5px] font-semibold text-white transition-opacity hover:opacity-90 disabled:opacity-50"
+                                className="inline-flex items-center gap-1.5 rounded-[8px] bg-chart-neutral px-3.5 py-2 text-[11.5px] font-semibold text-white transition-opacity hover:opacity-90 disabled:opacity-50"
                               >
                                 {busy && (
                                   <LoaderCircle
@@ -831,7 +831,7 @@ export function ReviewCategoryPage({
 
           {loading && (
             <div className="flex items-center justify-center gap-3 border-t border-border-theme py-8 text-[13px] text-text-secondary">
-              <LoaderCircle size={17} className="animate-spin text-[#F40009]" />
+              <LoaderCircle size={17} className="animate-spin text-accent-primary" />
               Carregando ocorrências...
             </div>
           )}

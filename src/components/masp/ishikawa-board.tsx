@@ -289,7 +289,7 @@ function statusColor(
   return STATUS_COLORS[
     value
   ] ??
-    "#8A9096";
+    "var(--text-secondary)";
 }
 
 
@@ -615,7 +615,7 @@ export function IshikawaBoard({
       </div>
 
       {exportError && (
-        <p className="mx-5 mt-4 rounded-[12px] border border-[#F0D2D5] bg-[#FFF8F8] px-3.5 py-3 text-[11px] text-[#B52B34] sm:mx-7">
+        <p className="mx-5 mt-4 rounded-[12px] border border-accent-primary/30 bg-accent-soft px-3.5 py-3 text-[11px] text-accent-primary sm:mx-7">
           {exportError}
         </p>
       )}
@@ -718,7 +718,7 @@ export function IshikawaBoard({
                     y2={
                       spineY
                     }
-                    stroke="#6E747A"
+                    stroke="var(--text-body)"
                     strokeWidth="4"
                     strokeLinecap="round"
                   />
@@ -731,7 +731,7 @@ export function IshikawaBoard({
                       spineY
                     }
                     r="7"
-                    fill="#E41E2B"
+                    fill="var(--accent-primary)"
                   />
 
                   <text
@@ -748,7 +748,7 @@ export function IshikawaBoard({
                     }
                     fontSize="19"
                     fontWeight="700"
-                    fill="#292D31"
+                    fill="var(--text-primary)"
                   >
                     {LABELS[
                       branch.category
@@ -769,7 +769,7 @@ export function IshikawaBoard({
                     }
                     fontSize="12"
                     fontWeight="600"
-                    fill="#9A9FA5"
+                    fill="var(--text-secondary)"
                   >
                     {items.length}{" "}
                     {items.length ===
@@ -873,7 +873,7 @@ export function IshikawaBoard({
                             y2={
                               y
                             }
-                            stroke="#B6BBC0"
+                            stroke="var(--text-muted)"
                             strokeWidth="2"
                           />
 
@@ -903,7 +903,7 @@ export function IshikawaBoard({
                             }
                             fontSize="13"
                             fontWeight="600"
-                            fill="#3E4348"
+                            fill="var(--text-primary)"
                           >
                             {truncateText(
                               item.description,
@@ -921,7 +921,7 @@ export function IshikawaBoard({
                             }
                             fontSize="9"
                             fontWeight="600"
-                            fill="#92979D"
+                            fill="var(--text-secondary)"
                           >
                             {sourceLabel(
                               item.source,
@@ -951,7 +951,7 @@ export function IshikawaBoard({
                       }
                       fontSize="11"
                       fontWeight="700"
-                      fill="#E41E2B"
+                      fill="var(--accent-primary)"
                     >
                       +{remaining} causas
                     </text>
@@ -968,7 +968,7 @@ export function IshikawaBoard({
               width="242"
               height="230"
               rx="24"
-              fill="#E41E2B"
+              fill="var(--accent-primary)"
             />
 
             <text
@@ -977,7 +977,7 @@ export function IshikawaBoard({
               fontSize="11"
               fontWeight="700"
               letterSpacing="1.6"
-              fill="#FFFFFF"
+              fill="var(--surface)"
               opacity="0.7"
             >
               EFEITO OBSERVADO
@@ -998,7 +998,7 @@ export function IshikawaBoard({
                   }
                   fontSize="16"
                   fontWeight="700"
-                  fill="#FFFFFF"
+                  fill="var(--surface)"
                 >
                   {line}
                 </text>
@@ -1009,7 +1009,7 @@ export function IshikawaBoard({
       </div>
 
       <div className="space-y-3 p-4 lg:hidden">
-        <div className="rounded-[15px] bg-[#E41E2B] p-4 text-white">
+        <div className="rounded-[15px] bg-accent-primary p-4 text-white">
           <p className="text-[9px] font-semibold uppercase tracking-[0.1em] text-white/65">
             Efeito observado
           </p>

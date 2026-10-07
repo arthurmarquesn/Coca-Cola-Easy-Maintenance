@@ -1,3 +1,4 @@
+import { getAnalystAccessError } from "@/lib/write-access";
 import {
   NextRequest,
   NextResponse,
@@ -61,6 +62,11 @@ export async function GET(request: NextRequest) {
       { status: 401 },
     );
   }
+
+  /* Revisão e Ursus são exclusivos do Analista. */
+  const analystError = getAnalystAccessError(session);
+  if (analystError) return analystError;
+
 
   const unitSelection = await getUnitSelection({
     userId: session.userId,

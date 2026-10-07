@@ -264,7 +264,7 @@ export function ReliabilityMaspDialog({
       <section className="relative z-10 w-full max-w-[520px] rounded-[22px] border border-border-theme/[0.06] bg-surface p-6 shadow-[0_24px_80px_rgba(0,0,0,0.18)] sm:p-7">
         <div className="flex items-start justify-between gap-5">
           <div>
-            <p className="text-[10px] font-semibold uppercase tracking-[0.1em] text-[#E41E2B]">
+            <p className="text-[10px] font-semibold uppercase tracking-[0.1em] text-accent-primary">
               Confiabilidade → MASP
             </p>
 
@@ -328,7 +328,7 @@ export function ReliabilityMaspDialog({
                     `/dashboard/masp/${existing.id}`,
                   )
                 }
-                className="flex h-12 items-center justify-center rounded-[12px] bg-[#E41E2B] px-4 text-[12px] font-semibold text-white hover:bg-[#CF1824] disabled:opacity-60"
+                className="flex h-12 items-center justify-center rounded-[12px] bg-accent-primary px-4 text-[12px] font-semibold text-white hover:bg-accent-hover disabled:opacity-60"
               >
                 Abrir MASP #{existing.id}
               </button>
@@ -434,7 +434,7 @@ export function ReliabilityMaspDialog({
                     false,
                   )
                 }
-                className="flex h-11 items-center justify-center gap-2 rounded-[11px] bg-[#E41E2B] px-5 text-[12px] font-semibold text-white hover:bg-[#CF1824] disabled:opacity-60"
+                className="flex h-11 items-center justify-center gap-2 rounded-[11px] bg-accent-primary px-5 text-[12px] font-semibold text-white hover:bg-accent-hover disabled:opacity-60"
               >
                 {submitting && (
                   <LoaderCircle
@@ -450,7 +450,7 @@ export function ReliabilityMaspDialog({
         )}
 
         {error && (
-          <p className="mt-4 rounded-[12px] border border-[#F0D2D5] bg-[#FFF8F8] px-3.5 py-3 text-[11px] leading-5 text-[#B52B34]">
+          <p className="mt-4 rounded-[12px] border border-accent-primary/30 bg-accent-soft px-3.5 py-3 text-[11px] leading-5 text-accent-primary">
             {error}
           </p>
         )}

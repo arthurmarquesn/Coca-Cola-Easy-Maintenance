@@ -31,7 +31,7 @@ node --env-file=.env.local scripts/create-user.mjs "NOME" "EMAIL" "SENHA" "ROLE"
 
 Exemplo:
 
-node --env-file=.env.local scripts/create-user.mjs "João da Silva" "joao@coca.com" "SenhaForte@2026" "GESTOR" "BAAK"
+node --env-file=.env.local scripts/create-user.mjs "João da Silva" "joao@kof.com" "SenhaForte@2026" "GESTOR" "BAAK"
 
 ROLE: ANALISTA (acesso total) ou GESTOR (somente consulta).
 `);
@@ -198,6 +198,34 @@ try {
     email
       .trim()
       .toLowerCase();
+
+  /* Mesma regra de src/lib/email-domain.ts: só e-mail
+     corporativo, salvo domínios extras em
+     ALLOWED_EMAIL_DOMAINS. */
+  const allowedDomains =
+    (process.env.ALLOWED_EMAIL_DOMAINS ?? "")
+      .split(",")
+      .map((domain) => domain.trim().toLowerCase().replace(/^@/, ""))
+      .filter(Boolean);
+
+  const domains =
+    allowedDomains.length > 0
+      ? allowedDomains
+      : ["kof.com"];
+
+  const emailDomain =
+    normalizedEmail.slice(
+      normalizedEmail.lastIndexOf("@") + 1,
+    );
+
+  if (
+    normalizedEmail.lastIndexOf("@") < 1 ||
+    !domains.includes(emailDomain)
+  ) {
+    throw new Error(
+      `Use um e-mail corporativo (${domains.map((domain) => `@${domain}`).join(", ")}).`,
+    );
+  }
 
   const [
     existingUsers,

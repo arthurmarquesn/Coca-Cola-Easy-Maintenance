@@ -4,6 +4,7 @@ import {
 import type { RowDataPacket } from "mysql2/promise";
 import { executeRows } from "@/lib/db";
 import { normalizeSessionRole } from "@/lib/roles";
+import { USER_UNIT_SCOPE_CONDITION } from "@/lib/unit-selection";
 
 import {
   SESSION_COOKIE_NAME,
@@ -34,6 +35,8 @@ Promise<
   if (!payload) return null;
 
   // JWT identifies the user; current database state grants access.
+  // The session unit is the primary unit (users.unit_id); a manager
+  // never falls back to another linked unit.
   const [user] = await executeRows<(RowDataPacket & {
     name: string; email: string; role: string; unit_id: number;
   })[]>(`
@@ -42,7 +45,8 @@ Promise<
     INNER JOIN user_units uu ON uu.user_id = u.id
     INNER JOIN units un ON un.id = uu.unit_id AND un.active = TRUE
     WHERE u.id = ? AND u.active = TRUE
-    ORDER BY uu.is_default DESC, uu.unit_id ASC
+      AND ${USER_UNIT_SCOPE_CONDITION}
+    ORDER BY (uu.unit_id = u.unit_id) DESC, uu.unit_id ASC
     LIMIT 1
   `, [payload.userId]);
 

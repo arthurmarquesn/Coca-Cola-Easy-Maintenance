@@ -83,8 +83,8 @@ function AnalysisPanel({
         overflow-hidden
         rounded-[24px]
         border
-        border-black/[0.05]
-        bg-white
+        border-border-theme
+        bg-surface
         shadow-[0_14px_34px_rgba(28,31,34,0.04)]
       "
     >
@@ -96,7 +96,7 @@ function AnalysisPanel({
           justify-between
           gap-4
           border-b
-          border-black/[0.05]
+          border-border-theme
           px-5
           py-3.5
         "
@@ -108,7 +108,7 @@ function AnalysisPanel({
               w-2
               shrink-0
               rounded-full
-              bg-[#E41E2B]
+              bg-accent-primary
             "
           />
 
@@ -118,7 +118,7 @@ function AnalysisPanel({
               text-[14px]
               font-semibold
               tracking-[-0.03em]
-              text-[#202327]
+              text-text-primary
             "
           >
             {title}
@@ -140,15 +140,15 @@ function AnalysisPanel({
             gap-2
             rounded-[10px]
             border
-            border-black/[0.06]
-            bg-[#FAFAF9]
+            border-border-theme
+            bg-background-primary
             px-3
             text-[10px]
             font-semibold
-            text-[#686D73]
+            text-text-body
             transition
-            hover:bg-[#F1F1F0]
-            hover:text-[#202327]
+            hover:bg-surface-elevated
+            hover:text-text-primary
           "
         >
           {active ? (
@@ -313,7 +313,7 @@ export function AnalysisFullscreen({
         z-[100]
         flex
         flex-col
-        bg-[#F7F7F6]
+        bg-background-primary
       "
       role="dialog"
       aria-modal="true"
@@ -325,8 +325,8 @@ export function AnalysisFullscreen({
           z-10
           shrink-0
           border-b
-          border-black/[0.055]
-          bg-white
+          border-border-theme
+          bg-surface
         "
       >
         <div
@@ -349,7 +349,7 @@ export function AnalysisFullscreen({
                 h-2
                 w-2
                 rounded-full
-                bg-[#E41E2B]
+                bg-accent-primary
               "
             />
 
@@ -358,7 +358,7 @@ export function AnalysisFullscreen({
                 text-[15px]
                 font-semibold
                 tracking-[-0.03em]
-                text-[#202327]
+                text-text-primary
               "
             >
               Análise expandida
@@ -377,7 +377,7 @@ export function AnalysisFullscreen({
               className="
                 inline-flex
                 rounded-[12px]
-                bg-[#F1F1F0]
+                bg-surface-elevated
                 p-1
               "
             >
@@ -399,8 +399,8 @@ export function AnalysisFullscreen({
                     ${
                       focus ===
                       "BOTH"
-                        ? "bg-[#202327] text-white shadow-[0_4px_12px_rgba(32,35,39,0.12)]"
-                        : "text-[#7F848A] hover:bg-white hover:text-[#34383D]"
+                        ? "bg-surface-inverse text-white shadow-[0_4px_12px_rgba(32,35,39,0.12)]"
+                        : "text-text-secondary hover:bg-surface hover:text-text-primary"
                     }
                   `
                 }
@@ -426,8 +426,8 @@ export function AnalysisFullscreen({
                     ${
                       focus ===
                       "PARETO"
-                        ? "bg-[#202327] text-white shadow-[0_4px_12px_rgba(32,35,39,0.12)]"
-                        : "text-[#7F848A] hover:bg-white hover:text-[#34383D]"
+                        ? "bg-surface-inverse text-white shadow-[0_4px_12px_rgba(32,35,39,0.12)]"
+                        : "text-text-secondary hover:bg-surface hover:text-text-primary"
                     }
                   `
                 }
@@ -453,8 +453,8 @@ export function AnalysisFullscreen({
                     ${
                       focus ===
                       "JACK_KNIFE"
-                        ? "bg-[#202327] text-white shadow-[0_4px_12px_rgba(32,35,39,0.12)]"
-                        : "text-[#7F848A] hover:bg-white hover:text-[#34383D]"
+                        ? "bg-surface-inverse text-white shadow-[0_4px_12px_rgba(32,35,39,0.12)]"
+                        : "text-text-secondary hover:bg-surface hover:text-text-primary"
                     }
                   `
                 }
@@ -468,8 +468,8 @@ export function AnalysisFullscreen({
                 inline-flex
                 rounded-[12px]
                 border
-                border-black/[0.055]
-                bg-white
+                border-border-theme
+                bg-surface
                 p-1
               "
             >
@@ -502,8 +502,8 @@ export function AnalysisFullscreen({
                         "BOTH" &&
                       layout ===
                         "SIDE_BY_SIDE"
-                        ? "bg-[#FFF0F1] text-[#E41E2B]"
-                        : "text-[#7D8288] hover:bg-[#F5F5F4] hover:text-[#202327]"
+                        ? "bg-accent-soft text-accent-primary"
+                        : "text-text-secondary hover:bg-surface-elevated hover:text-text-primary"
                     }
                   `
                 }
@@ -542,8 +542,8 @@ export function AnalysisFullscreen({
                         "BOTH" &&
                       layout ===
                         "STACKED"
-                        ? "bg-[#FFF0F1] text-[#E41E2B]"
-                        : "text-[#7D8288] hover:bg-[#F5F5F4] hover:text-[#202327]"
+                        ? "bg-accent-soft text-accent-primary"
+                        : "text-text-secondary hover:bg-surface-elevated hover:text-text-primary"
                     }
                   `
                 }
@@ -575,15 +575,15 @@ export function AnalysisFullscreen({
                 gap-2
                 rounded-[11px]
                 border
-                border-black/[0.055]
-                bg-white
+                border-border-theme
+                bg-surface
                 px-3
                 text-[10px]
                 font-semibold
-                text-[#6E7379]
+                text-text-body
                 transition
-                hover:bg-[#F5F5F4]
-                hover:text-[#202327]
+                hover:bg-surface-elevated
+                hover:text-text-primary
                 disabled:cursor-not-allowed
                 disabled:opacity-30
               "
@@ -610,10 +610,10 @@ export function AnalysisFullscreen({
                 items-center
                 justify-center
                 rounded-[11px]
-                bg-[#202327]
+                bg-surface-inverse
                 text-white
                 transition
-                hover:bg-[#34383D]
+                hover:bg-surface-inverse-hover
               "
             >
               <X
@@ -628,8 +628,8 @@ export function AnalysisFullscreen({
             h-[2px]
             w-full
             bg-gradient-to-r
-            from-[#E41E2B]
-            via-[#E41E2B]/30
+            from-accent-primary
+            via-accent-primary/30
             to-transparent
           "
         />

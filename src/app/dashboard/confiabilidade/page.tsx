@@ -7,7 +7,7 @@ import { isAnalystRole } from "@/lib/roles";
 import { getSession } from "@/lib/session";
 
 interface UnitRow extends RowDataPacket {
-  city: string | null;
+  name: string;
 }
 
 export default async function ReliabilityPageRoute() {
@@ -22,7 +22,7 @@ export default async function ReliabilityPageRoute() {
     await executeRows<UnitRow[]>(
       `
         SELECT
-          city
+          name
         FROM units
         WHERE id = ?
           AND active = TRUE
@@ -47,8 +47,8 @@ export default async function ReliabilityPageRoute() {
           session.name,
       }}
       unit={{
-        city:
-          unit.city,
+        name:
+          unit.name,
       }}
       canWrite={isAnalystRole(session.role)}
     />

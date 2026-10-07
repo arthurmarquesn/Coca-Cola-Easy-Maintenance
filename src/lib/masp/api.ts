@@ -83,8 +83,14 @@ Promise<MaspRequestContext> {
     );
   }
 
-  if (write && !isAnalystRole(session.role)) {
-    throw new MaspApiError(403, "Somente analistas podem alterar dados.");
+  /* MASP é exclusivo do Analista: o Gestor não lê nem altera. */
+  if (!isAnalystRole(session.role)) {
+    throw new MaspApiError(
+      403,
+      write
+        ? "Somente analistas podem alterar dados."
+        : "Acesso restrito ao perfil Analista.",
+    );
   }
 
   const userId =

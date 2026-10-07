@@ -20,8 +20,7 @@ import {
 
 interface UnitRow
   extends RowDataPacket {
-  city:
-    string | null;
+  name: string;
 }
 
 export default async function ReliabilityFailuresPageRoute() {
@@ -42,7 +41,7 @@ export default async function ReliabilityFailuresPageRoute() {
     >(
       `
         SELECT
-          city
+          name
 
         FROM
           units
@@ -79,8 +78,8 @@ export default async function ReliabilityFailuresPageRoute() {
           session.name,
       }}
       unit={{
-        city:
-          unit.city,
+        name:
+          unit.name,
       }}
     />
   );

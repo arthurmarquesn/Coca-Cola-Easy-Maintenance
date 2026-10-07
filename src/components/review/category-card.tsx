@@ -90,7 +90,7 @@ export function CategoryCard({ category, href }: CategoryCardProps) {
 
         <ArrowRight
           size={16}
-          className="text-text-secondary transition-transform duration-200 group-hover:translate-x-1 group-hover:text-[#F40009]"
+          className="text-text-secondary transition-transform duration-200 group-hover:translate-x-1 group-hover:text-accent-hover"
         />
       </div>
     </Link>

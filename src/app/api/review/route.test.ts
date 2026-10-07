@@ -28,6 +28,13 @@ describe("review API", () => {
     mocks.getConnection.mockResolvedValue({ execute: mocks.execute, release: mocks.release });
   });
 
+  it("forbids a manager from reading the review queue", async () => {
+    mocks.session.mockResolvedValue({ userId: 2, unitId: 7, role: "MANAGER" });
+    const response = await GET(new NextRequest("http://localhost/api/review?category=sensores"));
+    expect(response.status).toBe(403);
+    expect(mocks.getConnection).not.toHaveBeenCalled();
+  });
+
   it("scopes the progress summary to its category without the table's status filter", async () => {
     mocks.execute
       .mockResolvedValueOnce([[{ total: 4, pending: 1, confirmed: 2, corrected: 1, rejected: 0 }]])

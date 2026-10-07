@@ -31,7 +31,7 @@ interface ReviewFiltersBarProps {
 }
 
 const selectClassName =
-  "h-10 w-full rounded-[10px] border border-border-theme bg-surface px-3 text-[12.5px] text-text-primary outline-none transition-colors focus:border-[#F40009]";
+  "h-10 w-full rounded-[10px] border border-border-theme bg-surface px-3 text-[12.5px] text-text-primary outline-none transition-colors focus:border-accent-primary";
 
 const labelClassName =
   "mb-1.5 block text-[11px] font-medium text-text-secondary";
@@ -69,7 +69,7 @@ export function ReviewFiltersBar({
             value={filters.search}
             onChange={(event) => patch({ search: event.target.value })}
             placeholder="Buscar por descrição, linha ou equipamento..."
-            className="h-10 w-full rounded-[10px] border border-border-theme bg-surface pl-9 pr-3 text-[12.5px] text-text-primary outline-none transition-colors placeholder:text-text-muted focus:border-[#F40009]"
+            className="h-10 w-full rounded-[10px] border border-border-theme bg-surface pl-9 pr-3 text-[12.5px] text-text-primary outline-none transition-colors placeholder:text-text-muted focus:border-accent-primary"
           />
         </div>
 
@@ -92,14 +92,14 @@ export function ReviewFiltersBar({
           onClick={() => setExpanded((value) => !value)}
           className={`flex h-10 shrink-0 items-center justify-center gap-2 rounded-[10px] border px-4 text-[12px] font-semibold transition-colors ${
             expanded || activeCount > 0
-              ? "border-[#F40009] text-[#F40009]"
+              ? "border-accent-primary text-accent-primary"
               : "border-border-theme text-text-secondary hover:border-text-secondary"
           }`}
         >
           <SlidersHorizontal size={14} strokeWidth={2} />
           Filtros
           {activeCount > 0 && (
-            <span className="flex h-[18px] min-w-[18px] items-center justify-center rounded-full bg-[#F40009] px-1 text-[10px] font-bold text-white">
+            <span className="flex h-[18px] min-w-[18px] items-center justify-center rounded-full bg-accent-primary px-1 text-[10px] font-bold text-white">
               {activeCount}
             </span>
           )}
@@ -203,7 +203,7 @@ export function ReviewFiltersBar({
 
                   patch({ confidenceMin: value });
                 }}
-                className="w-full accent-[#F40009]"
+                className="w-full accent-accent-primary"
               />
 
               <input
@@ -219,7 +219,7 @@ export function ReviewFiltersBar({
 
                   patch({ confidenceMax: value });
                 }}
-                className="w-full accent-[#F40009]"
+                className="w-full accent-accent-primary"
               />
             </div>
           </div>
@@ -235,7 +235,7 @@ export function ReviewFiltersBar({
           <button
             type="button"
             onClick={clearAll}
-            className="flex items-center gap-1 text-[11px] font-medium text-text-secondary transition-colors hover:text-[#F40009]"
+            className="flex items-center gap-1 text-[11px] font-medium text-text-secondary transition-colors hover:text-accent-hover"
           >
             <X size={12} strokeWidth={2} />
             Limpar filtros

@@ -134,18 +134,18 @@ function quadrantClasses(
     quadrant
   ) {
     case "CRITICA_E_CRONICA":
-      return "border-[#F1C8CB] bg-[#FFF3F4] text-[#B72831]";
+      return "border-accent-primary/30 bg-accent-soft text-accent-primary";
 
     case "CRITICA":
-      return "border-[#ECD9A7] bg-[#FFF9EB] text-[#9A6A00]";
+      return "border-warning/30 bg-warning/10 text-warning";
 
     case "CRONICA":
-      return "border-[#CFE0EE] bg-[#F3F8FC] text-[#3979A6]";
+      return "border-chart-neutral/30 bg-chart-neutral/10 text-chart-neutral";
 
     case "BAIXA_RELEVANCIA":
 
     default:
-      return "border-[#D4E6D6] bg-[#F4FAF5] text-[#4B8752]";
+      return "border-success/30 bg-success/10 text-success";
   }
 }
 
@@ -154,8 +154,8 @@ function categoryButtonClasses(
     boolean,
 ): string {
   return active
-    ? "border-[#25282C] bg-[#25282C] text-white"
-    : "border-[#E1E3E5] bg-white text-[#686D73] hover:bg-[#F7F7F6]";
+    ? "border-text-primary bg-surface-inverse text-white"
+    : "border-border-theme bg-surface text-text-body hover:bg-background-primary";
 }
 
 export function JackKnifeDetailTable({
@@ -461,7 +461,7 @@ export function JackKnifeDetailTable({
     ];
 
   return (
-    <div className="border-t border-[#ECEDEF]">
+    <div className="border-t border-border-theme">
       {/* ===================================================
           CABEÇALHO
       ==================================================== */}
@@ -469,15 +469,15 @@ export function JackKnifeDetailTable({
       <div className="px-6 py-6 sm:px-8">
         <div className="flex flex-col gap-5 xl:flex-row xl:items-start xl:justify-between">
           <div>
-            <p className="text-[10px] font-semibold uppercase tracking-[0.09em] text-[#A0A4A9]">
+            <p className="text-[10px] font-semibold uppercase tracking-[0.09em] text-text-muted">
               Detalhamento técnico
             </p>
 
-            <h3 className="mt-1.5 text-[18px] font-semibold tracking-[-0.025em] text-[#25282C]">
+            <h3 className="mt-1.5 text-[18px] font-semibold tracking-[-0.025em] text-text-primary">
               Tabela do Jack-Knife
             </h3>
 
-            <p className="mt-1 max-w-[680px] text-[11px] leading-5 text-[#92979D]">
+            <p className="mt-1 max-w-[680px] text-[11px] leading-5 text-text-secondary">
               Ranking por tempo total de parada, com frequência,
               MTTR e classificação de criticidade. A tabela mantém
               40 posições por página para facilitar a leitura e a
@@ -489,43 +489,43 @@ export function JackKnifeDetailTable({
               RESUMO
           ================================================ */}
 
-          <div className="grid grid-cols-3 gap-px overflow-hidden rounded-[16px] border border-[#E7E8EA] bg-[#E7E8EA] xl:min-w-[420px]">
-            <div className="bg-white px-4 py-3">
-              <p className="text-[9px] font-medium uppercase tracking-[0.08em] text-[#A0A4A9]">
+          <div className="grid grid-cols-3 gap-px overflow-hidden rounded-[16px] border border-border-theme bg-surface-hover xl:min-w-[420px]">
+            <div className="bg-surface px-4 py-3">
+              <p className="text-[9px] font-medium uppercase tracking-[0.08em] text-text-muted">
                 Itens
               </p>
 
-              <p className="mt-1 text-[20px] font-semibold tracking-[-0.04em] text-[#282B2F]">
+              <p className="mt-1 text-[20px] font-semibold tracking-[-0.04em] text-text-primary">
                 {formatNumber(
                   items.length,
                 )}
               </p>
             </div>
 
-            <div className="bg-white px-4 py-3">
-              <p className="text-[9px] font-medium uppercase tracking-[0.08em] text-[#A0A4A9]">
+            <div className="bg-surface px-4 py-3">
+              <p className="text-[9px] font-medium uppercase tracking-[0.08em] text-text-muted">
                 Crítico-crônico
               </p>
 
-              <p className="mt-1 text-[20px] font-semibold tracking-[-0.04em] text-[#B72831]">
+              <p className="mt-1 text-[20px] font-semibold tracking-[-0.04em] text-accent-primary">
                 {formatNumber(
                   criticalChronicCount,
                 )}
               </p>
             </div>
 
-            <div className="bg-white px-4 py-3">
-              <p className="text-[9px] font-medium uppercase tracking-[0.08em] text-[#A0A4A9]">
+            <div className="bg-surface px-4 py-3">
+              <p className="text-[9px] font-medium uppercase tracking-[0.08em] text-text-muted">
                 Maior parada
               </p>
 
-              <p className="mt-1 text-[20px] font-semibold tracking-[-0.04em] text-[#282B2F]">
+              <p className="mt-1 text-[20px] font-semibold tracking-[-0.04em] text-text-primary">
                 {formatNumber(
                   highestDowntime,
                   1,
                 )}
 
-                <span className="ml-1 text-[10px] font-medium tracking-normal text-[#9A9FA5]">
+                <span className="ml-1 text-[10px] font-medium tracking-normal text-text-muted">
                   min
                 </span>
               </p>
@@ -538,27 +538,27 @@ export function JackKnifeDetailTable({
         ================================================ */}
 
         <div className="mt-5 flex flex-wrap gap-2">
-          <div className="rounded-full bg-[#F5F5F4] px-3 py-1.5 text-[10px] text-[#72777D]">
+          <div className="rounded-full bg-surface-elevated px-3 py-1.5 text-[10px] text-text-body">
             Linha:{" "}
 
-            <span className="font-semibold text-[#44484D]">
+            <span className="font-semibold text-text-primary">
               {line?.trim() ||
                 "Todas as linhas"}
             </span>
           </div>
 
-          <div className="rounded-full bg-[#F5F5F4] px-3 py-1.5 text-[10px] text-[#72777D]">
+          <div className="rounded-full bg-surface-elevated px-3 py-1.5 text-[10px] text-text-body">
             Período:{" "}
 
-            <span className="font-semibold text-[#44484D]">
+            <span className="font-semibold text-text-primary">
               {periodLabel}
             </span>
           </div>
 
-          <div className="rounded-full bg-[#F5F5F4] px-3 py-1.5 text-[10px] text-[#72777D]">
+          <div className="rounded-full bg-surface-elevated px-3 py-1.5 text-[10px] text-text-body">
             Visão:{" "}
 
-            <span className="font-semibold text-[#44484D]">
+            <span className="font-semibold text-text-primary">
               {analysisLevel ===
               "EQUIPMENT"
                 ? "Máquinas"
@@ -575,7 +575,7 @@ export function JackKnifeDetailTable({
           <div className="relative w-full max-w-[360px]">
             <Search
               size={15}
-              className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-[#9A9FA5]"
+              className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-text-muted"
             />
 
             <input
@@ -596,7 +596,7 @@ export function JackKnifeDetailTable({
                   "pt-BR",
                 )}...`
               }
-              className="h-10 w-full rounded-[11px] border border-[#DFE1E3] bg-white pl-10 pr-10 text-[11px] text-[#35393E] outline-none transition focus:border-[#BFC3C7]"
+              className="h-10 w-full rounded-[11px] border border-border-theme bg-surface pl-10 pr-10 text-[11px] text-text-primary outline-none transition focus:border-text-muted"
             />
 
             {search && (
@@ -607,7 +607,7 @@ export function JackKnifeDetailTable({
                     "",
                   )
                 }
-                className="absolute right-2.5 top-1/2 flex h-6 w-6 -translate-y-1/2 items-center justify-center rounded-full text-[#94999F] hover:bg-[#F2F2F1]"
+                className="absolute right-2.5 top-1/2 flex h-6 w-6 -translate-y-1/2 items-center justify-center rounded-full text-text-secondary hover:bg-surface-elevated"
                 aria-label="Limpar busca"
               >
                 <X
@@ -651,31 +651,31 @@ export function JackKnifeDetailTable({
           TABELA
       ==================================================== */}
 
-      <div className="overflow-x-auto border-t border-[#ECEDEF]">
+      <div className="overflow-x-auto border-t border-border-theme">
         <table className="w-full min-w-[900px] border-collapse">
           <thead>
-            <tr className="bg-[#FAFAF9] text-left">
-              <th className="w-[72px] border-b border-[#E8EAEC] px-5 py-3 text-[9px] font-semibold uppercase tracking-[0.08em] text-[#999EA4]">
+            <tr className="bg-background-primary text-left">
+              <th className="w-[72px] border-b border-border-theme px-5 py-3 text-[9px] font-semibold uppercase tracking-[0.08em] text-text-muted">
                 Seq.
               </th>
 
-              <th className="border-b border-[#E8EAEC] px-5 py-3 text-[9px] font-semibold uppercase tracking-[0.08em] text-[#999EA4]">
+              <th className="border-b border-border-theme px-5 py-3 text-[9px] font-semibold uppercase tracking-[0.08em] text-text-muted">
                 {itemLabel}
               </th>
 
-              <th className="w-[150px] border-b border-[#E8EAEC] px-5 py-3 text-right text-[9px] font-semibold uppercase tracking-[0.08em] text-[#999EA4]">
+              <th className="w-[150px] border-b border-border-theme px-5 py-3 text-right text-[9px] font-semibold uppercase tracking-[0.08em] text-text-muted">
                 T(min)
               </th>
 
-              <th className="w-[120px] border-b border-[#E8EAEC] px-5 py-3 text-right text-[9px] font-semibold uppercase tracking-[0.08em] text-[#999EA4]">
+              <th className="w-[120px] border-b border-border-theme px-5 py-3 text-right text-[9px] font-semibold uppercase tracking-[0.08em] text-text-muted">
                 Q
               </th>
 
-              <th className="w-[140px] border-b border-[#E8EAEC] px-5 py-3 text-right text-[9px] font-semibold uppercase tracking-[0.08em] text-[#999EA4]">
+              <th className="w-[140px] border-b border-border-theme px-5 py-3 text-right text-[9px] font-semibold uppercase tracking-[0.08em] text-text-muted">
                 MTTR
               </th>
 
-              <th className="w-[190px] border-b border-[#E8EAEC] px-5 py-3 text-[9px] font-semibold uppercase tracking-[0.08em] text-[#999EA4]">
+              <th className="w-[190px] border-b border-border-theme px-5 py-3 text-[9px] font-semibold uppercase tracking-[0.08em] text-text-muted">
                 Categoria
               </th>
             </tr>
@@ -708,14 +708,14 @@ export function JackKnifeDetailTable({
                       )
                     }
                     className={
-                      `border-b border-[#EFF0F1] transition last:border-b-0 ${
+                      `border-b border-border-theme transition last:border-b-0 ${
                         onSelect
-                          ? "cursor-pointer hover:bg-[#FAFAF9]"
+                          ? "cursor-pointer hover:bg-background-primary"
                           : ""
                       }`
                     }
                   >
-                    <td className="px-5 py-3.5 text-[11px] font-semibold tabular-nums text-[#A0A4A9]">
+                    <td className="px-5 py-3.5 text-[11px] font-semibold tabular-nums text-text-muted">
                       {String(
                         sequence,
                       ).padStart(
@@ -725,12 +725,12 @@ export function JackKnifeDetailTable({
                     </td>
 
                     <td className="px-5 py-3.5">
-                      <p className="max-w-[520px] text-[11px] font-medium leading-5 text-[#34383D]">
+                      <p className="max-w-[520px] text-[11px] font-medium leading-5 text-text-primary">
                         {item.label}
                       </p>
                     </td>
 
-                    <td className="px-5 py-3.5 text-right text-[11px] font-semibold tabular-nums text-[#44494E]">
+                    <td className="px-5 py-3.5 text-right text-[11px] font-semibold tabular-nums text-text-primary">
                       {formatNumber(
                         item
                           .downtimeMinutes,
@@ -738,7 +738,7 @@ export function JackKnifeDetailTable({
                       )}
                     </td>
 
-                    <td className="px-5 py-3.5 text-right text-[11px] font-semibold tabular-nums text-[#44494E]">
+                    <td className="px-5 py-3.5 text-right text-[11px] font-semibold tabular-nums text-text-primary">
                       {formatNumber(
                         item
                           .frequency,
@@ -746,13 +746,13 @@ export function JackKnifeDetailTable({
                       )}
                     </td>
 
-                    <td className="px-5 py-3.5 text-right text-[11px] font-semibold tabular-nums text-[#44494E]">
+                    <td className="px-5 py-3.5 text-right text-[11px] font-semibold tabular-nums text-text-primary">
                       {formatNumber(
                         item.mttr,
                         1,
                       )}
 
-                      <span className="ml-1 text-[9px] font-medium text-[#A0A4A9]">
+                      <span className="ml-1 text-[9px] font-medium text-text-muted">
                         min
                       </span>
                     </td>
@@ -801,9 +801,9 @@ export function JackKnifeDetailTable({
                     key={
                       `empty-${safePage}-${index}`
                     }
-                    className="border-b border-[#F2F3F4] last:border-b-0"
+                    className="border-b border-border-theme last:border-b-0"
                   >
-                    <td className="px-5 py-3.5 text-[11px] font-medium tabular-nums text-[#D0D3D6]">
+                    <td className="px-5 py-3.5 text-[11px] font-medium tabular-nums text-text-muted">
                       {String(
                         sequence,
                       ).padStart(
@@ -812,23 +812,23 @@ export function JackKnifeDetailTable({
                       )}
                     </td>
 
-                    <td className="px-5 py-3.5 text-[11px] text-[#D0D3D6]">
+                    <td className="px-5 py-3.5 text-[11px] text-text-muted">
                       —
                     </td>
 
-                    <td className="px-5 py-3.5 text-right text-[11px] text-[#D0D3D6]">
+                    <td className="px-5 py-3.5 text-right text-[11px] text-text-muted">
                       —
                     </td>
 
-                    <td className="px-5 py-3.5 text-right text-[11px] text-[#D0D3D6]">
+                    <td className="px-5 py-3.5 text-right text-[11px] text-text-muted">
                       —
                     </td>
 
-                    <td className="px-5 py-3.5 text-right text-[11px] text-[#D0D3D6]">
+                    <td className="px-5 py-3.5 text-right text-[11px] text-text-muted">
                       —
                     </td>
 
-                    <td className="px-5 py-3.5 text-[11px] text-[#D0D3D6]">
+                    <td className="px-5 py-3.5 text-[11px] text-text-muted">
                       —
                     </td>
                   </tr>
@@ -843,9 +843,9 @@ export function JackKnifeDetailTable({
           PAGINAÇÃO
       ==================================================== */}
 
-      <div className="flex flex-col gap-3 border-t border-[#ECEDEF] px-6 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-8">
+      <div className="flex flex-col gap-3 border-t border-border-theme px-6 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-8">
         <div>
-          <p className="text-[10px] font-medium text-[#666B71]">
+          <p className="text-[10px] font-medium text-text-body">
             {filteredItems.length >
             0
               ? `Exibindo ${
@@ -865,7 +865,7 @@ export function JackKnifeDetailTable({
               : "Nenhum item corresponde aos filtros da tabela"}
           </p>
 
-          <p className="mt-0.5 text-[9px] text-[#A0A4A9]">
+          <p className="mt-0.5 text-[9px] text-text-muted">
             Ordenação principal: maior tempo total de parada para o menor.
           </p>
         </div>
@@ -891,7 +891,7 @@ export function JackKnifeDetailTable({
                 safePage ===
                 0
               }
-              className="inline-flex h-9 items-center gap-1.5 rounded-[10px] border border-[#E0E2E4] bg-white px-3 text-[10px] font-medium text-[#555A60] transition hover:bg-[#F7F7F6] disabled:cursor-not-allowed disabled:opacity-35"
+              className="inline-flex h-9 items-center gap-1.5 rounded-[10px] border border-border-theme bg-surface px-3 text-[10px] font-medium text-text-body transition hover:bg-background-primary disabled:cursor-not-allowed disabled:opacity-35"
             >
               <ChevronLeft
                 size={13}
@@ -900,7 +900,7 @@ export function JackKnifeDetailTable({
               Anterior
             </button>
 
-            <span className="min-w-[58px] text-center text-[10px] font-semibold text-[#62676D]">
+            <span className="min-w-[58px] text-center text-[10px] font-semibold text-text-body">
               {safePage +
                 1}
               {" / "}
@@ -927,7 +927,7 @@ export function JackKnifeDetailTable({
                 totalPages -
                   1
               }
-              className="inline-flex h-9 items-center gap-1.5 rounded-[10px] border border-[#E0E2E4] bg-white px-3 text-[10px] font-medium text-[#555A60] transition hover:bg-[#F7F7F6] disabled:cursor-not-allowed disabled:opacity-35"
+              className="inline-flex h-9 items-center gap-1.5 rounded-[10px] border border-border-theme bg-surface px-3 text-[10px] font-medium text-text-body transition hover:bg-background-primary disabled:cursor-not-allowed disabled:opacity-35"
             >
               Próximo
 

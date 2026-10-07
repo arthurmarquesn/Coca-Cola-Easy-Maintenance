@@ -22,7 +22,7 @@ import {
 
 interface UnitRow
   extends RowDataPacket {
-  city: string | null;
+  name: string;
 }
 
 export default async function HistoryPageRoute() {
@@ -39,7 +39,7 @@ export default async function HistoryPageRoute() {
     >(
       `
         SELECT
-          city
+          name
         FROM units
         WHERE id = ?
           AND active = TRUE
@@ -64,8 +64,8 @@ export default async function HistoryPageRoute() {
           session.name,
       }}
       unit={{
-        city:
-          unit.city,
+        name:
+          unit.name,
       }}
       canWrite={isAnalystRole(session.role)}
     />

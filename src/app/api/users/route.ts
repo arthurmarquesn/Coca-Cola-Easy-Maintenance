@@ -27,7 +27,15 @@ import {
 } from "@/lib/roles";
 
 import {
+  emailDomainMessage,
+  isAllowedEmailDomain,
+} from "@/lib/email-domain";
+
+import {
+  applyUnitLinks,
   isValidPasswordLength,
+  parseUnitIdList,
+  planUnitLinks,
 } from "@/lib/user-admin";
 
 
@@ -124,6 +132,10 @@ interface CreateUserBody {
     unknown;
 
   representativeUnitId?:
+    unknown;
+
+  /* Unidades de acesso além da principal (só Analista). */
+  extraUnitIds?:
     unknown;
 }
 
@@ -516,6 +528,30 @@ export async function GET() {
                 user.created_at,
               ),
 
+            /* Unidades de acesso visíveis para quem
+               administra (principal incluída). */
+            unitIds:
+              memberships
+                .filter(
+                  (
+                    item,
+                  ) =>
+                    Number(
+                      item.user_id,
+                    ) ===
+                    Number(
+                      user.id,
+                    ),
+                )
+                .map(
+                  (
+                    item,
+                  ) =>
+                    Number(
+                      item.unit_id,
+                    ),
+                ),
+
             representativeUnit:
               membership
                 ? {
@@ -747,6 +783,27 @@ export async function POST(
 
 
   if (
+    !isAllowedEmailDomain(
+      email,
+    )
+  ) {
+    return NextResponse.json(
+      {
+        success:
+          false,
+
+        message:
+          emailDomainMessage(),
+      },
+      {
+        status:
+          400,
+      },
+    );
+  }
+
+
+  if (
     !isValidPasswordLength(
       password,
     )
@@ -801,7 +858,35 @@ export async function POST(
           false,
 
         message:
-          "Selecione a unidade representada.",
+          "Selecione a unidade do usuário.",
+      },
+      {
+        status:
+          400,
+      },
+    );
+  }
+
+
+  const extraUnitIds =
+    body.extraUnitIds ===
+    undefined
+      ? []
+      : parseUnitIdList(
+          body.extraUnitIds,
+        );
+
+
+  if (
+    !extraUnitIds
+  ) {
+    return NextResponse.json(
+      {
+        success:
+          false,
+
+        message:
+          "Unidades de acesso inválidas.",
       },
       {
         status:
@@ -815,7 +900,8 @@ export async function POST(
      UNIDADE DO ANALISTA
 
      O Analista só cadastra usuários nas próprias
-     unidades.
+     unidades. O Gestor recebe somente a unidade
+     principal; o Analista pode receber unidades extras.
   ======================================================= */
 
   const activeUnits =
@@ -834,7 +920,33 @@ export async function POST(
     );
 
 
+  const unitPlan =
+    planUnitLinks({
+      role,
+
+      primaryUnitId:
+        representativeUnitId,
+
+      extraUnitIds,
+
+      currentUnitIds:
+        [],
+
+      currentPrimaryUnitId:
+        null,
+
+      actorUnitIds:
+        activeUnits.map(
+          (
+            unit,
+          ) =>
+            unit.id,
+        ),
+    });
+
+
   if (
+    !unitPlan.ok ||
     !representativeUnit
   ) {
     return NextResponse.json(
@@ -843,11 +955,15 @@ export async function POST(
           false,
 
         message:
-          "A unidade selecionada não está disponível para o seu usuário.",
+          unitPlan.ok
+            ? "A unidade selecionada não está disponível para o seu usuário."
+            : unitPlan.message,
       },
       {
         status:
-          403,
+          unitPlan.ok
+            ? 403
+            : unitPlan.status,
       },
     );
   }
@@ -982,37 +1098,16 @@ export async function POST(
 
 
     /* =====================================================
-       REPRESENTATIVE UNIT
+       UNIDADES
 
        O usuário só acessa as unidades vinculadas em
        user_units; a unidade representada é a padrão.
     ===================================================== */
 
-    await connection.execute<
-      ResultSetHeader
-    >(
-      `
-        INSERT INTO
-            user_units
-        (
-            user_id,
-
-            unit_id,
-
-            is_default
-        )
-        VALUES
-        (
-            ?,
-            ?,
-            TRUE
-        )
-      `,
-      [
-        newUserId,
-
-        representativeUnitId,
-      ],
+    await applyUnitLinks(
+      connection,
+      newUserId,
+      unitPlan,
     );
 
 
@@ -1040,6 +1135,9 @@ export async function POST(
 
           active:
             true,
+
+          unitIds:
+            unitPlan.unitIds,
 
           representativeUnit: {
             id:

@@ -635,8 +635,7 @@ async function getImportUnits(
 
         ORDER BY
           COALESCE(
-            u.city,
-            u.name,
+u.name,
             u.code
           ) ASC
       `,

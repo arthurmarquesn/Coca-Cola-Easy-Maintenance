@@ -737,7 +737,7 @@ function comparisonStatus({
         "Sem base anterior",
 
       className:
-        "text-[#92979D]",
+        "text-text-secondary",
 
       icon:
         ArrowRight,
@@ -755,7 +755,7 @@ function comparisonStatus({
         "Estável",
 
       className:
-        "text-[#7A7F85]",
+        "text-text-secondary",
 
       icon:
         ArrowRight,
@@ -779,8 +779,8 @@ function comparisonStatus({
 
     className:
       improved
-        ? "text-[#4F6B5D]"
-        : "text-[#C92832]",
+        ? "text-success"
+        : "text-accent-primary",
 
     icon:
       wentDown
@@ -812,12 +812,12 @@ function ComparisonMetric({
 
   return (
     <div className="min-w-0 px-5 py-5 sm:px-6">
-      <p className="text-[8px] font-semibold uppercase tracking-[0.11em] text-[#9CA1A7]">
+      <p className="text-[8px] font-semibold uppercase tracking-[0.11em] text-text-muted">
         {title}
       </p>
 
       <div className="mt-2 flex flex-wrap items-end gap-x-3 gap-y-2">
-        <p className="text-[27px] font-semibold leading-none tracking-[-0.055em] text-[#202327]">
+        <p className="text-[27px] font-semibold leading-none tracking-[-0.055em] text-text-primary">
           {value}
         </p>
 
@@ -845,14 +845,14 @@ function ComparisonMetric({
         </div>
       </div>
 
-      <div className="mt-2 flex flex-wrap items-center gap-x-2 gap-y-1 text-[8px] text-[#9A9FA5]">
+      <div className="mt-2 flex flex-wrap items-center gap-x-2 gap-y-1 text-[8px] text-text-muted">
         <span>
           anterior:
           {" "}
           {previousValue}
         </span>
 
-        <span className="text-[#C5C8CB]">
+        <span className="text-text-muted">
           ·
         </span>
 
@@ -1688,21 +1688,21 @@ export function ReliabilityTimeline({
   ======================================================= */
 
   return (
-    <section className="relative mt-5 overflow-hidden rounded-[28px] border border-black/[0.045] bg-white shadow-[0_12px_40px_rgba(28,31,34,0.03)]">
-      <div className="pointer-events-none absolute -right-24 -top-28 h-64 w-64 rounded-full bg-[#E41E2B]/[0.035] blur-3xl" />
+    <section className="relative mt-5 overflow-hidden rounded-[28px] border border-border-theme bg-surface shadow-[0_12px_40px_rgba(28,31,34,0.03)]">
+      <div className="pointer-events-none absolute -right-24 -top-28 h-64 w-64 rounded-full bg-accent-primary/[0.035] blur-3xl" />
 
       {/* ===================================================
           HEADER
       ==================================================== */}
 
-      <div className="relative border-b border-black/[0.05] px-5 py-4 sm:px-6">
+      <div className="relative border-b border-border-theme px-5 py-4 sm:px-6">
         <div className="flex flex-col gap-4 xl:flex-row xl:items-center xl:justify-between">
           <div>
-            <h2 className="text-[16px] font-semibold tracking-[-0.035em] text-[#202327]">
+            <h2 className="text-[16px] font-semibold tracking-[-0.035em] text-text-primary">
               Evolução temporal
             </h2>
 
-            <p className="mt-1 text-[10px] text-[#969BA1]">
+            <p className="mt-1 text-[10px] text-text-secondary">
               {metricDescription(
                 metric,
               )}
@@ -1719,17 +1719,17 @@ export function ReliabilityTimeline({
 
           <div className="flex flex-wrap items-center gap-3">
             {loading && (
-              <div className="flex items-center gap-2 text-[9px] font-medium text-[#989DA3]">
+              <div className="flex items-center gap-2 text-[9px] font-medium text-text-secondary">
                 <LoaderCircle
                   size={12}
-                  className="animate-spin text-[#E41E2B]"
+                  className="animate-spin text-accent-primary"
                 />
 
                 Atualizando
               </div>
             )}
 
-            <div className="inline-flex rounded-[11px] bg-[#F1F1F0] p-1">
+            <div className="inline-flex rounded-[11px] bg-surface-elevated p-1">
               {metricOptions.map(
                 (
                   option,
@@ -1755,8 +1755,8 @@ export function ReliabilityTimeline({
                       className={[
                         "inline-flex h-8 items-center gap-2 rounded-[8px] px-3 text-[9px] font-semibold transition",
                         active
-                          ? "bg-[#202327] text-white shadow-sm"
-                          : "text-[#858A90] hover:bg-white hover:text-[#4D5258]",
+                          ? "bg-surface-inverse text-white shadow-sm"
+                          : "text-text-secondary hover:bg-surface hover:text-text-body",
                       ].join(
                         " ",
                       )}
@@ -1774,8 +1774,8 @@ export function ReliabilityTimeline({
           </div>
         </div>
 
-        <div className="mt-4 flex flex-col gap-3 border-t border-black/[0.045] pt-3 sm:flex-row sm:items-center sm:justify-between">
-          <div className="flex items-center gap-2 text-[9px] text-[#969BA1]">
+        <div className="mt-4 flex flex-col gap-3 border-t border-border-theme pt-3 sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex items-center gap-2 text-[9px] text-text-secondary">
             <CalendarDays
               size={12}
             />
@@ -1788,7 +1788,7 @@ export function ReliabilityTimeline({
             </span>
           </div>
 
-          <div className="inline-flex w-fit rounded-[10px] bg-[#F3F3F2] p-1">
+          <div className="inline-flex w-fit rounded-[10px] bg-surface-elevated p-1">
             {groupingOptions.map(
               (
                 option,
@@ -1811,8 +1811,8 @@ export function ReliabilityTimeline({
                     className={[
                       "relative h-8 rounded-[8px] px-3 text-[9px] font-semibold transition",
                       active
-                        ? "bg-white text-[#25292D] shadow-sm"
-                        : "text-[#8B9096] hover:text-[#555A60]",
+                        ? "bg-surface text-text-primary shadow-sm"
+                        : "text-text-secondary hover:text-text-body",
                     ].join(
                       " ",
                     )}
@@ -1820,7 +1820,7 @@ export function ReliabilityTimeline({
                     {option.label}
 
                     {active && (
-                      <span className="absolute bottom-[3px] left-1/2 h-[2px] w-3 -translate-x-1/2 rounded-full bg-[#E41E2B]" />
+                      <span className="absolute bottom-[3px] left-1/2 h-[2px] w-3 -translate-x-1/2 rounded-full bg-accent-primary" />
                     )}
                   </button>
                 );
@@ -1836,13 +1836,13 @@ export function ReliabilityTimeline({
 
       {!error &&
         comparison && (
-          <div className="relative border-b border-black/[0.045] bg-[#FAFAF9]">
-            <div className="flex flex-col border-b border-black/[0.045] px-5 py-3 sm:flex-row sm:items-center sm:justify-between sm:px-6">
-              <p className="text-[9px] font-semibold uppercase tracking-[0.11em] text-[#9DA2A8]">
+          <div className="relative border-b border-border-theme bg-background-primary">
+            <div className="flex flex-col border-b border-border-theme px-5 py-3 sm:flex-row sm:items-center sm:justify-between sm:px-6">
+              <p className="text-[9px] font-semibold uppercase tracking-[0.11em] text-text-muted">
                 Comparativo com período anterior
               </p>
 
-              <p className="mt-1 text-[8px] text-[#A1A5AA] sm:mt-0">
+              <p className="mt-1 text-[8px] text-text-muted sm:mt-0">
                 {formatDatePtBr(
                   comparison
                     .previousStartDate,
@@ -1855,7 +1855,7 @@ export function ReliabilityTimeline({
               </p>
             </div>
 
-            <div className="grid sm:grid-cols-3 sm:divide-x sm:divide-black/[0.05]">
+            <div className="grid sm:grid-cols-3 sm:divide-x sm:divide-border-theme">
               <ComparisonMetric
                 title="Ocorrências"
                 value={
@@ -1933,10 +1933,10 @@ export function ReliabilityTimeline({
       ==================================================== */}
 
       {!error && (
-        <div className="relative border-b border-black/[0.045] px-5 py-4 sm:px-6">
-          <div className="grid gap-y-5 sm:grid-cols-3 sm:divide-x sm:divide-black/[0.055]">
+        <div className="relative border-b border-border-theme px-5 py-4 sm:px-6">
+          <div className="grid gap-y-5 sm:grid-cols-3 sm:divide-x sm:divide-border-theme">
             <div className="sm:pr-6">
-              <div className="flex items-center gap-2 text-[#9DA2A8]">
+              <div className="flex items-center gap-2 text-text-muted">
                 <TrendingUp
                   size={12}
                 />
@@ -1949,7 +1949,7 @@ export function ReliabilityTimeline({
                 </p>
               </div>
 
-              <p className="mt-2 text-[24px] font-semibold leading-none tracking-[-0.05em] text-[#202327]">
+              <p className="mt-2 text-[24px] font-semibold leading-none tracking-[-0.05em] text-text-primary">
                 {formatMetricValue(
                   currentSummaryValue,
                   metric,
@@ -1958,7 +1958,7 @@ export function ReliabilityTimeline({
             </div>
 
             <div className="sm:px-6">
-              <div className="flex items-center gap-2 text-[#9DA2A8]">
+              <div className="flex items-center gap-2 text-text-muted">
                 <Activity
                   size={12}
                 />
@@ -1969,7 +1969,7 @@ export function ReliabilityTimeline({
               </div>
 
               <div className="mt-2 flex items-baseline gap-2">
-                <p className="text-[24px] font-semibold leading-none tracking-[-0.05em] text-[#202327]">
+                <p className="text-[24px] font-semibold leading-none tracking-[-0.05em] text-text-primary">
                   {peak
                     ? formatMetricValue(
                         peak.value,
@@ -1983,7 +1983,7 @@ export function ReliabilityTimeline({
                     0 &&
                   peakVsAverage >
                     0 && (
-                    <span className="rounded-full bg-[#FFF0F1] px-2 py-1 text-[8px] font-semibold text-[#C92832]">
+                    <span className="rounded-full bg-accent-soft px-2 py-1 text-[8px] font-semibold text-accent-primary">
                       +
                       {formatNumber(
                         peakVsAverage,
@@ -1994,7 +1994,7 @@ export function ReliabilityTimeline({
                   )}
               </div>
 
-              <p className="mt-1.5 text-[8px] text-[#9DA2A8]">
+              <p className="mt-1.5 text-[8px] text-text-muted">
                 {peak
                   ? peak.item.label
                   : "Sem período disponível"}
@@ -2002,7 +2002,7 @@ export function ReliabilityTimeline({
             </div>
 
             <div className="sm:pl-6">
-              <div className="flex items-center gap-2 text-[#9DA2A8]">
+              <div className="flex items-center gap-2 text-text-muted">
                 <Clock3
                   size={12}
                 />
@@ -2013,7 +2013,7 @@ export function ReliabilityTimeline({
                 </p>
               </div>
 
-              <p className="mt-2 text-[24px] font-semibold leading-none tracking-[-0.05em] text-[#202327]">
+              <p className="mt-2 text-[24px] font-semibold leading-none tracking-[-0.05em] text-text-primary">
                 {formatMetricValue(
                   averageValue,
                   metric,
@@ -2030,7 +2030,7 @@ export function ReliabilityTimeline({
 
       {error && (
         <div className="px-6 py-8">
-          <div className="rounded-[18px] border border-[#F0D2D5] bg-[#FFF8F8] px-4 py-4 text-[11px] text-[#BF2C35]">
+          <div className="rounded-[18px] border border-accent-primary/30 bg-accent-soft px-4 py-4 text-[11px] text-accent-primary">
             {error}
           </div>
         </div>
@@ -2048,7 +2048,7 @@ export function ReliabilityTimeline({
             <div className="flex h-[350px] items-center justify-center">
               <LoaderCircle
                 size={22}
-                className="animate-spin text-[#E41E2B]"
+                className="animate-spin text-accent-primary"
               />
             </div>
           ) : items.length ===
@@ -2056,21 +2056,21 @@ export function ReliabilityTimeline({
             <div className="flex h-[350px] flex-col items-center justify-center px-6 text-center">
               <Activity
                 size={25}
-                className="text-[#C4C7CA]"
+                className="text-text-muted"
               />
 
-              <p className="mt-3 text-[12px] font-medium text-[#5F646A]">
+              <p className="mt-3 text-[12px] font-medium text-text-body">
                 Nenhuma ocorrência encontrada no período
               </p>
 
-              <p className="mt-1 max-w-[420px] text-[10px] leading-5 text-[#9A9FA5]">
+              <p className="mt-1 max-w-[420px] text-[10px] leading-5 text-text-muted">
                 Ajuste o período, a linha ou o equipamento para visualizar a evolução temporal.
               </p>
             </div>
           ) : (
             <div
               className={[
-                "relative rounded-[22px] border border-black/[0.045] bg-[#FCFCFB] px-2 pb-2 pt-4 transition-opacity duration-200 sm:px-4",
+                "relative rounded-[22px] border border-border-theme bg-background-primary px-2 pb-2 pt-4 transition-opacity duration-200 sm:px-4",
                 loading
                   ? "opacity-55"
                   : "opacity-100",
@@ -2085,11 +2085,11 @@ export function ReliabilityTimeline({
             >
               <div className="mb-2 flex items-center justify-between gap-4 px-3">
                 <div>
-                  <p className="text-[9px] font-semibold uppercase tracking-[0.11em] text-[#A0A5AA]">
+                  <p className="text-[9px] font-semibold uppercase tracking-[0.11em] text-text-muted">
                     Tendência
                   </p>
 
-                  <p className="mt-1 text-[10px] text-[#7F848A]">
+                  <p className="mt-1 text-[10px] text-text-secondary">
                     {metricTitle(
                       metric,
                     )}{" "}
@@ -2098,15 +2098,15 @@ export function ReliabilityTimeline({
                   </p>
                 </div>
 
-                <div className="flex items-center gap-4 text-[8px] font-medium text-[#989DA3]">
+                <div className="flex items-center gap-4 text-[8px] font-medium text-text-secondary">
                   <span className="flex items-center gap-1.5">
-                    <span className="h-[2px] w-4 rounded-full bg-[#202327]" />
+                    <span className="h-[2px] w-4 rounded-full bg-surface-inverse" />
 
                     Tendência
                   </span>
 
                   <span className="flex items-center gap-1.5">
-                    <span className="h-2 w-2 rounded-full bg-[#E41E2B]" />
+                    <span className="h-2 w-2 rounded-full bg-accent-primary" />
 
                     Pico / foco
                   </span>
@@ -2131,19 +2131,19 @@ export function ReliabilityTimeline({
                   >
                     <stop
                       offset="0%"
-                      stopColor="#E41E2B"
+                      stopColor="var(--accent-primary)"
                       stopOpacity="0.10"
                     />
 
                     <stop
                       offset="60%"
-                      stopColor="#E41E2B"
+                      stopColor="var(--accent-primary)"
                       stopOpacity="0.025"
                     />
 
                     <stop
                       offset="100%"
-                      stopColor="#E41E2B"
+                      stopColor="var(--accent-primary)"
                       stopOpacity="0"
                     />
                   </linearGradient>
@@ -2159,7 +2159,7 @@ export function ReliabilityTimeline({
                       dx="0"
                       dy="2"
                       stdDeviation="3"
-                      floodColor="#E41E2B"
+                      floodColor="var(--accent-primary)"
                       floodOpacity="0.18"
                     />
                   </filter>
@@ -2210,7 +2210,7 @@ export function ReliabilityTimeline({
                             y2={
                               y
                             }
-                            stroke="#ECEEEF"
+                            stroke="var(--chart-grid)"
                             strokeWidth="1"
                           />
 
@@ -2224,7 +2224,7 @@ export function ReliabilityTimeline({
                               4
                             }
                             textAnchor="end"
-                            fill="#9CA1A6"
+                            fill="var(--text-secondary)"
                             fontSize="10"
                           >
                             {formatCompactNumber(
@@ -2252,7 +2252,7 @@ export function ReliabilityTimeline({
                       linePath
                     }
                     fill="none"
-                    stroke="#25282C"
+                    stroke="var(--text-primary)"
                     strokeWidth="2.75"
                     strokeLinecap="round"
                     strokeLinejoin="round"
@@ -2286,7 +2286,7 @@ export function ReliabilityTimeline({
                           31
                         }
                         textAnchor="middle"
-                        fill="#92979C"
+                        fill="var(--text-secondary)"
                         fontSize="10"
                       >
                         {point.item.label}
@@ -2367,7 +2367,7 @@ export function ReliabilityTimeline({
                               MARGIN.top +
                               PLOT_HEIGHT
                             }
-                            stroke="#E41E2B"
+                            stroke="var(--accent-primary)"
                             strokeWidth="1"
                             strokeDasharray="4 5"
                             opacity="0.24"
@@ -2391,13 +2391,13 @@ export function ReliabilityTimeline({
                             }
                             fill={
                               emphasized
-                                ? "#E41E2B"
-                                : "#FFFFFF"
+                                ? "var(--accent-primary)"
+                                : "var(--surface)"
                             }
                             stroke={
                               emphasized
-                                ? "#FFFFFF"
-                                : "#25282C"
+                                ? "var(--surface)"
+                                : "var(--text-primary)"
                             }
                             strokeWidth={
                               emphasized
@@ -2425,7 +2425,7 @@ export function ReliabilityTimeline({
                                 8.5
                               }
                               fill="none"
-                              stroke="#E41E2B"
+                              stroke="var(--accent-primary)"
                               strokeWidth="1"
                               opacity="0.18"
                             />
@@ -2438,7 +2438,7 @@ export function ReliabilityTimeline({
 
               {hoveredPoint && (
                 <div
-                  className="pointer-events-none absolute z-20 min-w-[205px] rounded-[16px] border border-white/[0.08] bg-[#202327] px-4 py-3.5 text-white shadow-[0_16px_40px_rgba(20,22,25,0.18)]"
+                  className="pointer-events-none absolute z-20 min-w-[205px] rounded-[16px] border border-white/[0.08] bg-surface-inverse px-4 py-3.5 text-white shadow-[0_16px_40px_rgba(20,22,25,0.18)]"
                   style={{
                     left:
                       `${(
@@ -2473,7 +2473,7 @@ export function ReliabilityTimeline({
 
                     {peak?.index ===
                       hoveredPoint.index && (
-                      <span className="rounded-full bg-[#E41E2B] px-2 py-1 text-[7px] font-bold uppercase tracking-[0.09em] text-white">
+                      <span className="rounded-full bg-accent-primary px-2 py-1 text-[7px] font-bold uppercase tracking-[0.09em] text-white">
                         Pico
                       </span>
                     )}

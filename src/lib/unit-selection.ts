@@ -162,9 +162,21 @@ export function parseUnitSelection(
      unidades ativas em que está cadastrado
      (user_units);
 
-   - is_default identifica a unidade representada
-     pelo usuário.
+   - users.unit_id é a unidade principal do usuário;
+
+   - o Gestor consulta somente a unidade principal,
+     mesmo que existam outros vínculos em user_units.
+     A condição abaixo é a fronteira dessa regra: toda
+     consulta de escopo por unidade passa por ela.
 ========================================================= */
+
+/*
+ * Condição SQL do escopo do usuário. Exige os aliases
+ * `u` (users) e `uu` (user_units) na consulta.
+ */
+export const USER_UNIT_SCOPE_CONDITION = `
+  (u.role <> 'MANAGER' OR uu.unit_id = u.unit_id)
+`;
 
 export async function getAuthorizedUnits(
   userId:
@@ -188,30 +200,32 @@ export async function getAuthorizedUnits(
 
             un.state,
 
-            uu.is_default
+            (uu.unit_id = u.unit_id)
+                AS is_default
 
         FROM
-            units un
+            users u
 
         INNER JOIN
             user_units uu
-            ON uu.unit_id =
-               un.id
+            ON uu.user_id =
+               u.id
 
-            AND uu.user_id =
-                ?
+        INNER JOIN
+            units un
+            ON un.id =
+               uu.unit_id
 
         WHERE
-            un.active =
+            u.id = ?
+
+            AND un.active =
                 TRUE
 
-        ORDER BY
-            uu.is_default DESC,
+            AND ${USER_UNIT_SCOPE_CONDITION}
 
-            COALESCE(
-              un.city,
-              un.name
-            ) ASC,
+        ORDER BY
+            is_default DESC,
 
             un.name ASC,
 
@@ -395,7 +409,7 @@ export async function getUnitSelection(
 
   /* =======================================================
      FALLBACK:
-     user_units.is_default
+     unidade principal (users.unit_id)
   ======================================================= */
 
   const defaultUnit =
